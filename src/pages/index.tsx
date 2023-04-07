@@ -37,10 +37,12 @@ const Home: NextPage = () => {
         <Drawer />
         <div
           id="content"
-          className="flex h-screen w-full flex-col items-center justify-center"
+          className="flex h-screen w-full flex-col items-center justify-center gap-10"
         >
           <div id="title" className="flex items-center gap-4">
-            <div className="text-4xl font-bold text-[#C0C0C0]">AgentGPT</div>
+            <div className="font-mono text-6xl font-bold text-[#C0C0C0]">
+              AgentGPT
+            </div>
             <Badge>Beta 🚀</Badge>
           </div>
 

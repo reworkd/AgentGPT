@@ -7,6 +7,8 @@ import axios from "axios";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { AiFillRobot } from "react-icons/Ai";
+import { FaStar } from "react-icons/fa";
 
 export interface Message {
   type: "goal" | "thinking" | "task" | "action";
@@ -23,6 +25,7 @@ const TaskMessage = (task: string) => {
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [goal, setGoal] = React.useState<string>("");
@@ -50,16 +53,23 @@ const Home: NextPage = () => {
         <Drawer />
         <div
           id="content"
-          className="flex h-screen w-full flex-col items-center justify-center gap-10"
+          className="flex h-screen w-full flex-col items-center justify-center gap-3"
         >
-          <div id="title" className="flex items-center gap-4">
-            <div className="font-mono text-6xl font-bold text-[#C0C0C0]">
-              AgentGPT
+          <div
+            id="title"
+            className="flex flex-col items-center font-mono shadow-2xl"
+          >
+            <div className="flex items-center">
+              <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
+              <span className="mr-5 text-6xl font-bold text-white">GPT</span>
+              <Badge>Beta 🚀</Badge>
             </div>
-            <Badge>Beta 🚀</Badge>
+            <div className="font-mono text-[0.8em] font-bold text-white">
+              Autonomous AI Agents in your browser
+            </div>
           </div>
 
-          <ChatWindow>
+          <ChatWindow className="m-10">
             {messages.map((message, index) => (
               <ChatMessage key={`${index}-${message.type}`} message={message} />
             ))}
@@ -67,15 +77,42 @@ const Home: NextPage = () => {
           </ChatWindow>
 
           <Input
+            left={
+              <>
+                <AiFillRobot />
+                <span className="ml-2">Name:</span>
+              </>
+            }
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="AgentGPT (Note: this field doesn't do anything right now)"
+          />
+
+          <Input
+            left={
+              <>
+                <FaStar />
+                <span className="ml-2">Goal:</span>
+              </>
+            }
             value={goalInput}
             onChange={(e) => setGoalInput(e.target.value)}
+            placeholder="Make the world a better place."
           />
+
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button
             onClick={() => void handleNewGoal()}
             className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 px-10 py-5 font-bold text-black/60 hover:bg-[#0084f7] hover:text-white"
           >
             Deploy Agent
+          </Button>
+
+          <Button
+            onClick={() => void handleNewGoal()}
+            className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 px-10 py-5 font-bold text-black/60 hover:bg-[#0084f7] hover:text-white"
+          >
+            Next
           </Button>
         </div>
       </main>

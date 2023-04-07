@@ -1,18 +1,28 @@
 import React from "react";
 
 interface InputProps {
+  left: React.ReactNode;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 }
 
-const Input = ({ value, onChange }: InputProps) => {
+const Input = ({ placeholder, left, value, onChange }: InputProps) => {
   return (
-    <input
-      className="shadow-semibold border:black m-3 w-[60%] rounded-xl border-[2px] border-transparent bg-[#3a3a3a] px-2 py-5 font-mono text-lg tracking-wider text-white/75 outline-0 transition-all hover:border-[#1E88E5]/25 focus:border-[#1E88E5]"
-      type="text"
-      value={value}
-      onChange={onChange}
-    />
+    <div className="flex w-[60%] items-center rounded-xl bg-[#3a3a3a] font-mono text-lg text-white/75 shadow-2xl transition-all">
+      {left != null ? (
+        <div className="center flex h-full items-center rounded-xl rounded-r-none border-[2px] border-r-0 border-white/10 px-5 text-lg font-semibold tracking-wider">
+          {left}
+        </div>
+      ) : null}
+      <input
+        className="border:black w-full rounded-xl rounded-l-none border-[2px] border-white/10 bg-transparent px-2 py-5 tracking-wider outline-0 placeholder:text-white/20 hover:border-[#1E88E5]/25 focus:border-[#1E88E5]"
+        placeholder={placeholder}
+        type="text"
+        value={value}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 

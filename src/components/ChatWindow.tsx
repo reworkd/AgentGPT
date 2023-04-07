@@ -5,11 +5,17 @@ import React from "react";
 
 interface ChatWindowProps {
   children?: ReactNode;
+  className: string;
 }
 
-const ChatWindow = ({ children }: ChatWindowProps) => {
+const ChatWindow = ({ children, className }: ChatWindowProps) => {
   return (
-    <div className="border-translucent flex h-80 w-full max-w-screen-md flex-col rounded-3xl bg-black/50 text-white drop-shadow-lg">
+    <div
+      className={
+        "border-translucent flex h-80 w-full max-w-screen-md flex-col rounded-3xl bg-black/50 text-white drop-shadow-lg " +
+        className
+      }
+    >
       <MacWindowHeader />
       <div className="overflow-y-scroll">{children}</div>
     </div>
@@ -33,7 +39,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     <div className="mx-4 my-1 rounded-lg border-[1px] border-transparent bg-white/20 p-3 font-mono hover:border-[#1E88E5]">
       <span>
         {message.type === "goal" ? "🌟 Embarking on a new goal: " : ""}
-        {message.type === "task" ? "📝 Adding to task list: " : ""}
+        {message.type === "task" ? "📝 Adding task: " : ""}
       </span>
       <span className="font-black">{message.value}</span>
     </div>

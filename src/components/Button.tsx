@@ -33,7 +33,7 @@ const Button = forwardRef(
         disabled={loading || props.disabled}
         className={
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-          "shadow-2xl transition-all " + props.className
+          "transition-all hover:shadow-2xl " + props.className
         }
         onClick={onClick}
       >

@@ -20,7 +20,7 @@ const Button = forwardRef(
       if (props.loader == true) setLoading(true);
 
       try {
-        Promise.resolve(props.onClick?.(e)).then();
+        void Promise.resolve(props.onClick?.(e)).then();
       } catch (e) {
         setLoading(false);
       }
@@ -33,6 +33,7 @@ const Button = forwardRef(
         disabled={loading || props.disabled}
         onClick={onClick}
         className={
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           "text-white transition hover:text-yellow-500 " + props.className
         }
       >

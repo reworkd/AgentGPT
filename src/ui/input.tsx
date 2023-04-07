@@ -1,4 +1,3 @@
-// import Loader from "@/motions/loader";
 import type {
   Dispatch,
   ForwardedRef,
@@ -50,6 +49,7 @@ const Input = forwardRef(
           model[1](e.target.value);
           setIsError(false);
         }}
+        /* eslint-disable-next-line @typescript-eslint/restrict-plus-operands */
         className={(isError ? ERROR_STYLE : STYLE) + className}
         {...otherProps}
       />

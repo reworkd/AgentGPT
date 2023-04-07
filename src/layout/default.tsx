@@ -20,7 +20,6 @@ const DefaultLayout = (props: LayoutProps) => {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
                 <DottedGridBackground>
-                    <Header />
                     <main className="flex flex-col justify-center items-center w-screen h-screen ">
                         {props.children}
                     </main>

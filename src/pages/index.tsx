@@ -103,16 +103,9 @@ const Home: NextPage = () => {
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button
             onClick={() => void handleNewGoal()}
-            className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 px-10 py-5 font-bold text-black/60 hover:bg-[#0084f7] hover:text-white"
+            className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 text-black/60 hover:bg-[#0084f7] hover:text-white"
           >
             Deploy Agent
-          </Button>
-
-          <Button
-            onClick={() => void handleNewGoal()}
-            className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 px-10 py-5 font-bold text-black/60 hover:bg-[#0084f7] hover:text-white"
-          >
-            Next
           </Button>
         </div>
       </main>

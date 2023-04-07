@@ -1,61 +1,19 @@
-import type {
-  Dispatch,
-  ForwardedRef,
-  InputHTMLAttributes,
-  KeyboardEventHandler,
-  SetStateAction,
-} from "react";
-import { forwardRef } from "react";
+import React from "react";
 
-const SHARED_STYLE = "rounded-full ";
-const STYLE =
-  SHARED_STYLE +
-  " border-gray-300 focus:border-yellow-500 focus:ring-yellow-500 ";
-const ERROR_STYLE =
-  SHARED_STYLE + " border-red-500 focus:border-red-500 focus:ring-red-500 ";
-
-export interface InputProps<T> extends InputHTMLAttributes<HTMLInputElement> {
-  model: [T, Dispatch<SetStateAction<T>>];
-  error?: [boolean, Dispatch<SetStateAction<boolean>>];
-  enterPressed?: () => void;
+interface InputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = forwardRef(
-  (props: InputProps<string>, ref: ForwardedRef<HTMLInputElement>) => {
-    const { model, error, enterPressed, onKeyDown, className, ...otherProps } =
-      props;
-    const [isError, setIsError] = error || [false, () => undefined];
+const Input = ({ value, onChange }: InputProps) => {
+  return (
+    <input
+      className="shadow-semibold border:black m-3 w-[60%] rounded-xl border-[2px] border-transparent bg-[#3a3a3a] px-2 py-5 font-mono text-lg tracking-wider text-white/75 outline-0 transition-all hover:border-[#1E88E5]/25 focus:border-[#1E88E5]"
+      type="text"
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
 
-    const keyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-      try {
-        if (e.key === "Enter" && enterPressed) {
-          e.preventDefault();
-          enterPressed();
-          return;
-        }
-
-        if (onKeyDown) onKeyDown(e);
-      } catch (e) {
-        setIsError(true);
-      }
-    };
-
-    return (
-      <input
-        ref={ref}
-        onKeyDown={keyDown}
-        value={model[0]}
-        onChange={(e) => {
-          model[1](e.target.value);
-          setIsError(false);
-        }}
-        /* eslint-disable-next-line @typescript-eslint/restrict-plus-operands */
-        className={(isError ? ERROR_STYLE : STYLE) + className}
-        {...otherProps}
-      />
-    );
-  }
-);
-
-Input.displayName = "input";
 export default Input;

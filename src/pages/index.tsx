@@ -5,6 +5,7 @@ import React from "react";
 import ChatWindow from "../components/ChatWindow";
 import axios from "axios";
 import Drawer from "../components/Drawer";
+import Input from "../ui/input";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -49,17 +50,16 @@ const Home: NextPage = () => {
             {loading ? <div>LOADING...</div> : null}
           </ChatWindow>
 
-          <input
-            type="text"
+          <Input
             value={goalInput}
             onChange={(e) => setGoalInput(e.target.value)}
-          ></input>
+          />
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <button
             onClick={() => void handleNewGoal()}
             className="w-64 rounded-full bg-gray-300"
           >
-            Save
+            Deploy Agent
           </button>
         </div>
       </main>

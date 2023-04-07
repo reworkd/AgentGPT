@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-
 import DottedGridBackground from "../components/DottedGridBackground";
 import Badge from "../components/Badge";
 

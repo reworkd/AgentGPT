@@ -2,11 +2,12 @@ import React from "react";
 
 interface DottedGridBackgroundProps {
   children: React.ReactNode;
+  className?: string
 }
-const DottedGridBackground = ({ children }: DottedGridBackgroundProps) => {
+const DottedGridBackground = ({ children, className }: DottedGridBackgroundProps) => {
   return (
     <div
-      className="flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-transparent w-screen h-screen background"
+      className={`${className ? className + " " : ""} background`}
     >
       {children}
     </div>

@@ -5,7 +5,7 @@ import React from "react";
 import ChatWindow from "../components/ChatWindow";
 import axios from "axios";
 import Drawer from "../components/Drawer";
-import Input from "../ui/input";
+import Input from "../components/Input";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);

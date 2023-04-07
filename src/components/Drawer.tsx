@@ -2,7 +2,7 @@ const Drawer = () => {
   return (
     <div
       id="drawer-example"
-      className="z-50 m-0 flex h-screen w-72 flex-col gap-2 border-b-[1px] border-b-white/10  p-0 p-3 text-white"
+      className="z-50 m-0 flex h-screen w-72 flex-col gap-2 border-b-[1px] border-b-white/10 bg-[#101010]/50 p-0 p-3 text-white backdrop-blur-sm"
     >
       <NewAgent />
       <DrawerItem text="HustleGPT" />

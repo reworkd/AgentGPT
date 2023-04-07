@@ -18,7 +18,8 @@ const Home: NextPage = () => {
     setLoading(true)
     setGoal(goalInput);
     setMessages([...messages, goalInput]);
-    const res = await axios.post("http://localhost:3000/api/chain?prompt=test", { prompt: goalInput })
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chain?prompt=test`, { prompt: goalInput })
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     const tasks: string[] = JSON.parse(res.data.tasks)
     setMessages((prev) => [...prev, ...tasks]);

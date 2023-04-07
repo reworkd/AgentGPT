@@ -1,6 +1,5 @@
 import type { ForwardedRef } from "react";
 import React, { forwardRef, useState } from "react";
-
 import Loader from "./loader";
 
 export interface ButtonProps {
@@ -33,8 +32,11 @@ const Button = forwardRef(
         disabled={loading || props.disabled}
         className={
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-          "px-10 py-3 font-bold transition-all hover:shadow-2xl " +
-          props.className
+          "text-gray/50 rounded-lg border-[2px] border-white/30 px-10 py-3 font-bold transition-all " +
+          props.className +
+          (props.disabled
+            ? " cursor-not-allowed border-white/10 bg-black/60 text-white/30"
+            : " mou cursor-pointer bg-[#1E88E5]/70 text-white/80 hover:border-white/80 hover:bg-[#0084f7] hover:text-white hover:shadow-2xl")
         }
         onClick={onClick}
       >

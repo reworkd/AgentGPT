@@ -100,10 +100,10 @@ const Home: NextPage = () => {
             placeholder="Make the world a better place."
           />
 
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button
+            disabled={goalInput === ""}
             onClick={() => void handleNewGoal()}
-            className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 text-black/60 hover:bg-[#0084f7] hover:text-white"
+            className="mt-10"
           >
             Deploy Agent
           </Button>

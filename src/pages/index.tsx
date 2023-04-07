@@ -2,22 +2,35 @@ import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import React from "react";
-import ChatWindow from "../components/ChatWindow";
+import ChatWindow, { ChatMessage } from "../components/ChatWindow";
 import axios from "axios";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
+export interface Message {
+  type: "goal" | "thinking" | "task" | "action";
+  value: string;
+}
+
+const GoalMessage = (goal: string) => {
+  return { type: "goal", value: goal } as Message;
+};
+
+const TaskMessage = (task: string) => {
+  return { type: "task", value: task } as Message;
+};
+
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [goalInput, setGoalInput] = React.useState<string>("");
-  const [messages, setMessages] = React.useState<string[]>([]);
+  const [messages, setMessages] = React.useState<Message[]>([]);
   const [goal, setGoal] = React.useState<string>("");
 
   const handleNewGoal = async () => {
     setLoading(true);
     setGoal(goalInput);
-    setMessages([...messages, goalInput]);
+    setMessages([...messages, GoalMessage(goalInput)]);
 
     const res = await axios.post(
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -27,7 +40,7 @@ const Home: NextPage = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     const tasks: string[] = JSON.parse(res.data.tasks);
-    setMessages((prev) => [...prev, ...tasks]);
+    setMessages((prev) => [...prev, ...tasks.map(TaskMessage)]);
     setLoading(false);
   };
 
@@ -48,7 +61,7 @@ const Home: NextPage = () => {
 
           <ChatWindow>
             {messages.map((message, index) => (
-              <div key={`${index}-${message}`}>{message}</div>
+              <ChatMessage key={`${index}-${message.type}`} message={message} />
             ))}
             {loading ? <div>LOADING...</div> : null}
           </ChatWindow>

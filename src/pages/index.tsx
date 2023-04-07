@@ -6,6 +6,7 @@ import ChatWindow from "../components/ChatWindow";
 import axios from "axios";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
+import Button from "../components/Button";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -55,12 +56,12 @@ const Home: NextPage = () => {
             onChange={(e) => setGoalInput(e.target.value)}
           />
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-          <button
+          <Button
             onClick={() => void handleNewGoal()}
-            className="w-64 rounded-full bg-gray-300"
+            className="font-bolder text-gray/50 rounded-lg bg-[#1E88E5]/70 px-10 py-5 font-bold text-black/60 hover:bg-[#0084f7] hover:text-white"
           >
             Deploy Agent
-          </button>
+          </Button>
         </div>
       </main>
     </DefaultLayout>

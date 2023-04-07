@@ -1,5 +1,5 @@
 import type { ForwardedRef } from "react";
-import { forwardRef, useState } from "react";
+import React, { forwardRef, useState } from "react";
 
 import Loader from "./loader";
 
@@ -31,11 +31,11 @@ const Button = forwardRef(
         ref={ref}
         type={props.type}
         disabled={loading || props.disabled}
-        onClick={onClick}
         className={
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-          "text-white transition hover:text-yellow-500 " + props.className
+          "transition-all " + props.className
         }
+        onClick={onClick}
       >
         <div className="flex items-center">
           {loading ? (

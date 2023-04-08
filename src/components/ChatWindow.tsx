@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaBrain, FaListAlt, FaPlayCircle, FaStar } from "react-icons/fa";
 import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
@@ -11,12 +11,26 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
+  const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+
+    // Use has scrolled if we have scrolled up at all from the bottom
+    if (scrollTop < scrollHeight - clientHeight - 10) {
+      setHasUserScrolled(true);
+    } else {
+      setHasUserScrolled(false);
+    }
+  };
 
   useEffect(() => {
     // Scroll to bottom on re-renders
     if (scrollRef && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      if (!hasUserScrolled) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
     }
   });
 
@@ -35,6 +49,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
       <div
         className="mb-3 mr-3 h-[10em] overflow-y-auto overflow-x-hidden sm-h:h-[15em] md-h:h-[20em] lg-h:h-[30em] "
         ref={scrollRef}
+        onScroll={handleScroll}
       >
         {messages.map((message, index) => (
           <ChatMessage key={`${index}-${message.type}`} message={message} />

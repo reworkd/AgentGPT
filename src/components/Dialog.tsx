@@ -43,7 +43,7 @@ export default function Dialog({
                     goal by thinking of tasks to do, executing them, and
                     learning from the results 🚀.
                   </p>
-                  <p>
+                  <div>
                     <br />
                     This platform is currently in beta, we are currently working
                     on:
@@ -53,12 +53,15 @@ export default function Dialog({
                       <li>Interaction with websites and people 👨‍👩‍👦</li>
                     </ul>
                     <p className="mt-2">Follow the journey below:</p>
-                  </p>
+                  </div>
                   <div className="mt-4 flex w-full items-center justify-center gap-5">
                     <div
                       className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"
                       onClick={() =>
-                        window.open("https://twitter.com/", "_blank")
+                        window.open(
+                          "https://twitter.com/asimdotshrestha",
+                          "_blank"
+                        )
                       }
                     >
                       <FaTwitter size={30} />

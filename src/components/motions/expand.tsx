@@ -9,7 +9,7 @@ interface MotionProps extends PropsWithChildren {
 const Expand = (props: MotionProps) => (
   <motion.div
     initial={{ scaleX: 0.8, scaleY: 0 }}
-    animate={{ scale: 1, scaleY: 1 }}
+    animate={{ scaleX: 1, scaleY: 1 }}
     transition={{ duration: 0.75, type: "spring", delay: props.delay ?? 0 }}
     {...props}
   >

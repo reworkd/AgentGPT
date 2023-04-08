@@ -11,12 +11,14 @@ const ChatWindow = ({ children, className }: ChatWindowProps) => {
   return (
     <div
       className={
-        "border-translucent flex h-full max-h-full w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
+        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
         className
       }
     >
       <MacWindowHeader />
-      <div className="mb-3 mr-3 max-h-[100%] overflow-y-auto">{children}</div>
+      <div className="mb-3 mr-3 overflow-y-auto sm:h-[10em] 2xl:h-[20em]">
+        {children}
+      </div>
     </div>
   );
 };

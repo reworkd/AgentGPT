@@ -44,22 +44,19 @@ const Home: NextPage = () => {
         <Drawer />
         <div
           id="content"
-          className="flex h-screen w-full items-center justify-center"
+          className="flex h-screen w-full items-center justify-center p-2"
         >
           <div
             id="layout"
             className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center gap-3 py-10"
           >
-            <div
-              id="title"
-              className="flex flex-col items-center font-mono shadow-2xl"
-            >
+            <div id="title" className="flex flex-col items-center font-mono">
               <div className="flex items-center shadow-2xl">
                 <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
                 <span className="mr-5 text-6xl font-bold text-white">GPT</span>
                 <Badge>Beta 🚀</Badge>
               </div>
-              <div className="mt-1 font-mono text-[0.8em] font-bold text-white shadow-2xl">
+              <div className="mt-1 font-mono text-[0.8em] font-bold text-white">
                 Assemble, configure, and deploy autonomous AI Agents in your
                 browser.
               </div>

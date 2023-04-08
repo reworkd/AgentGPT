@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import React, { useEffect, useRef } from "react";
 import { FaBrain, FaListAlt, FaPlayCircle, FaStar } from "react-icons/fa";
 import autoAnimate from "@formkit/auto-animate";
+import PopIn from "./motions/popin";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -32,7 +33,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     >
       <MacWindowHeader />
       <div
-        className="mb-3 mr-3 h-[10em] overflow-y-auto sm-h:h-[15em] md-h:h-[20em] lg-h:h-[30em] "
+        className="mb-3 mr-3 h-[10em] overflow-y-auto overflow-x-hidden sm-h:h-[15em] md-h:h-[20em] lg-h:h-[30em] "
         ref={scrollRef}
       >
         {messages.map((message, index) => (
@@ -43,7 +44,15 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         {messages.length != 0 ? (
           <ChatMessage message={{ type: "thinking", value: "" }} />
         ) : (
-          ""
+          <PopIn delay={1}>
+            <ChatMessage
+              message={{
+                type: "system",
+                value:
+                  "> Create an agent by adding a name / goal, and hitting deploy!",
+              }}
+            />
+          </PopIn>
         )}
       </div>
     </div>
@@ -99,7 +108,7 @@ const getMessagePrefix = (message: Message) => {
 };
 
 export interface Message {
-  type: "goal" | "thinking" | "task" | "action";
+  type: "goal" | "thinking" | "task" | "action" | "system";
   value: string;
 }
 

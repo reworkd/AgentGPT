@@ -4,7 +4,6 @@ import DefaultLayout from "../layout/default";
 import React from "react";
 import type { Message } from "../components/ChatWindow";
 import ChatWindow, {
-  ChatMessage,
   CreateGoalMessage,
   CreateTaskMessage,
 } from "../components/ChatWindow";
@@ -13,29 +12,24 @@ import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
+import { VscLoading } from "react-icons/vsc";
+import type AutonomousAgent from "../components/AutonomousAgent";
 
 const Home: NextPage = () => {
-  const [loading, setLoading] = React.useState<boolean>(false);
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
+  const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
+
   const [messages, setMessages] = React.useState<Message[]>([]);
-  const [goal, setGoal] = React.useState<string>("");
 
   const handleNewGoal = async () => {
-    setLoading(true);
-    setGoal(goalInput);
     setMessages([...messages, CreateGoalMessage(goalInput)]);
 
-    const res = await axios.post(
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chain?prompt=test`,
-      { prompt: goalInput }
-    );
+    const res = await axios.post(`/api/chain`, { prompt: goalInput });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     const tasks: string[] = JSON.parse(res.data.tasks);
     setMessages((prev) => [...prev, ...tasks.map(CreateTaskMessage)]);
-    setLoading(false);
   };
 
   return (
@@ -62,13 +56,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <ChatWindow className="m-10" messages={messages}>
-              {loading ? (
-                <ChatMessage
-                  message={{ type: "action", value: "🧠 Thinking..." }}
-                />
-              ) : null}
-            </ChatWindow>
+            <ChatWindow className="m-10" messages={messages} />
 
             <Input
               left={
@@ -78,6 +66,7 @@ const Home: NextPage = () => {
                 </>
               }
               value={name}
+              disabled={agent != null}
               onChange={(e) => setName(e.target.value)}
               placeholder="AgentGPT (Note: this field doesn't do anything right now)"
             />
@@ -89,17 +78,25 @@ const Home: NextPage = () => {
                   <span className="ml-2">Goal:</span>
                 </>
               }
+              disabled={agent != null}
               value={goalInput}
               onChange={(e) => setGoalInput(e.target.value)}
               placeholder="Make the world a better place."
             />
 
             <Button
-              disabled={goalInput === ""}
+              disabled={agent != null || name === "" || goalInput === ""}
               onClick={() => void handleNewGoal()}
               className="mt-10"
             >
-              Deploy Agent
+              {agent == null ? (
+                "Deploy Agent"
+              ) : (
+                <>
+                  <VscLoading className="animate-spin" size={20} />
+                  <span className="ml-2">Agent running</span>
+                </>
+              )}
             </Button>
           </div>
         </div>

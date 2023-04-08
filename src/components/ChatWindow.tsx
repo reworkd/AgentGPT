@@ -1,6 +1,7 @@
 import cx from "classnames";
 import type { ReactNode } from "react";
 import React, { useEffect, useRef } from "react";
+import { FaBrain, FaListAlt, FaPlayCircle, FaStar } from "react-icons/fa";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -34,6 +35,8 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
           <ChatMessage key={`${index}-${message.type}`} message={message} />
         ))}
         {children}
+
+        <ChatMessage message={{ type: "thinking", value: "" }} />
       </div>
     </div>
   );
@@ -53,14 +56,40 @@ const MacWindowHeader = () => {
 
 const ChatMessage = ({ message }: { message: Message }) => {
   return (
-    <div className="mx-4 my-1 rounded-lg border-[1px] border-transparent bg-white/20 p-3 font-mono hover:border-[#1E88E5]">
-      <span>
-        {message.type === "goal" ? "🌟 Embarking on a new goal: " : ""}
-        {message.type === "task" ? "📝 Adding task: " : ""}
-      </span>
-      <span className="font-black">{message.value}</span>
+    <div className="mx-4 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-3 font-mono hover:border-[#1E88E5]">
+      <div className="mr-2 inline-block h-[0.9em]">
+        {getMessageIcon(message)}
+      </div>
+      <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+      <span>{message.value}</span>
     </div>
   );
+};
+
+const getMessageIcon = (message: Message) => {
+  switch (message.type) {
+    case "goal":
+      return <FaStar />;
+    case "task":
+      return <FaListAlt />;
+    case "thinking":
+      return <FaBrain className="mt-[0.1em]" />;
+    case "action":
+      return <FaPlayCircle />;
+  }
+};
+
+const getMessagePrefix = (message: Message) => {
+  switch (message.type) {
+    case "goal":
+      return "Embarking on a new goal:";
+    case "task":
+      return "Added task:";
+    case "thinking":
+      return "Thinking...";
+    case "action":
+      return "Executing action:";
+  }
 };
 
 export interface Message {

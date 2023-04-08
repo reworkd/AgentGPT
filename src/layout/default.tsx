@@ -27,7 +27,7 @@ const DefaultLayout = (props: LayoutProps) => {
         />
         <meta
           property="og:image"
-          content="https://raw.githubusercontent.com/reworkd/extension/main/assets/icon512.png"
+          content="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U6YNFAMHQ3QLSZ6DQZBRXUXA"
         />
       </Head>
       <DottedGridBackground>{props.children}</DottedGridBackground>

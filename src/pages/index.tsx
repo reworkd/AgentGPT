@@ -33,11 +33,11 @@ const Home: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <main className="flex h-screen w-screen flex-row ">
+      <main className="flex h-screen w-screen flex-row">
         <Drawer />
         <div
           id="content"
-          className="flex h-screen w-full items-center justify-center p-2 px-4"
+          className="z-10 flex h-screen w-full items-center justify-center p-2 px-4"
         >
           <div
             id="layout"

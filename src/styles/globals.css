@@ -15,7 +15,7 @@
 .lower-gradient {
   background-image: linear-gradient(
     to top,
-    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.03),
     rgba(255, 255, 255, 0)
   );
   height: 20vh;
@@ -23,7 +23,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: -10;
 }
 
 /* Customize website's scrollbar like Mac OS

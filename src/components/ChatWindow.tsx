@@ -1,13 +1,23 @@
 import cx from "classnames";
 import type { ReactNode } from "react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface ChatWindowProps {
   children?: ReactNode;
   className: string;
+  messages: Message[];
 }
 
-const ChatWindow = ({ children, className }: ChatWindowProps) => {
+const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Scroll to bottom on re-renders
+    if (scrollRef && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  });
+
   return (
     <div
       className={
@@ -16,7 +26,13 @@ const ChatWindow = ({ children, className }: ChatWindowProps) => {
       }
     >
       <MacWindowHeader />
-      <div className="mb-3 mr-3 overflow-y-auto sm:h-[10em] 2xl:h-[20em]">
+      <div
+        className="mb-3 mr-3 overflow-y-auto sm:h-[10em] 2xl:h-[20em]"
+        ref={scrollRef}
+      >
+        {messages.map((message, index) => (
+          <ChatMessage key={`${index}-${message.type}`} message={message} />
+        ))}
         {children}
       </div>
     </div>

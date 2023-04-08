@@ -62,14 +62,12 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <ChatWindow className="m-10">
-              {messages.map((message, index) => (
+            <ChatWindow className="m-10" messages={messages}>
+              {loading ? (
                 <ChatMessage
-                  key={`${index}-${message.type}`}
-                  message={message}
+                  message={{ type: "action", value: "🧠 Thinking..." }}
                 />
-              ))}
-              {loading ? <div>LOADING...</div> : null}
+              ) : null}
             </ChatWindow>
 
             <Input

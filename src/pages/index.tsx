@@ -7,7 +7,6 @@ import ChatWindow, {
   CreateGoalMessage,
   CreateTaskMessage,
 } from "../components/ChatWindow";
-import axios from "axios";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -16,6 +15,7 @@ import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import type AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
+import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
@@ -23,14 +23,11 @@ const Home: NextPage = () => {
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
+  const startAgent = api.chain.startAgent.useMutation();
 
   const handleNewGoal = async () => {
     setMessages([...messages, CreateGoalMessage(goalInput)]);
-
-    const res = await axios.post(`/api/chain`, { prompt: goalInput });
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    const tasks: string[] = JSON.parse(res.data.tasks);
+    const { tasks } = await startAgent.mutateAsync({ prompt: goalInput });
     setMessages((prev) => [...prev, ...tasks.map(CreateTaskMessage)]);
   };
 
@@ -97,7 +94,7 @@ const Home: NextPage = () => {
 
             <Button
               disabled={agent != null || name === "" || goalInput === ""}
-              onClick={() => void handleNewGoal()}
+              onClick={handleNewGoal}
               className="mt-10"
             >
               {agent == null ? (

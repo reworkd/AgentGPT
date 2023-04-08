@@ -1,6 +1,7 @@
 import type { ForwardedRef } from "react";
 import React, { forwardRef, useState } from "react";
 import Loader from "./loader";
+import clsx from "clsx";
 
 export interface ButtonProps {
   type?: "button" | "submit" | "reset";
@@ -30,14 +31,13 @@ const Button = forwardRef(
         ref={ref}
         type={props.type}
         disabled={loading || props.disabled}
-        className={
-          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-          "text-gray/50 rounded-lg border-[2px] border-white/30 px-10 py-3 font-bold transition-all " +
-          props.className +
-          (props.disabled
+        className={clsx(
+          "text-gray/50 rounded-lg border-[2px] border-white/30 px-10 py-3 font-bold transition-all",
+          props.className,
+          props.disabled
             ? " cursor-not-allowed border-white/10 bg-zinc-900 text-white/30"
-            : " mou cursor-pointer bg-[#1E88E5]/70 text-white/80 hover:border-white/80 hover:bg-[#0084f7] hover:text-white hover:shadow-2xl")
-        }
+            : " mou cursor-pointer bg-[#1E88E5]/70 text-white/80 hover:border-white/80 hover:bg-[#0084f7] hover:text-white hover:shadow-2xl"
+        )}
         onClick={onClick}
       >
         <div className="flex items-center">

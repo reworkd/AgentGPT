@@ -4,13 +4,13 @@ import { BiPlus } from "react-icons/bi";
 import FadeOut from "./motions/FadeOut";
 import { AnimatePresence } from "framer-motion";
 
-const Drawer = () => {
+const Drawer = ({ handleHelp }: { handleHelp: () => void }) => {
   const [agents, setAgents] = React.useState<string[]>([]);
 
   return (
     <div
       id="drawer"
-      className="z-50 m-0 hidden h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl md:flex"
+      className="z-30 m-0 hidden h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl md:flex"
     >
       <div className="flex flex-col gap-1 overflow-hidden">
         <DrawerItem
@@ -47,7 +47,7 @@ const Drawer = () => {
         <DrawerItem
           icon={<FaQuestionCircle />}
           text="Help"
-          onClick={() => alert("No u.")}
+          onClick={handleHelp}
         />
         <DrawerItem
           icon={<FaTwitter />}

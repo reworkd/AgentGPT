@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
-import React from "react";
+import React, { useEffect } from "react";
 import type { Message } from "../components/ChatWindow";
 import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
@@ -12,6 +12,7 @@ import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
+import Dialog from "../components/Dialog";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
@@ -19,6 +20,13 @@ const Home: NextPage = () => {
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
+
+  const [showModal, setShowModal] = React.useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowModal(true);
+    }, 1700);
+  }, []);
 
   const handleNewGoal = () => {
     const addMessage = (message: Message) =>
@@ -32,8 +40,9 @@ const Home: NextPage = () => {
 
   return (
     <DefaultLayout>
+      <Dialog showModal={showModal} setShowModal={setShowModal} />
       <main className="flex h-screen w-screen flex-row">
-        <Drawer />
+        <Drawer handleHelp={() => setShowModal(true)} />
         <div
           id="content"
           className="z-10 flex h-screen w-full items-center justify-center p-2 px-4"

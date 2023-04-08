@@ -49,11 +49,11 @@ const Home: NextPage = () => {
               id="title"
               className="relative flex flex-col items-center font-mono"
             >
-              <div className="flex items-center shadow-2xl">
+              <div className="flex flex-row items-center shadow-2xl">
                 <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
                 <span className="mr-5 text-6xl font-bold text-white">GPT</span>
-                <span className="hidden md:flex">
-                  <PopIn delay={0.5} className="absolute right-12 top-0 ">
+                <span className="absolute right-10 top-0 block hidden md:flex">
+                  <PopIn delay={0.5}>
                     <Badge>Beta 🚀</Badge>
                   </PopIn>
                 </span>

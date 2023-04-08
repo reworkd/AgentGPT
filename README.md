@@ -1,28 +1,85 @@
-# Create T3 App
+<p align="center">
+  <h1>AGENT GPT</h1></br>
+  <em>🤖 Assemble, configure, and deploy autonomous AI Agents in your browser. 🤖 </em>
+</p>
+<p align="center">
+ <a href="https://agentgpt.reworkd.ai/" target="_blank">
+  <img alt="Deployment Success" src="https://img.shields.io/github/deployments/reworkd/AgentGPT/production?color=2334D058&label=Deployment" />
+ </a>
+ <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
+</p>
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+<p align="center">
+<a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="#-getting-started">🤝 Contribute</a>
+</p>
 
-## What's next? How do I make an app with this?
+---
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Assemble, configure, and deploy autonomous AI Agents in your browser. 
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## 🎉 Features
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Coming soon...
 
-## Learn More
+## 🚀 Tech Stack
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg).
+- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/).
+- ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
+- ✅ **ORM**: [Prisma](https://prisma.io).
+- ✅ **Database**: [Supabase](https://supabase.com/).
+- ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
+- ✅ **Typescript Schema Validation**: [Zod](https://github.com/colinhacks/zod).
+- ✅ **End-to-end typesafe API**: [tRPC](https://trpc.io/).
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## 👨‍🚀 Getting Started
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+> 🚧 You will need [Nodejs +16 (LTS recommended)](https://nodejs.org/en/) installed.
 
-## How do I deploy this?
+1. Fork this project:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- [Click here](https://github.com/reworkd/AgentGPT/fork).
+
+2. Clone the repository:
+
+```bash
+git clone git@github.com:YOU_USER/AgentGPT.git
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Create a **.env** file with the following content:
+
+> 🚧 The environment variables must match the following [schema](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
+
+```bash
+# Next Auth Secrets
+NODE_ENV=production
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=http://localhost:3000
+
+# Next Auth config:
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+
+# Database URLs:
+DATABASE_URL=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+5. Ready 🥳, now run:
+
+```bash
+# Create database migrations
+npx prisma db push
+
+# Run the project:
+npm run dev
+```

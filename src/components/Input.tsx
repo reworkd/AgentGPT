@@ -9,9 +9,9 @@ interface InputProps {
 
 const Input = ({ placeholder, left, value, onChange }: InputProps) => {
   return (
-    <div className="flex w-[60%] items-center rounded-xl bg-[#3a3a3a] font-mono text-lg text-white/75 shadow-2xl">
+    <div className="flex w-full items-center rounded-xl bg-[#3a3a3a] font-mono text-lg text-white/75 shadow-2xl">
       {left != null ? (
-        <div className="center flex h-full items-center rounded-xl rounded-r-none border-[2px] border-r-0 border-white/10 px-5 text-lg font-semibold tracking-wider transition-all">
+        <div className="center flex items-center rounded-xl rounded-r-none border-[2px] border-r-0 border-white/10 px-5 py-3 text-lg font-semibold tracking-wider transition-all">
           {left}
         </div>
       ) : null}

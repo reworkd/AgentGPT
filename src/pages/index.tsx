@@ -53,60 +53,68 @@ const Home: NextPage = () => {
         <Drawer />
         <div
           id="content"
-          className="flex h-screen w-full flex-col items-center justify-center gap-3"
+          className="flex h-screen w-full items-center justify-center"
         >
           <div
-            id="title"
-            className="flex flex-col items-center font-mono shadow-2xl"
+            id="layout"
+            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center gap-3 py-10"
           >
-            <div className="flex items-center">
-              <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
-              <span className="mr-5 text-6xl font-bold text-white">GPT</span>
-              <Badge>Beta 🚀</Badge>
+            <div
+              id="title"
+              className="flex flex-col items-center font-mono shadow-2xl"
+            >
+              <div className="flex items-center">
+                <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
+                <span className="mr-5 text-6xl font-bold text-white">GPT</span>
+                <Badge>Beta 🚀</Badge>
+              </div>
+              <div className="font-mono text-[0.8em] font-bold text-white">
+                Autonomous AI Agents in your browser
+              </div>
             </div>
-            <div className="font-mono text-[0.8em] font-bold text-white">
-              Autonomous AI Agents in your browser
-            </div>
+
+            <ChatWindow className="m-10">
+              {messages.map((message, index) => (
+                <ChatMessage
+                  key={`${index}-${message.type}`}
+                  message={message}
+                />
+              ))}
+              {loading ? <div>LOADING...</div> : null}
+            </ChatWindow>
+
+            <Input
+              left={
+                <>
+                  <AiFillRobot />
+                  <span className="ml-2">Name:</span>
+                </>
+              }
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="AgentGPT (Note: this field doesn't do anything right now)"
+            />
+
+            <Input
+              left={
+                <>
+                  <FaStar />
+                  <span className="ml-2">Goal:</span>
+                </>
+              }
+              value={goalInput}
+              onChange={(e) => setGoalInput(e.target.value)}
+              placeholder="Make the world a better place."
+            />
+
+            <Button
+              disabled={goalInput === ""}
+              onClick={() => void handleNewGoal()}
+              className="mt-10"
+            >
+              Deploy Agent
+            </Button>
           </div>
-
-          <ChatWindow className="m-10">
-            {messages.map((message, index) => (
-              <ChatMessage key={`${index}-${message.type}`} message={message} />
-            ))}
-            {loading ? <div>LOADING...</div> : null}
-          </ChatWindow>
-
-          <Input
-            left={
-              <>
-                <AiFillRobot />
-                <span className="ml-2">Name:</span>
-              </>
-            }
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="AgentGPT (Note: this field doesn't do anything right now)"
-          />
-
-          <Input
-            left={
-              <>
-                <FaStar />
-                <span className="ml-2">Goal:</span>
-              </>
-            }
-            value={goalInput}
-            onChange={(e) => setGoalInput(e.target.value)}
-            placeholder="Make the world a better place."
-          />
-
-          <Button
-            disabled={goalInput === ""}
-            onClick={() => void handleNewGoal()}
-            className="mt-10"
-          >
-            Deploy Agent
-          </Button>
         </div>
       </main>
     </DefaultLayout>

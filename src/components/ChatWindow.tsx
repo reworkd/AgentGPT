@@ -12,7 +12,7 @@ const ChatWindow = ({ children, className }: ChatWindowProps) => {
   return (
     <div
       className={
-        "border-translucent flex h-80 w-full max-w-screen-md flex-col rounded-3xl bg-black/50 text-white drop-shadow-lg " +
+        "border-translucent flex h-full w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
         className
       }
     >

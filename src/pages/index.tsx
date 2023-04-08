@@ -23,9 +23,14 @@ const Home: NextPage = () => {
 
   const [showModal, setShowModal] = React.useState(false);
   useEffect(() => {
-    setTimeout(() => {
-      setShowModal(true);
-    }, 1700);
+    const key = "agentgpt-modal-opened";
+    const savedModalData = localStorage.getItem(key);
+    if (savedModalData == null) {
+      setTimeout(() => {
+        setShowModal(true);
+      }, 1700);
+    }
+    localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
   const handleNewGoal = () => {

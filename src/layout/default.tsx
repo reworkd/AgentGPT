@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 import Head from "next/head";
 import DottedGridBackground from "../components/DottedGridBackground";
-import Header from "../components/Header";
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,17 +21,16 @@ const DefaultLayout = (props: LayoutProps) => {
           property="og:description"
           content="Assemble, configure, and deploy autonomous AI Agents in your browser."
         />
-        <meta property="og:title" content="AgentGPT" />
+        <meta
+          property="og:title"
+          content="AgentGPT: Autonomous AI in your browser 🤖"
+        />
         <meta
           property="og:image"
           content="https://raw.githubusercontent.com/reworkd/extension/main/assets/icon512.png"
         />
       </Head>
-      <DottedGridBackground>
-        <Header />
-        {props.children}
-      </DottedGridBackground>
-      {/*<Footer />*/}
+      <DottedGridBackground>{props.children}</DottedGridBackground>
     </div>
   );
 };

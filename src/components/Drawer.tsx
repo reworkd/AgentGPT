@@ -1,42 +1,92 @@
 import React from "react";
-import { FaRobot } from "react-icons/fa";
+import {
+  FaGithub,
+  FaQuestionCircle,
+  FaRobot,
+  FaTrashAlt,
+  FaTwitter,
+} from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
+import FadeOut from "./motions/FadeOut";
+import { AnimatePresence } from "framer-motion";
 
 const Drawer = () => {
+  const [agents, setAgents] = React.useState<string[]>([
+    "HustleGPT",
+    "ChefGPT",
+    "WorldPeaceGPT",
+    "DestroyerGPT",
+  ]);
+
   return (
     <div
       id="drawer"
-      className="z-50 m-0 hidden h-screen w-72 flex-col gap-2 bg-zinc-900 p-3 font-mono text-white shadow-3xl md:flex"
+      className="z-50 m-0 hidden h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl md:flex"
     >
-      <NewAgent />
-      <DrawerItem icon={<FaRobot />} text="HustleGPT" />
-      <DrawerItem icon={<FaRobot />} text="ChefGPT" />
-      <DrawerItem icon={<FaRobot />} text="WorldPeaceGPT" />
-      <hr className="my-5 border-white/20" />
+      <div className="flex flex-col gap-1 overflow-hidden">
+        <AnimatePresence>
+          <DrawerItem icon={<BiPlus />} border text="New Agent" />
+          {agents.map((agent, index) => (
+            <FadeOut key={`${index}-${agent}`}>
+              <DrawerItem
+                key={`${index}-${agent}`}
+                icon={<FaRobot />}
+                text={agent}
+              />
+            </FadeOut>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <hr className="my-5 border-white/20" />
+        <DrawerItem
+          icon={<FaTrashAlt />}
+          text="Clear Agents"
+          onClick={() => setAgents([])}
+        />
+        <DrawerItem
+          icon={<FaQuestionCircle />}
+          text="Help"
+          onClick={() => alert("No u.")}
+        />
+        <DrawerItem
+          icon={<FaTwitter />}
+          text="Twitter"
+          onClick={() =>
+            window.open("https://twitter.com/asimdotshrestha", "_blank")
+          }
+        />
+        <DrawerItem
+          icon={<FaGithub />}
+          text="GitHub"
+          onClick={() =>
+            window.open("https://github.com/reworkd/AgentGPT", "_blank")
+          }
+        />
+      </div>
     </div>
   );
 };
 
-const NewAgent = () => {
-  return (
-    <div className="mb-5 flex flex-row items-center rounded-md border-[1px] border-white/20 p-2 hover:bg-white/5">
-      <BiPlus />
-      <span className="text-md ml-2">New Agent</span>
-    </div>
-  );
-};
-
-const DrawerItem = ({
-  icon,
-  text,
-}: {
+interface DrawerItemProps {
   icon: React.ReactNode;
   text: string;
-}) => {
+  border?: boolean;
+  onClick?: () => void;
+}
+
+const DrawerItem = ({ icon, text, border, onClick }: DrawerItemProps) => {
   return (
-    <div className="flex flex-row items-center rounded-md p-2 hover:bg-white/5">
+    <div
+      className={
+        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5 " +
+        (border ? "mb-2 border-[1px] border-white/20" : "")
+      }
+      onClick={onClick}
+    >
       {icon}
-      <span className="text-md ml-2">{text}</span>
+      <span className="text-md ml-4">{text}</span>
     </div>
   );
 };

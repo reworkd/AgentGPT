@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 
 interface ChatWindowProps {
   children?: ReactNode;
-  className: string;
+  className?: string;
   messages: Message[];
 }
 
@@ -22,7 +22,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     <div
       className={
         "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
-        className
+        (className ?? "")
       }
     >
       <MacWindowHeader />

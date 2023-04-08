@@ -13,6 +13,7 @@ import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
+import PopIn from "../components/popin";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -48,13 +49,20 @@ const Home: NextPage = () => {
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center gap-3 py-10"
+            className="flex h-full w-full max-w-screen-lg flex-col items-center gap-3 py-10 md:justify-center"
           >
-            <div id="title" className="flex flex-col items-center font-mono">
+            <div
+              id="title"
+              className="relative flex flex-col items-center font-mono"
+            >
               <div className="flex items-center shadow-2xl">
                 <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
                 <span className="mr-5 text-6xl font-bold text-white">GPT</span>
-                <Badge>Beta 🚀</Badge>
+                <span className="hidden md:flex">
+                  <PopIn delay={0.5} className="absolute right-12 top-0 ">
+                    <Badge>Beta 🚀</Badge>
+                  </PopIn>
+                </span>
               </div>
               <div className="mt-1 font-mono text-[0.8em] font-bold text-white">
                 Assemble, configure, and deploy autonomous AI Agents in your
@@ -62,7 +70,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <ChatWindow className="m-10" messages={messages}>
+            <ChatWindow messages={messages} className="mt-4">
               {loading ? (
                 <ChatMessage
                   message={{ type: "action", value: "🧠 Thinking..." }}

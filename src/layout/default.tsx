@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import Head from "next/head";
 import DottedGridBackground from "../components/DottedGridBackground";
+import Header from "../components/Header";
 
 interface LayoutProps {
   children: ReactNode;
@@ -27,7 +28,10 @@ const DefaultLayout = (props: LayoutProps) => {
           content="https://raw.githubusercontent.com/reworkd/extension/main/assets/icon512.png"
         />
       </Head>
-      <DottedGridBackground>{props.children}</DottedGridBackground>
+      <DottedGridBackground>
+        <Header />
+        {props.children}
+      </DottedGridBackground>
       {/*<Footer />*/}
     </div>
   );

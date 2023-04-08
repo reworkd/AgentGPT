@@ -23,6 +23,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: -10;
 }
 
 /* Customize website's scrollbar like Mac OS

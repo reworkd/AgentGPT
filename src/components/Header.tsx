@@ -1,5 +1,5 @@
 import { FaGithub } from "react-icons/fa";
-import PopIn from "./popin";
+import PopIn from "./motions/popin";
 import { AnimatePresence } from "framer-motion";
 
 const Header: React.FC = () => {

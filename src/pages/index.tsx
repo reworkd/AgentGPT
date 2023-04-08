@@ -12,9 +12,10 @@ import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
-import PopIn from "../components/popin";
+import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import type AutonomousAgent from "../components/AutonomousAgent";
+import Expand from "../components/motions/expand";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
@@ -64,7 +65,9 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <ChatWindow className="mt-4" messages={messages} />
+            <Expand className="w-full">
+              <ChatWindow className="mt-4" messages={messages} />
+            </Expand>
 
             <Input
               left={

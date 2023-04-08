@@ -2,6 +2,7 @@ import cx from "classnames";
 import type { ReactNode } from "react";
 import React, { useEffect, useRef } from "react";
 import { FaBrain, FaListAlt, FaPlayCircle, FaStar } from "react-icons/fa";
+import autoAnimate from "@formkit/auto-animate";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -18,6 +19,10 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   });
+
+  useEffect(() => {
+    scrollRef.current && autoAnimate(scrollRef.current);
+  }, [messages]);
 
   return (
     <div

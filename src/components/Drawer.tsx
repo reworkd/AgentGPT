@@ -52,9 +52,7 @@ const Drawer = () => {
         <DrawerItem
           icon={<FaTwitter />}
           text="Twitter"
-          onClick={() =>
-            window.open("https://twitter.com/asimdotshrestha", "_blank")
-          }
+          onClick={() => window.open("https://twitter.com/", "_blank")}
         />
         <DrawerItem
           icon={<FaGithub />}

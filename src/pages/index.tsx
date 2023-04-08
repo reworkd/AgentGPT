@@ -7,8 +7,7 @@ import axios from "axios";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { AiFillRobot } from "react-icons/Ai";
-import { FaStar } from "react-icons/fa";
+import { FaRobot, FaStar } from "react-icons/fa";
 
 export interface Message {
   type: "goal" | "thinking" | "task" | "action";
@@ -86,7 +85,7 @@ const Home: NextPage = () => {
             <Input
               left={
                 <>
-                  <AiFillRobot />
+                  <FaRobot />
                   <span className="ml-2">Name:</span>
                 </>
               }

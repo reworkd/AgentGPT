@@ -1,5 +1,5 @@
 import React from "react";
-import { AiFillRobot } from "react-icons/Ai";
+import { FaRobot } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 
 const Drawer = () => {
@@ -9,9 +9,9 @@ const Drawer = () => {
       className="z-50 m-0 flex h-screen w-72 flex-col gap-2 border-b-[1px] border-b-white/10 bg-[#101010]/50 p-0 p-3 font-mono text-white backdrop-blur-sm"
     >
       <NewAgent />
-      <DrawerItem icon={<AiFillRobot />} text="HustleGPT" />
-      <DrawerItem icon={<AiFillRobot />} text="ChefGPT" />
-      <DrawerItem icon={<AiFillRobot />} text="WorldPeaceGPT" />
+      <DrawerItem icon={<FaRobot />} text="HustleGPT" />
+      <DrawerItem icon={<FaRobot />} text="ChefGPT" />
+      <DrawerItem icon={<FaRobot />} text="WorldPeaceGPT" />
       <hr className="my-5 border-white/20" />
     </div>
   );

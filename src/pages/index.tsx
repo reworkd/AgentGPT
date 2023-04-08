@@ -2,25 +2,17 @@ import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import React from "react";
-import ChatWindow, { ChatMessage } from "../components/ChatWindow";
+import type { Message } from "../components/ChatWindow";
+import ChatWindow, {
+  ChatMessage,
+  CreateGoalMessage,
+  CreateTaskMessage,
+} from "../components/ChatWindow";
 import axios from "axios";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
-
-export interface Message {
-  type: "goal" | "thinking" | "task" | "action";
-  value: string;
-}
-
-const GoalMessage = (goal: string) => {
-  return { type: "goal", value: goal } as Message;
-};
-
-const TaskMessage = (task: string) => {
-  return { type: "task", value: task } as Message;
-};
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -32,7 +24,7 @@ const Home: NextPage = () => {
   const handleNewGoal = async () => {
     setLoading(true);
     setGoal(goalInput);
-    setMessages([...messages, GoalMessage(goalInput)]);
+    setMessages([...messages, CreateGoalMessage(goalInput)]);
 
     const res = await axios.post(
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -42,7 +34,7 @@ const Home: NextPage = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     const tasks: string[] = JSON.parse(res.data.tasks);
-    setMessages((prev) => [...prev, ...tasks.map(TaskMessage)]);
+    setMessages((prev) => [...prev, ...tasks.map(CreateTaskMessage)]);
     setLoading(false);
   };
 
@@ -62,13 +54,14 @@ const Home: NextPage = () => {
               id="title"
               className="flex flex-col items-center font-mono shadow-2xl"
             >
-              <div className="flex items-center">
+              <div className="flex items-center shadow-2xl">
                 <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
                 <span className="mr-5 text-6xl font-bold text-white">GPT</span>
                 <Badge>Beta 🚀</Badge>
               </div>
-              <div className="font-mono text-[0.8em] font-bold text-white">
-                Autonomous AI Agents in your browser
+              <div className="mt-1 font-mono text-[0.8em] font-bold text-white shadow-2xl">
+                Assemble, configure, and deploy autonomous AI Agents in your
+                browser.
               </div>
             </div>
 

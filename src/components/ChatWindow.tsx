@@ -1,6 +1,5 @@
 import cx from "classnames";
 import type { ReactNode } from "react";
-import type { Message } from "../pages";
 import React from "react";
 
 interface ChatWindowProps {
@@ -44,6 +43,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
       <span className="font-black">{message.value}</span>
     </div>
   );
+};
+
+export interface Message {
+  type: "goal" | "thinking" | "task" | "action";
+  value: string;
+}
+
+export const CreateGoalMessage = (goal: string): Message => {
+  return { type: "goal", value: goal };
+};
+
+export const CreateTaskMessage = (task: string): Message => {
+  return { type: "task", value: task };
 };
 
 export default ChatWindow;

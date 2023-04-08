@@ -32,7 +32,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     >
       <MacWindowHeader />
       <div
-        className="mb-3 mr-3 h-[10em] overflow-y-auto 2xl:h-[20em] "
+        className="mb-3 mr-3 h-[10em] overflow-y-auto sm-h:h-[15em] md-h:h-[20em] lg-h:h-[30em] "
         ref={scrollRef}
       >
         {messages.map((message, index) => (
@@ -40,7 +40,11 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         ))}
         {children}
 
-        <ChatMessage message={{ type: "thinking", value: "" }} />
+        {messages.length != 0 ? (
+          <ChatMessage message={{ type: "thinking", value: "" }} />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

@@ -48,8 +48,12 @@ const Home: NextPage = () => {
               className="relative flex flex-col items-center font-mono"
             >
               <div className="flex flex-row items-start shadow-2xl">
-                <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
-                <span className="text-6xl font-bold text-white">GPT</span>
+                <span className="text-4xl font-bold text-[#C0C0C0] sm:text-6xl xs:text-5xl">
+                  Agent
+                </span>
+                <span className="text-4xl font-bold text-white sm:text-6xl xs:text-5xl">
+                  GPT
+                </span>
                 <PopIn delay={0.5}>
                   <Badge>Beta 🚀</Badge>
                 </PopIn>

@@ -8,7 +8,7 @@ module.exports = {
       "xs": "300px",
 
       "sm-h": { "raw": "(min-height: 700px)" },
-      "md-h": { "raw": "(min-height: 900px)" },
+      "md-h": { "raw": "(min-height: 800px)" },
       "lg-h": { "raw": "(min-height: 1000px)" },
 
       ...defaultTheme.screens

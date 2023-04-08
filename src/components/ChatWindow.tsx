@@ -47,7 +47,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     >
       <MacWindowHeader />
       <div
-        className="mb-3 mr-3 h-[10em] overflow-y-auto overflow-x-hidden sm-h:h-[15em] md-h:h-[20em] lg-h:h-[30em] "
+        className="mb-2 mr-2 h-[11em] overflow-y-auto overflow-x-hidden sm-h:h-[16em] md-h:h-[21em] lg-h:h-[30em] "
         ref={scrollRef}
         onScroll={handleScroll}
       >
@@ -86,7 +86,7 @@ const MacWindowHeader = () => {
 
 const ChatMessage = ({ message }: { message: Message }) => {
   return (
-    <div className="mx-4 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-3 font-mono text-sm hover:border-[#1E88E5]/40 sm:text-base">
+    <div className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base">
       <div className="mr-2 inline-block h-[0.9em]">
         {getMessageIcon(message)}
       </div>

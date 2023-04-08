@@ -1,4 +1,3 @@
-import cx from "classnames";
 import type { ReactNode } from "react";
 import React, { useEffect, useRef } from "react";
 import { FaBrain, FaListAlt, FaPlayCircle, FaStar } from "react-icons/fa";
@@ -33,7 +32,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     >
       <MacWindowHeader />
       <div
-        className="mb-3 mr-3 overflow-y-auto sm:h-[10em] 2xl:h-[20em]"
+        className="mb-3 mr-3 h-[10em] overflow-y-auto 2xl:h-[20em] "
         ref={scrollRef}
       >
         {messages.map((message, index) => (
@@ -49,12 +48,10 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 
 const MacWindowHeader = () => {
   return (
-    <div
-      className={cx("flex gap-1 rounded-t-3xl p-3", "flex gap-1 rounded-t-3xl")}
-    >
-      <div className="h-3 w-3 rounded-full bg-red-500"></div>
-      <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-      <div className="h-3 w-3 rounded-full bg-green-500"></div>
+    <div className="flex gap-1 rounded-t-3xl p-3">
+      <div className="h-3 w-3 rounded-full bg-red-500" />
+      <div className="h-3 w-3 rounded-full bg-yellow-500" />
+      <div className="h-3 w-3 rounded-full bg-green-500" />
     </div>
   );
 };

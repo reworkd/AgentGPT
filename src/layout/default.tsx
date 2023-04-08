@@ -17,9 +17,11 @@ const DefaultLayout = (props: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:url" content="https://agentgpt.reworkd.ai/" />
         <meta property="og:type" content="website" />
-        <meta name="twitter:card" content={description} />
-        <meta property="og:description" content={description} />
-        <meta property="og:title" content="Reworkd." />
+        <meta
+          property="og:description"
+          content="Assemble, configure, and deploy autonomous AI Agents in your browser."
+        />
+        <meta property="og:title" content="AgentGPT" />
         <meta
           property="og:image"
           content="https://raw.githubusercontent.com/reworkd/extension/main/assets/icon512.png"

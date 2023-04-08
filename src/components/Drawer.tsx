@@ -1,22 +1,11 @@
 import React from "react";
-import {
-  FaGithub,
-  FaQuestionCircle,
-  FaRobot,
-  FaTrashAlt,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaGithub, FaQuestionCircle, FaRobot, FaTwitter } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import FadeOut from "./motions/FadeOut";
 import { AnimatePresence } from "framer-motion";
 
 const Drawer = () => {
-  const [agents, setAgents] = React.useState<string[]>([
-    "HustleGPT",
-    "ChefGPT",
-    "WorldPeaceGPT",
-    "DestroyerGPT",
-  ]);
+  const [agents, setAgents] = React.useState<string[]>([]);
 
   return (
     <div
@@ -24,27 +13,37 @@ const Drawer = () => {
       className="z-50 m-0 hidden h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl md:flex"
     >
       <div className="flex flex-col gap-1 overflow-hidden">
+        <DrawerItem
+          icon={<BiPlus />}
+          border
+          text="New Agent"
+          onClick={() => location.reload()}
+        />
         <AnimatePresence>
-          <DrawerItem icon={<BiPlus />} border text="New Agent" />
           {agents.map((agent, index) => (
             <FadeOut key={`${index}-${agent}`}>
-              <DrawerItem
-                key={`${index}-${agent}`}
-                icon={<FaRobot />}
-                text={agent}
-              />
+              <DrawerItem icon={<FaRobot />} text={agent} />
             </FadeOut>
           ))}
+
+          {agents.length === 0 ? (
+            <div>
+              Click the above button to restart. In the future, this will be a
+              list of your deployed agents!
+            </div>
+          ) : (
+            ""
+          )}
         </AnimatePresence>
       </div>
 
       <div className="flex flex-col gap-1">
         <hr className="my-5 border-white/20" />
-        <DrawerItem
-          icon={<FaTrashAlt />}
-          text="Clear Agents"
-          onClick={() => setAgents([])}
-        />
+        {/*<DrawerItem*/}
+        {/*  icon={<FaTrashAlt />}*/}
+        {/*  text="Clear Agents"*/}
+        {/*  onClick={() => setAgents([])}*/}
+        {/*/>*/}
         <DrawerItem
           icon={<FaQuestionCircle />}
           text="Help"

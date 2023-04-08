@@ -3,19 +3,15 @@ import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import React from "react";
 import type { Message } from "../components/ChatWindow";
-import ChatWindow, {
-  CreateGoalMessage,
-  CreateTaskMessage,
-} from "../components/ChatWindow";
+import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
-import type AutonomousAgent from "../components/AutonomousAgent";
+import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
-import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
@@ -23,12 +19,15 @@ const Home: NextPage = () => {
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
-  const startAgent = api.chain.startAgent.useMutation();
 
-  const handleNewGoal = async () => {
-    setMessages([...messages, CreateGoalMessage(goalInput)]);
-    const { tasks } = await startAgent.mutateAsync({ prompt: goalInput });
-    setMessages((prev) => [...prev, ...tasks.map(CreateTaskMessage)]);
+  const handleNewGoal = () => {
+    const addMessage = (message: Message) =>
+      setMessages((prev) => [...prev, message]);
+    const agent = new AutonomousAgent(name, goalInput, addMessage, () =>
+      setAgent(null)
+    );
+    setAgent(agent);
+    agent.run().then(console.log).catch(console.error);
   };
 
   return (

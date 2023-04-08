@@ -41,9 +41,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         ))}
         {children}
 
-        {messages.length != 0 ? (
-          <ChatMessage message={{ type: "thinking", value: "" }} />
-        ) : (
+        {messages.length === 0 ? (
           <PopIn delay={1}>
             <ChatMessage
               message={{
@@ -53,6 +51,8 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
               }}
             />
           </PopIn>
+        ) : (
+          ""
         )}
       </div>
     </div>
@@ -103,22 +103,15 @@ const getMessagePrefix = (message: Message) => {
     case "thinking":
       return "Thinking...";
     case "action":
-      return "Executing action:";
+      return message.info ? message.info : "Executing:";
   }
 };
 
 export interface Message {
   type: "goal" | "thinking" | "task" | "action" | "system";
+  info?: string;
   value: string;
 }
-
-export const CreateGoalMessage = (goal: string): Message => {
-  return { type: "goal", value: goal };
-};
-
-export const CreateTaskMessage = (task: string): Message => {
-  return { type: "task", value: task };
-};
 
 export default ChatWindow;
 export { ChatMessage };

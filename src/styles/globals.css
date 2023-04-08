@@ -3,9 +3,26 @@
 @tailwind utilities;
 
 .background {
-    background-image: radial-gradient(circle, rgba(58, 58, 58, 0.75) 2px, transparent 0px);
-    background-size: 30px 30px;
-    background-position: 0 0, 15px 15px;
+  background-image: radial-gradient(
+    circle,
+    rgba(58, 58, 58, 0.75) 2px,
+    transparent 0px
+  );
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.lower-gradient {
+  background-image: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0)
+  );
+  height: 20vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 /* Customize website's scrollbar like Mac OS
@@ -13,25 +30,25 @@ Not supports in Firefox and IE */
 
 /* total width */
 div::-webkit-scrollbar {
-    border-radius: 16px;
-    background-color: #464649;
-    width: 16px;
+  border-radius: 16px;
+  background-color: #464649;
+  width: 16px;
 }
 
 /* background of the scrollbar except button or resizer */
 div::-webkit-scrollbar-track {
-    border-radius: 16px;
-    background-color: #464649;
+  border-radius: 16px;
+  background-color: #464649;
 }
 
 /* scrollbar itself */
 div::-webkit-scrollbar-thumb {
-    background-color: #babac0;
-    border-radius: 16px;
-    border: 2px solid #464649;
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 2px solid #464649;
 }
 
 /* set button(top and bottom of the scrollbar) */
 div::-webkit-scrollbar-button {
-    display: none;
+  display: none;
 }

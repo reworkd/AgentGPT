@@ -5,8 +5,8 @@ import { BiPlus } from "react-icons/bi";
 const Drawer = () => {
   return (
     <div
-      id="drawer-example"
-      className="z-50 m-0 hidden h-screen w-72 flex-col gap-2 border-b-[1px] border-b-white/10 bg-[#101010]/50 p-0 p-3 font-mono text-white backdrop-blur-sm md:flex"
+      id="drawer"
+      className="z-50 m-0 hidden h-screen w-72 flex-col gap-2 bg-zinc-900 p-3 font-mono text-white shadow-3xl md:flex"
     >
       <NewAgent />
       <DrawerItem icon={<FaRobot />} text="HustleGPT" />

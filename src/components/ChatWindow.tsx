@@ -84,13 +84,13 @@ const ChatMessage = ({ message }: { message: Message }) => {
 const getMessageIcon = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return <FaStar />;
+      return <FaStar className="text-yellow-400" />;
     case "task":
-      return <FaListAlt />;
+      return <FaListAlt className="text-gray-300" />;
     case "thinking":
-      return <FaBrain className="mt-[0.1em]" />;
+      return <FaBrain className="mt-[0.1em] text-pink-400" />;
     case "action":
-      return <FaPlayCircle />;
+      return <FaPlayCircle className="text-green-500" />;
   }
 };
 

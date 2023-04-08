@@ -58,7 +58,7 @@ const MacWindowHeader = () => {
 
 const ChatMessage = ({ message }: { message: Message }) => {
   return (
-    <div className="mx-4 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-3 font-mono hover:border-[#1E88E5]">
+    <div className="mx-4 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-3 font-mono hover:border-[#1E88E5]/40">
       <div className="mr-2 inline-block h-[0.9em]">
         {getMessageIcon(message)}
       </div>

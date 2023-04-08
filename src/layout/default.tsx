@@ -13,7 +13,7 @@ const DefaultLayout = (props: LayoutProps) => {
   return (
     <div className="flex min-h-screen min-h-screen flex-col bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]">
       <Head>
-        <title>Agent-GPT</title>
+        <title>AgentGPT</title>
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:url" content="https://agentgpt.reworkd.ai/" />

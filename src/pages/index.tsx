@@ -37,26 +37,24 @@ const Home: NextPage = () => {
         <Drawer />
         <div
           id="content"
-          className="flex h-screen w-full items-center justify-center p-2"
+          className="flex h-screen w-full items-center justify-center p-2 px-4"
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center gap-3 py-10 md:justify-center"
+            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-3 py-5 md:justify-center"
           >
             <div
               id="title"
               className="relative flex flex-col items-center font-mono"
             >
-              <div className="flex flex-row items-center shadow-2xl">
+              <div className="flex flex-row items-start shadow-2xl">
                 <span className="text-6xl font-bold text-[#C0C0C0]">Agent</span>
-                <span className="mr-5 text-6xl font-bold text-white">GPT</span>
-                <span className="absolute right-10 top-0 block hidden md:flex">
-                  <PopIn delay={0.5}>
-                    <Badge>Beta 🚀</Badge>
-                  </PopIn>
-                </span>
+                <span className="text-6xl font-bold text-white">GPT</span>
+                <PopIn delay={0.5}>
+                  <Badge>Beta 🚀</Badge>
+                </PopIn>
               </div>
-              <div className="mt-1 font-mono text-[0.8em] font-bold text-white">
+              <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 Assemble, configure, and deploy autonomous AI Agents in your
                 browser.
               </div>
@@ -66,31 +64,33 @@ const Home: NextPage = () => {
               <ChatWindow className="mt-4" messages={messages} />
             </Expand>
 
-            <Input
-              left={
-                <>
-                  <FaRobot />
-                  <span className="ml-2">Name:</span>
-                </>
-              }
-              value={name}
-              disabled={agent != null}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="AgentGPT (Note: this field doesn't do anything right now)"
-            />
+            <div className="mt-10 flex w-full flex-col gap-2">
+              <Input
+                left={
+                  <>
+                    <FaRobot />
+                    <span className="ml-2">Name:</span>
+                  </>
+                }
+                value={name}
+                disabled={agent != null}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="AgentGPT (Note: this field doesn't do anything right now)"
+              />
 
-            <Input
-              left={
-                <>
-                  <FaStar />
-                  <span className="ml-2">Goal:</span>
-                </>
-              }
-              disabled={agent != null}
-              value={goalInput}
-              onChange={(e) => setGoalInput(e.target.value)}
-              placeholder="Make the world a better place."
-            />
+              <Input
+                left={
+                  <>
+                    <FaStar />
+                    <span className="ml-2">Goal:</span>
+                  </>
+                }
+                disabled={agent != null}
+                value={goalInput}
+                onChange={(e) => setGoalInput(e.target.value)}
+                placeholder="Make the world a better place."
+              />
+            </div>
 
             <Button
               disabled={agent != null || name === "" || goalInput === ""}

@@ -7,3 +7,31 @@
     background-size: 30px 30px;
     background-position: 0 0, 15px 15px;
 }
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+div::-webkit-scrollbar {
+    border-radius: 16px;
+    background-color: #464649;
+    width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+div::-webkit-scrollbar-track {
+    border-radius: 16px;
+    background-color: #464649;
+}
+
+/* scrollbar itself */
+div::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 2px solid #464649;
+}
+
+/* set button(top and bottom of the scrollbar) */
+div::-webkit-scrollbar-button {
+    display: none;
+}

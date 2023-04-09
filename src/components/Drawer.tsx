@@ -60,13 +60,11 @@ const Drawer = ({ handleHelp }: { handleHelp: () => void }) => {
               </FadeOut>
             ))}
 
-            {agents.length === 0 ? (
+            {agents.length === 0 && (
               <div>
                 Click the above button to restart. In the future, this will be a
                 list of your deployed agents!
               </div>
-            ) : (
-              ""
             )}
           </AnimatePresence>
         </div>
@@ -123,11 +121,11 @@ const DrawerItem = ({
 }: DrawerItemProps) => {
   return (
     <div
-      className={
-        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5 " +
-        (border ? "border-[1px] border-white/20" : "") +
-        ` ${className || ""}`
-      }
+      className={clsx(
+        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+        border && "border-[1px] border-white/20",
+        `${className || ""}`
+      )}
       onClick={onClick}
     >
       {icon}

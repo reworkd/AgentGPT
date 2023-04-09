@@ -56,7 +56,7 @@ export default function Dialog({
                       className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"
                       onClick={() =>
                         window.open(
-                          "https://twitter.com/asimdotshrestha",
+                          "https://twitter.com/asimdotshrestha/status/1644883727707959296",
                           "_blank"
                         )
                       }

@@ -87,7 +87,10 @@ const Drawer = ({ handleHelp }: { handleHelp: () => void }) => {
             icon={<FaTwitter />}
             text="Twitter"
             onClick={() =>
-              window.open("https://twitter.com/asimdotshrestha", "_blank")
+              window.open(
+                "https://twitter.com/asimdotshrestha/status/1644883727707959296",
+                "_blank"
+              )
             }
           />
           <DrawerItem

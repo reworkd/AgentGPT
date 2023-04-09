@@ -62,6 +62,12 @@ class AutonomousAgent {
       return;
     }
 
+    if (!this.isRunning) {
+      this.sendManualShutdownMessage();
+      this.shutdown();
+      return;
+    }
+
     // Wait before starting
     await new Promise((r) => setTimeout(r, 1000));
 
@@ -132,6 +138,10 @@ class AutonomousAgent {
     return res.data.response as string;
   }
 
+  stopAgent() {
+    this.isRunning = false;
+  }
+
   sendGoalMessage() {
     this.sendMessage({ type: "goal", value: this.goal });
   }
@@ -140,6 +150,13 @@ class AutonomousAgent {
     this.sendMessage({
       type: "system",
       value: `We're sorry, because this is a demo, we cannot have our agents running for too long. Shutting down.`,
+    });
+  }
+
+  sendManualShutdownMessage() {
+    this.sendMessage({
+      type: "system",
+      value: `The agent has been manually shutdown.`,
     });
   }
 

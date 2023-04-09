@@ -18,10 +18,12 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
+  const [stoppingAgent, setStoppingAgent] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
 
   const [showModal, setShowModal] = React.useState(false);
+
   useEffect(() => {
     const key = "agentgpt-modal-opened";
     const savedModalData = localStorage.getItem(key);
@@ -33,6 +35,12 @@ const Home: NextPage = () => {
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
+  useEffect(() => {
+    if (agent == null) {
+      setStoppingAgent(false);
+    }
+  }, [agent]);
+
   const handleNewGoal = () => {
     const addMessage = (message: Message) =>
       setMessages((prev) => [...prev, message]);
@@ -41,6 +49,11 @@ const Home: NextPage = () => {
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
+  };
+
+  const handleStopAgent = () => {
+    setStoppingAgent(true);
+    agent?.stopAgent();
   };
 
   return (
@@ -109,20 +122,38 @@ const Home: NextPage = () => {
               />
             </div>
 
-            <Button
-              disabled={agent != null || name === "" || goalInput === ""}
-              onClick={handleNewGoal}
-              className="mt-10"
-            >
-              {agent == null ? (
-                "Deploy Agent"
-              ) : (
-                <>
-                  <VscLoading className="animate-spin" size={20} />
-                  <span className="ml-2">Agent running</span>
-                </>
-              )}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                disabled={agent != null || name === "" || goalInput === ""}
+                onClick={handleNewGoal}
+                className="mt-10"
+              >
+                {agent == null ? (
+                  "Deploy Agent"
+                ) : (
+                  <>
+                    <VscLoading className="animate-spin" size={20} />
+                    <span className="ml-2">Agent running</span>
+                  </>
+                )}
+              </Button>
+
+              <Button
+                disabled={agent == null}
+                onClick={handleStopAgent}
+                className="mt-10"
+                enabledClassName={"bg-red-600 hover:bg-red-400"}
+              >
+                {stoppingAgent ? (
+                  <>
+                    <VscLoading className="animate-spin" size={20} />
+                    <span className="ml-2">Stopping agent</span>
+                  </>
+                ) : (
+                  "Stop agent"
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </main>

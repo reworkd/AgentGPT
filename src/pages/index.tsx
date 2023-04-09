@@ -105,7 +105,7 @@ const Home: NextPage = () => {
                 value={name}
                 disabled={agent != null}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="AgentGPT (Note: this field doesn't do anything right now)"
+                placeholder="AgentGPT"
               />
 
               <Input

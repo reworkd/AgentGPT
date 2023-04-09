@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaBrain, FaListAlt, FaPlayCircle, FaStar } from "react-icons/fa";
 import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
+import Expand from "./motions/expand";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -57,7 +58,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         {children}
 
         {messages.length === 0 ? (
-          <PopIn delay={1}>
+          <Expand delay={0.8} type="spring">
             <ChatMessage
               message={{
                 type: "system",
@@ -65,7 +66,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
                   "> Create an agent by adding a name / goal, and hitting deploy!",
               }}
             />
-          </PopIn>
+          </Expand>
         ) : (
           ""
         )}
@@ -77,9 +78,15 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 const MacWindowHeader = () => {
   return (
     <div className="flex gap-1 rounded-t-3xl p-3">
-      <div className="h-3 w-3 rounded-full bg-red-500" />
-      <div className="h-3 w-3 rounded-full bg-yellow-500" />
-      <div className="h-3 w-3 rounded-full bg-green-500" />
+      <PopIn delay={0.4}>
+        <div className="h-3 w-3 rounded-full bg-red-500" />
+      </PopIn>
+      <PopIn delay={0.5}>
+        <div className="h-3 w-3 rounded-full bg-yellow-500" />
+      </PopIn>
+      <PopIn delay={0.6}>
+        <div className="h-3 w-3 rounded-full bg-green-500" />
+      </PopIn>
     </div>
   );
 };

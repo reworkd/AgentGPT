@@ -8,27 +8,29 @@
     <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
 </p>
 
-
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="#-getting-started">🤝 Contribute</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
 </p>
 
 ---
 
-AgentGPT allows you to configure and deploy Autonomous AI agents. Name your own custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
+AgentGPT allows you to configure and deploy Autonomous AI agents.
+Name your own custom AI and have it embark on any goal imaginable.
+It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
 
+## 🎉 Features
 
 This platform is currently in beta, we are currently working on:
+
 - Long term memory 🧠
 - Web browsing 🌐
 - Interaction with websites and people 👨‍👩‍👦
 
-
-## 🎉 Features
-
-Coming soon...
+More Coming soon...
 
 ## 🚀 Tech Stack
 
@@ -66,19 +68,19 @@ npm install
 > 🚧 The environment variables must match the following [schema](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
 
 ```bash
-# Next Auth Secrets
-NODE_ENV=production
-NEXTAUTH_SECRET=
-NEXTAUTH_URL=http://localhost:3000
+# Deployment Environment:
+NODE_ENV=development
 
 # Next Auth config:
-NEXTAUTH_SECRET=
-NEXTAUTH_URL=
+# Generate a secret with `openssl rand -base64 32`
+NEXTAUTH_SECRET=changeme
+NEXTAUTH_URL=http://localhost:3000
 
-# Database URLs:
-DATABASE_URL=
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+# Prisma
+DATABASE_URL=file:./db.sqlite
+
+# External APIs:
+OPENAI_API_KEY=changeme
 ```
 
 5. Ready 🥳, now run:

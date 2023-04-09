@@ -1,13 +1,13 @@
 <p align="center">
-  <h1>AGENT GPT</h1></br>
+  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ" height="300"/>
+</p>
+<p align="center">
   <em>🤖 Assemble, configure, and deploy autonomous AI Agents in your browser. 🤖 </em>
 </p>
 <p align="center">
- <a href="https://agentgpt.reworkd.ai/" target="_blank">
-  <img alt="Deployment Success" src="https://img.shields.io/github/deployments/reworkd/AgentGPT/production?color=2334D058&label=Deployment" />
- </a>
- <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
+    <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
 </p>
+
 
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
@@ -17,7 +17,14 @@
 
 ---
 
-Assemble, configure, and deploy autonomous AI Agents in your browser. 
+AgentGPT allows you to configure and deploy Autonomous AI agents. Name your own custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
+
+
+This platform is currently in beta, we are currently working on:
+- Long term memory 🧠
+- Web browsing 🌐
+- Interaction with websites and people 👨‍👩‍👦
+
 
 ## 🎉 Features
 

@@ -133,7 +133,7 @@ const Home: NextPage = () => {
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Agent running</span>
+                    <span className="ml-2">Running</span>
                   </>
                 )}
               </Button>
@@ -147,7 +147,7 @@ const Home: NextPage = () => {
                 {stoppingAgent ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Stopping agent</span>
+                    <span className="ml-2">Stopping</span>
                   </>
                 ) : (
                   "Stop agent"

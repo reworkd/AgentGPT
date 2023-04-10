@@ -4,10 +4,11 @@ import { LLMChain } from "langchain/chains";
 
 export const createModel = (customApiKey: string) =>
   new OpenAI({
-    openAIApiKey: customApiKey,
+    openAIApiKey:
+      customApiKey === "" ? process.env.OPENAI_API_KEY : customApiKey,
     temperature: 0.9,
     modelName: "gpt-3.5-turbo",
-    maxTokens: 500,
+    maxTokens: 300,
   });
 
 const startGoalPrompt = new PromptTemplate({

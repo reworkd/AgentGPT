@@ -40,9 +40,10 @@ export default function SettingsDialog({
           small team is able to provide for at the moment.
         </p>
         <p className="mb-3">
-          Because of this, we momentarily require that users utilize their own
-          OpenAI API key for AgentGPT. To do this, sign up for an OpenAI account
-          and visit the following{" "}
+          Because of this, we momentarily ask that users utilize their own
+          OpenAI API key for AgentGPT. If you elect not to, your agent will not
+          be able to execute for very long. To do this, sign up for an OpenAI
+          account and visit the following{" "}
           <a
             href="https://platform.openai.com/account/api-keys"
             className="text-blue-500"

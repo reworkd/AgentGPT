@@ -65,7 +65,8 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    if (this.numLoops >= 10) {
+    const maxLoops = this.customApiKey === "" ? 3 : 30;
+    if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
       return;
@@ -157,7 +158,7 @@ class AutonomousAgent {
   sendLoopMessage() {
     this.sendMessage({
       type: "system",
-      value: `We're sorry, because this is a demo, we cannot have our agents running for too long. Shutting down.`,
+      value: `We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.`,
     });
   }
 

@@ -32,13 +32,15 @@ const Home: NextPage = () => {
     const savedModalData = localStorage.getItem(key);
 
     // Momentarily always run
-    if (true) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (savedModalData == null) {
+        setShowHelpDialog(true);
+      } else {
         setShowSettingsDialog(true);
-      }, 1500);
-    }
+      }
+    }, 1500);
 
-    // localStorage.setItem(key, JSON.stringify(true));
+    localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
   useEffect(() => {

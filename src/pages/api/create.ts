@@ -1,4 +1,4 @@
-import { executeCreateTaskAgent } from "../../utils/chain";
+import { executeCreateTaskAgent, extractArray } from "../../utils/chain";
 import type { NextApiRequest } from "next";
 import type { NextApiResponse } from "next";
 
@@ -28,5 +28,6 @@ export default async function handler(
     req.body.result
   );
   console.log(completion.text);
-  res.status(200).json({ tasks: completion.text as string[] });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  res.status(200).json({ tasks: extractArray(completion.text) });
 }

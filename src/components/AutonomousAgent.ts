@@ -112,7 +112,7 @@ class AutonomousAgent {
   async getInitialTasks(): Promise<string[]> {
     const res = await axios.post(`/api/chain`, { goal: this.goal });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return JSON.parse(res.data.tasks) as string[];
+    return res.data.tasks as string[];
   }
 
   async getAdditionalTasks(
@@ -126,7 +126,7 @@ class AutonomousAgent {
       result: result,
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    return JSON.parse(res.data.tasks) as string[];
+    return res.data.tasks as string[];
   }
 
   async executeTask(task: string): Promise<string> {

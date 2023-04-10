@@ -11,6 +11,7 @@ const requiredForProduction = () => process.env.NODE_ENV === "production"
  */
 export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
+  CHROMA_DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET: requiredForProduction(),
   NEXTAUTH_URL: z.preprocess(
@@ -34,6 +35,7 @@ export const serverEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  CHROMA_DATABASE_URL: process.env.CHROMA_DATABASE_URL,
 };
 
 /**

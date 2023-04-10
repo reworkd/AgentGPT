@@ -5,6 +5,7 @@ class AutonomousAgent {
   name: string;
   goal: string;
   tasks: string[] = [];
+  customApiKey: string;
   isRunning = true;
   sendMessage: (message: Message) => void;
   shutdown: () => void;
@@ -14,12 +15,14 @@ class AutonomousAgent {
     name: string,
     goal: string,
     addMessage: (message: Message) => void,
-    shutdown: () => void
+    shutdown: () => void,
+    customApiKey: string
   ) {
     this.name = name;
     this.goal = goal;
     this.sendMessage = addMessage;
     this.shutdown = shutdown;
+    this.customApiKey = customApiKey;
   }
 
   async run() {
@@ -36,7 +39,7 @@ class AutonomousAgent {
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
-        `ERROR retrieving initial tasks array. Please make your goal more clear or revise it such that it is within our model's policies to run. Shutting Down.`
+        `ERROR retrieving initial tasks array. Check your API key, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
       );
       this.shutdown();
       return;
@@ -49,6 +52,12 @@ class AutonomousAgent {
     console.log(`Loop ${this.numLoops}`);
     console.log(this.tasks);
 
+    if (!this.isRunning) {
+      this.sendManualShutdownMessage();
+      this.shutdown();
+      return;
+    }
+
     if (this.tasks.length === 0) {
       this.sendCompletedMessage();
       this.shutdown();
@@ -58,12 +67,6 @@ class AutonomousAgent {
     this.numLoops += 1;
     if (this.numLoops >= 30) {
       this.sendLoopMessage();
-      this.shutdown();
-      return;
-    }
-
-    if (!this.isRunning) {
-      this.sendManualShutdownMessage();
       this.shutdown();
       return;
     }
@@ -110,7 +113,10 @@ class AutonomousAgent {
   }
 
   async getInitialTasks(): Promise<string[]> {
-    const res = await axios.post(`/api/chain`, { goal: this.goal });
+    const res = await axios.post(`/api/chain`, {
+      customApiKey: this.customApiKey,
+      goal: this.goal,
+    });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.tasks as string[];
   }
@@ -120,6 +126,7 @@ class AutonomousAgent {
     result: string
   ): Promise<string[]> {
     const res = await axios.post(`/api/create`, {
+      customApiKey: this.customApiKey,
       goal: this.goal,
       tasks: this.tasks,
       lastTask: currentTask,
@@ -131,6 +138,7 @@ class AutonomousAgent {
 
   async executeTask(task: string): Promise<string> {
     const res = await axios.post(`/api/execute`, {
+      customApiKey: this.customApiKey,
       goal: this.goal,
       task: task,
     });

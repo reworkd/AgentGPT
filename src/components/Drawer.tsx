@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   FaBars,
+  FaCog,
   FaGithub,
   FaQuestionCircle,
   FaRobot,
@@ -11,7 +12,13 @@ import FadeOut from "./motions/FadeOut";
 import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
 
-const Drawer = ({ handleHelp }: { handleHelp: () => void }) => {
+const Drawer = ({
+  showHelp,
+  showSettings,
+}: {
+  showHelp: () => void;
+  showSettings: () => void;
+}) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const [agents, setAgents] = React.useState<string[]>([]);
 
@@ -38,7 +45,7 @@ const Drawer = ({ handleHelp }: { handleHelp: () => void }) => {
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
-          <div className="mb-2 flex items-center justify-center gap-2">
+          <div className="mb-2 flex justify-center gap-2">
             <DrawerItem
               className="flex-grow"
               icon={<BiPlus />}
@@ -79,8 +86,9 @@ const Drawer = ({ handleHelp }: { handleHelp: () => void }) => {
           <DrawerItem
             icon={<FaQuestionCircle />}
             text="Help"
-            onClick={handleHelp}
+            onClick={showHelp}
           />
+          <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
           <DrawerItem
             icon={<FaTwitter />}
             text="Twitter"

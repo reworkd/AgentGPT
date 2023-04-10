@@ -1,9 +1,15 @@
-import { executeCreateTaskAgent, extractArray } from "../../utils/chain";
 import type { NextApiRequest } from "next";
 import type { NextApiResponse } from "next";
 
+import {
+  createModel,
+  executeCreateTaskAgent,
+  extractArray,
+} from "../../utils/chain";
+
 export interface CreateTaskAPIRequest extends NextApiRequest {
   body: {
+    customApiKey: string;
     goal: string;
     tasks: string[];
     lastTask: string;
@@ -22,6 +28,7 @@ export default async function handler(
   res: CreateTaskAPIResponse
 ) {
   const completion = await executeCreateTaskAgent(
+    createModel(req.body.customApiKey),
     req.body.goal,
     req.body.tasks,
     req.body.lastTask,
@@ -29,5 +36,5 @@ export default async function handler(
   );
   console.log(completion.text);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  res.status(200).json({ tasks: extractArray(completion.text) });
+  return res.status(200).json({ tasks: extractArray(completion.text) });
 }

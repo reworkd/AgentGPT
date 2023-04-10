@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customAPIKey, setCustomAPIKey] = React.useState<string>("");
+  const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -28,14 +28,17 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
 
   useEffect(() => {
-    const key = "agentgpt-modal-opened";
+    const key = "agentgpt-modal-opened-new";
     const savedModalData = localStorage.getItem(key);
-    if (savedModalData == null) {
+
+    // Momentarily always run
+    if (true) {
       setTimeout(() => {
-        setShowHelpDialog(true);
-      }, 1700);
+        setShowSettingsDialog(true);
+      }, 1500);
     }
-    localStorage.setItem(key, JSON.stringify(true));
+
+    // localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
   useEffect(() => {
@@ -52,7 +55,7 @@ const Home: NextPage = () => {
       goalInput,
       addMessage,
       () => setAgent(null),
-      customAPIKey
+      customApiKey
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
@@ -70,8 +73,8 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customApiKey={customAPIKey}
-        setCustomApiKey={setCustomAPIKey}
+        customApiKey={customApiKey}
+        setCustomApiKey={setCustomApiKey}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -143,7 +146,12 @@ const Home: NextPage = () => {
 
             <div className="flex gap-2">
               <Button
-                disabled={agent != null || name === "" || goalInput === ""}
+                disabled={
+                  agent != null ||
+                  name === "" ||
+                  goalInput === "" ||
+                  customApiKey === ""
+                }
                 onClick={handleNewGoal}
                 className="mt-10"
               >

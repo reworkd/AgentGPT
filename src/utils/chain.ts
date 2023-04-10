@@ -2,18 +2,20 @@ import { OpenAI } from "langchain";
 import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 
-const model = new OpenAI({
-  openAIApiKey: process.env.OPENAI_API_KEY,
-  temperature: 0.9,
-  modelName: "gpt-3.5-turbo",
-});
+export const createModel = (customApiKey: string) =>
+  new OpenAI({
+    openAIApiKey: customApiKey,
+    temperature: 0.9,
+    modelName: "gpt-3.5-turbo",
+    maxTokens: 500,
+  });
 
 const startGoalPrompt = new PromptTemplate({
   template:
     "You are an autonomous task creation AI called AgentGPT. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse()",
   inputVariables: ["goal"],
 });
-export const startGoalAgent = async (goal: string) => {
+export const startGoalAgent = async (model: OpenAI, goal: string) => {
   return await new LLMChain({ llm: model, prompt: startGoalPrompt }).call({
     goal,
   });
@@ -24,7 +26,11 @@ const executeTaskPrompt = new PromptTemplate({
     "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
   inputVariables: ["goal", "task"],
 });
-export const executeTaskAgent = async (goal: string, task: string) => {
+export const executeTaskAgent = async (
+  model: OpenAI,
+  goal: string,
+  task: string
+) => {
   return await new LLMChain({ llm: model, prompt: executeTaskPrompt }).call({
     goal,
     task,
@@ -37,6 +43,7 @@ const createTaskPrompt = new PromptTemplate({
   inputVariables: ["goal", "tasks", "lastTask", "result"],
 });
 export const executeCreateTaskAgent = async (
+  model: OpenAI,
   goal: string,
   tasks: string[],
   lastTask: string,

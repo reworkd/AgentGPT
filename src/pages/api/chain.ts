@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { startGoalAgent } from "../../utils/chain";
+import { extractArray, startGoalAgent } from "../../utils/chain";
 
 export interface ChainAPIRequest extends NextApiRequest {
   body: {
@@ -17,5 +17,6 @@ export default async function handler(
 ) {
   const completion = await startGoalAgent(req.body.goal);
   console.log(completion.text);
-  res.status(200).json({ tasks: completion.text as string[] });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  res.status(200).json({ tasks: extractArray(completion.text) });
 }

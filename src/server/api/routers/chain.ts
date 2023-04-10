@@ -7,10 +7,10 @@ export const chainRouter = createTRPCRouter({
   startAgent: publicProcedure
     .input(z.object({ prompt: z.string() }))
     .mutation(async ({ input }) => {
-      const completion = (await startGoalAgent(input.prompt)) as {
-        text: string;
-      };
-
-      return { tasks: JSON.parse(completion.text) as string[] };
+      // const completion = (await startGoalAgent(input.prompt)) as {
+      //   text: string;
+      // };
+      //
+      // return { tasks: JSON.parse(completion.text) as string[] };
     }),
 });

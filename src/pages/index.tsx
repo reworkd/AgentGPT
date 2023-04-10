@@ -12,24 +12,27 @@ import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
-import Dialog from "../components/Dialog";
+import HelpDialog from "../components/HelpDialog";
+import SettingsDialog from "../components/SettingsDialog";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [stoppingAgent, setStoppingAgent] = React.useState(false);
+  const [customAPIKey, setCustomAPIKey] = React.useState<string>("");
+  const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
 
-  const [showModal, setShowModal] = React.useState(false);
+  const [showHelpDialog, setShowHelpDialog] = React.useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
 
   useEffect(() => {
     const key = "agentgpt-modal-opened";
     const savedModalData = localStorage.getItem(key);
     if (savedModalData == null) {
       setTimeout(() => {
-        setShowModal(true);
+        setShowHelpDialog(true);
       }, 1700);
     }
     localStorage.setItem(key, JSON.stringify(true));
@@ -37,30 +40,46 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (agent == null) {
-      setStoppingAgent(false);
+      setShouldAgentStop(false);
     }
   }, [agent]);
 
   const handleNewGoal = () => {
     const addMessage = (message: Message) =>
       setMessages((prev) => [...prev, message]);
-    const agent = new AutonomousAgent(name, goalInput, addMessage, () =>
-      setAgent(null)
+    const agent = new AutonomousAgent(
+      name,
+      goalInput,
+      addMessage,
+      () => setAgent(null),
+      customAPIKey
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
   };
 
   const handleStopAgent = () => {
-    setStoppingAgent(true);
+    setShouldAgentStop(true);
     agent?.stopAgent();
   };
 
   return (
     <DefaultLayout>
-      <Dialog showModal={showModal} setShowModal={setShowModal} />
+      <HelpDialog
+        show={showHelpDialog}
+        close={() => setShowHelpDialog(false)}
+      />
+      <SettingsDialog
+        customApiKey={customAPIKey}
+        setCustomApiKey={setCustomAPIKey}
+        show={showSettingsDialog}
+        close={() => setShowSettingsDialog(false)}
+      />
       <main className="flex h-screen w-screen flex-row">
-        <Drawer handleHelp={() => setShowModal(true)} />
+        <Drawer
+          showHelp={() => setShowHelpDialog(true)}
+          showSettings={() => setShowSettingsDialog(true)}
+        />
         <div
           id="content"
           className="z-10 flex h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
@@ -144,7 +163,7 @@ const Home: NextPage = () => {
                 className="mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
-                {stoppingAgent ? (
+                {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
                     <span className="ml-2">Stopping</span>

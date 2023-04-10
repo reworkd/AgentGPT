@@ -146,12 +146,7 @@ const Home: NextPage = () => {
 
             <div className="flex gap-2">
               <Button
-                disabled={
-                  agent != null ||
-                  name === "" ||
-                  goalInput === "" ||
-                  customApiKey === ""
-                }
+                disabled={agent != null || name === "" || goalInput === ""}
                 onClick={handleNewGoal}
                 className="mt-10"
               >

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   FaBars,
   FaCog,
+  FaDiscord,
   FaGithub,
   FaQuestionCircle,
   FaRobot,
@@ -89,6 +90,13 @@ const Drawer = ({
             onClick={showHelp}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
+          <DrawerItem
+            icon={<FaDiscord />}
+            text="Discord"
+            onClick={() =>
+              window.open("https://discord.gg/jdSBAnmdnY", "_blank")
+            }
+          />
           <DrawerItem
             icon={<FaTwitter />}
             text="Twitter"

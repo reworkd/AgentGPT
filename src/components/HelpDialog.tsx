@@ -1,5 +1,5 @@
 import React from "react";
-import { FaGithub, FaTwitter } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 import Dialog from "./Dialog";
 
 export default function HelpDialog({
@@ -30,6 +30,14 @@ export default function HelpDialog({
           <p className="mt-2">Follow the journey below:</p>
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
+          <div
+            className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"
+            onClick={() =>
+              window.open("https://discord.gg/jdSBAnmdnY", "_blank")
+            }
+          >
+            <FaDiscord size={30} />
+          </div>
           <div
             className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"
             onClick={() =>

@@ -56,7 +56,7 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    if (this.numLoops >= 30) {
+    if (this.numLoops >= 10) {
       this.sendLoopMessage();
       this.shutdown();
       return;

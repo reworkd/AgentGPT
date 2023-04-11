@@ -6,12 +6,18 @@ import {
   FaGithub,
   FaQuestionCircle,
   FaRobot,
+  FaSignInAlt,
+  FaSignOutAlt,
   FaTwitter,
+  FaUser,
 } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
-import FadeOut from "./motions/FadeOut";
-import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
+import { useAuth } from "../hooks/useAuth";
+import type { Session } from "next-auth";
+import { api } from "../utils/api";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useRouter } from "next/router";
 
 const Drawer = ({
   showHelp,
@@ -21,7 +27,12 @@ const Drawer = ({
   showSettings: () => void;
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
-  const [agents, setAgents] = React.useState<string[]>([]);
+  const { session, signIn, signOut, status } = useAuth();
+  const [animationParent] = useAutoAnimate();
+  const query = api.agent.getAll.useQuery();
+  const router = useRouter();
+
+  const userAgents = query.data ?? [];
 
   const toggleDrawer = () => {
     setShowDrawer((prevState) => !prevState);
@@ -61,20 +72,24 @@ const Drawer = ({
               <FaBars />
             </button>
           </div>
-          <AnimatePresence>
-            {agents.map((agent, index) => (
-              <FadeOut key={`${index}-${agent}`}>
-                <DrawerItem icon={<FaRobot />} text={agent} />
-              </FadeOut>
+          <ul ref={animationParent}>
+            {userAgents.map((agent, index) => (
+              <DrawerItem
+                key={index}
+                icon={<FaRobot />}
+                text={agent.name}
+                className={""}
+                onClick={() => void router.push(`/agent/${agent.id}`)}
+              />
             ))}
 
-            {agents.length === 0 && (
+            {userAgents.length === 0 && (
               <div>
                 Click the above button to restart. In the future, this will be a
                 list of your deployed agents!
               </div>
             )}
-          </AnimatePresence>
+          </ul>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -84,6 +99,9 @@ const Drawer = ({
           {/*  text="Clear Agents"*/}
           {/*  onClick={() => setAgents([])}*/}
           {/*/>*/}
+
+          <AuthItem session={session} signIn={signIn} signOut={signOut} />
+
           <DrawerItem
             icon={<FaQuestionCircle />}
             text="Help"
@@ -149,4 +167,17 @@ const DrawerItem = ({
     </div>
   );
 };
+
+const AuthItem: React.FC<{
+  session: Session | null;
+  signIn: () => void;
+  signOut: () => void;
+}> = ({ signIn, signOut, session }) => {
+  const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
+  const text = session?.user ? "Sign Out" : "Sign In";
+  const onClick = session?.user ? signOut : signIn;
+
+  return <DrawerItem icon={icon} text={text} onClick={onClick} />;
+};
+
 export default Drawer;

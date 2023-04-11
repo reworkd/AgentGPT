@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   FaBrain,
   FaClipboard,
-  FaCopy,
   FaListAlt,
   FaPlayCircle,
   FaSave,

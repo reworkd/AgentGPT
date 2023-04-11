@@ -14,6 +14,8 @@
 <a href="#-getting-started">🤝 Contribute</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://discord.gg/3PccggEG">📢 Discord</a>
 </p>
 
 ---
@@ -26,8 +28,13 @@ Join us in fueling the development of AgentGPT, an open-source project pushing t
 </p>
 
 <p align="center">
-By sponsoring this free, open-source project, you not only have the opportunity to have your avatar/logo featured below, but also get the exclusive chance to chat with the founders about any topic (though we prefer AGI! 🤖). <a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project 
+By sponsoring this free, open-source project, you not only have the opportunity to have your avatar/logo featured below, but also get the exclusive chance to chat with the founders!🗣️ 
 </p>
+
+<p align="center">
+<a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project 
+</p>
+
 
 ---
 

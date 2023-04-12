@@ -19,6 +19,7 @@
 </p>
 
 ---
+
 <h2 align="center">
 💝 Support the Advancement of AgentGPT!! 💝
 </h2>
@@ -34,7 +35,6 @@ By sponsoring this free, open-source project, you not only have the opportunity 
 <p align="center">
 <a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project 
 </p>
-
 
 ---
 

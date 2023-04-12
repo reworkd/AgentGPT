@@ -109,8 +109,19 @@ const Home: NextPage = () => {
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
-                Assemble, configure, and deploy autonomous AI Agents in your
-                browser.
+                <p>
+                  Assemble, configure, and deploy autonomous AI Agents in your
+                  browser.
+                </p>
+                <em>
+                  Please consider sponsoring the project:{" "}
+                  <a
+                    className="text-blue-400"
+                    href={"https://github.com/sponsors/reworkd-admin"}
+                  >
+                    Link
+                  </a>
+                </em>
               </div>
             </div>
 

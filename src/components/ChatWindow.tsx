@@ -6,7 +6,7 @@ import {
   FaPlayCircle,
   FaSave,
   FaStar,
-  FaCopy
+  FaCopy,
 } from "react-icons/fa";
 import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
@@ -145,11 +145,11 @@ const ChatMessage = ({ message }: { message: Message }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(message.value);
+    void navigator.clipboard.writeText(message.value);
     setCopied(true);
   };
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout
+    let timeoutId: NodeJS.Timeout;
     if (copied) {
       timeoutId = setTimeout(() => {
         setCopied(false);
@@ -161,7 +161,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
   }, [copied]);
   return (
     <div
-      className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
+      className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}
@@ -179,22 +179,22 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
       <div className="relative">
         {copied ? (
-          <span className="text-gray-300 absolute bottom-0 right-0">Copied!</span>
+          <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-900 p-1 px-2 text-gray-300">
+            Copied!
+          </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 ${showCopy ? "visible" : "hidden"
-              }`}
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-900 p-1 px-2 ${
+              showCopy ? "visible" : "hidden"
+            }`}
           >
-            <FaCopy
-              className="text-white-300 cursor-pointer"
-            />
+            <FaCopy className="text-white-300 cursor-pointer" />
           </span>
         )}
       </div>
     </div>
   );
 };
-
 
 const getMessageIcon = (message: Message) => {
   switch (message.type) {

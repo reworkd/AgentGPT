@@ -132,10 +132,6 @@ const MacWindowHeader = () => {
     link.click();
   };
 
-  const saveAsPDF = (elementId: string) => {
-    // Your implementation to save the element as a PDF
-  };
-
   const copyElementText = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {

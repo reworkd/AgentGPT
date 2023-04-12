@@ -6,9 +6,9 @@ export const createModel = (customApiKey: string) =>
   new OpenAI({
     openAIApiKey:
       customApiKey === "" ? process.env.OPENAI_API_KEY : customApiKey,
-    temperature: 0.9,
-    modelName: "gpt-3.5-turbo",
-    maxTokens: 300,
+    temperature: process.env.TEMPRATURE  || 0.9,
+    modelName: process.env.MODEL || "gpt-3.5-turbo",
+    maxTokens: process.env.MAX_TOKENS || 300,
   });
 
 const startGoalPrompt = new PromptTemplate({

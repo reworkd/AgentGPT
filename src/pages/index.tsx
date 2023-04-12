@@ -118,7 +118,7 @@ const Home: NextPage = () => {
               <ChatWindow className="mt-4" messages={messages} />
             </Expand>
 
-            <div className="mt-10 flex w-full flex-col gap-2">
+            <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">
               <Input
                 left={
                   <>
@@ -150,7 +150,7 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent != null || name === "" || goalInput === ""}
                 onClick={handleNewGoal}
-                className="mt-10"
+                className="sm:mt-10"
               >
                 {agent == null ? (
                   "Deploy Agent"
@@ -165,7 +165,7 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent == null}
                 onClick={handleStopAgent}
-                className="mt-10"
+                className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
                 {shouldAgentStop ? (

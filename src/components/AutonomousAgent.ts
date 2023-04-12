@@ -39,7 +39,9 @@ class AutonomousAgent {
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
-        `ERROR retrieving initial tasks array. Check your API key, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
+        this.customApiKey === ""
+          ? `ERROR retrieving initial tasks array. Check your API key, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
+          : `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
       );
       this.shutdown();
       return;
@@ -65,7 +67,7 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.customApiKey === "" ? 3 : 30;
+    const maxLoops = this.customApiKey === "" ? 3 : 50;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -158,7 +160,10 @@ class AutonomousAgent {
   sendLoopMessage() {
     this.sendMessage({
       type: "system",
-      value: `We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.`,
+      value:
+        this.customApiKey === ""
+          ? `This agent has been running for too long. To save your wallet (And on our infrastructure costs), this agent is shutting down.`
+          : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
     });
   }
 

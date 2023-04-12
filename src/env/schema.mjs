@@ -1,5 +1,5 @@
 // @ts-check
-import { z } from "zod";
+import { coerce, z } from "zod";
 
 const requiredForProduction = () => process.env.NODE_ENV === "production"
     ? z.string().min(1).trim()
@@ -21,7 +21,7 @@ export const serverSchema = z.object({
     process.env.VERCEL ? z.string() : z.string().url(),
   ),
   OPENAI_API_KEY: z.string(),
-  MAX_LOOPS: z.number().optional().default(30) // Setting to zero will disable the limit
+  MAX_LOOPS: z.number({coerce: true}).optional().default(30) // Setting to zero will disable the limit
 });
 
 /**

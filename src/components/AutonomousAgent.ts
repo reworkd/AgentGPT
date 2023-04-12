@@ -31,6 +31,8 @@ class AutonomousAgent {
   async run() {
     this.sendGoalMessage();
     this.sendThinkingMessage();
+    const settings = await this.getSettings();
+    console.log(settings);
 
     // Initialize by getting tasks
     try {
@@ -117,6 +119,12 @@ class AutonomousAgent {
     }
 
     await this.loop();
+  }
+
+  async getSettings(): Promise<Record<string, string>[]> {
+    const res = await axios.get(`/api/settings`);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    return res.data.settings as Record<string, string>[];
   }
 
   async getInitialTasks(): Promise<string[]> {

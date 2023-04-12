@@ -1,15 +1,25 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import { FaBrain, FaListAlt, FaPlayCircle, FaStar, FaCopy } from "react-icons/fa";
+import {
+  FaBrain,
+  FaListAlt,
+  FaPlayCircle,
+  FaSave,
+  FaStar,
+  FaCopy
+} from "react-icons/fa";
 import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
+import * as htmlToImage from "html-to-image";
 
 interface ChatWindowProps {
   children?: ReactNode;
   className?: string;
   messages: Message[];
 }
+
+const messageListId = "chat-window-message-list";
 
 const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -51,6 +61,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         className="mb-2 mr-2 h-[11em] overflow-y-auto overflow-x-hidden sm-h:h-[16em] md-h:h-[21em] lg-h:h-[30em] "
         ref={scrollRef}
         onScroll={handleScroll}
+        id={messageListId}
       >
         {messages.map((message, index) => (
           <ChatMessage key={`${index}-${message.type}`} message={message} />
@@ -83,17 +94,49 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 };
 
 const MacWindowHeader = () => {
+  const saveElementAsImage = (elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      return;
+    }
+
+    htmlToImage
+      .toJpeg(element, {
+        height: element.scrollHeight,
+        style: {
+          overflowY: "visible",
+          maxHeight: "none",
+          border: "none",
+        },
+      })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "element-image.png";
+        link.click();
+      })
+      .catch(console.error);
+  };
+
   return (
-    <div className="flex gap-1 rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 rounded-t-3xl p-3">
       <PopIn delay={0.4}>
         <div className="h-3 w-3 rounded-full bg-red-500" />
       </PopIn>
       <PopIn delay={0.5}>
         <div className="h-3 w-3 rounded-full bg-yellow-500" />
       </PopIn>
-      <PopIn delay={0.6}>
+      <PopIn delay={0.6} className="flex-grow">
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
+
+      <div
+        className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
+        onClick={(): void => saveElementAsImage(messageListId)}
+      >
+        <FaSave size={12} />
+        <p className="font-mono">Save</p>
+      </div>
     </div>
   );
 };

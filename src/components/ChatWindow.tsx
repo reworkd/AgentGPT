@@ -164,6 +164,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
+      onClick={handleCopyClick}
     >
       <div className="mr-2 inline-block h-[0.9em]">
         {getMessageIcon(message)}
@@ -185,8 +186,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
               }`}
           >
             <FaCopy
-              className="text-yellow-300 cursor-pointer"
-              onClick={handleCopyClick}
+              className="text-white-300 cursor-pointer"
             />
           </span>
         )}

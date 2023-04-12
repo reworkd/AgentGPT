@@ -179,12 +179,12 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
       <div className="relative">
         {copied ? (
-          <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-900 p-1 px-2 text-gray-300">
+          <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
             Copied!
           </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-900 p-1 px-2 ${
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
               showCopy ? "visible" : "hidden"
             }`}
           >

@@ -65,6 +65,17 @@ More Coming soon...
 
 ## 👨‍🚀 Getting Started
 
+### 🐋 Docker Setup
+
+The easiest way to run AgentGPT locally is by using docker.
+A convenient setup script is provided to help you get started.
+
+```bash
+./setup.sh
+```
+
+### 🛠️ Manual Setup
+
 > 🚧 You will need [Nodejs +16 (LTS recommended)](https://nodejs.org/en/) installed.
 
 1. Fork this project:
@@ -111,27 +122,4 @@ npx prisma db push
 
 # Run the project:
 npm run dev
-```
-
-## Run in docker 
-
-```bash
-# set the environment variable NEXTAUTH_SECRET and OPENAI_API_KEY
-OPENAI_API_KEY="sk..."
-NEXTAUTH_SECRET=$(openssl rand -base64 32)
-
-echo "NODE_ENV=development\n\
-NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
-NEXTAUTH_URL=http://localhost:3000\n\
-OPENAI_API_KEY=$OPENAI_API_KEY\n\
-DATABASE_URL=file:./db/db.sqlite\n" > .env
-
-# Build docker image
-docker build -t agentgpt .
-
-# Create db dir for db.sqlite
-mkdir $(pwd)/db
-
-# Run docker 
-docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt
 ```

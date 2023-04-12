@@ -67,7 +67,7 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.customApiKey === "" ? 5 : 50;
+    const maxLoops = this.customApiKey === "" ? 5 : 25;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -162,7 +162,7 @@ class AutonomousAgent {
       type: "system",
       value:
         this.customApiKey !== ""
-          ? `This agent has been running for too long. To save your wallet (And on our infrastructure costs), this agent is shutting down. In the future, the number of iterations will be configurable.`
+          ? `This agent has been running for too long (25 Loops). To save your wallet, and our infrastructure costs, this agent is shutting down. In the future, the number of iterations will be configurable.`
           : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
     });
   }

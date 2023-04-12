@@ -96,6 +96,7 @@ git clone git@github.com:YOU_USER/AgentGPT.git
 3. Install dependencies:
 
 ```bash
+cd AgentGPT
 npm install
 ```
 

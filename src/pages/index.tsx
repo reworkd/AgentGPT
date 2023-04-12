@@ -56,8 +56,7 @@ const Home: NextPage = () => {
       goalInput,
       addMessage,
       () => setAgent(null),
-      customApiKey,
-      maxLoops
+      customApiKey
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);

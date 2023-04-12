@@ -18,21 +18,29 @@ class AutonomousAgent {
     goal: string,
     addMessage: (message: Message) => void,
     shutdown: () => void,
-    customApiKey: string,
-    maxLoops: number
+    customApiKey: string
   ) {
     this.name = name;
     this.goal = goal;
     this.sendMessage = addMessage;
     this.shutdown = shutdown;
     this.customApiKey = customApiKey;
-    this.maxLoops = maxLoops;
+
+    // Retrieve settings from server
+    this.getSettings().then((settings) => {
+      this.serverSettings = settings;
+      this.maxLoops = this.serverSettings.map((s) => s["MAX_LOOPS"])[0] as number;
+    },
+    (error) => {
+      this.sendErrorMessage("Error retrieving settings from server. Using default settings.");
+      console.log(error);
+    }
+    );
   }
 
   async run() {
     this.sendGoalMessage();
     this.sendThinkingMessage();
-    this.serverSettings = await this.getSettings();
 
     // Initialize by getting tasks
     try {

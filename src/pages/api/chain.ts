@@ -1,6 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createModel, extractArray, startGoalAgent } from "../../utils/chain";
 
+export const config = {
+  runtime: "edge",
+};
 export interface ChainAPIRequest extends NextApiRequest {
   body: {
     customApiKey: string;

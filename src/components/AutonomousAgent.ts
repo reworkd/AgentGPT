@@ -6,11 +6,12 @@ class AutonomousAgent {
   goal: string;
   tasks: string[] = [];
   customApiKey: string;
-  maxLoops = 50;
+  maxLoops = 5;
   isRunning = true;
   sendMessage: (message: Message) => void;
   shutdown: () => void;
   numLoops = 0;
+  serverSettings: Record<string, unknown>[] = [];
 
   constructor(
     name: string,
@@ -31,8 +32,7 @@ class AutonomousAgent {
   async run() {
     this.sendGoalMessage();
     this.sendThinkingMessage();
-    const settings = await this.getSettings();
-    console.log(settings);
+    this.serverSettings = await this.getSettings();
 
     // Initialize by getting tasks
     try {
@@ -120,10 +120,10 @@ class AutonomousAgent {
     await this.loop();
   }
 
-  async getSettings(): Promise<Record<string, string>[]> {
+  async getSettings(): Promise<Record<string, unknown>[]> {
     const res = await axios.get(`/api/settings`);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    return res.data.settings as Record<string, string>[];
+    return res.data.settings as Record<string, unknown>[];
   }
 
   async getInitialTasks(): Promise<string[]> {

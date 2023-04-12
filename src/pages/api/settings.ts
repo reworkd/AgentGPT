@@ -6,7 +6,7 @@ export interface ServerSettingsAPIRequest extends NextApiRequest {
 
 export interface ServerSettingsAPIResponse extends NextApiResponse {
   body: {
-    settings: Record<string, unknown>[];
+    settings: Record<string, unknown>;
     };
 }
 

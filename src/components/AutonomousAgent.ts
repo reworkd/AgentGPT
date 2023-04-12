@@ -11,7 +11,7 @@ class AutonomousAgent {
   sendMessage: (message: Message) => void;
   shutdown: () => void;
   numLoops = 0;
-  serverSettings: Record<string, unknown>[] = [];
+  serverSettings: Record<string, unknown> = {};
 
   constructor(
     name: string,
@@ -29,11 +29,11 @@ class AutonomousAgent {
     // Retrieve settings from server
     this.getSettings().then((settings) => {
       this.serverSettings = settings;
-      this.maxLoops = this.serverSettings.map((s) => s["MAX_LOOPS"])[0] as number;
+      this.maxLoops = Number(this.serverSettings["MAX_LOOPS"]);
     },
     (error) => {
       this.sendErrorMessage("Error retrieving settings from server. Using default settings.");
-      console.log(error);
+      console.error(error);
     }
     );
   }
@@ -65,6 +65,7 @@ class AutonomousAgent {
 
   async loop() {
     const maxLoops = this.customApiKey === "" ? 5 : this.maxLoops;
+    console.log(`Effective max loops: ${maxLoops}`);
     console.log(`Loop ${this.numLoops}`);
     console.log(this.tasks);
 
@@ -128,10 +129,10 @@ class AutonomousAgent {
     await this.loop();
   }
 
-  async getSettings(): Promise<Record<string, unknown>[]> {
+  async getSettings(): Promise<Record<string, unknown>> {
     const res = await axios.get(`/api/settings`);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    return res.data.settings as Record<string, unknown>[];
+    return res.data.settings as Record<string, unknown>;
   }
 
   async getInitialTasks(): Promise<string[]> {

@@ -26,7 +26,7 @@
     "clsx": "^1.2.1",
     "framer-motion": "^10.11.2",
     "html-to-image": "^1.11.11",
-    "langchain": "^0.0.49",
+    "langchain": "^0.0.53",
     "next": "13.1.6",
     "next-auth": "^4.19.0",
     "react": "18.2.0",

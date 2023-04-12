@@ -7,6 +7,10 @@ import {
   extractArray,
 } from "../../utils/chain";
 
+export const config = {
+  runtime: "edge",
+};
+
 export interface CreateTaskAPIRequest extends NextApiRequest {
   body: {
     customApiKey: string;

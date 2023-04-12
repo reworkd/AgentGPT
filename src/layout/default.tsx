@@ -45,6 +45,11 @@ const DefaultLayout = (props: LayoutProps) => {
           content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
         />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          defer
+          data-domain="agentgpt.reworkd.ai"
+          src="https://plausible.io/js/script.js"
+        ></script>
       </Head>
       <DottedGridBackground>{props.children}</DottedGridBackground>
     </div>

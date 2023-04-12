@@ -11,7 +11,7 @@ export const config = {
   runtime: "edge",
 };
 
-export default async (request: NextRequest) => {
+const defaultRequest = async (request: NextRequest) => {
   let data: RequestBody | null = null;
   try {
     data = (await request.json()) as RequestBody;
@@ -28,3 +28,5 @@ export default async (request: NextRequest) => {
 
   return NextResponse.error();
 };
+
+export default defaultRequest;

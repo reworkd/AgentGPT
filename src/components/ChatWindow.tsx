@@ -21,6 +21,7 @@ interface ChatWindowProps {
 }
 
 const messageListId = "chat-window-message-list";
+const copyButtonId="btn-copy-01";
 
 const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -119,16 +120,29 @@ const MacWindowHeader = () => {
       .catch(console.error);
   };
 
-  const copyElementText = (elementId: string) => {
+  const changeInnerText = (elementId: string, text: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
       return;
     }
 
+    element.innerText="Copied!"
+
+  }
+
+  const copyElementText = (elementId: string, buttonId: string) => {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      return;
+    }
+    
     const text = element.innerText;
     navigator.clipboard.writeText(text).then(
       () => {
         console.info("Copied text to clipboard");
+        if(buttonId){
+          changeInnerText(buttonId, "Copied")
+        }
       },
       () => {
         console.error("Failed to copy text to clipboard");
@@ -157,10 +171,10 @@ const MacWindowHeader = () => {
       </div>
       <div
         className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-        onClick={(): void => copyElementText(messageListId)}
+        onClick={(): void => copyElementText(messageListId, copyButtonId)}
       >
         <FaClipboard size={12} />
-        <p className="font-mono">Copy</p>
+        <p id="btn-copy-01" className="font-mono">Copy</p>
       </div>
     </div>
   );
@@ -172,6 +186,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
   const handleCopyClick = () => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
+
   };
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;

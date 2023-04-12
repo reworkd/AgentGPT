@@ -19,5 +19,8 @@ EXPOSE 3000
 # Build the Next.js app
 RUN npm run build
 
+# Add Prisma and generate Prisma client
+RUN npx prisma generate
+
 # Start the application
 CMD ["npm", "start"]

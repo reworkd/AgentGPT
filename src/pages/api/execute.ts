@@ -15,8 +15,6 @@ export default async (request: NextRequest) => {
   let data: RequestBody | null = null;
   try {
     data = (await request.json()) as RequestBody;
-    console.log(data);
-
     const completion = await executeTaskAgent(
       createModel(data.customApiKey),
       data.goal,

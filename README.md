@@ -120,7 +120,7 @@ npm run dev
 OPENAI_API_KEY="sk..."
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 
-echo "NODE_ENV=development\n\                                                                                                       
+echo "NODE_ENV=development\n\
 NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
 NEXTAUTH_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\

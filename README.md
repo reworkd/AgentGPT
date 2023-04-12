@@ -42,13 +42,18 @@ AgentGPT allows you to configure and deploy Autonomous AI agents.
 Name your own custom AI and have it embark on any goal imaginable.
 It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
 
-## 🎉 Features
+## 🎉 Roadmap
 
 This platform is currently in beta, we are currently working on:
 
-- Long term memory 🧠
-- Web browsing 🌐
+- Long term memory via a vector DB 🧠
+- Web browsing capabilities via langchain 🌐
 - Interaction with websites and people 👨‍👩‍👦
+- Writing capabilities via a document API 📄
+- Saving agent runs 💾
+- Users and authentication 🔐
+- Stripe integration for a lower limit paid version (So we can stop worrying about infra costs) 💵
+
 
 More Coming soon...
 

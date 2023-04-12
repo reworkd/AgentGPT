@@ -91,7 +91,7 @@ const Home: NextPage = () => {
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-3 py-5 md:justify-center"
+            className="flex h-full w-full max-w-screen-lg overflow-hidden flex-col items-center justify-between gap-3 py-5 md:justify-center"
           >
             <div
               id="title"

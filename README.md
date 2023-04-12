@@ -54,7 +54,6 @@ This platform is currently in beta, we are currently working on:
 - Users and authentication 🔐
 - Stripe integration for a lower limit paid version (So we can stop worrying about infra costs) 💵
 
-
 More Coming soon...
 
 ## 🚀 Tech Stack
@@ -70,18 +69,27 @@ More Coming soon...
 
 ## 👨‍🚀 Getting Started
 
-### 🐋 Docker Setup
+### 🐳 Docker Setup
 
 The easiest way to run AgentGPT locally is by using docker.
 A convenient setup script is provided to help you get started.
 
 ```bash
-./setup.sh
+./setup.sh --docker
+```
+
+### 👷 Local Development Setup
+
+If you wish to develop AgentGPT locally, the easiest way is to
+use the provided setup script.
+
+```bash
+./setup.sh --local
 ```
 
 ### 🛠️ Manual Setup
 
-> 🚧 You will need [Nodejs +16 (LTS recommended)](https://nodejs.org/en/) installed.
+> 🚧 You will need [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) installed.
 
 1. Fork this project:
 
@@ -112,15 +120,21 @@ NODE_ENV=development
 # Generate a secret with `openssl rand -base64 32`
 NEXTAUTH_SECRET=changeme
 NEXTAUTH_URL=http://localhost:3000
-
-# Prisma
 DATABASE_URL=file:./db.sqlite
 
-# External APIs:
+# Your open api key
 OPENAI_API_KEY=changeme
 ```
 
-5. Ready 🥳, now run:
+5. Modify prisma schema to use sqlite:
+
+```bash
+./prisma/useSqlite.sh
+```
+
+**Note:** This only needs to be done if you wish to use sqlite.
+
+6. Ready 🥳, now run:
 
 ```bash
 # Create database migrations

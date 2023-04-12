@@ -52,3 +52,27 @@ div::-webkit-scrollbar-thumb {
 div::-webkit-scrollbar-button {
   display: none;
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-option {
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+
+.dropdown-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+

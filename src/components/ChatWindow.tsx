@@ -100,7 +100,7 @@ const MacWindowHeader = () => {
     if (!element) {
       return;
     }
-
+    
     htmlToImage
       .toJpeg(element, {
         height: element.scrollHeight,
@@ -117,6 +117,23 @@ const MacWindowHeader = () => {
         link.click();
       })
       .catch(console.error);
+  };
+
+  const saveAsText = (elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      return;
+    }
+
+    const textContent = element.innerText;
+    const link = document.createElement("a");
+    link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(textContent);
+    link.download = "agent-gpt-output.txt";
+    link.click();
+  };
+
+  const saveAsPDF = (elementId: string) => {
+    // Your implementation to save the element as a PDF
   };
 
   const copyElementText = (elementId: string) => {
@@ -147,13 +164,15 @@ const MacWindowHeader = () => {
       <PopIn delay={0.6} className="flex-grow">
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-
-      <div
-        className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-        onClick={(): void => saveElementAsImage(messageListId)}
-      >
-        <FaSave size={12} />
-        <p className="font-mono">Save</p>
+      <div className="dropdown mr-1">
+        <div className="button-container flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10">
+          <FaSave size={12} />
+          <p className="font-mono">Save</p>
+        </div>
+        <div className="dropdown-content hidden absolute bg-zinc-900 text-white py-2 px-4 rounded shadow">
+          <p className="dropdown-option cursor-pointer border-white/20" onClick={(): void => saveElementAsImage(messageListId)}>As Image</p>
+          <p className="dropdown-option cursor-pointer border-white/20" onClick={(): void => saveAsText(messageListId)}>As Text</p>
+        </div>
       </div>
       <div
         className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"

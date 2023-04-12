@@ -8,7 +8,7 @@ export const createModel = (customApiKey: string) =>
       customApiKey === "" ? process.env.OPENAI_API_KEY : customApiKey,
     temperature: process.env.TEMPRATURE  || 0.9,
     modelName: process.env.MODEL || "gpt-3.5-turbo",
-    maxTokens: process.env.MAX_TOKENS || 300,
+    maxTokens: process.env.MAX_TOKENS || 300,feat(env): read variables from .env file
   });
 
 const startGoalPrompt = new PromptTemplate({

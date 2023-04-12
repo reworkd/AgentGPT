@@ -67,6 +67,10 @@ export default function SettingsDialog({
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />
+        <strong className="mt-10">
+          NOTE: This must be a PAID OpenAI API account, not the free tier. This
+          is different from a ChatGPT Plus subscription.
+        </strong>
       </div>
     </Dialog>
   );

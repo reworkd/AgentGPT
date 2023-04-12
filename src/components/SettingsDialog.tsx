@@ -9,21 +9,28 @@ export default function SettingsDialog({
   close,
   customApiKey,
   setCustomApiKey,
+  maxLoops,
+  setMaxLoops,
 }: {
   show: boolean;
   close: () => void;
   customApiKey: string;
   setCustomApiKey: (key: string) => void;
+  maxLoops: number;
+  setMaxLoops: (loops: number) => void;
 }) {
-  const [key, setKey] = React.useState<string>(customApiKey);
+  const [apiKey, setApiKey] = React.useState<string>(customApiKey);
+  const [loops, setLoops] = React.useState<number>(maxLoops);
 
   const handleClose = () => {
-    setKey(customApiKey);
+    setApiKey(apiKey);
+    setLoops(maxLoops);
     close();
   };
 
   const handleSave = () => {
-    setCustomApiKey(key);
+    setCustomApiKey(apiKey);
+    setMaxLoops(maxLoops);
     close();
   };
 
@@ -64,13 +71,34 @@ export default function SettingsDialog({
             </>
           }
           placeholder={"sk-..."}
-          value={key}
-          onChange={(e) => setKey(e.target.value)}
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
         />
         <strong className="mt-10">
           NOTE: This must be a PAID OpenAI API account, not the free tier. This
           is different from a ChatGPT Plus subscription.
         </strong>
+      </div>
+      <div className="text-md relative flex-auto p-2 leading-relaxed">
+        <p className="mb-3">
+          You can also set the maximum number of loops your agent will run for.
+          Setting this value to zero will disable the loop limit.
+          <em>
+            Disabling the loop limit is not recommended as it may cause your
+            OpenAI account to incur unexpected charges.
+          </em>{" "}
+        </p>
+        <Input
+          left={
+            <>
+              <FaKey />
+              <span className="ml-2">Max Loops:</span>
+            </>
+          }
+          placeholder={"30"}
+          value={loops.toString()}
+          onChange={(e) => setLoops(Number(e.target.value))}
+        />
       </div>
     </Dialog>
   );

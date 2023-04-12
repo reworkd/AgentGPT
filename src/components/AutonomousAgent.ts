@@ -6,6 +6,7 @@ class AutonomousAgent {
   goal: string;
   tasks: string[] = [];
   customApiKey: string;
+  maxLoops = 30;
   isRunning = true;
   sendMessage: (message: Message) => void;
   shutdown: () => void;
@@ -16,13 +17,15 @@ class AutonomousAgent {
     goal: string,
     addMessage: (message: Message) => void,
     shutdown: () => void,
-    customApiKey: string
+    customApiKey: string,
+    maxLoops?: number
   ) {
     this.name = name;
     this.goal = goal;
     this.sendMessage = addMessage;
     this.shutdown = shutdown;
     this.customApiKey = customApiKey;
+    this.maxLoops = maxLoops ? maxLoops : 30;
   }
 
   async run() {
@@ -65,8 +68,9 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.customApiKey === "" ? 3 : 30;
-    if (this.numLoops > maxLoops) {
+
+    const maxLoops = this.customApiKey === "" ? 3 : this.maxLoops ? this.maxLoops : 30;
+    if (this.numLoops > maxLoops && maxLoops !== 0) {
       this.sendLoopMessage();
       this.shutdown();
       return;

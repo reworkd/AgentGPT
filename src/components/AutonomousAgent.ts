@@ -140,12 +140,14 @@ class AutonomousAgent {
   }
 
   async executeTask(task: string): Promise<string> {
-    const res = await axios.post(`/api/execute`, {
-      customApiKey: this.customApiKey,
-      goal: this.goal,
-      task: task,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+    const res = await axios.post(
+      `https://sni7gindc4.execute-api.us-east-1.amazonaws.com/prod/execute-task`,
+      {
+        customApiKey: this.customApiKey,
+        goal: this.goal,
+        task: task,
+      }
+    );
     return res.data.response as string;
   }
 

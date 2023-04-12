@@ -38,7 +38,7 @@ const Home: NextPage = () => {
       } else {
         setShowSettingsDialog(true);
       }
-    }, 1500);
+    }, 3000);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);

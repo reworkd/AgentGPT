@@ -28,5 +28,5 @@ export default async (request: NextRequest) => {
     });
   } catch (e) {}
 
-  // return NextResponse();
+  return NextResponse.error();
 };

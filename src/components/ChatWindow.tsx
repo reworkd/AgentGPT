@@ -113,7 +113,7 @@ const MacWindowHeader = () => {
       .then((dataUrl) => {
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = "element-image.png";
+        link.download = "agent-gpt-output.png";
         link.click();
       })
       .catch(console.error);

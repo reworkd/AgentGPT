@@ -176,22 +176,23 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </span>
       )}
       <span>{message.value}</span>
-
-      <div className="relative">
-        {copied ? (
-          <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            Copied!
-          </span>
-        ) : (
-          <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
-              showCopy ? "visible" : "hidden"
-            }`}
-          >
-            <FaCopy className="text-white-300 cursor-pointer" />
-          </span>
-        )}
-      </div>
+      {!['system', 'thinking'].includes(message.type) && (
+        <div className="relative">
+          {copied ? (
+            <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
+              Copied!
+            </span>
+          ) : (
+            <span
+              className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
+                showCopy ? "visible" : "hidden"
+              }`}
+            >
+              <FaCopy className="text-white-300 cursor-pointer" />
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };

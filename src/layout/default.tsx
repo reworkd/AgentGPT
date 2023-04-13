@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import Head from "next/head";
 import DottedGridBackground from "../components/DottedGridBackground";
+import Script from "next/script";
 
 interface LayoutProps {
   children: ReactNode;
@@ -45,11 +46,11 @@ const DefaultLayout = (props: LayoutProps) => {
           content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
         />
         <link rel="icon" href="/favicon.ico" />
-        <script
-          defer
-          data-domain="agentgpt.reworkd.ai"
+        <Script
           src="https://plausible.io/js/script.js"
-        ></script>
+          strategy="afterInteractive"
+          data-domain="agentgpt.reworkd.ai"
+        />
       </Head>
       <DottedGridBackground>{props.children}</DottedGridBackground>
     </div>

@@ -1,40 +1,38 @@
-import type { NextApiRequest } from "next";
-import type { NextApiResponse } from "next";
-
 import {
   createModel,
   executeCreateTaskAgent,
   extractArray,
 } from "../../utils/chain";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export interface CreateTaskAPIRequest extends NextApiRequest {
-  body: {
-    customApiKey: string;
-    goal: string;
-    tasks: string[];
-    lastTask: string;
-    result: string;
-  };
+export const config = {
+  runtime: "edge",
+};
+
+interface RequestBody {
+  customApiKey: string;
+  goal: string;
+  tasks: string[];
+  lastTask: string;
+  result: string;
 }
 
-export interface CreateTaskAPIResponse extends NextApiResponse {
-  body: {
-    tasks: string[];
-  };
-}
+export default async (request: NextRequest) => {
+  let data: RequestBody | null = null;
+  try {
+    data = (await request.json()) as RequestBody;
+    const completion = await executeCreateTaskAgent(
+      createModel(data.customApiKey),
+      data.goal,
+      data.tasks,
+      data.lastTask,
+      data.result
+    );
 
-export default async function handler(
-  req: CreateTaskAPIRequest,
-  res: CreateTaskAPIResponse
-) {
-  const completion = await executeCreateTaskAgent(
-    createModel(req.body.customApiKey),
-    req.body.goal,
-    req.body.tasks,
-    req.body.lastTask,
-    req.body.result
-  );
-  console.log(completion.text);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return res.status(200).json({ tasks: extractArray(completion.text) });
-}
+    const tasks = extractArray(completion.text as string);
+    return NextResponse.json({ tasks });
+  } catch (e) {}
+
+  return NextResponse.error();
+};

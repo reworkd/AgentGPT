@@ -38,7 +38,7 @@ export default function Dialog({
                   </button>
                 </div>
                 {/*body*/}
-                <div className="text-md relative my-3 flex-auto p-3 leading-relaxed">
+                <div className="text-md relative my-3 max-h-[50vh] flex-auto overflow-y-auto p-3 leading-relaxed">
                   {children}
                 </div>
                 {/*footer*/}

@@ -41,9 +41,14 @@ export default function SettingsDialog({
         </p>
         <p className="mb-3">
           Because of this, we momentarily ask that users utilize their own
-          OpenAI API key for AgentGPT. If you elect not to, your agent will not
-          be able to execute for very long. To do this, sign up for an OpenAI
-          account and visit the following{" "}
+          OpenAI API key for AgentGPT.{" "}
+          <em>
+            This will only be used in the current browser session and not stored
+            anywhere.
+          </em>{" "}
+          If you elect not to, your agent will not be able to execute for very
+          long. To do this, sign up for an OpenAI account and visit the
+          following{" "}
           <a
             href="https://platform.openai.com/account/api-keys"
             className="text-blue-500"
@@ -62,6 +67,10 @@ export default function SettingsDialog({
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />
+        <strong className="mt-10">
+          NOTE: This must be a PAID OpenAI API account, not the free tier. This
+          is different from a ChatGPT Plus subscription.
+        </strong>
       </div>
     </Dialog>
   );

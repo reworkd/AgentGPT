@@ -79,7 +79,7 @@ export const extractArray = (inputStr: string): string[] => {
 // Model will return tasks such as "No tasks added". We should filter these
 export const realTasksFilter = (input: string): boolean => {
   const noTaskRegex =
-    /^No( (new|further|additional|extra|other))? tasks? (required|needed|added|created|inputted).*$/i;
+    /^No( (new|further|additional|extra|other))? tasks? (is )?(required|needed|added|created|inputted).*$/i;
   const taskCompleteRegex =
     /^Task (complete|completed|finished|done|over|success).*/i;
   const doNothingRegex = /^(\s*|Do nothing(\s.*)?)$/i;

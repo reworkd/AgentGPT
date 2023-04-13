@@ -115,26 +115,20 @@ const Drawer = ({
           <DrawerItem
             icon={<FaDiscord />}
             text="Discord"
-            onClick={() =>
-              window.open("https://discord.gg/jdSBAnmdnY", "_blank")
-            }
+            href="https://discord.gg/jdSBAnmdnY"
+            target="_blank"
           />
           <DrawerItem
             icon={<FaTwitter />}
             text="Twitter"
-            onClick={() =>
-              window.open(
-                "https://twitter.com/asimdotshrestha/status/1644883727707959296",
-                "_blank"
-              )
-            }
+            href="https://twitter.com/asimdotshrestha/status/1644883727707959296"
+            target="_blank"
           />
           <DrawerItem
             icon={<FaGithub />}
             text="GitHub"
-            onClick={() =>
-              window.open("https://github.com/reworkd/AgentGPT", "_blank")
-            }
+            href="https://github.com/reworkd/AgentGPT"
+            target="_blank"
           />
         </div>
       </div>
@@ -142,7 +136,7 @@ const Drawer = ({
   );
 };
 
-interface DrawerItemProps {
+interface DrawerItemProps extends Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'> {
   icon: React.ReactNode;
   text: string;
   border?: boolean;
@@ -150,26 +144,49 @@ interface DrawerItemProps {
   className?: string;
 }
 
-const DrawerItem = ({
-  icon,
-  text,
-  border,
-  onClick,
-  className,
-}: DrawerItemProps) => {
-  return (
-    <div
-      className={clsx(
-        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
-        border && "border-[1px] border-white/20",
-        `${className || ""}`
-      )}
-      onClick={onClick}
-    >
-      {icon}
-      <span className="text-md ml-4">{text}</span>
-    </div>
-  );
+const DrawerItem = (props: DrawerItemProps) => {
+  const {
+    icon,
+    text,
+    border,
+    href,
+    target,
+    onClick,
+    className,
+  } = props;
+
+  if ( href ) {
+    return (
+      <a
+        className={clsx(
+          "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+          border && "border-[1px] border-white/20",
+          `${className || ""}`
+        )}
+        href={href}
+        target={target ?? "_blank"}
+      >
+        {icon}
+        <span className="text-md ml-4">{text}</span>
+      </a>
+    );
+  }
+  else {
+    return (
+      <button
+        type='button'
+        className={clsx(
+          "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+          border && "border-[1px] border-white/20",
+          `${className || ""}`
+        )}
+        onClick={onClick}
+      >
+        {icon}
+        <span className="text-md ml-4">{text}</span>
+      </button>
+    );
+  }
 };
 
 const AuthItem: React.FC<{

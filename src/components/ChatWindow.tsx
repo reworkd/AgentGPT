@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import {
   FaBrain,
+  FaClipboard,
   FaListAlt,
   FaPlayCircle,
   FaSave,
@@ -58,7 +59,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     >
       <MacWindowHeader />
       <div
-        className="mb-2 mr-2 h-[11em] overflow-y-auto overflow-x-hidden sm-h:h-[16em] md-h:h-[21em] lg-h:h-[30em] "
+        className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
@@ -112,10 +113,27 @@ const MacWindowHeader = () => {
       .then((dataUrl) => {
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = "element-image.png";
+        link.download = "agent-gpt-output.png";
         link.click();
       })
       .catch(console.error);
+  };
+
+  const copyElementText = (elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      return;
+    }
+
+    const text = element.innerText;
+    navigator.clipboard.writeText(text).then(
+      () => {
+        console.info("Copied text to clipboard");
+      },
+      () => {
+        console.error("Failed to copy text to clipboard");
+      }
+    );
   };
 
   return (
@@ -136,6 +154,13 @@ const MacWindowHeader = () => {
       >
         <FaSave size={12} />
         <p className="font-mono">Save</p>
+      </div>
+      <div
+        className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
+        onClick={(): void => copyElementText(messageListId)}
+      >
+        <FaClipboard size={12} />
+        <p className="font-mono">Copy</p>
       </div>
     </div>
   );

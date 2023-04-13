@@ -38,7 +38,7 @@ const Home: NextPage = () => {
       } else {
         setShowSettingsDialog(true);
       }
-    }, 1500);
+    }, 3000);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
                 <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">
                   GPT
                 </span>
-                <PopIn delay={0.5}>
+                <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
                   <Badge>Beta 🚀</Badge>
                 </PopIn>
               </div>
@@ -130,34 +130,37 @@ const Home: NextPage = () => {
             </Expand>
 
             <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">
-              <Input
-                left={
-                  <>
-                    <FaRobot />
-                    <span className="ml-2">Name:</span>
-                  </>
-                }
-                value={name}
-                disabled={agent != null}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="AgentGPT"
-              />
-
-              <Input
-                left={
-                  <>
-                    <FaStar />
-                    <span className="ml-2">Goal:</span>
-                  </>
-                }
-                disabled={agent != null}
-                value={goalInput}
-                onChange={(e) => setGoalInput(e.target.value)}
-                placeholder="Make the world a better place."
-              />
+              <Expand delay={1.2}>
+                <Input
+                  left={
+                    <>
+                      <FaRobot />
+                      <span className="ml-2">Name:</span>
+                    </>
+                  }
+                  value={name}
+                  disabled={agent != null}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="AgentGPT"
+                />
+              </Expand>
+              <Expand delay={1.3}>
+                <Input
+                  left={
+                    <>
+                      <FaStar />
+                      <span className="ml-2">Goal:</span>
+                    </>
+                  }
+                  disabled={agent != null}
+                  value={goalInput}
+                  onChange={(e) => setGoalInput(e.target.value)}
+                  placeholder="Make the world a better place."
+                />
+              </Expand>
             </div>
 
-            <div className="flex gap-2">
+            <Expand delay={1.4} className="flex gap-2">
               <Button
                 disabled={agent != null || name === "" || goalInput === ""}
                 onClick={handleNewGoal}
@@ -188,7 +191,7 @@ const Home: NextPage = () => {
                   "Stop agent"
                 )}
               </Button>
-            </div>
+            </Expand>
           </div>
         </div>
       </main>

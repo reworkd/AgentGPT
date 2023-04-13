@@ -1,4 +1,9 @@
-import { createModel, extractArray, startGoalAgent } from "../../utils/chain";
+import {
+  createModel,
+  extractArray,
+  realTasksFilter,
+  startGoalAgent,
+} from "../../utils/chain";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
@@ -20,7 +25,9 @@ export default async (request: NextRequest) => {
       data.goal
     );
 
-    const tasks = extractArray(completion.text as string);
+    const tasks = extractArray(completion.text as string).filter(
+      realTasksFilter
+    );
     return NextResponse.json({ tasks });
   } catch (e) {}
 

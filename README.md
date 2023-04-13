@@ -69,6 +69,10 @@ More Coming soon...
 
 ## 👨‍🚀 Getting Started
 
+### 📝 Prerequisites
+
+Node Version >= 16.8.0
+
 ### 🐳 Docker Setup
 
 The easiest way to run AgentGPT locally is by using docker.
@@ -129,7 +133,7 @@ OPENAI_API_KEY=changeme
 5. Modify prisma schema to use sqlite:
 
 ```bash
-./prisma/useSqlite.sh
+./prisma/use_sqlite.sh
 ```
 
 **Note:** This only needs to be done if you wish to use sqlite.

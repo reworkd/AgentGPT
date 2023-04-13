@@ -1,9 +1,10 @@
 // @ts-check
 import { z } from "zod";
 
-const requiredForProduction = () => process.env.NODE_ENV === "production"
+const requiredForProduction = () =>
+  process.env.ENVIRONMENT === "production"
     ? z.string().min(1).trim()
-    : z.string().min(1).trim().optional()
+    : z.string().min(1).trim().optional();
 
 /**
  * Specify your server-side environment variables schema here.
@@ -11,16 +12,16 @@ const requiredForProduction = () => process.env.NODE_ENV === "production"
  */
 export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(["development", "test", "production"]),
+  ENVIRONMENT: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET: requiredForProduction(),
   NEXTAUTH_URL: z.preprocess(
     // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
     // Since NextAuth.js automatically uses the VERCEL_URL if present.
     (str) => process.env.VERCEL_URL ?? str,
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-    process.env.VERCEL ? z.string() : z.string().url(),
+    process.env.VERCEL ? z.string() : z.string().url()
   ),
-  OPENAI_API_KEY: z.string()
+  OPENAI_API_KEY: z.string(),
 });
 
 /**
@@ -30,7 +31,7 @@ export const serverSchema = z.object({
  */
 export const serverEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
-  NODE_ENV: process.env.NODE_ENV,
+  ENVIRONMENT: process.env.ENVIRONMENT,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,

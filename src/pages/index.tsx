@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 
   // if we are in dev mode, if we have an api key, use it, otherwise use the empty string
   let defaultAPIKey = "";
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.ENVIRONMENT === "development") {
     defaultAPIKey = process.env.OPENAI_API_KEY || "";
   }
   const [customApiKey, setCustomApiKey] = React.useState<string>(defaultAPIKey);
@@ -75,6 +75,7 @@ const Home: NextPage = () => {
     agent?.stopAgent();
   };
 
+  console.log("creating settings dialog with customApiKey", customApiKey);
   return (
     <DefaultLayout>
       <HelpDialog

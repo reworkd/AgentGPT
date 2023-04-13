@@ -17,6 +17,8 @@ export default function SettingsDialog({
 }) {
   const [key, setKey] = React.useState<string>(customApiKey);
 
+  console.log("customApiKey", customApiKey)
+
   const handleClose = () => {
     setKey(customApiKey);
     close();

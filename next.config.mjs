@@ -17,6 +17,13 @@ const config = {
   webpack: function (config, options) {
     config.experiments = { asyncWebAssembly: true, layers: true };
     return config;
-  }
+  },
+  env: {
+    ENVIRONMENT: process.env.ENVIRONMENT || "",
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || "",
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL || "",
+    DATABASE_URL: process.env.DATABASE_URL || "",
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY || "",
+  },
 };
 export default config;

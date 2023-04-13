@@ -114,7 +114,7 @@ npm install
 
 ```bash
 # Deployment Environment:
-NODE_ENV=development
+ENVIRONMENT=development
 
 # Next Auth config:
 # Generate a secret with `openssl rand -base64 32`

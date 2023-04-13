@@ -6,7 +6,7 @@ class AutonomousAgent {
   goal: string;
   tasks: string[] = [];
   customApiKey: string;
-  maxLoops = 5;
+  maxLoops = 3;
   isRunning = true;
   sendMessage: (message: Message) => void;
   shutdown: () => void;
@@ -64,7 +64,7 @@ class AutonomousAgent {
   }
 
   async loop() {
-    const maxLoops = this.customApiKey === "" ? 5 : this.maxLoops;
+    const maxLoops = this.customApiKey === "" ? 3 : this.maxLoops;
     console.log(`Effective max loops: ${maxLoops}`);
     console.log(`Loop ${this.numLoops}`);
     console.log(this.tasks);

@@ -21,7 +21,6 @@ interface ChatWindowProps {
 }
 
 const messageListId = "chat-window-message-list";
-const copyButtonId="btn-copy-01";
 
 const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -96,6 +95,9 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 };
 
 const MacWindowHeader = () => {
+
+  const copyButtonRef = useRef<HTMLParagraphElement>(null);
+
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -120,17 +122,35 @@ const MacWindowHeader = () => {
       .catch(console.error);
   };
 
-  const changeInnerText = (elementId: string, text: string) => {
-    const element = document.getElementById(elementId);
-    if (!element) {
+  const setInnerText = (paragraphElement: React.RefObject<HTMLParagraphElement>,text: string) => {
+    if (!paragraphElement.current) {
       return;
     }
+    paragraphElement.current.innerText=text;
+  }
 
-    element.innerText="Copied!"
+  const getInnerText = (paragraphElement: React.RefObject<HTMLParagraphElement>) => {
+    if (!paragraphElement.current) {
+      return "";
+    }
+    return paragraphElement.current.innerText;
+  }
+
+  const changeTextTemporarily = (paragraphElement: React.RefObject<HTMLParagraphElement>, text: string, time: number) => {
+  
+    const oldText=getInnerText(paragraphElement);
+
+    setInnerText(paragraphElement,"Copied!")
+
+    const timeoutId = setTimeout(() => {
+      setInnerText(paragraphElement, oldText);
+    }, time);
+
+    return timeoutId;
 
   }
 
-  const copyElementText = (elementId: string, buttonId: string) => {
+  const copyElementText = (elementId: string, buttonId: React.RefObject<HTMLParagraphElement>) => {
     const element = document.getElementById(elementId);
     if (!element) {
       return;
@@ -141,7 +161,7 @@ const MacWindowHeader = () => {
       () => {
         console.info("Copied text to clipboard");
         if(buttonId){
-          changeInnerText(buttonId, "Copied")
+          changeTextTemporarily(buttonId, "Copied!", 1200)
         }
       },
       () => {
@@ -171,10 +191,10 @@ const MacWindowHeader = () => {
       </div>
       <div
         className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-        onClick={(): void => copyElementText(messageListId, copyButtonId)}
+        onClick={(): void => copyElementText(messageListId, copyButtonRef)}
       >
         <FaClipboard size={12} />
-        <p id="btn-copy-01" className="font-mono">Copy</p>
+        <p ref={copyButtonRef} className="font-mono">Copy</p>
       </div>
     </div>
   );

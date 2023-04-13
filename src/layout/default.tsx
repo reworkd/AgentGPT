@@ -42,7 +42,16 @@ const DefaultLayout = (props: LayoutProps) => {
         <meta property="og:image:width" content="1280" />
         <meta property="og:image:height" content="640" />
         <meta property="og:type" content="website" />
+        <meta
+          name="google-site-verification"
+          content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
+        />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          defer
+          data-domain="agentgpt.reworkd.ai"
+          src="https://plausible.io/js/script.js"
+        ></script>
       </Head>
       <DottedGridBackground className={clsx("min-h-screen", props.className)}>
         {props.children}

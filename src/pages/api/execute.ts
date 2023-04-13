@@ -1,30 +1,30 @@
-import type { NextApiRequest } from "next";
-import type { NextApiResponse } from "next";
 import { createModel, executeTaskAgent } from "../../utils/chain";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export interface ExecuteAPIRequest extends NextApiRequest {
-  body: {
-    customApiKey: string;
-    goal: string;
-    task: string;
-  };
+interface RequestBody {
+  customApiKey: string;
+  goal: string;
+  task: string;
 }
+export const config = {
+  runtime: "edge",
+};
 
-export interface ExecuteAPIResponse extends NextApiResponse {
-  body: {
-    response: string;
-  };
-}
+export default async (request: NextRequest) => {
+  let data: RequestBody | null = null;
+  try {
+    data = (await request.json()) as RequestBody;
+    const completion = await executeTaskAgent(
+      createModel(data.customApiKey),
+      data.goal,
+      data.task
+    );
 
-export default async function handler(
-  req: ExecuteAPIRequest,
-  res: ExecuteAPIResponse
-) {
-  const completion = await executeTaskAgent(
-    createModel(req.body.customApiKey),
-    req.body.goal,
-    req.body.task
-  );
-  console.log(completion.text);
-  res.status(200).json({ response: completion.text as string });
-}
+    return NextResponse.json({
+      response: completion.text as string,
+    });
+  } catch (e) {}
+
+  return NextResponse.error();
+};

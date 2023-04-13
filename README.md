@@ -14,6 +14,26 @@
 <a href="#-getting-started">🤝 Contribute</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://discord.gg/3PccggEG">📢 Discord</a>
+</p>
+
+---
+
+<h2 align="center">
+💝 Support the Advancement of AgentGPT!! 💝
+</h2>
+
+<p align="center">
+Join us in fueling the development of AgentGPT, an open-source project pushing the boundaries of AI autonomy! We're facing challenges in covering the operational costs 💸, including in-house API and other infrastructure expenses, which is projected to grow to around $150 USD per day 💳🤕 Your sponsorship would drive progress by helping us scale up resources, enhance features and functionality, and continue to iterate on this exciting project! 🚀
+</p>
+
+<p align="center">
+By sponsoring this free, open-source project, you not only have the opportunity to have your avatar/logo featured below, but also get the exclusive chance to chat with the founders!🗣️ 
+</p>
+
+<p align="center">
+<a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project 
 </p>
 
 ---
@@ -22,13 +42,17 @@ AgentGPT allows you to configure and deploy Autonomous AI agents.
 Name your own custom AI and have it embark on any goal imaginable.
 It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
 
-## 🎉 Features
+## 🎉 Roadmap
 
 This platform is currently in beta, we are currently working on:
 
-- Long term memory 🧠
-- Web browsing 🌐
+- Long term memory via a vector DB 🧠
+- Web browsing capabilities via langchain 🌐
 - Interaction with websites and people 👨‍👩‍👦
+- Writing capabilities via a document API 📄
+- Saving agent runs 💾
+- Users and authentication 🔐
+- Stripe integration for a lower limit paid version (So we can stop worrying about infra costs) 💵
 
 More Coming soon...
 
@@ -45,7 +69,27 @@ More Coming soon...
 
 ## 👨‍🚀 Getting Started
 
-> 🚧 You will need [Nodejs +16 (LTS recommended)](https://nodejs.org/en/) installed.
+### 🐳 Docker Setup
+
+The easiest way to run AgentGPT locally is by using docker.
+A convenient setup script is provided to help you get started.
+
+```bash
+./setup.sh --docker
+```
+
+### 👷 Local Development Setup
+
+If you wish to develop AgentGPT locally, the easiest way is to
+use the provided setup script.
+
+```bash
+./setup.sh --local
+```
+
+### 🛠️ Manual Setup
+
+> 🚧 You will need [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) installed.
 
 1. Fork this project:
 
@@ -60,6 +104,7 @@ git clone git@github.com:YOU_USER/AgentGPT.git
 3. Install dependencies:
 
 ```bash
+cd AgentGPT
 npm install
 ```
 
@@ -75,15 +120,21 @@ NODE_ENV=development
 # Generate a secret with `openssl rand -base64 32`
 NEXTAUTH_SECRET=changeme
 NEXTAUTH_URL=http://localhost:3000
-
-# Prisma
 DATABASE_URL=file:./db.sqlite
 
-# External APIs:
+# Your open api key
 OPENAI_API_KEY=changeme
 ```
 
-5. Ready 🥳, now run:
+5. Modify prisma schema to use sqlite:
+
+```bash
+./prisma/useSqlite.sh
+```
+
+**Note:** This only needs to be done if you wish to use sqlite.
+
+6. Ready 🥳, now run:
 
 ```bash
 # Create database migrations

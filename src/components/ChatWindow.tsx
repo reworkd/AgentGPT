@@ -62,7 +62,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         (className ?? "")
       }
     >
-      <MacWindowHeader showActions={!!messages.length} />
+      <MacWindowHeader />
       <div
         className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
         ref={scrollRef}
@@ -101,9 +101,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   );
 };
 
-const MacWindowHeader: React.FC<{
-  showActions: boolean;
-}> = ({ showActions }) => {
+const MacWindowHeader = () => {
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -150,29 +148,25 @@ const MacWindowHeader: React.FC<{
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
       <div className="flex flex-grow"></div>
-      {showActions && (
-        <>
-          <PopIn delay={0.8}>
-            <div
-              className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-              onClick={(): void => saveElementAsImage(messageListId)}
-            >
-              <FaSave size={12} />
-              <p className="font-mono">Save</p>
-            </div>
-          </PopIn>
+      <PopIn delay={0.7}>
+        <div
+          className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
+          onClick={(): void => saveElementAsImage(messageListId)}
+        >
+          <FaSave size={12} />
+          <p className="font-mono">Save</p>
+        </div>
+      </PopIn>
 
-          <PopIn delay={0.9}>
-            <div
-              className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-              onClick={(): void => copyElementText(messageListId)}
-            >
-              <FaClipboard size={12} />
-              <p className="font-mono">Copy</p>
-            </div>
-          </PopIn>
-        </>
-      )}
+      <PopIn delay={0.8}>
+        <div
+          className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
+          onClick={(): void => copyElementText(messageListId)}
+        >
+          <FaClipboard size={12} />
+          <p className="font-mono">Copy</p>
+        </div>
+      </PopIn>
     </div>
   );
 };

@@ -29,7 +29,9 @@ const Drawer = ({
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
   const [animationParent] = useAutoAnimate();
-  const query = api.agent.getAll.useQuery();
+  const query = api.agent.getAll.useQuery(undefined, {
+    enabled: status == "authenticated",
+  });
   const router = useRouter();
 
   const userAgents = query.data ?? [];

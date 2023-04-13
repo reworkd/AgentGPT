@@ -43,7 +43,7 @@ const Home: NextPage = () => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       } else {
-        setShowSettingsDialog(true);
+        setShowSettingsDialog(!(!!process.env.OPENAI_API_KEY));
       }
     }, 1500);
 
@@ -75,7 +75,6 @@ const Home: NextPage = () => {
     agent?.stopAgent();
   };
 
-  console.log("creating settings dialog with customApiKey", customApiKey);
   return (
     <DefaultLayout>
       <HelpDialog

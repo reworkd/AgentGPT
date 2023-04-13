@@ -2,14 +2,31 @@ import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 
-export const createModel = (customApiKey: string) =>
-  new OpenAI({
+export const createModel = (customApiKey: string) => {
+
+  const customBaseUrl=process.env.API_BASE_URL;
+  
+  if(customBaseUrl=="" || customBaseUrl==undefined){
+    return new OpenAI({
+      openAIApiKey:
+        customApiKey === "" ? process.env.OPENAI_API_KEY : customApiKey,
+      temperature: 0.9,
+      modelName: "gpt-3.5-turbo",
+      maxTokens: 300,
+    })
+  }
+
+  return new OpenAI({
     openAIApiKey:
       customApiKey === "" ? process.env.OPENAI_API_KEY : customApiKey,
     temperature: 0.9,
     modelName: "gpt-3.5-turbo",
     maxTokens: 300,
-  });
+  },{
+    basePath : process.env.API_BASE_URL
+  })
+
+};
 
 const startGoalPrompt = new PromptTemplate({
   template:

@@ -19,18 +19,20 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  // if we are in dev mode, if we have an api key, use it, otherwise use the empty string
-  const [customApiKey, setCustomApiKey] = React.useState<string>(
-    process.env.NODE_ENV === "development"
-      ? process.env.OPENAI_API_KEY || ""
-      : ""
-  );
+
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
+
+  // if we are in dev mode, if we have an api key, use it, otherwise use the empty string
+  let defaultAPIKey = "";
+  if (process.env.NODE_ENV === "development") {
+    defaultAPIKey = process.env.OPENAI_API_KEY || "";
+  }
+  const [customApiKey, setCustomApiKey] = React.useState<string>(defaultAPIKey);
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-new";

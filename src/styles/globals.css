@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Used for the background effect in the landing page */
 .background {
   background-image: radial-gradient(
     circle,
@@ -25,9 +26,31 @@
   right: 0;
 }
 
+/* Used for code / table formatting within messages */
+pre {
+  @apply overflow-auto rounded-lg;
+}
+
+table {
+  @apply w-full rounded-lg text-white;
+  background-color: #0d1117;
+}
+
+th,
+td {
+  @apply rounded-lg border border-gray-700 px-4 py-2;
+}
+
+th {
+  background-color: #161b22;
+}
+
+tr:nth-child(even) {
+  background-color: #1c2028;
+}
+
 /* Customize website's scrollbar like Mac OS
 Not supports in Firefox and IE */
-
 /* total width */
 div::-webkit-scrollbar {
   border-radius: 16px;

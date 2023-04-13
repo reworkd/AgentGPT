@@ -13,6 +13,10 @@ import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -191,16 +195,29 @@ const ChatMessage = ({ message }: { message: Message }) => {
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}
     >
-      <div className="mr-2 inline-block h-[0.9em]">
-        {getMessageIcon(message)}
-      </div>
-      <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+      {message.type != "system" && (
+        // Avoid for system messages as they do not have an icon and will cause a weird space
+        <>
+          <div className="mr-2 inline-block h-[0.9em]">
+            {getMessageIcon(message)}
+          </div>
+          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+        </>
+      )}
+
       {message.type == "thinking" && (
         <span className="italic text-zinc-400">
           (Restart if this takes more than 30 seconds)
         </span>
       )}
-      <span>{message.value}</span>
+      <div className="prose ml-2 max-w-none">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight]}
+        >
+          {message.value}
+        </ReactMarkdown>
+      </div>
 
       <div className="relative">
         {copied ? (

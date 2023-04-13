@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 interface RequestBody {
   customApiKey: string;
+  customModelName: string;
   goal: string;
   task: string;
 }
@@ -11,14 +12,14 @@ export const config = {
   runtime: "edge",
 };
 
-export default async (request: NextRequest) => {
-  let data: RequestBody | null = null;
+const handler = async (request: NextRequest) => {
   try {
-    data = (await request.json()) as RequestBody;
+    const { customApiKey, customModelName, goal, task } =
+      (await request.json()) as RequestBody;
     const completion = await executeTaskAgent(
-      createModel(data.customApiKey),
-      data.goal,
-      data.task
+      createModel({ customApiKey, customModelName }),
+      goal,
+      task
     );
 
     return NextResponse.json({
@@ -28,3 +29,5 @@ export default async (request: NextRequest) => {
 
   return NextResponse.error();
 };
+
+export default handler;

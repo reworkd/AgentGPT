@@ -12,27 +12,30 @@ export const config = {
 
 interface RequestBody {
   customApiKey: string;
+  customModelName: string;
   goal: string;
   tasks: string[];
   lastTask: string;
   result: string;
 }
 
-export default async (request: NextRequest) => {
-  let data: RequestBody | null = null;
+const handler = async (request: NextRequest) => {
   try {
-    data = (await request.json()) as RequestBody;
+    const { customApiKey, customModelName, goal, tasks, lastTask, result } =
+      (await request.json()) as RequestBody;
     const completion = await executeCreateTaskAgent(
-      createModel(data.customApiKey),
-      data.goal,
-      data.tasks,
-      data.lastTask,
-      data.result
+      createModel({ customApiKey, customModelName }),
+      goal,
+      tasks,
+      lastTask,
+      result
     );
 
-    const tasks = extractArray(completion.text as string);
-    return NextResponse.json({ tasks });
+    const newTasks = extractArray(completion.text as string);
+    return NextResponse.json({ newTasks });
   } catch (e) {}
 
   return NextResponse.error();
 };
+
+export default handler;

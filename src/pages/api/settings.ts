@@ -15,7 +15,7 @@ export default function handler(
   res: ServerSettingsAPIResponse
 ) {
     const settings = {
-        "MAX_LOOPS": process.env.MAX_LOOPS ? Number(process.env.MAX_LOOPS) : 5,
+        "MAX_LOOPS": process.env.MAX_LOOPS ? Number(process.env.MAX_LOOPS) : 3,
     };
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   res.status(200).json({ settings });

@@ -10,12 +10,13 @@ import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
-import type AutonomousAgent from "../components/AutonomousAgent";
+import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
 import { useSession } from "next-auth/react";
 import { api } from "../utils/api";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -67,24 +68,24 @@ const Home: NextPage = () => {
   }, [agent]);
 
   const handleNewGoal = () => {
-    if (session?.user) {
+    if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
       createAgent.mutate({
         name,
         goal: goalInput,
       });
     }
-    //
-    // const addMessage = (message: Message) =>
-    //   setMessages((prev) => [...prev, message]);
-    // const agent = new AutonomousAgent(
-    //   name,
-    //   goalInput,
-    //   addMessage,
-    //   () => setAgent(null),
-    //   customApiKey
-    // );
-    // setAgent(agent);
-    // agent.run().then(console.log).catch(console.error);
+
+    const addMessage = (message: Message) =>
+      setMessages((prev) => [...prev, message]);
+    const agent = new AutonomousAgent(
+      name,
+      goalInput,
+      addMessage,
+      () => setAgent(null),
+      customApiKey
+    );
+    setAgent(agent);
+    agent.run().then(console.log).catch(console.error);
   };
 
   const handleStopAgent = () => {

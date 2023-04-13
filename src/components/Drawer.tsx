@@ -18,6 +18,7 @@ import type { Session } from "next-auth";
 import { api } from "../utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useRouter } from "next/router";
+import { env } from "../env/client.mjs";
 
 const Drawer = ({
   showHelp,
@@ -30,7 +31,8 @@ const Drawer = ({
   const { session, signIn, signOut, status } = useAuth();
   const [animationParent] = useAutoAnimate();
   const query = api.agent.getAll.useQuery(undefined, {
-    enabled: status == "authenticated",
+    enabled:
+      status == "authenticated" && env.NEXT_PUBLIC_VERCEL_ENV != "production",
   });
   const router = useRouter();
 

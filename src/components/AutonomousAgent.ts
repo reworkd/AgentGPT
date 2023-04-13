@@ -64,7 +64,7 @@ class AutonomousAgent {
   }
 
   async loop() {
-    const maxLoops = this.customApiKey === "" ? 3 : this.maxLoops;
+    const maxLoops = this.customApiKey === "" ? 4 : this.maxLoops;
     console.log(`Effective max loops: ${maxLoops}`);
     console.log(`Loop ${this.numLoops}`);
     console.log(this.tasks);

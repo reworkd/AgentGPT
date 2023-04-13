@@ -2,6 +2,7 @@ import {
   createModel,
   executeCreateTaskAgent,
   extractArray,
+  realTasksFilter,
 } from "../../utils/chain";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -30,7 +31,9 @@ export default async (request: NextRequest) => {
       data.result
     );
 
-    const tasks = extractArray(completion.text as string);
+    const tasks = extractArray(completion.text as string).filter(
+      realTasksFilter
+    );
     return NextResponse.json({ tasks });
   } catch (e) {}
 

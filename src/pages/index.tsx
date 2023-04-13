@@ -21,7 +21,6 @@ const Home: NextPage = () => {
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-  const [maxLoops] = React.useState<number>(5);
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);

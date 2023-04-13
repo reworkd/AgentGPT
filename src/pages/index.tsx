@@ -19,7 +19,12 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customApiKey, setCustomApiKey] = React.useState<string>(process.env.OPENAI_API_KEY || "");
+  // if we are in dev mode, if we have an api key, use it, otherwise use the empty string
+  const [customApiKey, setCustomApiKey] = React.useState<string>(
+    process.env.NODE_ENV === "development"
+      ? process.env.OPENAI_API_KEY || ""
+      : ""
+  );
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);

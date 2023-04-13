@@ -117,6 +117,13 @@ DATABASE_URL=file:./db.sqlite
 
 # External APIs:
 OPENAI_API_KEY=changeme
+#Temperature (defaults to 0.9)
+#governs the randomness and thus the creativity of the responses
+OPENAI_TEMPERATURE=changeme
+#Model (defaults to gpt-3.5-turbo)
+OPENAI_MODEL=changeme
+#Model (defaults to 300)
+OPENAI_MAX_TOKENS=changeme
 ```
 
 5. Ready 🥳, now run:

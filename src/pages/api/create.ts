@@ -1,12 +1,7 @@
-import {
-  createModel,
-  executeCreateTaskAgent,
-  extractArray,
-  realTasksFilter,
-} from "../../utils/chain";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { RequestBody } from "../../utils/interfaces";
+import { createAgent } from "../../services/agent-service";
 
 export const config = {
   runtime: "edge",
@@ -21,17 +16,14 @@ const handler = async (request: NextRequest) => {
       return;
     }
 
-    const completion = await executeCreateTaskAgent(
-      createModel(modelSettings),
+    const newTasks = await createAgent(
+      modelSettings,
       goal,
       tasks,
       lastTask,
-      result
-    );
-
-    const newTasks = extractArray(completion.text as string)
-      .filter(realTasksFilter)
-      .filter((task) => !(completedTasks || []).includes(task)); // Remove duplicates
+      result,
+      completedTasks
+    ); // Remove duplicates
 
     return NextResponse.json({ newTasks });
   } catch (e) {}

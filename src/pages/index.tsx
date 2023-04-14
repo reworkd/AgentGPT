@@ -53,13 +53,13 @@ const Home: NextPage = () => {
   const handleNewGoal = () => {
     const addMessage = (message: Message) =>
       setMessages((prev) => [...prev, message]);
+
     const agent = new AutonomousAgent(
       name,
       goalInput,
       addMessage,
       () => setAgent(null),
-      customApiKey,
-      customModelName
+      { customApiKey, customModelName }
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);

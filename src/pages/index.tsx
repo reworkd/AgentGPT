@@ -195,7 +195,7 @@ const Home: NextPage = () => {
               </Button>
             </Expand>
           </div>
-          <TaskWindow tasks={tasks} />
+          {tasks.length && <TaskWindow tasks={tasks} />}
         </div>
       </main>
     </DefaultLayout>

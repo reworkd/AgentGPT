@@ -17,7 +17,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
-import clsx from "clsx";
+import Button from "./Button";
+import { useRouter } from "next/router";
+import { clientEnv } from "../env/schema.mjs";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -58,7 +60,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   return (
     <div
       className={
-        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
+        "border-translucent flex w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
         (className ?? "")
       }
     >
@@ -76,6 +78,13 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 
         {messages.length === 0 && (
           <>
+            {!!clientEnv.NEXT_PUBLIC_STRIPE_DONATION_URL && (
+              <Expand delay={0.7} type="spring">
+                <DonationMessage
+                  url={clientEnv.NEXT_PUBLIC_STRIPE_DONATION_URL}
+                />
+              </Expand>
+            )}
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
@@ -173,7 +182,6 @@ const MacWindowHeader = () => {
 const ChatMessage = ({ message }: { message: Message }) => {
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
-
   const handleCopyClick = () => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
@@ -211,14 +219,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
           (Restart if this takes more than 30 seconds)
         </span>
       )}
-      <div className="prose ml-2 max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
-        >
-          {message.value}
-        </ReactMarkdown>
-      </div>
+
+      {message.type == "action" ? (
+        <div className="prose ml-2 max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+          >
+            {message.value}
+          </ReactMarkdown>
+        </div>
+      ) : (
+        <span>{message.value}</span>
+      )}
 
       <div className="relative">
         {copied ? (
@@ -239,10 +252,32 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
+const DonationMessage = ({ url }: { url: string }) => {
+  const router = useRouter();
+
+  return (
+    <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:flex-row sm:p-3 sm:text-center sm:text-base">
+      <div className="max-w-none flex-grow">
+        💝️ Help support the advancement of AgentGPT. 💝
+        <br />
+        Please consider donating help fund our high infrastructure costs.
+      </div>
+      <div className="flex items-center justify-center">
+        <Button
+          className="sm:text m-0 rounded-full text-sm "
+          onClick={() => void router.push(url)}
+        >
+          Donate Now 🚀
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 const getMessageIcon = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return;
+      return <FaStar className="text-yellow-300" />;
     case "task":
       return <FaListAlt className="text-gray-300" />;
     case "thinking":

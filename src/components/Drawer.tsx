@@ -55,8 +55,8 @@ const Drawer = ({
         className={clsx(
           showDrawer ? "translate-x-0" : "-translate-x-full",
           "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
-          "absolute",
-          "flex md:static md:translate-x-0"
+          "fixed md:sticky top-0",
+          "flex md:translate-x-0"
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">

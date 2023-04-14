@@ -64,7 +64,7 @@ export default function SettingsDialog({
           left={
             <>
               <FaMicrochip />
-              <span className="ml-2">Model:</span>
+              <span className="ml-2 hidden sm:block">Model:</span>
             </>
           }
           placeholder={"gpt-3.5-turbo"}
@@ -76,7 +76,7 @@ export default function SettingsDialog({
           left={
             <>
               <FaKey />
-              <span className="ml-2">Key: </span>
+              <span className="ml-2 hidden sm:block">Key: </span>
             </>
           }
           placeholder={"sk-..."}

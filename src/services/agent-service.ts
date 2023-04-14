@@ -10,6 +10,8 @@ import type { ModelSettings } from "../utils/types";
 
 export async function startAgent(modelSettings: ModelSettings, goal: string) {
   const completion = await startGoalAgent(createModel(modelSettings), goal);
+  console.log(typeof completion.text);
+  console.log("Completion:" + (completion.text as string));
   return extractArray(completion.text as string).filter(realTasksFilter);
 }
 
@@ -29,10 +31,9 @@ export async function createAgent(
     result
   );
 
-  const newTasks = extractArray(completion.text as string)
+  return extractArray(completion.text as string)
     .filter(realTasksFilter)
     .filter((task) => !(completedTasks || []).includes(task));
-  return newTasks;
 }
 
 export async function executeAgent(

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=16.8.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "next build --no-lint",

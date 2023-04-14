@@ -14,13 +14,15 @@ import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
+import { GPT_35_TURBO } from "../utils/constants";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
-  const [customModelName, setCustomModelName] = React.useState<string>("");
+  const [customModelName, setCustomModelName] =
+    React.useState<string>(GPT_35_TURBO);
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);

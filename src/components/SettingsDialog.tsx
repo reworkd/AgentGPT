@@ -3,6 +3,8 @@ import Button from "./Button";
 import { FaKey, FaMicrochip } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
+import Dropdown from "./Dropdown";
+import { GPT_MODEL_NAMES } from "../utils/constants";
 
 export default function SettingsDialog({
   show,
@@ -60,23 +62,23 @@ export default function SettingsDialog({
             link.
           </a>
         </p>
-        <Input
+        <Dropdown
           left={
             <>
               <FaMicrochip />
-              <span className="ml-2">Model:</span>
+              <span className="text-md ml-2">Model:</span>
             </>
           }
-          placeholder={"gpt-3.5-turbo"}
           value={customModelName}
-          onChange={(e) => setCustomModelName(e.target.value)}
+          options={GPT_MODEL_NAMES}
+          setCustomModelName={setCustomModelName}
         />
-        <br />
+        <br className="hidden md:inline" />
         <Input
           left={
             <>
               <FaKey />
-              <span className="ml-2">Key: </span>
+              <span className="text-md ml-2">Key: </span>
             </>
           }
           placeholder={"sk-..."}

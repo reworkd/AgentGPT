@@ -7,6 +7,7 @@ class AutonomousAgent {
   tasks: string[] = [];
   customApiKey: string;
   maxLoops = 3;
+  customModelName: string;
   isRunning = true;
   sendMessage: (message: Message) => void;
   shutdown: () => void;
@@ -18,13 +19,15 @@ class AutonomousAgent {
     goal: string,
     addMessage: (message: Message) => void,
     shutdown: () => void,
-    customApiKey: string
+    customApiKey: string,
+    customModelName: string
   ) {
     this.name = name;
     this.goal = goal;
     this.sendMessage = addMessage;
     this.shutdown = shutdown;
     this.customApiKey = customApiKey;
+    this.customModelName = customModelName;
 
     // Retrieve settings from server
     this.getSettings().then((settings) => {
@@ -138,10 +141,12 @@ class AutonomousAgent {
   async getInitialTasks(): Promise<string[]> {
     const res = await axios.post(`/api/chain`, {
       customApiKey: this.customApiKey,
+      customModelName: this.customModelName,
       goal: this.goal,
     });
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data.tasks as string[];
+    return res.data.newTasks as string[];
   }
 
   async getAdditionalTasks(
@@ -150,18 +155,20 @@ class AutonomousAgent {
   ): Promise<string[]> {
     const res = await axios.post(`/api/create`, {
       customApiKey: this.customApiKey,
+      customModelName: this.customModelName,
       goal: this.goal,
       tasks: this.tasks,
       lastTask: currentTask,
       result: result,
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    return res.data.tasks as string[];
+    return res.data.newTasks as string[];
   }
 
   async executeTask(task: string): Promise<string> {
     const res = await axios.post(`/api/execute`, {
       customApiKey: this.customApiKey,
+      customModelName: this.customModelName,
       goal: this.goal,
       task: task,
     });

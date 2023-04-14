@@ -13,23 +13,26 @@ export const config = {
 
 interface RequestBody {
   customApiKey: string;
+  customModelName: string;
   goal: string;
 }
 
-export default async (request: NextRequest) => {
-  let data: RequestBody | null = null;
+const handler = async (request: NextRequest) => {
   try {
-    data = (await request.json()) as RequestBody;
+    const { customApiKey, customModelName, goal } =
+      (await request.json()) as RequestBody;
     const completion = await startGoalAgent(
-      createModel(data.customApiKey),
-      data.goal
+      createModel({ customApiKey, customModelName }),
+      goal
     );
 
-    const tasks = extractArray(completion.text as string).filter(
+    const newTasks = extractArray(completion.text as string).filter(
       realTasksFilter
     );
-    return NextResponse.json({ tasks });
+    return NextResponse.json({ newTasks });
   } catch (e) {}
 
   return NextResponse.error();
 };
+
+export default handler;

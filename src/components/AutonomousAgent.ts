@@ -6,6 +6,7 @@ class AutonomousAgent {
   name: string;
   goal: string;
   tasks: string[] = [];
+  completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = true;
   sendMessage: (message: Message) => void;
@@ -80,6 +81,7 @@ class AutonomousAgent {
 
     // Execute first task
     // Get and remove first task
+    this.completedTasks.push(this.tasks[0] || "");
     const currentTask = this.tasks.shift();
     this.sendThinkingMessage();
 
@@ -136,6 +138,7 @@ class AutonomousAgent {
       tasks: this.tasks,
       lastTask: currentTask,
       result: result,
+      completedTasks: this.completedTasks,
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     return res.data.newTasks as string[];

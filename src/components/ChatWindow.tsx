@@ -17,6 +17,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
+import Button from "./Button";
+import { useRouter } from "next/router";
+import { clientEnv } from "../env/schema.mjs";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -61,7 +64,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         (className ?? "")
       }
     >
-      <MacWindowHeader />
+      <MacWindowHeader showActions={!!messages.length} />
       <div
         className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
         ref={scrollRef}
@@ -75,6 +78,13 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 
         {messages.length === 0 && (
           <>
+            {!!clientEnv.NEXT_PUBLIC_STRIPE_DONATION_URL && (
+              <Expand delay={0.7} type="spring">
+                <DonationMessage
+                  url={clientEnv.NEXT_PUBLIC_STRIPE_DONATION_URL}
+                />
+              </Expand>
+            )}
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
@@ -172,7 +182,6 @@ const MacWindowHeader = () => {
 const ChatMessage = ({ message }: { message: Message }) => {
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
-
   const handleCopyClick = () => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
@@ -239,6 +248,26 @@ const ChatMessage = ({ message }: { message: Message }) => {
           </span>
         )}
       </div>
+    </div>
+  );
+};
+
+const DonationMessage = ({ url }: { url: string }) => {
+  const router = useRouter();
+
+  return (
+    <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:flex-row sm:p-3 sm:text-center sm:text-base">
+      <div className="max-w-none flex-grow">
+        💝️ Help support the advancement of AgentGPT. 💝
+        <br />
+        Please consider donating help fund our high infrastructure costs.
+      </div>
+      <Button
+        className="sm:text m-0 rounded-full text-sm "
+        onClick={() => void router.push(url)}
+      >
+        Donate Now 🚀
+      </Button>
     </div>
   );
 };

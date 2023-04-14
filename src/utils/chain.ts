@@ -6,7 +6,7 @@ import { GPT_35_TURBO } from "./constants";
 import { tasksParser } from "./parsers";
 
 export const createModel = (settings: ModelSettings) =>{
-  const configuration = {}
+  let configuration = {}
   if (process.env.OPENAI_BASE_PATH != "") {
     configuration = {
       basePath: process.env.OPENAI_BASE_PATH

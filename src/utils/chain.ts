@@ -1,19 +1,19 @@
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
+import type { ModelSettings } from "./types";
 
-type ModelOptions = {
-  customApiKey: string;
-  customModelName: string;
-};
-
-export const createModel = (opts: ModelOptions) =>
+export const createModel = (settings: ModelSettings) =>
   new OpenAI({
     openAIApiKey:
-      opts.customApiKey === "" ? process.env.OPENAI_API_KEY : opts.customApiKey,
+      settings.customApiKey === ""
+        ? process.env.OPENAI_API_KEY
+        : settings.customApiKey,
     temperature: 0.9,
     modelName:
-      opts.customModelName === "" ? "gpt-3.5-turbo" : opts.customModelName,
+      settings.customModelName === ""
+        ? "gpt-3.5-turbo"
+        : settings.customModelName,
     maxTokens: 300,
   });
 

@@ -20,6 +20,7 @@ const Home: NextPage = () => {
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
+  const [customModelName, setCustomModelName] = React.useState<string>("");
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -57,7 +58,8 @@ const Home: NextPage = () => {
       goalInput,
       addMessage,
       () => setAgent(null),
-      customApiKey
+      customApiKey,
+      customModelName
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
@@ -77,6 +79,8 @@ const Home: NextPage = () => {
       <SettingsDialog
         customApiKey={customApiKey}
         setCustomApiKey={setCustomApiKey}
+        customModelName={customModelName}
+        setCustomModelName={setCustomModelName}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />

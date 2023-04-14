@@ -1,41 +1,34 @@
-import {
-  createModel,
-  executeCreateTaskAgent,
-  extractArray,
-  realTasksFilter,
-} from "../../utils/chain";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import type { RequestBody } from "../../utils/interfaces";
+import { createAgent } from "../../services/agent-service";
 
 export const config = {
   runtime: "edge",
 };
 
-interface RequestBody {
-  customApiKey: string;
-  goal: string;
-  tasks: string[];
-  lastTask: string;
-  result: string;
-}
-
-export default async (request: NextRequest) => {
-  let data: RequestBody | null = null;
+const handler = async (request: NextRequest) => {
   try {
-    data = (await request.json()) as RequestBody;
-    const completion = await executeCreateTaskAgent(
-      createModel(data.customApiKey),
-      data.goal,
-      data.tasks,
-      data.lastTask,
-      data.result
-    );
+    const { modelSettings, goal, tasks, lastTask, result, completedTasks } =
+      (await request.json()) as RequestBody;
 
-    const tasks = extractArray(completion.text as string).filter(
-      realTasksFilter
-    );
-    return NextResponse.json({ tasks });
+    if (tasks === undefined || lastTask === undefined || result === undefined) {
+      return;
+    }
+
+    const newTasks = await createAgent(
+      modelSettings,
+      goal,
+      tasks,
+      lastTask,
+      result,
+      completedTasks
+    ); // Remove duplicates
+
+    return NextResponse.json({ newTasks });
   } catch (e) {}
 
   return NextResponse.error();
 };
+
+export default handler;

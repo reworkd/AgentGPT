@@ -63,7 +63,7 @@ export default function SettingsDialog({
         <Input
           left={
             <>
-              <FaMicrochip />
+              <FaMicrochip/>
               <span className="ml-2">Model:</span>
             </>
           }

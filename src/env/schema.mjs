@@ -21,7 +21,7 @@ export const serverSchema = z.object({
     process.env.VERCEL ? z.string() : z.string().url(),
   ),
   OPENAI_API_KEY: z.string(),
-  API_BASE_URL: z.string()
+  OPENAI_API_BASE_URL: z.string()
 });
 
 /**
@@ -35,7 +35,7 @@ export const serverEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-  API_BASE_URL: process.env.API_BASE_URL
+  OPENAI_API_BASE_URL: process.env.OPENAI_API_BASE_URL
 };
 
 /**

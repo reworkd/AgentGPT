@@ -4,7 +4,7 @@ cd "$(dirname "$0")" || exit
 echo -n "Enter your OpenAI Key (eg: sk...): "
 read OPENAI_API_KEY
 echo -n "Enter your custom base url (press enter for default): "
-read API_BASE_URL
+read OPENAI_API_BASE_URL
 
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 
@@ -13,7 +13,7 @@ NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
 NEXTAUTH_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n
-API_BASE_URL=$API_BASE_URL\n"
+OPENAI_API_BASE_URL=$OPENAI_API_BASE_URL\n"
 
 printf $ENV > .env
 

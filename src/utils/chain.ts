@@ -3,10 +3,10 @@ import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 
 export const createModel = (customApiKey: string) => {
-
-  const customBaseUrl=process.env.API_BASE_URL;
   
-  if(customBaseUrl=="" || customBaseUrl==undefined){
+  const baseUrl=process.env.OPENAI_API_BASE_URL;
+
+  if(baseUrl=="" || baseUrl==undefined){
     return new OpenAI({
       openAIApiKey:
         customApiKey === "" ? process.env.OPENAI_API_KEY : customApiKey,
@@ -23,7 +23,7 @@ export const createModel = (customApiKey: string) => {
     modelName: "gpt-3.5-turbo",
     maxTokens: 300,
   },{
-    basePath : process.env.API_BASE_URL
+    basePath : baseUrl
   })
 
 };

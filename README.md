@@ -69,10 +69,6 @@ More Coming soon...
 
 ## 👨‍🚀 Getting Started
 
-### 📝 Prerequisites
-
-Node Version >= 16.8.0
-
 ### 🐳 Docker Setup
 
 The easiest way to run AgentGPT locally is by using docker.

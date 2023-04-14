@@ -1,12 +1,13 @@
 import type { Message } from "./ChatWindow";
 import axios from "axios";
+import type { ModelSettings } from "../utils/types";
 
 class AutonomousAgent {
   name: string;
   goal: string;
   tasks: string[] = [];
-  customApiKey: string;
-  customModelName: string;
+  completedTasks: string[] = [];
+  modelSettings: ModelSettings;
   isRunning = true;
   sendMessage: (message: Message) => void;
   shutdown: () => void;
@@ -17,15 +18,13 @@ class AutonomousAgent {
     goal: string,
     addMessage: (message: Message) => void,
     shutdown: () => void,
-    customApiKey: string,
-    customModelName: string
+    modelSettings: ModelSettings
   ) {
     this.name = name;
     this.goal = goal;
     this.sendMessage = addMessage;
     this.shutdown = shutdown;
-    this.customApiKey = customApiKey;
-    this.customModelName = customModelName;
+    this.modelSettings = modelSettings;
   }
 
   async run() {
@@ -42,7 +41,7 @@ class AutonomousAgent {
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
-        this.customApiKey !== ""
+        this.modelSettings.customApiKey !== ""
           ? `ERROR retrieving initial tasks array. Make sure your API key is not the free tier, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
           : `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
       );
@@ -70,7 +69,7 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.customApiKey === "" ? 4 : 25;
+    const maxLoops = this.modelSettings.customApiKey === "" ? 4 : 25;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -82,6 +81,7 @@ class AutonomousAgent {
 
     // Execute first task
     // Get and remove first task
+    this.completedTasks.push(this.tasks[0] || "");
     const currentTask = this.tasks.shift();
     this.sendThinkingMessage();
 
@@ -120,8 +120,7 @@ class AutonomousAgent {
 
   async getInitialTasks(): Promise<string[]> {
     const res = await axios.post(`/api/chain`, {
-      customApiKey: this.customApiKey,
-      customModelName: this.customModelName,
+      modelSettings: this.modelSettings,
       goal: this.goal,
     });
 
@@ -134,12 +133,12 @@ class AutonomousAgent {
     result: string
   ): Promise<string[]> {
     const res = await axios.post(`/api/create`, {
-      customApiKey: this.customApiKey,
-      customModelName: this.customModelName,
+      modelSettings: this.modelSettings,
       goal: this.goal,
       tasks: this.tasks,
       lastTask: currentTask,
       result: result,
+      completedTasks: this.completedTasks,
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     return res.data.newTasks as string[];
@@ -147,8 +146,7 @@ class AutonomousAgent {
 
   async executeTask(task: string): Promise<string> {
     const res = await axios.post(`/api/execute`, {
-      customApiKey: this.customApiKey,
-      customModelName: this.customModelName,
+      modelSettings: this.modelSettings,
       goal: this.goal,
       task: task,
     });
@@ -168,7 +166,7 @@ class AutonomousAgent {
     this.sendMessage({
       type: "system",
       value:
-        this.customApiKey !== ""
+        this.modelSettings.customApiKey !== ""
           ? `This agent has been running for too long (25 Loops). To save your wallet, and our infrastructure costs, this agent is shutting down. In the future, the number of iterations will be configurable.`
           : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
     });

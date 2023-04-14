@@ -17,7 +17,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
-import clsx from "clsx";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -58,7 +57,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   return (
     <div
       className={
-        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
+        "border-translucent flex w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
         (className ?? "")
       }
     >
@@ -211,14 +210,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
           (Restart if this takes more than 30 seconds)
         </span>
       )}
-      <div className="prose ml-2 max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
-        >
-          {message.value}
-        </ReactMarkdown>
-      </div>
+
+      {message.type == "action" ? (
+        <div className="prose ml-2 max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+          >
+            {message.value}
+          </ReactMarkdown>
+        </div>
+      ) : (
+        <span>{message.value}</span>
+      )}
 
       <div className="relative">
         {copied ? (
@@ -242,7 +246,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
 const getMessageIcon = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return;
+      return <FaStar className="text-yellow-300" />;
     case "task":
       return <FaListAlt className="text-gray-300" />;
     case "thinking":

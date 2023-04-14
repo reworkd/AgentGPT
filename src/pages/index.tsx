@@ -14,6 +14,7 @@ import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
+import { TaskWindow } from "../components/TaskWindow";
 
 const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [customModelName, setCustomModelName] = React.useState<string>("");
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
+  const [tasks, setTasks] = React.useState<string[]>([]);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
 
@@ -56,14 +58,19 @@ const Home: NextPage = () => {
     }
   }, [agent]);
 
-  const handleNewGoal = () => {
-    const addMessage = (message: Message) =>
-      setMessages((prev) => [...prev, message]);
+  const handleAddMessage = (message: Message) => {
+    if (message.type == "task") {
+      setTasks((tasks) => [...tasks, message.value]);
+    }
+    setMessages((prev) => [...prev, message]);
+  };
 
+  const handleNewGoal = () => {
+    setTasks([]);
     const agent = new AutonomousAgent(
       name,
       goalInput,
-      addMessage,
+      handleAddMessage,
       () => setAgent(null),
       { customApiKey, customModelName }
     );
@@ -123,15 +130,6 @@ const Home: NextPage = () => {
                   Assemble, configure, and deploy autonomous AI Agents in your
                   browser.
                 </p>
-                <em>
-                  Please consider sponsoring the project:{" "}
-                  <a
-                    className="text-blue-400"
-                    href={"https://github.com/sponsors/reworkd-admin"}
-                  >
-                    Link
-                  </a>
-                </em>
               </div>
             </div>
 
@@ -203,6 +201,7 @@ const Home: NextPage = () => {
               </Button>
             </Expand>
           </div>
+          {tasks.length && <TaskWindow tasks={tasks} />}
         </div>
       </main>
     </DefaultLayout>

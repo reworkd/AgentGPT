@@ -129,7 +129,7 @@ OPENAI_API_KEY=changeme
 5. Modify prisma schema to use sqlite:
 
 ```bash
-./prisma/use_sqlite.sh
+./prisma/useSqlite.sh
 ```
 
 **Note:** This only needs to be done if you wish to use sqlite.

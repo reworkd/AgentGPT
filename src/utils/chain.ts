@@ -87,7 +87,7 @@ export const extractArray = (inputStr: string): string[] => {
     }
   }
 
-  console.error("Error, could not extract array from inputString:", inputStr);
+  console.warn("Error, could not extract array from inputString:", inputStr);
   return [];
 };
 

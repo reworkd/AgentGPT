@@ -1,6 +1,17 @@
 import type { Message } from "./ChatWindow";
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
+import {
+  createModel,
+  extractArray,
+  realTasksFilter,
+  startGoalAgent,
+} from "../utils/chain";
+import {
+  createAgent,
+  executeAgent,
+  startAgent,
+} from "../services/agent-service";
 
 class AutonomousAgent {
   name: string;
@@ -119,6 +130,10 @@ class AutonomousAgent {
   }
 
   async getInitialTasks(): Promise<string[]> {
+    if (this.shouldRunClientSide()) {
+      return await startAgent(this.modelSettings, this.goal);
+    }
+
     const res = await axios.post(`/api/chain`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -132,6 +147,17 @@ class AutonomousAgent {
     currentTask: string,
     result: string
   ): Promise<string[]> {
+    if (this.shouldRunClientSide()) {
+      return await createAgent(
+        this.modelSettings,
+        this.goal,
+        this.tasks,
+        currentTask,
+        result,
+        this.completedTasks
+      );
+    }
+
     const res = await axios.post(`/api/create`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -145,6 +171,10 @@ class AutonomousAgent {
   }
 
   async executeTask(task: string): Promise<string> {
+    if (this.shouldRunClientSide()) {
+      return await executeAgent(this.modelSettings, this.goal, task);
+    }
+
     const res = await axios.post(`/api/execute`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -152,6 +182,10 @@ class AutonomousAgent {
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as string;
+  }
+
+  private shouldRunClientSide() {
+    return this.modelSettings.customApiKey != "";
   }
 
   stopAgent() {

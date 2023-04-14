@@ -5,8 +5,14 @@ import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 import { tasksParser } from "./parsers";
 
-export const createModel = (settings: ModelSettings) =>
-  new OpenAI({
+export const createModel = (settings: ModelSettings) =>{
+  const configuration = {}
+  if (process.env.OPENAI_BASE_PATH != None && process.env.OPENAI_BASE_PATH != "") {
+    configuration = {
+      basePath: process.env.OPENAI_BASE_PATH
+    }
+  }
+  return new OpenAI({
     openAIApiKey:
       settings.customApiKey === ""
         ? process.env.OPENAI_API_KEY
@@ -15,7 +21,9 @@ export const createModel = (settings: ModelSettings) =>
     modelName:
       settings.customModelName === "" ? GPT_35_TURBO : settings.customModelName,
     maxTokens: 300,
-  });
+    configuration: configuration
+  })
+};
 
 const startGoalPrompt = new PromptTemplate({
   template:

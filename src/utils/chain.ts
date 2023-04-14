@@ -7,7 +7,7 @@ import { tasksParser } from "./parsers";
 
 export const createModel = (settings: ModelSettings) =>{
   const configuration = {}
-  if (process.env.OPENAI_BASE_PATH != None && process.env.OPENAI_BASE_PATH != "") {
+  if (process.env.OPENAI_BASE_PATH != "") {
     configuration = {
       basePath: process.env.OPENAI_BASE_PATH
     }

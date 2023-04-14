@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import { FaKey, FaMicrochip } from "react-icons/fa";
+import { FaKey, FaMicrochip, FaThermometerFull } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
 import Dropdown from "./Dropdown";
@@ -13,6 +13,8 @@ export default function SettingsDialog({
   setCustomApiKey,
   customModelName,
   setCustomModelName,
+  customTemperature,
+  setCustomTemperature,
 }: {
   show: boolean;
   close: () => void;
@@ -20,6 +22,8 @@ export default function SettingsDialog({
   setCustomApiKey: (key: string) => void;
   customModelName: string;
   setCustomModelName: (key: string) => void;
+  customTemperature: number;
+  setCustomTemperature: (temperature: number) => void;
 }) {
   const [key, setKey] = React.useState<string>(customApiKey);
 
@@ -84,6 +88,23 @@ export default function SettingsDialog({
           placeholder={"sk-..."}
           value={key}
           onChange={(e) => setKey(e.target.value)}
+        />
+        <br className="hidden md:inline" />
+        <Input
+          left={
+            <>
+              <FaThermometerFull />
+              <span className="ml-2">Temp: </span>
+            </>
+          }
+          value={customTemperature}
+          onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
+          type="range"
+          attributes={{
+            min: 0,
+            max: 1,
+            step: 0.01,
+          }}
         />
         <strong className="mt-10">
           NOTE: This must be a PAID OpenAI API account, not the free tier. This

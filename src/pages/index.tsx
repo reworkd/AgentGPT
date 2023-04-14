@@ -23,6 +23,7 @@ const Home: NextPage = () => {
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
+  const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -61,7 +62,7 @@ const Home: NextPage = () => {
       goalInput,
       addMessage,
       () => setAgent(null),
-      { customApiKey, customModelName }
+      { customApiKey, customModelName, customTemperature }
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
@@ -83,6 +84,8 @@ const Home: NextPage = () => {
         setCustomApiKey={setCustomApiKey}
         customModelName={customModelName}
         setCustomModelName={setCustomModelName}
+        customTemperature={customTemperature}
+        setCustomTemperature={setCustomTemperature}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />

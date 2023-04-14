@@ -20,8 +20,7 @@ export const serverSchema = z.object({
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
     process.env.VERCEL ? z.string() : z.string().url(),
   ),
-  OPENAI_API_KEY: z.string(),
-  NEXT_PUBLIC_STRIPE_DONATION_URL: z.string().url().optional()
+  OPENAI_API_KEY: z.string()
 });
 
 /**
@@ -35,7 +34,6 @@ export const serverEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-  NEXT_PUBLIC_STRIPE_DONATION_URL: process.env.NEXT_PUBLIC_STRIPE_DONATION_URL
 };
 
 /**

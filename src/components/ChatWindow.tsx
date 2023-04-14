@@ -262,12 +262,14 @@ const DonationMessage = ({ url }: { url: string }) => {
         <br />
         Please consider donating help fund our high infrastructure costs.
       </div>
-      <Button
-        className="sm:text m-0 rounded-full text-sm "
-        onClick={() => void router.push(url)}
-      >
-        Donate Now 🚀
-      </Button>
+      <div className="flex items-center justify-center">
+        <Button
+          className="sm:text m-0 rounded-full text-sm "
+          onClick={() => void router.push(url)}
+        >
+          Donate Now 🚀
+        </Button>
+      </div>
     </div>
   );
 };

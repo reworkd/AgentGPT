@@ -67,7 +67,7 @@ export default function SettingsDialog({
               <span className="ml-2">Model:</span>
             </>
           }
-          placeholder={""}
+          placeholder={"gpt-3.5-turbo"}
           value={customModelName}
           onChange={(e) => setCustomModelName(e.target.value)}
         />

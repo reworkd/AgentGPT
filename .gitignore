@@ -41,3 +41,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 .idea
+.swc

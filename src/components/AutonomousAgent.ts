@@ -2,12 +2,6 @@ import type { Message } from "./ChatWindow";
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
 import {
-  createModel,
-  extractArray,
-  realTasksFilter,
-  startGoalAgent,
-} from "../utils/chain";
-import {
   createAgent,
   executeAgent,
   startAgent,

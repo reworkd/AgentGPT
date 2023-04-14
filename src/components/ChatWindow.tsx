@@ -64,7 +64,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         (className ?? "")
       }
     >
-      <MacWindowHeader showActions={!!messages.length} />
+      <MacWindowHeader />
       <div
         className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
         ref={scrollRef}

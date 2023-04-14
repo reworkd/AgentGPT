@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ" height="300"/>
 </p>
-[English](./docs/en/README-en.md) | [中文](./docs/zh/README-zh.md)
+[English](./README-en.md) | [中文](../zh/README-zh.md)
 <p align="center">
   <em>🤖 Assemble, configure, and deploy autonomous AI Agents in your browser. 🤖 </em>
 </p>

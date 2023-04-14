@@ -66,7 +66,7 @@ export default function SettingsDialog({
           left={
             <>
               <FaMicrochip />
-              <span className="text-md ml-2">Model:</span>
+              <span className="ml-2">Model:</span>
             </>
           }
           value={customModelName}
@@ -78,7 +78,7 @@ export default function SettingsDialog({
           left={
             <>
               <FaKey />
-              <span className="text-md ml-2">Key: </span>
+              <span className="ml-2">Key: </span>
             </>
           }
           placeholder={"sk-..."}

@@ -6,7 +6,6 @@ import clsx from "clsx";
 interface DropdownProps {
   left?: React.ReactNode;
   value: string;
-  //   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   options: string[];
   disabled?: boolean;
   setCustomModelName: (key: string) => void;
@@ -16,7 +15,6 @@ const Dropdown = ({
   options,
   left,
   value,
-  //   onChange,
   disabled,
   setCustomModelName,
 }: DropdownProps) => {

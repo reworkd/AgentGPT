@@ -38,6 +38,11 @@ export default function SettingsDialog({
       close={handleClose}
       footerButton={<Button onClick={handleSave}>Save</Button>}
     >
+      <p>
+        Here you can add your OpenAI API key. This will require you to pay for
+        your own OpenAI usage but give you greater access to AgentGPT! You can
+        additionally select any model OpenAI offers.
+      </p>
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <Input
           left={

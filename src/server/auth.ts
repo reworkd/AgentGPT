@@ -4,8 +4,12 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./db";
+import { serverEnv } from "../env/schema.mjs";
 
 /**
  * Module augmentation for `next-auth` types
@@ -28,6 +32,24 @@ declare module "next-auth" {
   // }
 }
 
+const providers = [
+  GoogleProvider({
+    clientId: serverEnv.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: serverEnv.GOOGLE_CLIENT_SECRET ?? "",
+    allowDangerousEmailAccountLinking: true,
+  }),
+  GithubProvider({
+    clientId: serverEnv.GITHUB_CLIENT_ID ?? "",
+    clientSecret: serverEnv.GITHUB_CLIENT_SECRET ?? "",
+    allowDangerousEmailAccountLinking: true,
+  }),
+  DiscordProvider({
+    clientId: serverEnv.DISCORD_CLIENT_ID ?? "",
+    clientSecret: serverEnv.DISCORD_CLIENT_SECRET ?? "",
+    allowDangerousEmailAccountLinking: true,
+  }),
+];
+
 /**
  * Options for NextAuth.js used to configure
  * adapters, providers, callbacks, etc.
@@ -44,17 +66,11 @@ export const authOptions: NextAuthOptions = {
     },
   },
   adapter: PrismaAdapter(prisma),
-  providers: [
-    /**
-     * ...add more providers here
-     *
-     * Most other providers require a bit more work than the Discord provider.
-     * For example, the GitHub provider requires you to add the
-     * `refresh_token_expires_in` field to the Account model. Refer to the
-     * NextAuth.js docs for the provider you want to use. Example:
-     * @see https://next-auth.js.org/providers/github
-     **/
-  ],
+  providers: providers,
+  theme: {
+    colorScheme: "dark",
+    logo: "https://agentgpt.reworkd.ai/logo-white.svg",
+  },
 };
 
 /**

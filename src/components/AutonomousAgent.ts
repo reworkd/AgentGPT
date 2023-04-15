@@ -1,6 +1,11 @@
 import type { Message } from "./ChatWindow";
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
+import {
+  createAgent,
+  executeAgent,
+  startAgent,
+} from "../services/agent-service";
 
 class AutonomousAgent {
   name: string;
@@ -69,7 +74,7 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.modelSettings.customApiKey === "" ? 4 : 25;
+    const maxLoops = this.modelSettings.customApiKey === "" ? 4 : 50;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -119,6 +124,10 @@ class AutonomousAgent {
   }
 
   async getInitialTasks(): Promise<string[]> {
+    if (this.shouldRunClientSide()) {
+      return await startAgent(this.modelSettings, this.goal);
+    }
+
     const res = await axios.post(`/api/chain`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -132,6 +141,17 @@ class AutonomousAgent {
     currentTask: string,
     result: string
   ): Promise<string[]> {
+    if (this.shouldRunClientSide()) {
+      return await createAgent(
+        this.modelSettings,
+        this.goal,
+        this.tasks,
+        currentTask,
+        result,
+        this.completedTasks
+      );
+    }
+
     const res = await axios.post(`/api/create`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -145,6 +165,10 @@ class AutonomousAgent {
   }
 
   async executeTask(task: string): Promise<string> {
+    if (this.shouldRunClientSide()) {
+      return await executeAgent(this.modelSettings, this.goal, task);
+    }
+
     const res = await axios.post(`/api/execute`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -152,6 +176,10 @@ class AutonomousAgent {
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as string;
+  }
+
+  private shouldRunClientSide() {
+    return this.modelSettings.customApiKey != "";
   }
 
   stopAgent() {
@@ -167,7 +195,7 @@ class AutonomousAgent {
       type: "system",
       value:
         this.modelSettings.customApiKey !== ""
-          ? `This agent has been running for too long (25 Loops). To save your wallet, and our infrastructure costs, this agent is shutting down. In the future, the number of iterations will be configurable.`
+          ? `This agent has been running for too long (50 Loops). To save your wallet this agent is shutting down. In the future, the number of iterations will be configurable.`
           : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
     });
   }

@@ -1,6 +1,10 @@
 # Use the official Node.js image as the base image
 FROM node:19-alpine
 
+ARG NODE_ENV
+
+ENV NODE_ENV=$NODE_ENV
+
 # Set the working directory
 WORKDIR /app
 
@@ -14,6 +18,7 @@ RUN npm ci
 COPY . .
 RUN mv .env.docker .env  \
     && sed -ie 's/postgresql/sqlite/g' prisma/schema.prisma \
+    && sed -ie 's/mysql/sqlite/g' prisma/schema.prisma \
    && sed -ie 's/@db.Text//' prisma/schema.prisma
 
 # Expose the port the app will run on

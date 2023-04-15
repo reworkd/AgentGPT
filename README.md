@@ -139,7 +139,25 @@ OPENAI_API_KEY=changeme
 ```bash
 # Create database migrations
 npx prisma db push
+npm run dev
+```
 
-# Run the project:
+### 🚀 GitHub Codespaces
+
+Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://github.com/features/codespaces).
+
+1. From the GitHub repo, click the green "Code" button and select "Codespaces".
+2. Create a new Codespace or select a previous one you've already created.
+3. Codespaces opens in a separate tab in your browser.
+4. In terminal, run `bash ./setup.sh --local`
+5. When prompted in terminal, add your OpenAI API key.
+6. Click "Open in browser" when the build process completes.
+
+- To shut AgentGPT down, enter Ctrl+C in Terminal.
+- To restart AgentGPT, run `npm run dev` in Terminal.
+
+Run the project 🥳
+
+```
 npm run dev
 ```

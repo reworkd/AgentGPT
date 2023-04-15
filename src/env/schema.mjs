@@ -53,6 +53,7 @@ export const serverEnv = {
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
+  NEXT_PUBLIC_STRIPE_DONATION_URL: z.string().url().optional()
 });
 
 /**
@@ -63,4 +64,5 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
+  NEXT_PUBLIC_STRIPE_DONATION_URL: process.env.NEXT_PUBLIC_STRIPE_DONATION_URL
 };

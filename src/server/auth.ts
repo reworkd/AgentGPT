@@ -6,9 +6,10 @@ import {
 } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./db";
-import { env } from "../env/server.mjs";
+import { serverEnv } from "../env/schema.mjs";
 
 /**
  * Module augmentation for `next-auth` types
@@ -33,13 +34,18 @@ declare module "next-auth" {
 
 const providers = [
   GoogleProvider({
-    clientId: env.GOOGLE_CLIENT_ID ?? "",
-    clientSecret: env.GOOGLE_CLIENT_SECRET ?? "",
+    clientId: serverEnv.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: serverEnv.GOOGLE_CLIENT_SECRET ?? "",
     allowDangerousEmailAccountLinking: true,
   }),
   GithubProvider({
-    clientId: env.GITHUB_CLIENT_ID ?? "",
-    clientSecret: env.GITHUB_CLIENT_SECRET ?? "",
+    clientId: serverEnv.GITHUB_CLIENT_ID ?? "",
+    clientSecret: serverEnv.GITHUB_CLIENT_SECRET ?? "",
+    allowDangerousEmailAccountLinking: true,
+  }),
+  DiscordProvider({
+    clientId: serverEnv.DISCORD_CLIENT_ID ?? "",
+    clientSecret: serverEnv.DISCORD_CLIENT_SECRET ?? "",
     allowDangerousEmailAccountLinking: true,
   }),
 ];

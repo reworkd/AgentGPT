@@ -75,8 +75,3 @@ div::-webkit-scrollbar-thumb {
 div::-webkit-scrollbar-button {
   display: none;
 }
-
-/* Height of page was limited so changing it back to auto */
-.h-screen {
-  height: auto;
-}

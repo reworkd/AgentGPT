@@ -99,7 +99,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
                 message={{
                   type: "system",
                   value:
-                    "📢 Please first provide your own OpenAI API key via the settings tab!",
+                    "📢 You can first provide your own OpenAI API key via the settings tab!",
                 }}
               />
             </Expand>

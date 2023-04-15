@@ -14,6 +14,7 @@ import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
+import { GPT_35_TURBO } from "../utils/constants";
 import { useSession } from "next-auth/react";
 import { api } from "../utils/api";
 import { env } from "../env/client.mjs";
@@ -25,7 +26,8 @@ const Home: NextPage = () => {
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
-  const [customModelName, setCustomModelName] = React.useState<string>("");
+  const [customModelName, setCustomModelName] =
+    React.useState<string>(GPT_35_TURBO);
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
   const [tasks, setTasks] = React.useState<string[]>([]);
 

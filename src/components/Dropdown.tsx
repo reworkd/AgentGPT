@@ -28,8 +28,14 @@ const Dropdown = ({
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const handleInputChange = (event) => {
-    setCustomModelName(event.target.value);
+  const handleInputChange = (event: React.UIEvent<HTMLDivElement>) => {
+    if (
+      event.target instanceof HTMLInputElement &&
+      typeof event.target.value === "string"
+    ) {
+      setCustomModelName(event.target.value);
+    }
+
     setIsOpen(false);
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import { FaKey, FaMicrochip } from "react-icons/fa";
+import { FaKey, FaMicrochip, FaBell } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
 import Dropdown from "./Dropdown";
@@ -45,6 +45,9 @@ export default function SettingsDialog({
         your own OpenAI usage but give you greater access to AgentGPT! You can
         additionally select any model OpenAI offers.
       </p>
+      <br />
+      <p>To use GPT-4, your API Key needs to have the correct access.</p>
+      <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <Dropdown
           left={

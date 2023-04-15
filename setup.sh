@@ -16,7 +16,8 @@ printf $ENV > .env
 
 if [ "$1" = "--docker" ]; then
   printf $ENV > .env.docker
-  docker build -t agentgpt .
+  source .env.docker
+  docker build --build-arg NODE_ENV=$NODE_ENV -t agentgpt .
   docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt
 else
   printf $ENV > .env

@@ -1,8 +1,10 @@
 import React from "react";
 import Button from "./Button";
-import { FaKey, FaMicrochip } from "react-icons/fa";
+import { FaKey, FaMicrochip, FaBell } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
+import Dropdown from "./Dropdown";
+import { GPT_MODEL_NAMES } from "../utils/constants";
 
 export default function SettingsDialog({
   show,
@@ -43,19 +45,22 @@ export default function SettingsDialog({
         your own OpenAI usage but give you greater access to AgentGPT! You can
         additionally select any model OpenAI offers.
       </p>
+      <br />
+      <p>To use GPT-4, your API Key needs to have the correct access.</p>
+      <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
-        <Input
+        <Dropdown
           left={
             <>
               <FaMicrochip />
               <span className="ml-2">Model:</span>
             </>
           }
-          placeholder={"gpt-3.5-turbo"}
           value={customModelName}
-          onChange={(e) => setCustomModelName(e.target.value)}
+          options={GPT_MODEL_NAMES}
+          setCustomModelName={setCustomModelName}
         />
-        <br />
+        <br className="hidden md:inline" />
         <Input
           left={
             <>

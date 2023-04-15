@@ -20,7 +20,14 @@ export const serverSchema = z.object({
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
     process.env.VERCEL ? z.string() : z.string().url(),
   ),
-  OPENAI_API_KEY: z.string()
+  OPENAI_API_KEY: z.string(),
+
+  GOOGLE_CLIENT_ID: requiredForProduction(),
+  GOOGLE_CLIENT_SECRET: requiredForProduction(),
+  GITHUB_CLIENT_ID: requiredForProduction(),
+  GITHUB_CLIENT_SECRET: requiredForProduction(),
+  DISCORD_CLIENT_ID: requiredForProduction(),
+  DISCORD_CLIENT_SECRET: requiredForProduction(),
 });
 
 /**
@@ -34,6 +41,12 @@ export const serverEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+  DISCORD_CLIENT_ID:  process.env.DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET
 };
 
 /**
@@ -44,7 +57,8 @@ export const serverEnv = {
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
-  NEXT_PUBLIC_STRIPE_DONATION_URL: z.string().url().optional()
+  NEXT_PUBLIC_STRIPE_DONATION_URL: z.string().url().optional(),
+  NEXT_PUBLIC_FF_AUTH_ENABLED: z.boolean().optional()
 });
 
 /**
@@ -55,5 +69,6 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  NEXT_PUBLIC_STRIPE_DONATION_URL: process.env.NEXT_PUBLIC_STRIPE_DONATION_URL
+  NEXT_PUBLIC_STRIPE_DONATION_URL: process.env.NEXT_PUBLIC_STRIPE_DONATION_URL,
+  NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED
 };

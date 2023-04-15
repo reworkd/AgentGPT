@@ -143,6 +143,7 @@ npm run dev
 ```
 
 ### 🚀 GitHub Codespaces
+
 Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://github.com/features/codespaces).
 
 1. From the GitHub repo, click the green "Code" button and select "Codespaces".
@@ -156,6 +157,7 @@ Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://gi
 - To restart AgentGPT, run `npm run dev` in Terminal.
 
 Run the project 🥳
+
 ```
 npm run dev
 ```

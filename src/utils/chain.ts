@@ -1,11 +1,22 @@
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
+import { AzureLLM } from "./azure-llm";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 import { tasksParser } from "./parsers";
 
 export const createModel = (settings: ModelSettings) =>
+  process.env.USE_AZURE ?
+  new AzureLLM({
+    key:
+      settings.customApiKey === ""
+        ? process.env.OPENAI_API_KEY
+        : settings.customApiKey,
+    temperature: 0.9,
+    modelName: settings.customModelName,
+    maxTokens: 1000,
+  }) :
   new OpenAI({
     openAIApiKey:
       settings.customApiKey === ""
@@ -22,7 +33,7 @@ const startGoalPrompt = new PromptTemplate({
     "You are an autonomous task creation AI called AgentGPT. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse()",
   inputVariables: ["goal"],
 });
-export const startGoalAgent = async (model: OpenAI, goal: string) => {
+export const startGoalAgent = async (model: OpenAI|AzureLLM, goal: string) => {
   return await new LLMChain({
     llm: model,
     prompt: startGoalPrompt,
@@ -37,7 +48,7 @@ const executeTaskPrompt = new PromptTemplate({
   inputVariables: ["goal", "task"],
 });
 export const executeTaskAgent = async (
-  model: OpenAI,
+  model: OpenAI|AzureLLM,
   goal: string,
   task: string
 ) => {
@@ -53,7 +64,7 @@ const createTaskPrompt = new PromptTemplate({
   inputVariables: ["goal", "tasks", "lastTask", "result"],
 });
 export const executeCreateTaskAgent = async (
-  model: OpenAI,
+  model: OpenAI|AzureLLM,
   goal: string,
   tasks: string[],
   lastTask: string,

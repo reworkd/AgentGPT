@@ -1,6 +1,5 @@
 import React from "react";
 import Label from "./Label";
-import { FaCaretDown } from "react-icons/fa";
 import clsx from "clsx";
 
 interface DropdownProps {
@@ -29,26 +28,28 @@ const Dropdown = ({
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  const handleInputChange = (event) => {
+    setCustomModelName(event.target.value);
+    setIsOpen(false);
+  };
+
   return (
     <div className="items-left z-10 flex w-full flex-col rounded-xl bg-[#3a3a3a] font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center">
       {left && <Label left={left} />}
 
       <div className="relative w-full ">
         {
-          <button
-            id="dropdownDefaultButton"
+          <input
             className={clsx(
               "border:black delay-50 sm: flex w-full items-center justify-between rounded-xl border-[2px] border-white/10 bg-transparent px-2 py-2 tracking-wider outline-0 transition-all hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:py-3",
               disabled && " cursor-not-allowed hover:border-white/10",
               left && "md:rounded-l-none"
             )}
+            value={value}
             disabled={disabled}
-            data-dropdown-toggle="dropdown"
+            onChange={handleInputChange}
             onClick={() => handleSetIsOpen()}
-          >
-            <span className="text-sm md:text-lg">{value}</span>
-            <FaCaretDown />
-          </button>
+          />
         }
         {isOpen && (
           <ul className="absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-auto rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] tracking-wider shadow-xl outline-0 transition-all ">

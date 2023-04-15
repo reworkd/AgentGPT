@@ -29,14 +29,16 @@ const Drawer = ({
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
-  const [animationParent] = useAutoAnimate();
-  const query = api.agent.getAll.useQuery(undefined, {
-    enabled:
-      status == "authenticated" && env.NEXT_PUBLIC_VERCEL_ENV != "production",
-  });
-  const router = useRouter();
 
-  const userAgents = query.data ?? [];
+  // TODO: enable for crud
+  // const [animationParent] = useAutoAnimate();s
+  // const query = api.agent.getAll.useQuery(undefined, {
+  //   enabled:
+  //     status == "authenticated" && env.NEXT_PUBLIC_VERCEL_ENV != "production",
+  // });
+  // const router = useRouter();
+  //
+  // const userAgents = query.data ?? [];
 
   const toggleDrawer = () => {
     setShowDrawer((prevState) => !prevState);
@@ -76,24 +78,25 @@ const Drawer = ({
               <FaBars />
             </button>
           </div>
-          <ul ref={animationParent}>
-            {userAgents.map((agent, index) => (
-              <DrawerItem
-                key={index}
-                icon={<FaRobot />}
-                text={agent.name}
-                className={""}
-                onClick={() => void router.push(`/agent/${agent.id}`)}
-              />
-            ))}
+          {/*{TODO: enable for crud}*/}
+          {/*<ul ref={animationParent}>*/}
+          {/*  {userAgents.map((agent, index) => (*/}
+          {/*    <DrawerItem*/}
+          {/*      key={index}*/}
+          {/*      icon={<FaRobot />}*/}
+          {/*      text={agent.name}*/}
+          {/*      className={""}*/}
+          {/*      onClick={() => void router.push(`/agent/${agent.id}`)}*/}
+          {/*    />*/}
+          {/*  ))}*/}
 
-            {userAgents.length === 0 && (
-              <div>
-                Click the above button to restart. In the future, this will be a
-                list of your deployed agents!
-              </div>
-            )}
-          </ul>
+          {/*  {userAgents.length === 0 && (*/}
+          {/*    <div>*/}
+          {/*      Click the above button to restart. In the future, this will be a*/}
+          {/*      list of your deployed agents!*/}
+          {/*    </div>*/}
+          {/*  )}*/}
+          {/*</ul>*/}
         </div>
 
         <div className="flex flex-col gap-1">
@@ -136,7 +139,11 @@ const Drawer = ({
   );
 };
 
-interface DrawerItemProps extends Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'> {
+interface DrawerItemProps
+  extends Pick<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    "href" | "target"
+  > {
   icon: React.ReactNode;
   text: string;
   border?: boolean;
@@ -145,17 +152,9 @@ interface DrawerItemProps extends Pick<React.AnchorHTMLAttributes<HTMLAnchorElem
 }
 
 const DrawerItem = (props: DrawerItemProps) => {
-  const {
-    icon,
-    text,
-    border,
-    href,
-    target,
-    onClick,
-    className,
-  } = props;
+  const { icon, text, border, href, target, onClick, className } = props;
 
-  if ( href ) {
+  if (href) {
     return (
       <a
         className={clsx(
@@ -170,11 +169,10 @@ const DrawerItem = (props: DrawerItemProps) => {
         <span className="text-md ml-4">{text}</span>
       </a>
     );
-  }
-  else {
+  } else {
     return (
       <button
-        type='button'
+        type="button"
         className={clsx(
           "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
           border && "border-[1px] border-white/20",

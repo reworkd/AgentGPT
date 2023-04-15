@@ -34,19 +34,18 @@ const Home: NextPage = () => {
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
 
-  const utils = api.useContext();
-
+  // TODO: enable for crud
+  // const utils = api.useContext();
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const voidFunc = () => {};
-
-  const createAgent = api.agent.create.useMutation({
-    onSuccess: (data) => {
-      utils.agent.getAll.setData(voidFunc(), (oldData) => [
-        ...(oldData ?? []),
-        data,
-      ]);
-    },
-  });
+  // const voidFunc = () => {};
+  // const createAgent = api.agent.create.useMutation({
+  //   onSuccess: (data) => {
+  //     utils.agent.getAll.setData(voidFunc(), (oldData) => [
+  //       ...(oldData ?? []),
+  //       data,
+  //     ]);
+  //   },
+  // });
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-new";
@@ -68,7 +67,7 @@ const Home: NextPage = () => {
     if (agent == null) {
       setShouldAgentStop(false);
     }
-  }, [agent])
+  }, [agent]);
 
   const handleAddMessage = (message: Message) => {
     if (message.type == "task") {
@@ -77,17 +76,15 @@ const Home: NextPage = () => {
     setMessages((prev) => [...prev, message]);
   };
 
-
-
   const handleNewGoal = () => {
     setTasks([]);
-
-    if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
-      createAgent.mutate({
-        name,
-        goal: goalInput,
-      });
-    }
+    // TODO: enable for crud
+    // if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
+    //   createAgent.mutate({
+    //     name,
+    //     goal: goalInput,
+    //   });
+    // }
     const agent = new AutonomousAgent(
       name,
       goalInput,

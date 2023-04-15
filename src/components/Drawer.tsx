@@ -40,7 +40,7 @@ const Drawer = ({
         id="drawer"
         className={clsx(
           showDrawer ? "translate-x-0" : "-translate-x-full",
-          "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
+          "z-30 m-0 h-auto w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
           "absolute",
           "flex md:static md:translate-x-0"
         )}

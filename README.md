@@ -69,6 +69,20 @@ More Coming soon...
 
 ## 👨‍🚀 Getting Started
 
+### 🚀 GitHub Codespaces
+
+The easiest way to run AgentGPT immediately is by using [GitHub Codespaces](https://github.com/features/codespaces).
+
+1. From the GitHub repo, click the green "Code" button and select "Codespaces".
+2. Create a new Codespace or select a previous one you've already created.
+3. Codespaces opens in a separate tab in your browser.
+4. In terminal, run `bash ./setup.sh --local`
+5. When prompted in terminal, add your OpenAI API key.
+6. Click "Open in browser" when the build process completes.
+
+- To shut AgentGPT down, enter Ctrl+C in Terminal.
+- To restart AgentGPT, run `npm run dev` in Terminal.
+
 ### 🐳 Docker Setup
 
 The easiest way to run AgentGPT locally is by using docker.
@@ -129,7 +143,7 @@ OPENAI_API_KEY=changeme
 5. Modify prisma schema to use sqlite:
 
 ```bash
-./prisma/use_sqlite.sh
+./prisma/useSqlite.sh
 ```
 
 **Note:** This only needs to be done if you wish to use sqlite.

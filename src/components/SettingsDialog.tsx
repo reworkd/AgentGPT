@@ -65,7 +65,7 @@ export default function SettingsDialog({
         <Dropdown
           left={
             <>
-              <FaMicrochip />
+              <FaMicrochip/>
               <span className="ml-2">Model:</span>
             </>
           }

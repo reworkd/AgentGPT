@@ -3,7 +3,6 @@ import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
-import { tasksParser } from "./parsers";
 
 export const createModel = (settings: ModelSettings) =>
   new OpenAI({
@@ -14,7 +13,7 @@ export const createModel = (settings: ModelSettings) =>
     temperature: 0.9,
     modelName:
       settings.customModelName === "" ? GPT_35_TURBO : settings.customModelName,
-    maxTokens: 1000,
+    maxTokens: 750,
   });
 
 const startGoalPrompt = new PromptTemplate({

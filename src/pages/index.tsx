@@ -55,8 +55,6 @@ const Home: NextPage = () => {
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
-      } else {
-        setShowSettingsDialog(true);
       }
     }, 3000);
 

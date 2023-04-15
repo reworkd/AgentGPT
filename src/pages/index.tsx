@@ -15,9 +15,13 @@ import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
 import { GPT_35_TURBO } from "../utils/constants";
+import { useSession } from "next-auth/react";
+import { api } from "../utils/api";
+import { env } from "../env/client.mjs";
 import { TaskWindow } from "../components/TaskWindow";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
@@ -32,6 +36,19 @@ const Home: NextPage = () => {
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
 
+  // TODO: enable for crud
+  // const utils = api.useContext();
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // const voidFunc = () => {};
+  // const createAgent = api.agent.create.useMutation({
+  //   onSuccess: (data) => {
+  //     utils.agent.getAll.setData(voidFunc(), (oldData) => [
+  //       ...(oldData ?? []),
+  //       data,
+  //     ]);
+  //   },
+  // });
+
   useEffect(() => {
     const key = "agentgpt-modal-opened-new";
     const savedModalData = localStorage.getItem(key);
@@ -40,8 +57,6 @@ const Home: NextPage = () => {
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
-      } else {
-        setShowSettingsDialog(true);
       }
     }, 3000);
 
@@ -63,6 +78,13 @@ const Home: NextPage = () => {
 
   const handleNewGoal = () => {
     setTasks([]);
+    // TODO: enable for crud
+    // if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
+    //   createAgent.mutate({
+    //     name,
+    //     goal: goalInput,
+    //   });
+    // }
     const agent = new AutonomousAgent(
       name,
       goalInput,
@@ -93,14 +115,14 @@ const Home: NextPage = () => {
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
-      <main className="flex h-screen w-screen flex-row">
+      <main className="flex min-h-screen flex-row">
         <Drawer
           showHelp={() => setShowHelpDialog(true)}
           showSettings={() => setShowSettingsDialog(true)}
         />
         <div
           id="content"
-          className="z-10 flex h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
+          className="z-10 flex min-h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
         >
           <div
             id="layout"

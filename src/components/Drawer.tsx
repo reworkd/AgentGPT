@@ -15,9 +15,6 @@ import { BiPlus } from "react-icons/bi";
 import clsx from "clsx";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
-import { api } from "../utils/api";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useRouter } from "next/router";
 import { env } from "../env/client.mjs";
 
 const Drawer = ({
@@ -38,7 +35,7 @@ const Drawer = ({
   // });
   // const router = useRouter();
   //
-  // const userAgents = query.data ?? [];
+  const userAgents = [];
 
   const toggleDrawer = () => {
     setShowDrawer((prevState) => !prevState);
@@ -79,24 +76,24 @@ const Drawer = ({
             </button>
           </div>
           {/*{TODO: enable for crud}*/}
-          {/*<ul ref={animationParent}>*/}
-          {/*  {userAgents.map((agent, index) => (*/}
-          {/*    <DrawerItem*/}
-          {/*      key={index}*/}
-          {/*      icon={<FaRobot />}*/}
-          {/*      text={agent.name}*/}
-          {/*      className={""}*/}
-          {/*      onClick={() => void router.push(`/agent/${agent.id}`)}*/}
-          {/*    />*/}
-          {/*  ))}*/}
+          <ul>
+            {/*  {userAgents.map((agent, index) => (*/}
+            {/*    <DrawerItem*/}
+            {/*      key={index}*/}
+            {/*      icon={<FaRobot />}*/}
+            {/*      text={agent.name}*/}
+            {/*      className={""}*/}
+            {/*      onClick={() => void router.push(`/agent/${agent.id}`)}*/}
+            {/*    />*/}
+            {/*  ))}*/}
 
-          {/*  {userAgents.length === 0 && (*/}
-          {/*    <div>*/}
-          {/*      Click the above button to restart. In the future, this will be a*/}
-          {/*      list of your deployed agents!*/}
-          {/*    </div>*/}
-          {/*  )}*/}
-          {/*</ul>*/}
+            {userAgents.length === 0 && (
+              <div>
+                Click the above button to restart. In the future, this will be a
+                list of your deployed agents!
+              </div>
+            )}
+          </ul>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -107,7 +104,9 @@ const Drawer = ({
           {/*  onClick={() => setAgents([])}*/}
           {/*/>*/}
 
-          <AuthItem session={session} signIn={signIn} signOut={signOut} />
+          {env.NEXT_PUBLIC_FF_AUTH_ENABLED && (
+            <AuthItem session={session} signIn={signIn} signOut={signOut} />
+          )}
 
           <DrawerItem
             icon={<FaQuestionCircle />}

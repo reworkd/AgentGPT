@@ -30,7 +30,7 @@ const Dropdown = ({
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (
-      event.target instanceof HTMLDivElement &&
+      event.target instanceof HTMLInputElement &&
       typeof event.target.value === "string"
     ) {
       setCustomModelName(event.target.value);

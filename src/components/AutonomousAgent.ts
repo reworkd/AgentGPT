@@ -14,20 +14,20 @@ class AutonomousAgent {
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = true;
-  sendMessage: (message: Message) => void;
+  renderMessage: (message: Message) => void;
   shutdown: () => void;
   numLoops = 0;
 
   constructor(
     name: string,
     goal: string,
-    addMessage: (message: Message) => void,
+    renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings
   ) {
     this.name = name;
     this.goal = goal;
-    this.sendMessage = addMessage;
+    this.renderMessage = renderMessage;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
   }
@@ -62,8 +62,6 @@ class AutonomousAgent {
     console.log(this.tasks);
 
     if (!this.isRunning) {
-      this.sendManualShutdownMessage();
-      this.shutdown();
       return;
     }
 
@@ -183,7 +181,16 @@ class AutonomousAgent {
   }
 
   stopAgent() {
+    this.sendManualShutdownMessage();
     this.isRunning = false;
+    this.shutdown();
+    return;
+  }
+
+  sendMessage(message: Message) {
+    if (this.isRunning) {
+      this.renderMessage(message);
+    }
   }
 
   sendGoalMessage() {

@@ -19,6 +19,7 @@ import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 import Button from "./Button";
 import { useRouter } from "next/router";
+import WindowButton from "./WindowButton";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -152,25 +153,19 @@ const MacWindowHeader = () => {
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
       <div className="flex flex-grow"></div>
-      <PopIn delay={0.7}>
-        <div
-          className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
-          onClick={(): void => saveElementAsImage(messageListId)}
-        >
-          <FaSave size={12} />
-          <p className="font-mono">Save</p>
-        </div>
-      </PopIn>
+      <WindowButton
+        delay={0.7}
+        onClick={(): void => saveElementAsImage(messageListId)}
+        icon={<FaSave size={12} />}
+        text={"Save"}
+      />
 
-      <PopIn delay={0.8}>
-        <div
-          className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
-          onClick={(): void => copyElementText(messageListId)}
-        >
-          <FaClipboard size={12} />
-          <p className="font-mono">Copy</p>
-        </div>
-      </PopIn>
+      <WindowButton
+        delay={0.8}
+        onClick={(): void => copyElementText(messageListId)}
+        icon={<FaClipboard size={12} />}
+        text={"Copy"}
+      />
     </div>
   );
 };

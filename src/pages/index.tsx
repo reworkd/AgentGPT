@@ -29,7 +29,6 @@ const Home: NextPage = () => {
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-  const [tasks, setTasks] = React.useState<string[]>([]);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
 
@@ -75,14 +74,12 @@ const Home: NextPage = () => {
   }, [agent]);
 
   const handleAddMessage = (message: Message) => {
-    if (message.type == "task") {
-      setTasks((tasks) => [...tasks, message.value]);
-    }
     setMessages((prev) => [...prev, message]);
   };
 
+  const tasks = messages.filter((message) => message.type === "task");
+
   const handleNewGoal = () => {
-    setTasks([]);
     // TODO: enable for crud
     // if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
     //   createAgent.mutate({
@@ -156,8 +153,9 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <Expand className="w-full">
+            <Expand className="flex w-full flex-row">
               <ChatWindow className="mt-4" messages={messages} />
+              {tasks.length && <TaskWindow tasks={tasks} />}
             </Expand>
 
             <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">
@@ -225,7 +223,6 @@ const Home: NextPage = () => {
               </Button>
             </Expand>
           </div>
-          {tasks.length > 0 && <TaskWindow tasks={tasks} />}
         </div>
       </main>
     </DefaultLayout>

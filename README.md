@@ -8,8 +8,8 @@
     <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
 </p>
 <p align="center">
-    <img alt="English" src="https://img.shields.io/badge/lang-English-blue.svg" href="https://github.com/reworkd/AgentGPT/blob/master/README.md"/>
-    <img alt="简体中文" src="https://img.shields.io/badge/lang-简体中文-red.svg" href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"/>
+  <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
+  <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
 </p>
 
 <p align="center">

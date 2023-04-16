@@ -155,7 +155,7 @@ const Home: NextPage = () => {
 
             <Expand className="flex w-full flex-row">
               <ChatWindow className="mt-4" messages={messages} />
-              {tasks.length && <TaskWindow tasks={tasks} />}
+              {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>
 
             <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">

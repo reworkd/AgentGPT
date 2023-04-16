@@ -78,13 +78,9 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 
         {messages.length === 0 && (
           <>
-            {!!clientEnv.NEXT_PUBLIC_STRIPE_DONATION_URL && (
-              <Expand delay={0.7} type="spring">
-                <DonationMessage
-                  url={clientEnv.NEXT_PUBLIC_STRIPE_DONATION_URL}
-                />
-              </Expand>
-            )}
+            <Expand delay={0.7} type="spring">
+              <DonationMessage />
+            </Expand>
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
@@ -252,7 +248,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
-const DonationMessage = ({ url }: { url: string }) => {
+const DonationMessage = () => {
   const router = useRouter();
 
   return (
@@ -260,14 +256,16 @@ const DonationMessage = ({ url }: { url: string }) => {
       <div className="max-w-none flex-grow">
         💝️ Help support the advancement of AgentGPT. 💝
         <br />
-        Please consider donating help fund our high infrastructure costs.
+        Please consider sponsoring the project on GitHub.
       </div>
       <div className="flex items-center justify-center">
         <Button
           className="sm:text m-0 rounded-full text-sm "
-          onClick={() => void router.push(url)}
+          onClick={() =>
+            void router.push("https://github.com/sponsors/reworkd-admin")
+          }
         >
-          Donate Now 🚀
+          Support now 🚀
         </Button>
       </div>
     </div>

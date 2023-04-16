@@ -124,7 +124,7 @@ It will attempt to reach the goal by thinking of tasks to do, executing them, an
 This platform is currently in beta, we are currently working on:
 
 - Long term memory via a vector DB 🧠
-- Web browsing capabilities via langchain 🌐
+- Web browsing capabilities via LangChain 🌐
 - Interaction with websites and people 👨‍👩‍👦
 - Writing capabilities via a document API 📄
 - Saving agent runs 💾

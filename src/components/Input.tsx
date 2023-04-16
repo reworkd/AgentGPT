@@ -13,18 +13,21 @@ interface InputProps {
   setValue?: (value: string) => void;
   type?: string;
   attributes?: { [key: string]: string | number | string[] }; // attributes specific to input type
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
-const Input = ({
-  placeholder,
-  left,
-  value,
-  type,
-  onChange,
-  setValue,
-  disabled,
-  attributes,
-}: InputProps) => {
+const Input = (props: InputProps) => {
+  const {
+    placeholder,
+    left,
+    value,
+    type,
+    onChange,
+    setValue,
+    disabled,
+    attributes,
+    inputRef
+  } = props;
   const isTypeCombobox = () => {
     return type === "combobox";
   };
@@ -52,6 +55,7 @@ const Input = ({
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none"
         )}
+        ref={inputRef}
         placeholder={placeholder}
         type="text"
         value={value}

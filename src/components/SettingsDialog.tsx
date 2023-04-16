@@ -6,21 +6,25 @@ import Input from "./Input";
 import Dropdown from "./Dropdown";
 import { GPT_MODEL_NAMES } from "../utils/constants";
 
-export default function SettingsDialog({
-  show,
-  close,
-  customApiKey,
-  setCustomApiKey,
-  customModelName,
-  setCustomModelName,
-}: {
+interface SettingsDialogProps {
   show: boolean;
   close: () => void;
   customApiKey: string;
   setCustomApiKey: (key: string) => void;
   customModelName: string;
   setCustomModelName: (key: string) => void;
-}) {
+}
+
+export default function SettingsDialog(props: SettingsDialogProps) {
+  const {
+    show,
+    close,
+    customApiKey,
+    setCustomApiKey,
+    customModelName,
+    setCustomModelName,
+  } = props;
+
   const [key, setKey] = React.useState<string>(customApiKey);
 
   const handleClose = () => {

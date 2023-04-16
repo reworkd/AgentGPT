@@ -1,0 +1,17 @@
+version: '3'
+services:
+  agentgpt:
+    build:
+      context: .
+      target: preview
+      args:
+        NEXTAUTH_URL: http://localhost:3000
+        DATABASE_URL: file:../db/db.sqlite
+    container_name: agentgpt
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    ports:
+      - 3000:3000
+    volumes:
+      - ./db:/app/db
+    restart: unless-stopped

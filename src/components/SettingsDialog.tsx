@@ -1,10 +1,14 @@
 import React from "react";
 import Button from "./Button";
-import { FaKey, FaMicrochip, FaThermometerFull } from "react-icons/fa";
+import {
+  FaKey,
+  FaMicrochip,
+  FaThermometerFull,
+  FaExclamationCircle,
+} from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
-import Dropdown from "./Dropdown";
-import { GPT_MODEL_NAMES } from "../utils/constants";
+import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
 
 export default function SettingsDialog({
   show,
@@ -50,7 +54,27 @@ export default function SettingsDialog({
         additionally select any model OpenAI offers.
       </p>
       <br />
-      <p>To use GPT-4, your API Key needs to have the correct access.</p>
+      <p
+        className={
+          customModelName === GPT_4
+            ? "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
+            : ""
+        }
+      >
+        <FaExclamationCircle className="inline-block" />
+        &nbsp;
+        <b>
+          To use the GPT-4 model, you need to also provide the API key for
+          GPT-4. You can request for it&nbsp;
+          <a
+            href="https://openai.com/waitlist/gpt-4-api"
+            className="text-blue-500"
+          >
+            here
+          </a>
+          . (ChatGPT Plus subscription will not work)
+        </b>
+      </p>
       <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <Input
@@ -62,7 +86,7 @@ export default function SettingsDialog({
           }
           type="combobox"
           value={customModelName}
-          onChange={(e) => null}
+          onChange={() => null}
           setValue={setCustomModelName}
           attributes={{ options: GPT_MODEL_NAMES }}
         />

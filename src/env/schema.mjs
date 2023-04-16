@@ -5,6 +5,13 @@ const requiredForProduction = () => process.env.NODE_ENV === "production"
     ? z.string().min(1).trim()
     : z.string().min(1).trim().optional()
 
+function stringToBoolean() {
+  return z.preprocess(
+      (str) => str === "true",
+      z.boolean(),
+  );
+}
+
 /**
  * Specify your server-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.
@@ -57,8 +64,7 @@ export const serverEnv = {
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
-  NEXT_PUBLIC_STRIPE_DONATION_URL: z.string().url().optional(),
-  NEXT_PUBLIC_FF_AUTH_ENABLED: z.boolean().optional()
+  NEXT_PUBLIC_FF_AUTH_ENABLED: stringToBoolean()
 });
 
 /**
@@ -69,6 +75,5 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  NEXT_PUBLIC_STRIPE_DONATION_URL: process.env.NEXT_PUBLIC_STRIPE_DONATION_URL,
   NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED
 };

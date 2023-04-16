@@ -6,6 +6,7 @@ import {
   executeAgent,
   startAgent,
 } from "../services/agent-service";
+import { GPT_4 } from "../utils/constants";
 
 class AutonomousAgent {
   name: string;
@@ -47,7 +48,11 @@ class AutonomousAgent {
       console.log(e);
       this.sendErrorMessage(
         this.modelSettings.customApiKey !== ""
-          ? `ERROR retrieving initial tasks array. Make sure your API key is not the free tier, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
+          ? `ERROR retrieving initial tasks array. Make sure ${
+              this.modelSettings.customModelName === GPT_4
+                ? "you have the API key for GPT 4"
+                : "your API key is not the free tier"
+            }, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
           : `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
       );
       this.shutdown();

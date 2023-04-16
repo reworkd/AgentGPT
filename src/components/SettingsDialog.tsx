@@ -53,16 +53,18 @@ export default function SettingsDialog({
       <p>To use GPT-4, your API Key needs to have the correct access.</p>
       <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
-        <Dropdown
+        <Input
           left={
             <>
               <FaMicrochip />
               <span className="ml-2">Model:</span>
             </>
           }
+          type="combobox"
           value={customModelName}
-          options={GPT_MODEL_NAMES}
-          setCustomModelName={setCustomModelName}
+          onChange={(e) => null}
+          setValue={setCustomModelName}
+          attributes={{ options: GPT_MODEL_NAMES }}
         />
         <br className="hidden md:inline" />
         <Input

@@ -26,7 +26,7 @@ const Input = (props: InputProps) => {
     setValue,
     disabled,
     attributes,
-    inputRef
+    inputRef,
   } = props;
   const isTypeCombobox = () => {
     return type === "combobox";
@@ -51,7 +51,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <input
         className={clsx(
-          "border:black delay-50 w-full rounded-xl border-[2px] border-white/10 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:py-3 md:text-lg",
+          "border:black delay-50 w-full rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] px-2 py-2 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:py-3 md:text-lg",
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none"
         )}
@@ -66,7 +66,7 @@ const Input = (props: InputProps) => {
   }
 
   return (
-    <div className="items-left z-10 flex w-full flex-col rounded-xl bg-[#3a3a3a] font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center">
+    <div className="items-left z-10 flex w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a]">
       {left && <Label left={left} />}
       {inputElement}
     </div>

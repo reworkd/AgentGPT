@@ -21,6 +21,14 @@
 ---
 
 <h2 align="center">
+  ⚠ WARNING ⚠
+</h2>
+
+<p align="center">
+  <strong>At the moment this demo is only pretending.</strong> And  while the future is bright and exciting you should know that for now this project cannot really excecute these tasks. Consider sponsoring us or contributing in other meaningful ways and help us make AgentGPT a reality to serve us al!
+</p>
+
+<h2 align="center">
 💝 Support the Advancement of AgentGPT!! 💝
 </h2>
 

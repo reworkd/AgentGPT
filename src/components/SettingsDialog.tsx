@@ -9,6 +9,7 @@ import {
 import Dialog from "./Dialog";
 import Input from "./Input";
 import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
+import Accordion from "./Accordion";
 
 export default function SettingsDialog({
   show,
@@ -40,6 +41,25 @@ export default function SettingsDialog({
     setCustomApiKey(key);
     close();
   };
+
+  const advancedSettings = (
+    <Input
+      left={
+        <>
+          <FaThermometerFull />
+          <span className="ml-2">Temp: </span>
+        </>
+      }
+      value={customTemperature}
+      onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
+      type="range"
+      attributes={{
+        min: 0,
+        max: 1,
+        step: 0.01,
+      }}
+    />
+  );
 
   return (
     <Dialog
@@ -102,23 +122,12 @@ export default function SettingsDialog({
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />
-        <br className="hidden md:inline" />
-        <Input
-          left={
-            <>
-              <FaThermometerFull />
-              <span className="ml-2">Temp: </span>
-            </>
-          }
-          value={customTemperature}
-          onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
-          type="range"
-          attributes={{
-            min: 0,
-            max: 1,
-            step: 0.01,
-          }}
-        />
+        <br className="md:inline" />
+        <Accordion
+          child={advancedSettings}
+          name="Advanced Settings"
+        ></Accordion>
+        <br />
         <strong className="mt-10">
           NOTE: To get a key, sign up for an OpenAI account and visit the
           following{" "}

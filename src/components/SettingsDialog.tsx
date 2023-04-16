@@ -53,6 +53,10 @@ export default function SettingsDialog({
       value={customTemperature}
       onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
       type="range"
+      toolTipProperties={{
+        message: "Higher temperature will make output more random",
+        disabled: false,
+      }}
       attributes={{
         min: 0,
         max: 1,

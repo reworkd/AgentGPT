@@ -3,6 +3,7 @@ import Label from "./Label";
 import clsx from "clsx";
 import Combobox from "./Combobox";
 import isArrayOfType from "../utils/helpers";
+import type { toolTipProperties } from "./types";
 
 interface InputProps {
   left?: React.ReactNode;
@@ -13,6 +14,7 @@ interface InputProps {
   setValue?: (value: string) => void;
   type?: string;
   attributes?: { [key: string]: string | number | string[] }; // attributes specific to input type
+  toolTipProperties?: toolTipProperties;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
 
@@ -27,6 +29,7 @@ const Input = (props: InputProps) => {
     disabled,
     attributes,
     inputRef,
+    toolTipProperties,
   } = props;
   const isTypeCombobox = () => {
     return type === "combobox";
@@ -78,7 +81,9 @@ const Input = (props: InputProps) => {
         isTypeRange() ? "md: border-white/10 md:border-[2px]" : ""
       } shadow-xl md:flex-row md:items-center`}
     >
-      {left && <Label left={left} type={type} />}
+      {left && (
+        <Label left={left} type={type} toolTipProperties={toolTipProperties} />
+      )}
       {inputElement}
       {isTypeRange() && (
         <p className="m-auto w-1/6 px-0 text-center text-sm md:text-lg">

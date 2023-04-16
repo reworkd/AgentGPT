@@ -1,7 +1,7 @@
+import React, { useEffect, useRef } from "react";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
-import React, { useEffect } from "react";
 import type { Message } from "../components/ChatWindow";
 import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
@@ -61,6 +61,11 @@ const Home: NextPage = () => {
     }, 3000);
 
     localStorage.setItem(key, JSON.stringify(true));
+  }, []);
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    nameInputRef?.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -158,6 +163,7 @@ const Home: NextPage = () => {
             <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">
               <Expand delay={1.2}>
                 <Input
+                  inputRef={nameInputRef}
                   left={
                     <>
                       <FaRobot />

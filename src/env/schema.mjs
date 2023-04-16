@@ -35,6 +35,8 @@ export const serverSchema = z.object({
   GITHUB_CLIENT_SECRET: requiredForProduction(),
   DISCORD_CLIENT_ID: requiredForProduction(),
   DISCORD_CLIENT_SECRET: requiredForProduction(),
+  STRIPE_SECRET_KEY: requiredForProduction(),
+  STRIPE_WEBHOOK_SECRET: requiredForProduction(),
 });
 
 /**
@@ -53,7 +55,9 @@ export const serverEnv = {
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   DISCORD_CLIENT_ID:  process.env.DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET
+  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET
 };
 
 /**
@@ -64,7 +68,8 @@ export const serverEnv = {
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
-  NEXT_PUBLIC_FF_AUTH_ENABLED: stringToBoolean()
+  NEXT_PUBLIC_FF_AUTH_ENABLED: stringToBoolean(),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
 });
 
 /**
@@ -75,5 +80,6 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED
 };

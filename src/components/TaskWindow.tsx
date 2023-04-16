@@ -3,7 +3,6 @@ import { FaListAlt } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
 import type { Message } from "./ChatWindow";
-import clsx from "clsx";
 
 type TaskWindowProps = {
   tasks: Message[];

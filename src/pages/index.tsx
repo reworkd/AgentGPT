@@ -16,8 +16,6 @@ import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
 import { GPT_35_TURBO } from "../utils/constants";
 import { useSession } from "next-auth/react";
-import { api } from "../utils/api";
-import { env } from "../env/client.mjs";
 import { TaskWindow } from "../components/TaskWindow";
 
 const Home: NextPage = () => {

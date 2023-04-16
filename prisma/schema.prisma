@@ -37,14 +37,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   Agent         Agent[]
+  Subscription  Subscription[]
+  Checkout      Checkout[]
 }
 
 model VerificationToken {
@@ -55,11 +57,31 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Checkout {
+  id        String   @id
+  userId    String
+  createdAt DateTime @default(now())
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription Subscription[]
+}
+
+model Subscription {
+  id     String @id
+  userId String
+  planId String
+  status String
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Checkout   Checkout? @relation(fields: [checkoutId], references: [id])
+  checkoutId String?
+}
+
 model Agent {
   id     String @id @default(cuid())
   userId String
   name   String
-  goal   String @db.Text
+  goal   String
 
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   AgentTask AgentTask[]
@@ -68,8 +90,8 @@ model Agent {
 model AgentTask {
   id      String @id @default(cuid())
   agentId String
-  task    String @db.Text
-  result  String @db.Text
+  task    String
+  result  String
 
   agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
 }

@@ -6,6 +6,7 @@ import {
   FaGithub,
   FaQuestionCircle,
   FaRobot,
+  FaRocket,
   FaSignInAlt,
   FaSignOutAlt,
   FaTwitter,
@@ -16,6 +17,8 @@ import clsx from "clsx";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
 import { env } from "../env/client.mjs";
+import { api } from "../utils/api";
+import { useRouter } from "next/router";
 
 const Drawer = ({
   showHelp,
@@ -26,6 +29,14 @@ const Drawer = ({
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
+  const router = useRouter();
+
+  const sub = api.subscription.subscribe.useMutation({
+    onSuccess: async (url) => {
+      if (!url) return;
+      await router.push(url);
+    },
+  });
 
   // TODO: enable for crud
   // const [animationParent] = useAutoAnimate();s
@@ -107,7 +118,17 @@ const Drawer = ({
           {env.NEXT_PUBLIC_FF_AUTH_ENABLED && (
             <AuthItem session={session} signIn={signIn} signOut={signOut} />
           )}
+          <DrawerItem
+            icon={<FaRocket />}
+            text="Go Pro"
+            onClick={() => {
+              if (status !== "authenticated") {
+                signIn();
+              }
 
+              void sub.mutate();
+            }}
+          />
           <DrawerItem
             icon={<FaQuestionCircle />}
             text="Help"

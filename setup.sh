@@ -1,8 +1,21 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit
 
+is_valid_key() {
+  local api_key=$1
+  local pattern="^sk-[a-zA-Z0-9]{48}$"
+  [[ $api_key =~ $pattern ]] && return 0 || return 1
+}
+
 echo -n "Enter your OpenAI Key (eg: sk...): "
 read OPENAI_API_KEY
+
+if is_valid_key $OPENAI_API_KEY; then
+  echo "Valid API key"
+else
+  echo "Invalid API key"
+  exit
+fi
 
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 

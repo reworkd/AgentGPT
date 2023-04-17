@@ -21,15 +21,22 @@ import Button from "./Button";
 import { useRouter } from "next/router";
 import { clientEnv } from "../env/schema.mjs";
 
-interface ChatWindowProps {
+interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
   messages: Message[];
+  showDonation: boolean;
 }
 
 const messageListId = "chat-window-message-list";
 
-const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
+const ChatWindow = ({
+  messages,
+  children,
+  className,
+  title,
+  showDonation,
+}: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +71,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         (className ?? "")
       }
     >
-      <MacWindowHeader />
+      <MacWindowHeader title={title} />
       <div
         className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
         ref={scrollRef}
@@ -78,9 +85,11 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 
         {messages.length === 0 && (
           <>
-            <Expand delay={0.7} type="spring">
-              <DonationMessage />
-            </Expand>
+            {showDonation && (
+              <Expand delay={0.7} type="spring">
+                <DonationMessage />
+              </Expand>
+            )}
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
@@ -106,7 +115,11 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   );
 };
 
-const MacWindowHeader = () => {
+interface HeaderProps {
+  title?: string | ReactNode;
+}
+
+const MacWindowHeader = (props: HeaderProps) => {
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -152,7 +165,9 @@ const MacWindowHeader = () => {
       <PopIn delay={0.6}>
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-      <div className="flex flex-grow"></div>
+      <div className="ml-2 flex flex-grow font-mono text-sm font-bold text-gray-600">
+        {props.title}
+      </div>
       <PopIn delay={0.7}>
         <div
           className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"

@@ -104,6 +104,12 @@ const Home: NextPage = () => {
     agent?.stopAgent();
   };
 
+  const proTitle = (
+    <>
+      AgentGPT&nbsp;<span className="text-amber-500/90">Pro</span>
+    </>
+  );
+
   return (
     <DefaultLayout>
       <HelpDialog
@@ -155,7 +161,12 @@ const Home: NextPage = () => {
             </div>
 
             <Expand className="w-full">
-              <ChatWindow className="mt-4" messages={messages} />
+              <ChatWindow
+                className="mt-4"
+                messages={messages}
+                title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
+                showDonation={!session?.user.subscriptionId}
+              />
             </Expand>
 
             <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">

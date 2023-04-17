@@ -6,7 +6,6 @@ import isArrayOfType from "../utils/helpers";
 import type { toolTipProperties } from "./types";
 
 interface InputProps {
-  id?: string;
   left?: React.ReactNode;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -21,7 +20,6 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const {
-    id,
     placeholder,
     left,
     value,
@@ -74,7 +72,6 @@ const Input = (props: InputProps) => {
         onChange={onChange}
         disabled={disabled}
         {...attributes}
-        {...(id && { id })}
       />
     );
   }

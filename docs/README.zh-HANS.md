@@ -2,20 +2,22 @@
   <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ" height="300"/>
 </p>
 <p align="center">
-  <em>🤖 Assemble, configure, and deploy autonomous AI Agents in your browser. 🤖 </em>
+  <em>🤖 组装，配置和部署自主的 AI 代理（只需浏览器） 🤖 </em>
 </p>
 <p align="center">
     <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
-      <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
 </p>
 
 <p align="center">
-<a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
+<a href="https://agentgpt.reworkd.ai">🔗 短链接</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="#-getting-started">🤝 Contribute</a>
+<a href="#-getting-started">🤝 参与贡献</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
+<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 推特</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://discord.gg/3PccggEG">📢 Discord</a>
 </p>
@@ -23,23 +25,24 @@
 ---
 
 <h2 align="center">
-💝 Support the Advancement of AgentGPT!! 💝
+💝 支持 AgentGPT 的发展!! 💝
 </h2>
 
 <p align="center">
 Join us in fueling the development of AgentGPT, an open-source project pushing the boundaries of AI autonomy! We're facing challenges in covering the operational costs 💸, including in-house API and other infrastructure expenses, which is projected to grow to around $150 USD per day 💳🤕 Your sponsorship would drive progress by helping us scale up resources, enhance features and functionality, and continue to iterate on this exciting project! 🚀
+加入我们推动 AgentGPT 的发展. 这是一个推动AI自主的开源项目！我们面临着支付运营成本的挑战 💸，包括内部 API 和其他基础设施费用，预计每天需要支付约 150 美元 💳🤕 你的赞助将帮助我们扩大资源，增强功能和不断推动这个的项目的进展！ 🚀
 </p>
 
 <p align="center">
-By sponsoring this free, open-source project, you not only have the opportunity to have your avatar/logo featured below, but also get the exclusive chance to chat with the founders!🗣️ 
+通过赞助这个开源项目，你不仅有机会在下方展示你的头像/徽标，还可以与创始人独家交流！ 🗣️ 
 </p>
 
 <p align="center">
-<a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project 
+<a href="https://github.com/sponsors/reworkd-admin">👉 点击此处</a> 支持项目
 </p>
 
 <h3 align="center">
-🙌🏻 Our Sponsers 🙌🏻
+🙌🏻 我们的 Github 赞助商 🙌🏻
 </h3>
 
 <div align="center" dir="auto">
@@ -117,23 +120,23 @@ By sponsoring this free, open-source project, you not only have the opportunity 
 
 ---
 
-AgentGPT allows you to configure and deploy Autonomous AI agents.
-Name your own custom AI and have it embark on any goal imaginable.
-It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
+AgentGPT 可以让你配置和部署 AI 代理。
+为你定制的 AI 命名，并让它执行任何可以想象的目标。
+AI 代理会先思考再执行任务。执行完任务后会学习成果 🚀.
 
 ## 🎉 Roadmap
 
-This platform is currently in beta, we are currently working on:
+该平台目前处于测试阶段，以下是我们的路线图：
 
-- Long term memory via a vector DB 🧠
-- Web browsing capabilities via LangChain 🌐
-- Interaction with websites and people 👨‍👩‍👦
-- Writing capabilities via a document API 📄
-- Saving agent runs 💾
-- Users and authentication 🔐
-- Stripe integration for a lower limit paid version (So we can stop worrying about infra costs) 💵
+- 通过矢量数据库实现长期记忆 🧠
+- 通过 langchain 实现网络浏览能力 🌐
+- 与网站和人互动 👨‍👩‍👦
+- 通过 Document API 实现写作能力 📄
+- 保存代理的运行 💾
+- 用户和身份验证 🔐
+- 通过 Stripe 提供较低限制的付费版本（降低我们的基础设施成本)
 
-More Coming soon...
+即将推出更多功能...
 
 ## 🚀 Tech Stack
 
@@ -150,8 +153,8 @@ More Coming soon...
 
 ### 🐳 Docker Setup
 
-The easiest way to run AgentGPT locally is by using docker.
-A convenient setup script is provided to help you get started.
+Docker 是在本地运行 AgentGPT 最简单的方法。
+以下是一个方便的设置脚本。
 
 ```bash
 ./setup.sh --docker
@@ -159,8 +162,7 @@ A convenient setup script is provided to help you get started.
 
 ### 👷 Local Development Setup
 
-If you wish to develop AgentGPT locally, the easiest way is to
-use the provided setup script.
+如果你想在本地开发 AgentGPT，最简单的方法是使用以下的设置脚本。
 
 ```bash
 ./setup.sh --local
@@ -168,74 +170,74 @@ use the provided setup script.
 
 ### 🛠️ Manual Setup
 
-> 🚧 You will need [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) installed.
+> 🚧 你需要安装 [Nodejs +18 (LTS recommended)](https://nodejs.org/en/)。
 
-1. Fork this project:
+1. 创建存储库分支:
 
 - [Click here](https://github.com/reworkd/AgentGPT/fork).
 
-2. Clone the repository:
+2. 克隆存储库:
 
 ```bash
 git clone git@github.com:YOU_USER/AgentGPT.git
 ```
 
-3. Install dependencies:
+3. 安装依赖项:
 
 ```bash
 cd AgentGPT
 npm install
 ```
 
-4. Create a **.env** file with the following content:
+4. 使用以下内容创建.env:
 
-> 🚧 The environment variables must match the following [schema](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
+> 🚧 环境变量必须符合以下 [架构](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
 
 ```bash
-# Deployment Environment:
+# 部署环境:
 NODE_ENV=development
 
-# Next Auth config:
-# Generate a secret with `openssl rand -base64 32`
+# Next Auth 配置:
+# 用`openssl rand -base64 32`生成NEXTAUTH_SECRET的秘密
 NEXTAUTH_SECRET=changeme
 NEXTAUTH_URL=http://localhost:3000
 DATABASE_URL=file:./db.sqlite
 
-# Your open api key
+# 你的open api密钥
 OPENAI_API_KEY=changeme
 ```
 
-5. Modify prisma schema to use sqlite:
+5. 使用 sqlite 修改 prisma 架构:
 
 ```bash
 ./prisma/useSqlite.sh
 ```
 
-**Note:** This only needs to be done if you wish to use sqlite.
+**注意:** 使用 sqlite 时才需要执行此步骤。
 
-6. Ready 🥳, now run:
+6. 准备就绪 🥳，现在可以运行了:
 
 ```bash
-# Create database migrations
+# 创建数据库迁移
 npx prisma db push
 npm run dev
 ```
 
 ### 🚀 GitHub Codespaces
 
-Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://github.com/features/codespaces).
+使用[GitHub Codespaces](https://github.com/features/codespaces)在云端设置 AgentGPT。
 
-1. From the GitHub repo, click the green "Code" button and select "Codespaces".
-2. Create a new Codespace or select a previous one you've already created.
+1. 从 GitHub 存储库中，单击绿色的 "Code" 按钮并选择 "Codespaces"。
+2. 创建一个新的 Codespace 或选择之前已创建的 Codespace。
 3. Codespaces opens in a separate tab in your browser.
-4. In terminal, run `bash ./setup.sh --local`
-5. When prompted in terminal, add your OpenAI API key.
-6. Click "Open in browser" when the build process completes.
+4. 在终端中运行 `bash ./setup.sh --local`。
+5. 当终端中提示时，添加你的 OpenAI API 密钥。
+6. 当构建过程完成后，单击 "Open in browser"。
 
-- To shut AgentGPT down, enter Ctrl+C in Terminal.
-- To restart AgentGPT, run `npm run dev` in Terminal.
+- 如果要关闭 AgentGPT，请在终端中输入 Ctrl+C
+- 如果要重启 AgentGPT, 请在终端中运行 `npm run dev`。
 
-Run the project 🥳
+运行该项目 🥳
 
 ```
 npm run dev

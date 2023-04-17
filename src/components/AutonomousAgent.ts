@@ -1,4 +1,5 @@
 import type { Message } from "./ChatWindow";
+import type { AxiosError } from "axios";
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
 import {
@@ -6,7 +7,7 @@ import {
   executeAgent,
   startAgent,
 } from "../services/agent-service";
-import { GPT_4 } from "../utils/constants";
+import { DEFAULT_MAX_LOOPS, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 
 class AutonomousAgent {
   name: string;
@@ -46,15 +47,7 @@ class AutonomousAgent {
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(
-        this.modelSettings.customApiKey !== ""
-          ? `ERROR retrieving initial tasks array. Make sure ${
-              this.modelSettings.customModelName === GPT_4
-                ? "you have the API key for GPT 4"
-                : "your API key is not the free tier"
-            }, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
-          : `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`
-      );
+      this.sendErrorMessage(getMessageFromError(e));
       this.shutdown();
       return;
     }
@@ -77,7 +70,10 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.modelSettings.customApiKey === "" ? 4 : 50;
+    const maxLoops =
+      this.modelSettings.customApiKey === ""
+        ? DEFAULT_MAX_LOOPS_FREE
+        : this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -128,6 +124,7 @@ class AutonomousAgent {
 
   async getInitialTasks(): Promise<string[]> {
     if (this.shouldRunClientSide()) {
+      await testConnection(this.modelSettings);
       return await startAgent(this.modelSettings, this.goal);
     }
 
@@ -254,5 +251,42 @@ class AutonomousAgent {
     });
   }
 }
+
+const testConnection = async (modelSettings: ModelSettings) => {
+  // A dummy connection to see if the key is valid
+  // Can't use LangChain / OpenAI libraries to test because they have retries in place
+  return await axios.post(
+    "https://api.openai.com/v1/chat/completions",
+    {
+      model: modelSettings.customModelName,
+      messages: [{ role: "user", content: "Say this is a test" }],
+      max_tokens: 7,
+      temperature: 0,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${modelSettings.customApiKey}`,
+      },
+    }
+  );
+};
+
+const getMessageFromError = (e: unknown) => {
+  let message =
+    "ERROR accessing OpenAI APIs. Please check your API key or try again later";
+  if (axios.isAxiosError(e)) {
+    const axiosError = e as AxiosError;
+    if (axiosError.response?.status === 429) {
+      message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
+    }
+    if (axiosError.response?.status === 404) {
+      message = `ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)`;
+    }
+  } else {
+    message = `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`;
+  }
+  return message;
+};
 
 export default AutonomousAgent;

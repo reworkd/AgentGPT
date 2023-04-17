@@ -38,6 +38,7 @@ export const serverSchema = z.object({
 
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
 });
 
 /**
@@ -59,7 +60,8 @@ export const serverEnv = {
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+  STRIPE_SUBSCRIPTION_PRICE_ID: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
 };
 
 /**

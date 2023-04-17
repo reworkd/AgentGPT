@@ -25,7 +25,8 @@ export const accountRouter = createTRPCRouter({
       mode: "subscription",
       line_items: [
         {
-          price: "price_1Mx1luBzaMdLmh5Ro5ZxHC9d",
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          price: env.STRIPE_SUBSCRIPTION_PRICE_ID ?? "",
           quantity: 1,
         },
       ],

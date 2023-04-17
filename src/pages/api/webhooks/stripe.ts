@@ -5,6 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db";
+import { getCustomerEmail } from "../../../utils/stripe-utils";
 
 const stripe = new Stripe(env.STRIPE_SECRET_KEY ?? "", {
   apiVersion: "2022-11-15",
@@ -43,7 +44,6 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     event = stripe.webhooks.constructEvent(buf.toString(), sig, webhookSecret);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : "Unknown error";
-    // On error, log and return the error message.
     if (err instanceof Error) console.log(err);
     console.log(`❌ Error message: ${errorMessage}`);
     res.status(400).send(`Webhook Error: ${errorMessage}`);
@@ -56,48 +56,45 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const subscription = event.data.object as Stripe.Subscription;
-  const userId = subscription.metadata.userId;
-  const status = subscription.status;
+  const email = await getCustomerEmail(stripe, subscription.customer);
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: email,
+    },
+  });
 
   // Handle the event
   switch (event.type) {
-    case "customer.subscription.trial_will_end":
-      console.log(`Subscription status is ${status}.`);
-      // Then define and call a method to handle the subscription trial ending.
-      // handleSubscriptionTrialEnding(subscription);
-      break;
     case "customer.subscription.deleted":
-      console.log(`Subscription status is ${status}.`);
-      // Then define and call a method to handle the subscription deleted.
-      // handleSubscriptionDeleted(subscriptionDeleted);
-      break;
-    case "customer.subscription.created":
-      console.log(`Subscription status is ${status}.`);
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const plan = subscription.plan as Stripe.Plan;
-
-      await prisma.subscription.create({
-        data: {
-          id: subscription.id,
-          userId: subscription.metadata.userId,
-          planId: plan.id,
-          status: subscription.status,
-        },
-      });
-      break;
+    case "customer.subscription.paused":
     case "customer.subscription.updated":
-      console.log(`Subscription status is ${status}.`);
-      // Then define and call a method to handle the subscription update.
-      // handleSubscriptionUpdated(subscription);
+    case "customer.subscription.resumed":
+      await updateUserSubscription(user.id, subscription);
       break;
     default:
-      // Unexpected event type
-      console.warn(`Unhandled event type ${event.type}.`);
+      console.log(`Unhandled event type ${event.type}.`);
   }
 
   success(res);
+};
+
+const updateUserSubscription = async (
+  userId: string,
+  subscription: Stripe.Subscription
+) => {
+  const subscriptionId =
+    subscription.status === "active" || subscription.status === "trialing"
+      ? subscription.id
+      : undefined;
+
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      subscriptionId,
+    },
+  });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call

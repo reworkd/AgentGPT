@@ -27,8 +27,6 @@ export default function SettingsDialog({
   close: () => void;
   reactModelStates: reactModelStates;
 }) {
-  const maxLoopsInputId = "max-loops-input";
-
   const {
     customApiKey,
     setCustomApiKey,
@@ -90,7 +88,6 @@ export default function SettingsDialog({
             <span className="ml-2">Loop #: </span>
           </>
         }
-        id={maxLoopsInputId}
         value={customMaxLoops}
         disabled={!key}
         onChange={(e) => setCustomMaxLoops(parseFloat(e.target.value))}

@@ -46,4 +46,5 @@ const getContent = (messages: Message[]): string => {
     })
     .join("\n");
 };
+
 export default PDFButton;

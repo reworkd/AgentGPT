@@ -29,6 +29,7 @@ const Home: NextPage = () => {
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
   const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
+  const [customMaxLoop, setCustomMaxLoop] = React.useState<number>(25);
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -93,7 +94,7 @@ const Home: NextPage = () => {
       goalInput,
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature }
+      { customApiKey, customModelName, customTemperature, customMaxLoop }
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
@@ -111,12 +112,22 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customApiKey={customApiKey}
-        setCustomApiKey={setCustomApiKey}
-        customModelName={customModelName}
-        setCustomModelName={setCustomModelName}
-        customTemperature={customTemperature}
-        setCustomTemperature={setCustomTemperature}
+        // customApiKey={customApiKey}
+        // setCustomApiKey={setCustomApiKey}
+        // customModelName={customModelName}
+        // setCustomModelName={setCustomModelName}
+        // customTemperature={customTemperature}
+        // setCustomTemperature={setCustomTemperature}
+        reactModelStates={{
+          customApiKey,
+          setCustomApiKey,
+          customModelName,
+          setCustomModelName,
+          customTemperature,
+          setCustomTemperature,
+          customMaxLoop,
+          setCustomMaxLoop,
+        }}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />

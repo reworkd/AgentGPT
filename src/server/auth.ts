@@ -26,7 +26,7 @@ declare module "next-auth" {
   }
 
   interface User {
-    role?: "ADMIN";
+    role?: string;
     subscriptionId: string | undefined;
   }
 }

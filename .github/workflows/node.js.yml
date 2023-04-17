@@ -19,3 +19,5 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm test
+      - run: ./prisma/useSqlite.sh && npm run postinstall
+

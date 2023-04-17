@@ -9,10 +9,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-enum Role {
-  ADMIN
-}
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -46,7 +42,7 @@ model User {
   email          String?   @unique
   emailVerified  DateTime?
   image          String?
-  role           Role?
+  role           String?
   subscriptionId String?   @db.Text
   customerId     String?   @db.Text
 

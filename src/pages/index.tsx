@@ -14,22 +14,24 @@ import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
-import { GPT_35_TURBO } from "../utils/constants";
+import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { useSession } from "next-auth/react";
-import { api } from "../utils/api";
-import { env } from "../env/client.mjs";
 import { TaskWindow } from "../components/TaskWindow";
+import { useAuth } from "../hooks/useAuth";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
+  const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
+  const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
+  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(
+    DEFAULT_MAX_LOOPS_FREE
+  );
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-  const [tasks, setTasks] = React.useState<string[]>([]);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
 
@@ -75,14 +77,12 @@ const Home: NextPage = () => {
   }, [agent]);
 
   const handleAddMessage = (message: Message) => {
-    if (message.type == "task") {
-      setTasks((tasks) => [...tasks, message.value]);
-    }
     setMessages((prev) => [...prev, message]);
   };
 
+  const tasks = messages.filter((message) => message.type === "task");
+
   const handleNewGoal = () => {
-    setTasks([]);
     // TODO: enable for crud
     // if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
     //   createAgent.mutate({
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
       goalInput,
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName }
+      { customApiKey, customModelName, customTemperature, customMaxLoops }
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
@@ -106,6 +106,12 @@ const Home: NextPage = () => {
     agent?.stopAgent();
   };
 
+  const proTitle = (
+    <>
+      AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
+    </>
+  );
+
   return (
     <DefaultLayout>
       <HelpDialog
@@ -113,10 +119,16 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customApiKey={customApiKey}
-        setCustomApiKey={setCustomApiKey}
-        customModelName={customModelName}
-        setCustomModelName={setCustomModelName}
+        reactModelStates={{
+          customApiKey,
+          setCustomApiKey,
+          customModelName,
+          setCustomModelName,
+          customTemperature,
+          setCustomTemperature,
+          customMaxLoops,
+          setCustomMaxLoops,
+        }}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -156,8 +168,16 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <Expand className="w-full">
-              <ChatWindow className="mt-4" messages={messages} />
+            <Expand className="flex w-full flex-row">
+              <ChatWindow
+                className="mt-4"
+                messages={messages}
+                title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
+                showDonation={
+                  status != "loading" && !session?.user.subscriptionId
+                }
+              />
+              {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>
 
             <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">
@@ -225,7 +245,6 @@ const Home: NextPage = () => {
               </Button>
             </Expand>
           </div>
-          {tasks.length > 0 && <TaskWindow tasks={tasks} />}
         </div>
       </main>
     </DefaultLayout>

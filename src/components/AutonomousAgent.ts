@@ -7,6 +7,7 @@ import {
   executeAgent,
   startAgent,
 } from "../services/agent-service";
+import { DEFAULT_MAX_LOOPS, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 
 class AutonomousAgent {
   name: string;
@@ -69,7 +70,10 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.modelSettings.customApiKey === "" ? 4 : 50;
+    const maxLoops =
+      this.modelSettings.customApiKey === ""
+        ? DEFAULT_MAX_LOOPS_FREE
+        : this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -277,7 +281,7 @@ const getMessageFromError = (e: unknown) => {
       message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
     }
     if (axiosError.response?.status === 404) {
-      message = `ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list.`;
+      message = `ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)`;
     }
   } else {
     message = `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`;

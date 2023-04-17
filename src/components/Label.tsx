@@ -14,7 +14,9 @@ const Label = ({ type, left, toolTipProperties }: LabelProps) => {
       child={
         <div
           className={`center flex items-center rounded-xl rounded-r-none ${
-            type !== "range" ? "border-r-0 border-white/10 md:border-[2px]" : ""
+            type !== "range"
+              ? "border-white/10 md:border-[2px] md:border-r-0"
+              : ""
           }  py-2 text-sm font-semibold tracking-wider transition-all sm:py-3 md:px-5 md:text-lg`}
         >
           {left}

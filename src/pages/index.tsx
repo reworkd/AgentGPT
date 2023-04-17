@@ -108,7 +108,7 @@ const Home: NextPage = () => {
 
   const proTitle = (
     <>
-      AgentGPT&nbsp;<span className="text-amber-500/90">Pro</span>
+      AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
     </>
   );
 

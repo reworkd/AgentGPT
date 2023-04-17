@@ -238,5 +238,6 @@ Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://gi
 Run the project 🥳
 
 ```
+
 npm run dev
 ```

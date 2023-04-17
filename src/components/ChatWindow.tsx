@@ -5,11 +5,10 @@ import {
   FaClipboard,
   FaListAlt,
   FaPlayCircle,
-  FaSave,
   FaStar,
   FaCopy,
+  FaImage,
 } from "react-icons/fa";
-import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -20,6 +19,8 @@ import "highlight.js/styles/github-dark.css";
 import Button from "./Button";
 import { useRouter } from "next/router";
 import WindowButton from "./WindowButton";
+import PDFButton from "./pdf/PDFButton";
+import FadeIn from "./motions/FadeIn";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -53,10 +54,6 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     }
   });
 
-  useEffect(() => {
-    scrollRef.current && autoAnimate(scrollRef.current);
-  }, [messages]);
-
   return (
     <div
       className={
@@ -64,15 +61,17 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         (className ?? "")
       }
     >
-      <MacWindowHeader />
+      <MacWindowHeader messages={messages} />
       <div
-        className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em]"
+        className="window-heights mb-2 mr-2"
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
       >
         {messages.map((message, index) => (
-          <ChatMessage key={`${index}-${message.type}`} message={message} />
+          <FadeIn key={`${index}-${message.type}`}>
+            <ChatMessage message={message} />
+          </FadeIn>
         ))}
         {children}
 
@@ -106,7 +105,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   );
 };
 
-const MacWindowHeader = () => {
+const MacWindowHeader = ({ messages }: { messages: Message[] }) => {
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -156,8 +155,8 @@ const MacWindowHeader = () => {
       <WindowButton
         delay={0.7}
         onClick={(): void => saveElementAsImage(messageListId)}
-        icon={<FaSave size={12} />}
-        text={"Save"}
+        icon={<FaImage size={12} />}
+        text={"Image"}
       />
 
       <WindowButton
@@ -166,6 +165,7 @@ const MacWindowHeader = () => {
         icon={<FaClipboard size={12} />}
         text={"Copy"}
       />
+      <PDFButton messages={messages} />
     </div>
   );
 };
@@ -176,6 +176,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
   };
+
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     if (copied) {
@@ -187,6 +188,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       clearTimeout(timeoutId);
     };
   }, [copied]);
+
   return (
     <div
       className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"

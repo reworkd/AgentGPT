@@ -20,7 +20,6 @@ const Label = ({ type, left, toolTipProperties }: LabelProps) => {
           {left}
         </div>
       }
-      // child={<div>{left}</div>}
       style={{
         container: `md:w-1/4`,
       }}

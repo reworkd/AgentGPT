@@ -27,8 +27,6 @@ export default function SettingsDialog({
   close: () => void;
   reactModelStates: reactModelStates;
 }) {
-  const maxLoopsInputId = "max-loops-input";
-
   const {
     customApiKey,
     setCustomApiKey,
@@ -53,10 +51,7 @@ export default function SettingsDialog({
   };
 
   React.useEffect(() => {
-    const input = document.getElementById(maxLoopsInputId) as HTMLInputElement;
-    if (input) {
-      setCustomMaxLoops(!key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS);
-    }
+    setCustomMaxLoops(!key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS);
 
     return () => {
       setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);
@@ -93,7 +88,6 @@ export default function SettingsDialog({
             <span className="ml-2">Loop #: </span>
           </>
         }
-        id={maxLoopsInputId}
         value={customMaxLoops}
         disabled={!key}
         onChange={(e) => setCustomMaxLoops(parseFloat(e.target.value))}

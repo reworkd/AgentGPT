@@ -5,9 +5,9 @@ import {
   FaClipboard,
   FaListAlt,
   FaPlayCircle,
-  FaSave,
   FaStar,
   FaCopy,
+  FaImage,
 } from "react-icons/fa";
 import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
@@ -20,6 +20,7 @@ import "highlight.js/styles/github-dark.css";
 import Button from "./Button";
 import { useRouter } from "next/router";
 import WindowButton from "./WindowButton";
+import PDFButton from "./pdf/PDFButton";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -64,7 +65,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
         (className ?? "")
       }
     >
-      <MacWindowHeader />
+      <MacWindowHeader messages={messages} />
       <div
         className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em]"
         ref={scrollRef}
@@ -106,7 +107,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   );
 };
 
-const MacWindowHeader = () => {
+const MacWindowHeader = ({ messages }: { messages: Message[] }) => {
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -156,8 +157,8 @@ const MacWindowHeader = () => {
       <WindowButton
         delay={0.7}
         onClick={(): void => saveElementAsImage(messageListId)}
-        icon={<FaSave size={12} />}
-        text={"Save"}
+        icon={<FaImage size={12} />}
+        text={"Image"}
       />
 
       <WindowButton
@@ -166,6 +167,7 @@ const MacWindowHeader = () => {
         icon={<FaClipboard size={12} />}
         text={"Copy"}
       />
+      <PDFButton messages={messages} />
     </div>
   );
 };

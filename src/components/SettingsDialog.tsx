@@ -53,10 +53,7 @@ export default function SettingsDialog({
   };
 
   React.useEffect(() => {
-    const input = document.getElementById(maxLoopsInputId) as HTMLInputElement;
-    if (input) {
-      setCustomMaxLoops(!key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS);
-    }
+    setCustomMaxLoops(!key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS);
 
     return () => {
       setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);

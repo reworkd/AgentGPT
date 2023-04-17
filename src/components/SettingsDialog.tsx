@@ -5,31 +5,40 @@ import {
   FaMicrochip,
   FaThermometerFull,
   FaExclamationCircle,
+  FaSyncAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
-import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
+import {
+  GPT_MODEL_NAMES,
+  GPT_4,
+  DEFAULT_MAX_LOOPS_FREE,
+} from "../utils/constants";
 import Accordion from "./Accordion";
+import type { reactModelStates } from "./types";
 
 export default function SettingsDialog({
   show,
   close,
-  customApiKey,
-  setCustomApiKey,
-  customModelName,
-  setCustomModelName,
-  customTemperature,
-  setCustomTemperature,
+  reactModelStates,
 }: {
   show: boolean;
   close: () => void;
-  customApiKey: string;
-  setCustomApiKey: (key: string) => void;
-  customModelName: string;
-  setCustomModelName: (key: string) => void;
-  customTemperature: number;
-  setCustomTemperature: (temperature: number) => void;
+  reactModelStates: reactModelStates;
 }) {
+  const maxLoopsInputId = "max-loops-input";
+
+  const {
+    customApiKey,
+    setCustomApiKey,
+    customModelName,
+    setCustomModelName,
+    customTemperature,
+    setCustomTemperature,
+    customMaxLoops,
+    setCustomMaxLoops,
+  } = reactModelStates;
+
   const [key, setKey] = React.useState<string>(customApiKey);
 
   const handleClose = () => {
@@ -42,27 +51,63 @@ export default function SettingsDialog({
     close();
   };
 
+  React.useEffect(() => {
+    const input = document.getElementById(maxLoopsInputId) as HTMLInputElement;
+    if (input && !key) {
+      setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);
+    }
+    return () => {
+      setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);
+    };
+  }, [key, setCustomMaxLoops]);
+
   const advancedSettings = (
-    <Input
-      left={
-        <>
-          <FaThermometerFull />
-          <span className="ml-2">Temp: </span>
-        </>
-      }
-      value={customTemperature}
-      onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
-      type="range"
-      toolTipProperties={{
-        message: "Higher temperature will make output more random",
-        disabled: false,
-      }}
-      attributes={{
-        min: 0,
-        max: 1,
-        step: 0.01,
-      }}
-    />
+    <>
+      <Input
+        left={
+          <>
+            <FaThermometerFull />
+            <span className="ml-2">Temp: </span>
+          </>
+        }
+        value={customTemperature}
+        onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
+        type="range"
+        toolTipProperties={{
+          message: "Higher temperature will make output more random",
+          disabled: false,
+        }}
+        attributes={{
+          min: 0,
+          max: 1,
+          step: 0.01,
+        }}
+      />
+      <br />
+      <Input
+        left={
+          <>
+            <FaSyncAlt />
+            <span className="ml-2">Loop #: </span>
+          </>
+        }
+        id={maxLoopsInputId}
+        value={customMaxLoops}
+        disabled={!key}
+        onChange={(e) => setCustomMaxLoops(parseFloat(e.target.value))}
+        type="range"
+        toolTipProperties={{
+          message:
+            "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
+          disabled: false,
+        }}
+        attributes={{
+          min: 1,
+          max: 100,
+          step: 1,
+        }}
+      />
+    </>
   );
 
   return (

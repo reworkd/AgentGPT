@@ -7,6 +7,7 @@ import {
   executeAgent,
   startAgent,
 } from "../services/agent-service";
+import { DEFAULT_MAX_LOOPS, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 
 class AutonomousAgent {
   name: string;
@@ -69,7 +70,10 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops = this.modelSettings.customApiKey === "" ? 4 : 50;
+    const maxLoops =
+      this.modelSettings.customApiKey === ""
+        ? DEFAULT_MAX_LOOPS_FREE
+        : this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS;
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();

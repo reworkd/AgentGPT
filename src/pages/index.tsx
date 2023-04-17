@@ -16,12 +16,11 @@ import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
 import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { useSession } from "next-auth/react";
-import { api } from "../utils/api";
-import { env } from "../env/client.mjs";
 import { TaskWindow } from "../components/TaskWindow";
+import { useAuth } from "../hooks/useAuth";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
+  const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
@@ -107,6 +106,12 @@ const Home: NextPage = () => {
     agent?.stopAgent();
   };
 
+  const proTitle = (
+    <>
+      AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
+    </>
+  );
+
   return (
     <DefaultLayout>
       <HelpDialog
@@ -164,7 +169,14 @@ const Home: NextPage = () => {
             </div>
 
             <Expand className="flex w-full flex-row">
-              <ChatWindow className="mt-4" messages={messages} />
+              <ChatWindow
+                className="mt-4"
+                messages={messages}
+                title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
+                showDonation={
+                  status != "loading" && !session?.user.subscriptionId
+                }
+              />
               {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>
 

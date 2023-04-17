@@ -9,6 +9,10 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum Role {
+  ADMIN
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -37,14 +41,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Agent         Agent[]
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  role           Role?
+  subscriptionId String?   @db.Text
+  customerId     String?   @db.Text
+
+  accounts Account[]
+  sessions Session[]
+  Agent    Agent[]
 }
 
 model VerificationToken {
@@ -59,7 +67,7 @@ model Agent {
   id     String @id @default(cuid())
   userId String
   name   String
-  goal   String @db.Text
+  goal   String
 
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   AgentTask AgentTask[]
@@ -68,8 +76,8 @@ model Agent {
 model AgentTask {
   id      String @id @default(cuid())
   agentId String
-  task    String @db.Text
-  result  String @db.Text
+  task    String
+  result  String
 
   agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
 }

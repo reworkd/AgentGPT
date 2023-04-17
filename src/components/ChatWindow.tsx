@@ -5,11 +5,10 @@ import {
   FaClipboard,
   FaListAlt,
   FaPlayCircle,
-  FaSave,
   FaStar,
   FaCopy,
+  FaImage,
 } from "react-icons/fa";
-import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -17,7 +16,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
-import clsx from "clsx";
+import Button from "./Button";
+import { useRouter } from "next/router";
+import WindowButton from "./WindowButton";
+import PDFButton from "./pdf/PDFButton";
+import FadeIn from "./motions/FadeIn";
 
 interface ChatWindowProps {
   children?: ReactNode;
@@ -51,31 +54,32 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
     }
   });
 
-  useEffect(() => {
-    scrollRef.current && autoAnimate(scrollRef.current);
-  }, [messages]);
-
   return (
     <div
       className={
-        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
+        "border-translucent flex w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
         (className ?? "")
       }
     >
-      <MacWindowHeader />
+      <MacWindowHeader messages={messages} />
       <div
-        className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
+        className="window-heights mb-2 mr-2"
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
       >
         {messages.map((message, index) => (
-          <ChatMessage key={`${index}-${message.type}`} message={message} />
+          <FadeIn key={`${index}-${message.type}`}>
+            <ChatMessage message={message} />
+          </FadeIn>
         ))}
         {children}
 
         {messages.length === 0 && (
           <>
+            <Expand delay={0.7} type="spring">
+              <DonationMessage />
+            </Expand>
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
@@ -90,7 +94,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
                 message={{
                   type: "system",
                   value:
-                    "📢 Please first provide your own OpenAI API key via the settings tab!",
+                    "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
                 }}
               />
             </Expand>
@@ -101,7 +105,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   );
 };
 
-const MacWindowHeader = () => {
+const MacWindowHeader = ({ messages }: { messages: Message[] }) => {
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -148,36 +152,31 @@ const MacWindowHeader = () => {
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
       <div className="flex flex-grow"></div>
-      <PopIn delay={0.7}>
-        <div
-          className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
-          onClick={(): void => saveElementAsImage(messageListId)}
-        >
-          <FaSave size={12} />
-          <p className="font-mono">Save</p>
-        </div>
-      </PopIn>
+      <WindowButton
+        delay={0.7}
+        onClick={(): void => saveElementAsImage(messageListId)}
+        icon={<FaImage size={12} />}
+        text={"Image"}
+      />
 
-      <PopIn delay={0.8}>
-        <div
-          className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
-          onClick={(): void => copyElementText(messageListId)}
-        >
-          <FaClipboard size={12} />
-          <p className="font-mono">Copy</p>
-        </div>
-      </PopIn>
+      <WindowButton
+        delay={0.8}
+        onClick={(): void => copyElementText(messageListId)}
+        icon={<FaClipboard size={12} />}
+        text={"Copy"}
+      />
+      <PDFButton messages={messages} />
     </div>
   );
 };
 const ChatMessage = ({ message }: { message: Message }) => {
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
-
   const handleCopyClick = () => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
   };
+
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     if (copied) {
@@ -189,6 +188,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       clearTimeout(timeoutId);
     };
   }, [copied]);
+
   return (
     <div
       className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
@@ -211,14 +211,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
           (Restart if this takes more than 30 seconds)
         </span>
       )}
-      <div className="prose ml-2 max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
-        >
-          {message.value}
-        </ReactMarkdown>
-      </div>
+
+      {message.type == "action" ? (
+        <div className="prose ml-2 max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+          >
+            {message.value}
+          </ReactMarkdown>
+        </div>
+      ) : (
+        <span>{message.value}</span>
+      )}
 
       <div className="relative">
         {copied ? (
@@ -239,10 +244,34 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
+const DonationMessage = () => {
+  const router = useRouter();
+
+  return (
+    <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:flex-row sm:p-3 sm:text-center sm:text-base">
+      <div className="max-w-none flex-grow">
+        💝️ Help support the advancement of AgentGPT. 💝
+        <br />
+        Please consider sponsoring the project on GitHub.
+      </div>
+      <div className="flex items-center justify-center">
+        <Button
+          className="sm:text m-0 rounded-full text-sm "
+          onClick={() =>
+            void router.push("https://github.com/sponsors/reworkd-admin")
+          }
+        >
+          Support now 🚀
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 const getMessageIcon = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return;
+      return <FaStar className="text-yellow-300" />;
     case "task":
       return <FaListAlt className="text-gray-300" />;
     case "thinking":

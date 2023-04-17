@@ -7,4 +7,5 @@ export interface RequestBody {
   tasks?: string[];
   lastTask?: string;
   result?: string;
+  completedTasks?: string[];
 }

@@ -1,12 +1,7 @@
-import {
-  createModel,
-  executeCreateTaskAgent,
-  extractArray,
-  realTasksFilter,
-} from "../../utils/chain";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { RequestBody } from "../../utils/interfaces";
+import { createAgent } from "../../services/agent-service";
 
 export const config = {
   runtime: "edge",
@@ -14,24 +9,22 @@ export const config = {
 
 const handler = async (request: NextRequest) => {
   try {
-    const { modelSettings, goal, tasks, lastTask, result } =
+    const { modelSettings, goal, tasks, lastTask, result, completedTasks } =
       (await request.json()) as RequestBody;
 
     if (tasks === undefined || lastTask === undefined || result === undefined) {
       return;
     }
 
-    const completion = await executeCreateTaskAgent(
-      createModel(modelSettings),
+    const newTasks = await createAgent(
+      modelSettings,
       goal,
       tasks,
       lastTask,
-      result
+      result,
+      completedTasks
     );
 
-    const newTasks = extractArray(completion.text as string).filter(
-      realTasksFilter
-    );
     return NextResponse.json({ newTasks });
   } catch (e) {}
 

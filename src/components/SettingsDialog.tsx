@@ -12,7 +12,7 @@ import Input from "./Input";
 import {
   GPT_MODEL_NAMES,
   GPT_4,
-  DEFAULT_MAX_LOOPS,
+  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
 } from "../utils/constants";
 import Accordion from "./Accordion";
@@ -51,7 +51,9 @@ export default function SettingsDialog({
   };
 
   React.useEffect(() => {
-    setCustomMaxLoops(!key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS);
+    setCustomMaxLoops(
+      !key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
+    );
 
     return () => {
       setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);

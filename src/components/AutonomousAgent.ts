@@ -7,7 +7,12 @@ import {
   executeAgent,
   startAgent,
 } from "../services/agent-service";
-import { DEFAULT_MAX_LOOPS, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
+import {
+  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
+  DEFAULT_MAX_LOOPS_FREE,
+  DEFAULT_MAX_LOOPS_PAID,
+} from "../utils/constants";
+import type { Session } from "next-auth";
 
 class AutonomousAgent {
   name: string;
@@ -19,19 +24,22 @@ class AutonomousAgent {
   renderMessage: (message: Message) => void;
   shutdown: () => void;
   numLoops = 0;
+  session?: Session;
 
   constructor(
     name: string,
     goal: string,
     renderMessage: (message: Message) => void,
     shutdown: () => void,
-    modelSettings: ModelSettings
+    modelSettings: ModelSettings,
+    session?: Session
   ) {
     this.name = name;
     this.goal = goal;
     this.renderMessage = renderMessage;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
+    this.session = session;
   }
 
   async run() {
@@ -70,10 +78,7 @@ class AutonomousAgent {
     }
 
     this.numLoops += 1;
-    const maxLoops =
-      this.modelSettings.customApiKey === ""
-        ? DEFAULT_MAX_LOOPS_FREE
-        : this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS;
+    const maxLoops = this.maxLoops();
     if (this.numLoops > maxLoops) {
       this.sendLoopMessage();
       this.shutdown();
@@ -120,6 +125,16 @@ class AutonomousAgent {
     }
 
     await this.loop();
+  }
+
+  private maxLoops() {
+    const defaultLoops = !!this.session?.user.subscriptionId
+      ? DEFAULT_MAX_LOOPS_PAID
+      : DEFAULT_MAX_LOOPS_FREE;
+
+    return !!this.modelSettings.customApiKey
+      ? this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
+      : defaultLoops;
   }
 
   async getInitialTasks(): Promise<string[]> {

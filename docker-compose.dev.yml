@@ -3,7 +3,7 @@ services:
   agentgpt:
     build:
       context: .
-      target: preview
+      target: development
       args:
         NEXTAUTH_URL: http://localhost:3000
         DATABASE_URL: file:../db/db.sqlite

@@ -33,11 +33,9 @@ RUN npx prisma generate  \
 EXPOSE 3000
 
 # Preview stage
-FROM base AS preview
+FROM base AS development
 
 ENV NODE_ENV=development
-
-ENV SKIP_ENV_VALIDATION=true
 
 # Install dependencies
 RUN npm i

@@ -14,7 +14,7 @@ import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
-import { GPT_35_TURBO } from "../utils/constants";
+import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { useSession } from "next-auth/react";
 import { api } from "../utils/api";
 import { env } from "../env/client.mjs";
@@ -29,6 +29,9 @@ const Home: NextPage = () => {
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
   const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
+  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(
+    DEFAULT_MAX_LOOPS_FREE
+  );
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -93,7 +96,7 @@ const Home: NextPage = () => {
       goalInput,
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature }
+      { customApiKey, customModelName, customTemperature, customMaxLoops }
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
@@ -111,12 +114,16 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customApiKey={customApiKey}
-        setCustomApiKey={setCustomApiKey}
-        customModelName={customModelName}
-        setCustomModelName={setCustomModelName}
-        customTemperature={customTemperature}
-        setCustomTemperature={setCustomTemperature}
+        reactModelStates={{
+          customApiKey,
+          setCustomApiKey,
+          customModelName,
+          setCustomModelName,
+          customTemperature,
+          setCustomTemperature,
+          customMaxLoops,
+          setCustomMaxLoops,
+        }}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />

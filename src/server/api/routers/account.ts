@@ -38,15 +38,6 @@ export const accountRouter = createTRPCRouter({
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    await prisma.checkout.create({
-      data: {
-        id: checkoutSession.id,
-        userId: ctx.session?.user?.id,
-        createdAt: new Date(),
-      },
-    });
-
     return checkoutSession.url;
   }),
   manage: protectedProcedure.mutation(async ({ ctx }) => {

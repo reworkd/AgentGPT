@@ -170,7 +170,7 @@ const Home: NextPage = () => {
 
             <Expand className="flex w-full flex-row">
               <ChatWindow
-                className="mt-4"
+                className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
                 showDonation={
@@ -180,7 +180,7 @@ const Home: NextPage = () => {
               {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>
 
-            <div className="mt-5 flex w-full flex-col gap-2 sm:mt-10">
+            <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}
@@ -227,7 +227,6 @@ const Home: NextPage = () => {
                   </>
                 )}
               </Button>
-
               <Button
                 disabled={agent == null}
                 onClick={handleStopAgent}

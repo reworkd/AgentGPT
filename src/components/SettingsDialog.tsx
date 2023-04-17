@@ -9,7 +9,11 @@ import {
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
-import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
+import {
+  GPT_MODEL_NAMES,
+  GPT_4,
+  DEFAULT_MAX_LOOPS_FREE,
+} from "../utils/constants";
 import Accordion from "./Accordion";
 import type { reactModelStates } from "./types";
 
@@ -22,7 +26,7 @@ export default function SettingsDialog({
   close: () => void;
   reactModelStates: reactModelStates;
 }) {
-  const maxLoopInputId = "max-loop-input";
+  const maxLoopsInputId = "max-loops-input";
 
   const {
     customApiKey,
@@ -31,8 +35,8 @@ export default function SettingsDialog({
     setCustomModelName,
     customTemperature,
     setCustomTemperature,
-    customMaxLoop,
-    setCustomMaxLoop,
+    customMaxLoops,
+    setCustomMaxLoops,
   } = reactModelStates;
 
   const [key, setKey] = React.useState<string>(customApiKey);
@@ -48,12 +52,14 @@ export default function SettingsDialog({
   };
 
   React.useEffect(() => {
-    const input = document.getElementById(maxLoopInputId) as HTMLInputElement;
-    if (input) {
-      input.disabled = !customApiKey;
+    const input = document.getElementById(maxLoopsInputId) as HTMLInputElement;
+    if (input && !key) {
+      setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);
     }
-    console.log(input);
-  }, [customApiKey]);
+    return () => {
+      setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);
+    };
+  }, [key, setCustomMaxLoops]);
 
   const advancedSettings = (
     <>
@@ -85,9 +91,10 @@ export default function SettingsDialog({
             <span className="ml-2">Loop #: </span>
           </>
         }
-        id={maxLoopInputId}
-        value={customMaxLoop}
-        onChange={(e) => setCustomMaxLoop(parseFloat(e.target.value))}
+        id={maxLoopsInputId}
+        value={customMaxLoops}
+        disabled={!key}
+        onChange={(e) => setCustomMaxLoops(parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
           message:

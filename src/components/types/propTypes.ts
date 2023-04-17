@@ -10,6 +10,6 @@ export type reactModelStates = {
   setCustomModelName: (key: string) => void;
   customTemperature: number;
   setCustomTemperature: (temperature: number) => void;
-  customMaxLoop: number;
-  setCustomMaxLoop: (temperature: number) => void;
+  customMaxLoops: number;
+  setCustomMaxLoops: (numberOfLoops: number) => void;
 };

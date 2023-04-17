@@ -42,3 +42,21 @@ RUN npm i
 
 # Start the application
 CMD ["npm", "run", "dev"]
+
+# Production stage
+FROM base AS production
+
+ENV NODE_ENV=production
+
+ARG SKIP_ENV_VALIDATION
+
+ENV SKIP_ENV_VALIDATION=$SKIP_ENV_VALIDATION
+
+# Install dependencies
+RUN npm ci
+
+# Build the Next.js app
+RUN npm run build
+
+# Start the application
+CMD ["npm", "start"]

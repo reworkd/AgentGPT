@@ -98,7 +98,7 @@ export default function SettingsDialog({
         type="range"
         toolTipProperties={{
           message:
-            "Controls the maximum number of loops that the agent will run (higher value will consume more API usage limit).",
+            "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
           disabled: false,
         }}
         attributes={{

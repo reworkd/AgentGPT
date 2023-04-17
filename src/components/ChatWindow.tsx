@@ -84,11 +84,6 @@ const ChatWindow = ({
 
         {messages.length === 0 && (
           <>
-            {showDonation && (
-              <Expand delay={0.7} type="spring">
-                <DonationMessage />
-              </Expand>
-            )}
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
@@ -106,6 +101,11 @@ const ChatWindow = ({
                     "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
                 }}
               />
+              {showDonation && (
+                <Expand delay={0.7} type="spring">
+                  <DonationMessage />
+                </Expand>
+              )}
             </Expand>
           </>
         )}
@@ -116,7 +116,7 @@ const ChatWindow = ({
 
 interface HeaderProps {
   title?: string | ReactNode;
-  messages: Message[]
+  messages: Message[];
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
@@ -155,7 +155,7 @@ const MacWindowHeader = (props: HeaderProps) => {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 overflow-hidden rounded-t-3xl p-3">
       <PopIn delay={0.4}>
         <div className="h-3 w-3 rounded-full bg-red-500" />
       </PopIn>
@@ -165,7 +165,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       <PopIn delay={0.6}>
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-      <div className="ml-2 flex flex-grow font-mono text-sm font-bold text-gray-600">
+      <div className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2">
         {props.title}
       </div>
       <WindowButton

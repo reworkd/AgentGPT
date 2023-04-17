@@ -20,7 +20,6 @@ import type { Session } from "next-auth";
 import { env } from "../env/client.mjs";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { signIn } from "next-auth/react";
 
 const Drawer = ({
@@ -41,8 +40,6 @@ const Drawer = ({
     },
   });
 
-  // TODO: enable for crud
-  const [animationParent] = useAutoAnimate();
   const query = api.agent.getAll.useQuery(undefined, {
     enabled: session?.user.role === "ADMIN",
   });
@@ -176,7 +173,7 @@ interface DrawerItemProps
   icon: React.ReactNode;
   text: string;
   border?: boolean;
-  onClick?: () => void;
+  onClick?: () => any;
   className?: string;
   small?: boolean;
 }
@@ -252,7 +249,7 @@ const ProItem: React.FC<{
       text={text}
       onClick={async () => {
         if (!session?.user) {
-          await signIn();
+          void (await signIn());
         }
 
         if (session?.user.subscriptionId) {

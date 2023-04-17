@@ -17,9 +17,10 @@ import SettingsDialog from "../components/SettingsDialog";
 import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { useSession } from "next-auth/react";
 import { TaskWindow } from "../components/TaskWindow";
+import { useAuth } from "../hooks/useAuth";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
+  const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
@@ -172,7 +173,9 @@ const Home: NextPage = () => {
                 className="mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
-                showDonation={!session?.user.subscriptionId}
+                showDonation={
+                  status != "loading" && !session?.user.subscriptionId
+                }
               />
               {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>

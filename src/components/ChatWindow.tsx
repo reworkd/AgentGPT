@@ -89,7 +89,7 @@ const ChatWindow = ({
                 message={{
                   type: "system",
                   value:
-                    "> Create an agent by adding a name / goal, and hitting deploy!",
+                    "達成したい目標を入力してAIを起動してみましょう！",
                 }}
               />
             </Expand>
@@ -98,7 +98,7 @@ const ChatWindow = ({
                 message={{
                   type: "system",
                   value:
-                    "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
+                    "📢 設定から自身のAPIキーを入力することで、制限解除できます！",
                 }}
               />
               {showDonation && (
@@ -300,15 +300,16 @@ const getMessageIcon = (message: Message) => {
 const getMessagePrefix = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return "Embarking on a new goal:";
+      return "新しい目標に着手します:";
     case "task":
-      return "Added task:";
+      return "タスクを追加しました:";
     case "thinking":
-      return "Thinking...";
+      return "考え中...";
     case "action":
-      return message.info ? message.info : "Executing:";
+      return message.info ? message.info : "実行中:";
   }
 };
+
 
 export interface Message {
   type: "goal" | "thinking" | "task" | "action" | "system";

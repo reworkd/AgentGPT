@@ -11,7 +11,7 @@ export const TaskWindow = ({ tasks }: TaskWindowProps) => {
   return (
     <Expand className="xl mx-2 mt-4 hidden w-[20rem] flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 px-1 font-mono shadow-2xl xl:flex">
       <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-300 ">
-        <FaListAlt /> Current tasks
+        <FaListAlt /> 追加されたタスク
       </div>
       <div className="window-heights mb-2 w-full px-1 ">
         <div className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden">

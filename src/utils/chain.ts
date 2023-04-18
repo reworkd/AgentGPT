@@ -13,12 +13,12 @@ export const createModel = (settings: ModelSettings) =>
     temperature: settings.customTemperature || 0.9,
     modelName:
       settings.customModelName === "" ? GPT_35_TURBO : settings.customModelName,
-    maxTokens: 500,
+    maxTokens: 900,
   });
 
 const startGoalPrompt = new PromptTemplate({
   template:
-    "You are an autonomous task creation AI called AgentGPT. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse()",
+    "あなたは自律型タスク作成AIです。あなたには次の目的'{goal}'があります。目標により近く、あるいは完全に到達するような、0～3個のステップを実行順序を考慮して作成し、それを完了させてください。レスポンスはJSON.parse()とlang:jaで文字列の配列として返してください。",
   inputVariables: ["goal"],
 });
 export const startGoalAgent = async (model: OpenAI, goal: string) => {
@@ -32,7 +32,7 @@ export const startGoalAgent = async (model: OpenAI, goal: string) => {
 
 const executeTaskPrompt = new PromptTemplate({
   template:
-    "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
+    "あなたは自律型タスク実行AIです。あなたには次の目的`{goal}`を達成するために次のタスク `{task}` を持っています。このタスクの問題解決を実行し、lang:jaで返却してください。",
   inputVariables: ["goal", "task"],
 });
 export const executeTaskAgent = async (
@@ -48,7 +48,7 @@ export const executeTaskAgent = async (
 
 const createTaskPrompt = new PromptTemplate({
   template:
-    "You are an AI task creation agent. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE",
+    "あなたはAIタスク作成エージェントです。あなたには次の目的`{goal}`があります。次の未完了タスク `{tasks}` があり、タスク `{lastTask}` を実行し、次の結果 `{result}` を受け取ったところです。これらの情報に基づき、（タスク追加の必要があれば）さらに目標により近く、あるいは完全に到達するようなタスクをJSON.parse()とlang:jaで使用可能な文字列の配列として返却してください。NOTHING ELSE",
   inputVariables: ["goal", "tasks", "lastTask", "result"],
 });
 export const executeCreateTaskAgent = async (

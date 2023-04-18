@@ -116,7 +116,7 @@ const Home: NextPage = () => {
 
   const proTitle = (
     <>
-      AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
+      Shitsuji<span className="ml-1 text-amber-500/90">Pro</span>
     </>
   );
 
@@ -159,19 +159,12 @@ const Home: NextPage = () => {
             >
               <div className="flex flex-row items-start shadow-2xl">
                 <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">
-                  Agent
+                  Shitsuji
                 </span>
-                <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">
-                  GPT
-                </span>
-                <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>Beta 🚀</Badge>
-                </PopIn>
               </div>
-              <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
+              <div className="mt-3 text-center font-mono text-[1.2em] font-bold text-white">
                 <p>
-                  Assemble, configure, and deploy autonomous AI Agents in your
-                  browser.
+                  あなたの目標達成を支援するAI執事
                 </p>
               </div>
             </div>
@@ -180,7 +173,7 @@ const Home: NextPage = () => {
               <ChatWindow
                 className="sm:mt-4"
                 messages={messages}
-                title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
+                title={session?.user.subscriptionId ? proTitle : "Shitsuji"}
                 showDonation={
                   status != "loading" && !session?.user.subscriptionId
                 }
@@ -195,14 +188,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">Name:</span>
+                      <span className="ml-2">なまえ:</span>
                     </>
                   }
                   value={name}
                   disabled={agent != null}
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="AgentGPT"
+                  placeholder="Agent"
                 />
               </Expand>
               <Expand delay={1.3}>
@@ -210,14 +203,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">Goal:</span>
+                      <span className="ml-2">目標(ゴール):</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="Make the world a better place."
+                  placeholder="より良い世界にする"
                 />
               </Expand>
             </div>
@@ -229,11 +222,11 @@ const Home: NextPage = () => {
                 className="sm:mt-10"
               >
                 {agent == null ? (
-                  "Deploy Agent"
+                  "起動する"
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Running</span>
+                    <span className="ml-2">実行中</span>
                   </>
                 )}
               </Button>
@@ -246,10 +239,10 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Stopping</span>
+                    <span className="ml-2">停止中</span>
                   </>
                 ) : (
-                  "Stop agent"
+                  "停止する"
                 )}
               </Button>
             </Expand>

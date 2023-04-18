@@ -1,3 +1,5 @@
+// https://gist.github.com/aaronrogers/b6bb28e0e2299e5b96b168e8607a1cc2
+
 import { BaseLLM } from 'langchain/llms/base'
 import { CallbackManager } from 'langchain/callbacks'
 import { LLMResult } from 'langchain/schema'

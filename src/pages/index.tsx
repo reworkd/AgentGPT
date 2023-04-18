@@ -81,6 +81,8 @@ const Home: NextPage = () => {
 
   const tasks = messages.filter((message) => message.type === "task");
 
+  const disableDeployAgent = agent != null || name === "" || goalInput === ""
+
   const handleNewGoal = () => {
     // TODO: enable for crud
     // if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
@@ -100,6 +102,12 @@ const Home: NextPage = () => {
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);
   };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !disableDeployAgent) {
+      handleNewGoal()
+    }
+  }
 
   const handleStopAgent = () => {
     setShouldAgentStop(true);
@@ -193,6 +201,7 @@ const Home: NextPage = () => {
                   value={name}
                   disabled={agent != null}
                   onChange={(e) => setName(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="AgentGPT"
                 />
               </Expand>
@@ -207,6 +216,7 @@ const Home: NextPage = () => {
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="Make the world a better place."
                 />
               </Expand>
@@ -214,7 +224,7 @@ const Home: NextPage = () => {
 
             <Expand delay={1.4} className="flex gap-2">
               <Button
-                disabled={agent != null || name === "" || goalInput === ""}
+                disabled={disableDeployAgent}
                 onClick={handleNewGoal}
                 className="sm:mt-10"
               >

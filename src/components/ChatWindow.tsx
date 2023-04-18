@@ -101,11 +101,6 @@ const ChatWindow = ({
                     "📢 設定から自身のAPIキーを入力することで、制限解除できます！",
                 }}
               />
-              {showDonation && (
-                <Expand delay={0.7} type="spring">
-                  <DonationMessage />
-                </Expand>
-              )}
             </Expand>
           </>
         )}

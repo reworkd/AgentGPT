@@ -104,8 +104,7 @@ const Drawer = ({
 
             {userAgents.length === 0 && (
               <div>
-                Click the above button to restart. In the future, this will be a
-                list of your deployed agents!
+                クリックすると再起動します
               </div>
             )}
           </ul>

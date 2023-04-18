@@ -2,22 +2,21 @@
   <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ" height="300"/>
 </p>
 <p align="center">
-  <em>🤖 组装，配置和部署自主的 AI 代理（只需浏览器） 🤖 </em>
+  <em>🤖 Szerelje össze, konfigurálja és telepítse az autonóm AI-ügynököket a böngészőjében. 🤖 </em>
 </p>
 <p align="center">
     <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
-</p>
-<p align="center">
-  <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
+      <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
+  <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.hu-Cs4K1Sr4C.md"><img src="https://img.shields.io/badge/lang-Hungarian-red.svg" alt="Hungarian"></a>
 </p>
 
 <p align="center">
-<a href="https://agentgpt.reworkd.ai">🔗 短链接</a>
+<a href="https://agentgpt.reworkd.ai">🔗 Gyorshivatkozás</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="#-getting-started">🤝 参与贡献</a>
+<a href="#-getting-started">🤝 Hozzájárulás</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 推特</a>
+<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://discord.gg/3PccggEG">📢 Discord</a>
 </p>
@@ -25,23 +24,23 @@
 ---
 
 <h2 align="center">
-💝 支持 AgentGPT 的发展!! 💝
+💝 Támogassa az AgentGPT fejlesztését!! 💝
 </h2>
 
 <p align="center">
-加入我们推动 AgentGPT 的发展. 这是一个推动AI自主的开源项目！我们面临着支付运营成本的挑战 💸，包括内部 API 和其他基础设施费用，预计每天需要支付约 150 美元 💳🤕 你的赞助将帮助我们扩大资源，增强功能和不断推动这个的项目的进展！ 🚀
+Csatlakozzon hozzánk, az AgentGPT fejlesztéséhez, egy nyílt forráskódú projekthez, amely az AI automatizálás határait feszegeti! Kihívásokkal nézünk szembe a működési költségek fedezése 💸, beleértve a házon belüli API-t és egyéb infrastrukturális költségeket, amelyek az előrejelzések szerint körülbelül napi 150 USD-ra nőnek. 💳🤕 Az Ön szponzorálása elősegítené a fejlődést azáltal, hogy segít nekünk az erőforrások bővítésében, a funkciók és a funkcionalitás bővítésében, valamint az izgalmas projekt folytatásában! 🚀
 </p>
 
 <p align="center">
-通过赞助这个开源项目，你不仅有机会在下方展示你的头像/徽标，还可以与创始人独家交流！ 🗣️ 
+Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csak az avatarod/logódat láthatod alább, hanem exkluzív lehetőséget kapsz az alapítókkal való beszélgetésre is!🗣️ 
 </p>
 
 <p align="center">
-<a href="https://github.com/sponsors/reworkd-admin">👉 点击此处</a> 支持项目
+<a href="https://github.com/sponsors/reworkd-admin">👉 Kattint ide</a> ha szeretnéd támogatni a projektet
 </p>
 
 <h3 align="center">
-🙌🏻 我们的 Github 赞助商 🙌🏻
+🙌🏻 Szponzoraink 🙌🏻
 </h3>
 
 <div align="center" dir="auto">
@@ -119,23 +118,23 @@
 
 ---
 
-AgentGPT 可以让你配置和部署 AI 代理。
-为你定制的 AI 命名，并让它执行任何可以想象的目标。
-AI 代理会先思考再执行任务。执行完任务后会学习成果 🚀.
+Az AgentGPT lehetővé teszi az automatizált AI-ügynökök konfigurálását és üzembe helyezését.
+Nevezze el saját egyéni mesterséges intelligenciáját, és tegye lehetővé, hogy bármilyen célt elérjen.
+Megkísérli elérni a célt az elvégzendő feladatok átgondolásával, végrehajtásával és az eredményekből való tanulással 🚀.
 
-## 🎉 Roadmap
+## 🎉 Útiterv
 
-该平台目前处于测试阶段，以下是我们的路线图：
+Ez a platform jelenleg béta állapotban van és a következőkön dolgozunk:
 
-- 通过矢量数据库实现长期记忆 🧠
-- 通过 langchain 实现网络浏览能力 🌐
-- 与网站和人互动 👨‍👩‍👦
-- 通过 Document API 实现写作能力 📄
-- 保存代理的运行 💾
-- 用户和身份验证 🔐
-- 通过 Stripe 提供较低限制的付费版本（降低我们的基础设施成本)
+- Hosszú távú memória vektoros DB-n keresztül 🧠
+- Webböngészési lehetőségek a LangChain-en keresztül 🌐
+- Interakció webhelyekkel és emberekkel 👨‍👩‍👦
+- Írási lehetőségek egy dokumentum API-n keresztül 📄
+- Az AI-ügynökök mentése 💾
+- Felhasználók és hitelesítés 🔐
+- Stripe integráció egy alsó limites fizetős verzióhoz (hogy ne aggódjunk az infra költségek miatt) 💵
 
-即将推出更多功能...
+Hamarosan még több jön...
 
 ## 🚀 Tech Stack
 
@@ -148,95 +147,95 @@ AI 代理会先思考再执行任务。执行完任务后会学习成果 🚀.
 - ✅ **Typescript Schema Validation**: [Zod](https://github.com/colinhacks/zod).
 - ✅ **End-to-end typesafe API**: [tRPC](https://trpc.io/).
 
-## 👨‍🚀 Getting Started
+## 👨‍🚀 Első lépések
 
-### 🐳 Docker Setup
+### 🐳 Docker beállítása
 
-Docker 是在本地运行 AgentGPT 最简单的方法。
-以下是一个方便的设置脚本。
+Az AgentGPT helyi futtatásának legegyszerűbb módja a Docker használata.
+Egy kényelmes beállítási szkriptet biztosítunk az induláshoz.
 
 ```bash
 ./setup.sh --docker
 ```
 
-### 👷 Local Development Setup
+### 👷 Helyi fejlesztési beállítások
 
-如果你想在本地开发 AgentGPT，最简单的方法是使用以下的设置脚本。
+Ha helyben szeretné fejleszteni az Agent GPT-t, a legegyszerűbb módja a mellékelt telepítőszkript használata.
 
 ```bash
 ./setup.sh --local
 ```
 
-### 🛠️ Manual Setup
+### 🛠️ Manuális beállítás
 
-> 🚧 你需要安装 [Nodejs +18 (LTS recommended)](https://nodejs.org/en/)。
+> 🚧 Szüksége lesz a [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) telepítésre.
 
-1. 创建存储库分支:
+1. Elágaztatni a tárat
 
-- [Click here](https://github.com/reworkd/AgentGPT/fork).
+- [Elágaztatás](https://github.com/reworkd/AgentGPT/fork).
 
-2. 克隆存储库:
+2. Klónozni a tárolót:
 
 ```bash
 git clone git@github.com:YOU_USER/AgentGPT.git
 ```
 
-3. 安装依赖项:
+3. Függőségek telepítése:
 
 ```bash
 cd AgentGPT
 npm install
 ```
 
-4. 使用以下内容创建.env:
+4. Hozzon létre egy **.env** fájlt a következő tartalommal:
 
-> 🚧 环境变量必须符合以下 [架构](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
+> 🚧 A környezeti változóknak meg kell egyeznie a következő [sémával](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
 
 ```bash
-# 部署环境:
+# Telepítési környezet:
 NODE_ENV=development
 
-# Next Auth 配置:
-# 用`openssl rand -base64 32`生成NEXTAUTH_SECRET的秘密
-NEXTAUTH_SECRET=changeme
+# Következő hitelesítési konfiguráció:
+# Hozzon létre egy titkos kulcsot az `openssl rand -base64 32` paranccsal
+NEXTAUTH_SECRET=VÁLTOZTASS_MEG
 NEXTAUTH_URL=http://localhost:3000
 DATABASE_URL=file:./db.sqlite
 
-# 你的open api密钥
-OPENAI_API_KEY=changeme
+# OpenAI API kulcs
+OPENAI_API_KEY=VÁLTOZTASS_MEG
 ```
 
-5. 使用 sqlite 修改 prisma 架构:
+5. Módosítsa a prisma sémát az sqlite használatához:
 
 ```bash
 ./prisma/useSqlite.sh
 ```
 
-**注意:** 使用 sqlite 时才需要执行此步骤。
+**Megjegyzés:** Ezt csak akkor kell megtenni, ha sqlite-ot szeretne használni.
 
-6. 准备就绪 🥳，现在可以运行了:
+6. Kész 🥳, következő a futtatás:
 
 ```bash
-# 创建数据库迁移
+# Adatbázis-migrálások létrehozása
 npx prisma db push
 npm run dev
 ```
 
 ### 🚀 GitHub Codespaces
 
-使用[GitHub Codespaces](https://github.com/features/codespaces)在云端设置 AgentGPT。
+Állítsa be azonnal az AgentGPT-t a felhőben a [GitHub Codespaces](https://github.com/features/codespaces) használatával.
 
-1. 从 GitHub 存储库中，单击绿色的 "Code" 按钮并选择 "Codespaces"。
-2. 创建一个新的 Codespace 或选择之前已创建的 Codespace。
-3. Codespaces opens in a separate tab in your browser.
-4. 在终端中运行 `bash ./setup.sh --local`。
-5. 当终端中提示时，添加你的 OpenAI API 密钥。
-6. 当构建过程完成后，单击 "Open in browser"。
+1. A GitHub-tárhelyen kattintson a zöld "Kód" gombra, és válassza a "Kódterek" lehetőséget.
+2. Hozzon létre egy új kódteret, vagy válasszon egy előzőt, amelyet már létrehozott.
+3. A kódtér külön lapon nyílik meg a böngészőben.
+4. A terminálban futtassa a `bash ./setup.sh --local` parancsot
+5. Amikor a terminál kéri, adja hozzá OpenAI API-kulcsát.
+6. Kattintson a "Megnyitás böngészőben" gombra, amikor az összeállítási folyamat befejeződött.
 
-- 如果要关闭 AgentGPT，请在终端中输入 Ctrl+C
-- 如果要重启 AgentGPT, 请在终端中运行 `npm run dev`。
+- Az AgentGPT leállításához írja be a Ctrl+C billentyűkombinációt a terminálba.
+- Az AgentGPT újraindításához futtassa az "npm run dev" parancsot a terminálban.
 
-运行该项目 🥳
+Futtassa a projektet 🥳
 
 ```
 npm run dev

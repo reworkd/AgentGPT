@@ -1,9 +1,14 @@
-# Use the official Node.js image as the base image
-FROM node:19-alpine
+# Use the official Node.js image as the base stage
+FROM node:19-alpine as base
 
-ARG NODE_ENV
+RUN apk add --no-cache openssl
 
-ENV NODE_ENV=$NODE_ENV
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+ARG NEXTAUTH_SECRET=$(openssl rand -base64 32)
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ARG NEXTAUTH_URL
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
 
 # Set the working directory
 WORKDIR /app
@@ -11,27 +16,47 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
-
 # Copy the rest of the application code
 COPY . .
-RUN mv .env.docker .env  \
-    && sed -ie 's/postgresql/sqlite/g' prisma/schema.prisma \
+
+RUN sed -ie 's/postgresql/sqlite/g' prisma/schema.prisma \
     && sed -ie 's/mysql/sqlite/g' prisma/schema.prisma \
    && sed -ie 's/@db.Text//' prisma/schema.prisma
 
-# Expose the port the app will run on
-EXPOSE 3000
 
 # Add Prisma and generate Prisma client
 RUN npx prisma generate  \
     && npx prisma migrate dev --name init  \
     && npx prisma db push
 
+# Expose the port the app will run on
+EXPOSE 3000
+
+# Preview stage
+FROM base AS development
+
+ENV NODE_ENV=development
+
+# Install dependencies
+RUN npm i
+
+# Start the application
+CMD ["npm", "run", "dev"]
+
+# Production stage
+FROM base AS production
+
+ENV NODE_ENV=production
+
+ARG SKIP_ENV_VALIDATION
+
+ENV SKIP_ENV_VALIDATION=$SKIP_ENV_VALIDATION
+
+# Install dependencies
+RUN npm ci
+
 # Build the Next.js app
 RUN npm run build
-
 
 # Start the application
 CMD ["npm", "start"]

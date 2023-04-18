@@ -26,15 +26,6 @@ OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n"
 
 printf $ENV > .env
-
-if [ "$1" = "--docker" ]; then
-  printf $ENV > .env.docker
-  source .env.docker
-  docker build --build-arg NODE_ENV=$NODE_ENV -t agentgpt .
-  docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt
-else
-  printf $ENV > .env
-  ./prisma/useSqlite.sh
-  npm install
-  npm run dev
-fi
+./prisma/useSqlite.sh
+npm install
+npm run dev

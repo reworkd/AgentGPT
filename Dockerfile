@@ -1,5 +1,5 @@
-# Use the official Node.js image as the base stage
-FROM node:19-alpine as base
+# Use the official Node.js image
+FROM node:19-alpine
 
 RUN apk add --no-cache openssl
 
@@ -9,6 +9,9 @@ ARG NEXTAUTH_SECRET=$(openssl rand -base64 32)
 ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ARG NEXTAUTH_URL
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
+ENV NODE_ENV=production
+ARG SKIP_ENV_VALIDATION
+ENV SKIP_ENV_VALIDATION=$SKIP_ENV_VALIDATION
 
 # Set the working directory
 WORKDIR /app
@@ -32,27 +35,7 @@ RUN npx prisma generate  \
 # Expose the port the app will run on
 EXPOSE 3000
 
-# Preview stage
-FROM base AS development
-
-ENV NODE_ENV=development
-
-# Install dependencies
-RUN npm i
-
-# Start the application
-CMD ["npm", "run", "dev"]
-
-# Production stage
-FROM base AS production
-
-ENV NODE_ENV=production
-
-ARG SKIP_ENV_VALIDATION
-
-ENV SKIP_ENV_VALIDATION=$SKIP_ENV_VALIDATION
-
-# Prevent the `prepare` script from executing
+# Prevent Husky errors by disabling the `prepare` script
 RUN npm pkg set scripts.prepare="exit 0"
 
 # Install dependencies

@@ -15,7 +15,6 @@ import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
 import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
-import { useSession } from "next-auth/react";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 
@@ -95,7 +94,8 @@ const Home: NextPage = () => {
       goalInput,
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature, customMaxLoops }
+      { customApiKey, customModelName, customTemperature, customMaxLoops },
+      session ?? undefined
     );
     setAgent(agent);
     agent.run().then(console.log).catch(console.error);

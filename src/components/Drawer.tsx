@@ -119,13 +119,14 @@ const Drawer = ({
           {/*  onClick={() => setAgents([])}*/}
           {/*/>*/}
 
-          {env.NEXT_PUBLIC_FF_SUB_ENABLED && (
-            <ProItem
-              sub={sub.mutate}
-              manage={manage.mutate}
-              session={session}
-            />
-          )}
+          {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
+            (router.query.pro && (
+              <ProItem
+                sub={sub.mutate}
+                manage={manage.mutate}
+                session={session}
+              />
+            ))}
           {env.NEXT_PUBLIC_FF_AUTH_ENABLED && (
             <AuthItem session={session} signIn={signIn} signOut={signOut} />
           )}

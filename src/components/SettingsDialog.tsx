@@ -12,7 +12,7 @@ import Input from "./Input";
 import {
   GPT_MODEL_NAMES,
   GPT_4,
-  DEFAULT_MAX_LOOPS,
+  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
 } from "../utils/constants";
 import Accordion from "./Accordion";
@@ -45,13 +45,26 @@ export default function SettingsDialog({
     close();
   };
 
+  function is_valid_key(key: string) {
+    const pattern = /^sk-[a-zA-Z0-9]{48}$/;
+    return pattern.test(key);
+  }
+
   const handleSave = () => {
-    setCustomApiKey(key);
-    close();
+    if (is_valid_key(key)) {
+      setCustomApiKey(key);
+      close();
+    } else {
+      alert(
+        "key is invalid, please ensure that you have set up billing in your OpenAI account"
+      );
+    }
   };
 
   React.useEffect(() => {
-    setCustomMaxLoops(!key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS);
+    setCustomMaxLoops(
+      !key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
+    );
 
     return () => {
       setCustomMaxLoops(DEFAULT_MAX_LOOPS_FREE);
@@ -71,7 +84,8 @@ export default function SettingsDialog({
         onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
-          message: "Higher temperature will make output more random",
+          message:
+            "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
           disabled: false,
         }}
         attributes={{

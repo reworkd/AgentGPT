@@ -54,9 +54,10 @@ export default function SettingsDialog({
     if (is_valid_key(key)) {
       setCustomApiKey(key);
       close();
-    }
-    else {
-      alert("key is invalid, please ensure that you have set up billing in your OpenAI account")
+    } else {
+      alert(
+        "key is invalid, please ensure that you have set up billing in your OpenAI account"
+      );
     }
   };
 
@@ -83,7 +84,8 @@ export default function SettingsDialog({
         onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
-          message: "Higher temperature will make output more random",
+          message:
+            "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
           disabled: false,
         }}
         attributes={{

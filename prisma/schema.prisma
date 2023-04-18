@@ -62,18 +62,28 @@ model VerificationToken {
 model Agent {
   id     String @id @default(cuid())
   userId String
-  name   String
-  goal   String
+  name   String @db.Text
+  goal   String @db.Text
 
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  AgentTask AgentTask[]
+  deleteDate DateTime?
+  createDate DateTime  @default(now())
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks AgentTask[]
+
+  @@index([userId])
 }
 
 model AgentTask {
-  id      String @id @default(cuid())
+  id      String  @id @default(cuid())
   agentId String
-  task    String
-  result  String
+  type    String
+  value   String  @db.Text
+  info    String? @db.Text
+  sort    Int
 
   agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([type])
 }

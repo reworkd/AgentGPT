@@ -41,7 +41,8 @@
 	"customizations": {
 		"vscode": {
 		  "extensions": [
-			"dbaeumer.vscode-eslint"
+			"dbaeumer.vscode-eslint",
+			"EditorConfig.EditorConfig"
 		  ]
 		}
 	  }

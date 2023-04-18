@@ -45,9 +45,19 @@ export default function SettingsDialog({
     close();
   };
 
+  function is_valid_key(key: string) {
+    const pattern = /^sk-[a-zA-Z0-9]{48}$/;
+    return pattern.test(key);
+  }
+
   const handleSave = () => {
-    setCustomApiKey(key);
-    close();
+    if (is_valid_key(key)) {
+      setCustomApiKey(key);
+      close();
+    }
+    else {
+      alert("key is invalid, please ensure that you have set up billing in your OpenAI account")
+    }
   };
 
   React.useEffect(() => {

@@ -16,6 +16,7 @@ interface InputProps {
   attributes?: { [key: string]: string | number | string[] }; // attributes specific to input type
   toolTipProperties?: toolTipProperties;
   inputRef?: React.RefObject<HTMLInputElement>;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Input = (props: InputProps) => {
@@ -30,6 +31,7 @@ const Input = (props: InputProps) => {
     attributes,
     inputRef,
     toolTipProperties,
+    onKeyDown,
   } = props;
   const isTypeCombobox = () => {
     return type === "combobox";
@@ -71,6 +73,7 @@ const Input = (props: InputProps) => {
         value={value}
         onChange={onChange}
         disabled={disabled}
+        onKeyDown={onKeyDown}
         {...attributes}
       />
     );

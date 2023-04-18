@@ -5,6 +5,13 @@ const requiredForProduction = () => process.env.NODE_ENV === "production"
     ? z.string().min(1).trim()
     : z.string().min(1).trim().optional()
 
+function stringToBoolean() {
+  return z.preprocess(
+      (str) => str === "true",
+      z.boolean(),
+  );
+}
+
 /**
  * Specify your server-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.
@@ -28,6 +35,10 @@ export const serverSchema = z.object({
   GITHUB_CLIENT_SECRET: requiredForProduction(),
   DISCORD_CLIENT_ID: requiredForProduction(),
   DISCORD_CLIENT_SECRET: requiredForProduction(),
+
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
 });
 
 /**
@@ -46,7 +57,11 @@ export const serverEnv = {
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   DISCORD_CLIENT_ID:  process.env.DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET
+  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+  STRIPE_SUBSCRIPTION_PRICE_ID: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
 };
 
 /**
@@ -57,8 +72,9 @@ export const serverEnv = {
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
-  NEXT_PUBLIC_STRIPE_DONATION_URL: z.string().url().optional(),
-  NEXT_PUBLIC_FF_AUTH_ENABLED: z.boolean().optional()
+  NEXT_PUBLIC_FF_AUTH_ENABLED: stringToBoolean(),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
+  NEXT_PUBLIC_FF_SUB_ENABLED: stringToBoolean(),
 });
 
 /**
@@ -69,6 +85,7 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  NEXT_PUBLIC_STRIPE_DONATION_URL: process.env.NEXT_PUBLIC_STRIPE_DONATION_URL,
-  NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED,
+  NEXT_PUBLIC_FF_SUB_ENABLED: process.env.NEXT_PUBLIC_FF_SUB_ENABLED
 };

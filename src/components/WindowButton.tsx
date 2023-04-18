@@ -6,9 +6,10 @@ type WindowButtonProps = {
   onClick: () => void;
   icon: React.ReactNode;
   text: string;
+  paragraph: React.RefObject<HTMLParagraphElement>;
 };
 
-const WindowButton = ({ delay, onClick, icon, text }: WindowButtonProps) => {
+const WindowButton = ({ delay, onClick, icon, text, paragraph }: WindowButtonProps) => {
   return (
     <PopIn delay={delay}>
       <div
@@ -16,7 +17,7 @@ const WindowButton = ({ delay, onClick, icon, text }: WindowButtonProps) => {
         onClick={onClick}
       >
         {icon}
-        <p className="font-mono">{text}</p>
+        <p ref={paragraph} className="font-mono">{text}</p>
       </div>
     </PopIn>
   );

@@ -120,6 +120,10 @@ interface HeaderProps {
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
+
+  const copyButtonParagraph = useRef<HTMLParagraphElement>(null);
+  const imageButtonParagraph = useRef<HTMLParagraphElement>(null);
+
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -144,17 +148,38 @@ const MacWindowHeader = (props: HeaderProps) => {
       .catch(console.error);
   };
 
-  const changeInnerText = (elementId: string, text: string) => {
-    const element = document.getElementById(elementId);
-    if (!element) {
+  
+
+
+  const setInnerText = (paragraphElement: React.RefObject<HTMLParagraphElement>,text: string) => {
+    if (!paragraphElement.current) {
       return;
     }
+    paragraphElement.current.innerText=text;
+  }
 
-    element.innerText=text
+  const getInnerText = (paragraphElement: React.RefObject<HTMLParagraphElement>) => {
+    if (!paragraphElement.current) {
+      return "";
+    }
+    return paragraphElement.current.innerText;
+  }
+
+  const changeTextTemporarily = (paragraphElement: React.RefObject<HTMLParagraphElement>, text: string, time: number) => {
+
+    const oldText=getInnerText(paragraphElement);
+
+    setInnerText(paragraphElement,text)
+
+    const timeoutId = setTimeout(() => {
+      setInnerText(paragraphElement, oldText);
+    }, time);
+
+    return timeoutId;
 
   }
 
-  const copyElementText = (elementId: string, buttonId: string) => {
+  const copyElementText = (elementId: string, buttonParagraphElement: React.RefObject<HTMLParagraphElement>) => {
     const element = document.getElementById(elementId);
     if (!element) {
       return;
@@ -163,10 +188,7 @@ const MacWindowHeader = (props: HeaderProps) => {
     const text = element.innerText;
     navigator.clipboard.writeText(text).then(
       () => {
-        console.info("Copied text to clipboard");
-      },
-      () => {
-        console.error("Failed to copy text to clipboard");
+        changeTextTemporarily(buttonParagraphElement,"Copied!",1300)
       }
     );
   };
@@ -190,13 +212,15 @@ const MacWindowHeader = (props: HeaderProps) => {
         onClick={(): void => saveElementAsImage(messageListId)}
         icon={<FaImage size={12} />}
         text={"Image"}
+        paragraph={imageButtonParagraph}
       />
 
       <WindowButton
         delay={0.8}
-        onClick={(): void => copyElementText(messageListId)}
+        onClick={(): void => copyElementText(messageListId,copyButtonParagraph)}
         icon={<FaClipboard size={12} />}
         text={"Copy"}
+        paragraph={copyButtonParagraph}
       />
       <PDFButton messages={props.messages} />
     </div>

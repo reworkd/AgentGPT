@@ -39,6 +39,10 @@ export const serverSchema = z.object({
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
   STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
+
+  USE_AZURE: stringToBoolean(),
+  AZURE_LLM_ENDPOINT: z.string().optional(),
+  AZURE_LLM_MODEL: z.string().optional(),
 });
 
 /**
@@ -62,6 +66,10 @@ export const serverEnv = {
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   STRIPE_SUBSCRIPTION_PRICE_ID: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
+
+  USE_AZURE: process.env.USE_AZURE,
+  AZURE_LLM_ENDPOINT: process.env.AZURE_LLM_ENDPOINT,
+  AZURE_LLM_MODEL: process.env.AZURE_LLM_MODEL,
 };
 
 /**

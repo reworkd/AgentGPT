@@ -6,7 +6,7 @@ import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 
 export const createModel = (settings: ModelSettings) =>
-  process.env.USE_AZURE ?
+  process.env.USE_AZURE === "true" ?
   new AzureLLM({
     key:
       settings.customApiKey === ""

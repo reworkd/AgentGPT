@@ -205,7 +205,18 @@ DATABASE_URL=file:./db.sqlite
 OPENAI_API_KEY=changeme
 ```
 
-> To use Azure OpenAI instead of OpenAI, you will also need to set the `AZURE_LLM_ENDPOINT` and `AZURE_LLM_MODEL` environment variables, as well as ensuring the `USE_AZURE` environment variable is also set (any value is okay).
+To use Azure OpenAI instead of OpenAI, you will also need to set the `AZURE_LLM_ENDPOINT` and `AZURE_LLM_MODEL` environment variables, as well as ensuring the `USE_AZURE` environment variable is also set to `true`.
+
+```bash
+#Be specific while mentioning the URL and make sure to include "/" at the end
+AZURE_LLM_ENDPOINT=example.openai.azure.com
+
+#Name of the deployment in Azure OpenAI
+AZURE_LLM_MODEL=deploymentname
+
+#Set it to true
+USE_AZURE=true
+```
 
 5. Modify prisma schema to use sqlite:
 

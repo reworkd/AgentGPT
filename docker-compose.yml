@@ -7,7 +7,7 @@ services:
       args:
         NEXTAUTH_URL: http://localhost:3000
         DATABASE_URL: file:../db/db.sqlite
-        SKIP_ENV_VALIDATION: true # omit this property to validate enable schema validation for the environment variables
+        SKIP_ENV_VALIDATION: 1 # omit this property to enable schema validation for the environment variables
     container_name: agentgpt
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}

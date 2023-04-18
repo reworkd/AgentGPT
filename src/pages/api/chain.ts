@@ -1,35 +1,20 @@
-import {
-  createModel,
-  extractArray,
-  realTasksFilter,
-  startGoalAgent,
-} from "../../utils/chain";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import type { RequestBody } from "../../utils/interfaces";
+import { startAgent } from "../../services/agent-service";
 
 export const config = {
   runtime: "edge",
 };
 
-interface RequestBody {
-  customApiKey: string;
-  goal: string;
-}
-
-export default async (request: NextRequest) => {
-  let data: RequestBody | null = null;
+const handler = async (request: NextRequest) => {
   try {
-    data = (await request.json()) as RequestBody;
-    const completion = await startGoalAgent(
-      createModel(data.customApiKey),
-      data.goal
-    );
-
-    const tasks = extractArray(completion.text as string).filter(
-      realTasksFilter
-    );
-    return NextResponse.json({ tasks });
+    const { modelSettings, goal } = (await request.json()) as RequestBody;
+    const newTasks = await startAgent(modelSettings, goal);
+    return NextResponse.json({ newTasks });
   } catch (e) {}
 
   return NextResponse.error();
 };
+
+export default handler;

@@ -28,7 +28,7 @@ const Drawer = ({
   showSettings: () => void;
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
-  const { session, signIn, signOut } = useAuth();
+  const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
 
   const sub = api.account.subscribe.useMutation({
@@ -94,10 +94,15 @@ const Drawer = ({
               />
             ))}
 
-            {userAgents.length === 0 && (
+            {status === "unauthenticated" && (
               <div>
-                Click the above button to restart. In the future, this will be a
-                list of your deployed agents!
+                Sign in to be able to save agents and manage your account!
+              </div>
+            )}
+            {status === "authenticated" && userAgents.length === 0 && (
+              <div>
+                You need to create and save your first agent before anything
+                shows up here!
               </div>
             )}
           </ul>

@@ -8,9 +8,9 @@ interface MotionProps extends PropsWithChildren {
 
 const FadeIn = (props: MotionProps) => (
   <motion.div
-    initial={{ opacity: 0, y: -50 }}
+    initial={{ opacity: 0, y: -30 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, type: "spring", delay: props.delay ?? 0 }}
+    transition={{ duration: 0.5, type: "spring", delay: props.delay ?? 0.3 }}
     {...props}
   >
     {props.children}

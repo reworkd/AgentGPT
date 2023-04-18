@@ -52,6 +52,9 @@ ARG SKIP_ENV_VALIDATION
 
 ENV SKIP_ENV_VALIDATION=$SKIP_ENV_VALIDATION
 
+# Install husky as the production environment requires it
+RUN npm i husky
+
 # Install dependencies
 RUN npm ci
 

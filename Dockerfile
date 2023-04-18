@@ -52,8 +52,11 @@ ARG SKIP_ENV_VALIDATION
 
 ENV SKIP_ENV_VALIDATION=$SKIP_ENV_VALIDATION
 
+# Prevent the `prepare` script from executing
+RUN npm pkg set scripts.prepare="exit 0"
+
 # Install dependencies
-RUN HUSKY=0 npm ci
+RUN npm ci
 
 # Build the Next.js app
 RUN npm run build

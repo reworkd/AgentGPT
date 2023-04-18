@@ -209,12 +209,12 @@ To use Azure OpenAI instead of OpenAI, you will also need to set the `AZURE_LLM_
 
 ```bash
 #Be specific while mentioning the URL and make sure to include "/" at the end
-AZURE_LLM_ENDPOINT=example.openai.azure.com
+AZURE_LLM_ENDPOINT=https://example.openai.azure.com/
 
 #Name of the deployment in Azure OpenAI
 AZURE_LLM_MODEL=deploymentname
 
-#Set it to true
+#Set it to true to use Azure OpenAI instead
 USE_AZURE=true
 ```
 

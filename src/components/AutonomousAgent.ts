@@ -1,18 +1,17 @@
-import type { Message } from "./ChatWindow";
-import type { AxiosError } from "axios";
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
-import {
-  createAgent,
-  executeAgent,
-  startAgent,
-} from "../services/agent-service";
+import AgentService from "../services/agent-service";
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
   DEFAULT_MAX_LOOPS_PAID,
 } from "../utils/constants";
 import type { Session } from "next-auth";
+import type { Message } from "../types/agentTypes";
+import { env } from "../env/client.mjs";
+
+const TIMEOUT_LONG = 1000;
+const TIMOUT_SHORT = 800;
 
 class AutonomousAgent {
   name: string;
@@ -50,7 +49,7 @@ class AutonomousAgent {
     try {
       this.tasks = await this.getInitialTasks();
       for (const task of this.tasks) {
-        await new Promise((r) => setTimeout(r, 800));
+        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         this.sendTaskMessage(task);
       }
     } catch (e) {
@@ -86,7 +85,7 @@ class AutonomousAgent {
     }
 
     // Wait before starting
-    await new Promise((r) => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
     // Execute first task
     // Get and remove first task
@@ -98,7 +97,7 @@ class AutonomousAgent {
     this.sendExecutionMessage(currentTask as string, result);
 
     // Wait before adding tasks
-    await new Promise((r) => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
     this.sendThinkingMessage();
 
     // Add new tasks
@@ -109,7 +108,7 @@ class AutonomousAgent {
       );
       this.tasks = this.tasks.concat(newTasks);
       for (const task of newTasks) {
-        await new Promise((r) => setTimeout(r, 800));
+        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         this.sendTaskMessage(task);
       }
 
@@ -139,8 +138,10 @@ class AutonomousAgent {
 
   async getInitialTasks(): Promise<string[]> {
     if (this.shouldRunClientSide()) {
-      await testConnection(this.modelSettings);
-      return await startAgent(this.modelSettings, this.goal);
+      if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
+        await testConnection(this.modelSettings);
+      }
+      return await AgentService.startAgent(this.modelSettings, this.goal);
     }
 
     const res = await axios.post(`/api/chain`, {
@@ -157,7 +158,7 @@ class AutonomousAgent {
     result: string
   ): Promise<string[]> {
     if (this.shouldRunClientSide()) {
-      return await createAgent(
+      return await AgentService.createAgent(
         this.modelSettings,
         this.goal,
         this.tasks,
@@ -181,7 +182,11 @@ class AutonomousAgent {
 
   async executeTask(task: string): Promise<string> {
     if (this.shouldRunClientSide()) {
-      return await executeAgent(this.modelSettings, this.goal, task);
+      return await AgentService.executeAgent(
+        this.modelSettings,
+        this.goal,
+        task
+      );
     }
 
     const res = await axios.post(`/api/execute`, {
@@ -291,7 +296,7 @@ const getMessageFromError = (e: unknown) => {
   let message =
     "ERROR accessing OpenAI APIs. Please check your API key or try again later";
   if (axios.isAxiosError(e)) {
-    const axiosError = e as AxiosError;
+    const axiosError = e;
     if (axiosError.response?.status === 429) {
       message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
     }

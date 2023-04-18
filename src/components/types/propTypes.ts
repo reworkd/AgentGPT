@@ -12,4 +12,6 @@ export type reactModelStates = {
   setCustomTemperature: (temperature: number) => void;
   customMaxLoops: number;
   setCustomMaxLoops: (numberOfLoops: number) => void;
+  customBaseUrl: string;
+  setCustomBaseUrl: (url: string) => void;
 };

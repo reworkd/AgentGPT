@@ -3,4 +3,5 @@ export type ModelSettings = {
   customModelName: string;
   customTemperature: number;
   customMaxLoops: number;
+  customBaseUrl: string;
 };

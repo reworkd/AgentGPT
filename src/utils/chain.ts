@@ -15,7 +15,10 @@ export const createModel = (settings: ModelSettings) => {
       settings.customModelName === "" ? GPT_35_TURBO : settings.customModelName,
     maxTokens: 500,
   },{
-    basePath : settings.customBaseUrl || undefined
+    basePath : 
+      settings.customBaseUrl === ""
+        ? process.env.OPENAI_API_BASE_URL
+        : settings.customBaseUrl
   })
 
 };

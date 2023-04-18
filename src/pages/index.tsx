@@ -30,6 +30,7 @@ const Home: NextPage = () => {
   const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(
     DEFAULT_MAX_LOOPS_FREE
   );
+  const [customBaseUrl, setCustomBaseUrl] = React.useState<string>("");
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -96,7 +97,7 @@ const Home: NextPage = () => {
       goalInput,
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature, customMaxLoops },
+      { customApiKey, customModelName, customTemperature, customMaxLoops, customBaseUrl },
       session ?? undefined
     );
     setAgent(agent);
@@ -136,6 +137,8 @@ const Home: NextPage = () => {
           setCustomTemperature,
           customMaxLoops,
           setCustomMaxLoops,
+          customBaseUrl,
+          setCustomBaseUrl
         }}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}

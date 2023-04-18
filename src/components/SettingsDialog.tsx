@@ -6,6 +6,7 @@ import {
   FaThermometerFull,
   FaExclamationCircle,
   FaSyncAlt,
+  FaServer
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -36,6 +37,8 @@ export default function SettingsDialog({
     setCustomTemperature,
     customMaxLoops,
     setCustomMaxLoops,
+    customBaseUrl,
+    setCustomBaseUrl
   } = reactModelStates;
 
   const [key, setKey] = React.useState<string>(customApiKey);
@@ -116,6 +119,18 @@ export default function SettingsDialog({
           max: 100,
           step: 1,
         }}
+      />
+      <br />
+      <Input
+          left={
+            <>
+              <FaServer />
+              <span className="ml-2">URL:</span>
+            </>
+          }
+          placeholder={"https://api.openai.com/v1/models"}
+          value={customBaseUrl}
+          onChange={(e) => setCustomBaseUrl(e.target.value)}
       />
     </>
   );

@@ -7,15 +7,16 @@ import {
   startGoalAgent,
 } from "../utils/chain";
 import type { ModelSettings } from "../utils/types";
+import { env } from "../env/client.mjs";
 
-export async function startAgent(modelSettings: ModelSettings, goal: string) {
+async function startAgent(modelSettings: ModelSettings, goal: string) {
   const completion = await startGoalAgent(createModel(modelSettings), goal);
   console.log(typeof completion.text);
   console.log("Completion:" + (completion.text as string));
   return extractArray(completion.text as string).filter(realTasksFilter);
 }
 
-export async function createAgent(
+async function createAgent(
   modelSettings: ModelSettings,
   goal: string,
   tasks: string[],
@@ -36,7 +37,7 @@ export async function createAgent(
     .filter((task) => !(completedTasks || []).includes(task));
 }
 
-export async function executeAgent(
+async function executeAgent(
   modelSettings: ModelSettings,
   goal: string,
   task: string
@@ -48,3 +49,53 @@ export async function executeAgent(
   );
   return completion.text as string;
 }
+
+interface AgentService {
+  startAgent: (modelSettings: ModelSettings, goal: string) => Promise<string[]>;
+  createAgent: (
+    modelSettings: ModelSettings,
+    goal: string,
+    tasks: string[],
+    lastTask: string,
+    result: string,
+    completedTasks: string[] | undefined
+  ) => Promise<string[]>;
+  executeAgent: (
+    modelSettings: ModelSettings,
+    goal: string,
+    task: string
+  ) => Promise<string>;
+}
+
+const OpenAIAgentService: AgentService = {
+  startAgent: startAgent,
+  createAgent: createAgent,
+  executeAgent: executeAgent,
+};
+
+const MockAgentService: AgentService = {
+  startAgent: async (modelSettings, goal) => {
+    return ["Task 1"];
+  },
+  createAgent: async (
+    modelSettings: ModelSettings,
+    goal: string,
+    tasks: string[],
+    lastTask: string,
+    result: string,
+    completedTasks: string[] | undefined
+  ) => {
+    return ["Task 4"];
+  },
+  executeAgent: async (
+    modelSettings: ModelSettings,
+    goal: string,
+    task: string
+  ) => {
+    return "Result " + task;
+  },
+};
+
+export default env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED
+  ? MockAgentService
+  : OpenAIAgentService;

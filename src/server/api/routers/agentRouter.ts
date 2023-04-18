@@ -2,10 +2,17 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { prisma } from "../../db";
+import { messageParser } from "../../../types/agentTypes";
+
+const saveAgentParser = z.object({
+  name: z.string(),
+  goal: z.string(),
+  tasks: z.array(messageParser),
+});
 
 export const agentRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ name: z.string(), goal: z.string() }))
+    .input(saveAgentParser)
     .mutation(async ({ input, ctx }) => {
       const agent = await prisma.agent.create({
         data: {
@@ -15,11 +22,52 @@ export const agentRouter = createTRPCRouter({
         },
       });
 
+      const all = input.tasks.map((e, i) => {
+        return prisma.agentTask.create({
+          data: {
+            agentId: agent.id,
+            type: e.type,
+            info: e.info,
+            value: e.value,
+            sort: i,
+          },
+        });
+      });
+
+      await Promise.all(all);
       return agent;
     }),
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return prisma.agent.findMany({
-      where: { userId: ctx.session?.user?.id },
+      where: { userId: ctx.session?.user?.id, deleteDate: null },
     });
   }),
+  findById: protectedProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      const agent = await prisma.agent.findFirstOrThrow({
+        where: { id: input, deleteDate: null, userId: ctx.session?.user?.id },
+        include: {
+          tasks: {
+            orderBy: {
+              sort: "asc",
+            },
+          },
+        },
+      });
+
+      return {
+        ...agent,
+      };
+    }),
+  deleteById: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ input, ctx }) => {
+      await prisma.agent.updateMany({
+        where: { id: input, userId: ctx.session?.user?.id },
+        data: {
+          deleteDate: new Date(),
+        },
+      });
+    }),
 });

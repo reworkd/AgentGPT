@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { prisma } from "../../db";
 import { messageParser } from "../../../types/agentTypes";
 
@@ -47,24 +47,22 @@ export const agentRouter = createTRPCRouter({
       take: 20,
     });
   }),
-  findById: protectedProcedure
-    .input(z.string())
-    .query(async ({ input, ctx }) => {
-      const agent = await prisma.agent.findFirstOrThrow({
-        where: { id: input, deleteDate: null, userId: ctx.session?.user?.id },
-        include: {
-          tasks: {
-            orderBy: {
-              sort: "asc",
-            },
+  findById: publicProcedure.input(z.string()).query(async ({ input, ctx }) => {
+    const agent = await prisma.agent.findFirstOrThrow({
+      where: { id: input, deleteDate: null },
+      include: {
+        tasks: {
+          orderBy: {
+            sort: "asc",
           },
         },
-      });
+      },
+    });
 
-      return {
-        ...agent,
-      };
-    }),
+    return {
+      ...agent,
+    };
+  }),
   deleteById: protectedProcedure
     .input(z.string())
     .mutation(async ({ input, ctx }) => {

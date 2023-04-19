@@ -231,7 +231,7 @@ const Home: NextPage = () => {
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={t('Make the world a better place.')}
+                  placeholder="Make the world a better place."
                 />
               </Expand>
             </div>

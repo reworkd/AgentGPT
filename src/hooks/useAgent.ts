@@ -1,5 +1,6 @@
 import { api } from "../utils/api";
 import type { Message } from "../types/agentTypes";
+import { useAuth } from "./useAuth";
 
 export interface SaveProps {
   name: string;
@@ -8,6 +9,7 @@ export interface SaveProps {
 }
 
 export function useAgent() {
+  const { status } = useAuth();
   const utils = api.useContext();
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const voidFunc = () => {};
@@ -20,8 +22,8 @@ export function useAgent() {
     },
   });
 
-  const saveAgent = (type: string, data: SaveProps) => {
-    saveMutation.mutate(data);
+  const saveAgent = (data: SaveProps) => {
+    if (status === "authenticated") saveMutation.mutate(data);
   };
 
   return {

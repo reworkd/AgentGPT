@@ -25,13 +25,14 @@ const AgentPage: NextPage = () => {
 
   return (
     <DefaultLayout
-      className="mx-4 flex flex-col items-center justify-center gap-4 md:w-[80%]"
+      className="mx-4 flex w-full flex-col items-center justify-center gap-4"
       centered
     >
       <ChatWindow
         messages={messages}
         title={getAgent?.data?.name}
         showDonation={false}
+        className={"md:w-[80%]"}
       />
       <div className="flex flex-row gap-2">
         <Button onClick={() => void router.push("/")}>Back</Button>

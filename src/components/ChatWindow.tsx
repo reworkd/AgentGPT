@@ -8,6 +8,7 @@ import {
   FaImage,
   FaListAlt,
   FaPlayCircle,
+  FaSave,
   FaStar,
 } from "react-icons/fa";
 import PopIn from "./motions/popin";
@@ -171,6 +172,14 @@ const MacWindowHeader = (props: HeaderProps) => {
       <div className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2">
         {props.title}
       </div>
+      {props.onSave && (
+        <WindowButton
+          delay={0.8}
+          onClick={() => props.onSave?.("db")}
+          icon={<FaSave size={12} />}
+          text={"Save"}
+        />
+      )}
       <WindowButton
         delay={0.7}
         onClick={(): void => saveElementAsImage(messageListId)}
@@ -184,14 +193,6 @@ const MacWindowHeader = (props: HeaderProps) => {
         icon={<FaClipboard size={12} />}
         text={"Copy"}
       />
-      {props.onSave && (
-        <WindowButton
-          delay={0.8}
-          onClick={() => props.onSave?.("db")}
-          icon={<FaDatabase size={12} />}
-          text={"Save"}
-        />
-      )}
       <PDFButton messages={props.messages} />
     </div>
   );

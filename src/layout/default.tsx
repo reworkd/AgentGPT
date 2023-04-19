@@ -54,7 +54,9 @@ const DefaultLayout = (props: LayoutProps) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DottedGridBackground className={clsx("min-h-screen", props.className)}>
+      <DottedGridBackground
+        className={clsx("min-w-screen min-h-screen", props.className)}
+      >
         {props.children}
       </DottedGridBackground>
     </div>

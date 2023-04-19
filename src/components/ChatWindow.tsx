@@ -24,11 +24,13 @@ import WindowButton from "./WindowButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
 import type { Message } from "../types/agentTypes";
+import clsx from "clsx";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
   showDonation: boolean;
+  fullscreen?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -40,6 +42,7 @@ const ChatWindow = ({
   title,
   showDonation,
   onSave,
+  fullscreen,
 }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -73,7 +76,11 @@ const ChatWindow = ({
     >
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
-        className="window-heights mb-2 mr-2"
+        className={clsx(
+          "mb-2 mr-2 ",
+          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
+            "window-heights"
+        )}
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}

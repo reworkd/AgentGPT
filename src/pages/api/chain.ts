@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { RequestBody } from "../../utils/interfaces";
-import { startAgent } from "../../services/agent-service";
+import AgentService from "../../services/agent-service";
 
 export const config = {
   runtime: "edge",
@@ -10,7 +10,7 @@ export const config = {
 const handler = async (request: NextRequest) => {
   try {
     const { modelSettings, goal } = (await request.json()) as RequestBody;
-    const newTasks = await startAgent(modelSettings, goal);
+    const newTasks = await AgentService.startAgent(modelSettings, goal);
     return NextResponse.json({ newTasks });
   } catch (e) {}
 

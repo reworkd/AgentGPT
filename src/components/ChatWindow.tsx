@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   FaBrain,
   FaClipboard,
+  FaCopy,
+  FaDatabase,
+  FaImage,
   FaListAlt,
   FaPlayCircle,
+  FaSave,
   FaStar,
-  FaCopy,
-  FaImage,
 } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -21,11 +23,11 @@ import { useRouter } from "next/router";
 import WindowButton from "./WindowButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
+import type { Message } from "../types/agentTypes";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
-  messages: Message[];
   showDonation: boolean;
 }
 
@@ -37,6 +39,7 @@ const ChatWindow = ({
   className,
   title,
   showDonation,
+  onSave,
 }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -68,7 +71,7 @@ const ChatWindow = ({
         (className ?? "")
       }
     >
-      <MacWindowHeader title={title} messages={messages} />
+      <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
         className="window-heights mb-2 mr-2"
         ref={scrollRef}
@@ -117,6 +120,7 @@ const ChatWindow = ({
 interface HeaderProps {
   title?: string | ReactNode;
   messages: Message[];
+  onSave?: (format: string) => void;
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
@@ -168,6 +172,14 @@ const MacWindowHeader = (props: HeaderProps) => {
       <div className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2">
         {props.title}
       </div>
+      {props.onSave && (
+        <WindowButton
+          delay={0.8}
+          onClick={() => props.onSave?.("db")}
+          icon={<FaSave size={12} />}
+          text={"Save"}
+        />
+      )}
       <WindowButton
         delay={0.7}
         onClick={(): void => saveElementAsImage(messageListId)}
@@ -309,12 +321,6 @@ const getMessagePrefix = (message: Message) => {
       return message.info ? message.info : "Executing:";
   }
 };
-
-export interface Message {
-  type: "goal" | "thinking" | "task" | "action" | "system";
-  info?: string;
-  value: string;
-}
 
 export default ChatWindow;
 export { ChatMessage };

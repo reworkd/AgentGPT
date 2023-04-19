@@ -16,8 +16,8 @@ export function useAgent() {
   const saveMutation = api.agent.create.useMutation({
     onSuccess: (data) => {
       utils.agent.getAll.setData(voidFunc(), (oldData) => [
-        ...(oldData ?? []),
         data,
+        ...(oldData ?? []),
       ]);
     },
   });

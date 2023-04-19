@@ -1,15 +1,13 @@
 // @ts-check
 import { z } from "zod";
 
-const requiredForProduction = () => process.env.NODE_ENV === "production"
+const requiredForProduction = () =>
+  process.env.NODE_ENV === "production"
     ? z.string().min(1).trim()
-    : z.string().min(1).trim().optional()
+    : z.string().min(1).trim().optional();
 
 function stringToBoolean() {
-  return z.preprocess(
-      (str) => str === "true",
-      z.boolean(),
-  );
+  return z.preprocess((str) => str === "true", z.boolean());
 }
 
 /**
@@ -25,11 +23,10 @@ export const serverSchema = z.object({
     // Since NextAuth.js automatically uses the VERCEL_URL if present.
     (str) => process.env.VERCEL_URL ?? str,
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-    process.env.VERCEL ? z.string() : z.string().url(),
+    process.env.VERCEL ? z.string() : z.string().url()
   ),
   OPENAI_API_KEY: z.string(),
-  OPENAI_API_BASE_URL: z.string(),
-  
+
   GOOGLE_CLIENT_ID: requiredForProduction(),
   GOOGLE_CLIENT_SECRET: requiredForProduction(),
   GITHUB_CLIENT_ID: requiredForProduction(),
@@ -54,12 +51,12 @@ export const serverEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   OPENAI_API_BASE_URL: process.env.OPENAI_API_BASE_URL,
-  
+
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-  DISCORD_CLIENT_ID:  process.env.DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
@@ -88,7 +85,8 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED,
-  NEXT_PUBLIC_FF_SUB_ENABLED: process.env.NEXT_PUBLIC_FF_SUB_ENABLED
+  NEXT_PUBLIC_FF_SUB_ENABLED: process.env.NEXT_PUBLIC_FF_SUB_ENABLED,
 };

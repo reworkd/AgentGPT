@@ -204,7 +204,7 @@ DATABASE_URL=file:./db.sqlite
 
 # Your open api key
 OPENAI_API_KEY=changeme
-OPENAI_API_BASE_URL="" # Can be used to setup a custom API base url, keep blank for default
+OPENAI_API_BASE_URL="" # Can be used to setup a custom API base url, do not need to be set for default
 ```
 
 5. Modify prisma schema to use sqlite:

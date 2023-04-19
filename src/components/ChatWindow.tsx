@@ -120,7 +120,6 @@ interface HeaderProps {
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
-
   const copyButtonParagraph = useRef<HTMLParagraphElement>(null);
   const imageButtonParagraph = useRef<HTMLParagraphElement>(null);
 
@@ -148,49 +147,60 @@ const MacWindowHeader = (props: HeaderProps) => {
       .catch(console.error);
   };
 
-  
-
-
-  const setInnerText = (paragraphElement: React.RefObject<HTMLParagraphElement>,text: string) => {
+  const setInnerText = (
+    paragraphElement: React.RefObject<HTMLParagraphElement>,
+    text: string
+  ) => {
     if (!paragraphElement.current) {
       return;
     }
-    paragraphElement.current.innerText=text;
-  }
+    paragraphElement.current.innerText = text;
+  };
 
-  const getInnerText = (paragraphElement: React.RefObject<HTMLParagraphElement>) => {
+  const getInnerText = (
+    paragraphElement: React.RefObject<HTMLParagraphElement>
+  ) => {
     if (!paragraphElement.current) {
       return "";
     }
     return paragraphElement.current.innerText;
-  }
+  };
 
-  const changeTextTemporarily = (paragraphElement: React.RefObject<HTMLParagraphElement>, text: string, time: number) => {
+  const changeTextTemporarily = (
+    paragraphElement: React.RefObject<HTMLParagraphElement>,
+    text: string,
+    time: number
+  ) => {
+    const oldText = getInnerText(paragraphElement);
 
-    const oldText=getInnerText(paragraphElement);
-
-    setInnerText(paragraphElement,text)
+    setInnerText(paragraphElement, text);
 
     const timeoutId = setTimeout(() => {
       setInnerText(paragraphElement, oldText);
     }, time);
 
     return timeoutId;
+  };
 
-  }
-
-  const copyElementText = (elementId: string, buttonParagraphElement: React.RefObject<HTMLParagraphElement>) => {
+  const copyElementText = (
+    elementId: string,
+    buttonParagraphElement: React.RefObject<HTMLParagraphElement>
+  ) => {
     const element = document.getElementById(elementId);
     if (!element) {
       return;
     }
-    
+
     const text = element.innerText;
-    navigator.clipboard.writeText(text).then(
-      () => {
-        changeTextTemporarily(buttonParagraphElement,"Copied!",1300)
-      }
-    );
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        // temporarily change Copy to Copied!
+        changeTextTemporarily(buttonParagraphElement, "Copied!", 1300);
+      })
+      .catch((error) => {
+        console.error("Failed to copy to clipboard: ", error);
+      });
   };
 
   return (
@@ -217,7 +227,9 @@ const MacWindowHeader = (props: HeaderProps) => {
 
       <WindowButton
         delay={0.8}
-        onClick={(): void => copyElementText(messageListId,copyButtonParagraph)}
+        onClick={(): void =>
+          copyElementText(messageListId, copyButtonParagraph)
+        }
         icon={<FaClipboard size={12} />}
         text={"Copy"}
         paragraph={copyButtonParagraph}
@@ -232,7 +244,6 @@ const ChatMessage = ({ message }: { message: Message }) => {
   const handleCopyClick = () => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
-
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import React from "react";
 import { FaListAlt } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
-import type { Message } from "./ChatWindow";
+import type { Message } from "../types/agentTypes";
 
 type TaskWindowProps = {
   tasks: Message[];

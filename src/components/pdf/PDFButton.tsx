@@ -1,9 +1,9 @@
 import WindowButton from "../WindowButton";
-import { FaSave } from "react-icons/fa";
+import { FaFilePdf, FaRegFilePdf, FaSave } from "react-icons/fa";
 import { pdf } from "@react-pdf/renderer";
 import React from "react";
-import type { Message } from "../ChatWindow";
 import MyDocument from "./MyDocument";
+import type { Message } from "../../types/agentTypes";
 
 const PDFButton = ({ messages }: { messages: Message[] }) => {
   const content = getContent(messages);
@@ -25,8 +25,8 @@ const PDFButton = ({ messages }: { messages: Message[] }) => {
         onClick={() => {
           downloadPDF().catch(console.error);
         }}
-        icon={<FaSave size={12} />}
-        text={"Save"}
+        icon={<FaFilePdf size={12} />}
+        text={"PDF"}
       />
     </>
   );

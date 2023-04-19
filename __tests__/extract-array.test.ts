@@ -1,4 +1,4 @@
-import { extractArray } from "../src/utils/chain";
+import { extractArray } from "../src/utils/helpers";
 
 describe("Strings should be extracted from arrays correctly", () => {
   it("simple", () => {

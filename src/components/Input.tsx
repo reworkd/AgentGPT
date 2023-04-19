@@ -2,7 +2,7 @@ import React from "react";
 import Label from "./Label";
 import clsx from "clsx";
 import Combobox from "./Combobox";
-import isArrayOfType from "../utils/helpers";
+import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
 
 interface InputProps {

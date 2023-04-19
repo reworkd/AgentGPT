@@ -37,6 +37,7 @@ const Home: NextPage = () => {
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
+  const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
   useEffect(() => {
@@ -93,6 +94,12 @@ const Home: NextPage = () => {
       AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
     </>
   );
+
+  const shouldShowSave =
+    status === "authenticated" &&
+    !agent?.isRunning &&
+    messages.length &&
+    !hasSaved;
 
   return (
     <DefaultLayout>
@@ -159,9 +166,10 @@ const Home: NextPage = () => {
                   status != "loading" && !session?.user.subscriptionId
                 }
                 onSave={
-                  status === "authenticated"
+                  shouldShowSave
                     ? (format) => {
-                        agentUtils.saveAgent(format, {
+                        setHasSaved(true);
+                        agentUtils.saveAgent({
                           goal: goalInput,
                           name: name,
                           tasks: messages,

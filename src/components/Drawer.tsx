@@ -83,7 +83,7 @@ const Drawer = ({
               <FaBars />
             </button>
           </div>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 overflow-auto">
             {userAgents.map((agent, index) => (
               <DrawerItem
                 key={index}

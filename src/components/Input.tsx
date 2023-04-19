@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Label from "./Label";
 import clsx from "clsx";
 import Combobox from "./Combobox";
@@ -20,6 +21,7 @@ interface InputProps {
 }
 
 const Input = (props: InputProps) => {
+  const [ t ] = useTranslation();
   const {
     placeholder,
     left,
@@ -68,7 +70,7 @@ const Input = (props: InputProps) => {
           left && "md:rounded-l-none"
         )}
         ref={inputRef}
-        placeholder={placeholder}
+        placeholder={`${t(`${placeholder}`)}`}
         type={type}
         value={value}
         onChange={onChange}

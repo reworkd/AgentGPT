@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 import Dialog from "./Dialog";
 
@@ -9,25 +10,23 @@ export default function HelpDialog({
   show: boolean;
   close: () => void;
 }) {
+  const [ t ] = useTranslation();
   return (
-    <Dialog header="Welcome to AgentGPT 🤖" isShown={show} close={close}>
+    <Dialog header={t('Welcome to AgentGPT 🤖')} isShown={show} close={close}>
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <p>
-          <strong>AgentGPT</strong> allows you to configure and deploy
-          Autonomous AI agents. Name your custom AI and have it embark on any
-          goal imaginable. It will attempt to reach the goal by thinking of
-          tasks to do, executing them, and learning from the results 🚀
+          <strong>AgentGPT</strong> {t('allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀')}
         </p>
         <div>
           <br />
-          This platform is currently in beta, we are currently working on:
+          {t('This platform is currently in beta, we are currently working on:')}
           <ul className="ml-5 list-inside list-disc">
-            <li>Long term memory 🧠</li>
-            <li>Web browsing 🌐</li>
-            <li>Interaction with websites and people 👨‍👩‍👦</li>
+            <li>{t('Long term memory 🧠')}</li>
+            <li>{t('Web browsing 🌐')}</li>
+            <li>{t('Interaction with websites and people 👨‍👩‍👦')}</li>
           </ul>
           <br />
-          <p className="mt-2">Follow the journey below:</p>
+          <p className="mt-2">{t('Follow the journey below:')}</p>
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div

@@ -1,4 +1,8 @@
 version: '3'
+
+volumes:
+  db:
+
 services:
   agentgpt:
     build:
@@ -27,5 +31,5 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./db:/app/db
+      - db:/app/db
     restart: unless-stopped

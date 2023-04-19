@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 interface DottedGridBackgroundProps {
   children: React.ReactNode;
@@ -9,12 +10,7 @@ const DottedGridBackground = ({
   children,
   className,
 }: DottedGridBackgroundProps) => {
-  return (
-    <div className={`${className ? className + " " : ""} background`}>
-      <div className="lower-gradient" />
-      {children}
-    </div>
-  );
+  return <div className={clsx(className, "background")}>{children}</div>;
 };
 
 export default DottedGridBackground;

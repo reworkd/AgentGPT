@@ -66,7 +66,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "border:black delay-50 w-full h-20 rounded-xl bg-[#3a3a3a] text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] py-3 md:text-lg border-[2px] border-white/10 px-2",
+          "border:black delay-50 w-full resize-none h-20 rounded-xl bg-[#3a3a3a] text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] py-3 md:text-lg border-[2px] border-white/10 px-2",
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none"
         )}

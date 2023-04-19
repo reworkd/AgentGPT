@@ -46,9 +46,13 @@ model User {
   subscriptionId String?   @db.Text
   customerId     String?   @db.Text
 
+  createDate DateTime @default(now())
+
   accounts Account[]
   sessions Session[]
   Agent    Agent[]
+
+  @@index([email])
 }
 
 model VerificationToken {
@@ -71,7 +75,7 @@ model Agent {
   user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   tasks AgentTask[]
 
-  @@index([userId])
+  @@index([userId, deleteDate, createDate])
 }
 
 model AgentTask {
@@ -81,6 +85,9 @@ model AgentTask {
   value   String  @db.Text
   info    String? @db.Text
   sort    Int
+
+  deleteDate DateTime?
+  createDate DateTime  @default(now())
 
   agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
 

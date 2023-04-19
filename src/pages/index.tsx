@@ -81,6 +81,8 @@ const Home: NextPage = () => {
       session ?? undefined
     );
     setAgent(agent);
+    setHasSaved(false);
+    setMessages([]);
     agent.run().then(console.log).catch(console.error);
   };
 

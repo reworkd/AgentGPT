@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FaBars,
   FaCog,
@@ -27,6 +28,7 @@ const Drawer = ({
   showHelp: () => void;
   showSettings: () => void;
 }) => {
+  const [ t ] = useTranslation();
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
@@ -123,10 +125,10 @@ const Drawer = ({
           )}
           <DrawerItem
             icon={<FaQuestionCircle />}
-            text="Help"
+            text={t('Help')}
             onClick={showHelp}
           />
-          <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
+          <DrawerItem icon={<FaCog />} text={t('Settings')} onClick={showSettings} />
           <hr className="my-2 border-white/20" />
           <div className="flex flex-row items-center">
             <DrawerItem
@@ -211,8 +213,9 @@ const AuthItem: React.FC<{
   signIn: () => void;
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
+  const [ t ] = useTranslation();
   const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
-  const text = session?.user ? "Sign Out" : "Sign In";
+  const text = session?.user ? t('Sign Out') : t('Sing In');
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
@@ -223,7 +226,8 @@ const ProItem: React.FC<{
   sub: () => any;
   manage: () => any;
 }> = ({ sub, manage, session }) => {
-  const text = session?.user?.subscriptionId ? "Account" : "Go Pro";
+  const [ t ] = useTranslation();
+  const text = session?.user?.subscriptionId ? t('Account') : t('Go Pro');
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
     icon = (

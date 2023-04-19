@@ -10,7 +10,7 @@ interface InputProps {
   left?: React.ReactNode;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: any;
+  placeholder?: string;
   disabled?: boolean;
   setValue?: (value: string) => void;
   type?: string;

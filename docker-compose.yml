@@ -5,29 +5,10 @@ volumes:
 
 services:
   agentgpt:
-    build:
-      context: .
-      args:
-        NEXTAUTH_URL: http://localhost:3000
-        DATABASE_URL: file:../db/db.sqlite
-        SKIP_ENV_VALIDATION: 1 # omit this property to enable schema validation for the environment variables
+    image: ghcr.io/reworkd/agentgpt:main
     container_name: agentgpt
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
-      # THE VARIABLES BELOW SHOULD BE SET IF THE `SKIP_ENV_VALIDATION` ARGUMENT IS OMMITED
-      # GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      # GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-      # GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
-      # GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
-      # DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
-      # DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
-      # STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
-      # STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
-      # STRIPE_SUBSCRIPTION_PRICE_ID: ${STRIPE_SUBSCRIPTION_PRICE_ID}
-      # NEXT_PUBLIC_VERCEL_ENV: ${NEXT_PUBLIC_VERCEL_ENV}
-      # NEXT_PUBLIC_FF_AUTH_ENABLED: ${NEXT_PUBLIC_FF_AUTH_ENABLED}
-      # NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
-      # NEXT_PUBLIC_FF_SUB_ENABLED: ${NEXT_PUBLIC_FF_SUB_ENABLED}
     ports:
       - 3000:3000
     volumes:

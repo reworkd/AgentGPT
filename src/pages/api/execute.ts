@@ -14,7 +14,11 @@ const handler = async (request: NextRequest) => {
       return;
     }
 
-    const response = await AgentService.executeAgent(modelSettings, goal, task);
+    const response = await AgentService.executeTaskAgent(
+      modelSettings,
+      goal,
+      task
+    );
     return NextResponse.json({
       response: response,
     });

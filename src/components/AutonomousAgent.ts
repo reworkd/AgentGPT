@@ -141,10 +141,10 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startAgent(this.modelSettings, this.goal);
+      return await AgentService.startGoalAgent(this.modelSettings, this.goal);
     }
 
-    const res = await axios.post(`/api/chain`, {
+    const res = await axios.post(`/api/start`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
     });
@@ -158,7 +158,7 @@ class AutonomousAgent {
     result: string
   ): Promise<string[]> {
     if (this.shouldRunClientSide()) {
-      return await AgentService.createAgent(
+      return await AgentService.createTasksAgent(
         this.modelSettings,
         this.goal,
         this.tasks,
@@ -182,7 +182,7 @@ class AutonomousAgent {
 
   async executeTask(task: string): Promise<string> {
     if (this.shouldRunClientSide()) {
-      return await AgentService.executeAgent(
+      return await AgentService.executeTaskAgent(
         this.modelSettings,
         this.goal,
         task

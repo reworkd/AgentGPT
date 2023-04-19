@@ -1,22 +1,42 @@
 import {
   createModel,
-  executeCreateTaskAgent,
-  executeTaskAgent,
-  extractArray,
-  realTasksFilter,
-  startGoalAgent,
-} from "../utils/chain";
+  startGoalPrompt,
+  executeTaskPrompt,
+  createTasksPrompt,
+} from "../utils/prompts";
 import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";
+import { LLMChain } from "langchain/chains";
+import { extractTasks } from "../utils/helpers";
 
-async function startAgent(modelSettings: ModelSettings, goal: string) {
-  const completion = await startGoalAgent(createModel(modelSettings), goal);
-  console.log(typeof completion.text);
+async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
+  const completion = await new LLMChain({
+    llm: createModel(modelSettings),
+    prompt: startGoalPrompt,
+  }).call({
+    goal,
+  });
   console.log("Completion:" + (completion.text as string));
-  return extractArray(completion.text as string).filter(realTasksFilter);
+  return extractTasks(completion.text as string, []);
 }
 
-async function createAgent(
+async function executeTaskAgent(
+  modelSettings: ModelSettings,
+  goal: string,
+  task: string
+) {
+  const completion = await new LLMChain({
+    llm: createModel(modelSettings),
+    prompt: executeTaskPrompt,
+  }).call({
+    goal,
+    task,
+  });
+
+  return completion.text as string;
+}
+
+async function createTasksAgent(
   modelSettings: ModelSettings,
   goal: string,
   tasks: string[],
@@ -24,35 +44,30 @@ async function createAgent(
   result: string,
   completedTasks: string[] | undefined
 ) {
-  const completion = await executeCreateTaskAgent(
-    createModel(modelSettings),
+  const completion = await new LLMChain({
+    llm: createModel(modelSettings),
+    prompt: createTasksPrompt,
+  }).call({
     goal,
     tasks,
     lastTask,
-    result
-  );
+    result,
+  });
 
-  return extractArray(completion.text as string)
-    .filter(realTasksFilter)
-    .filter((task) => !(completedTasks || []).includes(task));
-}
-
-async function executeAgent(
-  modelSettings: ModelSettings,
-  goal: string,
-  task: string
-) {
-  const completion = await executeTaskAgent(
-    createModel(modelSettings),
-    goal,
-    task
-  );
-  return completion.text as string;
+  return extractTasks(completion.text as string, completedTasks || []);
 }
 
 interface AgentService {
-  startAgent: (modelSettings: ModelSettings, goal: string) => Promise<string[]>;
-  createAgent: (
+  startGoalAgent: (
+    modelSettings: ModelSettings,
+    goal: string
+  ) => Promise<string[]>;
+  executeTaskAgent: (
+    modelSettings: ModelSettings,
+    goal: string,
+    task: string
+  ) => Promise<string>;
+  createTasksAgent: (
     modelSettings: ModelSettings,
     goal: string,
     tasks: string[],
@@ -60,24 +75,20 @@ interface AgentService {
     result: string,
     completedTasks: string[] | undefined
   ) => Promise<string[]>;
-  executeAgent: (
-    modelSettings: ModelSettings,
-    goal: string,
-    task: string
-  ) => Promise<string>;
 }
 
 const OpenAIAgentService: AgentService = {
-  startAgent: startAgent,
-  createAgent: createAgent,
-  executeAgent: executeAgent,
+  startGoalAgent: startGoalAgent,
+  executeTaskAgent: executeTaskAgent,
+  createTasksAgent: createTasksAgent,
 };
 
 const MockAgentService: AgentService = {
-  startAgent: async (modelSettings, goal) => {
-    return ["Task 1"];
+  startGoalAgent: async (modelSettings, goal) => {
+    return await new Promise((resolve) => resolve(["Task 1"]));
   },
-  createAgent: async (
+
+  createTasksAgent: async (
     modelSettings: ModelSettings,
     goal: string,
     tasks: string[],
@@ -85,14 +96,15 @@ const MockAgentService: AgentService = {
     result: string,
     completedTasks: string[] | undefined
   ) => {
-    return ["Task 4"];
+    return await new Promise((resolve) => resolve(["Task 4"]));
   },
-  executeAgent: async (
+
+  executeTaskAgent: async (
     modelSettings: ModelSettings,
     goal: string,
     task: string
   ) => {
-    return "Result " + task;
+    return await new Promise((resolve) => resolve("Result: " + task));
   },
 };
 

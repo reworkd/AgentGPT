@@ -42,7 +42,8 @@ const AgentPage: NextPage = () => {
         messages={messages}
         title={getAgent?.data?.name}
         showDonation={false}
-        className={"min-h-[80vh] md:w-[80%]"}
+        className="min-h-[80vh] md:w-[80%]"
+        fullscreen
       />
       <div className="flex flex-row gap-2">
         <Button

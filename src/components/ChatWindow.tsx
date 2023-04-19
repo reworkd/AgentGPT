@@ -31,6 +31,7 @@ interface ChatWindowProps extends HeaderProps {
   className?: string;
   showDonation: boolean;
   fullscreen?: boolean;
+  scrollToBottom?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -43,6 +44,7 @@ const ChatWindow = ({
   showDonation,
   onSave,
   fullscreen,
+  scrollToBottom,
 }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,7 @@ const ChatWindow = ({
 
   useEffect(() => {
     // Scroll to bottom on re-renders
-    if (scrollRef && scrollRef.current) {
+    if (scrollToBottom && scrollRef && scrollRef.current) {
       if (!hasUserScrolled) {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }

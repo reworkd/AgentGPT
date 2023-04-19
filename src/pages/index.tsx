@@ -187,6 +187,7 @@ const Home: NextPage = () => {
                       }
                     : undefined
                 }
+                scrollToBottom
               />
               {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>

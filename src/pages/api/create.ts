@@ -16,7 +16,7 @@ const handler = async (request: NextRequest) => {
       return;
     }
 
-    const newTasks = await AgentService.createAgent(
+    const newTasks = await AgentService.createTasksAgent(
       modelSettings,
       goal,
       tasks,

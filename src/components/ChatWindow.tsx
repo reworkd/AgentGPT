@@ -135,6 +135,7 @@ interface HeaderProps {
 const MacWindowHeader = (props: HeaderProps) => {
   const copyButtonParagraph = useRef<HTMLParagraphElement>(null);
   const imageButtonParagraph = useRef<HTMLParagraphElement>(null);
+  const saveButtonParagraph = useRef<HTMLParagraphElement>(null);
 
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
@@ -236,6 +237,7 @@ const MacWindowHeader = (props: HeaderProps) => {
           onClick={() => props.onSave?.("db")}
           icon={<FaSave size={12} />}
           text={"Save"}
+          paragraph={saveButtonParagraph}
         />
       )}
       <WindowButton

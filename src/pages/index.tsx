@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
-import type { Message } from "../components/ChatWindow";
 import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
@@ -17,6 +16,8 @@ import SettingsDialog from "../components/SettingsDialog";
 import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
+import type { Message } from "../types/agentTypes";
+import { useAgent } from "../hooks/useAgent";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
@@ -36,19 +37,8 @@ const Home: NextPage = () => {
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
-
-  // TODO: enable for crud
-  // const utils = api.useContext();
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // const voidFunc = () => {};
-  // const createAgent = api.agent.create.useMutation({
-  //   onSuccess: (data) => {
-  //     utils.agent.getAll.setData(voidFunc(), (oldData) => [
-  //       ...(oldData ?? []),
-  //       data,
-  //     ]);
-  //   },
-  // });
+  const [hasSaved, setHasSaved] = React.useState(false);
+  const agentUtils = useAgent();
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-new";
@@ -81,14 +71,9 @@ const Home: NextPage = () => {
 
   const tasks = messages.filter((message) => message.type === "task");
 
+  const disableDeployAgent = agent != null || name === "" || goalInput === ""
+
   const handleNewGoal = () => {
-    // TODO: enable for crud
-    // if (env.NEXT_PUBLIC_VERCEL_ENV != "production" && session?.user) {
-    //   createAgent.mutate({
-    //     name,
-    //     goal: goalInput,
-    //   });
-    // }
     const agent = new AutonomousAgent(
       name,
       goalInput,
@@ -98,8 +83,19 @@ const Home: NextPage = () => {
       session ?? undefined
     );
     setAgent(agent);
+    setHasSaved(false);
+    setMessages([]);
     agent.run().then(console.log).catch(console.error);
   };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter'&& !disableDeployAgent) {
+      if (!e.shiftKey) {
+        // Only Enter is pressed, execute the function
+        handleNewGoal();
+      }
+    }
+  }
 
   const handleStopAgent = () => {
     setShouldAgentStop(true);
@@ -111,6 +107,12 @@ const Home: NextPage = () => {
       AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
     </>
   );
+
+  const shouldShowSave =
+    status === "authenticated" &&
+    !agent?.isRunning &&
+    messages.length &&
+    !hasSaved;
 
   return (
     <DefaultLayout>
@@ -176,6 +178,19 @@ const Home: NextPage = () => {
                 showDonation={
                   status != "loading" && !session?.user.subscriptionId
                 }
+                onSave={
+                  shouldShowSave
+                    ? (format) => {
+                        setHasSaved(true);
+                        agentUtils.saveAgent({
+                          goal: goalInput,
+                          name: name,
+                          tasks: messages,
+                        });
+                      }
+                    : undefined
+                }
+                scrollToBottom
               />
               {tasks.length > 0 && <TaskWindow tasks={tasks} />}
             </Expand>
@@ -193,6 +208,7 @@ const Home: NextPage = () => {
                   value={name}
                   disabled={agent != null}
                   onChange={(e) => setName(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="AgentGPT"
                 />
               </Expand>
@@ -207,14 +223,16 @@ const Home: NextPage = () => {
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="Make the world a better place."
+                  type='textarea'
                 />
               </Expand>
             </div>
 
             <Expand delay={1.4} className="flex gap-2">
               <Button
-                disabled={agent != null || name === "" || goalInput === ""}
+                disabled={disableDeployAgent}
                 onClick={handleNewGoal}
                 className="sm:mt-10"
               >

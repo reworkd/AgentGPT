@@ -109,7 +109,7 @@ const Drawer = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <hr className="my-5 border-white/20" />
+          <hr className="my-2 border-gray-600/10" />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
               <ProItem
@@ -127,30 +127,12 @@ const Drawer = ({
             onClick={showHelp}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
-          <hr className="my-2 border-white/20" />
-          <div className="flex flex-row items-center">
-            <DrawerItem
-              icon={<FaDiscord size={30} />}
-              text="Discord"
-              href="https://discord.gg/jdSBAnmdnY"
-              target="_blank"
-              small
-            />
-            <DrawerItem
-              icon={<FaTwitter size={30} />}
-              text="Twitter"
-              href="https://twitter.com/asimdotshrestha/status/1644883727707959296"
-              target="_blank"
-              small
-            />
-            <DrawerItem
-              icon={<FaGithub size={30} />}
-              text="GitHub"
-              href="https://github.com/reworkd/AgentGPT"
-              target="_blank"
-              small
-            />
-          </div>
+          <DrawerItem
+            icon={<FaGithub />}
+            text="GitHub"
+            href="https://github.com/reworkd/AgentGPT"
+            target="_blank"
+          />
         </div>
       </div>
     </>

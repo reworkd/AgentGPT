@@ -178,9 +178,12 @@ const MacWindowHeader = (props: HeaderProps) => {
       <PopIn delay={0.6}>
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-      <div className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2">
+      <Expand
+        delay={1}
+        className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 "
+      >
         {props.title}
-      </div>
+      </Expand>
       {props.onSave && (
         <WindowButton
           delay={0.8}

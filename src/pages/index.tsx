@@ -237,6 +237,21 @@ const Home: NextPage = () => {
                   placeholder={t('Make the world a better place.')}
                 />
               </Expand>
+              <Expand delay={1.3}>
+                <Input
+                  left={
+                    <>
+                      <FaFlag />
+                      <span className="ml-2">{t('Agent\'s language:')}</span>
+                    </>
+                  }
+                  disabled={agent != null}
+                  value={customLanguage}
+                  onChange={(e) => setCustomLanguage(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
+                  placeholder={customLanguage}
+                />
+              </Expand>
             </div>
 
             <Expand delay={1.4} className="flex gap-2">

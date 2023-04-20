@@ -18,7 +18,7 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://discord.gg/3PccggEG">📢 Discord</a>
+<a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
 ---
@@ -32,11 +32,11 @@ Join us in fueling the development of AgentGPT, an open-source project pushing t
 </p>
 
 <p align="center">
-By sponsoring this free, open-source project, you not only have the opportunity to have your avatar/logo featured below, but also get the exclusive chance to chat with the founders!🗣️ 
+By sponsoring this free, open-source project, you not only have the opportunity to have your avatar/logo featured below, but also get the exclusive chance to chat with the founders!🗣️
 </p>
 
 <p align="center">
-<a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project 
+<a href="https://github.com/sponsors/reworkd-admin">👉 Click here</a> to support the project
 </p>
 
 <h3 align="center">
@@ -131,7 +131,7 @@ By sponsoring this free, open-source project, you not only have the opportunity 
    <a href="https://github.com/sorrynothing" style="display: inline-block;">
     <img src="https://github.com/sorrynothing.png" width="50px" alt="sorrynothing" style="max-width:100%;">
   </a>
-  
+
 </div>
 
 ---

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Label from "./Label";
 import clsx from "clsx";
 import Combobox from "./Combobox";
@@ -8,18 +9,19 @@ import type { toolTipProperties } from "./types";
 interface InputProps {
   left?: React.ReactNode;
   value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string | any;
   disabled?: boolean;
   setValue?: (value: string) => void;
   type?: string;
   attributes?: { [key: string]: string | number | string[] }; // attributes specific to input type
   toolTipProperties?: toolTipProperties;
   inputRef?: React.RefObject<HTMLInputElement>;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Input = (props: InputProps) => {
+  const [ t ] = useTranslation();
   const {
     placeholder,
     left,
@@ -41,10 +43,6 @@ const Input = (props: InputProps) => {
     return type === "range";
   };
 
-  const isTypeTextArea = () => {
-    return type === "textarea";
-  };
-
   let inputElement;
   const options = attributes?.options;
 
@@ -62,22 +60,6 @@ const Input = (props: InputProps) => {
         onChange={setValue}
       />
     );
-  } else if (isTypeTextArea()) {
-    inputElement = (
-      <textarea
-        className={clsx(
-          "border:black delay-50 w-full resize-none h-20 rounded-xl bg-[#3a3a3a] text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] py-3 md:text-lg border-[2px] border-white/10 px-2",
-          disabled && " cursor-not-allowed hover:border-white/10",
-          left && "md:rounded-l-none"
-        )}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        onKeyDown={onKeyDown}
-        {...attributes}
-      />
-    );
   } else {
     inputElement = (
       <input
@@ -88,7 +70,7 @@ const Input = (props: InputProps) => {
           left && "md:rounded-l-none"
         )}
         ref={inputRef}
-        placeholder={placeholder}
+        placeholder={`${t(`${placeholder}`)}`}
         type={type}
         value={value}
         onChange={onChange}

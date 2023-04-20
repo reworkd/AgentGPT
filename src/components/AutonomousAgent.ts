@@ -26,6 +26,7 @@ class AutonomousAgent {
   shutdown: () => void;
   numLoops = 0;
   session?: Session;
+  _id: string;
 
   constructor(
     name: string,
@@ -41,6 +42,7 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
+    this._id = v4();
   }
 
   async run() {
@@ -210,7 +212,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage("Rate limit exceeded. Please try again later.");
+        this.sendErrorMessage("Rate limit exceeded. Please slow down. 😅");
       }
 
       throw e;

@@ -65,6 +65,16 @@ export default function SettingsDialog({
   };
 
   React.useEffect(() => {
+    setCustomBaseUrl(
+      !key ? "" : customBaseUrl
+    );
+
+    return () => {
+      setCustomBaseUrl("");
+    };
+  }, [key, setCustomBaseUrl]);
+
+  React.useEffect(() => {
     setCustomMaxLoops(
       !key ? DEFAULT_MAX_LOOPS_FREE : DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
     );

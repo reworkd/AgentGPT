@@ -2,7 +2,7 @@ module.exports = {
   input: ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   output: "./public/locales/$LOCALE/$NAMESPACE.json",
   options: {
-    debug: true,
+    debug: false,
     removeUnusedKeys: false,
     func: {
       list: ["t", "i18next.t"],

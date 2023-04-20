@@ -10,7 +10,7 @@ const redis = new Redis({
 export const rateLimiter = new Ratelimit({
   redis: redis,
   limiter: Ratelimit.slidingWindow(
-    env.RATE_LIMITER_REQUESTS_PER_MINUTE,
+    env.RATE_LIMITER_REQUESTS_PER_MINUTE ?? 100,
     "60 s"
   ),
   analytics: true,

@@ -42,3 +42,9 @@ yarn-error.log*
 *.tsbuildinfo
 .idea
 .swc
+
+# extracted language files
+/public/locales/$LOCALES
+
+#package-lock.json
+package-lock.json

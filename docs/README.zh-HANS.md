@@ -19,7 +19,7 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 推特</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://discord.gg/3PccggEG">📢 Discord</a>
+<a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
 ---
@@ -33,7 +33,7 @@
 </p>
 
 <p align="center">
-通过赞助这个开源项目，你不仅有机会在下方展示你的头像/徽标，还可以与创始人独家交流！ 🗣️ 
+通过赞助这个开源项目，你不仅有机会在下方展示你的头像/徽标，还可以与创始人独家交流！ 🗣️
 </p>
 
 <p align="center">
@@ -132,7 +132,7 @@
    <a href="https://github.com/sorrynothing" style="display: inline-block;">
     <img src="https://github.com/sorrynothing.png" width="50px" alt="sorrynothing" style="max-width:100%;">
   </a>
-  
+
 </div>
 
 ---
@@ -320,4 +320,3 @@ npm run dev
   </a>
 
 </div>
-

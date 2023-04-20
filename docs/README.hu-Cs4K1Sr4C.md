@@ -18,7 +18,7 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://discord.gg/3PccggEG">📢 Discord</a>
+<a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
 ---
@@ -32,7 +32,7 @@ Csatlakozzon hozzánk, az AgentGPT fejlesztéséhez, egy nyílt forráskódú pr
 </p>
 
 <p align="center">
-Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csak az avatarod/logódat láthatod alább, hanem exkluzív lehetőséget kapsz az alapítókkal való beszélgetésre is!🗣️ 
+Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csak az avatarod/logódat láthatod alább, hanem exkluzív lehetőséget kapsz az alapítókkal való beszélgetésre is!🗣️
 </p>
 
 <p align="center">
@@ -131,7 +131,7 @@ Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csa
    <a href="https://github.com/sorrynothing" style="display: inline-block;">
     <img src="https://github.com/sorrynothing.png" width="50px" alt="sorrynothing" style="max-width:100%;">
   </a>
-  
+
 </div>
 
 ---
@@ -319,4 +319,3 @@ npm run dev
   </a>
 
 </div>
-

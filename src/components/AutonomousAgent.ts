@@ -146,10 +146,11 @@ class AutonomousAgent {
       return await AgentService.startGoalAgent(this.modelSettings, this.goal);
     }
 
-    const res = await axios.post(`/api/agent/start`, {
+    const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
-    });
+    };
+    const res = await this.post(`/api/agent/start`, data);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
@@ -170,14 +171,15 @@ class AutonomousAgent {
       );
     }
 
-    const res = await axios.post(`/api/agent/create`, {
+    const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
       tasks: this.tasks,
       lastTask: currentTask,
       result: result,
       completedTasks: this.completedTasks,
-    });
+    };
+    const res = await this.post(`/api/agent/create`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     return res.data.newTasks as string[];
   }
@@ -191,13 +193,28 @@ class AutonomousAgent {
       );
     }
 
-    const res = await axios.post(`/api/agent/execute`, {
+    const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
       task: task,
-    });
+    };
+    const res = await this.post("/api/agent/execute", data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as string;
+  }
+
+  private async post(url: string, data: RequestBody) {
+    try {
+      return await axios.post(url, data);
+    } catch (e) {
+      this.shutdown();
+
+      if (axios.isAxiosError(e) && e.response?.status === 429) {
+        this.sendErrorMessage("Rate limit exceeded. Please try again later.");
+      }
+
+      throw e;
+    }
   }
 
   private shouldRunClientSide() {

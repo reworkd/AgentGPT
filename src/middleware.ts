@@ -12,7 +12,7 @@ function ipFallback(request: Request) {
   return xff ? (Array.isArray(xff) ? xff[0] : xff.split(",")[0]) : "127.0.0.1";
 }
 
-async function shouldRateLimit(request: NextRequest): boolean {
+async function shouldRateLimit(request: NextRequest): Promise<boolean> {
   const ip = ipAddress(request) || ipFallback(request) || "";
   if (!ip) {
     return false;

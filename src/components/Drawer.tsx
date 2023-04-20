@@ -34,7 +34,7 @@ const Drawer = ({
   const router = useRouter();
 
   const sub = api.account.subscribe.useMutation({
-    onSuccess: async (url) => {
+    onSuccess: async (url: string) => {
       if (!url) return;
       await router.push(url);
     },
@@ -45,7 +45,7 @@ const Drawer = ({
   });
 
   const manage = api.account.manage.useMutation({
-    onSuccess: async (url) => {
+    onSuccess: async (url: string) => {
       if (!url) return;
       await router.push(url);
     },
@@ -86,7 +86,7 @@ const Drawer = ({
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            {userAgents.map((agent, index) => (
+            {userAgents.map((agent: any, index: any) => (
               <DrawerItem
                 key={index}
                 icon={<FaRobot />}
@@ -98,13 +98,12 @@ const Drawer = ({
 
             {status === "unauthenticated" && (
               <div>
-                Sign in to be able to save agents and manage your account!
+                {t('Sign in to be able to save agents and manage your account!')}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
               <div>
-                You need to create and save your first agent before anything
-                shows up here!
+                {t('You need to create and save your first agent before anything shows up here!')}
               </div>
             )}
           </ul>

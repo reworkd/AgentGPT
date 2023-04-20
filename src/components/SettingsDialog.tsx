@@ -131,6 +131,7 @@ export default function SettingsDialog({
           placeholder={"https://api.openai.com/v1/models"}
           value={customBaseUrl}
           onChange={(e) => setCustomBaseUrl(e.target.value)}
+          disabled={!key}
       />
     </>
   );

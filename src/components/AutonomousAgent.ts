@@ -9,6 +9,8 @@ import {
 import type { Session } from "next-auth";
 import type { Message } from "../types/agentTypes";
 import { env } from "../env/client.mjs";
+import { v4 } from "uuid";
+import type { RequestBody } from "../utils/interfaces";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Label from "./Label";
 import clsx from "clsx";
 import Combobox from "./Combobox";
@@ -8,8 +9,8 @@ import type { toolTipProperties } from "./types";
 interface InputProps {
   left?: React.ReactNode;
   value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: any;
   disabled?: boolean;
   setValue?: (value: string) => void;
   type?: string;
@@ -20,6 +21,7 @@ interface InputProps {
 }
 
 const Input = (props: InputProps) => {
+  const [ t ] = useTranslation();
   const {
     placeholder,
     left,
@@ -88,7 +90,7 @@ const Input = (props: InputProps) => {
           left && "md:rounded-l-none"
         )}
         ref={inputRef}
-        placeholder={placeholder}
+        placeholder={`${t(`${placeholder}`)}`}
         type={type}
         value={value}
         onChange={onChange}

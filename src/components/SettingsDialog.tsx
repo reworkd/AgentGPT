@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Button from "./Button";
 import {
   FaKey,
@@ -27,6 +28,7 @@ export default function SettingsDialog({
   close: () => void;
   reactModelStates: reactModelStates;
 }) {
+  const [ t ] = useTranslation();
   const {
     customApiKey,
     setCustomApiKey,
@@ -56,7 +58,7 @@ export default function SettingsDialog({
       close();
     } else {
       alert(
-        "key is invalid, please ensure that you have set up billing in your OpenAI account"
+        t('Key is invalid, please ensure that you have set up billing in your OpenAI account!')
       );
     }
   };
@@ -84,8 +86,7 @@ export default function SettingsDialog({
         onChange={(e) => setCustomTemperature(parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
-          message:
-            "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
+          message:`${t('Higher values will make the output more random, while lower values make the output more focused and deterministic.')}`,
           disabled: false,
         }}
         attributes={{
@@ -107,8 +108,7 @@ export default function SettingsDialog({
         onChange={(e) => setCustomMaxLoops(parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
-          message:
-            "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
+          message:`${t('Controls the maximum number of loops that the agent will run (higher value will make more API calls).')}`,
           disabled: false,
         }}
         attributes={{
@@ -122,15 +122,13 @@ export default function SettingsDialog({
 
   return (
     <Dialog
-      header="Settings ⚙"
+      header={t('Settings ⚙')}
       isShown={show}
       close={handleClose}
       footerButton={<Button onClick={handleSave}>Save</Button>}
     >
       <p>
-        Here you can add your OpenAI API key. This will require you to pay for
-        your own OpenAI usage but give you greater access to AgentGPT! You can
-        additionally select any model OpenAI offers.
+        {t('Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers.')}
       </p>
       <br />
       <p
@@ -143,15 +141,14 @@ export default function SettingsDialog({
         <FaExclamationCircle className="inline-block" />
         &nbsp;
         <b>
-          To use the GPT-4 model, you need to also provide the API key for
-          GPT-4. You can request for it&nbsp;
+        {t('To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it')}&nbsp;
           <a
             href="https://openai.com/waitlist/gpt-4-api"
             className="text-blue-500"
           >
-            here
+            {t('here')}
           </a>
-          . (ChatGPT Plus subscription will not work)
+          .&nbsp{t('(ChatGPT Plus subscription will not work)')}
         </b>
       </p>
       <br />
@@ -160,7 +157,7 @@ export default function SettingsDialog({
           left={
             <>
               <FaMicrochip />
-              <span className="ml-2">Model:</span>
+              <span className="ml-2">{t('Model: ')}</span>
             </>
           }
           type="combobox"
@@ -174,7 +171,7 @@ export default function SettingsDialog({
           left={
             <>
               <FaKey />
-              <span className="ml-2">Key: </span>
+              <span className="ml-2">{t('Key: ')}</span>
             </>
           }
           placeholder={"sk-..."}
@@ -184,19 +181,17 @@ export default function SettingsDialog({
         <br className="md:inline" />
         <Accordion
           child={advancedSettings}
-          name="Advanced Settings"
+          name={t('Advanced Settings')}
         ></Accordion>
         <br />
         <strong className="mt-10">
-          NOTE: To get a key, sign up for an OpenAI account and visit the
-          following{" "}
+          {t('NOTE: To get a key, sign up for an OpenAI account and visit the following')}{" "}
           <a
             href="https://platform.openai.com/account/api-keys"
             className="text-blue-500"
           >
-            link.
-          </a>{" "}
-          This key is only used in the current browser session
+            {t('link')}.
+          </a>{" "}{t('This key is only used in the current browser session')}
         </strong>
       </div>
     </Dialog>

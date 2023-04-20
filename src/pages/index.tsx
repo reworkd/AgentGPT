@@ -88,9 +88,12 @@ const Home: NextPage = () => {
     agent.run().then(console.log).catch(console.error);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !disableDeployAgent) {
-      handleNewGoal()
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter'&& !disableDeployAgent) {
+      if (!e.shiftKey) {
+        // Only Enter is pressed, execute the function
+        handleNewGoal();
+      }
     }
   }
 
@@ -222,6 +225,7 @@ const Home: NextPage = () => {
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="Make the world a better place."
+                  type='textarea'
                 />
               </Expand>
             </div>

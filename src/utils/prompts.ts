@@ -24,7 +24,7 @@ export const startGoalPrompt = new PromptTemplate({
 export const executeTaskPrompt = new PromptTemplate({
   template:
     "You are an autonomous task execution AI called AgentGPT. You have the following objective: `{goal}`, and the following task: `{task}`. You have to use the `{customLanguage}` language. Execute the given task and respond only with a one-line text as solution for the given task on the given language.",
-  inputVariables: ["goal", "task"],
+  inputVariables: ["goal", "task", "customLanguage"],
 });
 
 export const createTasksPrompt = new PromptTemplate({

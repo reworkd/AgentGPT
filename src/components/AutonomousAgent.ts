@@ -144,7 +144,7 @@ class AutonomousAgent {
       return await AgentService.startGoalAgent(this.modelSettings, this.goal);
     }
 
-    const res = await axios.post(`/api/start`, {
+    const res = await axios.post(`/api/agent/start`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
     });
@@ -168,7 +168,7 @@ class AutonomousAgent {
       );
     }
 
-    const res = await axios.post(`/api/create`, {
+    const res = await axios.post(`/api/agent/create`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
       tasks: this.tasks,
@@ -189,7 +189,7 @@ class AutonomousAgent {
       );
     }
 
-    const res = await axios.post(`/api/execute`, {
+    const res = await axios.post(`/api/agent/execute`, {
       modelSettings: this.modelSettings,
       goal: this.goal,
       task: task,

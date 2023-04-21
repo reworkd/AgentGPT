@@ -9,7 +9,7 @@ module.exports = {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     lngs: [
-      "de",
+      /*"de",
       "en",
       "es",
       "fr",
@@ -22,7 +22,13 @@ module.exports = {
       "pt",
       "ro",
       "sk",
-      "zh",
+      "zh",*/
+      "lt",
+      "ru",
+      "uk",
+      "af",
+      "bg",
+      "hr",
     ],
     defaultLng: "en",
     ns: ["translation"],

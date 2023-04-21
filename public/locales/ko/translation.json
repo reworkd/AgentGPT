@@ -64,5 +64,7 @@
   "Current tasks": "현재 작업",
   "Too many requests, please try again later.": "요청이 너무 많습니다. 나중에 다시 시도하세요.",
   "Copied to clipboard! 🚀": "클립 보드에 복사되었습니다! 🚀",
-  "Agent's Language:": "에이전트의 언어:"
+  "Agent's Language:": "에이전트의 언어:",
+  "Export": "내보내다",
+  "Stop Agent": "에이전트 중지"
 }

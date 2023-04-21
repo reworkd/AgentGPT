@@ -220,6 +220,7 @@ const Home: NextPage = () => {
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="AgentGPT"
+                  type="text"
                 />
               </Expand>
               <Expand delay={1.3}>
@@ -251,7 +252,7 @@ const Home: NextPage = () => {
                   onChange={(e) => setCustomLanguage(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder={customLanguage}
-                  type="textarea"
+                  type="text"
                 />
               </Expand>
             </div>

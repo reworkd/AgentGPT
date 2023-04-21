@@ -1,14 +1,23 @@
 import { PrismaClient } from "@prisma/client";
+import { ChromaClient } from "chromadb";
 
 import { env } from "../env/server.mjs";
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+const global = globalThis as unknown as {
+  prisma: PrismaClient;
+  chroma: ChromaClient;
+};
 
 export const prisma =
-  globalForPrisma.prisma ||
+  global.prisma ||
   new PrismaClient({
     log:
       env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
   });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+export const chroma = global.chroma || new ChromaClient();
+
+if (process.env.NODE_ENV !== "production") {
+  global.prisma = prisma;
+  global.chroma = chroma;
+}

@@ -23,8 +23,8 @@ export const startGoalPrompt = new PromptTemplate({
 
 export const executeTaskPrompt = new PromptTemplate({
   template:
-    "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
-  inputVariables: ["goal", "task"],
+    "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. You have the following context `{context}`. Execute the task and return the response as a string.",
+  inputVariables: ["goal", "task", "context"],
 });
 
 export const createTasksPrompt = new PromptTemplate({

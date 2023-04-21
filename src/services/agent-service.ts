@@ -8,6 +8,7 @@ import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";
 import { LLMChain } from "langchain/chains";
 import { extractTasks } from "../utils/helpers";
+import { getContext, saveContext } from "./context-service";
 
 async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
   const completion = await new LLMChain({
@@ -25,15 +26,25 @@ async function executeTaskAgent(
   goal: string,
   task: string
 ) {
+  const ctx = await getContext({ id: "changeme", task });
+  const context = ctx.map((c) => c.document).join(", ");
+
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: executeTaskPrompt,
   }).call({
     goal,
     task,
+    context,
   });
 
-  return completion.text as string;
+  const result = completion.text as string;
+  void saveContext({
+    id: "changeme",
+    task,
+    result,
+  }).catch();
+  return result;
 }
 
 async function createTasksAgent(

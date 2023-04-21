@@ -184,7 +184,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       <PopIn delay={0.6}>
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-      <div className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2">
+      <div className="invisible flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 md:visible">
         {props.title}
       </div>
 
@@ -193,9 +193,9 @@ const MacWindowHeader = (props: HeaderProps) => {
         onChange={() => null}
         options={exportOptions}
         styleClass={{
-          container: "absolute right-1.5 md:right-2.5",
+          container: "absolute right-2 md:right-3",
           input:
-            "bg-[#3a3a3a] w-40 md:w-48 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]",
+            "bg-[#3a3a3a] w-40 md:w-44 text-center text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]",
           option: "w-full py-[1px] md:py-0.5",
         }}
       />

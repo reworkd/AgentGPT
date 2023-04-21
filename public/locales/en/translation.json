@@ -49,5 +49,17 @@
   "Make the world a better place.": "Make the world a better place",
   "Sign in to be able to save agents and manage your account!": "Sign in to be able to save agents and manage your account!",
   "You need to create and save your first agent before anything shows up here!": "You need to create and save your first agent before anything shows up here!",
-  "Agent's language:": "Agent's language:"
+  "Select language": "Select language",
+  "Task marked as complete.": "Task marked as complete.",
+  "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
+  "Rate limit exceeded. Please slow down. 😅": "Rate limit exceeded. Please slow down. 😅",
+  "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",
+  "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.": "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+  "The agent has been manually shutdown.": "The agent has been manually shutdown.",
+  "All tasks completed. Shutting down.": "All tasks completed. Shutting down.",
+  "ERROR accessing OpenAI APIs. Please check your API key or try again later": "ERROR accessing OpenAI APIs. Please check your API key or try again later",
+  "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.",
+  "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)",
+  "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.",
+  "Agent's Language:": "Agent's language:"
 }

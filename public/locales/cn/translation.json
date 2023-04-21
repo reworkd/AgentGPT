@@ -46,5 +46,18 @@
   "Running": "运行中",
   "Stopping": "停止中",
   "Stop Agent": "停止代理",
-  "Make the world a better place.": "让世界变得更美好。"
+  "Make the world a better place.": "让世界变得更美好。",
+  "Select language": "选择语言",
+  "Task marked as complete.": "任务标记为已完成。",
+  "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.": "添加其他任务时出错。可能违反了我们的模型政策，正在继续。",
+  "Rate limit exceeded. Please slow down. 😅": "速率限制已超过。请减慢速度。😅",
+  "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.": "此代理程序已达到循环次数上限。为节省您的钱包，此代理程序正在关闭。您可以在高级设置中配置循环次数。",
+  "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.": "很抱歉，因为这是一个演示版本，我们不能让我们的代理程序运行太长时间。请注意，如果您需要更长的运行时间，请在设置中提供您自己的 API 密钥。关闭中。",
+  "The agent has been manually shutdown.": "代理程序已被手动关闭。",
+  "All tasks completed. Shutting down.": "所有任务已完成。关闭中。",
+  "ERROR accessing OpenAI APIs. Please check your API key or try again later": "访问 OpenAI API 时出错。请检查您的 API 密钥或稍后再试",
+  "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "使用您的 OpenAI API 密钥时出错。您已超出当前配额，请检查您的计划和结算明细。",
+  "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "您的 API 密钥没有 GPT-4 访问权限。您必须先加入 OpenAI 的等待名单。（这与 ChatGPT Plus 不同）",
+  "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "检索初始任务数组时出错。重试，使您的目标更明确，或修改您的目标，使其符合我们的模型政策。关闭中。",
+  "Agent's Language:": "代理程序语言："
 }

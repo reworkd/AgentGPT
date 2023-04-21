@@ -49,5 +49,17 @@
   "Make the world a better place.": "Tedd jobb hellyé a világot.",
   "Sign in to be able to save agents and manage your account!": "Jelentkezzen be a fiókja vezérléséhez és az ügynökök mentéséhez!",
   "You need to create and save your first agent before anything shows up here!": "Először létre kell hoznia egy ügynököt és menteni azt, hogy itt megjelenjen.",
-  "Agent's language:": "Ügynök nyelve"
+  "Select language": "Nyelv választása",
+  "Task marked as complete.": "Feladat teljesítve.",
+  "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.": "Hiba történt az új feladatok hozzáadásakor. Talán az üzemeltetői politikánkba ütköztek. Folytatás.",
+  "Rate limit exceeded. Please slow down. 😅": "Túllépte a kérési limitet. Kérem, lassítsd le. 😅",
+  "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.": "Az ügynök elérte a maximum körök számát. Az Ön pénztárcája érdekében az ügynök leáll. A körök számát a speciális beállításokban lehet konfigurálni.",
+  "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.": "Sajnáljuk, mert ez csak egy bemutató, nem tudjuk hosszú ideig futtatni az ügynökeinket. Ha hosszabb ideig szeretné futtatni, adjon meg saját API-kulcsot a beállításokban. Leállítás.",
+  "The agent has been manually shutdown.": "Az ügynök kézzel lett leállítva.",
+  "All tasks completed. Shutting down.": "Minden feladat elkészült. Leállás.",
+  "ERROR accessing OpenAI APIs. Please check your API key or try again later": "Hiba történt az OpenAI API-khoz való hozzáférés során. Kérjük, ellenőrizze az API-kulcsot, vagy próbálja később.",
+  "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "Hiba történt az OpenAI API-kulcs használatakor. Elérted a jelenlegi kvótádat, kérjük, ellenőrizd a tervet és a számlázási adatokat.",
+  "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "Hiba történt, az API-kulcsod nem rendelkezik GPT-4 hozzáféréssel. Először csatlakoznod kell az OpenAI várólistájához. (Ez eltér a ChatGPT Plus-tól)",
+  "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "HIBA a kezdeti feladatok tömbjének lekérésekor. Próbálkozzon újra, tegye egyértelműbbé a célt, vagy módosítsa a célt úgy, hogy a modellünk szabályzatain belül futni lehessen. Leállítás.",
+  "Agent's Language:": "Ügynök nyelve"
 }

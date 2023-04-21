@@ -76,7 +76,8 @@ const Home: NextPage = () => {
     setMessages((prev) => [...prev, message]);
   };
 
-  const tasks = messages.filter((message) => message.type === "task");
+   const tasks = messages.filter((message) => message.type === "task");
+
   const disableDeployAgent = agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
@@ -86,7 +87,6 @@ const Home: NextPage = () => {
       handleAddMessage,
       () => setAgent(null),
       { customApiKey, customModelName, customTemperature, customMaxLoops },
-      customLanguage,
       session ?? undefined
     );
     setAgent(agent);

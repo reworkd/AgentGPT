@@ -6,10 +6,12 @@ import { useTranslation } from "react-i18next";
 
 interface AgentLanguageSelectorProps {
   onChange: (lng: string) => void;
+  setCustomLanguage: (lng: string) => void;
 }
 
 const AgentLanguageSelector = ({
   onChange,
+  setCustomLanguage,
 }: AgentLanguageSelectorProps) => {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState("");
@@ -51,6 +53,7 @@ const AgentLanguageSelector = ({
   const handleLanguageChange = (value: string) => {
     i18n.changeLanguage(value);
     onChange(value);
+    setCustomLanguage(value);
   };
 
   return (

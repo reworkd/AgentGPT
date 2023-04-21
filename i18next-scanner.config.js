@@ -26,7 +26,6 @@ module.exports = {
       "lt",
       "ru",
       "uk",
-      "af",
       "bg",
       "hr",
     ],

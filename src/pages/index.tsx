@@ -76,8 +76,8 @@ const Home: NextPage = () => {
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
-      name,
-      goalInput,
+      name.trim(),
+      goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
       { customApiKey, customModelName, customTemperature, customMaxLoops },
@@ -182,13 +182,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                        setHasSaved(true);
-                        agentUtils.saveAgent({
-                          goal: goalInput,
-                          name: name,
-                          tasks: messages,
-                        });
-                      }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: name.trim(),
+                        tasks: messages
+                      });
+                    }
                     : undefined
                 }
                 scrollToBottom

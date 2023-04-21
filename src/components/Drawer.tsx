@@ -58,8 +58,7 @@ const Drawer = ({
   return (
     <>
       <button
-        hidden={showDrawer}
-        className="fixed left-2 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
+        className="fixed left-2 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700"
         onClick={toggleDrawer}
       >
         <FaBars />
@@ -70,7 +69,7 @@ const Drawer = ({
           showDrawer ? "translate-x-0" : "-translate-x-full",
           "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
           "fixed top-0 md:sticky",
-          "flex md:translate-x-0"
+          "flex"
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">

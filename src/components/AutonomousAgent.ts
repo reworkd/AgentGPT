@@ -11,6 +11,7 @@ import type { Message } from "../types/agentTypes";
 import { env } from "../env/client.mjs";
 import { v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
+import { useTranslation } from "react-i18next";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -28,6 +29,7 @@ class AutonomousAgent {
   numLoops = 0;
   session?: Session;
   _id: string;
+  t: any;
 
   constructor(
     name: string,
@@ -36,7 +38,7 @@ class AutonomousAgent {
     shutdown: () => void,
     modelSettings: ModelSettings,
     customLanguage: string,
-    session?: Session,
+    session?: Session
   ) {
     this.name = name;
     this.goal = goal;
@@ -46,6 +48,7 @@ class AutonomousAgent {
     this.customLanguage = customLanguage;
     this.session = session;
     this._id = v4();
+    this.t = useTranslation();
   }
 
   async run() {
@@ -120,14 +123,12 @@ class AutonomousAgent {
       }
 
       if (newTasks.length == 0) {
-        this.sendActionMessage("Task marked as complete!");
+        this.sendActionMessage(this.t('Task marked as complete.'));
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(
-        `ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.`
-      );
-      this.sendActionMessage("Task marked as complete.");
+      this.sendErrorMessage(this.t('ERROR adding additional task(s). It might have been against our model\'s policies to run them. Continuing.'));
+      this.sendActionMessage(this.t('Task marked as complete.'));
     }
 
     await this.loop();
@@ -148,7 +149,7 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startGoalAgent(this.modelSettings, this.goal);
+      return await AgentService.startGoalAgent(this.modelSettings, this.goal, this.customLanguage);
     }
 
     const data = {
@@ -172,7 +173,8 @@ class AutonomousAgent {
         this.tasks,
         currentTask,
         result,
-        this.completedTasks
+        this.completedTasks,
+        this.customLanguage
       );
     }
 
@@ -194,7 +196,8 @@ class AutonomousAgent {
       return await AgentService.executeTaskAgent(
         this.modelSettings,
         this.goal,
-        task
+        task,
+        this.customLanguage
       );
     }
 
@@ -215,7 +218,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage("Rate limit exceeded. Please slow down. 😅");
+        this.sendErrorMessage(this.t('Rate limit exceeded. Please slow down. 😅'));
       }
 
       throw e;
@@ -248,22 +251,22 @@ class AutonomousAgent {
       type: "system",
       value:
         this.modelSettings.customApiKey !== ""
-          ? `This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.`
-          : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+          ? this.t('This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.')
+          : this.t('We\'re sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.'),
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: "system",
-      value: `The agent has been manually shutdown.`,
+      value: this.t('The agent has been manually shutdown.'),
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: "system",
-      value: "All tasks completed. Shutting down.",
+      value: this.t('All tasks completed. Shutting down.'),
     });
   }
 
@@ -282,7 +285,7 @@ class AutonomousAgent {
   sendExecutionMessage(task: string, execution: string) {
     this.sendMessage({
       type: "action",
-      info: `Executing "${task}"`,
+      info: this.t(`Executing "${task}"`),
       value: execution,
     });
   }
@@ -317,18 +320,18 @@ const testConnection = async (modelSettings: ModelSettings) => {
 };
 
 const getMessageFromError = (e: unknown) => {
-  let message =
-    "ERROR accessing OpenAI APIs. Please check your API key or try again later";
+  const [ t ] = useTranslation();
+  let message = t('ERROR accessing OpenAI APIs. Please check your API key or try again later');
   if (axios.isAxiosError(e)) {
     const axiosError = e;
     if (axiosError.response?.status === 429) {
-      message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
+      message = t('ERROR using your OpenAI API key. You\'ve exceeded your current quota, please check your plan and billing details.');
     }
     if (axiosError.response?.status === 404) {
-      message = `ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)`;
+      message = t('ERROR your API key does not have GPT-4 access. You must first join OpenAI\'s wait-list. (This is different from ChatGPT Plus)');
     }
   } else {
-    message = `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`;
+    message = t('ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model\'s policies to run. Shutting Down.');
   }
   return message;
 };

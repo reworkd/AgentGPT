@@ -18,7 +18,7 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://discord.gg/3PccggEG">📢 Discord</a>
+<a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
 ---
@@ -32,7 +32,7 @@ Csatlakozzon hozzánk, az AgentGPT fejlesztéséhez, egy nyílt forráskódú pr
 </p>
 
 <p align="center">
-Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csak az avatarod/logódat láthatod alább, hanem exkluzív lehetőséget kapsz az alapítókkal való beszélgetésre is!🗣️ 
+Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csak az avatarod/logódat láthatod alább, hanem exkluzív lehetőséget kapsz az alapítókkal való beszélgetésre is!🗣️
 </p>
 
 <p align="center">
@@ -46,6 +46,12 @@ Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csa
 <div align="center" dir="auto">
   <a href="https://github.com/Faitltd" style="display: inline-block; margin-right: 20px;">
     <img src="https://github.com/Faitltd.png" width="50px" alt="faithltd" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/mojosolo" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/mojosolo.png" width="50px" alt="mojosolo" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/0xmatchmaker" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/0xmatchmaker.png" width="50px" alt="0xmatchmaker" style="max-width:100%;">
   </a>
   <a href="https://github.com/arthurbnhm" style="display: inline-block;">
     <img src="https://github.com/arthurbnhm.png" width="50px" alt="arthurbnhm" style="max-width:100%;">
@@ -89,6 +95,18 @@ Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csa
   <a href="https://github.com/Mitchell-Coder-New" style="display: inline-block;">
     <img src="https://github.com/Mitchell-Coder-New.png" width="50px" alt="Mitchell-Coder-New" style="max-width:100%;">
   </a>
+  <a href="https://github.com/nnkostov" style="display: inline-block;">
+    <img src="https://github.com/nnkostov.png" width="50px" alt="nnkostov" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/cmtadvogados" style="display: inline-block;">
+    <img src="https://github.com/cmtadvogados.png" width="50px" alt="cmtadvogados" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/Sphilly05" style="display: inline-block;">
+    <img src="https://github.com/Sphilly05.png" width="50px" alt="Sphilly05" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/Tweezamiza" style="display: inline-block;">
+    <img src="https://github.com/Tweezamiza.png" width="50px" alt="Tweezamiza" style="max-width:100%;">
+  </a>
   <a href="https://github.com/mrayonnaise" style="display: inline-block;">
     <img src="https://github.com/mrayonnaise.png" width="50px" alt="mrayonnaise" style="max-width:100%;">
   </a>
@@ -113,7 +131,7 @@ Ennek az ingyenes, nyílt forráskódú projektnek a szponzorálásával nem csa
    <a href="https://github.com/sorrynothing" style="display: inline-block;">
     <img src="https://github.com/sorrynothing.png" width="50px" alt="sorrynothing" style="max-width:100%;">
   </a>
-  
+
 </div>
 
 ---
@@ -240,3 +258,64 @@ Futtassa a projektet 🥳
 ```
 npm run dev
 ```
+
+---
+
+<h3 align="center">
+🙌🏻 Our Sponsers Continued 🙌🏻
+</h3>
+
+<div align="center" dir="auto">
+  <a href="https://github.com/Trecares" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/Trecares.png" width="50px" alt="Trecares" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/oryanmoshe" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/oryanmoshe.png" width="50px" alt="oryanmoshe" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/rekimcn" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/rekimcn.png" width="50px" alt="rekimcn" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/qwe777897" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/qwe777897.png" width="50px" alt="qwe777897" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/ClayNelson" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/ClayNelson.png" width="50px" alt="ClayNelson" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/xuxizhen" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/xuxizhen.png" width="50px" alt="xuxizhen" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/destro225" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/destro225.png" width="50px" alt="destro225" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/mouhaxp" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/mouhaxp.png" width="50px" alt="mouhaxp" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/carlosbartolomeu" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/carlosbartolomeu.png" width="50px" alt="carlosbartolomeu" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/Agronobeetles" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/Agronobeetles.png" width="50px" alt="Agronobeetles " style="max-width:100%;">
+  </a>
+  <a href="https://github.com/CloudyGuyThompson" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/CloudyGuyThompson.png" width="50px" alt="CloudyGuyThompson" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/xinghz" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/xinghz.png" width="50px" alt="xinghz" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/Jaimbart" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/Jaimbart.png" width="50px" alt="Jaimbart" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/Jhonvolt17" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/Jhonvolt17.png" width="50px" alt="Jhonvolt17" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/koltziver" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/koltziver.png" width="50px" alt="koltziver" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/sirswali" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/sirswali.png" width="50px" alt="sirswali" style="max-width:100%;">
+  </a>
+  <a href="https://github.com/DixonFyre" style="display: inline-block; margin-right: 20px;">
+    <img src="https://github.com/DixonFyre.png" width="50px" alt="DixonFyre" style="max-width:100%;">
+  </a>
+
+</div>

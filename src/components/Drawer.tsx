@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  FaAccessibleIcon,
   FaBars,
   FaCog,
   FaDiscord,
@@ -13,7 +12,6 @@ import {
   FaTwitter,
   FaUser,
 } from "react-icons/fa";
-import { BiPlus } from "react-icons/bi";
 import clsx from "clsx";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
@@ -41,7 +39,7 @@ const Drawer = ({
   });
 
   const query = api.agent.getAll.useQuery(undefined, {
-    enabled: session?.user.role === "ADMIN",
+    enabled: !!session?.user,
   });
 
   const manage = api.account.manage.useMutation({
@@ -77,13 +75,7 @@ const Drawer = ({
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            <DrawerItem
-              className="flex-grow"
-              icon={<BiPlus />}
-              border
-              text="New Agent"
-              onClick={() => location.reload()}
-            />
+            My Agent(s)
             <button
               className="z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
               onClick={toggleDrawer}
@@ -91,34 +83,33 @@ const Drawer = ({
               <FaBars />
             </button>
           </div>
-          <ul>
+          <ul className="flex flex-col gap-2 overflow-auto">
             {userAgents.map((agent, index) => (
               <DrawerItem
                 key={index}
                 icon={<FaRobot />}
                 text={agent.name}
-                className={""}
-                onClick={() => void router.push(`/agent/${agent.id}`)}
+                className="w-full"
+                onClick={() => void router.push(`/agent?id=${agent.id}`)}
               />
             ))}
 
-            {userAgents.length === 0 && (
+            {status === "unauthenticated" && (
               <div>
-                Click the above button to restart. In the future, this will be a
-                list of your deployed agents!
+                Sign in to be able to save agents and manage your account!
+              </div>
+            )}
+            {status === "authenticated" && userAgents.length === 0 && (
+              <div>
+                You need to create and save your first agent before anything
+                shows up here!
               </div>
             )}
           </ul>
         </div>
 
         <div className="flex flex-col gap-1">
-          <hr className="my-5 border-white/20" />
-          {/*<DrawerItem*/}
-          {/*  icon={<FaTrashAlt />}*/}
-          {/*  text="Clear Agents"*/}
-          {/*  onClick={() => setAgents([])}*/}
-          {/*/>*/}
-
+          <hr className="my-2 border-gray-600/10" />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
               <ProItem
@@ -136,30 +127,12 @@ const Drawer = ({
             onClick={showHelp}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
-          <hr className="my-2 border-white/20" />
-          <div className="flex flex-row items-center">
-            <DrawerItem
-              icon={<FaDiscord size={30} />}
-              text="Discord"
-              href="https://discord.gg/jdSBAnmdnY"
-              target="_blank"
-              small
-            />
-            <DrawerItem
-              icon={<FaTwitter size={30} />}
-              text="Twitter"
-              href="https://twitter.com/asimdotshrestha/status/1644883727707959296"
-              target="_blank"
-              small
-            />
-            <DrawerItem
-              icon={<FaGithub size={30} />}
-              text="GitHub"
-              href="https://github.com/reworkd/AgentGPT"
-              target="_blank"
-              small
-            />
-          </div>
+          <DrawerItem
+            icon={<FaGithub />}
+            text="GitHub"
+            href="https://github.com/reworkd/AgentGPT"
+            target="_blank"
+          />
         </div>
       </div>
     </>
@@ -197,22 +170,22 @@ const DrawerItem = (props: DrawerItemProps) => {
         {!props.small && <span className="text-md ml-4">{text}</span>}
       </a>
     );
-  } else {
-    return (
-      <button
-        type="button"
-        className={clsx(
-          "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
-          border && "border-[1px] border-white/20",
-          `${className || ""}`
-        )}
-        onClick={onClick}
-      >
-        {icon}
-        <span className="text-md ml-4">{text}</span>
-      </button>
-    );
   }
+
+  return (
+    <button
+      type="button"
+      className={clsx(
+        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+        border && "border-[1px] border-white/20",
+        `${className || ""}`
+      )}
+      onClick={onClick}
+    >
+      {icon}
+      <span className="text-md ml-4">{text}</span>
+    </button>
+  );
 };
 
 const AuthItem: React.FC<{

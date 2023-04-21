@@ -1,9 +1,9 @@
 import WindowButton from "../WindowButton";
-import { FaSave } from "react-icons/fa";
+import { FaFilePdf, FaRegFilePdf, FaSave } from "react-icons/fa";
 import { pdf } from "@react-pdf/renderer";
 import React, { memo } from "react";
-import type { Message } from "../ChatWindow";
 import MyDocument from "./MyDocument";
+import type { Message } from "../../types/agentTypes";
 
 const PDFButton = ({
   messages,

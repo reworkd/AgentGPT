@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   FaBrain,
   FaClipboard,
+  FaCopy,
+  FaDatabase,
+  FaImage,
   FaListAlt,
   FaPlayCircle,
+  FaSave,
   FaStar,
-  FaCopy,
-  FaImage,
 } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -22,12 +24,15 @@ import WindowButton from "./WindowButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
 import Combobox from "./Combobox";
+import type { Message } from "../types/agentTypes";
+import clsx from "clsx";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
-  messages: Message[];
   showDonation: boolean;
+  fullscreen?: boolean;
+  scrollToBottom?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -38,6 +43,9 @@ const ChatWindow = ({
   className,
   title,
   showDonation,
+  onSave,
+  fullscreen,
+  scrollToBottom,
 }: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -55,7 +63,7 @@ const ChatWindow = ({
 
   useEffect(() => {
     // Scroll to bottom on re-renders
-    if (scrollRef && scrollRef.current) {
+    if (scrollToBottom && scrollRef && scrollRef.current) {
       if (!hasUserScrolled) {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
@@ -69,9 +77,13 @@ const ChatWindow = ({
         (className ?? "")
       }
     >
-      <MacWindowHeader title={title} messages={messages} />
+      <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
-        className="window-heights mb-2 mr-2"
+        className={clsx(
+          "mb-2 mr-2 ",
+          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
+            "window-heights"
+        )}
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
@@ -118,6 +130,7 @@ const ChatWindow = ({
 interface HeaderProps {
   title?: string | ReactNode;
   messages: Message[];
+  onSave?: (format: string) => void;
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
@@ -173,6 +186,17 @@ const MacWindowHeader = (props: HeaderProps) => {
     <PDFButton key="PDF" name="Save as PDF" messages={props.messages} />,
   ];
 
+  if (props.onSave) {
+    exportOptions.push(
+      <WindowButton
+        delay={0.25}
+        onClick={() => props.onSave?.("db")}
+        icon={<FaSave size={12} />}
+        name={"Save"}
+      />
+    );
+  }
+
   return (
     <div className="flex items-center gap-1 overflow-hidden rounded-t-3xl p-3">
       <PopIn delay={0.4}>
@@ -184,10 +208,12 @@ const MacWindowHeader = (props: HeaderProps) => {
       <PopIn delay={0.6}>
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-      <div className="invisible flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 md:visible">
+      <Expand
+        delay={1}
+        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 md:visible"
+      >
         {props.title}
-      </div>
-
+      </Expand>
       <Combobox
         value="Export"
         onChange={() => null}
@@ -326,12 +352,6 @@ const getMessagePrefix = (message: Message) => {
       return message.info ? message.info : "Executing:";
   }
 };
-
-export interface Message {
-  type: "goal" | "thinking" | "task" | "action" | "system";
-  info?: string;
-  value: string;
-}
 
 export default ChatWindow;
 export { ChatMessage };

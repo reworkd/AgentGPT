@@ -3,7 +3,7 @@ import React, { memo } from "react";
 
 type WindowButtonProps = {
   delay: number;
-  onClick: () => void;
+  onClick?: () => void;
   icon: React.ReactNode;
   name: string;
 };

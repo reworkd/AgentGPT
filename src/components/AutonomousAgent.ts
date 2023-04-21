@@ -1,18 +1,19 @@
-import type { Message } from "./ChatWindow";
-import type { AxiosError } from "axios";
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
-import {
-  createAgent,
-  executeAgent,
-  startAgent,
-} from "../services/agent-service";
+import AgentService from "../services/agent-service";
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
   DEFAULT_MAX_LOOPS_PAID,
 } from "../utils/constants";
 import type { Session } from "next-auth";
+import type { Message } from "../types/agentTypes";
+import { env } from "../env/client.mjs";
+import { v4 } from "uuid";
+import type { RequestBody } from "../utils/interfaces";
+
+const TIMEOUT_LONG = 1000;
+const TIMOUT_SHORT = 800;
 
 class AutonomousAgent {
   name: string;
@@ -25,6 +26,7 @@ class AutonomousAgent {
   shutdown: () => void;
   numLoops = 0;
   session?: Session;
+  _id: string;
 
   constructor(
     name: string,
@@ -40,6 +42,7 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
+    this._id = v4();
   }
 
   async run() {
@@ -50,7 +53,7 @@ class AutonomousAgent {
     try {
       this.tasks = await this.getInitialTasks();
       for (const task of this.tasks) {
-        await new Promise((r) => setTimeout(r, 800));
+        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         this.sendTaskMessage(task);
       }
     } catch (e) {
@@ -86,7 +89,7 @@ class AutonomousAgent {
     }
 
     // Wait before starting
-    await new Promise((r) => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
     // Execute first task
     // Get and remove first task
@@ -98,7 +101,7 @@ class AutonomousAgent {
     this.sendExecutionMessage(currentTask as string, result);
 
     // Wait before adding tasks
-    await new Promise((r) => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
     this.sendThinkingMessage();
 
     // Add new tasks
@@ -109,7 +112,7 @@ class AutonomousAgent {
       );
       this.tasks = this.tasks.concat(newTasks);
       for (const task of newTasks) {
-        await new Promise((r) => setTimeout(r, 800));
+        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         this.sendTaskMessage(task);
       }
 
@@ -139,14 +142,17 @@ class AutonomousAgent {
 
   async getInitialTasks(): Promise<string[]> {
     if (this.shouldRunClientSide()) {
-      await testConnection(this.modelSettings);
-      return await startAgent(this.modelSettings, this.goal);
+      if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
+        await testConnection(this.modelSettings);
+      }
+      return await AgentService.startGoalAgent(this.modelSettings, this.goal);
     }
 
-    const res = await axios.post(`/api/chain`, {
+    const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
-    });
+    };
+    const res = await this.post(`/api/agent/start`, data);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
@@ -157,7 +163,7 @@ class AutonomousAgent {
     result: string
   ): Promise<string[]> {
     if (this.shouldRunClientSide()) {
-      return await createAgent(
+      return await AgentService.createTasksAgent(
         this.modelSettings,
         this.goal,
         this.tasks,
@@ -167,30 +173,50 @@ class AutonomousAgent {
       );
     }
 
-    const res = await axios.post(`/api/create`, {
+    const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
       tasks: this.tasks,
       lastTask: currentTask,
       result: result,
       completedTasks: this.completedTasks,
-    });
+    };
+    const res = await this.post(`/api/agent/create`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     return res.data.newTasks as string[];
   }
 
   async executeTask(task: string): Promise<string> {
     if (this.shouldRunClientSide()) {
-      return await executeAgent(this.modelSettings, this.goal, task);
+      return await AgentService.executeTaskAgent(
+        this.modelSettings,
+        this.goal,
+        task
+      );
     }
 
-    const res = await axios.post(`/api/execute`, {
+    const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
       task: task,
-    });
+    };
+    const res = await this.post("/api/agent/execute", data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as string;
+  }
+
+  private async post(url: string, data: RequestBody) {
+    try {
+      return await axios.post(url, data);
+    } catch (e) {
+      this.shutdown();
+
+      if (axios.isAxiosError(e) && e.response?.status === 429) {
+        this.sendErrorMessage("Rate limit exceeded. Please slow down. 😅");
+      }
+
+      throw e;
+    }
   }
 
   private shouldRunClientSide() {
@@ -219,7 +245,7 @@ class AutonomousAgent {
       type: "system",
       value:
         this.modelSettings.customApiKey !== ""
-          ? `This agent has been running for too long (50 Loops). To save your wallet this agent is shutting down. In the future, the number of iterations will be configurable.`
+          ? `This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.`
           : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
     });
   }
@@ -291,7 +317,7 @@ const getMessageFromError = (e: unknown) => {
   let message =
     "ERROR accessing OpenAI APIs. Please check your API key or try again later";
   if (axios.isAxiosError(e)) {
-    const axiosError = e as AxiosError;
+    const axiosError = e;
     if (axiosError.response?.status === 429) {
       message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
     }

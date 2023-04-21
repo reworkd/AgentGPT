@@ -26,7 +26,7 @@ const PDFButton = ({ messages }: { messages: Message[] }) => {
           downloadPDF().catch(console.error);
         }}
         icon={<FaFilePdf size={12} />}
-        text={"PDF"}
+        name="PDF"
       />
     </>
   );

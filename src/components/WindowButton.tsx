@@ -5,10 +5,12 @@ type WindowButtonProps = {
   delay: number;
   onClick?: () => void;
   icon: React.ReactNode;
-  text: string;
+  name: string | any;
+  text?: string | any;
+  styleClass?: any;
 };
 
-const WindowButton = ({ delay, onClick, icon, text }: WindowButtonProps) => {
+const WindowButton = ({ delay, onClick, icon, name, text }: WindowButtonProps) => {
   return (
     <PopIn delay={delay}>
       <div

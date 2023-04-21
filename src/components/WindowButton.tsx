@@ -6,7 +6,7 @@ type WindowButtonProps = {
   onClick?: () => void;
   icon: React.ReactNode;
   name: string;
-  disabled?: boolean;
+  styleClass?: { [key: string]: string };
 };
 
 const WindowButton = ({
@@ -14,13 +14,13 @@ const WindowButton = ({
   onClick,
   icon,
   name,
-  disabled,
+  styleClass,
 }: WindowButtonProps) => {
   return (
     <PopIn delay={delay}>
       <div
-        className={`flex cursor-pointer items-center gap-2 p-1 px-2 text-xs hover:bg-white/10 md:text-sm ${
-          disabled ? "pointer-events-none opacity-50" : ""
+        className={`flex cursor-pointer items-center gap-2 p-1 px-2 text-sm hover:bg-white/10 ${
+          styleClass?.container || ""
         }`}
         onClick={onClick}
       >

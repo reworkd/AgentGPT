@@ -17,7 +17,7 @@ function Menu({ name, items, disabled, onChange, styleClass }: MenuProps) {
         <MenuPrimitive.Button className={styleClass?.input}>
           <span>{name}</span>
           <FaChevronDown
-            className="absolute right-2.5 inline-block h-5 w-5 text-gray-400"
+            className="absolute right-1.5 inline-block h-5 w-5 text-gray-400"
             aria-hidden="true"
           />
         </MenuPrimitive.Button>

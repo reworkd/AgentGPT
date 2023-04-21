@@ -170,28 +170,20 @@ const MacWindowHeader = (props: HeaderProps) => {
 
   const exportOptions = [
     <WindowButton
-      key="Agent"
-      delay={0.05}
-      onClick={() => props.onSave?.("db")}
-      icon={<FaSave size={12} />}
-      name={"Save Agent"}
-      disabled={!props.onSave}
-    />,
-    <WindowButton
       key="Image"
       delay={0.1}
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name="Save as Image"
+      name="Image"
     />,
     <WindowButton
       key="Copy"
       delay={0.15}
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
-      name="Copy Messages"
+      name="Copy"
     />,
-    <PDFButton key="PDF" name="Save as PDF" messages={props.messages} />,
+    <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
 
   return (
@@ -211,15 +203,25 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
+      {props.onSave && (
+        <WindowButton
+          key="Agent"
+          delay={0}
+          onClick={() => props.onSave?.("db")}
+          icon={<FaSave size={12} />}
+          name={"Save"}
+          styleClass={{
+            container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          }}
+        />
+      )}
       <Menu
-        name="Save"
+        name="Export"
         onChange={() => null}
         items={exportOptions}
         styleClass={{
-          container: "absolute right-2 md:right-3",
-          input: `${
-            props.onSave ? "animate-pulse animation-iteration-3" : ""
-          } bg-[#3a3a3a] w-40 md:w-44 text-center animation-duration text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          container: "relative",
+          input: `bg-[#3a3a3a] w-28 animation-duration text-left px-4 text-sm p-1 font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
           option: "w-full py-[1px] md:py-0.5",
         }}
       />

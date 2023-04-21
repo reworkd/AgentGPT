@@ -61,5 +61,6 @@
   "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "Hiba történt az OpenAI API-kulcs használatakor. Elérted a jelenlegi kvótádat, kérjük, ellenőrizd a tervet és a számlázási adatokat.",
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "Hiba történt, az API-kulcsod nem rendelkezik GPT-4 hozzáféréssel. Először csatlakoznod kell az OpenAI várólistájához. (Ez eltér a ChatGPT Plus-tól)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "HIBA a kezdeti feladatok tömbjének lekérésekor. Próbálkozzon újra, tegye egyértelműbbé a célt, vagy módosítsa a célt úgy, hogy a modellünk szabályzatain belül futni lehessen. Leállítás.",
-  "Agent's Language:": "Ügynök nyelve"
+  "Agent's Language:": "Ügynök nyelve",
+  "Too many requests, please try again later.": "Túl sok lekérdezés, kérjök próbálja meg később"
 }

@@ -87,6 +87,7 @@ const Home: NextPage = () => {
       handleAddMessage,
       () => setAgent(null),
       { customApiKey, customModelName, customTemperature, customMaxLoops },
+      customLanguage,
       session ?? undefined
     );
     setAgent(agent);

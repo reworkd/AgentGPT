@@ -17,7 +17,6 @@ interface Auth {
 
 export function useAuth(): Auth {
   const { data: session, status } = useSession();
-  //const [csrfToken, setCsrfToken] = useState("");
 
   useEffect(() => {
     if (status != "authenticated" || !session?.user) return;
@@ -27,18 +26,10 @@ export function useAuth(): Auth {
       .uuid()
       .parseAsync(user.email)
       .then((uuid) => window.localStorage.setItem(UUID_KEY, uuid))
-
-    // Fetch CSRF token
-    /*fetch("/api/csrf-token")
-      .then((res) => res.json())
-      .then((data) => setCsrfToken(data.csrfToken))
-      .catch(() => setCsrfToken(""));
       .catch(() => undefined);
-  }, [session, status]);*/
-})
+  }, [session, status]);
 
   const handleSignIn = async () => await signIn();
-  //const handleSignIn = async () => await signIn("google", { update: true, csrfToken });
 
   const handleSignOut = async () => {
     return await signOut({

@@ -61,13 +61,13 @@ interface AgentService {
   startGoalAgent: (
     modelSettings: ModelSettings,
     goal: string,
-    customLanguage: string
+    customLanguage: string | undefined
   ) => Promise<string[]>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
     task: string,
-    customLanguage: string
+    customLanguage: string | undefined
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
@@ -76,7 +76,7 @@ interface AgentService {
     lastTask: string,
     result: string,
     completedTasks: string[] | undefined,
-    customLanguage: string
+    customLanguage: string | undefined
   ) => Promise<string[]>;
 }
 

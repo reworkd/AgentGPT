@@ -53,7 +53,7 @@ export const createTasksPrompt = new PromptTemplate({
 });
 
 
-
+/*
 export const createAgentCreatorPromptByAI = new PromptTemplate({
   template:"Analyze the following description then create a declarative prompt using the rules below.\nRULES\n1. You always have to use in the created prompt the `you` and `your` pronounces instead of `I` or `me`\n2. You have to name the created character and call the AI by its created name if it's necessary\n3. You have to provide a declarative and formal prompt\n4. Don't use questions\n5. You have to declare that the role should be taken from now and ask the created persona to immerse itself into the created role at the end of the prompt\nDESCRIPTION\n`{description}`\n\nRespond only with a JSON object by the followoing syntax:\n{agentName:{the name of the created persona}, creatorPrompt:{}}",
   inputVariables: ["name", "description"]
@@ -63,3 +63,4 @@ export const createAgentByItsCreatorPrompt = new PromptTemplate({
   template:"Process the PROMPT below then respond only with the corresponding JSON object by the follwoing syntax:\n{name:{the name of the persona}, personality:{the perosnality of the persona}, goal: {the goal of the persona}}\n\nPROMPT:\n`{creatorPrompt}`",
   inputVariables: ["creatorPrompt"]
 }); // returns with a JSON object of the created persona
+*/

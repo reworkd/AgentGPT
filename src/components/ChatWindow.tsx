@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import WindowButton from "./WindowButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
+import Combobox from "./Combobox";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -154,6 +155,24 @@ const MacWindowHeader = (props: HeaderProps) => {
     void navigator.clipboard.writeText(text);
   };
 
+  const exportOptions = [
+    <WindowButton
+      key="Image"
+      delay={0.05}
+      onClick={(): void => saveElementAsImage(messageListId)}
+      icon={<FaImage size={12} />}
+      name="Save as Image"
+    />,
+    <WindowButton
+      key="Copy"
+      delay={0.15}
+      onClick={(): void => copyElementText(messageListId)}
+      icon={<FaClipboard size={12} />}
+      name="Copy Messages"
+    />,
+    <PDFButton key="PDF" name="Save as PDF" messages={props.messages} />,
+  ];
+
   return (
     <div className="flex items-center gap-1 overflow-hidden rounded-t-3xl p-3">
       <PopIn delay={0.4}>
@@ -168,20 +187,18 @@ const MacWindowHeader = (props: HeaderProps) => {
       <div className="flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2">
         {props.title}
       </div>
-      <WindowButton
-        delay={0.7}
-        onClick={(): void => saveElementAsImage(messageListId)}
-        icon={<FaImage size={12} />}
-        text={"Image"}
-      />
 
-      <WindowButton
-        delay={0.8}
-        onClick={(): void => copyElementText(messageListId)}
-        icon={<FaClipboard size={12} />}
-        text={"Copy"}
+      <Combobox
+        value="Export"
+        onChange={() => null}
+        options={exportOptions}
+        styleClass={{
+          container: "absolute right-1.5 md:right-2.5",
+          input:
+            "bg-[#3a3a3a] w-40 md:w-48 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]",
+          option: "w-full py-[1px] md:py-0.5",
+        }}
       />
-      <PDFButton messages={props.messages} />
     </div>
   );
 };

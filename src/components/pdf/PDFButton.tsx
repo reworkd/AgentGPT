@@ -1,11 +1,17 @@
 import WindowButton from "../WindowButton";
 import { FaSave } from "react-icons/fa";
 import { pdf } from "@react-pdf/renderer";
-import React from "react";
+import React, { memo } from "react";
 import type { Message } from "../ChatWindow";
 import MyDocument from "./MyDocument";
 
-const PDFButton = ({ messages }: { messages: Message[] }) => {
+const PDFButton = ({
+  messages,
+  name,
+}: {
+  messages: Message[];
+  name: string;
+}) => {
   const content = getContent(messages);
 
   const downloadPDF = async () => {
@@ -21,12 +27,12 @@ const PDFButton = ({ messages }: { messages: Message[] }) => {
   return (
     <>
       <WindowButton
-        delay={0.8}
+        delay={0.2}
         onClick={() => {
           downloadPDF().catch(console.error);
         }}
         icon={<FaSave size={12} />}
-        text={"Save"}
+        name={name}
       />
     </>
   );
@@ -47,4 +53,4 @@ const getContent = (messages: Message[]): string => {
     .join("\n");
 };
 
-export default PDFButton;
+export default memo(PDFButton);

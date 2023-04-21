@@ -246,7 +246,7 @@ const Home: NextPage = () => {
                       <span className="ml-2">{t('Agent\'s Language:')}</span>
                     </>
                   }
-                  disabled={agent != null}
+                  disabled={true}
                   value={goalInput}
                   onChange={(e) => setCustomLanguage(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}

@@ -59,6 +59,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/axios": "^0.14.0",
+    "@types/cookie": "^0.5.1",
     "@types/micro": "^10.0.0",
     "@types/micro-cors": "^0.1.2",
     "@types/node": "^18.11.18",

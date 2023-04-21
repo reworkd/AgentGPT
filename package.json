@@ -12,7 +12,8 @@
     "lint": "cross-env SKIP_ENV_VALIDATION=1 next lint",
     "start": "next start",
     "prepare": "husky install",
-    "test": "cross-env SKIP_ENV_VALIDATION=1 jest"
+    "test": "cross-env SKIP_ENV_VALIDATION=1 jest",
+    "i18n:extract": "i18next-scanner --config ./i18next-scanner.config.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",

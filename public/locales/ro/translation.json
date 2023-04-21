@@ -65,5 +65,7 @@
   "Deploy Agent": "Implementeaza agentul",
   "Running": "In desfasurare",
   "Stopping": "Se opreste",
-  "Stop Agent": "Oprirea agentului"
+  "Stop Agent": "Oprirea agentului",
+  "Goal: ": "Obiectiv: ",
+  "Adding Task: ": "Adăugarea unei sarcini: "
 }

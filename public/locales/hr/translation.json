@@ -65,5 +65,7 @@
   "Deploy Agent": "Implementiraj agenta",
   "Running": "Pokrenuto",
   "Stopping": "Zaustavljanje",
-  "Stop Agent": "Zaustavi agenta"
+  "Stop Agent": "Zaustavi agenta",
+  "Goal: ": "Cilj: ",
+  "Adding Task: ": "Dodavanje zadatka: "
 }

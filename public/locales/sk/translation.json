@@ -66,5 +66,7 @@
   "Too many requests, please try again later.": "Príliš veľa požiadaviek, skúste to neskôr prosím.",
   "Copied to clipboard! 🚀": "Skopírované do schránky! 🚀",
   "Agent's Language:": "Jazyk agenta:",
-  "Export": "Export"
+  "Export": "Export",
+  "Goal: ": "Cieľ: ",
+  "Adding Task: ": "Pridávanie úlohy: "
 }

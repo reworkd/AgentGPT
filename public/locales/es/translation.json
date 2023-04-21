@@ -65,5 +65,7 @@
   "Deploy Agent": "Implementar Agente",
   "Running": "Ejecutando",
   "Stopping": "Deteniendo",
-  "Stop Agent": "Detener Agente"
+  "Stop Agent": "Detener Agente",
+  "Goal: ": "Objetivo: ",
+  "Adding Task: ": "Agregar tarea: "
 }

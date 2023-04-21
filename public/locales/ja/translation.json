@@ -65,5 +65,7 @@
   "Deploy Agent": "エージェントを展開する",
   "Running": "実行中",
   "Stopping": "停止中",
-  "Stop Agent": "エージェントを停止する"
+  "Stop Agent": "エージェントを停止する",
+  "Goal: ": "目標: ",
+  "Adding Task: ": "タスクの追加: "
 }

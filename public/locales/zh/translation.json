@@ -66,5 +66,7 @@
   "You need to create and save your first agent before anything shows up here!": "在此显示任何内容之前，您需要创建并保存您的第一个代理！",
   "Current tasks": "当前任务",
   "Too many requests, please try again later.": "请求过多，请稍后再试。",
-  "Copied to clipboard! 🚀": "已复制到剪贴板！🚀"
+  "Copied to clipboard! 🚀": "已复制到剪贴板！🚀",
+  "Goal: ": "目标: ",
+  "Adding Task: ": "添加任务: "
 }

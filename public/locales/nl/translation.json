@@ -66,5 +66,7 @@
   "Too many requests, please try again later.": "Te veel verzoeken, probeer later opnieuw.",
   "Copied to clipboard! 🚀": "Gekopieerd naar het klembord! 🚀",
   "Agent's Language:": "Taal van de agent:",
-  "Export": "Exporteren"
+  "Export": "Exporteren",
+  "Goal: ": "Doel: ",
+  "Adding Task: ": "Taak toevoegen: "
 }

@@ -65,5 +65,7 @@
   "Deploy Agent": "Įdiegti agentą",
   "Running": "Vykdoma",
   "Stopping": "Sustabdau",
-  "Stop Agent": "Sustabdyti agentą"
+  "Stop Agent": "Sustabdyti agentą",
+  "Goal: ": "Tikslas: ",
+  "Adding Task: ": "Pridedama užduotis: "
 }

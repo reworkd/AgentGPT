@@ -66,5 +66,7 @@
   "Copied to clipboard! 🚀": "클립 보드에 복사되었습니다! 🚀",
   "Agent's Language:": "에이전트의 언어:",
   "Export": "내보내다",
-  "Stop Agent": "에이전트 중지"
+  "Stop Agent": "에이전트 중지",
+  "Goal: ": "목표: ",
+  "Adding Task: ": "작업 추가: "
 }

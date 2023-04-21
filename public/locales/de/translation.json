@@ -65,5 +65,7 @@
   "Deploy Agent": "Agent bereitstellen",
   "Running": "Läuft",
   "Stopping": "Stoppen",
-  "Stop Agent": "Agent stoppen"
+  "Stop Agent": "Agent stoppen",
+  "Goal: ": "Ziel: ",
+  "Adding Task: ": "Aufgabe hinzufügen: "
 }

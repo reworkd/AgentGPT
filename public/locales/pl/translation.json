@@ -65,5 +65,7 @@
   "Running": "Uruchamianie",
   "Stopping": "Zatrzymywanie",
   "Stop Agent": "Zatrzymaj agenta",
-  "Export": "Eksport"
+  "Export": "Eksport",
+  "Goal: ": "Cel: ",
+  "Adding Task: ": "Dodawanie zadania: "
 }

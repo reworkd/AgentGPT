@@ -21,6 +21,7 @@ class AutonomousAgent {
   tasks: string[] = [];
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
+  customLanguage: string;
   isRunning = true;
   renderMessage: (message: Message) => void;
   shutdown: () => void;
@@ -34,13 +35,15 @@ class AutonomousAgent {
     renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
-    session?: Session
+    customLanguage: string,
+    session?: Session,
   ) {
     this.name = name;
     this.goal = goal;
     this.renderMessage = renderMessage;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
+    this.customLanguage = customLanguage;
     this.session = session;
     this._id = v4();
   }

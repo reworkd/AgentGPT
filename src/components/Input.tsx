@@ -9,7 +9,7 @@ interface InputProps {
   left?: React.ReactNode;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
+  placeholder?: string | any;
   disabled?: boolean;
   setValue?: (value: string) => void;
   type?: string;

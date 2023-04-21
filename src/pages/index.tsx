@@ -1,4 +1,7 @@
 import React, { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+import "../i18n.js";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
@@ -6,7 +9,7 @@ import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaRobot, FaStar } from "react-icons/fa";
+import { FaRobot, FaStar, FaFlag } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
@@ -21,9 +24,12 @@ import { useAgent } from "../hooks/useAgent";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
+  const [t] = useTranslation();
+  const [currentDisplayLanguage, setCurrentDisplayLanguage] = React.useState(i18n.language);
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
+  const [customLanguage, setCustomLanguage] = React.useState<string>(i18n.language);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
@@ -71,7 +77,7 @@ const Home: NextPage = () => {
 
   const tasks = messages.filter((message) => message.type === "task");
 
-  const disableDeployAgent = agent != null || name === "" || goalInput === ""
+  const disableDeployAgent = agent != null || name === "" || goalInput === "";
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
@@ -80,6 +86,7 @@ const Home: NextPage = () => {
       handleAddMessage,
       () => setAgent(null),
       { customApiKey, customModelName, customTemperature, customMaxLoops },
+      customLanguage,
       session ?? undefined
     );
     setAgent(agent);
@@ -88,14 +95,18 @@ const Home: NextPage = () => {
     agent.run().then(console.log).catch(console.error);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter'&& !disableDeployAgent) {
+  const handleKeyPress = (
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter" && !disableDeployAgent) {
       if (!e.shiftKey) {
         // Only Enter is pressed, execute the function
         handleNewGoal();
       }
     }
-  }
+  };
 
   const handleStopAgent = () => {
     setShouldAgentStop(true);
@@ -159,13 +170,12 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>Beta 🚀</Badge>
+                  <Badge>{t('Beta 🚀')}</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  Assemble, configure, and deploy autonomous AI Agents in your
-                  browser.
+                  {t('Assemble, configure, and deploy autonomous AI Agents in your browser.')}
                 </p>
               </div>
             </div>
@@ -202,7 +212,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">Name:</span>
+                      <span className="ml-2">{t('Name:')}</span>
                     </>
                   }
                   value={name}
@@ -217,15 +227,31 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">Goal:</span>
+                      <span className="ml-2">{t('Goal:')}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="Make the world a better place."
-                  type='textarea'
+                  placeholder={t('Make the world a better place.')}
+                  type="textarea"
+                />
+              </Expand>
+              <Expand delay={1.3}>
+                <Input
+                  left={
+                    <>
+                      <FaFlag />
+                      <span className="ml-2">{t('Agent\'s Language:')}</span>
+                    </>
+                  }
+                  disabled={agent != null}
+                  value={goalInput}
+                  onChange={(e) => setCustomLanguage(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
+                  placeholder={customLanguage}
+                  type="textarea"
                 />
               </Expand>
             </div>
@@ -237,11 +263,11 @@ const Home: NextPage = () => {
                 className="sm:mt-10"
               >
                 {agent == null ? (
-                  "Deploy Agent"
+                  t('Deploy Agent')
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Running</span>
+                    <span className="ml-2">{t('Running')}</span>
                   </>
                 )}
               </Button>

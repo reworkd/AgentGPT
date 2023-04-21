@@ -47,7 +47,7 @@ yarn-error.log*
 /public/locales/$LOCALES
 
 # package-lock.json
-package-lock.json
+#package-lock.json
 
 # .eslintcache
 .eslintcache

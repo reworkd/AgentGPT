@@ -7,6 +7,8 @@ import { api } from "../utils/api";
 import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 
+import "../i18n.js";
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },

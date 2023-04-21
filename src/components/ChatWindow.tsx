@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FaBrain,
   FaClipboard,
@@ -46,6 +47,7 @@ const ChatWindow = ({
   fullscreen,
   scrollToBottom,
 }: ChatWindowProps) => {
+  const [ t ] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -100,8 +102,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
-                  value:
-                    "> Create an agent by adding a name / goal, and hitting deploy!",
+                  value:t('> Create an agent by adding a name / goal, and hitting deploy!')
                 }}
               />
             </Expand>
@@ -109,8 +110,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
-                  value:
-                    "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
+                  value:t('📢 You can provide your own OpenAI API key in the settings tab for increased limits!')
                 }}
               />
               {showDonation && (
@@ -133,6 +133,7 @@ interface HeaderProps {
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
+  const [ t ] = useTranslation();
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -189,21 +190,21 @@ const MacWindowHeader = (props: HeaderProps) => {
           delay={0.8}
           onClick={() => props.onSave?.("db")}
           icon={<FaSave size={12} />}
-          text={"Save"}
+          text={t('Save')}
         />
       )}
       <WindowButton
         delay={0.7}
         onClick={(): void => saveElementAsImage(messageListId)}
         icon={<FaImage size={12} />}
-        text={"Image"}
+        text={t('Image')}
       />
 
       <WindowButton
         delay={0.8}
         onClick={(): void => copyElementText(messageListId)}
         icon={<FaClipboard size={12} />}
-        text={"Copy"}
+        text={t('Copy')}
       />
       <PDFButton messages={props.messages} />
     </div>
@@ -286,13 +287,14 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
 const DonationMessage = () => {
   const router = useRouter();
+  const [ t ] = useTranslation();
 
   return (
     <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
       <div className="max-w-none flex-grow">
-        💝️ Help support the advancement of AgentGPT. 💝
+        {t('💝️ Help support the advancement of AgentGPT. 💝')}
         <br />
-        Please consider sponsoring the project on GitHub.
+        {t('Please consider sponsoring the project on GitHub.')}
       </div>
       <div className="flex items-center justify-center">
         <Button
@@ -301,7 +303,7 @@ const DonationMessage = () => {
             void router.push("https://github.com/sponsors/reworkd-admin")
           }
         >
-          Support now 🚀
+          {t('Support now 🚀')}
         </Button>
       </div>
     </div>
@@ -322,15 +324,16 @@ const getMessageIcon = (message: Message) => {
 };
 
 const getMessagePrefix = (message: Message) => {
+  const [ t ] = useTranslation();
   switch (message.type) {
     case "goal":
-      return "Embarking on a new goal:";
+      return t('Embarking on a new goal:');
     case "task":
-      return "Added task:";
+      return t('Added task:')
     case "thinking":
-      return "Thinking...";
+      return t('Thinking...');
     case "action":
-      return message.info ? message.info : "Executing:";
+      return message.info ? message.info : t('Executing:');
   }
 };
 

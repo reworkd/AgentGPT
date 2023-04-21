@@ -280,10 +280,10 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Stopping</span>
+                    <span className="ml-2">{t('Stopping')}</span>
                   </>
                 ) : (
-                  "Stop agent"
+                  t('Stop Agent')
                 )}
               </Button>
             </Expand>

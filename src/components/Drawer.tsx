@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FaBars,
   FaCog,
@@ -27,12 +28,13 @@ const Drawer = ({
   showHelp: () => void;
   showSettings: () => void;
 }) => {
+  const [ t ] = useTranslation();
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
 
   const sub = api.account.subscribe.useMutation({
-    onSuccess: async (url) => {
+    onSuccess: async (url: any) => {
       if (!url) return;
       await router.push(url);
     },
@@ -43,7 +45,7 @@ const Drawer = ({
   });
 
   const manage = api.account.manage.useMutation({
-    onSuccess: async (url) => {
+    onSuccess: async (url: any) => {
       if (!url) return;
       await router.push(url);
     },
@@ -84,7 +86,7 @@ const Drawer = ({
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            {userAgents.map((agent, index) => (
+            {userAgents.map((agent: any | undefined, index: any | undefined) => (
               <DrawerItem
                 key={index}
                 icon={<FaRobot />}
@@ -96,13 +98,12 @@ const Drawer = ({
 
             {status === "unauthenticated" && (
               <div>
-                Sign in to be able to save agents and manage your account!
+                {t('Sign in to be able to save agents and manage your account!')}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
               <div>
-                You need to create and save your first agent before anything
-                shows up here!
+                {t('You need to create and save your first agent before anything shows up here!')}
               </div>
             )}
           </ul>
@@ -123,7 +124,7 @@ const Drawer = ({
           )}
           <DrawerItem
             icon={<FaQuestionCircle />}
-            text="Help"
+            text={t('Help')}
             onClick={showHelp}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
@@ -193,8 +194,9 @@ const AuthItem: React.FC<{
   signIn: () => void;
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
+  const [ t ] = useTranslation();
   const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
-  const text = session?.user ? "Sign Out" : "Sign In";
+  const text = session?.user ? t('Sign Out') : t('Sing In');
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
@@ -205,7 +207,8 @@ const ProItem: React.FC<{
   sub: () => any;
   manage: () => any;
 }> = ({ sub, manage, session }) => {
-  const text = session?.user?.subscriptionId ? "Account" : "Go Pro";
+  const [ t ] = useTranslation();
+  const text = session?.user?.subscriptionId ? t('Account') : t('Go Pro');
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
     icon = (

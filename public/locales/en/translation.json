@@ -62,5 +62,8 @@
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.",
   "Agent's Language:": "Agent's language:",
-  "Too many requests, please try again later.": "Too many requests, please try again later."
+  "Too many requests, please try again later.": "Too many requests, please try again later.",
+  "Close": "Close",
+  "Current tasks": "Current tasks",
+  "Copied to clipboard! 🚀": "Copied to clipboard! 🚀"
 }

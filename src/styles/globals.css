@@ -80,6 +80,7 @@ div::-webkit-scrollbar-button {
   display: none;
 }
 
+/* keyframes for pusle animation */
 @keyframes pulse {
   0%,
   100% {
@@ -90,6 +91,7 @@ div::-webkit-scrollbar-button {
   }
 }
 
+/* animation iteration count */
 .animation-iteration-3 {
   animation-iteration-count: 3;
 }

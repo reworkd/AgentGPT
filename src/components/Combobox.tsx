@@ -19,12 +19,15 @@ const Combobox = ({
 }: ComboboxProps) => {
   const [query, setQuery] = useState("");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (typeof event.target.value === "string") {
+    if (
+      event.target instanceof HTMLInputElement &&
+      typeof event.target.value === "string"
+    ) {
       setQuery(event.target.value);
     }
   };
 
-  const filteredOptions: string[] =
+  const filteredOptions =
     query === ""
       ? options
       : options.filter((opt) =>

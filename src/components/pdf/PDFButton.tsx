@@ -1,5 +1,5 @@
 import WindowButton from "../WindowButton";
-import { FaFilePdf, FaRegFilePdf, FaSave } from "react-icons/fa";
+import { FaFilePdf } from "react-icons/fa";
 import { pdf } from "@react-pdf/renderer";
 import React, { memo } from "react";
 import MyDocument from "./MyDocument";
@@ -31,7 +31,7 @@ const PDFButton = ({
         onClick={() => {
           downloadPDF().catch(console.error);
         }}
-        icon={<FaSave size={12} />}
+        icon={<FaFilePdf size={12} />}
         name={name}
       />
     </>

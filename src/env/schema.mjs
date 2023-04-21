@@ -17,10 +17,7 @@ function stringToBoolean() {
   return z.preprocess((str) => str === "true", z.boolean());
 }
 function stringToNumber() {
-  return z.preprocess(
-    (str) => Number(str),
-    z.number(),
-  );
+  return z.preprocess((str) => Number(str), z.number());
 }
 /**
  * Specify your server-side environment variables schema here.
@@ -76,6 +73,11 @@ export const serverEnv = {
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   STRIPE_SUBSCRIPTION_PRICE_ID: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
+
+  // Rate limiter
+  UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+  UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+  RATE_LIMITER_REQUESTS_PER_MINUTE: process.env.RATE_LIMITER_REQUESTS_PER_MINUTE,
 };
 
 /**

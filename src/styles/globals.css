@@ -79,3 +79,17 @@ div::-webkit-scrollbar-thumb {
 div::-webkit-scrollbar-button {
   display: none;
 }
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animation-iteration-3 {
+  animation-iteration-count: 3;
+}

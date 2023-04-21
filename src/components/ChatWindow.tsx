@@ -170,6 +170,14 @@ const MacWindowHeader = (props: HeaderProps) => {
 
   const exportOptions = [
     <WindowButton
+      key="Agent"
+      delay={0.25}
+      onClick={() => props.onSave?.("db")}
+      icon={<FaSave size={12} />}
+      name={"Save Agent"}
+      disabled={!props.onSave}
+    />,
+    <WindowButton
       key="Image"
       delay={0.05}
       onClick={(): void => saveElementAsImage(messageListId)}
@@ -186,19 +194,8 @@ const MacWindowHeader = (props: HeaderProps) => {
     <PDFButton key="PDF" name="Save as PDF" messages={props.messages} />,
   ];
 
-  if (props.onSave) {
-    exportOptions.push(
-      <WindowButton
-        delay={0.25}
-        onClick={() => props.onSave?.("db")}
-        icon={<FaSave size={12} />}
-        name={"Save"}
-      />
-    );
-  }
-
   return (
-    <div className="flex items-center gap-1 overflow-hidden rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-3">
       <PopIn delay={0.4}>
         <div className="h-3 w-3 rounded-full bg-red-500" />
       </PopIn>
@@ -214,14 +211,17 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
+
       <Combobox
-        value="Export"
+        value="Save"
         onChange={() => null}
         options={exportOptions}
         styleClass={{
+          // container: "absolute right-2 md:right-3",
           container: "absolute right-2 md:right-3",
-          input:
-            "bg-[#3a3a3a] w-40 md:w-44 text-center text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]",
+          input: `${
+            props.onSave ? "animate-pulse animation-iteration-3" : ""
+          } bg-[#3a3a3a] w-40 md:w-44 text-center animation-duration text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
           option: "w-full py-[1px] md:py-0.5",
         }}
       />

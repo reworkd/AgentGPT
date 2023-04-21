@@ -247,7 +247,7 @@ const Home: NextPage = () => {
                     </>
                   }
                   disabled={true}
-                  value={goalInput}
+                  value={customLanguage}
                   onChange={(e) => setCustomLanguage(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder={customLanguage}

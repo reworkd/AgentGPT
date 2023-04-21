@@ -62,7 +62,7 @@
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "Hiba történt, az API-kulcsod nem rendelkezik GPT-4 hozzáféréssel. Először csatlakoznod kell az OpenAI várólistájához. (Ez eltér a ChatGPT Plus-tól)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "HIBA a kezdeti feladatok tömbjének lekérésekor. Próbálkozzon újra, tegye egyértelműbbé a célt, vagy módosítsa a célt úgy, hogy a modellünk szabályzatain belül futni lehessen. Leállítás.",
   "Agent's Language:": "Ügynök nyelve",
-  "Too many requests, please try again later.": "Túl sok lekérdezés, kérjök próbálja meg később",
+  "Too many requests, please try again later.": "Túl sok lekérdezés, kérjük próbálja meg később",
   "Close": "Bezárás",
   "Current tasks": "Jelenlegi feladatok",
   "Copied to clipboard! 🚀": "Vágólapra másolva 🚀"

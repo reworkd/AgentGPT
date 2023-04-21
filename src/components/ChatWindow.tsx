@@ -24,6 +24,7 @@ import WindowButton from "./WindowButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
 import Combobox from "./Combobox";
+import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
 import clsx from "clsx";
 
@@ -171,7 +172,7 @@ const MacWindowHeader = (props: HeaderProps) => {
   const exportOptions = [
     <WindowButton
       key="Agent"
-      delay={0.25}
+      delay={0.05}
       onClick={() => props.onSave?.("db")}
       icon={<FaSave size={12} />}
       name={"Save Agent"}
@@ -179,7 +180,7 @@ const MacWindowHeader = (props: HeaderProps) => {
     />,
     <WindowButton
       key="Image"
-      delay={0.05}
+      delay={0.1}
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
       name="Save as Image"
@@ -211,13 +212,11 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
-
-      <Combobox
-        value="Save"
+      <Menu
+        name="Save"
         onChange={() => null}
-        options={exportOptions}
+        items={exportOptions}
         styleClass={{
-          // container: "absolute right-2 md:right-3",
           container: "absolute right-2 md:right-3",
           input: `${
             props.onSave ? "animate-pulse animation-iteration-3" : ""

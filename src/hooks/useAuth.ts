@@ -29,7 +29,7 @@ export function useAuth(): Auth {
       .catch(() => undefined);
   }, [session, status]);
 
-  const handleSignIn = async () => await signIn();
+  const handleSignIn = async () => await signIn("google", { update: true });
 
   const handleSignOut = async () => {
     return await signOut({

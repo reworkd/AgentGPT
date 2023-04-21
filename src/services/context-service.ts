@@ -18,14 +18,8 @@ interface ContextResult {
   distances: number[];
 }
 
-let _globalEmbeddingFunction: OpenAIEmbeddingFunction | undefined;
-
-const embeddingFunction = () => {
-  if (_globalEmbeddingFunction) return _globalEmbeddingFunction;
-  return (_globalEmbeddingFunction = new OpenAIEmbeddingFunction(
-    env.OPENAI_API_KEY
-  ));
-};
+const embeddingFunction = new OpenAIEmbeddingFunction(env.OPENAI_API_KEY)
+  .generate as CallableFunction;
 
 const formatContext = (ctx: ContextProps) => {
   return `Task: ${ctx.task}${ctx.result ? "\nResult: ${ctx.result}" : ""}`;
@@ -33,7 +27,7 @@ const formatContext = (ctx: ContextProps) => {
 
 export const getContext = async (ctx: ContextProps) => {
   const collection = await chroma.getCollection("test", embeddingFunction);
-  const vector = await embeddingFunction().generate([formatContext(ctx)]);
+  const vector = await embeddingFunction([formatContext(ctx)]);
   const results = (await collection.query(vector, 5)) as ContextResult;
 
   return results.ids.map((id, i) => {

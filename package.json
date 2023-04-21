@@ -33,6 +33,7 @@
     "axios": "^0.26.0",
     "chromadb": "^1.4.1",
     "clsx": "^1.2.1",
+    "cohere-ai": "^5.1.0",
     "framer-motion": "^10.11.2",
     "html-to-image": "^1.11.11",
     "langchain": "^0.0.57",

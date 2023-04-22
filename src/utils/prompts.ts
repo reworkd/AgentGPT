@@ -3,17 +3,19 @@ import { PromptTemplate } from "langchain/prompts";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 
-export const createModel = (settings: ModelSettings) =>
-  new OpenAI({
-    openAIApiKey:
-      settings.customApiKey === ""
-        ? process.env.OPENAI_API_KEY
-        : settings.customApiKey,
-    temperature: settings.customTemperature || 0.9,
-    modelName:
-      settings.customModelName === "" ? GPT_35_TURBO : settings.customModelName,
-    maxTokens: 400,
+export const createModel = (settings: ModelSettings) => {
+  let _settings: ModelSettings | undefined = settings;
+  if (!settings.customModelName) {
+    _settings = undefined;
+  }
+
+  return new OpenAI({
+    openAIApiKey: _settings?.customApiKey || process.env.OPENAI_API_KEY,
+    temperature: _settings?.customTemperature || 0.9,
+    modelName: _settings?.customModelName || GPT_35_TURBO,
+    maxTokens: _settings?.maxTokens || 400,
   });
+};
 
 export const startGoalPrompt = new PromptTemplate({
   template:

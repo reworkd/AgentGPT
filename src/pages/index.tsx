@@ -12,30 +12,30 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
-import SettingsDialog from "../components/SettingsDialog";
+import { SettingsDialog } from "../components/SettingsDialog";
 import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
+import type { ModelSettings } from "../utils/types";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customApiKey, setCustomApiKey] = React.useState<string>("");
-  const [customModelName, setCustomModelName] =
-    React.useState<string>(GPT_35_TURBO);
-  const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
-  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(
-    DEFAULT_MAX_LOOPS_FREE
-  );
+
+  const customSettings = React.useState<ModelSettings>({
+    customModelName: GPT_35_TURBO,
+    customTemperature: 0.9,
+    customMaxLoops: DEFAULT_MAX_LOOPS_FREE,
+    maxTokens: 400,
+  });
+
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-
   const [messages, setMessages] = React.useState<Message[]>([]);
-
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -72,7 +72,8 @@ const Home: NextPage = () => {
 
   const tasks = messages.filter((message) => message.type === "task");
 
-  const disableDeployAgent = agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
+  const disableDeployAgent =
+    agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
@@ -80,7 +81,7 @@ const Home: NextPage = () => {
       goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature, customMaxLoops },
+      customSettings[0],
       session ?? undefined
     );
     setAgent(agent);
@@ -89,14 +90,18 @@ const Home: NextPage = () => {
     agent.run().then(console.log).catch(console.error);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter'&& !disableDeployAgent) {
+  const handleKeyPress = (
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter" && !disableDeployAgent) {
       if (!e.shiftKey) {
         // Only Enter is pressed, execute the function
         handleNewGoal();
       }
     }
-  }
+  };
 
   const handleStopAgent = () => {
     setShouldAgentStop(true);
@@ -122,16 +127,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        reactModelStates={{
-          customApiKey,
-          setCustomApiKey,
-          customModelName,
-          setCustomModelName,
-          customTemperature,
-          setCustomTemperature,
-          customMaxLoops,
-          setCustomMaxLoops,
-        }}
+        customSettings={customSettings}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -182,13 +178,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                      setHasSaved(true);
-                      agentUtils.saveAgent({
-                        goal: goalInput.trim(),
-                        name: name.trim(),
-                        tasks: messages
-                      });
-                    }
+                        setHasSaved(true);
+                        agentUtils.saveAgent({
+                          goal: goalInput.trim(),
+                          name: name.trim(),
+                          tasks: messages,
+                        });
+                      }
                     : undefined
                 }
                 scrollToBottom
@@ -226,7 +222,7 @@ const Home: NextPage = () => {
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="Make the world a better place."
-                  type='textarea'
+                  type="textarea"
                 />
               </Expand>
             </div>

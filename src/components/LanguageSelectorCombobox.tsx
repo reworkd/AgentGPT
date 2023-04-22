@@ -4,17 +4,18 @@ import { FaChevronDown } from "react-icons/fa";
 import { languages } from "../utils/languages";
 
 interface LanguageSelectorComboboxProps {
-  disabled?: boolean;
   onChange: (value: string) => void;
+  actualLanguage: string;
   styleClass?: { [key: string]: string };
 }
 
 const LanguageSelectorCombobox = ({
-  disabled,
   onChange,
+  actualLanguage,
   styleClass,
 }: LanguageSelectorComboboxProps) => {
   const [query, setQuery] = useState("");
+  const [currentLanguage, setCurrentLanguage] = useState<string>(actualLanguage);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (
       event.target instanceof HTMLInputElement &&
@@ -32,7 +33,7 @@ const LanguageSelectorCombobox = ({
         );
 
   return (
-    <ComboboxPrimitive value={""} onChange={onChange} disabled={disabled}>
+    <ComboboxPrimitive value={""} onChange={onChange}>
       <div className={styleClass?.container}>
         <ComboboxPrimitive.Input
           onChange={handleInputChange}

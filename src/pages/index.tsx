@@ -28,6 +28,7 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
+  const [displayLanguage, setDisplayLanguage] = React.useState("");
   const [customLanguage, setCustomLanguage] = React.useState("");
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] =
@@ -58,6 +59,10 @@ const Home: NextPage = () => {
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
+
+  useEffect(() => {
+    setCustomLanguage(displayLanguage);
+  }, [displayLanguage])
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -147,6 +152,7 @@ const Home: NextPage = () => {
       />
       <main className="flex min-h-screen flex-row">
         <Drawer
+          setCustomLanguage={setDisplayLanguage}
           showHelp={() => setShowHelpDialog(true)}
           showSettings={() => setShowSettingsDialog(true)}
         />
@@ -170,7 +176,7 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>{t("Beta 🚀")}</Badge>
+                  <Badge>Beta 🚀</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
@@ -282,7 +288,7 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Stopping")}</span>
+                    <span className="ml-2">{t('Stopping')}</span>
                   </>
                 ) : (
                   t("Stop Agent")

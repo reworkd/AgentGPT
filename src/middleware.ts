@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server";
 import { ipAddress } from "@vercel/edge";
 import { rateLimiter } from "./server/redis";
-import { useTranslation } from "react-i18next";
 
 export const config = {
   // Only run the middleware on the home route
@@ -24,8 +23,7 @@ async function shouldRateLimit(request: NextRequest): Promise<boolean> {
 }
 
 const rateLimitedResponse = () => {
-  const [ t ] = useTranslation();
-  new Response(t('Too many requests, please try again later.'), {
+  new Response('Too many requests, please try again later.', {
     status: 429,
   });
 }

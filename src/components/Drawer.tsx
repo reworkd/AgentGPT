@@ -23,9 +23,11 @@ import { signIn } from "next-auth/react";
 import LanguageChanger from "../components/LanguageChanger";
 
 const Drawer = ({
+  setCustomLanguage,
   showHelp,
   showSettings,
 }: {
+  setCustomLanguage: any;
   showHelp: () => void;
   showSettings: () => void;
 }) => {
@@ -77,7 +79,7 @@ const Drawer = ({
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
-            <LanguageChanger onChange={() => {}} />
+            <LanguageChanger onChange={setCustomLanguage} />
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button

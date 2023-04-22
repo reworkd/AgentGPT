@@ -9,7 +9,6 @@ export const languages = [
   { code: "pt", name: "Português", flag: "🇵🇹" },
   { code: "it", name: "Italiano", flag: "🇮🇹" },
   { code: "nl", name: "Nederlands", flag: "🇳🇱" },
-  { code: "sv", name: "Svenska", flag: "🇸🇪" },
   { code: "pl", name: "Polski", flag: "🇵🇱" },
   { code: "hu", name: "Magyar", flag: "🇭🇺" },
   { code: "ro", name: "Română", flag: "🇷🇴" },

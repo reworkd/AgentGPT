@@ -15,7 +15,7 @@ export const createModel = (settings: ModelSettings) =>
     maxTokens: 400,
   });
 
-/*export const startGoalPrompt = new PromptTemplate({
+export const startGoalPrompt = new PromptTemplate({
   template:
     "You are an autonomous task creation AI called AgentGPT. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Use the `{customLanguage}` language and respond only with an Array by the following syntax:`[1...3 tasks on the language you have to use]`",
   inputVariables: ["goal", "customLanguage"],
@@ -31,9 +31,9 @@ export const createTasksPrompt = new PromptTemplate({
   template:
     "You are You are an AI task creation agent and your objective is: `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following solution `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Use the `{customLanguage}` language to create the new task. Respond only with an Array of Strings which has the following syntax:`[the remaining and appropriate new task or tasks on the language you have to use]`",
   inputVariables: ["goal", "tasks", "lastTask", "result", "customLanguage"],
-});*/
+});
 
-
+/*
 export const startGoalPrompt = new PromptTemplate({
   template:
     "You are an autonomous task creation AI called AgentGPT. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse()",
@@ -51,7 +51,7 @@ export const createTasksPrompt = new PromptTemplate({
     "You are an AI task creation agent. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE",
   inputVariables: ["goal", "tasks", "lastTask", "result", "customLanguage"],
 });
-
+*/
 
 /*
 export const createAgentCreatorPromptByAI = new PromptTemplate({

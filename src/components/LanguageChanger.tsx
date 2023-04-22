@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Combobox as ComboboxPrimitive } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
 import { languages } from "../utils/languages";
 
 interface LanguageChangerProps {
@@ -28,6 +27,13 @@ const LanguageChanger = ({
     languages.find((lang) => lang.code === i18n.language)
   );
 
+  useEffect(() => {
+    const selectedLanguage = languages.find((lang) => lang.code === i18n.language);
+    setActualLanguage(selectedLanguage);
+    console.log(selectedLanguage);
+    onChange(i18n.language);
+  }, [])
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (
       event.target instanceof HTMLInputElement &&
@@ -41,7 +47,8 @@ const LanguageChanger = ({
     const selectedLanguage = languages.find((lang) => lang.code === value);
     setActualLanguage(selectedLanguage);
     i18n.changeLanguage(value);
-    onChange(value);
+    console.log(selectedLanguage);
+    onChange(i18n.language);
   };
 
   const filteredOptions =

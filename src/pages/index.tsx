@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
@@ -60,9 +61,18 @@ const Home: NextPage = () => {
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
+  const getLanguageName = (code: string): string | undefined => {
+    const language = languages.find((language) => language.code === code);
+    return language ? language.name.toUpperCase() : undefined;
+  };
+
   useEffect(() => {
-    setCustomLanguage(displayLanguage);
-  }, [displayLanguage])
+    const languageName = getLanguageName(displayLanguage);
+    if (languageName) {
+      console.log(languageName);
+      setCustomLanguage(languageName);
+    }
+  }, [displayLanguage]);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {

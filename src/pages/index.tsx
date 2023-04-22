@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customSettings, setCustomSettings] = useSettings();
+  const { settings, saveSettings } = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
       goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
-      customSettings,
+      settings,
       session ?? undefined
     );
     setAgent(agent);
@@ -119,7 +119,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customSettings={[customSettings, setCustomSettings]}
+        customSettings={[settings, saveSettings]}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -246,7 +246,7 @@ const Home: NextPage = () => {
                     <span className="ml-2">Stopping</span>
                   </>
                 ) : (
-                  <span>"Stop agent"</span>
+                  <span>Stop agent</span>
                 )}
               </Button>
             </Expand>

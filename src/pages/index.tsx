@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
-import "../i18n.js";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
@@ -22,15 +21,20 @@ import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
+import { languages } from "../utils/languages";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
   const [t] = useTranslation();
-  const [currentDisplayLanguage, setCurrentDisplayLanguage] = React.useState(i18n.language);
+  const [currentDisplayLanguage, setCurrentDisplayLanguage] = React.useState(
+    i18n.language
+  );
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customLanguage, setCustomLanguage] = React.useState<string>(i18n.language);
+  const [customLanguage, setCustomLanguage] = React.useState<string>(
+    i18n.language
+  );
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
@@ -76,9 +80,10 @@ const Home: NextPage = () => {
     setMessages((prev) => [...prev, message]);
   };
 
-   const tasks = messages.filter((message) => message.type === "task");
+  const tasks = messages.filter((message) => message.type === "task");
 
-  const disableDeployAgent = agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
+  const disableDeployAgent =
+    agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
@@ -171,12 +176,14 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>{t('Beta 🚀')}</Badge>
+                  <Badge>{t("Beta 🚀")}</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {t('Assemble, configure, and deploy autonomous AI Agents in your browser.')}
+                  {t(
+                    "Assemble, configure, and deploy autonomous AI Agents in your browser."
+                  )}
                 </p>
               </div>
             </div>
@@ -213,7 +220,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t('Name:')}</span>
+                      <span className="ml-2">{t("Name:")}</span>
                     </>
                   }
                   value={name}
@@ -229,14 +236,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t('Goal:')}</span>
+                      <span className="ml-2">{t("Goal:")}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={t('Make the world a better place.')}
+                  placeholder={t("Make the world a better place.")}
                   type="textarea"
                 />
               </Expand>
@@ -245,19 +252,17 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaFlag />
-                      <span className="ml-2">{t('Agent\'s Language:')}</span>
+                      <span className="ml-2">{t("Agent's Language:")}</span>
                     </>
                   }
-                  disabled={true}
+                  type="combobox"
+                  subType="languageSelector"
                   value={customLanguage}
-                  onChange={(e) => setCustomLanguage(e.target.value)}
-                  onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={customLanguage}
-                  type="text"
+                  onChange={() => null}
+                  attributes={{ options: languages }}
                 />
               </Expand>
             </div>
-
             <Expand delay={1.4} className="flex gap-2">
               <Button
                 disabled={disableDeployAgent}
@@ -265,11 +270,11 @@ const Home: NextPage = () => {
                 className="sm:mt-10"
               >
                 {agent == null ? (
-                  t('Deploy Agent')
+                  t("Deploy Agent")
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t('Running')}</span>
+                    <span className="ml-2">{t("Running")}</span>
                   </>
                 )}
               </Button>
@@ -282,10 +287,10 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t('Stopping')}</span>
+                    <span className="ml-2">{t("Stopping")}</span>
                   </>
                 ) : (
-                  t('Stop Agent')
+                  t("Stop Agent")
                 )}
               </Button>
             </Expand>

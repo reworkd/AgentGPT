@@ -1,22 +1,19 @@
 import { useState } from "react";
 import { Combobox as ComboboxPrimitive } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
+import { languages } from "../utils/languages";
 
-interface ComboboxProps {
-  value: string;
-  options: string[] | any[];
+interface LanguageSelectorComboboxProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   styleClass?: { [key: string]: string };
 }
 
-const Combobox = ({
-  options,
-  value,
+const LanguageSelectorCombobox = ({
   disabled,
   onChange,
   styleClass,
-}: ComboboxProps) => {
+}: LanguageSelectorComboboxProps) => {
   const [query, setQuery] = useState("");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (
@@ -29,13 +26,13 @@ const Combobox = ({
 
   const filteredOptions =
     query === ""
-      ? options
-      : options.filter((opt) =>
-          opt.toLowerCase().includes(query.toLowerCase())
+      ? languages
+      : languages.filter((opt) =>
+          opt.name.toLowerCase().includes(query.toLowerCase())
         );
 
   return (
-    <ComboboxPrimitive value={value} onChange={onChange} disabled={disabled}>
+    <ComboboxPrimitive value={""} onChange={onChange} disabled={disabled}>
       <div className={styleClass?.container}>
         <ComboboxPrimitive.Input
           onChange={handleInputChange}
@@ -47,11 +44,11 @@ const Combobox = ({
         <ComboboxPrimitive.Options className="absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-hidden rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] tracking-wider shadow-xl outline-0 transition-all">
           {filteredOptions.map((opt) => (
             <ComboboxPrimitive.Option
-              key={opt}
-              value={opt}
+              key={opt.code}
+              value={opt.code}
               className={styleClass?.option}
             >
-              {opt}
+              {opt.flag} {opt.name}
             </ComboboxPrimitive.Option>
           ))}
         </ComboboxPrimitive.Options>
@@ -60,4 +57,4 @@ const Combobox = ({
   );
 };
 
-export default Combobox;
+export default LanguageSelectorCombobox;

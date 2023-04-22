@@ -82,7 +82,7 @@ const ChatWindow = ({
         className={clsx(
           "mb-2 mr-2 ",
           (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
-            "window-heights"
+          "window-heights"
         )}
         ref={scrollRef}
         onScroll={handleScroll}
@@ -165,8 +165,28 @@ const MacWindowHeader = (props: HeaderProps) => {
     }
 
     const text = element.innerText;
-    void navigator.clipboard.writeText(text);
+
+    if (navigator.clipboard) {
+      void navigator.clipboard.writeText(text);
+    } else {
+      // Fallback to a different method for unsupported browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+        console.log("Text copied to clipboard");
+      } catch (err) {
+        console.error("Unable to copy text to clipboard", err);
+      }
+
+      document.body.removeChild(textArea);
+    }
   };
+
 
   const exportOptions = [
     <WindowButton
@@ -291,9 +311,8 @@ const ChatMessage = ({ message }: { message: Message }) => {
           </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
-              showCopy ? "visible" : "hidden"
-            }`}
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${showCopy ? "visible" : "hidden"
+              }`}
           >
             <FaCopy className="text-white-300 cursor-pointer" />
           </span>

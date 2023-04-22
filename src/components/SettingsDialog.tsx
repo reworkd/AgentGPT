@@ -17,10 +17,7 @@ import type { ModelSettings } from "../utils/types";
 export const SettingsDialog: React.FC<{
   show: boolean;
   close: () => void;
-  customSettings: [
-    ModelSettings,
-    React.Dispatch<React.SetStateAction<ModelSettings>>
-  ];
+  customSettings: [ModelSettings, (settings: ModelSettings) => void];
 }> = ({ show, close, customSettings: [customSettings, setCustomSettings] }) => {
   const [settings, setSettings] = React.useState<ModelSettings>({
     ...customSettings,
@@ -52,10 +49,7 @@ export const SettingsDialog: React.FC<{
       return;
     }
 
-    setCustomSettings((prev) => {
-      return { ...prev, ...settings };
-    });
-
+    setCustomSettings(settings);
     close();
     return;
   };

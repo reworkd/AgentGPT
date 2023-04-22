@@ -87,7 +87,7 @@ const Input = (props: InputProps) => {
     typeof value === "string"
   ) {
     inputElement = (
-      <LanguageSelectorCombobox
+      <AgentLanguageSelectorCombobox
         disabled={disabled}
         onChange={setValue}
         styleClass={{

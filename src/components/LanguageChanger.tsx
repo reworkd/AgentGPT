@@ -3,6 +3,7 @@ import { Combobox as ComboboxPrimitive } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { languages } from "../utils/languages";
+import i18n from "../i18n";
 
 interface LanguageChangerProps {
   onChange: (value: string) => void;
@@ -21,7 +22,7 @@ const LanguageChanger = ({
     option:
       "cursor-pointer px-2 py-2 font-mono text-sm text-white hover:bg-blue-500 sm:py-3 md:text-lg",
   };
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [actualLanguage, setActualLanguage] = useState(
     languages.find((lang) => lang.code === i18n.language)

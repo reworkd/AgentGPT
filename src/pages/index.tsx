@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
+import i18next from "../i18n";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
@@ -22,14 +22,15 @@ import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { languages } from "../utils/languages";
+import AgentLanguageSelectorCombobox from "../components/AgentLanguageSelectorCombobox";
 
 const Home: NextPage = () => {
-  const { session, status } = useAuth();
   const [t] = useTranslation();
+  const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [displayLanguage, setDisplayLanguage] = React.useState("");
+  const [displayLanguage, setDisplayLanguage] = React.useState(i18next.language);
   const [customLanguage, setCustomLanguage] = React.useState("");
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] = React.useState<string>(GPT_35_TURBO);
@@ -260,20 +261,8 @@ const Home: NextPage = () => {
                   type="textarea"
                 />
               </Expand>
-              <Expand delay={10}>
-                <Input
-                  left={
-                    <>
-                      <FaFlag />
-                      <span className="ml-2">{`${t("AgentLanguage")}`}</span>
-                    </>
-                  }
-                  type="text"
-                  subType="agentLanguageSelector"
-                  value={customLanguage}
-                  onChange={() => null}
-                  disabled={true}
-                />
+              <Expand delay={0.3}>
+                <AgentLanguageSelectorCombobox value={customLanguage} onChange={setCustomLanguage} disabled={agent != null} />
               </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">

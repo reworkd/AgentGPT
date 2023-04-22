@@ -68,5 +68,21 @@
   "Copied to clipboard! 🚀": "Vágólapra másolva 🚀",
   "Export": "Exportálás",
   "Goal: ": "Cél: ",
-  "Adding Task: ": "Feladat hozzáadása: "
+  "Adding Task: ": "Feladat hozzáadása: ",
+  "Executing": "Folyamatban: ",
+  "AgentLanguage": "Nyelv",
+  "languages.english": "angol",
+  "languages.french": "francia",
+  "languages.spanish": "spanyol",
+  "languages.german": "német",
+  "languages.japanese": "japán",
+  "languages.korean": "koreai",
+  "languages.chinese": "kinai",
+  "languages.portuguese": "portugál",
+  "languages.italian": "olasz",
+  "languages.dutch": "holland",
+  "languages.polish": "lengyel",
+  "languages.hungarian": "magyar",
+  "languages.romanian": "román",
+  "languages.slovak": "szlovák"
 }

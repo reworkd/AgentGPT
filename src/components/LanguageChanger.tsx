@@ -45,10 +45,10 @@ const LanguageChanger = ({
 
   const handleLanguageChange = (value: string) => {
     const selectedLanguage = languages.find((lang) => lang.code === value);
-    setActualLanguage(selectedLanguage);
-    i18n.changeLanguage(value);
-    console.log(selectedLanguage);
-    onChange(i18n.language);
+    i18n.changeLanguage(value).then(() => {
+      setActualLanguage(selectedLanguage);
+      onChange(i18n.language);
+    });
   };
 
   const filteredOptions =

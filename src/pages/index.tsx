@@ -32,12 +32,9 @@ const Home: NextPage = () => {
   const [displayLanguage, setDisplayLanguage] = React.useState("");
   const [customLanguage, setCustomLanguage] = React.useState("");
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
-  const [customModelName, setCustomModelName] =
-    React.useState<string>(GPT_35_TURBO);
+  const [customModelName, setCustomModelName] = React.useState<string>(GPT_35_TURBO);
   const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
-  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(
-    DEFAULT_MAX_LOOPS_FREE
-  );
+  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(DEFAULT_MAX_LOOPS_FREE);
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -61,17 +58,23 @@ const Home: NextPage = () => {
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
-  const getLanguageName = (code: string): string | undefined => {
+  const getLanguageName = async (code: string): Promise<string | undefined> => {
     const language = languages.find((language) => language.code === code);
     return language ? language.name.toUpperCase() : undefined;
   };
 
   useEffect(() => {
-    const languageName = getLanguageName(displayLanguage);
-    if (languageName) {
-      console.log(languageName);
-      setCustomLanguage(languageName);
-    }
+    const fetchLanguageName = async () => {
+      const languageName = await getLanguageName(displayLanguage).then((language) => {
+        if (language) {
+          console.log(language);
+          setCustomLanguage(language);
+        } else {
+          setCustomLanguage("english".toUpperCase());
+        }
+      });
+    };
+    fetchLanguageName();
   }, [displayLanguage]);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -262,7 +265,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaFlag />
-                      <span className="ml-2">{`${t('AgentLanguage')}`}</span>
+                      <span className="ml-2">{t('AgentLanguage')}</span>
                     </>
                   }
                   type="combobox"
@@ -270,7 +273,6 @@ const Home: NextPage = () => {
                   value={customLanguage}
                   onChange={() => null}
                   disabled={true}
-                  attributes={{ options: languages }}
                 />
               </Expand>
             </div>

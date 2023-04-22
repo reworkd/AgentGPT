@@ -48,7 +48,6 @@ class AutonomousAgent {
     this.customLanguage = customLanguage;
     this.session = session;
     this._id = v4();
-    this.t = useTranslation();
   }
 
   async run() {
@@ -123,12 +122,12 @@ class AutonomousAgent {
       }
 
       if (newTasks.length == 0) {
-        this.sendActionMessage(this.t('Task marked as complete.'));
+        this.sendActionMessage('Task marked as complete.');
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(this.t('ERROR adding additional task(s). It might have been against our model\'s policies to run them. Continuing.'));
-      this.sendActionMessage(this.t('Task marked as complete.'));
+      this.sendErrorMessage('ERROR adding additional task(s). It might have been against our model\'s policies to run them. Continuing.');
+      this.sendActionMessage('Task marked as complete.');
     }
 
     await this.loop();
@@ -218,7 +217,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(this.t('Rate limit exceeded. Please slow down. 😅'));
+        this.sendErrorMessage('Rate limit exceeded. Please slow down. 😅');
       }
 
       throw e;
@@ -251,22 +250,22 @@ class AutonomousAgent {
       type: "system",
       value:
         this.modelSettings.customApiKey !== ""
-          ? this.t('This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.')
-          : this.t('We\'re sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.'),
+          ? 'This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.'
+          : 'We\'re sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.',
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: "system",
-      value: this.t('The agent has been manually shutdown.'),
+      value: 'The agent has been manually shutdown.',
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: "system",
-      value: this.t('All tasks completed. Shutting down.'),
+      value: 'All tasks completed. Shutting down.',
     });
   }
 

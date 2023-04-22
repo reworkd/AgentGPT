@@ -21,10 +21,15 @@ const loadSettings = () => {
   }
 
   const data = localStorage.getItem(SETTINGS_KEY);
+  if (!data) {
+    return DEFAULT_SETTINGS;
+  }
+
   try {
     const obj = JSON.parse(data) as ModelSettings;
     Object.entries(obj).forEach(([key, value]) => {
       if (DEFAULT_SETTINGS.hasOwnProperty(key)) {
+        // @ts-ignore
         DEFAULT_SETTINGS[key] = value;
       }
     });
@@ -48,5 +53,8 @@ export function useSettings() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   };
 
-  return [settings, saveSettings];
+  return {
+    settings,
+    saveSettings,
+  };
 }

@@ -12,6 +12,7 @@ import { env } from "../env/client.mjs";
 import { v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
 import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -122,12 +123,12 @@ class AutonomousAgent {
       }
 
       if (newTasks.length == 0) {
-        this.sendActionMessage('Task marked as complete.');
+        this.sendActionMessage(i18n.t('Task marked as complete.'));
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage('ERROR adding additional task(s). It might have been against our model\'s policies to run them. Continuing.');
-      this.sendActionMessage('Task marked as complete.');
+      this.sendErrorMessage(i18n.t('ERROR adding additional task(s). It might have been against our model\'s policies to run them. Continuing.'));
+      this.sendActionMessage(i18n.t('Task marked as complete.'));
     }
 
     await this.loop();
@@ -217,7 +218,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage('Rate limit exceeded. Please slow down. 😅');
+        this.sendErrorMessage(i18n.t('Rate limit exceeded. Please slow down. 😅'));
       }
 
       throw e;
@@ -250,22 +251,22 @@ class AutonomousAgent {
       type: "system",
       value:
         this.modelSettings.customApiKey !== ""
-          ? 'This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.'
-          : 'We\'re sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.',
+          ? i18n.t('This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.')
+          : i18n.t('We\'re sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.'),
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: "system",
-      value: 'The agent has been manually shutdown.',
+      value: i18n.t('The agent has been manually shutdown.'),
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: "system",
-      value: 'All tasks completed. Shutting down.',
+      value: i18n.t('All tasks completed. Shutting down.'),
     });
   }
 
@@ -284,7 +285,7 @@ class AutonomousAgent {
   sendExecutionMessage(task: string, execution: string) {
     this.sendMessage({
       type: "action",
-      info: this.t(`Executing "${task}"`),
+      info: `${i18n.t('Executing')} "${task}"`,
       value: execution,
     });
   }

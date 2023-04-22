@@ -256,19 +256,19 @@ const Home: NextPage = () => {
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={t("Make the world a better place.")}
+                  placeholder={`${t("Make the world a better place.")}`}
                   type="textarea"
                 />
               </Expand>
-              <Expand delay={3}>
+              <Expand delay={10}>
                 <Input
                   left={
                     <>
                       <FaFlag />
-                      <span className="ml-2">{t('AgentLanguage')}</span>
+                      <span className="ml-2">{`${t("AgentLanguage")}`}</span>
                     </>
                   }
-                  type="combobox"
+                  type="text"
                   subType="agentLanguageSelector"
                   value={customLanguage}
                   onChange={() => null}

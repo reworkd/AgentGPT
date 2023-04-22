@@ -30,7 +30,7 @@
   "Settings ⚙": "Beállítások ⚙",
   "Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers.": "Itt adhatja hozzá OpenAI API-kulcsát. Ez saját OpenAI-használatának fizetését igényli, de nagyobb hozzáférést biztosít az AgentGPT-hez! Továbbá kiválaszthatja az OpenAI által kínált bármely modellt.",
   "To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it": "A GPT-4 modell használatához szüksége van a GPT-4 API-kulcsára is. Az alábbi linken kérheti azt",
-  "here": "itt",
+  "here": " itt",
   "(ChatGPT Plus subscription will not work)": "(A ChatGPT Plus előfizetés nem működik)",
   "Model: ": "Modell: ",
   "Key: ": "Kulcs: ",

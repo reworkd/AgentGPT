@@ -258,7 +258,7 @@ const Home: NextPage = () => {
                     <span className="ml-2">Stopping</span>
                   </>
                 ) : (
-                  "Stop agent"
+                  <span>"Stop agent"</span>
                 )}
               </Button>
             </Expand>

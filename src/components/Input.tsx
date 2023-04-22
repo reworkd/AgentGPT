@@ -6,7 +6,6 @@ import AgentLanguageSelectorCombobox from "./AgentLanguageSelectorCombobox";
 import LanguageSelectorCombobox from "./LanguageSelectorCombobox";
 import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
-import { languages } from "../utils/languages";
 
 interface InputProps {
   left?: React.ReactNode;

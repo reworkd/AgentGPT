@@ -20,6 +20,7 @@ import { env } from "../env/client.mjs";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import LanguageChanger from "../components/LanguageChanger";
 
 const Drawer = ({
   showHelp,
@@ -28,7 +29,7 @@ const Drawer = ({
   showHelp: () => void;
   showSettings: () => void;
 }) => {
-  const [ t ] = useTranslation();
+  const [t] = useTranslation();
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
@@ -76,6 +77,7 @@ const Drawer = ({
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
+            <LanguageChanger onChange={() => {}} />
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button
@@ -86,24 +88,30 @@ const Drawer = ({
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            {userAgents.map((agent: any | undefined, index: any | undefined) => (
-              <DrawerItem
-                key={index}
-                icon={<FaRobot />}
-                text={agent.name}
-                className="w-full"
-                onClick={() => void router.push(`/agent?id=${agent.id}`)}
-              />
-            ))}
+            {userAgents.map(
+              (agent: any | undefined, index: any | undefined) => (
+                <DrawerItem
+                  key={index}
+                  icon={<FaRobot />}
+                  text={agent.name}
+                  className="w-full"
+                  onClick={() => void router.push(`/agent?id=${agent.id}`)}
+                />
+              )
+            )}
 
             {status === "unauthenticated" && (
               <div>
-                {t('Sign in to be able to save agents and manage your account!')}
+                {t(
+                  "Sign in to be able to save agents and manage your account!"
+                )}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
               <div>
-                {t('You need to create and save your first agent before anything shows up here!')}
+                {t(
+                  "You need to create and save your first agent before anything shows up here!"
+                )}
               </div>
             )}
           </ul>
@@ -124,7 +132,7 @@ const Drawer = ({
           )}
           <DrawerItem
             icon={<FaQuestionCircle />}
-            text={t('Help')}
+            text={t("Help")}
             onClick={showHelp}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
@@ -194,9 +202,9 @@ const AuthItem: React.FC<{
   signIn: () => void;
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
-  const [ t ] = useTranslation();
+  const [t] = useTranslation();
   const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
-  const text = session?.user ? t('Sign Out') : t('Sing In');
+  const text = session?.user ? t("Sign Out") : t("Sing In");
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
@@ -207,8 +215,8 @@ const ProItem: React.FC<{
   sub: () => any;
   manage: () => any;
 }> = ({ sub, manage, session }) => {
-  const [ t ] = useTranslation();
-  const text = session?.user?.subscriptionId ? t('Account') : t('Go Pro');
+  const [t] = useTranslation();
+  const text = session?.user?.subscriptionId ? t("Account") : t("Go Pro");
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
     icon = (

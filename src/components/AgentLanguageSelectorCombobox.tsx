@@ -43,13 +43,13 @@ const AgentLanguageSelectorCombobox = ({
         </ComboboxPrimitive.Button>
         <ComboboxPrimitive.Options className="absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-hidden rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] tracking-wider shadow-xl outline-0 transition-all">
           {filteredOptions.map((opt) => (
-            <ComboboxPrimitive.Option
-              key={opt.code}
-              value={opt.code}
-              className={styleClass?.option}
-            >
-              {opt.flag} {opt.name}
-            </ComboboxPrimitive.Option>
+             <ComboboxPrimitive.Option
+             key={opt.code}
+             value={opt}
+             className={styleClass?.option}
+           >
+             {opt.flag} {opt.name}
+           </ComboboxPrimitive.Option>
           ))}
         </ComboboxPrimitive.Options>
       </div>

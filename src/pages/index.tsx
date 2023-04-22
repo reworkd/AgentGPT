@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
 import { type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
@@ -26,15 +25,10 @@ import { languages } from "../utils/languages";
 const Home: NextPage = () => {
   const { session, status } = useAuth();
   const [t] = useTranslation();
-  const [currentDisplayLanguage, setCurrentDisplayLanguage] = React.useState(
-    i18n.language
-  );
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customLanguage, setCustomLanguage] = React.useState<string>(
-    i18n.language
-  );
+  const [customLanguage, setCustomLanguage] = React.useState("");
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] =
     React.useState<string>(GPT_35_TURBO);
@@ -220,7 +214,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t("Name:")}</span>
+                      <span className="ml-2">{t("AgentName")}</span>
                     </>
                   }
                   value={name}
@@ -236,7 +230,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t("Goal:")}</span>
+                      <span className="ml-2">{t("AgentGoal")}</span>
                     </>
                   }
                   disabled={agent != null}
@@ -247,18 +241,19 @@ const Home: NextPage = () => {
                   type="textarea"
                 />
               </Expand>
-              <Expand delay={1.3}>
+              <Expand delay={3}>
                 <Input
                   left={
                     <>
                       <FaFlag />
-                      <span className="ml-2">{t("Agent's Language:")}</span>
+                      <span className="ml-2">{`${t('AgentLanguage')}`}</span>
                     </>
                   }
                   type="combobox"
-                  subType="languageSelector"
+                  subType="agentLanguageSelector"
                   value={customLanguage}
                   onChange={() => null}
+                  disabled={true}
                   attributes={{ options: languages }}
                 />
               </Expand>
@@ -274,7 +269,7 @@ const Home: NextPage = () => {
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Running")}</span>
+                    <span className="ml-2">{t('Running')}</span>
                   </>
                 )}
               </Button>

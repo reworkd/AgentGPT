@@ -18,6 +18,7 @@ import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
+import { isEmptyOrBlank } from "../utils/whitespace";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
@@ -71,12 +72,12 @@ const Home: NextPage = () => {
 
   const tasks = messages.filter((message) => message.type === "task");
 
-  const disableDeployAgent = agent != null || name === "" || goalInput === ""
+  const disableDeployAgent = agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
-      name,
-      goalInput,
+      name.trim(),
+      goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
       { customApiKey, customModelName, customTemperature, customMaxLoops },
@@ -181,13 +182,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                        setHasSaved(true);
-                        agentUtils.saveAgent({
-                          goal: goalInput,
-                          name: name,
-                          tasks: messages,
-                        });
-                      }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: name.trim(),
+                        tasks: messages
+                      });
+                    }
                     : undefined
                 }
                 scrollToBottom

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type NextPage, type GetStaticProps } from "next";
 import { useRouter } from "next/router";
@@ -8,7 +8,7 @@ import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaRobot, FaStar, FaFlag } from "react-icons/fa";
+import { FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
@@ -22,18 +22,21 @@ import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { languages } from "../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import AgentLanguageSelectorCombobox from "../components/AgentLanguageSelectorCombobox";
 import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
-  const [t,i18n] = useTranslation();
+  const [t, i18n] = useTranslation();
   const router = useRouter();
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [displayLanguage, setDisplayLanguage] = React.useState<string>(i18n.language);
-  const [customLanguage, setCustomLanguage] = React.useState<string>(i18n.language);
+  const [displayLanguage, setDisplayLanguage] = React.useState<string>(
+    i18n.language
+  );
+  const [customLanguage, setCustomLanguage] = React.useState<string>(
+    i18n.language
+  );
   const { settings, saveSettings } = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -56,33 +59,31 @@ const Home: NextPage = () => {
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
 
-  const getLanguageName = async (code: string): Promise<string | undefined> => {
+  const getLanguageName = (code: string): string | undefined => {
     const language = languages.find((language) => language.code === code);
     return language ? language.name.toUpperCase() : undefined;
   };
 
   useEffect(() => {
-    const fetchLanguageName = async () => {
-      const languageName = await getLanguageName(displayLanguage).then((language) => {
-        if (language) {
-          setCustomLanguage(language);
-        } else {
-          setCustomLanguage("english".toUpperCase());
-        }
-      });
-    };
-    fetchLanguageName();
+    const languageName = getLanguageName(displayLanguage);
+    if (languageName) {
+      setCustomLanguage(languageName);
+    } else {
+      setCustomLanguage("english".toUpperCase());
+    }
   }, [displayLanguage]);
 
   useEffect(() => {
     setDisplayLanguage(i18n.language);
-  }, [])
+  }, [i18n.language]);
 
   const handleLanguageChange = (value: string) => {
-    const { pathname, asPath, query, locale } = router;
-    router.push({ pathname, query }, asPath, {
-      locale: value,
-    });
+    const { pathname, asPath, query } = router;
+    router
+      .push({ pathname, query }, asPath, {
+        locale: value,
+      })
+      .catch(console.error);
   };
 
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -112,7 +113,6 @@ const Home: NextPage = () => {
       handleAddMessage,
       () => setAgent(null),
       settings,
-      customLanguage,
       session ?? undefined
     );
     setAgent(agent);
@@ -260,9 +260,6 @@ const Home: NextPage = () => {
                   type="textarea"
                 />
               </Expand>
-              <Expand delay={0.3}>
-                <AgentLanguageSelectorCombobox value={customLanguage} onChange={setCustomLanguage} disabled={agent != null} />
-              </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">
               <Button
@@ -275,7 +272,7 @@ const Home: NextPage = () => {
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t('Running')}</span>
+                    <span className="ml-2">{t("Running")}</span>
                   </>
                 )}
               </Button>
@@ -288,7 +285,7 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t('Stopping')}</span>
+                    <span className="ml-2">{t("Stopping")}</span>
                   </>
                 ) : (
                   t("Stop Agent")
@@ -305,7 +302,25 @@ const Home: NextPage = () => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = ["en", "hu", "fr", "de", "it", "ja", "zh", "ko", "pl", "pt", "ro", "ru", "uk", "es", "nl", "sk", "hr"];
+  const supportedLocales = [
+    "en",
+    "hu",
+    "fr",
+    "de",
+    "it",
+    "ja",
+    "zh",
+    "ko",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "uk",
+    "es",
+    "nl",
+    "sk",
+    "hr",
+  ];
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
   return {

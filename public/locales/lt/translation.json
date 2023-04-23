@@ -12,7 +12,7 @@
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "Klaida: Jūsų API raktas neturi prieigos prie GPT-4. Pirmiausia turite prisijungti prie OpenAI laukiančiųjų sąrašo. (Tai skiriasi nuo ChatGPT Plus)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "Klaida gaunant pradinių užduočių masyvą. Bandykite dar kartą, aiškiau apibrėžkite savo tikslą arba peržiūrėkite savo tikslą taip, kad jis būtų suderinamas su mūsų modelio politika. Uždarymas.",
   "> Create an agent by adding a name / goal, and hitting deploy!": "> Sukurkite agentą, pridėdami pavadinimą / tikslą ir paspaudę žalią mygtuką! ",
-  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "📢 Galite nurodyti savo OpenAI API raktą nustatymų skirtuke, kad padidintumėte limitus! ",
+  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "Galite nurodyti savo OpenAI API raktą nustatymų skirtuke, kad padidintumėte limitus! ",
   "Image": "Paveikslėlis",
   "Copy": "Kopijuoti",
   "Save": "Įrašyti",

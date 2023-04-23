@@ -12,7 +12,7 @@
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "ERROR, su clave API no tiene acceso a GPT-4. Primero debe unirse a la lista de espera de OpenAI. (Esto es diferente de ChatGPT Plus)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "ERROR al recuperar el arreglo de tareas iniciales. Intente nuevamente, aclare su objetivo o revise su objetivo para que esté dentro de las políticas de nuestro modelo para ejecutar. Cerrando.",
   "> Create an agent by adding a name / goal, and hitting deploy!": "> ¡Cree un agente agregando un nombre / objetivo y presionando desplegar!",
-  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "📢 ¡Puede proporcionar su propia clave API de OpenAI en la pestaña de configuración para aumentar los límites!",
+  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "¡Puede proporcionar su propia clave API de OpenAI en la pestaña de configuración para aumentar los límites!",
   "Image": "Imagen",
   "Copy": "Copiar",
   "Save": "Guardar",

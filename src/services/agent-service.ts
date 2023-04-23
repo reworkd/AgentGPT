@@ -60,14 +60,12 @@ async function createTasksAgent(
 interface AgentService {
   startGoalAgent: (
     modelSettings: ModelSettings,
-    goal: string,
-    customLanguage: string | undefined
+    goal: string
   ) => Promise<string[]>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
-    task: string,
-    customLanguage: string | undefined
+    task: string
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
@@ -75,8 +73,7 @@ interface AgentService {
     tasks: string[],
     lastTask: string,
     result: string,
-    completedTasks: string[] | undefined,
-    customLanguage: string | undefined
+    completedTasks: string[] | undefined
   ) => Promise<string[]>;
 }
 

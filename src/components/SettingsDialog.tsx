@@ -14,12 +14,15 @@ import Input from "./Input";
 import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
 import Accordion from "./Accordion";
 import type { ModelSettings } from "../utils/types";
+import LanguageCombobox from "./LanguageCombobox";
+import { useRouter } from "next/router";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
   close: () => void;
   customSettings: [ModelSettings, (settings: ModelSettings) => void];
 }> = ({ show, close, customSettings: [customSettings, setCustomSettings] }) => {
+  const router = useRouter();
   const [settings, setSettings] = React.useState<ModelSettings>({
     ...customSettings,
   });
@@ -46,7 +49,9 @@ export const SettingsDialog: React.FC<{
   const handleSave = () => {
     if (!keyIsValid(settings.customApiKey)) {
       alert(
-        t('Key is invalid, please ensure that you have set up billing in your OpenAI account!')
+        t(
+          "Key is invalid, please ensure that you have set up billing in your OpenAI account!"
+        )
       );
       return;
     }
@@ -54,6 +59,15 @@ export const SettingsDialog: React.FC<{
     setCustomSettings(settings);
     close();
     return;
+  };
+
+  const handleLanguageChange = (value: string) => {
+    const { pathname, asPath, query } = router;
+    router
+      .push({ pathname, query }, asPath, {
+        locale: value,
+      })
+      .catch(console.error);
   };
 
   const disabled = !settings.customApiKey;
@@ -72,7 +86,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message:`${t('Higher values will make the output more random, while lower values make the output more focused and deterministic.')}`,
+          message: `${t(
+            "Higher values will make the output more random, while lower values make the output more focused and deterministic."
+          )}`,
           disabled: false,
         }}
         attributes={{
@@ -96,7 +112,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message:`${t('Controls the maximum number of loops that the agent will run (higher value will make more API calls).')}`,
+          message: `${t(
+            "Controls the maximum number of loops that the agent will run (higher value will make more API calls)."
+          )}`,
           disabled: false,
         }}
         attributes={{
@@ -135,13 +153,15 @@ export const SettingsDialog: React.FC<{
 
   return (
     <Dialog
-      header={t('Settings ⚙')}
+      header={t("Settings ⚙")}
       isShown={show}
       close={close}
       footerButton={<Button onClick={handleSave}>Save</Button>}
     >
       <p>
-        {t('Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers.')}
+        {t(
+          "Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers."
+        )}
       </p>
       <br />
       <p
@@ -154,14 +174,17 @@ export const SettingsDialog: React.FC<{
         <FaExclamationCircle className="inline-block" />
         &nbsp;
         <b>
-        {t('To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it')}&nbsp;
+          {t(
+            "To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it"
+          )}
+          &nbsp;
           <a
             href="https://openai.com/waitlist/gpt-4-api"
             className="text-blue-500"
           >
-            {t('here')}
+            {t("here")}
           </a>
-          .&nbsp{t('(ChatGPT Plus subscription will not work)')}
+          .&nbsp; {t("(ChatGPT Plus subscription will not work)")}
         </b>
       </p>
       <br />
@@ -177,6 +200,8 @@ export const SettingsDialog: React.FC<{
           value={settings.customApiKey}
           onChange={(e) => updateSettings("customApiKey", e.target.value)}
         />
+        <br className="md:inline" />
+        <LanguageCombobox handleLanguageChange={handleLanguageChange} />
         <br className="md:inline" />
         <Input
           left={
@@ -195,17 +220,20 @@ export const SettingsDialog: React.FC<{
         <br className="hidden md:inline" />
         <Accordion
           child={advancedSettings}
-          name={t('Advanced Settings')}
+          name={t("Advanced Settings")}
         ></Accordion>
         <br />
         <strong className="mt-10">
-          {t('NOTE: To get a key, sign up for an OpenAI account and visit the following')}{" "}
+          {t(
+            "NOTE: To get a key, sign up for an OpenAI account and visit the following"
+          )}{" "}
           <a
             href="https://platform.openai.com/account/api-keys"
             className="text-blue-500"
           >
-            {t('link')}.
-          </a>{" "}{t('This key is only used in the current browser session')}
+            {t("link")}.
+          </a>{" "}
+          {t("This key is only used in the current browser session")}
         </strong>
       </div>
     </Dialog>

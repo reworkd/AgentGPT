@@ -29,6 +29,7 @@ const Drawer = ({
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const { session, signIn, signOut, status } = useAuth();
+  const [drawerWidth, setDrawerWidth] = useState(72);
   const router = useRouter();
 
   const sub = api.account.subscribe.useMutation({
@@ -63,14 +64,20 @@ const Drawer = ({
       >
         <FaBars />
       </button>
+      <div className="flex h-screen overflow-hidden">
       <div
         id="drawer"
         className={clsx(
-          showDrawer ? "translate-x-0" : "-translate-x-full",
-          "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
-          "fixed top-0 md:sticky",
-          "flex"
+          "z-30 m-0 h-full bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
+          "fixed top-0 left-0",
+          "transform",
+          `w-${drawerWidth}`, // use the width state variable to set the width of the drawer
+          showDrawer ? "translate-x-0" : "-translate-x-full"
         )}
+        style={{
+          // add transition duration to make the animation smoother
+          transitionDuration: "300ms",
+        }}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
@@ -133,6 +140,7 @@ const Drawer = ({
             target="_blank"
           />
         </div>
+      </div>
       </div>
     </>
   );

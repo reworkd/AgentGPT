@@ -22,7 +22,7 @@ module.exports = {
     ],
     defaultLocale: "en",
   },
-  localePath: typeof window === "undefined" ? "./public/locales" : "./locales",
+  localePath: typeof window === "undefined" ? "./public/locales" : "/locales",
   debug: false,
   reloadOnPrerender: process.env.NODE_ENV === "development",
   defaultNS: "translation",

@@ -6,6 +6,7 @@ import { api } from "../utils/api";
 
 import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -13,8 +14,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
       <Analytics />
+      <GoogleAnalytics trackPageViews />
+      <Component {...pageProps} />
     </SessionProvider>
   );
 };

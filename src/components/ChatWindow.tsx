@@ -3,26 +3,50 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   FaBrain,
   FaClipboard,
+  FaCopy,
+  FaDatabase,
+  FaImage,
   FaListAlt,
   FaPlayCircle,
   FaSave,
   FaStar,
-  FaCopy,
 } from "react-icons/fa";
-import autoAnimate from "@formkit/auto-animate";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
+import Button from "./Button";
+import { useRouter } from "next/router";
+import WindowButton from "./WindowButton";
+import PDFButton from "./pdf/PDFButton";
+import FadeIn from "./motions/FadeIn";
+import Menu from "./Menu";
+import type { Message } from "../types/agentTypes";
+import clsx from "clsx";
 
-interface ChatWindowProps {
+interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
-  messages: Message[];
+  showDonation: boolean;
+  fullscreen?: boolean;
+  scrollToBottom?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
 
-const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
+const ChatWindow = ({
+  messages,
+  children,
+  className,
+  title,
+  showDonation,
+  onSave,
+  fullscreen,
+  scrollToBottom,
+}: ChatWindowProps) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -39,62 +63,77 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
 
   useEffect(() => {
     // Scroll to bottom on re-renders
-    if (scrollRef && scrollRef.current) {
+    if (scrollToBottom && scrollRef && scrollRef.current) {
       if (!hasUserScrolled) {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
     }
   });
 
-  useEffect(() => {
-    scrollRef.current && autoAnimate(scrollRef.current);
-  }, [messages]);
-
   return (
     <div
       className={
-        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
+        "border-translucent flex w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
         (className ?? "")
       }
     >
-      <MacWindowHeader />
+      <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
-        className="mb-2 mr-2 h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em] "
+        className={clsx(
+          "mb-2 mr-2 ",
+          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
+          "window-heights"
+        )}
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
       >
         {messages.map((message, index) => (
-          <ChatMessage key={`${index}-${message.type}`} message={message} />
+          <FadeIn key={`${index}-${message.type}`}>
+            <ChatMessage message={message} />
+          </FadeIn>
         ))}
         {children}
 
-        {messages.length === 0 ? (
-          <Expand delay={0.8} type="spring">
-            <ChatMessage
-              message={{
-                type: "system",
-                value:
-                  "> Create an agent by adding a name / goal, and hitting deploy!",
-              }}
-            />
-            <ChatMessage
-              message={{
-                type: "system",
-                value:
-                  "📢 Please first provide your own OpenAI API key via the settings tab!",
-              }}
-            />
-          </Expand>
-        ) : (
-          ""
+        {messages.length === 0 && (
+          <>
+            <Expand delay={0.8} type="spring">
+              <ChatMessage
+                message={{
+                  type: "system",
+                  value:
+                    "> Create an agent by adding a name / goal, and hitting deploy!",
+                }}
+              />
+            </Expand>
+            <Expand delay={0.9} type="spring">
+              <ChatMessage
+                message={{
+                  type: "system",
+                  value:
+                    "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
+                }}
+              />
+              {showDonation && (
+                <Expand delay={0.7} type="spring">
+                  <DonationMessage />
+                </Expand>
+              )}
+            </Expand>
+          </>
         )}
       </div>
     </div>
   );
 };
 
-const MacWindowHeader = () => {
+interface HeaderProps {
+  title?: string | ReactNode;
+  messages: Message[];
+  onSave?: (format: string) => void;
+}
+
+const MacWindowHeader = (props: HeaderProps) => {
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -126,53 +165,97 @@ const MacWindowHeader = () => {
     }
 
     const text = element.innerText;
-    navigator.clipboard.writeText(text).then(
-      () => {
-        console.info("Copied text to clipboard");
-      },
-      () => {
-        console.error("Failed to copy text to clipboard");
+
+    if (navigator.clipboard) {
+      void navigator.clipboard.writeText(text);
+    } else {
+      // Fallback to a different method for unsupported browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+        console.log("Text copied to clipboard");
+      } catch (err) {
+        console.error("Unable to copy text to clipboard", err);
       }
-    );
+
+      document.body.removeChild(textArea);
+    }
   };
 
+
+  const exportOptions = [
+    <WindowButton
+      key="Image"
+      delay={0.1}
+      onClick={(): void => saveElementAsImage(messageListId)}
+      icon={<FaImage size={12} />}
+      name="Image"
+    />,
+    <WindowButton
+      key="Copy"
+      delay={0.15}
+      onClick={(): void => copyElementText(messageListId)}
+      icon={<FaClipboard size={12} />}
+      name="Copy"
+    />,
+    <PDFButton key="PDF" name="PDF" messages={props.messages} />,
+  ];
+
   return (
-    <div className="flex items-center gap-1 rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-3">
       <PopIn delay={0.4}>
         <div className="h-3 w-3 rounded-full bg-red-500" />
       </PopIn>
       <PopIn delay={0.5}>
         <div className="h-3 w-3 rounded-full bg-yellow-500" />
       </PopIn>
-      <PopIn delay={0.6} className="flex-grow">
+      <PopIn delay={0.6}>
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
-
-      <div
-        className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-        onClick={(): void => saveElementAsImage(messageListId)}
+      <Expand
+        delay={1}
+        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 md:visible"
       >
-        <FaSave size={12} />
-        <p className="font-mono">Save</p>
-      </div>
-      <div
-        className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 hover:bg-white/10"
-        onClick={(): void => copyElementText(messageListId)}
-      >
-        <FaClipboard size={12} />
-        <p className="font-mono">Copy</p>
-      </div>
+        {props.title}
+      </Expand>
+      {props.onSave && (
+        <WindowButton
+          key="Agent"
+          delay={0}
+          onClick={() => props.onSave?.("db")}
+          icon={<FaSave size={12} />}
+          name={"Save"}
+          styleClass={{
+            container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          }}
+        />
+      )}
+      <Menu
+        name="Export"
+        onChange={() => null}
+        items={exportOptions}
+        styleClass={{
+          container: "relative",
+          input: `bg-[#3a3a3a] w-28 animation-duration text-left px-4 text-sm p-1 font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          option: "w-full py-[1px] md:py-0.5",
+        }}
+      />
     </div>
   );
 };
 const ChatMessage = ({ message }: { message: Message }) => {
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
-
   const handleCopyClick = () => {
     void navigator.clipboard.writeText(message.value);
     setCopied(true);
   };
+
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     if (copied) {
@@ -184,6 +267,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       clearTimeout(timeoutId);
     };
   }, [copied]);
+
   return (
     <div
       className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
@@ -191,16 +275,34 @@ const ChatMessage = ({ message }: { message: Message }) => {
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}
     >
-      <div className="mr-2 inline-block h-[0.9em]">
-        {getMessageIcon(message)}
-      </div>
-      <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+      {message.type != "system" && (
+        // Avoid for system messages as they do not have an icon and will cause a weird space
+        <>
+          <div className="mr-2 inline-block h-[0.9em]">
+            {getMessageIcon(message)}
+          </div>
+          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+        </>
+      )}
+
       {message.type == "thinking" && (
         <span className="italic text-zinc-400">
           (Restart if this takes more than 30 seconds)
         </span>
       )}
-      <span>{message.value}</span>
+
+      {message.type == "action" ? (
+        <div className="prose ml-2 max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+          >
+            {message.value}
+          </ReactMarkdown>
+        </div>
+      ) : (
+        <span>{message.value}</span>
+      )}
 
       <div className="relative">
         {copied ? (
@@ -209,9 +311,8 @@ const ChatMessage = ({ message }: { message: Message }) => {
           </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
-              showCopy ? "visible" : "hidden"
-            }`}
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${showCopy ? "visible" : "hidden"
+              }`}
           >
             <FaCopy className="text-white-300 cursor-pointer" />
           </span>
@@ -221,10 +322,34 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
+const DonationMessage = () => {
+  const router = useRouter();
+
+  return (
+    <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
+      <div className="max-w-none flex-grow">
+        💝️ Help support the advancement of AgentGPT. 💝
+        <br />
+        Please consider sponsoring the project on GitHub.
+      </div>
+      <div className="flex items-center justify-center">
+        <Button
+          className="sm:text m-0 rounded-full text-sm "
+          onClick={() =>
+            void router.push("https://github.com/sponsors/reworkd-admin")
+          }
+        >
+          Support now 🚀
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 const getMessageIcon = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return <FaStar className="text-yellow-400" />;
+      return <FaStar className="text-yellow-300" />;
     case "task":
       return <FaListAlt className="text-gray-300" />;
     case "thinking":
@@ -246,12 +371,6 @@ const getMessagePrefix = (message: Message) => {
       return message.info ? message.info : "Executing:";
   }
 };
-
-export interface Message {
-  type: "goal" | "thinking" | "task" | "action" | "system";
-  info?: string;
-  value: string;
-}
 
 export default ChatWindow;
 export { ChatMessage };

@@ -4,7 +4,7 @@ import {
   FaBrain,
   FaClipboard,
   FaCopy,
-  FaDatabase,
+  FaGlobe,
   FaImage,
   FaListAlt,
   FaPlayCircle,
@@ -82,7 +82,7 @@ const ChatWindow = ({
         className={clsx(
           "mb-2 mr-2 ",
           (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
-          "window-heights"
+            "window-heights"
         )}
         ref={scrollRef}
         onScroll={handleScroll}
@@ -101,6 +101,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
+                  info: "",
                   value:
                     "> Create an agent by adding a name / goal, and hitting deploy!",
                 }}
@@ -110,6 +111,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
+                  info: "",
                   value:
                     "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
                 }}
@@ -186,7 +188,6 @@ const MacWindowHeader = (props: HeaderProps) => {
       document.body.removeChild(textArea);
     }
   };
-
 
   const exportOptions = [
     <WindowButton
@@ -311,8 +312,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
           </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${showCopy ? "visible" : "hidden"
-              }`}
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
+              showCopy ? "visible" : "hidden"
+            }`}
           >
             <FaCopy className="text-white-300 cursor-pointer" />
           </span>
@@ -352,6 +354,8 @@ const getMessageIcon = (message: Message) => {
       return <FaStar className="text-yellow-300" />;
     case "task":
       return <FaListAlt className="text-gray-300" />;
+    case "search":
+      return <FaGlobe className="text-blue-400" />;
     case "thinking":
       return <FaBrain className="mt-[0.1em] text-pink-400" />;
     case "action":
@@ -365,6 +369,8 @@ const getMessagePrefix = (message: Message) => {
       return "Embarking on a new goal:";
     case "task":
       return "Added task:";
+    case "search":
+      return "Searching the web:";
     case "thinking":
       return "Thinking...";
     case "action":

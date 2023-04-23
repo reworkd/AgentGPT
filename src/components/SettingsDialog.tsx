@@ -15,14 +15,12 @@ import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
 import Accordion from "./Accordion";
 import type { ModelSettings } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
-import { useRouter } from "next/router";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
   close: () => void;
   customSettings: [ModelSettings, (settings: ModelSettings) => void];
 }> = ({ show, close, customSettings: [customSettings, setCustomSettings] }) => {
-  const router = useRouter();
   const [settings, setSettings] = React.useState<ModelSettings>({
     ...customSettings,
   });
@@ -59,15 +57,6 @@ export const SettingsDialog: React.FC<{
     setCustomSettings(settings);
     close();
     return;
-  };
-
-  const handleLanguageChange = (value: string) => {
-    const { pathname, asPath, query } = router;
-    router
-      .push({ pathname, query }, asPath, {
-        locale: value,
-      })
-      .catch(console.error);
   };
 
   const disabled = !settings.customApiKey;
@@ -201,7 +190,7 @@ export const SettingsDialog: React.FC<{
           onChange={(e) => updateSettings("customApiKey", e.target.value)}
         />
         <br className="md:inline" />
-        <LanguageCombobox handleLanguageChange={handleLanguageChange} />
+        <LanguageCombobox />
         <br className="md:inline" />
         <Input
           left={

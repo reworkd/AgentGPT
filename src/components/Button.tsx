@@ -43,7 +43,7 @@ const Button = forwardRef(
         )}
         onClick={onClick}
       >
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
           {loading ? (
             <Loader />
           ) : (

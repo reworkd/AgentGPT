@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   FaBrain,
   FaClipboard,
+  FaCog,
   FaCopy,
   FaGlobe,
   FaImage,
@@ -356,8 +357,10 @@ const getMessageIcon = (message: Message) => {
       return <FaListAlt className="text-gray-300" />;
     case "search":
       return <FaGlobe className="text-blue-400" />;
+    case "analyzing":
+      return <FaCog />;
     case "thinking":
-      return <FaBrain className="mt-[0.1em] text-pink-400" />;
+      return <FaBrain className="text-pink-400" />;
     case "action":
       return <FaPlayCircle className="text-green-500" />;
   }
@@ -371,6 +374,8 @@ const getMessagePrefix = (message: Message) => {
       return "Added task:";
     case "search":
       return "Searching the web:";
+    case "analyzing":
+      return "Analyzing task...";
     case "thinking":
       return "Thinking...";
     case "action":

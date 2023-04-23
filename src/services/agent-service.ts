@@ -3,6 +3,7 @@ import {
   startGoalPrompt,
   executeTaskPrompt,
   createTasksPrompt,
+  analyzeTaskPrompt,
 } from "../utils/prompts";
 import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";
@@ -19,6 +20,29 @@ async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
   console.log("Completion:" + (completion.text as string));
   return extractTasks(completion.text as string, []);
 }
+
+async function analyzeTaskAgent(
+  modelSettings: ModelSettings,
+  goal: string,
+  task: string
+) {
+  const actions = ["reason", "search"];
+  const completion = await new LLMChain({
+    llm: createModel(modelSettings),
+    prompt: analyzeTaskPrompt,
+  }).call({
+    goal,
+    actions,
+    task,
+  });
+
+  return completion.text as Analysis;
+}
+
+export type Analysis = {
+  action: "reason" | "search";
+  args: string;
+};
 
 async function executeTaskAgent(
   modelSettings: ModelSettings,
@@ -62,6 +86,11 @@ interface AgentService {
     modelSettings: ModelSettings,
     goal: string
   ) => Promise<string[]>;
+  analyzeTaskAgent: (
+    modelSettings: ModelSettings,
+    goal: string,
+    task: string
+  ) => Promise<Analysis>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
@@ -79,6 +108,7 @@ interface AgentService {
 
 const OpenAIAgentService: AgentService = {
   startGoalAgent: startGoalAgent,
+  analyzeTaskAgent: analyzeTaskAgent,
   executeTaskAgent: executeTaskAgent,
   createTasksAgent: createTasksAgent,
 };
@@ -97,6 +127,14 @@ const MockAgentService: AgentService = {
     completedTasks: string[] | undefined
   ) => {
     return await new Promise((resolve) => resolve(["Task 4"]));
+  },
+
+  analyzeTaskAgent: async (
+    modelSettings: ModelSettings,
+    goal: string,
+    task: string
+  ) => {
+    return await new Promise((resolve) => resolve("reason"));
   },
 
   executeTaskAgent: async (

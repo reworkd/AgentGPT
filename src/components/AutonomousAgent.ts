@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
+import type { Analysis } from "../services/agent-service";
 import AgentService from "../services/agent-service";
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
@@ -48,6 +49,7 @@ class AutonomousAgent {
   }
 
   async run() {
+    // const res = await this.post("/api/agent/search", {});
     this.sendGoalMessage();
     this.sendThinkingMessage();
 
@@ -94,7 +96,9 @@ class AutonomousAgent {
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
     // Analyze how to execute a task: Reason, web search, other tools...
-    const toolType = await this.analyzeTask(this.tasks[0] || "");
+    this.sendAnalyzingMessage();
+    const analysis = await this.analyzeTask(this.tasks[0] || "");
+    console.log(analysis);
 
     // Execute first task
     // Get and remove first task
@@ -102,8 +106,11 @@ class AutonomousAgent {
     const currentTask = this.tasks.shift();
     this.sendThinkingMessage();
 
-    const result = await this.executeTask(currentTask as string, toolType);
-    this.sendExecutionMessage(currentTask as string, result, toolType);
+    const result = await this.executeTask(
+      currentTask as string,
+      analysis.action
+    );
+    this.sendExecutionMessage(currentTask as string, result, analysis.action);
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -191,8 +198,23 @@ class AutonomousAgent {
     return res.data.newTasks as string[];
   }
 
-  async analyzeTask(task: string): Promise<ToolType> {
-    return await new Promise((resolve) => resolve(SearchTool));
+  async analyzeTask(task: string): Promise<Analysis> {
+    if (this.shouldRunClientSide()) {
+      return await AgentService.analyzeTaskAgent(
+        this.modelSettings,
+        this.goal,
+        task
+      );
+    }
+
+    const data = {
+      modelSettings: this.modelSettings,
+      goal: this.goal,
+      task: task,
+    };
+    const res = await this.post("/api/agent/analyze", data);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+    return res.data.response as Analysis;
   }
 
   async executeTask(task: string, toolType: ToolType): Promise<string> {
@@ -270,6 +292,10 @@ class AutonomousAgent {
       type: "system",
       value: "All tasks completed. Shutting down.",
     });
+  }
+
+  sendAnalyzingMessage() {
+    this.sendMessage({ type: "analyzing", value: "" });
   }
 
   sendThinkingMessage() {

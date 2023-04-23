@@ -23,6 +23,12 @@ export const startGoalPrompt = new PromptTemplate({
   inputVariables: ["goal"],
 });
 
+export const analyzeTaskPrompt = new PromptTemplate({
+  template:
+    "You have the following objective `{goal}`. You have the following tasks `{task}`. Based on this information, evaluate what the best action to take is exclusively from the following list of actions: {actions}. Return the response as an object of the form {{ action: string, args: string }} that can be used in JSON.parse() and NOTHING ELSE",
+  inputVariables: ["goal", "actions", "task"],
+});
+
 export const executeTaskPrompt = new PromptTemplate({
   template:
     "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",

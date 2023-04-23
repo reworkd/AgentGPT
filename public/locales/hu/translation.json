@@ -1,10 +1,10 @@
 {
   "> Create an agent by adding a name / goal, and hitting deploy!": "> Hozzon létre egy ügynököt a név + cél hozzáadásával, majd az elindítás gombra kattintva!",
-  "📢 You can provide your own OpenAI API key in the settings tab for increased limits!": "📢 A saját OpenAI API-kulcsát a beállítások fülön megadhatja ezáltal növelni tudja az ügynök futási körök limitjét!",
+  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "📢 A saját OpenAI API-kulcsát a beállítások fülön megadhatja ezáltal növelni tudja az ügynök futási körök limitjét!",
   "Save": "Mentés",
   "Image": "Kép",
   "Copy": "Másolás",
-  "💝️ Help support the advancement of AgentGPT. 💝": "💝️ Segítse az AgentGPT fejlődését. 💝",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Segítse az AgentGPT fejlődését. 💝",
   "Please consider sponsoring the project on GitHub.": "Kérjük, vegye fontolóra a projekt támogatását a GitHub-on.",
   "Support now 🚀": "Támogatás most 🚀",
   "Embarking on a new goal:": "Új célra indulva:",

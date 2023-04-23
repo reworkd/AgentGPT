@@ -20,7 +20,6 @@ module.exports = {
       "sk",
       "hr",
     ],
-    defaultLocale: "en",
   },
   localePath: typeof window === "undefined" ? "./public/locales" : "/locales",
   debug: false,

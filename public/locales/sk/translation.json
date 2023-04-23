@@ -1,10 +1,10 @@
 {
   "> Create an agent by adding a name / goal, and hitting deploy!": "> Vytvorte agenta pridaním mena / cieľa a kliknutím na nasadiť!",
-  "📢 You can provide your own OpenAI API key in the settings tab for increased limits!": "📢 Môžete poskytnúť svoj vlastný OpenAI API kľúč v karte nastavenia pre zvýšenie limitov!",
+  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "📢 Môžete poskytnúť svoj vlastný OpenAI API kľúč v karte nastavenia pre zvýšenie limitov!",
   "Save": "Uložiť",
   "Image": "Obrázok",
   "Copy": "Kopírovať",
-  "💝️ Help support the advancement of AgentGPT. 💝": "💝️ Pomôžte podporiť rozvoj AgentGPT. 💝",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Pomôžte podporiť rozvoj AgentGPT. 💝",
   "Please consider sponsoring the project on GitHub.": "Prosím, zvážte sponzorovanie projektu na GitHub-e.",
   "Support now 🚀": "Podporte teraz 🚀",
   "Embarking on a new goal:": "Vstupujem do novej cieľa:",

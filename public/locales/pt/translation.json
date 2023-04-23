@@ -1,10 +1,10 @@
 {
   "> Create an agent by adding a name / goal, and hitting deploy!": "> Crie um agente adicionando um nome/objetivo e clicando em implantar!",
-  "📢 You can provide your own OpenAI API key in the settings tab for increased limits!": "📢 Você pode fornecer sua própria chave da API OpenAI na guia de configurações para aumentar os limites!",
+  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "📢 Você pode fornecer sua própria chave da API OpenAI na guia de configurações para aumentar os limites!",
   "Save": "Salvar",
   "Image": "Imagem",
   "Copy": "Copiar",
-  "💝️ Help support the advancement of AgentGPT. 💝": "💝️ Ajude a apoiar o avanço do AgentGPT. 💝",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Ajude a apoiar o avanço do AgentGPT. 💝",
   "Please consider sponsoring the project on GitHub.": "Considere patrocinar o projeto no GitHub.",
   "Support now 🚀": "Apoie agora 🚀",
   "Embarking on a new goal:": "Embarcando em um novo objetivo:",

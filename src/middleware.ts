@@ -22,11 +22,10 @@ async function shouldRateLimit(request: NextRequest): Promise<boolean> {
   return !success;
 }
 
-const rateLimitedResponse = () => {
-  new Response('Too many requests, please try again later.', {
+const rateLimitedResponse = () =>
+  new Response("Too many requests, please try again later.", {
     status: 429,
   });
-}
 
 // noinspection JSUnusedGlobalSymbols
 export async function middleware(request: NextRequest) {

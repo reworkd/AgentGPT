@@ -1,10 +1,10 @@
 {
   "> Create an agent by adding a name / goal, and hitting deploy!": "> 创建一个代理，添加名称/目标并点击部署！",
-  "📢 You can provide your own OpenAI API key in the settings tab for increased limits!": "📢 您可以在设置选项卡中提供自己的 OpenAI API 密钥以增加限制！",
+  "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "📢 您可以在设置选项卡中提供自己的 OpenAI API 密钥以增加限制！",
   "Save": "保存",
   "Image": "图像",
   "Copy": "复制",
-  "💝️ Help support the advancement of AgentGPT. 💝": "💝️ 帮助支持 AgentGPT 的发展。 💝",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ 帮助支持 AgentGPT 的发展。 💝",
   "Please consider sponsoring the project on GitHub.": "请考虑在 GitHub 上赞助该项目。",
   "Support now 🚀": "立即支持 🚀",
   "Embarking on a new goal:": "开始新的目标：",

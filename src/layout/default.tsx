@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import Head from "next/head";
 import DottedGridBackground from "../components/DottedGridBackground";
 import clsx from "clsx";
+import { useTranslation } from 'react-i18next';
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,8 +11,9 @@ interface LayoutProps {
 }
 
 const DefaultLayout = (props: LayoutProps) => {
+  const [ t ] = useTranslation();
   const description =
-    "Assemble, configure, and deploy autonomous AI Agents in your browser.";
+    t('Assemble, configure, and deploy autonomous AI Agents in your browser.');
   return (
     <div
       className={clsx(

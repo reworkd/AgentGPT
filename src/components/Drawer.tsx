@@ -57,27 +57,26 @@ const Drawer = ({
 
   return (
     <>
-      <button
+      {/* <button
         hidden={showDrawer}
         className="fixed left-2 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
         onClick={toggleDrawer}
       >
         <FaBars />
-      </button>
+      </button> */}
       <div
         id="drawer"
         className={clsx(
           showDrawer ? "translate-x-0" : "-translate-x-full",
-          "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
-          "fixed top-0 md:sticky",
-          "flex md:translate-x-0"
+          "flex z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
+          "fixed top-0 "
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button
-              className="z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
+              className={clsx(showDrawer ? "-translate-x-2" : "translate-x-12","absolute z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700  right-0 top-2 transition-all ")}
               onClick={toggleDrawer}
             >
               <FaBars />

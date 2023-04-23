@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type NextPage, type GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/ChatWindow";
@@ -20,23 +19,15 @@ import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import { languages } from "../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
-  const [t, i18n] = useTranslation();
-  const router = useRouter();
+  const [t] = useTranslation();
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [displayLanguage, setDisplayLanguage] = React.useState<string>(
-    i18n.language
-  );
-  const [customLanguage, setCustomLanguage] = React.useState<string>(
-    i18n.language
-  );
   const { settings, saveSettings } = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -58,33 +49,6 @@ const Home: NextPage = () => {
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
-
-  const getLanguageName = (code: string): string | undefined => {
-    const language = languages.find((language) => language.code === code);
-    return language ? language.name.toUpperCase() : undefined;
-  };
-
-  useEffect(() => {
-    const languageName = getLanguageName(displayLanguage);
-    if (languageName) {
-      setCustomLanguage(languageName);
-    } else {
-      setCustomLanguage("english".toUpperCase());
-    }
-  }, [displayLanguage]);
-
-  useEffect(() => {
-    setDisplayLanguage(i18n.language);
-  }, [i18n.language]);
-
-  const handleLanguageChange = (value: string) => {
-    const { pathname, asPath, query } = router;
-    router
-      .push({ pathname, query }, asPath, {
-        locale: value,
-      })
-      .catch(console.error);
-  };
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -164,8 +128,6 @@ const Home: NextPage = () => {
       />
       <main className="flex min-h-screen flex-row">
         <Drawer
-          handleLanguageChange={handleLanguageChange}
-          setCustomLanguage={setDisplayLanguage}
           showHelp={() => setShowHelpDialog(true)}
           showSettings={() => setShowSettingsDialog(true)}
         />

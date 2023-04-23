@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import {
   FaBrain,
   FaClipboard,
@@ -111,7 +111,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
-                  value:t('📢 You can provide your own OpenAI API key in the settings tab for increased limits!')
+                  value:`📢 ${t('YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY')}`
                 }}
               />
               {showDonation && (
@@ -250,6 +250,7 @@ const MacWindowHeader = (props: HeaderProps) => {
   );
 };
 const ChatMessage = ({ message }: { message: Message }) => {
+  const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
   const handleCopyClick = () => {
@@ -308,7 +309,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       <div className="relative">
         {copied ? (
           <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            Copied!
+            `${t('COPIED')}`
           </span>
         ) : (
           <span
@@ -330,7 +331,7 @@ const DonationMessage = () => {
   return (
     <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
       <div className="max-w-none flex-grow">
-        {t('💝️ Help support the advancement of AgentGPT. 💝')}
+        {`💝️ ${t('HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT')} 💝️`}
         <br />
         {t('Please consider sponsoring the project on GitHub.')}
       </div>
@@ -341,7 +342,7 @@ const DonationMessage = () => {
             void router.push("https://github.com/sponsors/reworkd-admin")
           }
         >
-          {t('Support now 🚀')}
+          {`${t('SUPPORT_NOW')} 🚀`}
         </Button>
       </div>
     </div>

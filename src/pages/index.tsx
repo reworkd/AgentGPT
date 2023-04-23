@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Suspense } from "react";
-import { useTranslation } from "react-i18next";
-import i18next from "../i18n";
-import { type NextPage } from "next";
+import { useTranslation } from "next-i18next";
+import { type NextPage, type GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/ChatWindow";
@@ -22,16 +22,18 @@ import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { languages } from "../utils/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import AgentLanguageSelectorCombobox from "../components/AgentLanguageSelectorCombobox";
 
 const Home: NextPage = () => {
-  const [t] = useTranslation();
+  const [t,i18n] = useTranslation();
+  const router = useRouter();
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [displayLanguage, setDisplayLanguage] = React.useState(i18next.language);
-  const [customLanguage, setCustomLanguage] = React.useState("");
+  const [displayLanguage, setDisplayLanguage] = React.useState<string>(i18n.language);
+  const [customLanguage, setCustomLanguage] = React.useState<string>(i18n.language);
   const [customApiKey, setCustomApiKey] = React.useState<string>("");
   const [customModelName, setCustomModelName] = React.useState<string>(GPT_35_TURBO);
   const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
@@ -68,7 +70,6 @@ const Home: NextPage = () => {
     const fetchLanguageName = async () => {
       const languageName = await getLanguageName(displayLanguage).then((language) => {
         if (language) {
-          console.log(language);
           setCustomLanguage(language);
         } else {
           setCustomLanguage("english".toUpperCase());
@@ -77,6 +78,17 @@ const Home: NextPage = () => {
     };
     fetchLanguageName();
   }, [displayLanguage]);
+
+  useEffect(() => {
+    setDisplayLanguage(i18n.language);
+  }, [])
+
+  const handleLanguageChange = (value: string) => {
+    const { pathname, asPath, query, locale } = router;
+    router.push({ pathname, query }, asPath, {
+      locale: value,
+    });
+  };
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -166,6 +178,7 @@ const Home: NextPage = () => {
       />
       <main className="flex min-h-screen flex-row">
         <Drawer
+          handleLanguageChange={handleLanguageChange}
           setCustomLanguage={setDisplayLanguage}
           showHelp={() => setShowHelpDialog(true)}
           showSettings={() => setShowSettingsDialog(true)}
@@ -234,7 +247,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t("AgentName")}</span>
+                      <span className="ml-2">{t("AGENT_NAME")}</span>
                     </>
                   }
                   value={name}
@@ -250,7 +263,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t("AgentGoal")}</span>
+                      <span className="ml-2">{t("AGENT_GOAL")}</span>
                     </>
                   }
                   disabled={agent != null}
@@ -304,3 +317,14 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  const supportedLocales = ["en", "hu", "fr", "de", "it", "ja", "zh", "ko", "pl", "pt", "ro", "ru", "uk", "es", "nl", "sk", "hr"];
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
+  return {
+    props: {
+      ...(await serverSideTranslations(chosenLocale, ["translation"])),
+    },
+  };
+};

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import {
   FaBars,
   FaCog,
@@ -23,10 +23,12 @@ import { signIn } from "next-auth/react";
 import LanguageChanger from "../components/LanguageChanger";
 
 const Drawer = ({
+  handleLanguageChange,
   setCustomLanguage,
   showHelp,
   showSettings,
 }: {
+  handleLanguageChange: any;
   setCustomLanguage: any;
   showHelp: () => void;
   showSettings: () => void;
@@ -79,7 +81,7 @@ const Drawer = ({
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
-            <LanguageChanger onChange={setCustomLanguage} />
+            <LanguageChanger onChange={setCustomLanguage} handleLanguageChange={handleLanguageChange} />
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button

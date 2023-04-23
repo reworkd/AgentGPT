@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import { Combobox as ComboboxPrimitive } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { languages } from "../utils/languages";
-import i18n from "../i18n";
+import { useRouter } from "next/router";
+
+
 
 interface LanguageChangerProps {
   onChange: (value: string) => void;
   styleClass?: { [key: string]: string };
+  handleLanguageChange: (value: string) => void;
 }
 
 const LanguageChanger = ({
   onChange,
+  handleLanguageChange,
 }: LanguageChangerProps) => {
   const styleClass = {
     container: "relative w-full",
@@ -22,17 +26,18 @@ const LanguageChanger = ({
     option:
       "cursor-pointer px-2 py-2 font-mono text-sm text-white hover:bg-blue-500 sm:py-3 md:text-lg",
   };
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [actualLanguage, setActualLanguage] = useState(
     languages.find((lang) => lang.code === i18n.language)
   );
 
   useEffect(() => {
-    const selectedLanguage = languages.find((lang) => lang.code === i18n.language);
+    const { pathname, asPath, query, locale } = router;
+    const selectedLanguage = languages.find((lang) => lang.code === locale);
     setActualLanguage(selectedLanguage);
     console.log(selectedLanguage);
-    onChange(i18n.language);
   }, [])
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,14 +47,6 @@ const LanguageChanger = ({
     ) {
       setQuery(event.target.value);
     }
-  };
-
-  const handleLanguageChange = (value: string) => {
-    const selectedLanguage = languages.find((lang) => lang.code === value);
-    i18n.changeLanguage(value).then(() => {
-      setActualLanguage(selectedLanguage);
-      onChange(i18n.language);
-    });
   };
 
   const filteredOptions =
@@ -62,7 +59,11 @@ const LanguageChanger = ({
   return (
     <ComboboxPrimitive
       value={`${actualLanguage?.flag} ${actualLanguage?.name}`}
-      onChange={handleLanguageChange}
+      onChange={(e) => {
+        const selectedLanguage = languages.find((lang) => lang.code === e);
+        setActualLanguage(selectedLanguage);
+        handleLanguageChange(e);
+      }}
     >
       <div className={styleClass?.container}>
         <ComboboxPrimitive.Input

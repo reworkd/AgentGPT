@@ -3,13 +3,15 @@ import { Combobox as ComboboxPrimitive } from "@headlessui/react";
 import Label from "./Label";
 import { FaChevronDown, FaFlag } from "react-icons/fa";
 import { languages } from "../utils/languages";
-import i18n from "../i18n";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router";
+
 
 interface AgentLanguageSelectorComboboxProps {
   disabled: boolean;
   onChange: any;
   value?: string;
+  language?: string;
 }
 
 const AgentLanguageSelectorCombobox = ({
@@ -17,14 +19,16 @@ const AgentLanguageSelectorCombobox = ({
   onChange,
   value,
 }: AgentLanguageSelectorComboboxProps) => {
-  const [ t ] = useTranslation();
+  const [ t, i18n ] = useTranslation();
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [actualLanguage, setActualLanguage] = useState(
     languages.find((lang) => lang.code === i18n.language)
   );
 
   useEffect(() => {
-    const selectedLanguage = languages.find((lang) => lang.code === i18n.language);
+    const { pathname, asPath, query, locale } = router;
+    const selectedLanguage = languages.find((lang) => lang.code === locale);
     setActualLanguage(selectedLanguage);
     console.log(selectedLanguage);
   }, [])
@@ -63,7 +67,7 @@ const AgentLanguageSelectorCombobox = ({
   const left = (
     <>
       <FaFlag />
-      <span className="ml-2">{`${t("AgentLanguage")}`}</span>
+      <span className="ml-2">{t('AGENT_LANGUAGE')}</span>
     </>
   );
 

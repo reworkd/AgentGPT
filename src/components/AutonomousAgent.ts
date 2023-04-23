@@ -12,7 +12,7 @@ import { env } from "../env/client.mjs";
 import { v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
 import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
+import i18n from "../i18next";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -218,7 +218,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(i18n.t('Rate limit exceeded. Please slow down. 😅'));
+        this.sendErrorMessage(`${i18n.t('RATE_LIMIT_EXCEEDED')} 😅`);
       }
 
       throw e;

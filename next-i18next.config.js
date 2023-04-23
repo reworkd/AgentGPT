@@ -1,14 +1,32 @@
-/* eslint-disable */
 module.exports = {
   i18n: {
-    defaultLocale: "zh",
-    locales: ["zh", "en"],
+    defaultLocale: "en",
+    locales: [
+      "en",
+      "hu",
+      "fr",
+      "de",
+      "it",
+      "ja",
+      "zh",
+      "ko",
+      "pl",
+      "pt",
+      "ro",
+      "ru",
+      "uk",
+      "es",
+      "nl",
+      "sk",
+      "hr",
+    ],
+    defaultLocale: "en",
   },
-  localePath:
-    typeof window === "undefined"
-      ? require("path").resolve("./public/locales")
-      : "/locales",
-  debug: process.env.NODE_ENV === "development",
+  localePath: typeof window === "undefined" ? "./public/locales" : "/locales",
+  debug: false,
   reloadOnPrerender: process.env.NODE_ENV === "development",
-  ns: ["common", "help", "settings", "chat"],
+  defaultNS: "translation",
+  react: {
+    useSuspense: false,
+  },
 };

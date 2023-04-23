@@ -1,4 +1,4 @@
-import i18n from '../i18n';
+import i18n from '../i18next';
 
 export const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },

@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 export default function Dialog({
   header,

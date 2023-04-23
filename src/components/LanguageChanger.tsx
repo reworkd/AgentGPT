@@ -20,7 +20,7 @@ const LanguageChanger = ({
   const styleClass = {
     container: "relative w-full",
     options:
-      "absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-y rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] tracking-wider shadow-xl outline-0 transition-all",
+      "absolute right-0 top-full z-20 mt-1 max-h-48 w-full rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] tracking-wider shadow-xl outline-0 transition-all",
     input:
       "border:black delay-50 sm: flex w-full text-white/75 items-center justify-between rounded-xl border-[2px] border-white/10 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:py-3 md:text-lg",
     option:

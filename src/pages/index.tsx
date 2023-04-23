@@ -14,8 +14,7 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
-import SettingsDialog from "../components/SettingsDialog";
-import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
+import { SettingsDialog } from "../components/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
@@ -24,6 +23,7 @@ import { isEmptyOrBlank } from "../utils/whitespace";
 import { languages } from "../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import AgentLanguageSelectorCombobox from "../components/AgentLanguageSelectorCombobox";
+import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
   const [t,i18n] = useTranslation();
@@ -34,14 +34,9 @@ const Home: NextPage = () => {
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const [displayLanguage, setDisplayLanguage] = React.useState<string>(i18n.language);
   const [customLanguage, setCustomLanguage] = React.useState<string>(i18n.language);
-  const [customApiKey, setCustomApiKey] = React.useState<string>("");
-  const [customModelName, setCustomModelName] = React.useState<string>(GPT_35_TURBO);
-  const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
-  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(DEFAULT_MAX_LOOPS_FREE);
+  const { settings, saveSettings } = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-
   const [messages, setMessages] = React.useState<Message[]>([]);
-
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -116,7 +111,7 @@ const Home: NextPage = () => {
       goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature, customMaxLoops },
+      settings,
       customLanguage,
       session ?? undefined
     );
@@ -163,16 +158,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        reactModelStates={{
-          customApiKey,
-          setCustomApiKey,
-          customModelName,
-          setCustomModelName,
-          customTemperature,
-          setCustomTemperature,
-          customMaxLoops,
-          setCustomMaxLoops,
-        }}
+        customSettings={[settings, saveSettings]}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -226,13 +212,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                      setHasSaved(true);
-                      agentUtils.saveAgent({
-                        goal: goalInput.trim(),
-                        name: name.trim(),
-                        tasks: messages
-                      });
-                    }
+                        setHasSaved(true);
+                        agentUtils.saveAgent({
+                          goal: goalInput.trim(),
+                          name: name.trim(),
+                          tasks: messages,
+                        });
+                      }
                     : undefined
                 }
                 scrollToBottom

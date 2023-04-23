@@ -17,6 +17,7 @@ interface InputProps {
   disabled?: boolean;
   setValue?: (value: string) => void;
   type?: string;
+  subType?: string;
   attributes?: { [key: string]: string | number | string[] }; // attributes specific to input type
   toolTipProperties?: toolTipProperties;
   inputRef?: React.RefObject<HTMLInputElement>;

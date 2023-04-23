@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "./Button";
 
+import { useTranslation } from "next-i18next";
+
 export default function Dialog({
   header,
   children,
@@ -14,6 +16,7 @@ export default function Dialog({
   close: () => void;
   footerButton?: React.ReactNode;
 }) {
+  const [ t ] = useTranslation()
   if (!isShown) {
     return <>{null}</>;
   }
@@ -49,7 +52,7 @@ export default function Dialog({
               enabledClassName="bg-yellow-600 hover:bg-yellow-500"
               onClick={close}
             >
-              Close
+              {t('Close')}
             </Button>
             {footerButton}
           </div>

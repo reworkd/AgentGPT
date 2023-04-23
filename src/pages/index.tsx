@@ -20,14 +20,26 @@ import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import type { ModelSettings } from "../utils/types";
+import { useMessageStore, resetAllSlices } from "../components/store";
+import {
+  TASK_STATUS_STARTED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_COMPLETED,
+  isTask,
+} from "../types/agentTypes";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
+  const messages = useMessageStore.use.messages();
+  const tasks = useMessageStore.use.tasks();
+  const addMessage = useMessageStore.use.addMessage();
+  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
   const customSettings = React.useState<ModelSettings>({
+    customApiKey: "",
     customModelName: GPT_35_TURBO,
     customTemperature: 0.9,
     customMaxLoops: DEFAULT_MAX_LOOPS_FREE,
@@ -35,7 +47,6 @@ const Home: NextPage = () => {
   });
 
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-  const [messages, setMessages] = React.useState<Message[]>([]);
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -67,10 +78,29 @@ const Home: NextPage = () => {
   }, [agent]);
 
   const handleAddMessage = (message: Message) => {
-    setMessages((prev) => [...prev, message]);
+    handleAddTask(message);
+    if (skipAddMessage(message)) {
+      return;
+    }
+    addMessage(message);
   };
 
-  const tasks = messages.filter((message) => message.type === "task");
+  const handleAddTask = (message: Message) => {
+    if (!isTask(message)) {
+      return;
+    }
+
+    if (isExistingTask(message) && message.id !== undefined) {
+      updateTaskStatus(message.id, message.status);
+    }
+  };
+
+  const skipAddMessage = (message: Message) => isExistingTask(message);
+
+  const isExistingTask = (message: Message): boolean =>
+    isTask(message) &&
+    (message.status === TASK_STATUS_EXECUTING ||
+      message.status === TASK_STATUS_COMPLETED);
 
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
@@ -86,7 +116,7 @@ const Home: NextPage = () => {
     );
     setAgent(agent);
     setHasSaved(false);
-    setMessages([]);
+    resetAllSlices();
     agent.run().then(console.log).catch(console.error);
   };
 
@@ -189,7 +219,7 @@ const Home: NextPage = () => {
                 }
                 scrollToBottom
               />
-              {tasks.length > 0 && <TaskWindow tasks={tasks} />}
+              {tasks.length > 0 && <TaskWindow />}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
@@ -254,7 +284,7 @@ const Home: NextPage = () => {
                     <span className="ml-2">Stopping</span>
                   </>
                 ) : (
-                  <span>"Stop agent"</span>
+                  <span>Stop agent</span>
                 )}
               </Button>
             </Expand>

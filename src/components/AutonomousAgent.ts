@@ -9,8 +9,9 @@ import {
 import type { Session } from "next-auth";
 import type { Message } from "../types/agentTypes";
 import { env } from "../env/client.mjs";
-import { v4 } from "uuid";
+import { v4, v1 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
+import { TASK_STATUS_STARTED, MESSAGE_TYPE_TASK } from "../types/agentTypes";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -52,9 +53,14 @@ class AutonomousAgent {
     // Initialize by getting tasks
     try {
       this.tasks = await this.getInitialTasks();
-      for (const task of this.tasks) {
+      for (const value of this.tasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        this.sendTaskMessage(task);
+        this.sendMessage({
+          id: v1().toString(),
+          value,
+          status: TASK_STATUS_STARTED,
+          type: MESSAGE_TYPE_TASK,
+        });
       }
     } catch (e) {
       console.log(e);
@@ -98,6 +104,7 @@ class AutonomousAgent {
     this.sendThinkingMessage();
 
     const result = await this.executeTask(currentTask as string);
+    console.log(result);
     this.sendExecutionMessage(currentTask as string, result);
 
     // Wait before adding tasks
@@ -111,13 +118,18 @@ class AutonomousAgent {
         result
       );
       this.tasks = this.tasks.concat(newTasks);
-      for (const task of newTasks) {
+      for (const value of newTasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        this.sendTaskMessage(task);
+        this.sendMessage({
+          id: v1().toString(),
+          value,
+          status: TASK_STATUS_STARTED,
+          type: MESSAGE_TYPE_TASK,
+        });
       }
 
       if (newTasks.length == 0) {
-        this.sendActionMessage("Task marked as complete!");
+        this.sendActionMessage(`${currentTask || "Task"} marked as complete!`);
       }
     } catch (e) {
       console.log(e);
@@ -153,7 +165,6 @@ class AutonomousAgent {
       goal: this.goal,
     };
     const res = await this.post(`/api/agent/start`, data);
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
   }

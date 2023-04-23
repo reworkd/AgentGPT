@@ -46,8 +46,4 @@ yarn-error.log*
 # extracted language files
 /public/locales/$LOCALES
 
-# package-lock.json
-#package-lock.json
-
-# .eslintcache
 .eslintcache

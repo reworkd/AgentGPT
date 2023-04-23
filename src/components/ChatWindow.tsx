@@ -54,11 +54,8 @@ const ChatWindow = ({
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
 
     // Use has scrolled if we have scrolled up at all from the bottom
-    if (scrollTop < scrollHeight - clientHeight - 10) {
-      setHasUserScrolled(true);
-    } else {
-      setHasUserScrolled(false);
-    }
+    const hasUserScrolled = scrollTop < scrollHeight - clientHeight - 10;
+    setHasUserScrolled(hasUserScrolled);
   };
 
   useEffect(() => {
@@ -82,7 +79,7 @@ const ChatWindow = ({
         className={clsx(
           "mb-2 mr-2 ",
           (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
-          "window-heights"
+            "window-heights"
         )}
         ref={scrollRef}
         onScroll={handleScroll}
@@ -186,7 +183,6 @@ const MacWindowHeader = (props: HeaderProps) => {
       document.body.removeChild(textArea);
     }
   };
-
 
   const exportOptions = [
     <WindowButton
@@ -311,8 +307,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
           </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${showCopy ? "visible" : "hidden"
-              }`}
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
+              showCopy ? "visible" : "hidden"
+            }`}
           >
             <FaCopy className="text-white-300 cursor-pointer" />
           </span>

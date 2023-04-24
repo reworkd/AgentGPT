@@ -8,4 +8,5 @@ export interface RequestBody {
   lastTask?: string;
   result?: string;
   completedTasks?: string[];
+  language: any;
 }

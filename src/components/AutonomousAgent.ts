@@ -42,7 +42,7 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
-    language: string,
+    language: any,
     renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
@@ -182,6 +182,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
     };
     const res = await this.post(`/api/agent/start`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
@@ -209,6 +210,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
       tasks: taskValues,
       lastTask: currentTask,
       result: result,
@@ -232,6 +234,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
       task: task,
     };
     const res = await this.post("/api/agent/execute", data);

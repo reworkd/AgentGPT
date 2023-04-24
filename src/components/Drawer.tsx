@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaBars,
   FaCog,
@@ -27,9 +27,33 @@ const Drawer = ({
   showHelp: () => void;
   showSettings: () => void;
 }) => {
-  const [showDrawer, setShowDrawer] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    // Function to check if the screen width is for desktop or tablet
+    const checkScreenWidth = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 768) {
+        // 768px is the breakpoint for tablet devices
+        setShowDrawer(true);
+      } else {
+        setShowDrawer(false);
+      }
+    };
+
+    // Call the checkScreenWidth function initially
+    checkScreenWidth();
+
+    // Set up an event listener for window resize events
+    window.addEventListener("resize", checkScreenWidth);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+    };
+  }, []);
 
   const sub = api.account.subscribe.useMutation({
     onSuccess: async (url) => {
@@ -57,18 +81,11 @@ const Drawer = ({
 
   return (
     <>
-      {/* <button
-        hidden={showDrawer}
-        className="fixed left-2 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
-        onClick={toggleDrawer}
-      >
-        <FaBars />
-      </button> */}
       <div
         id="drawer"
         className={clsx(
-          showDrawer ? "translate-x-0" : "-translate-x-full",
-          "flex z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
+          showDrawer ? "translate-x-0 md:sticky" : "-translate-x-full",
+          "z-30 m-0 flex h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
           "fixed top-0 "
         )}
       >
@@ -76,7 +93,10 @@ const Drawer = ({
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button
-              className={clsx(showDrawer ? "-translate-x-2" : "translate-x-12","absolute z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700  right-0 top-2 transition-all ")}
+              className={clsx(
+                showDrawer ? "-translate-x-2" : "translate-x-12",
+                "absolute right-0 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2  text-white transition-all hover:bg-zinc-700 "
+              )}
               onClick={toggleDrawer}
             >
               <FaBars />

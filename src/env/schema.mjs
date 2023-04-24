@@ -77,7 +77,8 @@ export const serverEnv = {
   // Rate limiter
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-  RATE_LIMITER_REQUESTS_PER_MINUTE: process.env.RATE_LIMITER_REQUESTS_PER_MINUTE,
+  RATE_LIMITER_REQUESTS_PER_MINUTE:
+    process.env.RATE_LIMITER_REQUESTS_PER_MINUTE,
 };
 
 /**
@@ -97,6 +98,7 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_FF_SUB_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
+  NEXT_PUBLIC_GUEST_KEY: z.string().optional(),
 });
 
 /**
@@ -117,4 +119,5 @@ export const clientEnv = {
   NEXT_PUBLIC_FF_SUB_ENABLED: process.env.NEXT_PUBLIC_FF_SUB_ENABLED,
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED:
     process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED,
+  NEXT_PUBLIC_GUEST_KEY: process.env.NEXT_PUBLIC_GUEST_KEY ?? "",
 };

@@ -4,10 +4,10 @@ import {
   FaBrain,
   FaClipboard,
   FaCopy,
-  FaDatabase,
+  FaCheckCircle,
   FaImage,
-  FaListAlt,
   FaPlayCircle,
+  FaThumbtack,
   FaSave,
   FaStar,
 } from "react-icons/fa";
@@ -25,7 +25,18 @@ import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
+import {
+  isAction,
+  getTaskStatus,
+  MESSAGE_TYPE_GOAL,
+  MESSAGE_TYPE_THINKING,
+  MESSAGE_TYPE_SYSTEM,
+  TASK_STATUS_STARTED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_COMPLETED,
+} from "../types/agentTypes";
 import clsx from "clsx";
+import { getMessageContainerStyle } from "./utils/helpers";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -82,7 +93,7 @@ const ChatWindow = ({
         className={clsx(
           "mb-2 mr-2 ",
           (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
-          "window-heights"
+            "window-heights"
         )}
         ref={scrollRef}
         onScroll={handleScroll}
@@ -100,7 +111,7 @@ const ChatWindow = ({
             <Expand delay={0.8} type="spring">
               <ChatMessage
                 message={{
-                  type: "system",
+                  type: MESSAGE_TYPE_SYSTEM,
                   value:
                     "> Create an agent by adding a name / goal, and hitting deploy!",
                 }}
@@ -109,7 +120,7 @@ const ChatWindow = ({
             <Expand delay={0.9} type="spring">
               <ChatMessage
                 message={{
-                  type: "system",
+                  type: MESSAGE_TYPE_SYSTEM,
                   value:
                     "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
                 }}
@@ -186,7 +197,6 @@ const MacWindowHeader = (props: HeaderProps) => {
       document.body.removeChild(textArea);
     }
   };
-
 
   const exportOptions = [
     <WindowButton
@@ -270,12 +280,14 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
   return (
     <div
-      className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
+      className={`${getMessageContainerStyle(
+        message
+      )} mx-2 my-1 rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base`}
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}
     >
-      {message.type != "system" && (
+      {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">
@@ -285,19 +297,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       )}
 
-      {message.type == "thinking" && (
+      {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
           (Restart if this takes more than 30 seconds)
         </span>
       )}
 
-      {message.type == "action" ? (
+      {isAction(message) ? (
         <div className="prose ml-2 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
           >
-            {message.value}
+            {message.info || ""}
           </ReactMarkdown>
         </div>
       ) : (
@@ -311,8 +323,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
           </span>
         ) : (
           <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${showCopy ? "visible" : "hidden"
-              }`}
+            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
+              showCopy ? "visible" : "hidden"
+            }`}
           >
             <FaCopy className="text-white-300 cursor-pointer" />
           </span>
@@ -347,29 +360,35 @@ const DonationMessage = () => {
 };
 
 const getMessageIcon = (message: Message) => {
-  switch (message.type) {
-    case "goal":
-      return <FaStar className="text-yellow-300" />;
-    case "task":
-      return <FaListAlt className="text-gray-300" />;
-    case "thinking":
-      return <FaBrain className="mt-[0.1em] text-pink-400" />;
-    case "action":
-      return <FaPlayCircle className="text-green-500" />;
+  if (message.type === MESSAGE_TYPE_GOAL) {
+    return <FaStar className="text-yellow-300" />;
+  } else if (message.type === MESSAGE_TYPE_THINKING) {
+    return <FaBrain className="mt-[0.1em] text-pink-400" />;
+  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
+    return <FaThumbtack className="-rotate-45 text-gray-300" />;
+  } else if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
+    return <FaPlayCircle className="text-green-500" />;
+  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
+    return <FaCheckCircle className="text-green-500" />;
   }
+
+  return;
 };
 
 const getMessagePrefix = (message: Message) => {
-  switch (message.type) {
-    case "goal":
-      return "Embarking on a new goal:";
-    case "task":
-      return "Added task:";
-    case "thinking":
-      return "Thinking...";
-    case "action":
-      return message.info ? message.info : "Executing:";
+  if (message.type === MESSAGE_TYPE_GOAL) {
+    return "Embarking on a new goal:";
+  } else if (message.type === MESSAGE_TYPE_THINKING) {
+    return "Thinking...";
+  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
+    return "Added task:";
+  } else if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
+    return `Executing: ${message.value}`;
+  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
+    return "Completed: ";
   }
+
+  return "";
 };
 
 export default ChatWindow;

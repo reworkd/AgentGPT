@@ -30,12 +30,13 @@ const TaskStatusSchema = z.union([
 export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
 export const messageSchemaBase = z.object({
-  id: z.string().optional(),
   value: z.string(),
+  info: z.string().optional(),
 });
 
 export const taskSchema = z
   .object({
+    taskId: z.string(),
     type: z.literal(MESSAGE_TYPE_TASK),
     status: TaskStatusSchema,
   })
@@ -46,11 +47,9 @@ export const nonTaskScehma = z
     type: z.union([
       z.literal(MESSAGE_TYPE_GOAL),
       z.literal(MESSAGE_TYPE_THINKING),
-      z.literal(MESSAGE_TYPE_TASK),
       z.literal(MESSAGE_TYPE_ACTION),
       z.literal(MESSAGE_TYPE_SYSTEM),
     ]),
-    info: z.string().optional(),
   })
   .merge(messageSchemaBase);
 
@@ -67,4 +66,17 @@ export const isTask = (value: unknown): value is Task => {
   } catch (err) {
     return false;
   }
+};
+
+/* Helper Functions */
+export const isAction = (value: unknown): boolean => {
+  return isTask(value) && value.status === TASK_STATUS_EXECUTING;
+};
+
+export const getTaskStatus = (value: unknown): string | undefined => {
+  if (!isTask(value)) {
+    return;
+  }
+
+  return value.status;
 };

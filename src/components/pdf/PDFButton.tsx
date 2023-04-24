@@ -4,6 +4,7 @@ import { pdf } from "@react-pdf/renderer";
 import React, { memo } from "react";
 import MyDocument from "./MyDocument";
 import type { Message } from "../../types/agentTypes";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
 
 const PDFButton = ({
   messages,
@@ -42,10 +43,10 @@ const getContent = (messages: Message[]): string => {
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
-      if (message.type == "goal") {
+      if (message.type == MESSAGE_TYPE_GOAL) {
         return `Goal: ${message.value}`;
       }
-      if (message.type == "task") {
+      if (message.type == MESSAGE_TYPE_TASK) {
         return `Adding Task: ${message.value}`;
       }
       return message.value;

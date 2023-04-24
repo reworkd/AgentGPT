@@ -1,8 +1,17 @@
 import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
-import type { TaskStatus, Message, Task } from "../../types/agentTypes";
-import { isTask } from "../../types/agentTypes";
+import type { Message, Task } from "../../types/agentTypes";
+import {
+  isTask,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_COMPLETED,
+} from "../../types/agentTypes";
+
+const isExistingTask = (message: Message): boolean =>
+  isTask(message) &&
+  (message.status === TASK_STATUS_EXECUTING ||
+    message.status === TASK_STATUS_COMPLETED);
 
 const resetters: (() => void)[] = [];
 
@@ -25,12 +34,15 @@ const createMessageSlice: StateCreator<
   return {
     ...initialMessageState,
     addMessage: (newMessage) => {
+      const newTask = { ...newMessage };
+      newMessage = { ...newMessage };
       set((state) => ({
         ...state,
         messages: [...state.messages, newMessage],
-        tasks: isTask(newMessage)
-          ? [...state.tasks, newMessage]
-          : [...state.tasks],
+        tasks:
+          isTask(newTask) && !isExistingTask(newTask)
+            ? [...state.tasks, newTask]
+            : [...state.tasks],
       }));
     },
   };
@@ -42,7 +54,7 @@ const initialTaskState = {
 
 interface TaskSlice {
   tasks: Task[];
-  updateTaskStatus: (id: string, newStatus: TaskStatus) => void;
+  updateTaskStatus: (updatedTask: Task) => void;
 }
 
 const createTaskSlice: StateCreator<
@@ -54,13 +66,20 @@ const createTaskSlice: StateCreator<
   resetters.push(() => set(initialTaskState));
   return {
     ...initialTaskState,
-    updateTaskStatus: (id, newStatus) => {
+    updateTaskStatus: (updatedTask) => {
+      const { taskId, info, status: newStatus } = updatedTask;
+
+      if (!isExistingTask(updatedTask) || taskId === undefined) {
+        return;
+      }
+
       set((state) => {
         const updatedTasks = state.tasks.map((task) => {
-          if (task.id === id) {
+          if (task.taskId === taskId) {
             return {
               ...task,
               status: newStatus,
+              info,
             };
           }
           return task;

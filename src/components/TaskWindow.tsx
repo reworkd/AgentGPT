@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  FaListAlt,
-  FaCheckCircle,
-  FaCircleNotch,
-  FaPlayCircle,
-} from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
 import {
@@ -13,9 +7,17 @@ import {
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
 } from "../types/agentTypes";
+import { getMessageContainerStyle } from "./utils/helpers";
 import { useMessageStore } from "../components/store";
+import {
+  FaListAlt,
+  FaCheckCircle,
+  FaCircleNotch,
+  FaThumbtack,
+  FaStopCircle,
+} from "react-icons/fa";
 
-export const TaskWindow = () => {
+export const TaskWindow = ({ isAgentStopped }: { isAgentStopped: boolean }) => {
   const tasks = useMessageStore.use.tasks();
   return (
     <Expand className="xl mx-2 mt-4 hidden w-[20rem] flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 px-1 font-mono shadow-2xl xl:flex">
@@ -25,7 +27,7 @@ export const TaskWindow = () => {
       <div className="window-heights mb-2 w-full px-1 ">
         <div className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
           {tasks.map((task, i) => (
-            <Task key={i} task={task} />
+            <Task key={i} task={task} isAgentStopped={isAgentStopped} />
           ))}
         </div>
       </div>
@@ -33,55 +35,41 @@ export const TaskWindow = () => {
   );
 };
 
-const Task = ({ task }: { task: Task }) => {
+const Task = ({
+  task,
+  isAgentStopped,
+}: {
+  task: Task;
+  isAgentStopped: boolean;
+}) => {
   const getTaskStatusIcon = (taskStatus: string) => {
     const taskStatusIconClass = "mr-1 mb-0.5 inline-block";
     switch (taskStatus) {
       case TASK_STATUS_STARTED:
-        return (
+        return <FaThumbtack className={`${taskStatusIconClass} -rotate-45`} />;
+      case TASK_STATUS_EXECUTING:
+        return isAgentStopped ? (
+          <FaStopCircle className={`${taskStatusIconClass}`} />
+        ) : (
           <FaCircleNotch className={`${taskStatusIconClass} animate-spin`} />
         );
-        break;
-      case TASK_STATUS_EXECUTING:
-        return (
-          <FaPlayCircle className={`${taskStatusIconClass} text-green-500`} />
-        );
-
-        break;
       case TASK_STATUS_COMPLETED:
         return (
           <FaCheckCircle
             className={`${taskStatusIconClass} text-green-500 hover:text-green-400`}
           />
         );
-        break;
-    }
-  };
-
-  const getTaskContainerStyle = (taskStatus: string) => {
-    switch (taskStatus) {
-      case TASK_STATUS_STARTED:
-        return "border-dashed border-white/20 text-white";
-        break;
-      case TASK_STATUS_EXECUTING:
-        return "border-white/20 text-white";
-        break;
-      case TASK_STATUS_COMPLETED:
-        return "border-green-500 hover:border-green-400 hover:text-green-400 text-green-500";
-        break;
-      default:
-        return "";
     }
   };
 
   return (
     <FadeIn>
       <div
-        className={`w-full animate-[rotate] rounded-md border-2 p-2 text-sm  hover:border-white/40 ${getTaskContainerStyle(
-          "completed"
-        )}`}
+        className={`w-full animate-[rotate] rounded-md border-2 p-2 text-sm  hover:border-white/40 ${
+          isAgentStopped ? "opacity-50" : ""
+        } ${getMessageContainerStyle(task)}`}
       >
-        {getTaskStatusIcon("completed")}
+        {getTaskStatusIcon(task.status)}
         <span>{task.value}</span>
       </div>
     </FadeIn>

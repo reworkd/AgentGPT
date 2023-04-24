@@ -21,12 +21,7 @@ import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import type { ModelSettings } from "../utils/types";
 import { useMessageStore, resetAllSlices } from "../components/store";
-import {
-  TASK_STATUS_STARTED,
-  TASK_STATUS_EXECUTING,
-  TASK_STATUS_COMPLETED,
-  isTask,
-} from "../types/agentTypes";
+import { isTask } from "../types/agentTypes";
 
 const Home: NextPage = () => {
   const { session, status } = useAuth();
@@ -78,29 +73,12 @@ const Home: NextPage = () => {
   }, [agent]);
 
   const handleAddMessage = (message: Message) => {
-    handleAddTask(message);
-    if (skipAddMessage(message)) {
-      return;
+    if (isTask(message)) {
+      updateTaskStatus(message);
     }
+
     addMessage(message);
   };
-
-  const handleAddTask = (message: Message) => {
-    if (!isTask(message)) {
-      return;
-    }
-
-    if (isExistingTask(message) && message.id !== undefined) {
-      updateTaskStatus(message.id, message.status);
-    }
-  };
-
-  const skipAddMessage = (message: Message) => isExistingTask(message);
-
-  const isExistingTask = (message: Message): boolean =>
-    isTask(message) &&
-    (message.status === TASK_STATUS_EXECUTING ||
-      message.status === TASK_STATUS_COMPLETED);
 
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
@@ -219,7 +197,11 @@ const Home: NextPage = () => {
                 }
                 scrollToBottom
               />
-              {tasks.length > 0 && <TaskWindow />}
+              {tasks.length > 0 && (
+                <TaskWindow
+                  isAgentStopped={!agent?.isRunning || agent === null}
+                />
+              )}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">

@@ -93,7 +93,7 @@ const Drawer = ({
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            <p className="font-bold">My Agents</p>
+            {`${t("MY_AGENTS", "MY_AGENTS", { ns: "drawer" })}`}
             <button
               className={clsx(
                 showDrawer ? "-translate-x-2" : "translate-x-12",
@@ -119,16 +119,16 @@ const Drawer = ({
 
             {status === "unauthenticated" && (
               <div>
-                {t(
-                  "Sign in to be able to save agents and manage your account!"
-                )}
+                {`${t("SIGN_IN_NOTICE", "SIGN_IN_NOTICE", { ns: "drawer" })}`}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
               <div>
-                {t(
-                  "You need to create and save your first agent before anything shows up here!"
-                )}
+                {`${t(
+                  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST",
+                  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST",
+                  { ns: "drawer" }
+                )}`}
               </div>
             )}
           </ul>
@@ -149,10 +149,14 @@ const Drawer = ({
           )}
           <DrawerItem
             icon={<FaQuestionCircle />}
-            text={t("Help")}
+            text={`${t("HELP_BUTTON", "HELP_BUTTON", { ns: "drawer" })}`}
             onClick={showHelp}
           />
-          <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
+          <DrawerItem
+            icon={<FaCog />}
+            text={`${t("SETTINGS_BUTTON", "SETTINGS_BUTTON", { ns: "drawer" })}`}
+            onClick={showSettings}
+          />
           <DrawerItem
             icon={<FaGithub />}
             text="GitHub"
@@ -220,8 +224,8 @@ const AuthItem: React.FC<{
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
   const [t] = useTranslation();
-  const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
-  const text = session?.user ? t("Sign Out") : t("Sign In");
+  const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
+  const text = session?.user ? `${t("SIGN_IN", "SIGN_IN", { ns: "drawer" })}` : `${t("SIGN_OUT", "SIGN_OUT", { ns: "drawer" })}`;
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
@@ -233,14 +237,14 @@ const ProItem: React.FC<{
   manage: () => any;
 }> = ({ sub, manage, session }) => {
   const [t] = useTranslation();
-  const text = session?.user?.subscriptionId ? t("Account") : t("Go Pro");
+  const text = session?.user?.subscriptionId ? `${t("ACCOUNT", "ACCOUNT", { ns: "drawer" })}` : `${t("GO_PRO", "GO_PRO", { ns: "drawer" })}`;
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
     icon = (
       <img
         src={session?.user.image}
         className="h-6 w-6 rounded-full"
-        alt="User Image"
+        alt={`${t("USER_IMAGE", "USRE_IMAGE", { ns: "drawer" })}`}
       />
     );
   }

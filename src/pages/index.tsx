@@ -25,9 +25,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 import type { Language } from "../utils/languages";
 import { ENGLISH, languages } from "../utils/languages";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 const Home: NextPage = () => {
-  const [t] = useTranslation();
   // zustand states
   const messages = useMessageStore.use.messages();
   const tasks = useMessageStore.use.tasks();
@@ -176,14 +176,12 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>Beta 🚀</Badge>
+                  <Badge>{`${i18n?.t('BETA','BETA', {ns: 'indexPage'})}`}</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {t(
-                    "Assemble, configure, and deploy autonomous AI Agents in your browser."
-                  )}
+                  {`${i18n?.t('HEADING_DESCRIPTION','HEADING_DESCRIPTION', {ns: 'indexPage'})}`}
                 </p>
               </div>
             </div>
@@ -223,7 +221,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t("AGENT_NAME")}</span>
+                      <span className="ml-2">{`${i18n?.t('AGENT_NAME','AGENT_NAME', {ns: 'indexPage'})}`}</span>
                     </>
                   }
                   value={name}
@@ -239,14 +237,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t("AGENT_GOAL")}</span>
+                      <span className="ml-2">{`${i18n?.t('LABEL_AGENT_GOAL','LABEL_AGENT_GOAL', {ns: 'indexPage'})}`}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${t("Make the world a better place.")}`}
+                  placeholder={`${i18n?.t('PLACEHOLDER_AGENT_GOAL','PLACEHOLDER_AGENT_GOAL', {ns: 'indexPage'})}`}
                   type="textarea"
                 />
               </Expand>
@@ -262,11 +260,11 @@ const Home: NextPage = () => {
                 className="sm:mt-10"
               >
                 {agent == null ? (
-                  t("Deploy Agent")
+                  `${i18n?.t('BUTTON_DEPLOY_AGENT','BUTTON_DEPLOY_AGENT', {ns: 'indexPage'})}`
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Running")}</span>
+                    <span className="ml-2">{`${i18n?.t('BUTTON_RUNNING','BUTTON_RUNNING', {ns: 'indexPage'})}`}</span>
                   </>
                 )}
               </Button>
@@ -278,10 +276,10 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Stopping")}</span>
+                    <span className="ml-2">{`${i18n?.t('BUTTON_STOPPING','BUTTON_STOPPING', {ns: 'indexPage'})}`}</span>
                   </>
                 ) : (
-                  t("Stop Agent")
+                  `${i18n?.t('BUTTON_STOP_AGENT','BUTTON_STOP_AGENT', {ns: 'indexPage'})}`
                 )}
               </Button>
             </Expand>
@@ -318,7 +316,7 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, ["translation"])),
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
     },
   };
 };

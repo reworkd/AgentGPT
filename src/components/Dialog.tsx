@@ -19,7 +19,7 @@ export default function Dialog({
   footerButton?: React.ReactNode;
   contentClassName?: string;
 }) {
-  const [t] = useTranslation();
+  const [ t ] = useTranslation();
   if (!isShown) {
     return <>{null}</>;
   }
@@ -60,7 +60,7 @@ export default function Dialog({
               enabledClassName="bg-yellow-600 hover:bg-yellow-500"
               onClick={close}
             >
-              {t("Close")}
+              {`${t("CLOSE", "CLOSE", { ns: "common" })}`}
             </Button>
             {footerButton}
           </div>

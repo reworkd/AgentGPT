@@ -35,14 +35,14 @@ const LanguageCombobox = () => {
       left={
         <>
           <FaGlobe />
-          <span className="ml-2">Lang:</span>
+          <span className="ml-2">{`${i18n?.t('LANG','LANG', {ns: 'settings'})}`}</span>
         </>
       }
       type="combobox"
-      value={actualLanguage.name}
+      value={`${actualLanguage.flag} ${i18n?.t(`${actualLanguage.name}`, {ns: 'languages'})}`}
       onChange={(e) => handleInputChange(e.target.value)}
       setValue={(e) => handleInputChange(e)}
-      attributes={{ options: languages.map((lang) => lang.name) }}
+      attributes={{ options: languages.map((lang) => `${i18n?.t(`${lang.name}`, {ns: 'languages'})}`) }}
     />
   );
 };

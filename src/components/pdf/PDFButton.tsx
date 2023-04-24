@@ -5,6 +5,8 @@ import React, { memo } from "react";
 import MyDocument from "./MyDocument";
 import type { Message } from "../../types/agentTypes";
 
+import { useTranslation } from "react-i18next";
+
 const PDFButton = ({
   messages,
   name,
@@ -32,21 +34,22 @@ const PDFButton = ({
           downloadPDF().catch(console.error);
         }}
         icon={<FaFilePdf size={12} />}
-        name={name}
+        name="PDF"
       />
     </>
   );
 };
 
 const getContent = (messages: Message[]): string => {
+  const [ t ] = useTranslation();
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
       if (message.type == "goal") {
-        return `Goal: ${message.value}`;
+        return `${t('Goal: ')}${message.value}`;
       }
       if (message.type == "task") {
-        return `Adding Task: ${message.value}`;
+        return `${t('Adding Task: ')}${message.value}`;
       }
       return message.value;
     })

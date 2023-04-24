@@ -9,7 +9,7 @@ import { env } from "../env/client.mjs";
 import { LLMChain } from "langchain/chains";
 import { extractTasks } from "../utils/helpers";
 
-async function startGoalAgent(modelSettings: ModelSettings, goal: string, language: any) {
+async function startGoalAgent(modelSettings: ModelSettings, goal: string, language: string) {
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: startGoalPrompt,
@@ -25,7 +25,7 @@ async function executeTaskAgent(
   modelSettings: ModelSettings,
   goal: string,
   task: string,
-  language: any
+  language: string
 ) {
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
@@ -45,7 +45,7 @@ async function createTasksAgent(
   tasks: string[],
   lastTask: string,
   result: string,
-  language: any,
+  language: string,
   completedTasks: string[] | undefined
 ) {
   const completion = await new LLMChain({
@@ -66,13 +66,13 @@ interface AgentService {
   startGoalAgent: (
     modelSettings: ModelSettings,
     goal: string,
-    language: any
+    language: string
   ) => Promise<string[]>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
     task: string,
-    language: any
+    language: string
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
@@ -80,7 +80,7 @@ interface AgentService {
     tasks: string[],
     lastTask: string,
     result: string,
-    language: any,
+    language: string,
     completedTasks: string[] | undefined
   ) => Promise<string[]>;
 }
@@ -102,7 +102,7 @@ const MockAgentService: AgentService = {
     tasks: string[],
     lastTask: string,
     result: string,
-    language: any,
+    language: string,
     completedTasks: string[] | undefined
   ) => {
     return await new Promise((resolve) => resolve(["Task 4"]));
@@ -112,7 +112,7 @@ const MockAgentService: AgentService = {
     modelSettings: ModelSettings,
     goal: string,
     task: string,
-    language: any,
+    language: string,
   ) => {
     return await new Promise((resolve) => resolve("Result: " + task));
   },

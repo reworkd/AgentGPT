@@ -6,6 +6,8 @@ import MyDocument from "./MyDocument";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
 
+import { useTranslation } from "react-i18next";
+
 const PDFButton = ({
   messages,
   name,
@@ -33,21 +35,22 @@ const PDFButton = ({
           downloadPDF().catch(console.error);
         }}
         icon={<FaFilePdf size={12} />}
-        name={name}
+        name="PDF"
       />
     </>
   );
 };
 
 const getContent = (messages: Message[]): string => {
+  const [t] = useTranslation();
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `Goal: ${message.value}`;
+        return `${t("Goal: ")}${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
-        return `Adding Task: ${message.value}`;
+        return `${t("Adding Task: ")}${message.value}`;
       }
       return message.value;
     })

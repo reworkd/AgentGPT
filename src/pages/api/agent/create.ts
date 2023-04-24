@@ -22,8 +22,8 @@ const handler = async (request: NextRequest) => {
       tasks,
       lastTask,
       result,
-      completedTasks,
-      language
+      language,
+      completedTasks
     );
 
     return NextResponse.json({ newTasks });

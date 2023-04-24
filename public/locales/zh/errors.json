@@ -1,13 +1,12 @@
 {
-  "ERROR_ACCESSING_OPENAI_API_KEY": "在连接 OpenAI API 时出错。请检查 API 密钥，或稍后再试。",
-  "ERROR_ADDING_ADDITIONAL_TASKS": "添加其他任务时出错。可能是因为我们的模型无法处理您的响应和结果。继续...",
-  "RATE_LIMIT_EXCEEDED": "已达到最大查询次数！请放慢速度...😅",
-  "AGENT_MAXED_OUT_LOOPS": "此代理已达到可运行循环的最大次数。为了节省您的钱包，此代理现在将停止... 可以在设置中配置代理运行循环的最大次数。",
-  "DEMO_LOOPS_REACHED": "抱歉，因为这是一个演示应用程序，所以我们无法让代理运行太长时间。备注：如果您想运行更长时间，请在设置中提供自己的 API 密钥。停止...",
-  "AGENT_MANUALLY_SHUT_DOWN": "代理已手动关闭。",
-  "ALL_TASKS_COMPLETETD": "所有任务已完成。停止...",
-  "ERROR_API_KEY_QUOTA": "使用 OpenAI API 密钥时出错。您已超出当前配额，请检查您的帐单信息。",
-  "ERROR_OPENAI_API_KEY_NO_GPT4": "错误：您的 OpenAI API 密钥没有 GPT-4 访问权限。您首先需要在 OpenAI 等待列表中注册。 （这与 ChatGPT Plus 不同）",
-  "ERROR_RETRIEVE_INITIAL_TASKS": "检索初始任务时出错。请重试，更清楚地表达代理目标，或者修改代理以使其符合我们的模型。停止...",
-  "INVALID_OPENAI_API_KEY": "錯誤，OpenAI API 金鑰無效"
+    "ERROR_ACCESSING_OPENAI_API_KEY": "ERROR accessing OpenAI APIs. Please check your API key or try again later",
+    "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
+    "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅",
+    "AGENT_MAXED_OUT_LOOPS": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",
+    "DEMO_LOOPS_REACHED": "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+    "AGENT_MANUALLY_SHUT_DOWN": "The agent has been manually shutdown.",
+    "ALL_TASKS_COMPLETETD": "All tasks completed. Shutting down.",
+    "ERROR_API_KEY_QUOTA": "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.",
+    "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)",
+    "ERROR_RETRIEVE_INITIAL_TASKS": "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down."
 }

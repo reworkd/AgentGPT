@@ -1,9 +1,9 @@
 {
-  "WELCOME_TO_AGENT_GPT": "Benvenuti in AgentGPT",
-  "INTRODUCING_AGENTGPT": "consente di configurare e eseguire agenti di intelligenza artificiale autonomi nel proprio browser. Assegna un nome al tuo agente di intelligenza artificiale personalizzato e definisci il suo obiettivo. L'agente di intelligenza artificiale cercherà di raggiungere l'obiettivo specificato creando compiti, eseguendoli e valutando i risultati 🚀",
-  "PLATFORM_BETA_DESCRIPTION": "Questa piattaforma è attualmente in versione beta, al momento stiamo lavorando su:",
-  "LONG_TERM_MEMORY": "Memoria a lungo termine 🧠",
-  "WEB_BROWSING": "Navigazione Web 🌐",
-  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interazione con siti web e persone 👨‍👩‍👦",
-  "FOLLOW_THE_JOURNEY": "Seguici sui seguenti canali:"
+  "WELCOME_TO_AGENT_GPT": "Welcome to AgentGPT",
+  "INTRODUCING_AGENTGPT": "allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀",
+  "PLATFORM_BETA_DESCRIPTION": "This platform is currently in beta, we are currently working on:",
+  "LONG_TERM_MEMORY": "Long term memory 🧠",
+  "WEB_BROWSING": "Web browsing 🌐",
+  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interaction with websites and people 👨‍👩‍👦",
+  "FOLLOW_THE_JOURNEY": "Follow the journey below:"
 }

@@ -1,9 +1,9 @@
 {
-  "WELCOME_TO_AGENT_GPT": "Üdvözöljük az AgentGPT-nél",
-  "INTRODUCING_AGENTGPT": "lehetővé teszi az Ön számára, hogy konfigurálja és futtassa az önálló MI ügynököket a böngészőjén keresztül. Nevezze el az egyéni MI ügynökét, és határozza meg a célját. Az MI ügynök Megkísérli elérni a meghatározott célt azzal, hogy feladatokra hoz létre, végrehajtja őket, majd kiértékeli azok eredményeit 🚀",
-  "PLATFORM_BETA_DESCRIPTION": "Ez a platform jelenleg béta verzióban van, jelenleg a következőkön dolgozunk:",
-  "LONG_TERM_MEMORY": "Hosszú távú memória 🧠",
-  "WEB_BROWSING": "Webes böngészés 🌐",
-  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interakció a weboldalakkal és az emberekkel 👨‍👩‍👦",
-  "FOLLOW_THE_JOURNEY": "Kövessen minket az alábbi utakon:"
-  }
+  "WELCOME_TO_AGENT_GPT": "Welcome to AgentGPT",
+  "INTRODUCING_AGENTGPT": "allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀",
+  "PLATFORM_BETA_DESCRIPTION": "This platform is currently in beta, we are currently working on:",
+  "LONG_TERM_MEMORY": "Long term memory 🧠",
+  "WEB_BROWSING": "Web browsing 🌐",
+  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interaction with websites and people 👨‍👩‍👦",
+  "FOLLOW_THE_JOURNEY": "Follow the journey below:"
+}

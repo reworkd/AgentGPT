@@ -1,11 +1,11 @@
 {
-  "HELP_BUTTON": "Ayuda",
-  "SETTINGS_BUTTON": "Configuraciones",
-  "MY_AGENTS": "Mis agentes",
-  "SIGN_IN_NOTICE": "¡Inicie sesión para guardar sus agentes y administrar su cuenta!",
-  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "¡Primero debe crear y guardar su primer agente antes de que algo aparezca aquí!",
-  "SIGN_IN": "Iniciar sesión",
-  "SIGN_OUT": "Cerrar sesión",
-  "ACCOUNT" : "Cuenta",
-  "USER_IMAGE": "Imagen de usuario"
+  "HELP_BUTTON": "Help",
+  "SETTINGS_BUTTON": "Settings",
+  "MY_AGENTS": "My agent(s)",
+  "SIGN_IN_NOTICE": "Sign in to be able to save agents and manage your account!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "ASD",
+  "SIGN_IN": "Sign In",
+  "SIGN_OUT": "Sign Out",
+  "ACCOUNT" : "Account",
+  "USER_IMAGE": "User Image"
 }

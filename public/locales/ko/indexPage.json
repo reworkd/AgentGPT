@@ -1,9 +1,9 @@
 {
-  "BETA": "베타",
-  "HEADING_DESCRIPTION": "브라우저에서 자율적 인 AI 에이전트를 구성, 구성 및 설치합니다.",
-  "AGENT_NAME": "이름",
-  "LABEL_AGENT_GOAL": "목표",
-  "PLACEHOLDER_AGENT_GOAL": "세상을 더 나은 곳으로 만들기",
-  "BUTTON_DEPLOY_AGENT": "에이전트 실행",
-  "BUTTON_STOP_AGENT": "에이전트 중지"
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Assemble, configure, and deploy autonomous AI Agents in your browser.",
+  "AGENT_NAME": "Name",
+  "LABEL_AGENT_GOAL": "Goal",
+  "PLACEHOLDER_AGENT_GOAL": "Make the world a better place",
+  "BUTTON_DEPLOY_AGENT": "Deploy Agent",
+  "BUTTON_STOP_AGENT": "Stop Agent"
 }

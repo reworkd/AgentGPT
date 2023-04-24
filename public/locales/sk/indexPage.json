@@ -1,9 +1,9 @@
 {
-  "BETA": "Béta",
-  "HEADING_DESCRIPTION": "Skladajte, konfigurujte a inštalujte autonómne agentov AI vo svojom prehliadači.",
-  "AGENT_NAME": "Meno",
-  "LABEL_AGENT_GOAL": "Cieľ",
-  "PLACEHOLDER_AGENT_GOAL": "Urobiť svet lepším miestom",
-  "BUTTON_DEPLOY_AGENT": "Spustiť agenta",
-  "BUTTON_STOP_AGENT": "Zastaviť agenta"
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Assemble, configure, and deploy autonomous AI Agents in your browser.",
+  "AGENT_NAME": "Name",
+  "LABEL_AGENT_GOAL": "Goal",
+  "PLACEHOLDER_AGENT_GOAL": "Make the world a better place",
+  "BUTTON_DEPLOY_AGENT": "Deploy Agent",
+  "BUTTON_STOP_AGENT": "Stop Agent"
 }

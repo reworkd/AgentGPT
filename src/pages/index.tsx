@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { type NextPage } from "next";
+import { useTranslation } from "next-i18next";
+import { type NextPage, type GetStaticProps } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/ChatWindow";
@@ -12,30 +13,24 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
-import SettingsDialog from "../components/SettingsDialog";
-import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
+import { SettingsDialog } from "../components/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
+  const [t] = useTranslation();
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const [customApiKey, setCustomApiKey] = React.useState<string>("");
-  const [customModelName, setCustomModelName] =
-    React.useState<string>(GPT_35_TURBO);
-  const [customTemperature, setCustomTemperature] = React.useState<number>(0.9);
-  const [customMaxLoops, setCustomMaxLoops] = React.useState<number>(
-    DEFAULT_MAX_LOOPS_FREE
-  );
+  const { settings, saveSettings } = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-
   const [messages, setMessages] = React.useState<Message[]>([]);
-
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -72,7 +67,8 @@ const Home: NextPage = () => {
 
   const tasks = messages.filter((message) => message.type === "task");
 
-  const disableDeployAgent = agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
+  const disableDeployAgent =
+    agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
@@ -80,7 +76,7 @@ const Home: NextPage = () => {
       goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature, customMaxLoops },
+      settings,
       session ?? undefined
     );
     setAgent(agent);
@@ -89,14 +85,18 @@ const Home: NextPage = () => {
     agent.run().then(console.log).catch(console.error);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter'&& !disableDeployAgent) {
+  const handleKeyPress = (
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter" && !disableDeployAgent) {
       if (!e.shiftKey) {
         // Only Enter is pressed, execute the function
         handleNewGoal();
       }
     }
-  }
+  };
 
   const handleStopAgent = () => {
     setShouldAgentStop(true);
@@ -122,16 +122,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        reactModelStates={{
-          customApiKey,
-          setCustomApiKey,
-          customModelName,
-          setCustomModelName,
-          customTemperature,
-          setCustomTemperature,
-          customMaxLoops,
-          setCustomMaxLoops,
-        }}
+        customSettings={[settings, saveSettings]}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -165,8 +156,9 @@ const Home: NextPage = () => {
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  Assemble, configure, and deploy autonomous AI Agents in your
-                  browser.
+                  {t(
+                    "Assemble, configure, and deploy autonomous AI Agents in your browser."
+                  )}
                 </p>
               </div>
             </div>
@@ -182,13 +174,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                      setHasSaved(true);
-                      agentUtils.saveAgent({
-                        goal: goalInput.trim(),
-                        name: name.trim(),
-                        tasks: messages
-                      });
-                    }
+                        setHasSaved(true);
+                        agentUtils.saveAgent({
+                          goal: goalInput.trim(),
+                          name: name.trim(),
+                          tasks: messages,
+                        });
+                      }
                     : undefined
                 }
                 scrollToBottom
@@ -203,7 +195,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">Name:</span>
+                      <span className="ml-2">{t("AGENT_NAME")}</span>
                     </>
                   }
                   value={name}
@@ -211,6 +203,7 @@ const Home: NextPage = () => {
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="AgentGPT"
+                  type="text"
                 />
               </Expand>
               <Expand delay={1.3}>
@@ -218,19 +211,18 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">Goal:</span>
+                      <span className="ml-2">{t("AGENT_GOAL")}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="Make the world a better place."
-                  type='textarea'
+                  placeholder={`${t("Make the world a better place.")}`}
+                  type="textarea"
                 />
               </Expand>
             </div>
-
             <Expand delay={1.4} className="flex gap-2">
               <Button
                 disabled={disableDeployAgent}
@@ -238,11 +230,11 @@ const Home: NextPage = () => {
                 className="sm:mt-10"
               >
                 {agent == null ? (
-                  "Deploy Agent"
+                  t("Deploy Agent")
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Running</span>
+                    <span className="ml-2">{t("Running")}</span>
                   </>
                 )}
               </Button>
@@ -255,10 +247,10 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">Stopping</span>
+                    <span className="ml-2">{t("Stopping")}</span>
                   </>
                 ) : (
-                  "Stop agent"
+                  t("Stop Agent")
                 )}
               </Button>
             </Expand>
@@ -270,3 +262,32 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  const supportedLocales = [
+    "en",
+    "hu",
+    "fr",
+    "de",
+    "it",
+    "ja",
+    "zh",
+    "ko",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "uk",
+    "es",
+    "nl",
+    "sk",
+    "hr",
+  ];
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
+  return {
+    props: {
+      ...(await serverSideTranslations(chosenLocale, ["translation"])),
+    },
+  };
+};

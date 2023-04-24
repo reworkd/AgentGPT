@@ -2,6 +2,7 @@ import * as ToastPrimitive from "@radix-ui/react-toast";
 import type { Dispatch, SetStateAction } from "react";
 import React from "react";
 import clsx from "clsx";
+import { useTranslation  } from "next-i18next";
 
 type Props = {
   model: [boolean, Dispatch<SetStateAction<boolean>>];
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const Toast = (props: Props) => {
+  const [ t ] = useTranslation();
   const [open, setOpen] = props.model;
 
   return (
@@ -59,11 +61,11 @@ const Toast = (props: Props) => {
                     setOpen(false);
                   }}
                 >
-                  Copy
+                  {t('Copy')}
                 </ToastPrimitive.Action>
               )}
               <ToastPrimitive.Close className="text-md flex w-full items-center justify-center rounded-2xl border border-transparent px-3 py-2 font-medium text-white hover:bg-white/20 ">
-                Close
+                {t('Close')}
               </ToastPrimitive.Close>
             </div>
           </div>

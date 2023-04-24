@@ -5,7 +5,7 @@ import React, { memo } from "react";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation, i18n } from "next-i18next";
 
 const PDFButton = ({
   messages,
@@ -45,15 +45,15 @@ const PDFButton = ({
 };
 
 const getContent = (messages: Message[]): string => {
-  const [t] = useTranslation();
+  //const [t] = useTranslation();
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `${t("Goal: ")}${message.value}`;
+        return `${i18n?.t("LABEL_AGENT_GOAL","LABEL_AGENT_GOAL",{ns: 'indexPage'})}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
-        return `${t("Adding Task: ")}${message.value}`;
+        return `${i18n?.t("ADDING_TASK","ADDING_TASK", {ns: 'common'})}: ${message.value}`;
       }
       return message.value;
     })

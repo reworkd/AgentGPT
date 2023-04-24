@@ -10,32 +10,28 @@ export default function HelpDialog({
   show: boolean;
   close: () => void;
 }) {
-  const [t] = useTranslation();
+  const [ t ] = useTranslation();
   return (
     <Dialog
-      header={`${t("Welcome to AgentGPT 🤖")} `}
+      header={t('WELCOME_TO_AGENT_GPT','WELCOME_TO_AGENT_GPT', {ns: 'help'})}
       isShown={show}
       close={close}
     >
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <p>
           <strong>AgentGPT</strong>{" "}
-          {t(
-            "allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀"
-          )}
+          {t('INTRODUCING_AGENTGPT','INTRODUCING_AGENTGPT', {ns: 'help'})}
         </p>
         <div>
           <br />
-          {t(
-            "This platform is currently in beta, we are currently working on:"
-          )}
+          {t('PLATFORM_BETA_DESCRIPTION','PLATFORM_BETA_DESCRIPTION', {ns: 'help'})}
           <ul className="ml-5 list-inside list-disc">
-            <li>{`${t("LONG_TERM_MEMORY")} 🧠`}</li>
-            <li>{`${t("WEB_BROWSING")} 🌐`}</li>
-            <li>{`${t("INTERACTION_WITH_WEBSITES_AND_PEOPLE")} 👨‍👩‍👦`}</li>
+            <li>{t('LONG_TERM_MEMORY','LONG_TERM_MEMORY', {ns: 'help'})}</li>
+            <li>{t('WEB_BROWSING','WEB_BROWSING', {ns: 'help'})}</li>
+            <li>{t('INTERACTION_WITH_WEBSITES_AND_PEOPLE','INTERACTION_WITH_WEBSITES_AND_PEOPLE', {ns: 'help'})}</li>
           </ul>
           <br />
-          <p className="mt-2">{t("Follow the journey below:")}</p>
+          <p className="mt-2">{t('FOLLOW_THE_JOURNEY','FOLLOW_THE_JOURNEY', {ns: 'help'})}</p>
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div

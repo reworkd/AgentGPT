@@ -1,0 +1,11 @@
+{
+  "SAVE": "저장",
+  "IMAGE": "이미지",
+  "COPY": "복사",
+  "EXPORT": "내보내기",
+  "RESET": "재설정",
+  "CLOSE": "닫기",
+  "LOOP": "반복",
+  "CURRENT_TASKS": "현재 작업",
+  "ADDING_TASK": "작업 추가"
+}

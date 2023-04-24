@@ -42,7 +42,7 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
-    language: any,
+    language: string,
     renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
@@ -202,8 +202,8 @@ class AutonomousAgent {
         taskValues,
         currentTask,
         result,
-        this.completedTasks,
-        this.language
+        this.language,
+        this.completedTasks
       );
     }
 

@@ -54,6 +54,7 @@ const Home: NextPage = () => {
   const [actualLanguage, setActualLanguage] = React.useState(
     findLanguage(i18n.language)
   );
+  const [agentLanguage, setAgentLanguage] = React.useState<string>(findLanguage(i18n.language)["name"]);
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-new";
@@ -64,7 +65,6 @@ const Home: NextPage = () => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-      console.log(actualLanguage);
     }, 3000);
 
     localStorage.setItem(key, JSON.stringify(true));
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
   const isAgentStopped = () => !agent?.isRunning || agent === null;
 
   const handleNewGoal = () => {
-    const language = actualLanguage.name;
+    const language = agentLanguage;
     const agent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
@@ -255,7 +255,10 @@ const Home: NextPage = () => {
             <Expand delay={1.4} className="flex gap-2">
               <Button
                 disabled={disableDeployAgent}
-                onClick={handleNewGoal}
+                onClick={() => {
+                  setAgentLanguage(i18n.language);
+                  handleNewGoal();
+                }}
                 className="sm:mt-10"
               >
                 {agent == null ? (

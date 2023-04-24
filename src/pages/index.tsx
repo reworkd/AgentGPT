@@ -14,6 +14,7 @@ import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import { SettingsDialog } from "../components/SettingsDialog";
+import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
@@ -27,23 +28,16 @@ import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
   const [t] = useTranslation();
-  const { session, status } = useAuth();
-  const [name, setName] = React.useState<string>("");
-  const [goalInput, setGoalInput] = React.useState<string>("");
-  const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
+  // zustand states
   const messages = useMessageStore.use.messages();
   const tasks = useMessageStore.use.tasks();
   const addMessage = useMessageStore.use.addMessage();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
-  const customSettings = React.useState<ModelSettings>({
-    customApiKey: "",
-    customModelName: GPT_35_TURBO,
-    customTemperature: 0.9,
-    customMaxLoops: DEFAULT_MAX_LOOPS_FREE,
-    maxTokens: 400,
-  });
-
+  const { session, status } = useAuth();
+  const [name, setName] = React.useState<string>("");
+  const [goalInput, setGoalInput] = React.useState<string>("");
+  const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const { settings, saveSettings } = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);

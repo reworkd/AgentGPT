@@ -60,12 +60,14 @@ async function createTasksAgent(
 interface AgentService {
   startGoalAgent: (
     modelSettings: ModelSettings,
-    goal: string
+    goal: string,
+    language: string
   ) => Promise<string[]>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
-    task: string
+    task: string,
+    language: string
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
@@ -73,7 +75,8 @@ interface AgentService {
     tasks: string[],
     lastTask: string,
     result: string,
-    completedTasks: string[] | undefined
+    completedTasks: string[] | undefined,
+    language: string
   ) => Promise<string[]>;
 }
 
@@ -94,7 +97,8 @@ const MockAgentService: AgentService = {
     tasks: string[],
     lastTask: string,
     result: string,
-    completedTasks: string[] | undefined
+    completedTasks: string[] | undefined,
+    language: string
   ) => {
     return await new Promise((resolve) => resolve(["Task 4"]));
   },

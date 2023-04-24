@@ -28,6 +28,7 @@ const TIMOUT_SHORT = 800;
 class AutonomousAgent {
   name: string;
   goal: string;
+  language: string;
   tasks: Message[] = [];
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
@@ -41,6 +42,7 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
+    language: string,
     renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
@@ -48,6 +50,7 @@ class AutonomousAgent {
   ) {
     this.name = name;
     this.goal = goal;
+    this.language = language;
     this.renderMessage = renderMessage;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
@@ -173,7 +176,7 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startGoalAgent(this.modelSettings, this.goal);
+      return await AgentService.startGoalAgent(this.modelSettings, this.goal, this.language);
     }
 
     const data = {
@@ -198,7 +201,8 @@ class AutonomousAgent {
         taskValues,
         currentTask,
         result,
-        this.completedTasks
+        this.completedTasks,
+        this.language
       );
     }
 
@@ -220,7 +224,8 @@ class AutonomousAgent {
       return await AgentService.executeTaskAgent(
         this.modelSettings,
         this.goal,
-        task
+        task,
+        this.language
       );
     }
 

@@ -45,14 +45,12 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
-
   const findLanguage = (nameOrLocale: string): Language => {
     const selectedLanguage = languages.find(
       (lang) => lang.code === nameOrLocale || lang.name === nameOrLocale
     );
     return selectedLanguage || ENGLISH;
   };
-
   const [actualLanguage, setActualLanguage] = React.useState(
     findLanguage(i18n.language)
   );
@@ -66,6 +64,7 @@ const Home: NextPage = () => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
+      console.log(actualLanguage);
     }, 3000);
 
     localStorage.setItem(key, JSON.stringify(true));
@@ -96,7 +95,7 @@ const Home: NextPage = () => {
   const isAgentStopped = () => !agent?.isRunning || agent === null;
 
   const handleNewGoal = () => {
-    const language = actualLanguage.name.toUpperCase();
+    const language = actualLanguage.name;
     const agent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),

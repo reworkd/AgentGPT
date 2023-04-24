@@ -54,7 +54,7 @@ const Home: NextPage = () => {
   const [actualLanguage, setActualLanguage] = React.useState(
     findLanguage(i18n.language)
   );
-  const [agentLanguage, setAgentLanguage] = React.useState<string>(findLanguage(i18n.language)["name"]);
+  const [agentLanguage, setAgentLanguage] = React.useState<string>("");
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -254,8 +254,9 @@ const Home: NextPage = () => {
             <Expand delay={1.4} className="flex gap-2">
               <Button
                 disabled={disableDeployAgent}
-                onClick={() => {
-                  setAgentLanguage(i18n.language);
+                onClick={async () => {
+                  await setAgentLanguage(findLanguage(i18n.language)["name"])
+                  console.log(agentLanguage);
                   handleNewGoal();
                 }}
                 className="sm:mt-10"

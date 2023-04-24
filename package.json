@@ -22,7 +22,7 @@
     "@radix-ui/react-tooltip": "^1.0.5",
     "@react-pdf/renderer": "^3.1.9",
     "@tanstack/react-query": "^4.20.0",
-    "@trpc/client": "^10.9.0",
+    "@trpc/client": "^10.21.1",
     "@trpc/next": "^10.20.0",
     "@trpc/react-query": "^10.20.0",
     "@trpc/server": "^10.9.0",

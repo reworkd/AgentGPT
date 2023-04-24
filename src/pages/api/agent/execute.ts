@@ -9,7 +9,7 @@ export const config = {
 
 const handler = async (request: NextRequest) => {
   try {
-    const { modelSettings, goal, task } = (await request.json()) as RequestBody;
+    const { modelSettings, goal, task, language } = (await request.json()) as RequestBody;
     if (task === undefined) {
       return;
     }
@@ -17,7 +17,8 @@ const handler = async (request: NextRequest) => {
     const response = await AgentService.executeTaskAgent(
       modelSettings,
       goal,
-      task
+      task,
+      language
     );
     return NextResponse.json({
       response: response,

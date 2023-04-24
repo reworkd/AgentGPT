@@ -23,6 +23,8 @@ import { useMessageStore, resetAllSlices } from "../components/store";
 import { isTask } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
+import type { Language } from "../utils/languages";
+import { ENGLISH, languages } from "../utils/languages";
 
 const Home: NextPage = () => {
   const [t] = useTranslation();
@@ -32,6 +34,7 @@ const Home: NextPage = () => {
   const addMessage = useMessageStore.use.addMessage();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
+  const { i18n } = useTranslation();
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
@@ -42,6 +45,17 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
+
+  const findLanguage = (nameOrLocale: string): Language => {
+    const selectedLanguage = languages.find(
+      (lang) => lang.code === nameOrLocale || lang.name === nameOrLocale
+    );
+    return selectedLanguage || ENGLISH;
+  };
+
+  const [actualLanguage, setActualLanguage] = React.useState(
+    findLanguage(i18n.language)
+  );
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -81,9 +95,11 @@ const Home: NextPage = () => {
   const isAgentStopped = () => !agent?.isRunning || agent === null;
 
   const handleNewGoal = () => {
+    const language = actualLanguage.name.toUpperCase();
     const agent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
+      language,
       handleAddMessage,
       () => setAgent(null),
       settingsModel.settings,

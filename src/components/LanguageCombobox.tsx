@@ -15,7 +15,9 @@ const LanguageCombobox = () => {
 
   const handleInputChange = (languageName: string) => {
     const selectedLanguage = findLanguage(languageName);
+    i18n.changeLanguage(selectedLanguage.code);
     setActualLanguage(selectedLanguage);
+    console.log(i18n.language);
     handleLanguageChange(selectedLanguage.code);
   };
 

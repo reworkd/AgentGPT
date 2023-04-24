@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import {
   FaBars,
@@ -29,9 +29,33 @@ const Drawer = ({
   showSettings: () => void;
 }) => {
   const [t] = useTranslation();
-  const [showDrawer, setShowDrawer] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    // Function to check if the screen width is for desktop or tablet
+    const checkScreenWidth = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 768) {
+        // 768px is the breakpoint for tablet devices
+        setShowDrawer(true);
+      } else {
+        setShowDrawer(false);
+      }
+    };
+
+    // Call the checkScreenWidth function initially
+    checkScreenWidth();
+
+    // Set up an event listener for window resize events
+    window.addEventListener("resize", checkScreenWidth);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+    };
+  }, []);
 
   const sub = api.account.subscribe.useMutation({
     onSuccess: async (url: any) => {
@@ -59,27 +83,22 @@ const Drawer = ({
 
   return (
     <>
-      <button
-        hidden={showDrawer}
-        className="fixed left-2 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
-        onClick={toggleDrawer}
-      >
-        <FaBars />
-      </button>
       <div
         id="drawer"
         className={clsx(
-          showDrawer ? "translate-x-0" : "-translate-x-full",
-          "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
-          "fixed top-0 md:sticky",
-          "flex md:translate-x-0"
+          showDrawer ? "translate-x-0 md:sticky" : "-translate-x-full",
+          "z-30 m-0 flex h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
+          "fixed top-0 "
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button
-              className="z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
+              className={clsx(
+                showDrawer ? "-translate-x-2" : "translate-x-12",
+                "absolute right-0 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2  text-white transition-all hover:bg-zinc-700 "
+              )}
               onClick={toggleDrawer}
             >
               <FaBars />
@@ -166,7 +185,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     return (
       <a
         className={clsx(
-          "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+          "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
           border && "border-[1px] border-white/20",
           `${className || ""}`
         )}
@@ -183,7 +202,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+        "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
         border && "border-[1px] border-white/20",
         `${className || ""}`
       )}

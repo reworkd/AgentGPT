@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS: ModelSettings = {
   customApiKey: undefined,
   customModelName: GPT_35_TURBO,
   customTemperature: 0.9,
-  customMaxLoops: DEFAULT_MAX_LOOPS_FREE,
+  customMaxLoops: DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   maxTokens: 400,
 };
 

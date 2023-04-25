@@ -34,11 +34,11 @@ const Button = forwardRef(
         disabled={loading || props.disabled}
         className={clsx(
           "text-gray/50 rounded-lg border-[2px] border-white/30 px-5 py-2 font-bold transition-all sm:px-10 sm:py-3",
-          props.disabled
-            ? " cursor-not-allowed border-white/10 bg-zinc-900 text-white/30"
-            : ` mou cursor-pointer bg-[#1E88E5]/70 text-white/80 hover:border-white/80 hover:bg-[#0084f7] hover:text-white hover:shadow-2xl ${
-                props.enabledClassName || ""
-              }`,
+          props.disabled &&
+            "cursor-not-allowed border-white/10 bg-zinc-900 text-white/30",
+          props.disabled ||
+            "mou cursor-pointer bg-[#1E88E5]/70 text-white/80 hover:border-white/80 hover:bg-[#0084f7] hover:text-white hover:shadow-2xl",
+          props.disabled || props.enabledClassName,
           props.className
         )}
         onClick={onClick}

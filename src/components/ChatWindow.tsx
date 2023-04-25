@@ -28,6 +28,7 @@ import {
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
+import type { Translation } from "../utils/types";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -261,7 +262,7 @@ const ChatMessage = ({
   isAgentStopped,
 }: {
   message: Message;
-  isAgentStopped: boolean;
+  isAgentStopped?: boolean;
 }) => {
   const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
@@ -298,7 +299,7 @@ const ChatMessage = ({
           <div className="mr-2 inline-block h-[0.9em]">
             {getTaskStatusIcon(message, { isAgentStopped })}
           </div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+          <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
         </>
       )}
 
@@ -324,7 +325,7 @@ const ChatMessage = ({
       <div className="relative">
         {copied ? (
           <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            `${t("COPIED")}`
+            {t("Copied!")}
           </span>
         ) : (
           <span
@@ -365,18 +366,16 @@ const DonationMessage = () => {
   );
 };
 
-const getMessagePrefix = (message: Message) => {
-  const [t] = useTranslation();
-  if (message.type === MESSAGE_TYPE_GOAL) {
-    return t("Embarking on a new goal:");
-  } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return t("Thinking...");
-  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return t("Added task:");
-  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return `${t("Executing:")} ${message.value}`;
-  } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return t("No more subtasks for: ");
+const getMessagePrefix = (message: Message, t: Translation) => {
+  switch (message.type) {
+    case "goal":
+      return t("Embarking on a new goal:");
+    case "task":
+      return t("Added task:");
+    case "thinking":
+      return t("Thinking...");
+    case "action":
+      return message.info ? message.info : t("Executing:");
   }
   return "";
 };

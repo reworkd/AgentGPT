@@ -1,3 +1,5 @@
+import type { TFunction } from "i18next";
+
 export type ModelSettings = {
   customApiKey?: string;
   customModelName?: string;
@@ -5,3 +7,5 @@ export type ModelSettings = {
   customMaxLoops?: number;
   maxTokens?: number;
 };
+
+export type Translation = TFunction<"translation", undefined>;

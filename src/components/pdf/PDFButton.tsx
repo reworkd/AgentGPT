@@ -7,7 +7,13 @@ import type { Message } from "../../types/agentTypes";
 
 import { useTranslation } from "react-i18next";
 
-const PDFButton = ({ messages }: { messages: Message[]; name: string }) => {
+const PDFButton = ({
+  messages,
+  name, // Used in Menu as a key
+}: {
+  messages: Message[];
+  name: string;
+}) => {
   const content = getContent(messages);
 
   const downloadPDF = async () => {

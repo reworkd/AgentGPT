@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 
 const PDFButton = ({
   messages,
-  name, // Used in Menu as a key
+  name,
 }: {
   messages: Message[];
   name: string;
@@ -41,15 +41,15 @@ const PDFButton = ({
 };
 
 const getContent = (messages: Message[]): string => {
-  const [t] = useTranslation();
+  const [ t ] = useTranslation();
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
       if (message.type == "goal") {
-        return `${t("Goal: ")}${message.value}`;
+        return `${t('Goal: ')}${message.value}`;
       }
       if (message.type == "task") {
-        return `${t("Adding Task: ")}${message.value}`;
+        return `${t('Adding Task: ')}${message.value}`;
       }
       return message.value;
     })

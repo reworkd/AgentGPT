@@ -1,7 +1,7 @@
 import {
   FaBrain,
   FaCircleNotch,
-  FaFlagCheckered,
+  FaRegCheckCircle,
   FaCheckCircle,
   FaStar,
   FaStopCircle,
@@ -22,14 +22,14 @@ import type { Message } from "../../types/agentTypes";
 
 export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {
-    return "border-white/10";
+    return "border-white/10 hover:border-white/40";
   }
 
   switch (message.status) {
     case TASK_STATUS_STARTED:
-      return "border-white/20 text-white";
+      return "border-white/20 text-white hover:border-white/40";
     case TASK_STATUS_EXECUTING:
-      return "border-white/20 text-white";
+      return "border-white/20 text-white hover:border-white/40";
     case TASK_STATUS_COMPLETED:
       return "border-green-500 hover:border-green-400 hover:text-green-400 text-green-500";
     case TASK_STATUS_FINAL:
@@ -41,7 +41,7 @@ export const getMessageContainerStyle = (message: Message) => {
 
 export const getTaskStatusIcon = (
   message: Message,
-  config: { [key: string]: string | boolean }
+  config: { [key: string]: string | boolean | undefined }
 ) => {
   const taskStatusIconClass = "mr-1 mb-0.5 inline-block";
   const { isAgentStopped } = config;
@@ -60,13 +60,13 @@ export const getTaskStatusIcon = (
     );
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
     return (
-      <FaCheckCircle
+      <FaRegCheckCircle
         className={`${taskStatusIconClass} text-green-500 hover:text-green-400`}
       />
     );
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
     return (
-      <FaFlagCheckered
+      <FaCheckCircle
         className={`${taskStatusIconClass} text-green-500 hover:text-green-400`}
       />
     );

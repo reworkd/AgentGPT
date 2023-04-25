@@ -17,6 +17,7 @@ import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
 import {
+  isAction,
   getTaskStatus,
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_THINKING,
@@ -36,7 +37,7 @@ interface ChatWindowProps extends HeaderProps {
   showDonation: boolean;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
-  isAgentStopped: boolean;
+  isAgentStopped?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -309,7 +310,7 @@ const ChatMessage = ({
         </span>
       )}
 
-      {message.info ? (
+      {isAction(message) ? (
         <div className="prose ml-2 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
@@ -367,15 +368,16 @@ const DonationMessage = () => {
 };
 
 const getMessagePrefix = (message: Message, t: Translation) => {
-  switch (message.type) {
-    case "goal":
-      return t("Embarking on a new goal:");
-    case "task":
-      return t("Added task:");
-    case "thinking":
-      return t("Thinking...");
-    case "action":
-      return message.info ? message.info : t("Executing:");
+  if (message.type === MESSAGE_TYPE_GOAL) {
+    return t("Embarking on a new goal:");
+  } else if (message.type === MESSAGE_TYPE_THINKING) {
+    return t("Thinking...");
+  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
+    return t("Added task:");
+  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
+    return `Completing: ${message.value}`;
+  } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
+    return t("No more subtasks for:");
   }
   return "";
 };

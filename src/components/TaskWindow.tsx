@@ -36,7 +36,7 @@ const Task = ({
   return (
     <FadeIn>
       <div
-        className={`w-full animate-[rotate] rounded-md border-2 p-2 text-sm  hover:border-white/40 ${
+        className={`w-full animate-[rotate] rounded-md border-2 p-2 text-sm ${
           isAgentStopped ? "opacity-50" : ""
         } ${getMessageContainerStyle(task)}`}
       >

@@ -83,3 +83,7 @@ export const getTaskStatus = (value: unknown): string | undefined => {
 
   return value.status;
 };
+
+export const isAction = (value: unknown): boolean => {
+  return isTask(value) && value.status === TASK_STATUS_COMPLETED;
+};

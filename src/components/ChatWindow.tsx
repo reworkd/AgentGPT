@@ -1,17 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import {
-  FaBrain,
-  FaClipboard,
-  FaCopy,
-  FaCheckCircle,
-  FaImage,
-  FaPlayCircle,
-  FaThumbtack,
-  FaSave,
-  FaStar,
-} from "react-icons/fa";
+import { FaClipboard, FaCopy, FaImage, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -35,9 +25,10 @@ import {
   TASK_STATUS_STARTED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
 } from "../types/agentTypes";
 import clsx from "clsx";
-import { getMessageContainerStyle } from "./utils/helpers";
+import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -45,6 +36,7 @@ interface ChatWindowProps extends HeaderProps {
   showDonation: boolean;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
+  isAgentStopped: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -58,6 +50,7 @@ const ChatWindow = ({
   onSave,
   fullscreen,
   scrollToBottom,
+  isAgentStopped,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -98,11 +91,17 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
-        {messages.map((message, index) => (
-          <FadeIn key={`${index}-${message.type}`}>
-            <ChatMessage message={message} />
-          </FadeIn>
-        ))}
+        {messages.map((message, index) => {
+          if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
+            return null;
+          }
+
+          return (
+            <FadeIn key={`${index}-${message.type}`}>
+              <ChatMessage message={message} isAgentStopped={isAgentStopped} />
+            </FadeIn>
+          );
+        })}
         {children}
 
         {messages.length === 0 && (
@@ -258,7 +257,13 @@ const MacWindowHeader = (props: HeaderProps) => {
     </div>
   );
 };
-const ChatMessage = ({ message }: { message: Message }) => {
+const ChatMessage = ({
+  message,
+  isAgentStopped,
+}: {
+  message: Message;
+  isAgentStopped: boolean;
+}) => {
   const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -292,7 +297,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">
-            {getMessageIcon(message)}
+            {getTaskStatusIcon(message, { isAgentStopped })}
           </div>
           <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
         </>
@@ -361,22 +366,6 @@ const DonationMessage = () => {
   );
 };
 
-const getMessageIcon = (message: Message) => {
-  if (message.type === MESSAGE_TYPE_GOAL) {
-    return <FaStar className="text-yellow-300" />;
-  } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return <FaBrain className="mt-[0.1em] text-pink-400" />;
-  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return <FaThumbtack className="-rotate-45 text-gray-300" />;
-  } else if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
-    return <FaPlayCircle className="text-green-500" />;
-  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return <FaCheckCircle className="text-green-500" />;
-  }
-
-  return;
-};
-
 const getMessagePrefix = (message: Message) => {
   const [t] = useTranslation();
   if (message.type === MESSAGE_TYPE_GOAL) {
@@ -385,10 +374,10 @@ const getMessagePrefix = (message: Message) => {
     return t("Thinking...");
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
     return t("Added task:");
-  } else if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
-    return `${t("Executing:")} ${message.value}`;
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return t("Completed: ");
+    return `${t("Executing:")} ${message.value}`;
+  } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
+    return t("No more subtasks for: ");
   }
   return "";
 };

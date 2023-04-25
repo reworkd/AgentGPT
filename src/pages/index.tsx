@@ -79,6 +79,8 @@ const Home: NextPage = () => {
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
+  const isAgentStopped = () => !agent?.isRunning || agent === null;
+
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
       name.trim(),
@@ -193,11 +195,10 @@ const Home: NextPage = () => {
                     : undefined
                 }
                 scrollToBottom
+                isAgentStopped={isAgentStopped()}
               />
               {tasks.length > 0 && (
-                <TaskWindow
-                  isAgentStopped={!agent?.isRunning || agent === null}
-                />
+                <TaskWindow isAgentStopped={isAgentStopped()} />
               )}
             </Expand>
 

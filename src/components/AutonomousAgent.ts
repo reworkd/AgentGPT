@@ -14,6 +14,7 @@ import {
   TASK_STATUS_STARTED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
   MESSAGE_TYPE_TASK,
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_THINKING,
@@ -113,10 +114,12 @@ class AutonomousAgent {
 
     const currentTask = this.tasks.shift() as Task;
     this.sendThinkingMessage();
+    currentTask.status = TASK_STATUS_EXECUTING;
+    this.sendMessage(currentTask);
 
     const result = await this.executeTask(currentTask.value);
 
-    currentTask.status = TASK_STATUS_EXECUTING;
+    currentTask.status = TASK_STATUS_COMPLETED;
     currentTask.info = result;
     this.sendMessage(currentTask);
 
@@ -140,7 +143,7 @@ class AutonomousAgent {
       }
 
       if (newTasks.length == 0) {
-        currentTask.status = TASK_STATUS_COMPLETED;
+        currentTask.status = TASK_STATUS_FINAL;
         this.sendMessage(currentTask);
       }
     } catch (e) {
@@ -148,7 +151,7 @@ class AutonomousAgent {
       this.sendErrorMessage(
         `ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.`
       );
-      currentTask.status = TASK_STATUS_COMPLETED;
+      currentTask.status = TASK_STATUS_FINAL;
       this.sendMessage(currentTask);
     }
 

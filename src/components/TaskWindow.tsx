@@ -1,21 +1,10 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
-import {
-  Task,
-  TASK_STATUS_STARTED,
-  TASK_STATUS_EXECUTING,
-  TASK_STATUS_COMPLETED,
-} from "../types/agentTypes";
-import { getMessageContainerStyle } from "./utils/helpers";
+import { Task } from "../types/agentTypes";
+import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useMessageStore } from "../components/store";
-import {
-  FaListAlt,
-  FaCheckCircle,
-  FaCircleNotch,
-  FaThumbtack,
-  FaStopCircle,
-} from "react-icons/fa";
+import { FaListAlt } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
 export const TaskWindow = ({ isAgentStopped }: { isAgentStopped: boolean }) => {
@@ -44,26 +33,6 @@ const Task = ({
   task: Task;
   isAgentStopped: boolean;
 }) => {
-  const getTaskStatusIcon = (taskStatus: string) => {
-    const taskStatusIconClass = "mr-1 mb-0.5 inline-block";
-    switch (taskStatus) {
-      case TASK_STATUS_STARTED:
-        return <FaThumbtack className={`${taskStatusIconClass} -rotate-45`} />;
-      case TASK_STATUS_EXECUTING:
-        return isAgentStopped ? (
-          <FaStopCircle className={`${taskStatusIconClass}`} />
-        ) : (
-          <FaCircleNotch className={`${taskStatusIconClass} animate-spin`} />
-        );
-      case TASK_STATUS_COMPLETED:
-        return (
-          <FaCheckCircle
-            className={`${taskStatusIconClass} text-green-500 hover:text-green-400`}
-          />
-        );
-    }
-  };
-
   return (
     <FadeIn>
       <div
@@ -71,7 +40,7 @@ const Task = ({
           isAgentStopped ? "opacity-50" : ""
         } ${getMessageContainerStyle(task)}`}
       >
-        {getTaskStatusIcon(task.status)}
+        {getTaskStatusIcon(task, { isAgentStopped })}
         <span>{task.value}</span>
       </div>
     </FadeIn>

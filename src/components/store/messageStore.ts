@@ -6,12 +6,14 @@ import {
   isTask,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
 } from "../../types/agentTypes";
 
 const isExistingTask = (message: Message): boolean =>
   isTask(message) &&
   (message.status === TASK_STATUS_EXECUTING ||
-    message.status === TASK_STATUS_COMPLETED);
+    message.status === TASK_STATUS_COMPLETED ||
+    message.status === TASK_STATUS_FINAL);
 
 const resetters: (() => void)[] = [];
 

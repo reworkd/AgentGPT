@@ -1,4 +1,7 @@
 import { Tool } from "langchain/tools";
+import type { ModelSettings } from "../../utils/types";
+import { LLMChain } from "langchain/chains";
+import { createModel, summarizeSearchSnippets } from "../../utils/prompts";
 
 /**
  * Wrapper around Serper adapted from LangChain: https://github.com/hwchase17/langchainjs/blob/main/langchain/src/tools/serper.ts
@@ -14,11 +17,13 @@ export class Serper extends Tool {
     "A search engine that should be used sparingly and only for questions about current events. Input should be a search query.";
 
   protected key: string;
+  protected modelSettings: ModelSettings;
 
-  constructor() {
+  constructor(modelSettings: ModelSettings) {
     super();
 
     this.key = process.env.SERP_API_KEY;
+    this.modelSettings = modelSettings;
     if (!this.key) {
       throw new Error(
         "Serper API key not set. You can set it as SERPER_API_KEY in your .env file, or pass it to Serper."
@@ -49,8 +54,16 @@ export class Serper extends Tool {
     }
 
     if (searchResult.organic?.[0]?.snippet) {
-      // Iterate through all organic snippets
-      return searchResult.organic[0].snippet;
+      const snippets = searchResult.organic.map((result) => result.snippet);
+      const summary = await summarizeSnippets(
+        this.modelSettings,
+        input,
+        snippets
+      );
+      const resultsToLink = searchResult.organic.slice(0, 3);
+      const links = resultsToLink.map((result) => result.link);
+
+      return `${summary}\n\nSome relevant links:\n${links.join("\n")}`;
     }
 
     return "No good search result found";
@@ -115,3 +128,18 @@ interface OrganicResult {
 interface RelatedSearch {
   query: string;
 }
+
+const summarizeSnippets = async (
+  modelSettings: ModelSettings,
+  query: string,
+  snippets: string[]
+) => {
+  const completion = await new LLMChain({
+    llm: createModel(modelSettings),
+    prompt: summarizeSearchSnippets,
+  }).call({
+    query,
+    snippets,
+  });
+  return completion.text as string;
+};

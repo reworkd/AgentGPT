@@ -17,16 +17,13 @@ describe("Strings should be extracted from arrays correctly", () => {
     );
   });
 
-  it("works with single quotes", () => {
+  it("fails with single quotes", () => {
     const modelResult = ` [
     'Search Reddit for current trending topics related to cats',
     'Identify the most upvoted posts about cats on Reddit'
   ]`;
 
-    expect(extractArray(modelResult).length).toBe(2);
-    expect(extractArray(modelResult).at(1)).toBe(
-      "Identify the most upvoted posts about cats on Reddit"
-    );
+    expect(extractArray(modelResult).length).toBe(0);
   });
 
   it("works with no whitespace", () => {

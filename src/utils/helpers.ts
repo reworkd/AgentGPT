@@ -34,11 +34,8 @@ export const extractArray = (inputStr: string): string[] => {
 
   if (match && match[0]) {
     try {
-      // Replace single quotes with double quotes
-      const jsonString = match[0].replace(/'/g, '"');
-
       // Parse the matched string to get the array
-      return JSON.parse(jsonString) as string[];
+      return JSON.parse(match[0]) as string[];
     } catch (error) {
       console.error("Error parsing the matched array:", error);
     }

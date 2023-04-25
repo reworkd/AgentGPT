@@ -27,13 +27,13 @@ export const getMessageContainerStyle = (message: Message) => {
 
   switch (message.status) {
     case TASK_STATUS_STARTED:
-      return "border-white/20 text-white hover:border-white/40";
+      return "border-white/20 hover:border-white/40";
     case TASK_STATUS_EXECUTING:
-      return "border-white/20 text-white hover:border-white/40";
+      return "border-white/20 hover:border-white/40";
     case TASK_STATUS_COMPLETED:
-      return "border-green-500 hover:border-green-400 hover:text-green-400 text-green-500";
+      return "border-green-500 hover:border-green-400";
     case TASK_STATUS_FINAL:
-      return "border-green-500 hover:border-green-400 hover:text-green-400 text-green-500";
+      return "border-green-500 hover:border-green-400";
     default:
       return "";
   }
@@ -43,7 +43,7 @@ export const getTaskStatusIcon = (
   message: Message,
   config: { [key: string]: string | boolean | undefined }
 ) => {
-  const taskStatusIconClass = "mr-1 mb-0.5 inline-block";
+  const taskStatusIconClass = "mr-1 mb-1 inline-block";
   const { isAgentStopped } = config;
 
   if (message.type === MESSAGE_TYPE_GOAL) {

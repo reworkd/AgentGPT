@@ -215,7 +215,8 @@ class AutonomousAgent {
   }
 
   async executeTask(task: string, analysis: Analysis): Promise<string> {
-    if (this.shouldRunClientSide()) {
+    // Run search server side since clients won't have a key
+    if (this.shouldRunClientSide() && analysis.action !== "search") {
       return await AgentService.executeTaskAgent(
         this.modelSettings,
         this.goal,

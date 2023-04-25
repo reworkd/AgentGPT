@@ -1,0 +1,117 @@
+import { Tool } from "langchain/tools";
+
+/**
+ * Wrapper around Serper adapted from LangChain: https://github.com/hwchase17/langchainjs/blob/main/langchain/src/tools/serper.ts
+ *
+ * You can create a free API key at https://serper.dev.
+ *
+ * To use, you should have the SERP_API_KEY environment variable set.
+ */
+export class Serper extends Tool {
+  // Required values for Tool
+  name = "search";
+  description =
+    "A search engine that should be used sparingly and only for questions about current events. Input should be a search query.";
+
+  protected key: string;
+
+  constructor() {
+    super();
+
+    this.key = process.env.SERP_API_KEY;
+    if (!this.key) {
+      throw new Error(
+        "Serper API key not set. You can set it as SERPER_API_KEY in your .env file, or pass it to Serper."
+      );
+    }
+  }
+
+  /** @ignore */
+  async _call(input: string) {
+    const res = await this.callSerper(input);
+    const searchResult: SearchResult = (await res.json()) as SearchResult;
+
+    if (searchResult.answerBox?.answer) {
+      return searchResult.answerBox.answer;
+    }
+
+    if (searchResult.answerBox?.snippet) {
+      return searchResult.answerBox.snippet;
+    }
+
+    if (searchResult.sportsResults?.game_spotlight) {
+      return searchResult.sportsResults.game_spotlight;
+    }
+
+    if (searchResult.knowledgeGraph?.description) {
+      // TODO: use Title description, attributes
+      return searchResult.knowledgeGraph.description;
+    }
+
+    if (searchResult.organic?.[0]?.snippet) {
+      // Iterate through all organic snippets
+      return searchResult.organic[0].snippet;
+    }
+
+    return "No good search result found";
+  }
+
+  async callSerper(input: string) {
+    const options = {
+      method: "POST",
+      headers: {
+        "X-API-KEY": this.key,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        q: input,
+      }),
+    };
+
+    const res = await fetch("https://google.serper.dev/search", options);
+
+    if (!res.ok) {
+      console.error(`Got ${res.status} error from serper: ${res.statusText}`);
+    }
+
+    return res;
+  }
+}
+
+interface SearchResult {
+  answerBox?: AnswerBox;
+  knowledgeGraph?: KnowledgeGraph;
+  organic?: OrganicResult[];
+  relatedSearches?: RelatedSearch[];
+  sportsResults?: SportsResults;
+}
+
+interface AnswerBox {
+  title: string;
+  answer: string;
+  snippet: string;
+}
+
+interface SportsResults {
+  game_spotlight: string;
+}
+
+interface KnowledgeGraph {
+  title: string;
+  type: string;
+  imageUrl: string;
+  description: string;
+  descriptionLink: string;
+  attributes: object;
+}
+
+interface OrganicResult {
+  title: string;
+  link: string;
+  snippet: string;
+  attributes?: object;
+}
+
+interface RelatedSearch {
+  query: string;
+}

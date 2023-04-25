@@ -9,6 +9,7 @@ import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";
 import { LLMChain } from "langchain/chains";
 import { extractTasks } from "../utils/helpers";
+import { Serper } from "./custom-tools/serper";
 
 async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
   const completion = await new LLMChain({
@@ -65,6 +66,11 @@ async function executeTaskAgent(
   analysis: Analysis
 ) {
   console.log("Execution analysis:", analysis);
+
+  if (analysis.action == "search" && process.env.SERP_API_KEY) {
+    return await new Serper()._call(analysis.arg);
+  }
+
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: executeTaskPrompt,

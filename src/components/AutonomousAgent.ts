@@ -94,7 +94,7 @@ class AutonomousAgent {
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
     // Analyze how to execute a task: Reason, web search, other tools...
-    this.sendAnalyzingMessage();
+    this.sendAnalyzingMessage(this.tasks[0] || "");
     const analysis = await this.analyzeTask(this.tasks[0] || "");
     console.log("analysis", analysis);
     console.log("analysis", typeof analysis);
@@ -294,8 +294,12 @@ class AutonomousAgent {
     });
   }
 
-  sendAnalyzingMessage() {
-    this.sendMessage({ type: "analyzing", value: "" });
+  sendAnalyzingMessage(task: string) {
+    this.sendMessage({
+      type: "analyzing",
+      info: `Analyzing task "${task}"...`,
+      value: "",
+    });
   }
 
   sendThinkingMessage() {

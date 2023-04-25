@@ -68,7 +68,7 @@ async function executeTaskAgent(
   console.log("Execution analysis:", analysis);
 
   if (analysis.action == "search" && process.env.SERP_API_KEY) {
-    return await new Serper()._call(analysis.arg);
+    return await new Serper(modelSettings)._call(analysis.arg);
   }
 
   const completion = await new LLMChain({

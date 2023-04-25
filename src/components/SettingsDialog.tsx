@@ -16,6 +16,7 @@ import Accordion from "./Accordion";
 import type { ModelSettings } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
+import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -25,7 +26,7 @@ export const SettingsDialog: React.FC<{
   const [settings, setSettings] = React.useState<ModelSettings>({
     ...customSettings,
   });
-  const [t] = useTranslation();
+  const t = useTypeSafeTranslation();
 
   useEffect(() => {
     setSettings(customSettings);

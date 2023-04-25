@@ -36,7 +36,18 @@ async function analyzeTaskAgent(
     task,
   });
 
-  return completion.text as Analysis;
+  console.log("Analysis completion:", completion.text);
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const analysis = JSON.parse(completion.text) as Analysis;
+    return analysis;
+  } catch {
+    // Default to reasoning
+    return {
+      action: "reason",
+      args: "Fallback due to parsing failure",
+    } as Analysis;
+  }
 }
 
 export type Analysis = {

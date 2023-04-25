@@ -374,7 +374,7 @@ const getMessagePrefix = (message: Message, t: Translation) => {
     case "task":
       return t("Added task:");
     case "search":
-      return "Searching the web:";
+      return message.info ? message.info : t("Searching the web:");
     case "analyzing":
       return "Analyzing task...";
     case "thinking":

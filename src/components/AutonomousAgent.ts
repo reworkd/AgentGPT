@@ -12,8 +12,6 @@ import type { Message } from "../types/agentTypes";
 import { env } from "../env/client.mjs";
 import { v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
-import type { ToolType } from "../services/tools";
-import { SearchTool } from "../services/tools";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -106,11 +104,8 @@ class AutonomousAgent {
     const currentTask = this.tasks.shift();
     this.sendThinkingMessage();
 
-    const result = await this.executeTask(
-      currentTask as string,
-      analysis.action
-    );
-    this.sendExecutionMessage(currentTask as string, result, analysis.action);
+    const result = await this.executeTask(currentTask as string, analysis);
+    this.sendExecutionMessage(currentTask as string, result, analysis);
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -217,7 +212,7 @@ class AutonomousAgent {
     return res.data.response as Analysis;
   }
 
-  async executeTask(task: string, toolType: ToolType): Promise<string> {
+  async executeTask(task: string, analysis: Analysis): Promise<string> {
     if (this.shouldRunClientSide()) {
       return await AgentService.executeTaskAgent(
         this.modelSettings,
@@ -310,12 +305,18 @@ class AutonomousAgent {
     this.sendMessage({ type: "system", value: error });
   }
 
-  sendExecutionMessage(task: string, execution: string, toolType: ToolType) {
+  sendExecutionMessage(task: string, execution: string, analysis: Analysis) {
     // Value for type based on switch case of toolType
-    if (toolType == SearchTool) {
+    if (analysis.action == "search") {
       this.sendMessage({
-        type: "search",
-        info: `Searching the web for "${task}"`,
+        type: analysis.action,
+        info: `Searching the web for "${analysis.args}"`,
+        value: execution,
+      });
+    } else {
+      this.sendMessage({
+        type: "action",
+        info: `Executing "${task}"`,
         value: execution,
       });
     }

@@ -2,7 +2,6 @@ import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
 import { pdf } from "@react-pdf/renderer";
 import React, { memo } from "react";
-import MyDocument from "./MyDocument";
 import type { Message } from "../../types/agentTypes";
 
 import { useTranslation } from "react-i18next";
@@ -17,6 +16,10 @@ const PDFButton = ({
   const content = getContent(messages);
 
   const downloadPDF = async () => {
+    const MyDocument = (await import("./MyDocument")).default as React.FC<{
+      content: string;
+    }>;
+
     const blob = await pdf(<MyDocument content={content} />).toBlob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -41,15 +44,15 @@ const PDFButton = ({
 };
 
 const getContent = (messages: Message[]): string => {
-  const [ t ] = useTranslation();
+  const [t] = useTranslation();
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
       if (message.type == "goal") {
-        return `${t('Goal: ')}${message.value}`;
+        return `${t("Goal: ")}${message.value}`;
       }
       if (message.type == "task") {
-        return `${t('Adding Task: ')}${message.value}`;
+        return `${t("Adding Task: ")}${message.value}`;
       }
       return message.value;
     })

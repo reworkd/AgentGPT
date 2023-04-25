@@ -27,6 +27,7 @@ class AutonomousAgent {
   numLoops = 0;
   session?: Session;
   _id: string;
+  isValidGuest = false;
 
   constructor(
     name: string,
@@ -34,6 +35,7 @@ class AutonomousAgent {
     renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
+    isValidGuest: boolean,
     session?: Session
   ) {
     this.name = name;
@@ -43,9 +45,16 @@ class AutonomousAgent {
     this.modelSettings = modelSettings;
     this.session = session;
     this._id = v4();
+    this.isValidGuest = isValidGuest;
   }
 
   async run() {
+    if (!this.isValidGuest && !this.modelSettings.customApiKey) {
+      this.sendErrorMessage("Invalid Guest Key");
+      this.stopAgent();
+      return;
+    }
+
     this.sendGoalMessage();
     this.sendThinkingMessage();
 

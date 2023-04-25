@@ -6,6 +6,7 @@ export type ModelSettings = {
   customTemperature?: number;
   customMaxLoops?: number;
   maxTokens?: number;
+  guestKey?: string;
 };
 
 export type Translation = TFunction<"translation", undefined>;

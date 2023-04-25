@@ -21,6 +21,7 @@ import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
+import { useGuestMode } from "../hooks/useGuestMode";
 
 const Home: NextPage = () => {
   const [t] = useTranslation();
@@ -34,6 +35,7 @@ const Home: NextPage = () => {
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
+  const { isValidGuest } = useGuestMode(settings.guestKey);
   const agentUtils = useAgent();
 
   useEffect(() => {
@@ -77,6 +79,7 @@ const Home: NextPage = () => {
       handleAddMessage,
       () => setAgent(null),
       settings,
+      isValidGuest,
       session ?? undefined
     );
     setAgent(agent);

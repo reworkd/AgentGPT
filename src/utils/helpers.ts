@@ -1,3 +1,5 @@
+import { env } from "../env/client.mjs";
+
 type Constructor<T> = new (...args: unknown[]) => T;
 
 /* Check whether array is of the specified type */
@@ -57,4 +59,9 @@ export const realTasksFilter = (input: string): boolean => {
     !taskCompleteRegex.test(input) &&
     !doNothingRegex.test(input)
   );
+};
+
+export const isGuestMode = () => {
+  const guestKey = env.NEXT_PUBLIC_GUEST_KEY;
+  return guestKey && guestKey.split(",").filter((key) => !!key).length > 0;
 };

@@ -96,7 +96,9 @@ class AutonomousAgent {
     // Analyze how to execute a task: Reason, web search, other tools...
     this.sendAnalyzingMessage();
     const analysis = await this.analyzeTask(this.tasks[0] || "");
-    console.log(analysis);
+    console.log("analysis", analysis);
+    console.log("analysis", typeof analysis);
+    console.log("analysis action", analysis.action);
 
     // Execute first task
     // Get and remove first task
@@ -217,7 +219,8 @@ class AutonomousAgent {
       return await AgentService.executeTaskAgent(
         this.modelSettings,
         this.goal,
-        task
+        task,
+        analysis
       );
     }
 
@@ -225,6 +228,7 @@ class AutonomousAgent {
       modelSettings: this.modelSettings,
       goal: this.goal,
       task: task,
+      analysis: analysis,
     };
     const res = await this.post("/api/agent/execute", data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
@@ -310,7 +314,7 @@ class AutonomousAgent {
     if (analysis.action == "search") {
       this.sendMessage({
         type: analysis.action,
-        info: `Searching the web for "${analysis.args}"`,
+        info: `Searching the web for "${analysis.arg}"`,
         value: execution,
       });
     } else {

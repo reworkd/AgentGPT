@@ -36,30 +36,35 @@ async function analyzeTaskAgent(
     task,
   });
 
-  console.log("Analysis completion:", completion.text);
+  console.log("Analysis completion:\n", completion.text);
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const analysis = JSON.parse(completion.text) as Analysis;
     return analysis;
-  } catch {
+  } catch (e) {
+    console.error("Error parsing analysis", e);
     // Default to reasoning
-    return {
-      action: "reason",
-      args: "Fallback due to parsing failure",
-    } as Analysis;
+    return DefaultAnalysis;
   }
 }
 
 export type Analysis = {
   action: "reason" | "search";
-  args: string;
+  arg: string;
+};
+
+export const DefaultAnalysis: Analysis = {
+  action: "reason",
+  arg: "Fallback due to parsing failure",
 };
 
 async function executeTaskAgent(
   modelSettings: ModelSettings,
   goal: string,
-  task: string
+  task: string,
+  analysis: Analysis
 ) {
+  console.log("Execution analysis:", analysis);
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: executeTaskPrompt,
@@ -105,7 +110,8 @@ interface AgentService {
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
-    task: string
+    task: string,
+    analysis: Analysis
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
@@ -151,7 +157,8 @@ const MockAgentService: AgentService = {
   executeTaskAgent: async (
     modelSettings: ModelSettings,
     goal: string,
-    task: string
+    task: string,
+    analysis: Analysis
   ) => {
     return await new Promise((resolve) => resolve("Result: " + task));
   },

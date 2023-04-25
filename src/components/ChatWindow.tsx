@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "next-i18next";
 import {
   FaBrain,
   FaClipboard,
@@ -27,6 +28,7 @@ import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
 import clsx from "clsx";
+import type { Translation } from "../utils/types";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -48,6 +50,7 @@ const ChatWindow = ({
   fullscreen,
   scrollToBottom,
 }: ChatWindowProps) => {
+  const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -55,11 +58,8 @@ const ChatWindow = ({
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
 
     // Use has scrolled if we have scrolled up at all from the bottom
-    if (scrollTop < scrollHeight - clientHeight - 10) {
-      setHasUserScrolled(true);
-    } else {
-      setHasUserScrolled(false);
-    }
+    const hasUserScrolled = scrollTop < scrollHeight - clientHeight - 10;
+    setHasUserScrolled(hasUserScrolled);
   };
 
   useEffect(() => {
@@ -102,9 +102,9 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
-                  info: "",
-                  value:
-                    "> Create an agent by adding a name / goal, and hitting deploy!",
+                  value: t(
+                    "> Create an agent by adding a name / goal, and hitting deploy!"
+                  ),
                 }}
               />
             </Expand>
@@ -112,9 +112,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
-                  info: "",
-                  value:
-                    "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
+                  value: `📢 ${t("YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY")}`,
                 }}
               />
               {showDonation && (
@@ -137,6 +135,7 @@ interface HeaderProps {
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
+  const [t] = useTranslation();
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -196,16 +195,16 @@ const MacWindowHeader = (props: HeaderProps) => {
       delay={0.1}
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name="Image"
+      name={t("Image")}
     />,
     <WindowButton
       key="Copy"
       delay={0.15}
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
-      name="Copy"
+      name={t("Copy")}
     />,
-    <PDFButton key="PDF" name="PDF" messages={props.messages} />,
+    <PDFButton key="PDF" messages={props.messages} />,
   ];
 
   return (
@@ -231,14 +230,14 @@ const MacWindowHeader = (props: HeaderProps) => {
           delay={0}
           onClick={() => props.onSave?.("db")}
           icon={<FaSave size={12} />}
-          name={"Save"}
+          name={t("Save")}
           styleClass={{
             container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
           }}
         />
       )}
       <Menu
-        name="Export"
+        name={t("Export")}
         onChange={() => null}
         items={exportOptions}
         styleClass={{
@@ -251,6 +250,7 @@ const MacWindowHeader = (props: HeaderProps) => {
   );
 };
 const ChatMessage = ({ message }: { message: Message }) => {
+  const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
   const handleCopyClick = () => {
@@ -283,7 +283,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
           <div className="mr-2 inline-block h-[0.9em]">
             {getMessageIcon(message)}
           </div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+          <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
         </>
       )}
 
@@ -309,7 +309,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       <div className="relative">
         {copied ? (
           <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            Copied!
+            {t("Copied!")}
           </span>
         ) : (
           <span
@@ -327,13 +327,14 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
 const DonationMessage = () => {
   const router = useRouter();
+  const [t] = useTranslation();
 
   return (
     <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
       <div className="max-w-none flex-grow">
-        💝️ Help support the advancement of AgentGPT. 💝
+        {`💝️ ${t("HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT")} 💝️`}
         <br />
-        Please consider sponsoring the project on GitHub.
+        {t("Please consider sponsoring the project on GitHub.")}
       </div>
       <div className="flex items-center justify-center">
         <Button
@@ -342,7 +343,7 @@ const DonationMessage = () => {
             void router.push("https://github.com/sponsors/reworkd-admin")
           }
         >
-          Support now 🚀
+          {`${t("SUPPORT_NOW")} 🚀`}
         </Button>
       </div>
     </div>
@@ -366,20 +367,20 @@ const getMessageIcon = (message: Message) => {
   }
 };
 
-const getMessagePrefix = (message: Message) => {
+const getMessagePrefix = (message: Message, t: Translation) => {
   switch (message.type) {
     case "goal":
-      return "Embarking on a new goal:";
+      return t("Embarking on a new goal:");
     case "task":
-      return "Added task:";
+      return t("Added task:");
     case "search":
       return "Searching the web:";
     case "analyzing":
       return "Analyzing task...";
     case "thinking":
-      return "Thinking...";
+      return t("Thinking...");
     case "action":
-      return message.info ? message.info : "Executing:";
+      return message.info ? message.info : t("Executing:");
   }
 };
 

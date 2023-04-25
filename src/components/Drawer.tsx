@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 import {
   FaBars,
   FaCog,
@@ -27,12 +28,37 @@ const Drawer = ({
   showHelp: () => void;
   showSettings: () => void;
 }) => {
-  const [showDrawer, setShowDrawer] = useState(false);
+  const [t] = useTranslation();
+  const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    // Function to check if the screen width is for desktop or tablet
+    const checkScreenWidth = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 768) {
+        // 768px is the breakpoint for tablet devices
+        setShowDrawer(true);
+      } else {
+        setShowDrawer(false);
+      }
+    };
+
+    // Call the checkScreenWidth function initially
+    checkScreenWidth();
+
+    // Set up an event listener for window resize events
+    window.addEventListener("resize", checkScreenWidth);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+    };
+  }, []);
+
   const sub = api.account.subscribe.useMutation({
-    onSuccess: async (url) => {
+    onSuccess: async (url: any) => {
       if (!url) return;
       await router.push(url);
     },
@@ -43,7 +69,7 @@ const Drawer = ({
   });
 
   const manage = api.account.manage.useMutation({
-    onSuccess: async (url) => {
+    onSuccess: async (url: any) => {
       if (!url) return;
       await router.push(url);
     },
@@ -57,52 +83,52 @@ const Drawer = ({
 
   return (
     <>
-      <button
-        hidden={showDrawer}
-        className="fixed left-2 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
-        onClick={toggleDrawer}
-      >
-        <FaBars />
-      </button>
       <div
         id="drawer"
         className={clsx(
-          showDrawer ? "translate-x-0" : "-translate-x-full",
-          "z-30 m-0 h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
-          "fixed top-0 md:sticky",
-          "flex md:translate-x-0"
+          showDrawer ? "translate-x-0 md:sticky" : "-translate-x-full",
+          "z-30 m-0 flex h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
+          "fixed top-0 "
         )}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
             My Agent(s)
             <button
-              className="z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2 text-white hover:bg-zinc-700 md:hidden"
+              className={clsx(
+                showDrawer ? "-translate-x-2" : "translate-x-12",
+                "absolute right-0 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2  text-white transition-all hover:bg-zinc-700 "
+              )}
               onClick={toggleDrawer}
             >
               <FaBars />
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            {userAgents.map((agent, index) => (
-              <DrawerItem
-                key={index}
-                icon={<FaRobot />}
-                text={agent.name}
-                className="w-full"
-                onClick={() => void router.push(`/agent?id=${agent.id}`)}
-              />
-            ))}
+            {userAgents.map(
+              (agent: any | undefined, index: any | undefined) => (
+                <DrawerItem
+                  key={index}
+                  icon={<FaRobot />}
+                  text={agent.name}
+                  className="w-full"
+                  onClick={() => void router.push(`/agent?id=${agent.id}`)}
+                />
+              )
+            )}
 
             {status === "unauthenticated" && (
               <div>
-                Sign in to be able to save agents and manage your account!
+                {t(
+                  "Sign in to be able to save agents and manage your account!"
+                )}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
               <div>
-                You need to create and save your first agent before anything
-                shows up here!
+                {t(
+                  "You need to create and save your first agent before anything shows up here!"
+                )}
               </div>
             )}
           </ul>
@@ -123,7 +149,7 @@ const Drawer = ({
           )}
           <DrawerItem
             icon={<FaQuestionCircle />}
-            text="Help"
+            text={t("Help")}
             onClick={showHelp}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
@@ -159,7 +185,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     return (
       <a
         className={clsx(
-          "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+          "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
           border && "border-[1px] border-white/20",
           `${className || ""}`
         )}
@@ -176,7 +202,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "flex cursor-pointer flex-row items-center rounded-md rounded-md p-2 hover:bg-white/5",
+        "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
         border && "border-[1px] border-white/20",
         `${className || ""}`
       )}
@@ -193,8 +219,9 @@ const AuthItem: React.FC<{
   signIn: () => void;
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
+  const [t] = useTranslation();
   const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
-  const text = session?.user ? "Sign Out" : "Sign In";
+  const text = session?.user ? t("Sign Out") : t("Sign In");
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
@@ -205,7 +232,8 @@ const ProItem: React.FC<{
   sub: () => any;
   manage: () => any;
 }> = ({ sub, manage, session }) => {
-  const text = session?.user?.subscriptionId ? "Account" : "Go Pro";
+  const [t] = useTranslation();
+  const text = session?.user?.subscriptionId ? t("Account") : t("Go Pro");
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
     icon = (

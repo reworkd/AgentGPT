@@ -17,7 +17,6 @@ import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
 import {
-  isAction,
   getTaskStatus,
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_THINKING,
@@ -309,7 +308,7 @@ const ChatMessage = ({
         </span>
       )}
 
-      {isAction(message) ? (
+      {message.info ? (
         <div className="prose ml-2 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}

@@ -76,10 +76,6 @@ export const isTask = (value: unknown): value is Task => {
 };
 
 /* Helper Functions */
-export const isAction = (value: unknown): boolean => {
-  return isTask(value) && value.status === TASK_STATUS_EXECUTING;
-};
-
 export const getTaskStatus = (value: unknown): string | undefined => {
   if (!isTask(value)) {
     return;

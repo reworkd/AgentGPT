@@ -7,7 +7,7 @@ export const config = {
   matcher: "/api/agent/:path*",
 };
 
-function ipFallback(request: Request): string {
+function ipFallback(request: Request) {
   const xff = request.headers.get("x-forwarded-for");
   return xff
     ? Array.isArray(xff)

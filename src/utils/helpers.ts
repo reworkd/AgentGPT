@@ -28,13 +28,17 @@ export const extractTasks = (
 
 export const extractArray = (inputStr: string): string[] => {
   // Match an outer array of strings (including nested arrays)
-  const regex = /(\[(?:\s*"(?:[^"\\]|\\.)*"\s*,?)+\s*\])/;
+  const regex =
+    /(\[(?:\s*(?:"(?:[^"\\]|\\.|\n)*"|'(?:[^'\\]|\\.|\n)*')\s*,?)+\s*\])/;
   const match = inputStr.match(regex);
 
   if (match && match[0]) {
     try {
+      // Replace single quotes with double quotes
+      const jsonString = match[0].replace(/'/g, '"');
+
       // Parse the matched string to get the array
-      return JSON.parse(match[0]) as string[];
+      return JSON.parse(jsonString) as string[];
     } catch (error) {
       console.error("Error parsing the matched array:", error);
     }

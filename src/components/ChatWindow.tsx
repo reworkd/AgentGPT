@@ -293,8 +293,8 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </span>
       )}
 
-      {message.type == "action" ? (
-        <div className="prose ml-2 max-w-none">
+      {message.type == "action" || message.type == "search" ? (
+        <div className="prose ml-2 max-w-none whitespace-pre-line leading-tight">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
@@ -376,7 +376,7 @@ const getMessagePrefix = (message: Message, t: Translation) => {
     case "search":
       return message.info ? message.info : t("Searching the web:");
     case "analyzing":
-      return "Analyzing task...";
+      return message.info ? message.info : t("Analyzing task...");
     case "thinking":
       return t("Thinking...");
     case "action":

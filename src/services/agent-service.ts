@@ -157,7 +157,12 @@ const MockAgentService: AgentService = {
     goal: string,
     task: string
   ) => {
-    return await new Promise((resolve) => resolve("reason"));
+    return await new Promise((resolve) =>
+      resolve({
+        action: "reason",
+        arg: "Mock analysis",
+      })
+    );
   },
 
   executeTaskAgent: async (

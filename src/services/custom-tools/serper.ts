@@ -22,7 +22,7 @@ export class Serper extends Tool {
   constructor(modelSettings: ModelSettings) {
     super();
 
-    this.key = process.env.SERP_API_KEY;
+    this.key = process.env.SERP_API_KEY ?? "";
     this.modelSettings = modelSettings;
     if (!this.key) {
       throw new Error(

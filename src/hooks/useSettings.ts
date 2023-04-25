@@ -10,7 +10,7 @@ const SETTINGS_KEY = "AGENTGPT_SETTINGS";
 const DEFAULT_SETTINGS: ModelSettings = {
   customApiKey: undefined,
   customModelName: GPT_35_TURBO,
-  customTemperature: 0.9,
+  customTemperature: 0.7,
   customMaxLoops: DEFAULT_MAX_LOOPS_FREE,
   maxTokens: 400,
 };

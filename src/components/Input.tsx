@@ -120,7 +120,7 @@ const Input = (props: InputProps) => {
 
   return (
     <div
-      className={`items-left z-10 flex w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a] ${
+      className={`items-left z-5 flex w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a] ${
         isTypeRange() ? "md: border-white/10 md:border-[2px]" : ""
       } shadow-xl md:flex-row md:items-center`}
     >

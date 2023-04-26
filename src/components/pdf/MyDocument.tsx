@@ -1,5 +1,5 @@
 import React from "react";
-import { Document, Page, Text, StyleSheet, Font } from "@react-pdf/renderer";
+import { Document, Font, Page, StyleSheet, Text } from "@react-pdf/renderer";
 
 Font.register({
   family: "Roboto,SourceHanSansCN",
@@ -27,11 +27,10 @@ const styles = StyleSheet.create({
   },
 });
 
-interface MyDocumentProps {
+// NOTE: This should only ever be imported dynamically to reduce load times
+const MyDocument: React.FC<{
   content: string;
-}
-
-const MyDocument: React.FC<MyDocumentProps> = ({ content }) => (
+}> = ({ content }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.section}>{content}</Text>

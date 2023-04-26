@@ -19,18 +19,25 @@ import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
+import { useMessageStore, resetAllSlices } from "../components/store";
+import { isTask } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
   const [t] = useTranslation();
+  // zustand states
+  const messages = useMessageStore.use.messages();
+  const tasks = useMessageStore.use.tasks();
+  const addMessage = useMessageStore.use.addMessage();
+  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const { settings, saveSettings } = useSettings();
+  const settingsModel = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-  const [messages, setMessages] = React.useState<Message[]>([]);
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -62,13 +69,17 @@ const Home: NextPage = () => {
   }, [agent]);
 
   const handleAddMessage = (message: Message) => {
-    setMessages((prev) => [...prev, message]);
-  };
+    if (isTask(message)) {
+      updateTaskStatus(message);
+    }
 
-  const tasks = messages.filter((message) => message.type === "task");
+    addMessage(message);
+  };
 
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
+
+  const isAgentStopped = () => !agent?.isRunning || agent === null;
 
   const handleNewGoal = () => {
     const agent = new AutonomousAgent(
@@ -76,12 +87,12 @@ const Home: NextPage = () => {
       goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
-      settings,
+      settingsModel.settings,
       session ?? undefined
     );
     setAgent(agent);
     setHasSaved(false);
-    setMessages([]);
+    resetAllSlices();
     agent.run().then(console.log).catch(console.error);
   };
 
@@ -122,7 +133,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customSettings={[settings, saveSettings]}
+        customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -184,8 +195,11 @@ const Home: NextPage = () => {
                     : undefined
                 }
                 scrollToBottom
+                isAgentStopped={isAgentStopped()}
               />
-              {tasks.length > 0 && <TaskWindow tasks={tasks} />}
+              {tasks.length > 0 && (
+                <TaskWindow isAgentStopped={isAgentStopped()} />
+              )}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">

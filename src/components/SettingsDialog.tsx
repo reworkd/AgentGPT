@@ -196,6 +196,7 @@ export const SettingsDialog: React.FC<{
           </>
         }
         placeholder={"sk-..."}
+        type="password"
         value={settings.customApiKey}
         onChange={(e) => updateSettings("customApiKey", e.target.value)}
       />

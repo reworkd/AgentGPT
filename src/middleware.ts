@@ -4,8 +4,7 @@ import { isAllowed } from "./server/redis";
 
 export const config = {
   // Only run the middleware on agent routes
-  // matcher: "/api/agent/:path*",
-  matcher: "/api/disabled",
+  matcher: "/api/agent/:path*",
 };
 
 function ipFallback(request: Request) {

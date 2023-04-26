@@ -36,7 +36,7 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const { settings, saveSettings } = useSettings();
+  const settingsModel = useSettings();
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
       goalInput.trim(),
       handleAddMessage,
       () => setAgent(null),
-      settings,
+      settingsModel.settings,
       session ?? undefined
     );
     setAgent(agent);
@@ -133,7 +133,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customSettings={[settings, saveSettings]}
+        customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />

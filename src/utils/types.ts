@@ -8,4 +8,10 @@ export type ModelSettings = {
   maxTokens?: number;
 };
 
+export type SettingModel = {
+  settings: ModelSettings;
+  saveSettings: (settings: ModelSettings) => void;
+  resetSettings: () => void;
+};
+
 export type Translation = TFunction<"translation", undefined>;

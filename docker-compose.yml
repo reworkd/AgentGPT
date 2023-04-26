@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+  autogpt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .env.docker:/app/.env
+      - ./db:/app/db

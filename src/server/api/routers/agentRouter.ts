@@ -27,6 +27,7 @@ export const agentRouter = createTRPCRouter({
           data: {
             agentId: agent.id,
             type: e.type,
+            status: e.status,
             info: e.info,
             value: e.value,
             sort: i,

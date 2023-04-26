@@ -15,6 +15,8 @@ import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
 import Accordion from "./Accordion";
 import type { ModelSettings } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
+import clsx from "clsx";
+import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -24,7 +26,7 @@ export const SettingsDialog: React.FC<{
   const [settings, setSettings] = React.useState<ModelSettings>({
     ...customSettings,
   });
-  const [t] = useTranslation();
+  const t = useTypeSafeTranslation();
 
   useEffect(() => {
     setSettings(customSettings);
@@ -61,7 +63,7 @@ export const SettingsDialog: React.FC<{
 
   const disabled = !settings.customApiKey;
   const advancedSettings = (
-    <>
+    <div className="flex flex-col gap-2">
       <Input
         left={
           <>
@@ -75,9 +77,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: `${t(
+          message: t(
             "Higher values will make the output more random, while lower values make the output more focused and deterministic."
-          )}`,
+          ),
           disabled: false,
         }}
         attributes={{
@@ -86,7 +88,6 @@ export const SettingsDialog: React.FC<{
           step: 0.01,
         }}
       />
-      <br />
       <Input
         left={
           <>
@@ -101,9 +102,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: `${t(
+          message: t(
             "Controls the maximum number of loops that the agent will run (higher value will make more API calls)."
-          )}`,
+          ),
           disabled: false,
         }}
         attributes={{
@@ -112,7 +113,6 @@ export const SettingsDialog: React.FC<{
           step: 1,
         }}
       />
-      <br />
       <Input
         left={
           <>
@@ -137,7 +137,7 @@ export const SettingsDialog: React.FC<{
           step: 100,
         }}
       />
-    </>
+    </div>
   );
 
   return (
@@ -146,19 +146,19 @@ export const SettingsDialog: React.FC<{
       isShown={show}
       close={close}
       footerButton={<Button onClick={handleSave}>Save</Button>}
+      contentClassName="text-md relative flex flex-col gap-2 p-2 leading-relaxed"
     >
       <p>
         {t(
           "Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers."
         )}
       </p>
-      <br />
       <p
-        className={
-          settings.customModelName === GPT_4
-            ? "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
-            : ""
-        }
+        className={clsx(
+          "my-2",
+          settings.customModelName === GPT_4 &&
+            "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
+        )}
       >
         <FaExclamationCircle className="inline-block" />
         &nbsp;
@@ -176,55 +176,45 @@ export const SettingsDialog: React.FC<{
           .&nbsp; {t("(ChatGPT Plus subscription will not work)")}
         </b>
       </p>
-      <br />
-      <div className="text-md relative flex-auto p-2 leading-relaxed">
-        <Input
-          left={
-            <>
-              <FaKey />
-              <span className="ml-2">Key: </span>
-            </>
-          }
-          placeholder={"sk-..."}
-          value={settings.customApiKey}
-          onChange={(e) => updateSettings("customApiKey", e.target.value)}
-        />
-        <br className="md:inline" />
-        <LanguageCombobox />
-        <br className="md:inline" />
-        <Input
-          left={
-            <>
-              <FaMicrochip />
-              <span className="ml-2">Model:</span>
-            </>
-          }
-          type="combobox"
-          value={settings.customModelName}
-          onChange={() => null}
-          setValue={(e) => updateSettings("customModelName", e)}
-          attributes={{ options: GPT_MODEL_NAMES }}
-          disabled={disabled}
-        />
-        <br className="hidden md:inline" />
-        <Accordion
-          child={advancedSettings}
-          name={t("Advanced Settings")}
-        ></Accordion>
-        <br />
-        <strong className="mt-10">
-          {t(
-            "NOTE: To get a key, sign up for an OpenAI account and visit the following"
-          )}{" "}
-          <a
-            href="https://platform.openai.com/account/api-keys"
-            className="text-blue-500"
-          >
-            {t("link")}.
-          </a>{" "}
-          {t("This key is only used in the current browser session")}
-        </strong>
-      </div>
+      <Input
+        left={
+          <>
+            <FaKey />
+            <span className="ml-2">Key: </span>
+          </>
+        }
+        placeholder={"sk-..."}
+        value={settings.customApiKey}
+        onChange={(e) => updateSettings("customApiKey", e.target.value)}
+      />
+      <LanguageCombobox />
+      <Input
+        left={
+          <>
+            <FaMicrochip />
+            <span className="ml-2">Model:</span>
+          </>
+        }
+        type="combobox"
+        value={settings.customModelName}
+        onChange={() => null}
+        setValue={(e) => updateSettings("customModelName", e)}
+        attributes={{ options: GPT_MODEL_NAMES }}
+        disabled={disabled}
+      />
+      <Accordion child={advancedSettings} name={t("Advanced Settings")} />
+      <strong className="mt-4">
+        {t(
+          "NOTE: To get a key, sign up for an OpenAI account and visit the following"
+        )}{" "}
+        <a
+          href="https://platform.openai.com/account/api-keys"
+          className="text-blue-500"
+        >
+          {t("link")}.
+        </a>{" "}
+        {t("This key is only used in the current browser session")}
+      </strong>
     </Dialog>
   );
 };

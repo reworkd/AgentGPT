@@ -3,6 +3,15 @@ import { PromptTemplate } from "langchain/prompts";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 
+const getServerSideKey = (): string => {
+  const keys: string[] = (process.env.OPENAI_API_KEY || "")
+    .split(",")
+    .map((key) => key.trim())
+    .filter((key) => key.length);
+
+  return keys[Math.floor(Math.random() * keys.length)] || "";
+};
+
 export const createModel = (settings: ModelSettings) => {
   let _settings: ModelSettings | undefined = settings;
   if (!settings.customModelName) {
@@ -10,7 +19,7 @@ export const createModel = (settings: ModelSettings) => {
   }
 
   return new OpenAI({
-    openAIApiKey: _settings?.customApiKey || process.env.OPENAI_API_KEY,
+    openAIApiKey: _settings?.customApiKey || getServerSideKey(),
     temperature: _settings?.customTemperature || 0.9,
     modelName: _settings?.customModelName || GPT_35_TURBO,
     maxTokens: _settings?.maxTokens || 400,

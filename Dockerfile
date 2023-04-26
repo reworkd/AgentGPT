@@ -11,6 +11,9 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+# Install git
+RUN apk add --no-cache git
+
 # Install dependencies
 RUN npm ci
 

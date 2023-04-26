@@ -1,141 +1,124 @@
-import inquirer from 'inquirer';
-import fs from 'fs';
-import { exec, execSync } from 'child_process';
-import figlet from 'figlet';
+import inquirer from "inquirer";
+import fs from "fs";
+import { exec, execSync } from "child_process";
+import { error } from "console";
+
+// Import dotenv package
+import dotenv from 'dotenv';
+// Load .env file explicitly
+dotenv.config({ path: './.env' });
+
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
 
 console.log(
-  '    ___                    __  __________ ______\n' +
-  '   /   | ____ ____  ____  / /_/ ____/ __ /_  __/\n' +
-  '  / /| |/ __ `/ _ \\/ __ \\/ __/ / __/ /_/ // /\n' +
-  ' / ___ / /_/ /  __/ / / / /_/ /_/ / ____// /\n' +
-  '/_/  |_\\__, /\\___/_/ /_/\\__ /____/_/    /_/\n' +
-  '      /____/                                  '
+  "    ___                    __  __________ ______\n" +
+    "   /   | ____ ____  ____  / /_/ ____/ __ /_  __/\n" +
+    "  / /| |/ __ `/ _ \\/ __ \\/ __/ / __/ /_/ // /\n" +
+    " / ___ / /_/ /  __/ / / / /_/ /_/ / ____// /\n" +
+    "/_/  |_\\__, /\\___/_/ /_/\\__ /____/_/    /_/\n" +
+    "      /____/                                  "
 );
 
-
-
-
-
-const is_valid_sk_key = (apiKey) => {
+const is_valid_sk_key = (apikey) => {
   const pattern = /^sk-[a-zA-Z0-9]{48}$/;
-  return pattern.test(apiKey);
+  return pattern.test(apikey);
 };
 
-async function promptForApiKey() {
-  const apiKeyQuestion = {
-    type: 'input',
-    name: 'OPENAI_API_KEY',
-    message: 'Enter your OpenAI Key (eg: sk...) or press enter to continue with no key:',
-    validate: (apiKey) => {
-      if (is_valid_sk_key(apiKey) || apiKey === '') {
-        return true;
-      } else {
-        console.log('\nInvalid API key. Please ensure that you have billing set up on your OpenAI account');
-        return await promptForApiKey(); //recursive call to prompt user again
-      }
-    },
-  };
-
-  const { OPENAI_API_KEY } = await inquirer.prompt(apiKeyQuestion);
-  return OPENAI_API_KEY;
-};
-  if (!is_valid_sk_key(OPENAI_API_KEY) && OPENAI_API_KEY !== '') {
-    console.log('Invalid API Key, Please try again.');
-    return promptForApiKey();
-  } else {
-    return OPENAI_API_KEY;
-  }
-}
-
-/*const generateFigletText = (text) => {
+async function generateNextAuthSecret() {
   return new Promise((resolve, reject) => {
-    figlet(text, font, (err, data) => {
-      if (err) {
-        reject(err);
+    exec("openssl rand -base64 32", (error, stdout) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        reject(error);
       } else {
-        resolve(data);
+        resolve(stdout.trim());
       }
     });
   });
-}; */
+}
+
 
 async function main() {
-/*  try {
-    const bannerText = await generateFigletText('Config Generator', 'Doom'); // Pass the desired font as the second argument
-    console.log(bannerText);
-  } catch (err) {
-    console.error('Error generating banner text');
-  } */
+
+ // const apikey = await promptforapikey();
 
   const questions = [
     {
-      type: 'input',
-      name: 'NODE_ENV',
-      message: 'Enter NODE_ENV (development/production):',
-      default: 'production',
+      type: "input",
+      name: "node_env",
+      message: "enter node_env (development/production):",
+      default: "production",
     },
     {
-      type: 'input',
-      name: 'NEXTAUTH_URL',
-      message: 'Enter NEXTAUTH_URL:',
-      default: 'http://localhost',
+      type: "input",
+      name: "nextauth_url",
+      message: "enter nextauth_url:",
+      default: "http://localhost",
     },
     {
-      type: 'input',
-      name: 'PORT',
-      message: 'Enter PORT:',
-      default: '3000',
+      type: "input",
+      name: "port",
+      message: "enter port:",
+      default: "3000",
     },
     {
-      type: 'input',
-      name: 'OPENAI_API_KEY',
-      message: 'Enter your OpenAI Key (eg: sk...) or press enter to continue with no key:',
-      validate: (apiKey) => {
-        if (is_valid_sk_key(apiKey) || apiKey === '') {
+      type: "input",
+      name: "openai_api_key",
+      message:
+        "enter your openai key (eg: sk...) or press enter to continue with no key:",
+      validate: async (apikey) => {
+        if (is_valid_sk_key(apikey) || apikey === "") {
           return true;
         } else {
-          return 'Invalid API key. Please ensure that you have billing set up on your OpenAI account';
-        }
+          console.log(
+            "\ninvalid api key. please ensure that you have billing set up on your openai account"
+          );
+          return false;
+        } 
       },
-    },
+    }, 
     {
-      type: 'list',
-      name: 'runOption',
-      message: 'How do you want to run the application?',
-      choices: ['docker-compose', 'docker', 'node'],
+      type: "list",
+      name: "runoption",
+      message: "how do you want to run the application?",
+      choices: ["docker-compose", "docker", "node"],
     },
   ];
 
   const answers = await inquirer.prompt(questions);
 
-  // Generate NEXTAUTH_SECRET and replace $FOO
-  exec('openssl rand -base64 32', (error, stdout) => {
+  // generate nextauth_secret and replace $foo
+ /*exec("openssl rand -base64 32", (error, stdout) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
-    }
+    }a*/
 
-    const NEXTAUTH_SECRET = stdout.trim();
-    console.log(`Generated NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}`);
+     
+    const nextauth_secret = await generateNextAuthSecret();
+    //console.log(`generated nextauth_secret: ${nextauth_secret}`)
 
-    const envContent = `
-# Deployment Environment:
-NODE_ENV=${answers.NODE_ENV}
+    const envcontent = `
+# deployment environment:
+node_env=${answers.node_env}
 
-# Next Auth config:
-# Generate a secret with \`openssl rand -base64 32\`, or visit https://generate-secret.vercel.app/
-NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-NEXTAUTH_URL=${answers.NEXTAUTH_URL}:${answers.PORT}
+# next auth config:
+# generate a secret with \`openssl rand -base64 32\`, or visit https://generate-secret.vercel.app/
+nextauth_secret=${nextauth_secret}
+nextauth_url=${answers.nextauth_url}:${answers.port}
 
-# Prisma
-DATABASE_URL=file:./db.sqlite
+# prisma
+database_url=file:./db.sqlite
 
-# External APIs:
-OPENAI_API_KEY=${answers.OPENAI_API_KEY}
+# external apis:
+openai_api_key=${answers.openai_api_key}
 `;
 
-    fs.writeFileSync('.env.test.docker', envContent);
-    console.log('Config saved to .env.test.docker');
+fs.writeFileSync(".env", envcontent)
+fs.writeFileSync(".env.docker", envcontent);
+console.log("config saved to .env and .env.docker");
 
     const composeContent = `
 version: '3.8'
@@ -145,39 +128,70 @@ services:
     build:
       context: .
       args:
-        NODE_ENV: ${answers.NODE_ENV}
+        node_env: ${answers.node_env}
     image: agentgpt
     container_name: agentgpt_compose
     ports:
-      - "${answers.PORT}:3000"
+      - "${answers.port}:3000"
     volumes:
       - ./db:/app/db
     environment:
-      NODE_ENV: ${answers.NODE_ENV}
+      node_env: ${answers.node_env}
 `;
 
-    fs.writeFileSync('docker-compose-test.yml', composeContent);
-    console.log('docker-compose-test.yml created.');
-  });
-  // Docker-compose setup
-  if (answers.runOption === 'docker-compose') {
-    execSync('docker-compose up -d', { stdio: 'inherit' });
+    fs.writeFileSync("docker-compose.yml", composeContent);
+    console.log("docker-compose.yml created.");
+  
+  // docker-compose setup
+  if (answers.runoption === "docker-compose") {
+    execSync("docker-compose up -d", { stdio: "inherit" });
   }
-  // Docker setup
-  else if (answers.runOption === 'docker') {
-    execSync('docker build --build-arg NODE_ENV=' + answers.NODE_ENV + ' -t agentgpt .', {stdio: 'inherit' });
-    execSync(
-      'docker run -d --name agentgpt -p ' + answers.PORT + ':3000 -v $(pwd)/db:/app/db agentgpt',
-      { stdio: 'inherit' },
+  // docker setup
+  else if (answers.runoption === "docker") {
+    /*execSync(
+      "docker build --build-arg node_env=" +
+        answers.node_env +
+        " -t agentgpt .",
+      { stdio: "inherit" }
     );
-  }
-  // Node.js setup
-  else {
-    execSync('./prisma/useSqlite.sh', { stdio: 'inherit' });
-    execSync('npm install', { stdio: 'inherit' });
-    execSync('npm run dev', { stdio: 'inherit' });
+    /*execSync(
+      "docker run -d --name agentgpt -p " +
+        answers.port +
+        ":3000 -v $(pwd)/db:/app/db agentgpt",
+      { stdio: "inherit" }
+    );
+    execSync("docker build --build-arg node_env=production -t agentgpt . --no-cache --progress=plain")
+  }*/
+  // node.js setup
+
+
+
+  // cant get it to work from the script, too tired to debug== hardcoding it. will fix.
+  const scriptPathDocker = './setup.sh --docker';
+  exec(scriptPathDocker, (error, stdout, stderr) => {
+    if (error) {
+      console.error('Error executing script: ${error}');
+      return;
+    }
+    console.log('Script output:\n${stdout}');
+  });
+
+  } else {
+    /*fs.writeFileSync('prisma/schema.prisma', fs.readFileSync('prisma/schema.sqlite.prisma'));
+    execSync('touch db.sqlite && prisma generate', { stdio: 'inherit' });
+    execSync("npm install", { stdio: "inherit" });
+    execSync("npm run dev", { stdio: "inherit" });*/
+
+    // cant get it to work from the script, too tired to debug== hardcoding it. will fix.
+    const scriptPathNode = './setup.node.sh';
+    exec(scriptPathNode, (error, stdout, stderr) => {
+      if (error) {
+        console.error('Error executing script: ${error}');
+        return;
+      }
+      console.log('Script output:\n${stdout}');
+      });
   }
 }
 
 main();
-

@@ -4,11 +4,12 @@ import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 
 const getServerSideKey = (): string => {
-  const keys: string[] = process.env.OPENAI_API_KEY.split(",")
+  const keys: string[] = (process.env.OPENAI_API_KEY || "")
+    .split(",")
     .map((key) => key.trim())
     .filter((key) => key.length);
 
-  return keys[Math.floor(Math.random() * keys.length)];
+  return keys[Math.floor(Math.random() * keys.length)] || "";
 };
 
 export const createModel = (settings: ModelSettings) => {

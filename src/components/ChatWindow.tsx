@@ -102,6 +102,14 @@ const ChatWindow = ({
                 message={{
                   type: "system",
                   value: t(
+                    "🚨🚨 We are experiencing higher than usual traffic, expect high delays and failures with the tool 🚨🚨"
+                  ),
+                }}
+              />
+              <ChatMessage
+                message={{
+                  type: "system",
+                  value: t(
                     "> Create an agent by adding a name / goal, and hitting deploy!"
                   ),
                 }}

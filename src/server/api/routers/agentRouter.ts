@@ -2,12 +2,12 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { prisma } from "../../db";
-import { messageParser } from "../../../types/agentTypes";
+import { messageSchema } from "../../../types/agentTypes";
 
 const saveAgentParser = z.object({
   name: z.string(),
   goal: z.string(),
-  tasks: z.array(messageParser),
+  tasks: z.array(messageSchema),
 });
 
 export const agentRouter = createTRPCRouter({

@@ -3,6 +3,7 @@ import { FaFilePdf } from "react-icons/fa";
 import { pdf } from "@react-pdf/renderer";
 import React, { memo } from "react";
 import type { Message } from "../../types/agentTypes";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
 
 import { useTranslation } from "react-i18next";
 
@@ -48,10 +49,10 @@ const getContent = (messages: Message[]): string => {
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
-      if (message.type == "goal") {
+      if (message.type == MESSAGE_TYPE_GOAL) {
         return `${t("Goal: ")}${message.value}`;
       }
-      if (message.type == "task") {
+      if (message.type == MESSAGE_TYPE_TASK) {
         return `${t("Adding Task: ")}${message.value}`;
       }
       return message.value;

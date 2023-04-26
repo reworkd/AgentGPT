@@ -99,10 +99,11 @@ const ChatWindow = ({
           <>
             <Expand delay={0.8} type="spring">
               <ChatMessage
+                className="bg-red-900"
                 message={{
                   type: "system",
                   value: t(
-                    "🚨🚨 We are experiencing higher than usual traffic, expect high delays and failures with the tool 🚨🚨"
+                    "🚨 We are experiencing exceptional traffic, expect delays and failures if you do not use your own API key🚨"
                   ),
                 }}
               />
@@ -256,7 +257,13 @@ const MacWindowHeader = (props: HeaderProps) => {
     </div>
   );
 };
-const ChatMessage = ({ message }: { message: Message }) => {
+const ChatMessage = ({
+  message,
+  className,
+}: {
+  message: Message;
+  className?: string;
+}) => {
   const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -279,7 +286,10 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
   return (
     <div
-      className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
+      className={clsx(
+        "mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base",
+        className
+      )}
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}

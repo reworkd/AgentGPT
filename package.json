@@ -11,7 +11,7 @@
     "postinstall": "prisma generate",
     "lint": "cross-env SKIP_ENV_VALIDATION=1 next lint",
     "start": "next start",
-    "prepare": "husky install",
+    "prepare": "npx husky install",
     "test": "cross-env SKIP_ENV_VALIDATION=1 jest"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "next-auth": "^4.19.0",
     "next-i18next": "^13.2.2",
     "nextjs-google-analytics": "^2.3.3",
+    "open": "^9.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.2.1",

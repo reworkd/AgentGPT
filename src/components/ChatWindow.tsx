@@ -109,6 +109,15 @@ const ChatWindow = ({
           <>
             <Expand delay={0.8} type="spring">
               <ChatMessage
+                className="bg-red-900"
+                message={{
+                  type: "system",
+                  value: t(
+                    "🚨 We are experiencing exceptional traffic, expect delays and failures if you do not use your own API key🚨"
+                  ),
+                }}
+              />
+              <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
                   value: t(
@@ -261,8 +270,10 @@ const MacWindowHeader = (props: HeaderProps) => {
 const ChatMessage = ({
   message,
   isAgentStopped,
+  className,
 }: {
   message: Message;
+  className?: string;
   isAgentStopped?: boolean;
 }) => {
   const [t] = useTranslation();

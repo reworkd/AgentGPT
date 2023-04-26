@@ -11,10 +11,10 @@ import Toast from "../../components/toast";
 import { FaTrash, FaShare, FaBackspace } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const AgentPage: NextPage = () => {
-  const [ t ] = useTranslation();
+  const [t] = useTranslation();
   const [showCopied, setShowCopied] = useState(false);
   const router = useRouter();
 
@@ -75,7 +75,7 @@ const AgentPage: NextPage = () => {
       </div>
       <Toast
         model={[showCopied, setShowCopied]}
-        title={t('Copied to clipboard! 🚀')}
+        title={t("Copied to clipboard! 🚀")}
         className="bg-gray-950 text-sm"
       />
     </DefaultLayout>

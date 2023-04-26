@@ -84,6 +84,7 @@ model AgentTask {
   id      String  @id @default(cuid())
   agentId String
   type    String
+  status  String?
   value   String  @db.Text
   info    String? @db.Text
   sort    Int

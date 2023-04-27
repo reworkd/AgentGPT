@@ -7,10 +7,10 @@ name: "Docker: Docker Hub"
 
 on:
   push:
-    branches: [ main_access_token ]
+    branches: [ main ]
     tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ main_access_token ]
+    branches: [ main ]
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}

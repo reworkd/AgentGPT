@@ -19,7 +19,7 @@ is_valid_sk_key() {
 # Prompt the user to enter an OpenAI API key
 read -p "Enter your OpenAI Key (eg: sk...) or press enter to continue with no key: " OPENAI_API_KEY
 
-# Check if the key is valid or empty
+# Check if the key is valid
 if [[ -n $OPENAI_API_KEY ]] && ! is_valid_sk_key "$OPENAI_API_KEY"; then
   echo "Invalid API key. Please ensure that you have billing set up on your OpenAI account"
   exit 1

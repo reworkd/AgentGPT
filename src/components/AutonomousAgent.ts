@@ -7,10 +7,20 @@ import {
   DEFAULT_MAX_LOOPS_PAID,
 } from "../utils/constants";
 import type { Session } from "next-auth";
-import type { Message } from "../types/agentTypes";
 import { env } from "../env/client.mjs";
-import { v4 } from "uuid";
+import { v4, v1 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
+import {
+  TASK_STATUS_STARTED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
+  MESSAGE_TYPE_TASK,
+  MESSAGE_TYPE_GOAL,
+  MESSAGE_TYPE_THINKING,
+  MESSAGE_TYPE_SYSTEM,
+} from "../types/agentTypes";
+import type { Message, Task } from "../types/agentTypes";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -18,7 +28,7 @@ const TIMOUT_SHORT = 800;
 class AutonomousAgent {
   name: string;
   goal: string;
-  tasks: string[] = [];
+  tasks: Message[] = [];
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = true;
@@ -49,12 +59,19 @@ class AutonomousAgent {
     this.sendGoalMessage();
     this.sendThinkingMessage();
 
-    // Initialize by getting tasks
+    // Initialize by getting taskValues
     try {
-      this.tasks = await this.getInitialTasks();
-      for (const task of this.tasks) {
+      const taskValues = await this.getInitialTasks();
+      for (const value of taskValues) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        this.sendTaskMessage(task);
+        const task: Task = {
+          taskId: v1().toString(),
+          value,
+          status: TASK_STATUS_STARTED,
+          type: MESSAGE_TYPE_TASK,
+        };
+        this.sendMessage(task);
+        this.tasks.push(task);
       }
     } catch (e) {
       console.log(e);
@@ -93,12 +110,18 @@ class AutonomousAgent {
 
     // Execute first task
     // Get and remove first task
-    this.completedTasks.push(this.tasks[0] || "");
-    const currentTask = this.tasks.shift();
-    this.sendThinkingMessage();
+    this.completedTasks.push(this.tasks[0]?.value || "");
 
-    const result = await this.executeTask(currentTask as string);
-    this.sendExecutionMessage(currentTask as string, result);
+    const currentTask = this.tasks.shift() as Task;
+    this.sendThinkingMessage();
+    currentTask.status = TASK_STATUS_EXECUTING;
+    this.sendMessage(currentTask);
+
+    const result = await this.executeTask(currentTask.value);
+
+    currentTask.status = TASK_STATUS_COMPLETED;
+    currentTask.info = result;
+    this.sendMessage(currentTask);
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -106,25 +129,30 @@ class AutonomousAgent {
 
     // Add new tasks
     try {
-      const newTasks = await this.getAdditionalTasks(
-        currentTask as string,
-        result
-      );
-      this.tasks = this.tasks.concat(newTasks);
-      for (const task of newTasks) {
+      const newTasks = await this.getAdditionalTasks(currentTask.value, result);
+      for (const value of newTasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        this.sendTaskMessage(task);
+        const task: Task = {
+          taskId: v1().toString(),
+          value,
+          status: TASK_STATUS_STARTED,
+          type: MESSAGE_TYPE_TASK,
+        };
+        this.tasks.push(task);
+        this.sendMessage(task);
       }
 
       if (newTasks.length == 0) {
-        this.sendActionMessage("Task marked as complete!");
+        currentTask.status = TASK_STATUS_FINAL;
+        this.sendMessage(currentTask);
       }
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
         `ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.`
       );
-      this.sendActionMessage("Task marked as complete.");
+      currentTask.status = TASK_STATUS_FINAL;
+      this.sendMessage(currentTask);
     }
 
     await this.loop();
@@ -153,7 +181,6 @@ class AutonomousAgent {
       goal: this.goal,
     };
     const res = await this.post(`/api/agent/start`, data);
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
   }
@@ -162,11 +189,13 @@ class AutonomousAgent {
     currentTask: string,
     result: string
   ): Promise<string[]> {
+    const taskValues = this.tasks.map((task) => task.value);
+
     if (this.shouldRunClientSide()) {
       return await AgentService.createTasksAgent(
         this.modelSettings,
         this.goal,
-        this.tasks,
+        taskValues,
         currentTask,
         result,
         this.completedTasks
@@ -176,7 +205,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
-      tasks: this.tasks,
+      tasks: taskValues,
       lastTask: currentTask,
       result: result,
       completedTasks: this.completedTasks,
@@ -237,12 +266,12 @@ class AutonomousAgent {
   }
 
   sendGoalMessage() {
-    this.sendMessage({ type: "goal", value: this.goal });
+    this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: this.goal });
   }
 
   sendLoopMessage() {
     this.sendMessage({
-      type: "system",
+      type: MESSAGE_TYPE_SYSTEM,
       value: !!this.modelSettings.customApiKey
         ? `This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.`
         : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
@@ -251,44 +280,24 @@ class AutonomousAgent {
 
   sendManualShutdownMessage() {
     this.sendMessage({
-      type: "system",
+      type: MESSAGE_TYPE_SYSTEM,
       value: `The agent has been manually shutdown.`,
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
-      type: "system",
+      type: MESSAGE_TYPE_SYSTEM,
       value: "All tasks completed. Shutting down.",
     });
   }
 
   sendThinkingMessage() {
-    this.sendMessage({ type: "thinking", value: "" });
-  }
-
-  sendTaskMessage(task: string) {
-    this.sendMessage({ type: "task", value: task });
+    this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
   }
 
   sendErrorMessage(error: string) {
-    this.sendMessage({ type: "system", value: error });
-  }
-
-  sendExecutionMessage(task: string, execution: string) {
-    this.sendMessage({
-      type: "action",
-      info: `Executing "${task}"`,
-      value: execution,
-    });
-  }
-
-  sendActionMessage(message: string) {
-    this.sendMessage({
-      type: "action",
-      info: message,
-      value: "",
-    });
+    this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
   }
 }
 

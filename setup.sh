@@ -2,9 +2,10 @@
 cd "$(dirname "$0")" || exit
 
 is_valid_sk_key() {
-  local api_key=$1
-  local pattern="^sk-[a-zA-Z0-9]{48}$"
-  [[ $api_key =~ $pattern ]] && return 0 || return 1
+#  local api_key=$1
+#  local pattern="^sk-[a-zA-Z0-9]{48}$"
+#  [[ $api_key =~ $pattern ]] && return 0 || return 1
+  return 0
 }
 
 echo -n "Enter your OpenAI Key (eg: sk...) or press enter to continue with no key: "

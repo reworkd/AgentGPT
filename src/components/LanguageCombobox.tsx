@@ -47,7 +47,6 @@ const LanguageCombobox = () => {
 };
 
 const findLanguage = (nameOrLocale: string): Language => {
-  nameOrLocale.length > 2 ? console.log(nameOrLocale.substring(4).trim()) : console.log(nameOrLocale);
   const selectedLanguage = languages.find(
     (lang) => lang.code === nameOrLocale || lang.name === nameOrLocale.substring(4).trim()
   );

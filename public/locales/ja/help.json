@@ -1,9 +1,9 @@
 {
-  "WELCOME_TO_AGENT_GPT": "Welcome to AgentGPT",
-  "INTRODUCING_AGENTGPT": "allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀",
-  "PLATFORM_BETA_DESCRIPTION": "This platform is currently in beta, we are currently working on:",
-  "LONG_TERM_MEMORY": "Long term memory 🧠",
-  "WEB_BROWSING": "Web browsing 🌐",
-  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interaction with websites and people 👨‍👩‍👦",
-  "FOLLOW_THE_JOURNEY": "Follow the journey below:"
+  "WELCOME_TO_AGENT_GPT": "AgentGPTへようこそ",
+  "INTRODUCING_AGENTGPT": "は、ブラウザーで独自のAIエージェントを構成して実行することができます。独自のAIエージェントに名前を付け、目標を定義します。AIエージェントは、タスクを作成し、実行し、結果を評価することで、指定された目標を達成しようとします 🚀",
+  "PLATFORM_BETA_DESCRIPTION": "このプラットフォームは現在ベータ版です。現在、以下に取り組んでいます：",
+  "LONG_TERM_MEMORY": "長期的な記憶 🧠",
+  "WEB_BROWSING": "Webブラウジング 🌐",
+  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "ウェブサイトや人々との相互作用 👨‍👩‍👦",
+  "FOLLOW_THE_JOURNEY": "以下のチャンネルで私たちに参加してください:"
 }

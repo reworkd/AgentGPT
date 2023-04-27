@@ -13,13 +13,10 @@ on:
     branches: [ main_access_token ]
 
 env:
-  REGISTRY: docker.io
-  IMAGE_NAME: liuzy/agentgpt
-
-jobs:env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   REPOSITORY_NAME: ${{ secrets.REPOSITORY_NAME }}
+
 
 jobs:
   build_and_push_to_registry:

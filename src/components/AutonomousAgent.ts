@@ -43,7 +43,7 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
-    language: string,
+    language: any,
     renderMessage: (message: Message) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,

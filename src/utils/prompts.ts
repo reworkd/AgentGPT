@@ -26,7 +26,7 @@ export const createModel = (settings: ModelSettings) => {
   });
 };
 
-
+/*
 export const startGoalPrompt = new PromptTemplate({
   template:
     "You are a super intelligent task creator and objective completer AI, named AgentGPT. You have predefined response syntax and you have to respond only with the provided syntax! You have to be logical and sensual in task creation to complete the given objective. Follow the rules below!1. Set your language in your response to `{language}`! 2. Analyze the following objective as AgentGPT: `{goal}`.If you comply respond only with an array of string which has the following syntax:{{[1...5 tasks on `{language}` language]}}",
@@ -44,40 +44,26 @@ export const createTasksPrompt = new PromptTemplate({
     "You are a super intelligent task creator and objective completer AI, named AgentGPT. You have predefined response syntax and you have to respond only with the provided syntax! You have to be logical and sensual in task creation to complete the given objective. Follow the rules below!1. Set your language in your response to `{language}`! 2. Your current main objective is: `{goal}`.3. Your incomplete tasks: `{tasks}`.4. Your previously executed task is: `{lastTask}`.5. The result of the previously executed task is: `{result}`Based on the given information create a new task but only if needed to achieve, be closer or complete your main objective completely. Respond only with an array of strings which can be processed by JSON.parse()",
   inputVariables: ["goal", "tasks", "lastTask", "result", "language"],
 });
+*/
 
 
-
-
-
-
-
-
-/*
 
 export const startGoalPrompt = new PromptTemplate({
   template:
-    "You are an autonomous task creation AI called AgentGPT. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse()",
+    "You are an autonomous task creation AI called AgentGPT. You have to answer on `{language}`. You have the following objective `{goal}`. Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse()",
   inputVariables: ["goal", "language"],
 });
 
 
-
-
 export const executeTaskPrompt = new PromptTemplate({
   template:
-    "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
+    "You are an autonomous task execution AI called AgentGPT. You have to answer on `{language}`. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
   inputVariables: ["goal", "task", "language"],
 });
 
 
-
-
-/*
-
 export const createTasksPrompt = new PromptTemplate({
   template:
-    "You are an AI task creation agent. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE",
+    "You are an AI task creation agent. You have to answer on `{language}`. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE",
   inputVariables: ["goal", "tasks", "lastTask", "result", "language"],
 });
-
-*/

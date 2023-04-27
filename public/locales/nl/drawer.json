@@ -1,11 +1,11 @@
 {
   "HELP_BUTTON": "Help",
-  "SETTINGS_BUTTON": "Settings",
-  "MY_AGENTS": "My agent(s)",
-  "SIGN_IN_NOTICE": "Sign in to be able to save agents and manage your account!",
-  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "ASD",
-  "SIGN_IN": "Sign In",
-  "SIGN_OUT": "Sign Out",
+  "SETTINGS_BUTTON": "Instellingen",
+  "MY_AGENTS": "Mijn agenten",
+  "SIGN_IN_NOTICE": "Meld u aan om uw agenten op te slaan en uw account te beheren!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "U moet eerst uw eerste agent maken en opslaan voordat er hier iets verschijnt!",
+  "SIGN_IN": "Inloggen",
+  "SIGN_OUT": "Uitloggen",
   "ACCOUNT" : "Account",
-  "USER_IMAGE": "User Image"
+  "USER_IMAGE": "Gebruikersafbeelding"
 }

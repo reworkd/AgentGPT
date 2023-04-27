@@ -1,17 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import {
-  FaBrain,
-  FaClipboard,
-  FaCopy,
-  FaDatabase,
-  FaImage,
-  FaListAlt,
-  FaPlayCircle,
-  FaSave,
-  FaStar,
-} from "react-icons/fa";
+import { FaClipboard, FaCopy, FaImage, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -26,7 +16,19 @@ import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
+import {
+  isAction,
+  getTaskStatus,
+  MESSAGE_TYPE_GOAL,
+  MESSAGE_TYPE_THINKING,
+  MESSAGE_TYPE_SYSTEM,
+  TASK_STATUS_STARTED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
+} from "../types/agentTypes";
 import clsx from "clsx";
+import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
 
 interface ChatWindowProps extends HeaderProps {
@@ -35,6 +37,7 @@ interface ChatWindowProps extends HeaderProps {
   showDonation: boolean;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
+  isAgentStopped?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -48,6 +51,7 @@ const ChatWindow = ({
   onSave,
   fullscreen,
   scrollToBottom,
+  isAgentStopped,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -88,11 +92,17 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
-        {messages.map((message, index) => (
-          <FadeIn key={`${index}-${message.type}`}>
-            <ChatMessage message={message} />
-          </FadeIn>
-        ))}
+        {messages.map((message, index) => {
+          if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
+            return null;
+          }
+
+          return (
+            <FadeIn key={`${index}-${message.type}`}>
+              <ChatMessage message={message} isAgentStopped={isAgentStopped} />
+            </FadeIn>
+          );
+        })}
         {children}
 
         {messages.length === 0 && (
@@ -109,7 +119,7 @@ const ChatWindow = ({
               />
               <ChatMessage
                 message={{
-                  type: "system",
+                  type: MESSAGE_TYPE_SYSTEM,
                   value: t(
                     "> Create an agent by adding a name / goal, and hitting deploy!"
                   ),
@@ -119,7 +129,7 @@ const ChatWindow = ({
             <Expand delay={0.9} type="spring">
               <ChatMessage
                 message={{
-                  type: "system",
+                  type: MESSAGE_TYPE_SYSTEM,
                   value: `📢 ${t("YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY")}`,
                 }}
               />
@@ -259,10 +269,12 @@ const MacWindowHeader = (props: HeaderProps) => {
 };
 const ChatMessage = ({
   message,
+  isAgentStopped,
   className,
 }: {
   message: Message;
   className?: string;
+  isAgentStopped?: boolean;
 }) => {
   const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
@@ -286,37 +298,36 @@ const ChatMessage = ({
 
   return (
     <div
-      className={clsx(
-        "mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base",
-        className
-      )}
+      className={`${getMessageContainerStyle(
+        message
+      )} mx-2 my-1 rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base`}
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}
     >
-      {message.type != "system" && (
+      {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">
-            {getMessageIcon(message)}
+            {getTaskStatusIcon(message, { isAgentStopped })}
           </div>
           <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
         </>
       )}
 
-      {message.type == "thinking" && (
+      {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
           (Restart if this takes more than 30 seconds)
         </span>
       )}
 
-      {message.type == "action" ? (
+      {isAction(message) ? (
         <div className="prose ml-2 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
           >
-            {message.value}
+            {message.info || ""}
           </ReactMarkdown>
         </div>
       ) : (
@@ -367,30 +378,19 @@ const DonationMessage = () => {
   );
 };
 
-const getMessageIcon = (message: Message) => {
-  switch (message.type) {
-    case "goal":
-      return <FaStar className="text-yellow-300" />;
-    case "task":
-      return <FaListAlt className="text-gray-300" />;
-    case "thinking":
-      return <FaBrain className="mt-[0.1em] text-pink-400" />;
-    case "action":
-      return <FaPlayCircle className="text-green-500" />;
-  }
-};
-
 const getMessagePrefix = (message: Message, t: Translation) => {
-  switch (message.type) {
-    case "goal":
-      return t("Embarking on a new goal:");
-    case "task":
-      return t("Added task:");
-    case "thinking":
-      return t("Thinking...");
-    case "action":
-      return message.info ? message.info : t("Executing:");
+  if (message.type === MESSAGE_TYPE_GOAL) {
+    return t("Embarking on a new goal:");
+  } else if (message.type === MESSAGE_TYPE_THINKING) {
+    return t("Thinking...");
+  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
+    return t("Added task:");
+  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
+    return `Completing: ${message.value}`;
+  } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
+    return t("No more subtasks for:");
   }
+  return "";
 };
 
 export default ChatWindow;

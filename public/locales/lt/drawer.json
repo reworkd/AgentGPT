@@ -1,11 +1,11 @@
 {
-  "HELP_BUTTON": "Help",
-  "SETTINGS_BUTTON": "Settings",
-  "MY_AGENTS": "My agent(s)",
-  "SIGN_IN_NOTICE": "Sign in to be able to save agents and manage your account!",
-  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "ASD",
-  "SIGN_IN": "Sign In",
-  "SIGN_OUT": "Sign Out",
-  "ACCOUNT" : "Account",
-  "USER_IMAGE": "User Image"
+  "HELP_BUTTON": "Pagalba",
+  "SETTINGS_BUTTON": "Nustatymai",
+  "MY_AGENTS": "Mano agentai",
+  "SIGN_IN_NOTICE": "Prisijunkite, kad galėtumėte įrašyti savo agentus ir tvarkyti savo paskyrą!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "Pirma turite sukurti ir įrašyti savo pirmąjį agentą, prieš atsiras ką nors čia!",
+  "SIGN_IN": "Prisijungti",
+  "SIGN_OUT": "Atsijungti",
+  "ACCOUNT" : "Paskyra",
+  "USER_IMAGE": "Naudotojo paveikslėlis"
 }

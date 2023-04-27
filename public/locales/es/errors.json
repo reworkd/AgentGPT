@@ -1,12 +1,12 @@
 {
-    "ERROR_ACCESSING_OPENAI_API_KEY": "ERROR accessing OpenAI APIs. Please check your API key or try again later",
-    "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
-    "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅",
-    "AGENT_MAXED_OUT_LOOPS": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",
-    "DEMO_LOOPS_REACHED": "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
-    "AGENT_MANUALLY_SHUT_DOWN": "The agent has been manually shutdown.",
-    "ALL_TASKS_COMPLETETD": "All tasks completed. Shutting down.",
-    "ERROR_API_KEY_QUOTA": "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.",
-    "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)",
-    "ERROR_RETRIEVE_INITIAL_TASKS": "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down."
+    "ERROR_ACCESSING_OPENAI_API_KEY": "Error al acceder a la clave de API de OpenAI. Por favor, verifique la clave de API o intente más tarde.",
+    "ERROR_ADDING_ADDITIONAL_TASKS": "Error al agregar tarea(s) adicional(es). Es posible que nuestro modelo no pueda manejar la respuesta y esto lo haya generado. Continuando...",
+    "RATE_LIMIT_EXCEEDED": "¡Ha alcanzado el número máximo de consultas! Por favor, disminuya la velocidad...😅",
+    "AGENT_MAXED_OUT_LOOPS": "Este agente ha alcanzado el número máximo de rondas ejecutables. Para salvar su billetera, este agente se detendrá ahora... El número máximo de rondas de ejecución del agente se puede configurar en la configuración.",
+    "DEMO_LOOPS_REACHED": "Lo siento, como esta es una aplicación de demostración, no podemos ejecutar nuestros agentes durante mucho tiempo. Nota: Si desea ejecuciones más largas, proporcione una clave de API personalizada en Configuración. Deteniendo...",
+    "AGENT_MANUALLY_SHUT_DOWN": "Agente apagado manualmente.",
+    "ALL_TASKS_COMPLETETD": "Todas las tareas han sido completadas. Deteniendo...",
+    "ERROR_API_KEY_QUOTA": "Error al usar la clave de API de OpenAI. Ha superado su cuota actual, por favor, revise su información de facturación.",
+    "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR: Su clave de API de OpenAI no tiene acceso a GPT-4. Primero debe registrarse en la lista de espera de OpenAI. (Esto es diferente de ChatGPT Plus)",
+    "ERROR_RETRIEVE_INITIAL_TASKS": "Error al recuperar las tareas iniciales. Inténtelo de nuevo, formule el objetivo del agente de manera más clara o modifíquelo de tal manera que se adapte a nuestro modelo. Deteniendo..."
 }

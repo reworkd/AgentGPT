@@ -1,9 +1,9 @@
 {
   "BETA": "Beta",
-  "HEADING_DESCRIPTION": "Assemble, configure, and deploy autonomous AI Agents in your browser.",
-  "AGENT_NAME": "Name",
-  "LABEL_AGENT_GOAL": "Goal",
-  "PLACEHOLDER_AGENT_GOAL": "Make the world a better place",
-  "BUTTON_DEPLOY_AGENT": "Deploy Agent",
-  "BUTTON_STOP_AGENT": "Stop Agent"
+  "HEADING_DESCRIPTION": "Compilează, configurează și instalează agenți autonomi de IA în browser-ul tău.",
+  "AGENT_NAME": "Nume",
+  "LABEL_AGENT_GOAL": "Scop",
+  "PLACEHOLDER_AGENT_GOAL": "Să facă lumea un loc mai bun",
+  "BUTTON_DEPLOY_AGENT": "Execută agentul",
+  "BUTTON_STOP_AGENT": "Oprește agentul"
 }

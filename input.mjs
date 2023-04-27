@@ -2,14 +2,12 @@ import inquirer from "inquirer";
 import fs from "fs";
 import { exec, execSync } from "child_process";
 import { error } from "console";
-
-// Import dotenv package
 import dotenv from 'dotenv';
-// Load .env file explicitly
 dotenv.config({ path: './.env' });
-
 import { PrismaClient } from "@prisma/client";
+import { executionAsyncResource } from "async_hooks";
 const prisma = new PrismaClient();
+
 
 
 console.log(
@@ -39,28 +37,24 @@ async function generateNextAuthSecret() {
   });
 }
 
-
-async function main() {
-
- // const apikey = await promptforapikey();
-
+async function promptForConfiguration() {
   const questions = [
+ //   {
+ //     type: "input",
+ //     name: "NODE_ENV",
+ //     message: "enter NODE_ENV (development/production):",
+ //     default: "production",
+ //   },
     {
       type: "input",
-      name: "node_env",
-      message: "enter node_env (development/production):",
-      default: "production",
-    },
-    {
-      type: "input",
-      name: "nextauth_url",
-      message: "enter nextauth_url:",
+      name: "NEXTAUTH_URL",
+      message: "enter NEXTAUTH_URL:",
       default: "http://localhost",
     },
     {
       type: "input",
-      name: "port",
-      message: "enter port:",
+      name: "PORT",
+      message: "enter PORT:",
       default: "3000",
     },
     {
@@ -76,121 +70,114 @@ async function main() {
             "\ninvalid api key. please ensure that you have billing set up on your openai account"
           );
           return false;
-        } 
+        }
       },
-    }, 
+    },
     {
       type: "list",
       name: "runoption",
       message: "how do you want to run the application?",
       choices: ["docker-compose", "docker", "node"],
     },
-  ];
-
+  ]; 
   const answers = await inquirer.prompt(questions);
+  const nextauth_secret = await generateNextAuthSecret();
+  return answers;
+}
 
-  // generate nextauth_secret and replace $foo
- /*exec("openssl rand -base64 32", (error, stdout) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }a*/
+async function createEnvDockerFile(answers) {
+  const envcontent = `
+    # deployment environment:
+    //forcing to development for now
+    NODE_ENV=development
+    
+    # next auth config:
+    # generate a secret with \`openssl rand -base64 32\`, or visit https://generate-secret.vercel.app/
+    NEXTAUTH-SECRET=${nextauth_secret}
+    NEXTAUTH_URL=${answers.nextauth_url}:${answers.PORT}
+    
+    # prisma
+    DATABASE_URL=file:./db.sqlite
+    
+    # external apis:
+    OPENAI_API_KEY=${answers.openai_api_key}
+    
+    DATABASE_URL=file:../db/db.sqlite
+    `;
 
-     
-    const nextauth_secret = await generateNextAuthSecret();
-    //console.log(`generated nextauth_secret: ${nextauth_secret}`)
+  fs.writeFileSync(".env", envcontent)
+  fs.writeFileSync(".env.docker", envcontent);
+  console.log("config saved to .env and .env.docker");
 
-    const envcontent = `
-# deployment environment:
-node_env=${answers.node_env}
+  const composeContent = `
+    version: '3.8'
+    services:
+      agentgpt_compose:
+        build:
+          context: .
+          args:
+            NODE_ENV: ${answers.NODE_ENV}
+        image: agentgpt
+        container_name: agentgpt_compose
+        PORTs:
+          - "${answers.PORT}:3000"
+        volumes:
+          - ./db:/app/db
+        environment:
+          NODE_ENV: ${answers.NODE_ENV}
+    `;
 
-# next auth config:
-# generate a secret with \`openssl rand -base64 32\`, or visit https://generate-secret.vercel.app/
-nextauth_secret=${nextauth_secret}
-nextauth_url=${answers.nextauth_url}:${answers.port}
+  fs.writeFileSync("docker-compose.yml", composeContent);
+  console.log("docker-compose.yml created.");
+}
 
-# prisma
-database_url=file:./db.sqlite
-
-# external apis:
-openai_api_key=${answers.openai_api_key}
-`;
-
-fs.writeFileSync(".env", envcontent)
-fs.writeFileSync(".env.docker", envcontent);
-console.log("config saved to .env and .env.docker");
-
-    const composeContent = `
-version: '3.8'
-
-services:
-  agentgpt_compose:
-    build:
-      context: .
-      args:
-        node_env: ${answers.node_env}
-    image: agentgpt
-    container_name: agentgpt_compose
-    ports:
-      - "${answers.port}:3000"
-    volumes:
-      - ./db:/app/db
-    environment:
-      node_env: ${answers.node_env}
-`;
-
-    fs.writeFileSync("docker-compose.yml", composeContent);
-    console.log("docker-compose.yml created.");
+async function main() {
+  // create an empty file to store which run option user picks (docker-compose, docker, node)  
+  fs.writeFileSync(".runoption", "");
+  const answers = await promptForConfiguration();
+   
+  // check if setup has already been run
+//  if (fs.existsSync(".env.docker")) {
+//    console.log("setup has already been run. running docker-compose up -d");
+//    execSync("docker-compose up -d", { stdio: "inherit" });
+//    return;
+//  }
+  //check if a docker container has the name agentgpt already
   
+
   // docker-compose setup
   if (answers.runoption === "docker-compose") {
     execSync("docker-compose up -d", { stdio: "inherit" });
   }
   // docker setup
   else if (answers.runoption === "docker") {
-    /*execSync(
-      "docker build --build-arg node_env=" +
-        answers.node_env +
-        " -t agentgpt .",
-      { stdio: "inherit" }
-    );
-    /*execSync(
-      "docker run -d --name agentgpt -p " +
-        answers.port +
-        ":3000 -v $(pwd)/db:/app/db agentgpt",
-      { stdio: "inherit" }
-    );
-    execSync("docker build --build-arg node_env=production -t agentgpt . --no-cache --progress=plain")
-  }*/
-  // node.js setup
-
-
-
-  // cant get it to work from the script, too tired to debug== hardcoding it. will fix.
-  const scriptPathDocker = './setup.sh --docker';
-  exec(scriptPathDocker, (error, stdout, stderr) => {
-    if (error) {
-      console.error('Error executing script: ${error}');
-      return;
-    }
-    console.log('Script output:\n${stdout}');
-  });
+    console.log("running docker setup");
+    //await createEnvDockerFile(answers);
+    console.log("running docker build");
+    //hardcoding development for now
+    execSync(`docker build --build-arg NODE_ENV=development -t agentgpt .`, { stdio: "inherit" });
+    console.log("running docker run");
+    execSync("docker run -p 3000:3000 -d --name agentgpt agentgpt", {
+      stdio: "inherit",
+    });
 
   } else {
-    /*fs.writeFileSync('prisma/schema.prisma', fs.readFileSync('prisma/schema.sqlite.prisma'));
-    execSync('touch db.sqlite && prisma generate', { stdio: 'inherit' });
+    // node setup
+    console.log("running node setup");
+    console.log("running git clone");
+    try {
+      execSync("gh repo fork reworkd/AgentGPT && cd AgentGPT && npm install && ./prisma/useSqlite.sh && npx prisma db push && npm run dev", { stdio: "inherit" });
+    } catch (error) {
+      console.error('There was an error forking the repo. Please ensure that you have the gh cli installed and that you have logged in with gh auth login')
+      return;
+    }
+    /*execSync("cd AgentGPT", { stdio: "inherit" });
+   // execSync('cd "$(dirname "$0")" || exit', { stdio: "inherit" });
+    console.log("running npm install");
     execSync("npm install", { stdio: "inherit" });
+    execSync('cd AgentGPT && ./prisma/useSqlite.sh', { stdio: "inherit" });
+    execSync('npx prisma db push', { stdio: "inherit" });
     execSync("npm run dev", { stdio: "inherit" });*/
-
-    // cant get it to work from the script, too tired to debug== hardcoding it. will fix.
-    const scriptPathNode = './setup.node.sh';
-    exec(scriptPathNode, (error, stdout, stderr) => {
-      if (error) {
-        console.error('Error executing script: ${error}');
-        return;
-      }
-      console.log('Script output:\n${stdout}');
-      });
   }
 }
 

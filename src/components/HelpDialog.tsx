@@ -66,7 +66,6 @@ export default function HelpDialog({
             <FaGithub size={30} />
           </div>
         </div>
-      </div>
     </Dialog>
   );
 }

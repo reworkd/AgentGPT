@@ -292,26 +292,7 @@ const Home: NextPage = () => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = [
-    "en",
-    "hu",
-    "fr",
-    "de",
-    "it",
-    "ja",
-    "zh",
-    "ko",
-    "pl",
-    "pt",
-    "ro",
-    "ru",
-    "uk",
-    "es",
-    "nl",
-    "sk",
-    "lt",
-    "hr",
-  ];
+  const supportedLocales = languages.map(language => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
   return {

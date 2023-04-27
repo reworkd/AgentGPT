@@ -277,7 +277,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "zh" }) => {
   const supportedLocales = [
     "en",
     "hu",
@@ -297,7 +297,7 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
     "sk",
     "hr",
   ];
-  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "zh";
 
   return {
     props: {

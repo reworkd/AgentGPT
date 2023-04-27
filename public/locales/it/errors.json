@@ -8,5 +8,6 @@
     "ALL_TASKS_COMPLETETD": "Tutti i compiti sono stati completati. Arresto...",
     "ERROR_API_KEY_QUOTA": "ERRORE nell'uso della chiave API di OpenAI. Hai superato la tua quota corrente, controlla le tue informazioni di fatturazione.",
     "ERROR_OPENAI_API_KEY_NO_GPT4": "ERRORE: la tua chiave API di OpenAI non ha accesso a GPT-4. Prima devi registrarti nella lista d'attesa di OpenAI. (Ciò differisce da ChatGPT Plus)",
-    "ERROR_RETRIEVE_INITIAL_TASKS": "ERRORE durante il recupero dei compiti iniziali. Riprova, formulando più chiaramente l'obiettivo dell'agente o modificandolo in modo che sia conforme al nostro modello. Arresto..."
+    "ERROR_RETRIEVE_INITIAL_TASKS": "ERRORE durante il recupero dei compiti iniziali. Riprova, formulando più chiaramente l'obiettivo dell'agente o modificandolo in modo che sia conforme al nostro modello. Arresto...",
+    "INVALID_OPENAI_API_KEY": "ERRORE chiave API OpenAI non valida"
 }

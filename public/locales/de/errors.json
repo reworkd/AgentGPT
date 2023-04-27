@@ -8,5 +8,6 @@
   "ALL_TASKS_COMPLETETD": "Alle Aufgaben wurden abgeschlossen. Stoppen...",
   "ERROR_API_KEY_QUOTA": "Fehler bei der Verwendung des OpenAI API-Schlüssels. Sie haben Ihre derzeitige Quote überschritten. Bitte überprüfen Sie Ihre Abrechnungsinformationen.",
   "ERROR_OPENAI_API_KEY_NO_GPT4": "FEHLER: Ihr OpenAI API-Schlüssel hat keinen Zugriff auf GPT-4. Sie müssen sich zuerst auf der OpenAI-Warteliste anmelden. (Dies unterscheidet sich vom ChatGPT Plus)",
-  "ERROR_RETRIEVE_INITIAL_TASKS": "Fehler beim Abrufen der Ausgangsaufgaben. Versuchen Sie es erneut, formulieren Sie das Ziel des Agenten klarer oder passen Sie es so an, dass es unserem Modell entspricht. Stoppen..."
+  "ERROR_RETRIEVE_INITIAL_TASKS": "Fehler beim Abrufen der Ausgangsaufgaben. Versuchen Sie es erneut, formulieren Sie das Ziel des Agenten klarer oder passen Sie es so an, dass es unserem Modell entspricht. Stoppen...",
+  "INVALID_OPENAI_API_KEY": "FEHLER ungültiger OpenAI-API-Schlüssel"
 }

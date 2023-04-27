@@ -1,12 +1,13 @@
 {
-    "ERROR_ACCESSING_OPENAI_API_KEY": "EROARE la conectarea cu cheia API OpenAI. Vă rugăm să verificați cheia API sau încercați mai târziu.",
-    "ERROR_ADDING_ADDITIONAL_TASKS": "EROARE la adăugarea task-urilor suplimentare. Este posibil ca modelul nostru să nu poată gestiona răspunsul și să genereze această eroare. Continuare...",
-    "RATE_LIMIT_EXCEEDED": "Ați atins limita maximă de interogări! Vă rugăm să încetiniți... 😅",
-    "AGENT_MAXED_OUT_LOOPS": "Acest agent a atins numărul maxim de iterații posibile. Pentru a vă economisi banii, acest agent va fi oprit acum... Numărul maxim de iterații ale agentului poate fi configurat în setări.",
-    "DEMO_LOOPS_REACHED": "Ne pare rău, dar deoarece aceasta este o aplicație demonstrativă, nu putem rula agenții prea mult timp. Notă: dacă doriți să rulați mai mult timp, vă rugăm să furnizați o cheie API proprie în Setări. Oprim...",
-    "AGENT_MANUALLY_SHUT_DOWN": "Agentul a fost oprit manual.",
-    "ALL_TASKS_COMPLETETD": "Toate task-urile au fost finalizate. Oprim...",
-    "ERROR_API_KEY_QUOTA": "EROARE la utilizarea cheii API OpenAI. Ați depășit cota curentă, vă rugăm să verificați informațiile de facturare.",
-    "ERROR_OPENAI_API_KEY_NO_GPT4": "EROARE: Cheia API OpenAI nu are acces la GPT-4. Trebuie să vă înscrieți mai întâi în lista de așteptare OpenAI. (Acest lucru diferă de ChatGPT Plus)",
-    "ERROR_RETRIEVE_INITIAL_TASKS": "EROARE la recuperarea task-urilor inițiale. Încercați din nou, formulați obiectivul agentului mai clar sau modificați-l astfel încât să se potrivească modelului nostru. Oprim..."
+  "ERROR_ACCESSING_OPENAI_API_KEY": "EROARE la conectarea cu cheia API OpenAI. Vă rugăm să verificați cheia API sau încercați mai târziu.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "EROARE la adăugarea task-urilor suplimentare. Este posibil ca modelul nostru să nu poată gestiona răspunsul și să genereze această eroare. Continuare...",
+  "RATE_LIMIT_EXCEEDED": "Ați atins limita maximă de interogări! Vă rugăm să încetiniți... 😅",
+  "AGENT_MAXED_OUT_LOOPS": "Acest agent a atins numărul maxim de iterații posibile. Pentru a vă economisi banii, acest agent va fi oprit acum... Numărul maxim de iterații ale agentului poate fi configurat în setări.",
+  "DEMO_LOOPS_REACHED": "Ne pare rău, dar deoarece aceasta este o aplicație demonstrativă, nu putem rula agenții prea mult timp. Notă: dacă doriți să rulați mai mult timp, vă rugăm să furnizați o cheie API proprie în Setări. Oprim...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agentul a fost oprit manual.",
+  "ALL_TASKS_COMPLETETD": "Toate task-urile au fost finalizate. Oprim...",
+  "ERROR_API_KEY_QUOTA": "EROARE la utilizarea cheii API OpenAI. Ați depășit cota curentă, vă rugăm să verificați informațiile de facturare.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "EROARE: Cheia API OpenAI nu are acces la GPT-4. Trebuie să vă înscrieți mai întâi în lista de așteptare OpenAI. (Acest lucru diferă de ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "EROARE la recuperarea task-urilor inițiale. Încercați din nou, formulați obiectivul agentului mai clar sau modificați-l astfel încât să se potrivească modelului nostru. Oprim...",
+  "INVALID_OPENAI_API_KEY": "EROARE cheie API OpenAI nevalidă"
 }

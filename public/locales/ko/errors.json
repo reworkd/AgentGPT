@@ -1,12 +1,12 @@
 {
-    "ERROR_ACCESSING_OPENAI_API_KEY": "ERROR accessing OpenAI APIs. Please check your API key or try again later",
-    "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
-    "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅",
-    "AGENT_MAXED_OUT_LOOPS": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",
-    "DEMO_LOOPS_REACHED": "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
-    "AGENT_MANUALLY_SHUT_DOWN": "The agent has been manually shutdown.",
-    "ALL_TASKS_COMPLETETD": "All tasks completed. Shutting down.",
-    "ERROR_API_KEY_QUOTA": "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.",
-    "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)",
-    "ERROR_RETRIEVE_INITIAL_TASKS": "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down."
+    "ERROR_ACCESSING_OPENAI_API_KEY": "오류: OpenAI API에 접속하는 중에 문제가 발생했습니다. API 키를 확인하거나 나중에 다시 시도해주세요.",
+    "ERROR_ADDING_ADDITIONAL_TASKS": "오류: 추가 작업을 추가하는 중에 문제가 발생했습니다. 모델이 답변을 처리할 수 없어서 발생한 것일 수 있습니다. 계속 진행합니다...",
+    "RATE_LIMIT_EXCEEDED": "최대 쿼리 수를 초과했습니다! 속도를 늦춰주세요...😅",
+    "AGENT_MAXED_OUT_LOOPS": "이 에이전트는 최대 실행 가능한 루프 수에 도달했습니다. 지갑을 보호하기 위해 이제 이 에이전트를 중단합니다... 에이전트 실행 횟수의 최대값은 설정에서 구성할 수 있습니다.",
+    "DEMO_LOOPS_REACHED": "죄송합니다. 이것은 데모 애플리케이션이기 때문에 에이전트를 너무 오래 실행할 수 없습니다. 참고: 더 오래 실행하려면 설정에서 자체 API 키를 제공해주세요. 중단합니다...",
+    "AGENT_MANUALLY_SHUT_DOWN": "에이전트가 수동으로 중단되었습니다.",
+    "ALL_TASKS_COMPLETETD": "모든 작업이 완료되었습니다. 중단합니다...",
+    "ERROR_API_KEY_QUOTA": "OpenAI API 키를 사용하는 중에 오류가 발생했습니다. 현재 할당량을 초과하였습니다. 결제 정보를 확인해주세요.",
+    "ERROR_OPENAI_API_KEY_NO_GPT4": "오류: OpenAI API 키에 GPT-4 액세스 권한이 없습니다. 먼저 OpenAI 대기열에 등록해야합니다. (이는 ChatGPT Plus와 다릅니다)",
+    "ERROR_RETRIEVE_INITIAL_TASKS": "오류: 초기 작업을 검색하는 중에 문제가 발생했습니다. 에이전트 목적을 명확하게 제시하거나 모델에 맞도록 수정하십시오. 중단합니다..."
 }

@@ -1,9 +1,9 @@
 {
-  "WELCOME_TO_AGENT_GPT": "Welcome to AgentGPT",
-  "INTRODUCING_AGENTGPT": "allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀",
-  "PLATFORM_BETA_DESCRIPTION": "This platform is currently in beta, we are currently working on:",
-  "LONG_TERM_MEMORY": "Long term memory 🧠",
-  "WEB_BROWSING": "Web browsing 🌐",
-  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interaction with websites and people 👨‍👩‍👦",
-  "FOLLOW_THE_JOURNEY": "Follow the journey below:"
+  "WELCOME_TO_AGENT_GPT": "欢迎使用AgentGPT",
+  "INTRODUCING_AGENTGPT": "让您能够通过浏览器配置和运行自主的AI代理。命名您的定制AI代理并定义其目标。AI代理通过创建任务，执行任务，然后评估其结果来尝试实现指定的目标 🚀",
+  "PLATFORM_BETA_DESCRIPTION": "该平台目前处于beta版，我们目前正在处理以下内容：",
+  "LONG_TERM_MEMORY": "长期记忆 🧠",
+  "WEB_BROWSING": "网络浏览 🌐",
+  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "与网站和人们的互动 👨‍👩‍👦",
+  "FOLLOW_THE_JOURNEY": "在以下方面关注我们的旅程："
 }

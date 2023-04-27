@@ -51,10 +51,17 @@ const Home: NextPage = () => {
     );
     return selectedLanguage || ENGLISH;
   };
-  const [actualLanguage, setActualLanguage] = React.useState(
-    findLanguage(i18n.language)
+  const [displayLanguage, setDisplayLanguage] = React.useState(
+    findLanguage(i18n.language)["name"]
   );
-  const [agentLanguage, setAgentLanguage] = React.useState<string>("");
+  const [agentLanguage, setAgentLanguage] = React.useState<string>(
+    findLanguage(i18n.language)["name"]
+  );
+
+  useEffect(() => {
+    setDisplayLanguage(findLanguage(i18n.language)["name"]);
+    setAgentLanguage(findLanguage(i18n.language)["name"]);
+  });
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -252,11 +259,7 @@ const Home: NextPage = () => {
             <Expand delay={1.4} className="flex gap-2">
               <Button
                 disabled={disableDeployAgent}
-                onClick={async () => {
-                  await setAgentLanguage(findLanguage(i18n.language)["name"])
-                  console.log(agentLanguage);
-                  handleNewGoal();
-                }}
+                onClick={handleNewGoal}
                 className="sm:mt-10"
               >
                 {agent == null ? (
@@ -310,6 +313,7 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
     "es",
     "nl",
     "sk",
+    "lt",
     "hr",
   ];
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";

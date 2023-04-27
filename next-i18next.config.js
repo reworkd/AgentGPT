@@ -1,8 +1,26 @@
-import { languages } from "./src/utils/languages";
 module.exports = {
   i18n: {
     defaultLocale: "en",
-    locales: languages.map((language) => language.code),
+    locales: [
+      "en",
+      "hu",
+      "fr",
+      "de",
+      "it",
+      "ja",
+      "lt",
+      "zh",
+      "ko",
+      "pl",
+      "pt",
+      "ro",
+      "ru",
+      "uk",
+      "es",
+      "nl",
+      "sk",
+      "hr",
+    ],
   },
   localePath: typeof window === "undefined" ? "./public/locales" : "/locales",
   debug: false,

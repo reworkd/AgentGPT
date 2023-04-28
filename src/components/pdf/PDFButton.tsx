@@ -18,7 +18,7 @@ const PDFButton = ({
 
   const downloadPDF = async () => {
     const MyDocument = (await import("./MyDocument")).default as React.FC<{
-      content: string;
+      textSections: string[];
     }>;
 
     const blob = await pdf(<MyDocument textSections={textSections} />).toBlob();

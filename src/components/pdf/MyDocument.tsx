@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   section: {
     fontSize: 12,
     fontFamily: "Roboto",
-    marginVertical: 10,
+    marginBottom: 20,
     lineHeight: 1.5,
   },
 });

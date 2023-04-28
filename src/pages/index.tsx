@@ -44,7 +44,6 @@ const Home: NextPage = () => {
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
-  // const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const settingsModel = useSettings();
   // const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
@@ -87,8 +86,6 @@ const Home: NextPage = () => {
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
-  // const isAgentStopped = () => !agent?.isRunning || agent === null;
-
   const handleNewGoal = () => {
     const newAgent = new AutonomousAgent(
       name.trim(),
@@ -118,7 +115,6 @@ const Home: NextPage = () => {
   };
 
   const handleStopAgent = () => {
-    // setShouldAgentStop(true);
     agent?.stopAgent();
     setIsAgentStopped();
   };
@@ -204,7 +200,6 @@ const Home: NextPage = () => {
                     : undefined
                 }
                 scrollToBottom
-                // isAgentStopped={isAgentStopped()}
               />
               {tasks.length > 0 && <TaskWindow />}
             </Expand>
@@ -265,7 +260,7 @@ const Home: NextPage = () => {
                 className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
-                {!isAgentStopped ? (
+                {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
                     <span className="ml-2">{t("Stopping")}</span>

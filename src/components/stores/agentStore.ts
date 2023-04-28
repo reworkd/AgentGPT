@@ -1,7 +1,7 @@
 import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
-import type AutonomousAgent from "../../components/AutonomousAgent";
+import type AutonomousAgent from "../AutonomousAgent";
 
 const initialAgentState = {
   agent: null,

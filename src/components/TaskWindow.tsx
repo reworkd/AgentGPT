@@ -3,10 +3,10 @@ import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
 import { Task } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useMessageStore } from "../components/store";
+import { useMessageStore } from "../components/stores";
 import { FaListAlt } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { useAgentStore } from "../components/store";
+import { useAgentStore } from "../components/stores";
 
 export const TaskWindow = () => {
   const tasks = useMessageStore.use.tasks();

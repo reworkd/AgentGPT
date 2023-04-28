@@ -23,7 +23,7 @@ import {
   useMessageStore,
   useAgentStore,
   resetAllMessageSlices,
-} from "../components/store";
+} from "../components/stores";
 import { isTask } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";

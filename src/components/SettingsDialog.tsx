@@ -48,8 +48,11 @@ export const SettingsDialog: React.FC<{
   }
 
   function urlIsValid(url: string | undefined) {
-    const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
-    return url && pattern.test(url);
+    if (url) {
+      const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+      return pattern.test(url);
+    }
+    return true;
   }
 
   const handleSave = () => {

@@ -1,6 +1,6 @@
 import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
-import { pdf } from "@react-pdf/renderer";
+import jsPDF from "jspdf";
 import React, { memo } from "react";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
@@ -16,18 +16,17 @@ const PDFButton = ({
 }) => {
   const textSections = getTextSections(messages);
 
-  const downloadPDF = async () => {
-    const MyDocument = (await import("./MyDocument")).default as React.FC<{
-      textSections: string[];
-    }>;
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    let y = 20;
+    textSections.forEach((text, index) => {
+      const splittedText = doc.splitTextToSize(text, 180);
+      doc.text(`${index + 1}.`, 10, y);
+      doc.text(splittedText, 20, y, { align: "left" });
+      y += splittedText.length * 10 + 10;
+    });
 
-    const blob = await pdf(<MyDocument textSections={textSections} />).toBlob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "my-document.pdf";
-    link.click();
-    URL.revokeObjectURL(url);
+    doc.save("my-document.pdf");
   };
 
   return (
@@ -35,7 +34,7 @@ const PDFButton = ({
       <WindowButton
         delay={0.2}
         onClick={() => {
-          downloadPDF().catch(console.error);
+          downloadPDF();
         }}
         icon={<FaFilePdf size={12} />}
         name="PDF"

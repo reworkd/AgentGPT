@@ -321,7 +321,14 @@ const ChatMessage = ({
           </ReactMarkdown>
         </div>
       ) : (
-        <span>{message.value}</span>
+        <>
+          <span>{message.value}</span>
+          {
+            // Link to the FAQ if it is a shutdown message
+            message.type == MESSAGE_TYPE_SYSTEM &&
+              message.value.toLowerCase().includes("shut") && <FAQ />
+          }
+        </>
       )}
 
       <div className="relative">
@@ -383,5 +390,19 @@ const getMessagePrefix = (message: Message, t: Translation) => {
   return "";
 };
 
+const FAQ = () => {
+  return (
+    <p>
+      <br />
+      If you are facing any issues, please visit our{" "}
+      <a
+        href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq"
+        className="text-sky-500"
+      >
+        FAQ
+      </a>
+    </p>
+  );
+};
 export default ChatWindow;
 export { ChatMessage };

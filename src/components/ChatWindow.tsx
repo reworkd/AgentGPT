@@ -37,7 +37,6 @@ interface ChatWindowProps extends HeaderProps {
   showDonation: boolean;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
-  isAgentStopped?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -51,7 +50,6 @@ const ChatWindow = ({
   onSave,
   fullscreen,
   scrollToBottom,
-  isAgentStopped,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -99,7 +97,7 @@ const ChatWindow = ({
 
           return (
             <FadeIn key={`${index}-${message.type}`}>
-              <ChatMessage message={message} isAgentStopped={isAgentStopped} />
+              <ChatMessage message={message} />
             </FadeIn>
           );
         })}
@@ -269,12 +267,10 @@ const MacWindowHeader = (props: HeaderProps) => {
 };
 const ChatMessage = ({
   message,
-  isAgentStopped,
   className,
 }: {
   message: Message;
   className?: string;
-  isAgentStopped?: boolean;
 }) => {
   const [t] = useTranslation();
   const [showCopy, setShowCopy] = useState(false);
@@ -309,7 +305,7 @@ const ChatMessage = ({
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">
-            {getTaskStatusIcon(message, { isAgentStopped })}
+            {getTaskStatusIcon(message, {})}
           </div>
           <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
         </>

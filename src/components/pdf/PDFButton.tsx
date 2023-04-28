@@ -22,7 +22,6 @@ const PDFButton = ({
     let y = 20;
     textSections.forEach((text, index) => {
       const splittedText = doc.splitTextToSize(text, 180);
-      doc.text(`${index + 1}.`, 10, y);
       doc.text(splittedText, 20, y, { align: "left" });
       y += splittedText.length * 10 + 10;
     });

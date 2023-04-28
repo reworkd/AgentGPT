@@ -8,6 +8,7 @@ import {
   FaExclamationCircle,
   FaSyncAlt,
   FaCoins,
+  FaServer,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -46,11 +47,25 @@ export const SettingsDialog: React.FC<{
     return key && pattern.test(key);
   }
 
+  function urlIsValid(url: string | undefined) {
+    const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+    return url && pattern.test(url);
+  }
+
   const handleSave = () => {
     if (!keyIsValid(settings.customApiKey)) {
       alert(
         t(
           "Key is invalid, please ensure that you have set up billing in your OpenAI account!"
+        )
+      );
+      return;
+    }
+
+    if (!urlIsValid(settings.customEndPoint)) {
+      alert(
+        t(
+          "Endpoint URL is invalid. Please ensure that you have set a correct URL."
         )
       );
       return;
@@ -70,6 +85,17 @@ export const SettingsDialog: React.FC<{
   const disabled = !settings.customApiKey;
   const advancedSettings = (
     <div className="flex flex-col gap-2">
+      <Input
+        left={
+          <>
+            <FaServer />
+            <span className="ml-2">{t("EndPoint: ")}</span>
+          </>
+        }
+        disabled={disabled}
+        value={settings.customEndPoint}
+        onChange={(e) => updateSettings("customEndPoint", e.target.value)}
+      />
       <Input
         left={
           <>
@@ -126,10 +152,10 @@ export const SettingsDialog: React.FC<{
             <span className="ml-2">Tokens: </span>
           </>
         }
-        value={settings.maxTokens ?? 400}
+        value={settings.customMaxTokens ?? 400}
         disabled={disabled}
         onChange={(e) =>
-          updateSettings("maxTokens", parseFloat(e.target.value))
+          updateSettings("customMaxTokens", parseFloat(e.target.value))
         }
         type="range"
         toolTipProperties={{

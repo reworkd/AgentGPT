@@ -18,12 +18,18 @@ export const createModel = (settings: ModelSettings) => {
     _settings = undefined;
   }
 
-  return new OpenAI({
+  const options = {
     openAIApiKey: _settings?.customApiKey || getServerSideKey(),
     temperature: _settings?.customTemperature || 0.9,
     modelName: _settings?.customModelName || GPT_35_TURBO,
-    maxTokens: _settings?.maxTokens || 400,
-  });
+    maxTokens: _settings?.customMaxTokens || 400,
+  };
+
+  const baseOptions = {
+    basePath: _settings?.customEndPoint || undefined,
+  };
+
+  return new OpenAI(options, baseOptions);
 };
 
 export const startGoalPrompt = new PromptTemplate({

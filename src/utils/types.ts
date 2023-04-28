@@ -5,7 +5,8 @@ export type ModelSettings = {
   customModelName?: string;
   customTemperature?: number;
   customMaxLoops?: number;
-  maxTokens?: number;
+  customMaxTokens?: number;
+  customEndPoint?: string;
 };
 
 export type SettingModel = {

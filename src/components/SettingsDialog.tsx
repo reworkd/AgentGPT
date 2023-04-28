@@ -64,6 +64,7 @@ export const SettingsDialog: React.FC<{
   const handleReset = () => {
     customSettings.resetSettings();
     updateSettings("customApiKey", "");
+    close();
   };
 
   const disabled = !settings.customApiKey;
@@ -196,6 +197,7 @@ export const SettingsDialog: React.FC<{
           </>
         }
         placeholder={"sk-..."}
+        type="password"
         value={settings.customApiKey}
         onChange={(e) => updateSettings("customApiKey", e.target.value)}
       />

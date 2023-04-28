@@ -2,11 +2,8 @@ import React from "react";
 import { Document, Font, Page, StyleSheet, Text } from "@react-pdf/renderer";
 
 Font.register({
-  family: "Roboto,SourceHanSansCN",
+  family: "Roboto",
   fonts: [
-    {
-      src: "/fonts/SourceHanSansCN-Regular.otf",
-    },
     {
       src: "/fonts/Roboto-Regular.ttf",
     },
@@ -21,7 +18,7 @@ const styles = StyleSheet.create({
   },
   section: {
     fontSize: 12,
-    fontFamily: "Roboto,SourceHanSansCN",
+    fontFamily: "Roboto",
     marginBottom: 20,
     lineHeight: 1.5,
   },

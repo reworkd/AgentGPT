@@ -103,5 +103,4 @@ export const useMessageStore = createSelectors(
   }))
 );
 
-export const resetAllMessageSlices = () =>
-  resetters.forEach((resetter) => resetter());
+export const resetAllSlices = () => resetters.forEach((resetter) => resetter());

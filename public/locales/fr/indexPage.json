@@ -1,0 +1,9 @@
+{
+  "BETA": "Béta",
+  "HEADING_DESCRIPTION": "Assembler, configurer et déployer des agents d'IA autonomes dans votre navigateur.",
+  "AGENT_NAME": "Nom",
+  "LABEL_AGENT_GOAL": "Objectif",
+  "PLACEHOLDER_AGENT_GOAL": "Rendre le monde meilleur",
+  "BUTTON_DEPLOY_AGENT": "Exécuter l'agent",
+  "BUTTON_STOP_AGENT": "Arrêter l'agent"
+}

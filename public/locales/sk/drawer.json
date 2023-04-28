@@ -1,0 +1,11 @@
+{
+  "HELP_BUTTON": "Pomoc",
+  "SETTINGS_BUTTON": "Nastavenia",
+  "MY_AGENTS": "Moji agenti",
+  "SIGN_IN_NOTICE": "Prihláste sa, aby ste mohli uložiť svojich agentov a spravovať svoj účet!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "Najprv musíte vytvoriť a uložiť svojho prvého agenta, než sa tu niečo zobrazí!",
+  "SIGN_IN": "Prihlásiť sa",
+  "SIGN_OUT": "Odhlásiť sa",
+  "ACCOUNT" : "Účet",
+  "USER_IMAGE": "Obrázok používateľa"
+}

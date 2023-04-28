@@ -1,0 +1,11 @@
+{
+  "HELP_BUTTON": "Ayuda",
+  "SETTINGS_BUTTON": "Configuraciones",
+  "MY_AGENTS": "Mis agentes",
+  "SIGN_IN_NOTICE": "¡Inicie sesión para guardar sus agentes y administrar su cuenta!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "¡Primero debe crear y guardar su primer agente antes de que algo aparezca aquí!",
+  "SIGN_IN": "Iniciar sesión",
+  "SIGN_OUT": "Cerrar sesión",
+  "ACCOUNT" : "Cuenta",
+  "USER_IMAGE": "Imagen de usuario"
+}

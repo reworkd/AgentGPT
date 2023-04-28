@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Temperatură",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Valori mai mari fac ieșirea mai aleatorie, în timp ce valori mai mici o fac mai focalizată și mai precisă.",
+  "LOOP": "Bucle",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Controlează numărul maxim de bucle executate de agent (o valoare mai mare va duce la mai multe apeluri API).",
+  "TOKENS": "Token-uri",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Controlează numărul maxim de token-uri folosite în fiecare apel API (o valoare mai mare va duce la răspunsuri mai detaliate, dar mai costisitoare).",
+  "SETTINGS_DIALOG_HEADER": "Setări ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Aici puteți adăuga cheia dvs. API OpenAI. Aceasta înseamnă că va trebui să plătiți pentru utilizarea propriului dvs. token OpenAI, dar veți avea un acces mai mare la ChatGPT! De asemenea, puteți selecta orice model oferit de OpenAI.",
+  "INFO_TO_USE_GPT4": "Pentru a utiliza modelul GPT-4, trebuie să furnizați cheia API. O puteți obține",
+  "HERE": "aici",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(Abonamentul ChatGPT Plus nu va funcționa)",
+  "API_KEY": "Cheie API",
+  "ADVANCED_SETTINGS": "Setări avansate",
+  "NOTE_TO_GET_OPENAI_KEY": "NOTĂ: Pentru a obține o cheie API, trebuie să vă înregistrați pentru un cont OpenAI la următorul link:",
+  "LINK": "Solicitare cheie API",
+  "NOTE_API_KEY_USAGE": "Această cheie este valabilă doar pentru sesiunea curentă a browser-ului.",
+  "LABEL_MODEL": "Model",
+  "LANG": "Limbă"
+}

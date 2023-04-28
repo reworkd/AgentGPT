@@ -23,15 +23,18 @@ import { useMessageStore, resetAllSlices } from "../components/store";
 import { isTask } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
+import type { Language } from "../utils/languages";
+import { ENGLISH, languages } from "../utils/languages";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 const Home: NextPage = () => {
-  const [t] = useTranslation();
   // zustand states
   const messages = useMessageStore.use.messages();
   const tasks = useMessageStore.use.tasks();
   const addMessage = useMessageStore.use.addMessage();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
+  const { i18n } = useTranslation();
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
@@ -42,6 +45,23 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
+  const findLanguage = (nameOrLocale: string): Language => {
+    const selectedLanguage = languages.find(
+      (lang) => lang.code === nameOrLocale || lang.name === nameOrLocale
+    );
+    return selectedLanguage || ENGLISH;
+  };
+  const [displayLanguage, setDisplayLanguage] = React.useState(
+    findLanguage(i18n.language)["name"]
+  );
+  const [agentLanguage, setAgentLanguage] = React.useState<string>(
+    findLanguage(i18n.language)["name"]
+  );
+
+  useEffect(() => {
+    setDisplayLanguage(findLanguage(i18n.language)["name"]);
+    setAgentLanguage(findLanguage(i18n.language)["name"]);
+  });
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -81,9 +101,11 @@ const Home: NextPage = () => {
   const isAgentStopped = () => !agent?.isRunning || agent === null;
 
   const handleNewGoal = () => {
+    const language = agentLanguage;
     const agent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
+      language,
       handleAddMessage,
       () => setAgent(null),
       settingsModel.settings,
@@ -161,14 +183,12 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>Beta 🚀</Badge>
+                  <Badge>{`${i18n?.t('BETA','BETA', {ns: 'indexPage'})}`}</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {t(
-                    "Assemble, configure, and deploy autonomous AI Agents in your browser."
-                  )}
+                  {`${i18n?.t('HEADING_DESCRIPTION','HEADING_DESCRIPTION', {ns: 'indexPage'})}`}
                 </p>
               </div>
             </div>
@@ -208,7 +228,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t("AGENT_NAME")}</span>
+                      <span className="ml-2">{`${i18n?.t('AGENT_NAME','AGENT_NAME', {ns: 'indexPage'})}`}</span>
                     </>
                   }
                   value={name}
@@ -224,14 +244,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t("AGENT_GOAL")}</span>
+                      <span className="ml-2">{`${i18n?.t('LABEL_AGENT_GOAL','LABEL_AGENT_GOAL', {ns: 'indexPage'})}`}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${t("Make the world a better place.")}`}
+                  placeholder={`${i18n?.t('PLACEHOLDER_AGENT_GOAL','PLACEHOLDER_AGENT_GOAL', {ns: 'indexPage'})}`}
                   type="textarea"
                 />
               </Expand>
@@ -239,11 +259,11 @@ const Home: NextPage = () => {
             <Expand delay={1.4} className="flex gap-2">
               <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
                 {agent == null ? (
-                  t("Deploy Agent")
+                  `${i18n?.t('BUTTON_DEPLOY_AGENT','BUTTON_DEPLOY_AGENT', {ns: 'indexPage'})}`
                 ) : (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Running")}</span>
+                    <span className="ml-2">{`${i18n?.t('BUTTON_RUNNING','BUTTON_RUNNING', {ns: 'indexPage'})}`}</span>
                   </>
                 )}
               </Button>
@@ -255,10 +275,10 @@ const Home: NextPage = () => {
                 {shouldAgentStop ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Stopping")}</span>
+                    <span className="ml-2">{`${i18n?.t('BUTTON_STOPPING','BUTTON_STOPPING', {ns: 'indexPage'})}`}</span>
                   </>
                 ) : (
-                  t("Stop Agent")
+                  `${i18n?.t('BUTTON_STOP_AGENT','BUTTON_STOP_AGENT', {ns: 'indexPage'})}`
                 )}
               </Button>
             </Expand>
@@ -272,30 +292,12 @@ const Home: NextPage = () => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = [
-    "en",
-    "hu",
-    "fr",
-    "de",
-    "it",
-    "ja",
-    "zh",
-    "ko",
-    "pl",
-    "pt",
-    "ro",
-    "ru",
-    "uk",
-    "es",
-    "nl",
-    "sk",
-    "hr",
-  ];
+  const supportedLocales = languages.map(language => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, ["translation"])),
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
     },
   };
 };

@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Teplota",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Vyššie hodnoty robia výstup viac náhodným, zatiaľ čo nižšie hodnoty ho zameriavajú a určujú.",
+  "LOOP": "Smyčka",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Ovládajte maximálny počet slučiek, ktoré spustí agent (vyššia hodnota znamená viac volaní API).",
+  "TOKENS": "Tokeny",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Ovládajte maximálny počet tokenov použitých v každom volaní API (vyššia hodnota poskytuje podrobnejšie odpovede, ale je drahšia).",
+  "SETTINGS_DIALOG_HEADER": "Nastavenia ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Tu môžete pridať svoj OpenAI API kľúč. To znamená, že musíte platiť za použitie vlastného OpenAI tokenu, ale získate väčší prístup k ChatGPT! Okrem toho môžete vybrať akýkoľvek model ponúkaný OpenAI.",
+  "INFO_TO_USE_GPT4": "Na použitie modelu GPT-4 je potrebné zadať aj API kľúč. Môžete ho získať",
+  "HERE": "tu",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(Predplatné ChatGPT Plus nebude fungovať)",
+  "API_KEY": "API kľúč",
+  "ADVANCED_SETTINGS": "Pokročilé nastavenia",
+  "NOTE_TO_GET_OPENAI_KEY": "POZNÁMKA: Na získanie API kľúča musíte zaregistrovať OpenAI účet, ktorý môžete urobiť na nasledujúcej adrese:",
+  "LINK": "Získanie API kľúča",
+  "NOTE_API_KEY_USAGE": "Tento kľúč sa použije iba počas aktuálnej relácie prehliadača.",
+  "LABEL_MODEL": "Model",
+  "LANG": "Jazyk"
+  }

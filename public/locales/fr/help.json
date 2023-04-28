@@ -1,0 +1,9 @@
+{
+  "WELCOME_TO_AGENT_GPT": "Bienvenue sur AgentGPT",
+  "INTRODUCING_AGENTGPT": "permet de configurer et d'exécuter des agents d'IA autonomes dans votre navigateur. Nommez votre agent d'IA personnalisé et définissez son objectif. L'agent d'IA tentera d'atteindre l'objectif défini en créant des tâches, en les exécutant, puis en évaluant les résultats 🚀",
+  "PLATFORM_BETA_DESCRIPTION": "Cette plateforme est actuellement en version bêta, nous travaillons actuellement sur les fonctionnalités suivantes:",
+  "LONG_TERM_MEMORY": "Mémoire à long terme 🧠",
+  "WEB_BROWSING": "Navigation Web 🌐",
+  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interaction avec les sites Web et les personnes 👨‍👩‍👦",
+  "FOLLOW_THE_JOURNEY": "Suivez notre parcours ci-dessous :"
+}

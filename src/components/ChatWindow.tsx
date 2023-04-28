@@ -244,6 +244,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       </Expand>
       {props.onSave && (
         <WindowButton
+          ping
           key="Agent"
           delay={0}
           onClick={() => props.onSave?.("db")}

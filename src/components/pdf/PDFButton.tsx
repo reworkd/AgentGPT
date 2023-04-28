@@ -19,14 +19,14 @@ const PDFButton = ({
 
   const downloadPDF = () => {
     const doc = new jsPDF();
-    let y = 20;
+    let y = 20; //margin
     textSections.forEach((text, index) => {
       const splittedText = doc.splitTextToSize(text, 180);
       doc.text(splittedText, 20, y, { align: "left" });
       y += splittedText.length * 10 + 10;
     });
 
-    doc.save(`exported-${v1()}-agentgpt.pdf`);
+    doc.save(`exported-${name}.pdf`);
   };
 
   return (

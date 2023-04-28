@@ -71,7 +71,7 @@ const Home: NextPage = () => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-    }, 3000);
+    }, 1800);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);

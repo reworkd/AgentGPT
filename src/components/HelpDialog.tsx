@@ -13,7 +13,11 @@ export default function HelpDialog({
   const [ t ] = useTranslation();
   return (
     <Dialog
+<<<<<<< HEAD
       header={t('WELCOME_TO_AGENT_GPT','WELCOME_TO_AGENT_GPT', {ns: 'help'})}
+=======
+      header={`${t("Welcome to AgentGPT 🤖")} 🤖`}
+>>>>>>> 6c1b509 (✨ Add links to FAQ)
       isShown={show}
       close={close}
     >
@@ -24,6 +28,7 @@ export default function HelpDialog({
         </p>
         <div>
           <br />
+<<<<<<< HEAD
           {t('PLATFORM_BETA_DESCRIPTION','PLATFORM_BETA_DESCRIPTION', {ns: 'help'})}
           <ul className="ml-5 list-inside list-disc">
             <li>{t('LONG_TERM_MEMORY','LONG_TERM_MEMORY', {ns: 'help'})}</li>
@@ -32,6 +37,17 @@ export default function HelpDialog({
           </ul>
           <br />
           <p className="mt-2">{t('FOLLOW_THE_JOURNEY','FOLLOW_THE_JOURNEY', {ns: 'help'})}</p>
+=======
+          {t("To learn more about AgentGPT, its roadmap, FAQ, etc, visit the ")}
+          <a
+            href="https://reworkd.github.io/AgentGPT-Documentation/docs/intro"
+            className="text-sky-500"
+          >
+            AgentGPT Documentation
+          </a>
+          <br />
+          <p className="mt-2">{t("Join the community below:")}</p>
+>>>>>>> 6c1b509 (✨ Add links to FAQ)
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div

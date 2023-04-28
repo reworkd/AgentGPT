@@ -93,7 +93,7 @@ const Drawer = ({
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            {`${t("MY_AGENTS", "MY_AGENTS", { ns: "drawer" })}`}
+            <p className="font-bold">{`${t("MY_AGENTS", "MY_AGENTS", { ns: "drawer" })}`}</p>
             <button
               className={clsx(
                 showDrawer ? "-translate-x-2" : "translate-x-12",

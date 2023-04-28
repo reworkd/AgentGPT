@@ -30,8 +30,13 @@ const styles = StyleSheet.create({
   },
   section: {
     fontSize: 12,
+<<<<<<< HEAD
     fontFamily: "Roboto",
     marginBottom: 20,
+=======
+    fontFamily: "Roboto,SourceHanSansCN",
+    marginVertical: 10,
+>>>>>>> 4a45d39 (⚠ Fix PDF executions)
     lineHeight: 1.5,
   },
 });

@@ -44,8 +44,14 @@ const PDFButton = ({
   );
 };
 
+<<<<<<< HEAD
 const getContent = (messages: Message[]): string => {
   //const [t] = useTranslation();
+=======
+const getTextSections = (messages: Message[]): string[] => {
+  const [t] = useTranslation();
+
+>>>>>>> 4a45d39 (⚠ Fix PDF executions)
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
@@ -53,7 +59,15 @@ const getContent = (messages: Message[]): string => {
         return `${i18n?.t("LABEL_AGENT_GOAL","LABEL_AGENT_GOAL",{ns: 'indexPage'})}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
+<<<<<<< HEAD
         return `${i18n?.t("ADDING_TASK","ADDING_TASK", {ns: 'common'})}: ${message.value}`;
+=======
+        if (message.info) {
+          return `${t(`Executing "${message.value}"`)} ${message.info}`;
+        } else {
+          return `${t("Adding Task:")} ${message.value}`;
+        }
+>>>>>>> 4a45d39 (⚠ Fix PDF executions)
       }
       return message.value;
     })

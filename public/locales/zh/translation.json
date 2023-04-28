@@ -1,5 +1,5 @@
 {
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> 创建一个代理，添加名称/目标并点击部署！",
+  "CREATE_AN_AGENT": "创建一个代理，添加名称/目标并点击部署！",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "您可以在设置选项卡中提供自己的 OpenAI API 密钥以增加限制！",
   "Save": "保存",
   "Image": "图像",

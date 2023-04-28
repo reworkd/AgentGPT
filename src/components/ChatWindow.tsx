@@ -109,20 +109,9 @@ const ChatWindow = ({
           <>
             <Expand delay={0.8} type="spring">
               <ChatMessage
-                className="bg-red-900"
-                message={{
-                  type: "system",
-                  value: t(
-                    "🚨 We are experiencing exceptional traffic, expect delays and failures if you do not use your own API key🚨"
-                  ),
-                }}
-              />
-              <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: t(
-                    "> Create an agent by adding a name / goal, and hitting deploy!"
-                  ),
+                  value: "👉 " + t("CREATE_AN_AGENT"),
                 }}
               />
             </Expand>
@@ -238,7 +227,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       </PopIn>
       <Expand
         delay={1}
-        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 md:visible"
+        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
       >
         {props.title}
       </Expand>
@@ -318,7 +307,7 @@ const ChatMessage = ({
 
       {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
-          (Restart if this takes more than 30 seconds)
+          (Redeploy if this takes more than 30 seconds)
         </span>
       )}
 

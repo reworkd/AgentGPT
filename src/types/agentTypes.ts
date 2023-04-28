@@ -39,12 +39,12 @@ export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
 export const messageSchemaBase = z.object({
   value: z.string(),
-  info: z.string().optional().nullable(),
+  info: z.string().optional(),
 });
 
 export const taskSchema = z
   .object({
-    taskId: z.string().optional(),
+    taskId: z.string(),
     type: z.literal(MESSAGE_TYPE_TASK),
     status: TaskStatusSchema,
   })

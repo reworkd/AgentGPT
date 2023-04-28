@@ -11,7 +11,7 @@
   "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "GREŠKA prilikom upotrebe vašeg OpenAI API ključa. Prekoračili ste trenutnu kvotu, molimo provjerite svoj plan i podatke o naplati.",
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "GREŠKA, vaš API ključ nema pristup GPT-4. Prvo se morate pridružiti listi čekanja OpenAI-a. (To je drugačije od ChatGPT Plus)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "GREŠKA prilikom dohvaćanja početnog polja zadataka. Pokušajte ponovno, postavite jasniji cilj ili revidirajte cilj tako da se uklapa u naša pravila za pokretanje. Gašenje.",
-  "> Create an agent by adding a name / goal, and hitting deploy!": "Stvorite agenta dodavanjem imena / cilja i pritiskom na 'deploy'!",
+  "CREATE_AN_AGENT": "Stvorite agenta dodavanjem imena / cilja i pritiskom na 'deploy'!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "Možete unijeti vlastiti OpenAI API ključ u kartici postavki za povećanje ograničenja!",
   "Image": "Slika",
   "Copy": "Kopiraj",

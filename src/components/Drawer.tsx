@@ -93,7 +93,7 @@ const Drawer = ({
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            My Agent(s)
+            <p className="font-bold">My Agents</p>
             <button
               className={clsx(
                 showDrawer ? "-translate-x-2" : "translate-x-12",
@@ -220,7 +220,7 @@ const AuthItem: React.FC<{
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
   const [t] = useTranslation();
-  const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
+  const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const text = session?.user ? t("Sign Out") : t("Sign In");
   const onClick = session?.user ? signOut : signIn;
 

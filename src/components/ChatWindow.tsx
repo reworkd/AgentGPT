@@ -109,16 +109,9 @@ const ChatWindow = ({
           <>
             <Expand delay={0.8} type="spring">
               <ChatMessage
-                className="bg-red-900"
-                message={{
-                  type: "system",
-                  value: `${t("EXPERIENCING_EXCEPTIONAL_TRAFFIC", "EXPERIENCING_EXCEPTIONAL_TRAFFIC", { ns: "chat" })}`,
-                }}
-              />
-              <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value:`${t("CREATE_AN_AGENT_DESCRIPTION", "CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" })}`,
+                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION"),
                 }}
               />
             </Expand>

@@ -23,17 +23,15 @@ export default function HelpDialog({
           {t('INTRODUCING_AGENTGPT','INTRODUCING_AGENTGPT', {ns: 'help'})}
         </p>
         <div>
-          <br />
-          <p className="mt-2">{t('FOLLOW_THE_JOURNEY','FOLLOW_THE_JOURNEY', {ns: 'help'})}</p>
-          {t("TO_LEARN_MORE_ABOUT_AGENTGPT", "TO_LEARN_MORE_ABOUT_AGENTGPT", {ns: 'help'})}
+          {t('TO_LEARN_MORE_ABOUT_AGENTGPT','TO_LEARN_MORE_ABOUT_AGENTGPT', {ns: 'help'})}
           <a
             href="https://reworkd.github.io/AgentGPT-Documentation/docs/intro"
             className="text-sky-500"
           >
-            {t("AGENTGPT_DOCUMENTATION", "AGENTGPT_DOCUMENTATION", {ns: 'help'})}
+            {t('AGENTGPT_DOCUMENTATION','AGENTGPT_DOCUMENTATION', {ns: 'help'})}
           </a>
           <br />
-          <p className="mt-2">{t("TO_LEARN_MORE_ABOUT_AGENTGPT", "TO_LEARN_MORE_ABOUT_AGENTGPT", {ns: 'help'})}</p>
+          <p className="mt-2">{t('FOLLOW_THE_JOURNEY','FOLLOW_THE_JOURNEY', {ns: 'help'})}</p>
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div

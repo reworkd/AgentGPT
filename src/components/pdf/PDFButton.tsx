@@ -44,20 +44,9 @@ const PDFButton = ({
   );
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-const getContent = (messages: Message[]): string => {
-  //const [t] = useTranslation();
-=======
 const getTextSections = (messages: Message[]): string[] => {
   const [t] = useTranslation();
 
->>>>>>> 4a45d39 (⚠ Fix PDF executions)
-=======
-const getTextSections = (messages: Message[]): string[] => {
-  const [t] = useTranslation();
-
->>>>>>> main
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
@@ -65,21 +54,11 @@ const getTextSections = (messages: Message[]): string[] => {
         return `${i18n?.t("LABEL_AGENT_GOAL","LABEL_AGENT_GOAL",{ns: 'indexPage'})}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return `${i18n?.t("ADDING_TASK","ADDING_TASK", {ns: 'common'})}: ${message.value}`;
-=======
-=======
->>>>>>> main
         if (message.info) {
-          return `${t(`Executing "${message.value}"`)} ${message.info}`;
+          return `${i18n?.t("EXECUTING","EXECUTING", {ns: 'common'})} "${message.value}": ${message.info}`;
         } else {
-          return `${t("Adding Task:")} ${message.value}`;
+          return `${i18n?.t("ADDING_TASK","ADDING_TASK", {ns: 'common'})}: ${message.value}`;
         }
-<<<<<<< HEAD
->>>>>>> 4a45d39 (⚠ Fix PDF executions)
-=======
->>>>>>> main
       }
       return message.value;
     })

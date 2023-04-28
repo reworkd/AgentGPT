@@ -44,15 +44,14 @@ const Home: NextPage = () => {
   const agentUtils = useAgent();
 
   useEffect(() => {
-    const key = "agentgpt-modal-opened-new";
+    const key = "agentgpt-modal-opened-v0.2";
     const savedModalData = localStorage.getItem(key);
 
-    // Momentarily always run
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-    }, 3000);
+    }, 1800);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);

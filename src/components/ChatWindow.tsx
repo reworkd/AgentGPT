@@ -109,16 +109,9 @@ const ChatWindow = ({
           <>
             <Expand delay={0.8} type="spring">
               <ChatMessage
-                className="bg-red-900"
-                message={{
-                  type: "system",
-                  value: `${t("EXPERIENCING_EXCEPTIONAL_TRAFFIC", "EXPERIENCING_EXCEPTIONAL_TRAFFIC", { ns: "chat" })}`,
-                }}
-              />
-              <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value:`${t("CREATE_AN_AGENT_DESCRIPTION", "CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" })}`,
+                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION"),
                 }}
               />
             </Expand>
@@ -234,7 +227,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       </PopIn>
       <Expand
         delay={1}
-        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-600 sm:ml-2 md:visible"
+        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
       >
         {props.title}
       </Expand>

@@ -222,7 +222,7 @@ const Home: NextPage = () => {
               )}
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
+            <div className="flex w-full flex-col gap-2 sm:m-4 ">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}
@@ -258,11 +258,7 @@ const Home: NextPage = () => {
               </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">
-              <Button
-                disabled={disableDeployAgent}
-                onClick={handleNewGoal}
-                className="sm:mt-10"
-              >
+              <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
                 {agent == null ? (
                   `${i18n?.t('BUTTON_DEPLOY_AGENT','BUTTON_DEPLOY_AGENT', {ns: 'indexPage'})}`
                 ) : (
@@ -275,7 +271,6 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent == null}
                 onClick={handleStopAgent}
-                className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
                 {shouldAgentStop ? (

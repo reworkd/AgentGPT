@@ -4,6 +4,7 @@ import jsPDF from "jspdf";
 import React, { memo } from "react";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
+import { v1 } from "uuid";
 
 import { useTranslation } from "react-i18next";
 
@@ -26,7 +27,7 @@ const PDFButton = ({
       y += splittedText.length * 10 + 10;
     });
 
-    doc.save("my-document.pdf");
+    doc.save(`exported-${v1()}-agentgpt.pdf`);
   };
 
   return (

@@ -165,29 +165,3 @@ const chunkArray = <T>(arr: T[], chunkSize: number) =>
     chunks[chunkIndex] = chunk.concat([elem])
     return chunks
   }, [] as T[][])
-
-// From: https://github.com/hwchase17/langchainjs/blob/main/langchain/src/llms/calculateMaxTokens.ts
-
-const getModelContextSize = (modelName: TiktokenModel): number => {
-  switch (modelName) {
-    case 'text-davinci-003':
-      return 4097
-    case 'text-curie-001':
-      return 2048
-    case 'text-babbage-001':
-      return 2048
-    case 'text-ada-001':
-      return 2048
-    case 'code-davinci-002':
-      return 8000
-    case 'code-cushman-001':
-      return 2048
-    default:
-      return 4097
-  }
-}
-
-type CalculateMaxTokenProps = {
-  prompt: string
-  modelName: TiktokenModel
-}

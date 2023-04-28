@@ -42,3 +42,12 @@ yarn-error.log*
 *.tsbuildinfo
 .idea
 .swc
+
+# extracted language files
+/public/locales/$LOCALES
+
+.eslintcache
+
+# Sentry Auth Token
+.sentryclirc
+/volumes/

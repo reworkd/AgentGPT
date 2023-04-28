@@ -1,25 +1,44 @@
 import PopIn from "./motions/popin";
-import React from "react";
+import React, { memo } from "react";
 
 type WindowButtonProps = {
+  ping?: boolean; // Toggles the ping animation
   delay: number;
-  onClick: () => void;
+  onClick?: () => void;
   icon: React.ReactNode;
-  text: string;
+  name: string;
+  styleClass?: { [key: string]: string };
 };
 
-const WindowButton = ({ delay, onClick, icon, text }: WindowButtonProps) => {
+const WindowButton = ({
+  ping,
+  delay,
+  onClick,
+  icon,
+  name,
+  styleClass,
+}: WindowButtonProps) => {
   return (
     <PopIn delay={delay}>
       <div
-        className="mr-1 flex cursor-pointer items-center gap-2 rounded-full border-2 border-white/30 p-1 px-2 text-xs hover:bg-white/10"
+        className={`flex cursor-pointer items-center gap-2 p-1 px-2 text-sm hover:bg-white/10 ${
+          styleClass?.container || ""
+        }`}
         onClick={onClick}
       >
+        {ping ? (
+          <span className="absolute right-[-3px] top-[-3px] flex h-3 w-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-sky-500 opacity-90"></span>
+          </span>
+        ) : (
+          <></>
+        )}
         {icon}
-        <p className="font-mono">{text}</p>
+        <p className="font-mono">{name}</p>
       </div>
     </PopIn>
   );
 };
 
-export default WindowButton;
+export default memo(WindowButton);

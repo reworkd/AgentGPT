@@ -1,5 +1,5 @@
 {
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> Maak een agent door een naam / doel toe te voegen en op implementeren te klikken!",
+  "CREATE_AN_AGENT": "Maak een agent door een naam / doel toe te voegen en op implementeren te klikken!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "Je kunt je eigen OpenAI API-sleutel opgeven in het instellingen tabblad voor hogere limieten!",
   "Save": "Opslaan",
   "Image": "Afbeelding",

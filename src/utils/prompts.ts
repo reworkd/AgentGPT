@@ -36,12 +36,12 @@ export const startGoalPrompt = new PromptTemplate({
 export const executeTaskPrompt = new PromptTemplate({
   template:
     "You are an autonomous task execution AI called AgentGPT. You have to answer on `{language}`. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
-  inputVariables: ["goal", "task", "language"],
+  inputVariables: ["goal", "language", "task"],
 });
 
 
 export const createTasksPrompt = new PromptTemplate({
   template:
     "You are an AI task creation agent. You have to answer on `{language}`. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE",
-  inputVariables: ["goal", "tasks", "lastTask", "result", "language"],
+  inputVariables: ["goal", "language", "tasks", "lastTask", "result"],
 });

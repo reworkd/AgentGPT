@@ -9,12 +9,17 @@ import { env } from "../env/client.mjs";
 import { LLMChain } from "langchain/chains";
 import { extractTasks } from "../utils/helpers";
 
-async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
+async function startGoalAgent(
+  modelSettings: ModelSettings,
+  goal: string,
+  language: string
+) {
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: startGoalPrompt,
   }).call({
     goal,
+    language,
   });
   console.log("Completion:" + (completion.text as string));
   return extractTasks(completion.text as string, []);
@@ -23,6 +28,7 @@ async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
 async function executeTaskAgent(
   modelSettings: ModelSettings,
   goal: string,
+  language: string,
   task: string
 ) {
   const completion = await new LLMChain({
@@ -30,7 +36,8 @@ async function executeTaskAgent(
     prompt: executeTaskPrompt,
   }).call({
     goal,
-    task,
+    language,
+    task
   });
 
   return completion.text as string;
@@ -39,6 +46,7 @@ async function executeTaskAgent(
 async function createTasksAgent(
   modelSettings: ModelSettings,
   goal: string,
+  language: string,
   tasks: string[],
   lastTask: string,
   result: string,
@@ -49,9 +57,10 @@ async function createTasksAgent(
     prompt: createTasksPrompt,
   }).call({
     goal,
+    language,
     tasks,
     lastTask,
-    result,
+    result
   });
 
   return extractTasks(completion.text as string, completedTasks || []);
@@ -60,16 +69,19 @@ async function createTasksAgent(
 interface AgentService {
   startGoalAgent: (
     modelSettings: ModelSettings,
-    goal: string
+    goal: string,
+    language: string
   ) => Promise<string[]>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     task: string
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     tasks: string[],
     lastTask: string,
     result: string,
@@ -91,6 +103,7 @@ const MockAgentService: AgentService = {
   createTasksAgent: async (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     tasks: string[],
     lastTask: string,
     result: string,
@@ -102,6 +115,7 @@ const MockAgentService: AgentService = {
   executeTaskAgent: async (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     task: string
   ) => {
     return await new Promise((resolve) => resolve("Result: " + task));

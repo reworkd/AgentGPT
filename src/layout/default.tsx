@@ -12,7 +12,7 @@ interface LayoutProps {
 
 const DefaultLayout = (props: LayoutProps) => {
   const [ t ] = useTranslation();
-  const description = `${'HEADING_DESCRIPTION', 'HEADING_DESCRIPTION', {ns:'indexPage'}}`
+  const description = `${t('HEADING_DESCRIPTION', 'HEADING_DESCRIPTION', {ns:'indexPage'})}`
   return (
     <div
       className={clsx(
@@ -39,7 +39,7 @@ const DefaultLayout = (props: LayoutProps) => {
         />
         <meta
           property="og:description"
-          content=description
+          content={description}
         />
         <meta property="og:url" content="https://agentgpt.reworkd.ai/" />
         <meta

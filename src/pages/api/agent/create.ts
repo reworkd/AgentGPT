@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import type { RequestBody } from "../../../utils/interfaces";
 import AgentService from "../../../services/agent-service";
 import { serverError } from "../responses";
-import { languages } from "../../../utils/languages";
 
 export const config = {
   runtime: "edge",
@@ -11,7 +10,7 @@ export const config = {
 
 const handler = async (request: NextRequest) => {
   try {
-    const { modelSettings, goal, tasks, lastTask, result, completedTasks, language } =
+    const { modelSettings, goal, language, tasks, lastTask, result, completedTasks } =
       (await request.json()) as RequestBody;
 
     if (tasks === undefined || lastTask === undefined || result === undefined) {
@@ -21,11 +20,11 @@ const handler = async (request: NextRequest) => {
     const newTasks = await AgentService.createTasksAgent(
       modelSettings,
       goal,
+      language,
       tasks,
       lastTask,
       result,
-      completedTasks,
-      language
+      completedTasks
     );
 
     return NextResponse.json({ newTasks });

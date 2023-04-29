@@ -7,5 +7,6 @@
   "CLOSE": "Close",
   "LOOP": "Loop",
   "CURRENT_TASKS": "Current Tasks",
-  "ADDING_TASK": "Adding Task"
+  "ADDING_TASK": "Adding Task",
+  "COPIED_TO_CLIPBOARD": "Copied to clipboard! 🚀"
 }

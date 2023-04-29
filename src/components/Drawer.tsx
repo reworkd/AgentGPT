@@ -96,8 +96,10 @@ const Drawer = ({
             <p className="font-bold">My Agents</p>
             <button
               className={clsx(
-                showDrawer ? "-translate-x-2" : "translate-x-12",
-                "absolute right-0 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2  text-white transition-all hover:bg-zinc-700 "
+                showDrawer
+                  ? "-translate-x-2"
+                  : "translate-x-12 border-2 border-white/20",
+                "absolute right-0 top-2 z-40 rounded-md bg-zinc-900 p-2 text-white transition-all hover:bg-zinc-700 "
               )}
               onClick={toggleDrawer}
             >

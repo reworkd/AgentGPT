@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "next-i18next";
 import Button from "./Button";
 import {
   FaKey,
@@ -63,7 +62,6 @@ export const SettingsDialog: React.FC<{
 
   const handleReset = () => {
     customSettings.resetSettings();
-    updateSettings("customApiKey", "");
     close();
   };
 

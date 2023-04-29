@@ -1,5 +1,5 @@
 {
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> Hozzon létre egy ügynököt a név + cél hozzáadásával, majd az elindítás gombra kattintva!",
+  "CREATE_AN_AGENT": "Hozzon létre egy ügynököt a név + cél hozzáadásával, majd az elindítás gombra kattintva!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "A saját OpenAI API-kulcsát a beállítások fülön megadhatja ezáltal növelni tudja az ügynök futási körök limitjét!",
   "Save": "Mentés",
   "Image": "Kép",

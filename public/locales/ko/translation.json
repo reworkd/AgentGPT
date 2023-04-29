@@ -1,5 +1,5 @@
 {
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> 이름 / 목표를 추가하고 배포를 눌러 에이전트를 만드세요!",
+  "CREATE_AN_AGENT": "이름 / 목표를 추가하고 배포를 눌러 에이전트를 만드세요!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "추가된 한계를 위해 설정 탭에서 OpenAI API 키를 입력할 수 있습니다!",
   "Save": "저장",
   "Image": "이미지",

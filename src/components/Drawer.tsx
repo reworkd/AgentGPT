@@ -119,9 +119,15 @@ const Drawer = ({
 
             {status === "unauthenticated" && (
               <div>
-                {t(
-                  "Sign in to be able to save agents and manage your account!"
-                )}
+                <a
+                  className="link"
+                  onClick={() => {
+                    signIn();
+                  }}
+                >
+                  Sign in
+                </a>{" "}
+                {t("to be able to save agents and manage your account!")}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (

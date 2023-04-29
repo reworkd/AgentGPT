@@ -178,9 +178,6 @@ const Home: NextPage = () => {
                 className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
-                showDonation={
-                  status != "loading" && !session?.user.subscriptionId
-                }
                 onSave={
                   shouldShowSave
                     ? (format) => {

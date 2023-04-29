@@ -28,6 +28,7 @@ import {
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
+import { AnimatePresence } from "framer-motion";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;

@@ -8,6 +8,7 @@ interface MotionProps extends PropsWithChildren {
 
 const PopIn = (props: MotionProps) => (
   <motion.div
+    exit={{ scale: 0 }}
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
     transition={{ duration: 0.5, type: "spring", delay: props.delay ?? 0 }}

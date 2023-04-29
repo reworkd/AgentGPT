@@ -5,6 +5,7 @@ import {
   FaCog,
   FaDiscord,
   FaGithub,
+  FaHeart,
   FaQuestionCircle,
   FaRobot,
   FaRocket,
@@ -77,6 +78,11 @@ const Drawer = ({
 
   const toggleDrawer = () => {
     setShowDrawer((prevState) => !prevState);
+  };
+
+  const handleSupport = () => {
+    const donationUrl = "https://github.com/sponsors/reworkd-admin";
+    window.open(donationUrl, "_blank");
   };
 
   const userAgents = query.data ?? [];
@@ -161,6 +167,11 @@ const Drawer = ({
             icon={<FaQuestionCircle />}
             text={`${t("HELP_BUTTON", "HELP_BUTTON", { ns: "drawer" })}`}
             onClick={showHelp}
+          />
+          <DrawerItem
+            icon={<FaHeart />}
+            text={`${t("SUPPORT_BUTTON", "SUPPORT_BUTTON", { ns: "drawer" })}`}
+            onClick={handleSupport}
           />
           <DrawerItem
             icon={<FaCog />}

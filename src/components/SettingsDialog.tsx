@@ -15,7 +15,7 @@ import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
-
+import { useTranslation } from "next-i18next";
 export const SettingsDialog: React.FC<{
   show: boolean;
   close: () => void;

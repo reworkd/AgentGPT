@@ -13,7 +13,7 @@ import Dialog from "./Dialog";
 import Input from "./Input";
 import { GPT_MODEL_NAMES, GPT_4 } from "../utils/constants";
 import Accordion from "./Accordion";
-import type { ModelSettings } from "../utils/types";
+import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
@@ -21,15 +21,15 @@ import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
 export const SettingsDialog: React.FC<{
   show: boolean;
   close: () => void;
-  customSettings: [ModelSettings, (settings: ModelSettings) => void];
-}> = ({ show, close, customSettings: [customSettings, setCustomSettings] }) => {
+  customSettings: SettingModel;
+}> = ({ show, close, customSettings }) => {
   const [settings, setSettings] = React.useState<ModelSettings>({
-    ...customSettings,
+    ...customSettings.settings,
   });
   const t = useTypeSafeTranslation();
 
   useEffect(() => {
-    setSettings(customSettings);
+    setSettings(customSettings.settings);
   }, [customSettings, close]);
 
   const updateSettings = <Key extends keyof ModelSettings>(
@@ -56,9 +56,15 @@ export const SettingsDialog: React.FC<{
       return;
     }
 
-    setCustomSettings(settings);
+    customSettings.saveSettings(settings);
     close();
     return;
+  };
+
+  const handleReset = () => {
+    customSettings.resetSettings();
+    updateSettings("customApiKey", "");
+    close();
   };
 
   const disabled = !settings.customApiKey;
@@ -145,7 +151,14 @@ export const SettingsDialog: React.FC<{
       header={t("Settings ⚙")}
       isShown={show}
       close={close}
-      footerButton={<Button onClick={handleSave}>Save</Button>}
+      footerButton={
+        <>
+          <Button className="bg-red-400 hover:bg-red-500" onClick={handleReset}>
+            Reset
+          </Button>
+          <Button onClick={handleSave}>Save</Button>
+        </>
+      }
       contentClassName="text-md relative flex flex-col gap-2 p-2 leading-relaxed"
     >
       <p>
@@ -184,6 +197,7 @@ export const SettingsDialog: React.FC<{
           </>
         }
         placeholder={"sk-..."}
+        type="password"
         value={settings.customApiKey}
         onChange={(e) => updateSettings("customApiKey", e.target.value)}
       />

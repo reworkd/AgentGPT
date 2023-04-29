@@ -169,96 +169,80 @@ More Coming soon...
 
 ### 🐳 Docker Setup
 
-The easiest way to run AgentGPT locally is by using docker.
-A convenient setup script is provided to help you get started.
+The easiest way to run AgentGPT locally is by using Docker. A convenient setup script is provided to help you get started.
 
 ```bash
-./setup.sh --docker
+./init.sh
+
+<<<<<<< HEAD
+### Docker-compose
+
+Using `docker-compose` deploy
+
+```bash
+./setup.sh --docker-compose
 ```
 
 ### 👷 Local Development Setup
+=======
+Then, when prompted, select "docker-compose (recommended)" or "docker" as the run option.
+👷 Local Development Setup
+>>>>>>> efd8ccd (Updated readme to reflect changes)
 
-If you wish to develop AgentGPT locally, the easiest way is to
-use the provided setup script.
+If you wish to develop AgentGPT locally, the easiest way is to use the provided setup script.
 
-```bash
-./setup.sh --local
-```
+bash
 
-### 🛠️ Manual Setup
+./init.sh
 
-> 🚧 You will need [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) installed.
+Then, when prompted, select "node" as the run option.
+🛠 Manual Setup
 
-1. Fork this project:
+    🚧 You will need Nodejs +18 (LTS recommended) installed.
 
-- [Click here](https://github.com/reworkd/AgentGPT/fork).
+    Fork this project:
 
-2. Clone the repository:
+    Click here.
 
-```bash
-git clone git@github.com:YOU_USER/AgentGPT.git
-```
+    Clone the repository:
 
-3. Install dependencies:
+bash
 
-```bash
+git clone git@github.com:YOUR_USERNAME/AgentGPT.git
+
+    Install dependencies:
+
+bash
+
 cd AgentGPT
 npm install
-```
 
-4. Create a **.env** file with the following content:
+    Set up your environment:
 
-> 🚧 The environment variables must match the following [schema](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
+bash
 
-```bash
-# Deployment Environment:
-NODE_ENV=development
+./init.sh
 
-# Next Auth config:
-# Generate a secret with `openssl rand -base64 32`
-NEXTAUTH_SECRET=changeme
-NEXTAUTH_URL=http://localhost:3000
-DATABASE_URL=file:./db.sqlite
+Then, when prompted, enter your configuration details.
 
-# Your open api key
-OPENAI_API_KEY=changeme
-```
+    Ready 🥳, now run:
 
-5. Modify prisma schema to use sqlite:
+bash
 
-```bash
-./prisma/useSqlite.sh
-```
-
-**Note:** This only needs to be done if you wish to use sqlite.
-
-6. Ready 🥳, now run:
-
-```bash
 # Create database migrations
 npx prisma db push
 npm run dev
-```
 
-### 🚀 GitHub Codespaces
+🚀 GitHub Codespaces
 
-Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://github.com/features/codespaces).
+Set up AgentGPT in the cloud immediately by using GitHub Codespaces.
 
-1. From the GitHub repo, click the green "Code" button and select "Codespaces".
-2. Create a new Codespace or select a previous one you've already created.
-3. Codespaces opens in a separate tab in your browser.
-4. In terminal, run `bash ./setup.sh --local`
-5. When prompted in terminal, add your OpenAI API key.
-6. Click "Open in browser" when the build process completes.
-
-- To shut AgentGPT down, enter Ctrl+C in Terminal.
-- To restart AgentGPT, run `npm run dev` in Terminal.
-
-Run the project 🥳
-
-```
-npm run dev
-```
+    From the GitHub repo, click the green "Code" button and select "Codespaces".
+    Create a new Codespace or select a previous one you've already created.
+    Codespaces opens in a separate tab in your browser.
+    In the terminal, run bash ./init.sh
+    When prompted in the terminal, add your OpenAI API key.
+    Click "Open in browser" when the setup is complete.
 
 ---
 

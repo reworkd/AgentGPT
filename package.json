@@ -21,6 +21,7 @@
     "@radix-ui/react-toast": "^1.1.3",
     "@radix-ui/react-tooltip": "^1.0.5",
     "@react-pdf/renderer": "^3.1.9",
+    "@sentry/nextjs": "^7.49.0",
     "@tanstack/react-query": "^4.20.0",
     "@trpc/client": "^10.21.1",
     "@trpc/next": "^10.21.1",
@@ -34,9 +35,12 @@
     "cheerio": "^1.0.0-rc.12",
     "chromadb": "^1.4.1",
     "clsx": "^1.2.1",
+    "dotenv": "^16.0.3",
+    "figlet": "^1.6.0",
     "framer-motion": "^10.11.2",
     "html-to-image": "^1.11.11",
     "i18next": "^22.4.15",
+    "inquirer": "^9.2.0",
     "langchain": "^0.0.63",
     "micro": "^10.0.1",
     "micro-cors": "^0.1.1",
@@ -44,6 +48,7 @@
     "next-auth": "^4.19.0",
     "next-i18next": "^13.2.2",
     "nextjs-google-analytics": "^2.3.3",
+    "open": "^9.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.2.1",
@@ -54,7 +59,8 @@
     "stripe": "^12.0.0",
     "superjson": "1.9.1",
     "uuid": "^9.0.0",
-    "zod": "^3.20.2"
+    "zod": "^3.20.2",
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -89,5 +95,13 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
-  }
+  },
+  "description": "<p align=\"center\">   <img src=\"https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ\" height=\"300\"/> </p> <p align=\"center\">   <em>🤖 Assemble, configure, and deploy autonomous AI Agents in your browser. 🤖 </em> </p> <p align=\"center\">     <img alt=\"Node version\" src=\"https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058\" />       <a href=\"https://github.com/reworkd/AgentGPT/blob/master/README.md\"><img src=\"https://img.shields.io/badge/lang-English-blue.svg\" alt=\"English\"></a>   <a href=\"https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md\"><img src=\"https://img.shields.io/badge/lang-简体中文-red.svg\" alt=\"简体中文\"></a>   <a href=\"https://github.com/reworkd/AgentGPT/blob/master/docs/README.hu-Cs4K1Sr4C.md\"><img src=\"https://img.shields.io/badge/lang-Hungarian-red.svg\" alt=\"Hungarian\"></a> </p>",
+  "main": "next-i18next.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

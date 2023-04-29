@@ -1,5 +1,5 @@
 {
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> Create an agent by adding a name / goal, and hitting deploy!",
+  "CREATE_AN_AGENT": "Create an agent by adding a name / goal, and hitting deploy!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "You can provide your own OpenAI API key in the settings tab for increased limits!",
   "Save": "Save",
   "Image": "Image",

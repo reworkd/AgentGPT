@@ -35,6 +35,10 @@ pre {
   @apply h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em];
 }
 
+.link {
+  @apply cursor-pointer text-sky-500 underline hover:text-sky-300;
+}
+
 table {
   @apply w-full rounded-lg text-white;
   background-color: #0d1117;

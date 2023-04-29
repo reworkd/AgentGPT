@@ -45,7 +45,6 @@ const Home: NextPage = () => {
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const settingsModel = useSettings();
-  // const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
@@ -115,7 +114,6 @@ const Home: NextPage = () => {
 
   const handleStopAgent = () => {
     agent?.stopAgent();
-    setIsAgentStopped();
   };
 
   const proTitle = (

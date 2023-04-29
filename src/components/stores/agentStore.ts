@@ -24,7 +24,6 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
       }));
     },
     setAgent: (newAgent) => {
-      console.log("newAgent: ", newAgent);
       set(() => ({
         agent: newAgent,
       }));

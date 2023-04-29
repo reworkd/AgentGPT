@@ -258,7 +258,7 @@ const Home: NextPage = () => {
               </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">
-              <Button disabled={disableDeployAgent} onClick={() => {console.log(agentLanguage); handleNewGoal()}}>
+              <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
                 {agent == null ? (
                   `${i18n?.t('BUTTON_DEPLOY_AGENT','BUTTON_DEPLOY_AGENT', {ns: 'indexPage'})}`
                 ) : (

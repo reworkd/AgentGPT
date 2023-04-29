@@ -72,13 +72,9 @@ export const [AGENT_STATUS_RUNNING, AGENT_STATUS_STOPPED] = [
   "stopped" as const,
 ];
 
-const AgentStatusSchema = z.union([
-  z.literal(AGENT_STATUS_RUNNING),
-  z.literal(AGENT_STATUS_STOPPED),
-  z.literal(""),
-]);
-
-export type AgentStatus = z.infer<typeof AgentStatusSchema>;
+export type AgentStatus =
+  | typeof AGENT_STATUS_RUNNING
+  | typeof AGENT_STATUS_STOPPED;
 
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {

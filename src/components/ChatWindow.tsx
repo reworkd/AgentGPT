@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { FaClipboard, FaCopy, FaImage, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -111,7 +111,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "👉 " + t("CREATE_AN_AGENT"),
+                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION"),
                 }}
               />
             </Expand>
@@ -119,7 +119,11 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: `📢 ${t("YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY")}`,
+                  value: `${t(
+                    "YOU_CAN_PROVIDE_YOUR_API_KEY",
+                    "YOU_CAN_PROVIDE_YOUR_API_KEY",
+                    { ns: "chat" }
+                  )}`,
                 }}
               />
               {showDonation && (
@@ -187,9 +191,22 @@ const MacWindowHeader = (props: HeaderProps) => {
 
       try {
         document.execCommand("copy");
-        console.log("Text copied to clipboard");
+        console.log(
+          `${i18n?.t(
+            "CONSOLE_TEXT_COPIED_TO_CLIPBOARD",
+            "TEXT_COPIED_TO_CLIPBOARD",
+            { ns: "chat" }
+          )}`
+        );
       } catch (err) {
-        console.error("Unable to copy text to clipboard", err);
+        console.error(
+          `${i18n?.t(
+            "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD",
+            "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD",
+            { ns: "chat" }
+          )}`,
+          err
+        );
       }
 
       document.body.removeChild(textArea);
@@ -202,14 +219,14 @@ const MacWindowHeader = (props: HeaderProps) => {
       delay={0.1}
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name={t("Image")}
+      name={`${i18n?.t("IMAGE", "IMAGE", { ns: "common" })}`}
     />,
     <WindowButton
       key="Copy"
       delay={0.15}
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
-      name={t("Copy")}
+      name={`${i18n?.t("COPY", "COPY", { ns: "common" })}`}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
@@ -238,14 +255,14 @@ const MacWindowHeader = (props: HeaderProps) => {
           delay={0}
           onClick={() => props.onSave?.("db")}
           icon={<FaSave size={12} />}
-          name={t("Save")}
+          name={`${i18n?.t("SAVE", "SAVE", { ns: "common" })}`}
           styleClass={{
             container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
           }}
         />
       )}
       <Menu
-        name={t("Export")}
+        name={`${i18n?.t("EXPORT", "EXPORT", { ns: "common" })}`}
         onChange={() => null}
         items={exportOptions}
         styleClass={{
@@ -307,7 +324,9 @@ const ChatMessage = ({
 
       {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
-          (Redeploy if this takes more than 30 seconds)
+          {`${t("RESTART_IF_IT_TAKES_X_SEC", "RESTART_IF_IT_TAKES_X_SEC", {
+            ns: "chat",
+          })}`}
         </span>
       )}
 
@@ -317,8 +336,12 @@ const ChatMessage = ({
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
             components={{
-              ul: (props) => <ul className="list-disc ml-8">{props.children}</ul>,
-              ol: (props) => <ol className="list-decimal ml-8">{props.children}</ol>,
+              ul: (props) => (
+                <ul className="ml-8 list-disc">{props.children}</ul>
+              ),
+              ol: (props) => (
+                <ol className="ml-8 list-decimal">{props.children}</ol>
+              ),
             }}
           >
             {message.info || ""}
@@ -338,7 +361,7 @@ const ChatMessage = ({
       <div className="relative">
         {copied ? (
           <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            {t("Copied!")}
+            {`${t("COPIED", "COPIED", { ns: "common" })}`}
           </span>
         ) : (
           <span
@@ -361,9 +384,15 @@ const DonationMessage = () => {
   return (
     <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
       <div className="max-w-none flex-grow">
-        {`💝️ ${t("HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT")} 💝️`}
+        {t(
+          "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT",
+          "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT",
+          { ns: "chat" }
+        )}
         <br />
-        {t("Please consider sponsoring the project on GitHub.")}
+        {t("CONSIDER_SPONSORING_ON_GITHUB", "CONSIDER_SPONSORING_ON_GITHUB", {
+          ns: "chat",
+        })}
       </div>
       <div className="flex items-center justify-center">
         <Button
@@ -372,7 +401,7 @@ const DonationMessage = () => {
             void router.push("https://github.com/sponsors/reworkd-admin")
           }
         >
-          {`${t("SUPPORT_NOW")} 🚀`}
+          {t("SUPPORT_NOW", "SUPPORT_NOW", { ns: "chat" })}
         </Button>
       </div>
     </div>
@@ -381,15 +410,19 @@ const DonationMessage = () => {
 
 const getMessagePrefix = (message: Message, t: Translation) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
-    return t("Embarking on a new goal:");
+    return `${i18n?.t("EMBARKING_ON_NEW_GOAL", "EMBARKING_ON_NEW_GOAL", {
+      ns: "chat",
+    })}`;
   } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return t("Thinking...");
+    return `${i18n?.t("THINKING", "THINKING", { ns: "chat" })}`;
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return t("Added task:");
+    return `${i18n?.t("TASK_ADDED", "TASK_ADDED", { ns: "chat" })}`;
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return `Completing: ${message.value}`;
+    return `${i18n?.t("COMPLETING", "COMPLETING", { ns: "chat" })} ${
+      message.value
+    }`;
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return t("No more subtasks for:");
+    return `${i18n?.t("NO_MORE_TASKS", "NO_MORE_TASKS", { ns: "chat" })}`;
   }
   return "";
 };
@@ -398,7 +431,7 @@ const FAQ = () => {
   return (
     <p>
       <br />
-      If you are facing any issues, please visit our{" "}
+      `${i18n?.t("IF_YOU_ARE_FACEING_WITH_ISSUE", "IF_YOU_ARE_FACEING_WITH_ISSUE", { ns: "chat" })}`
       <a
         href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq"
         className="text-sky-500"

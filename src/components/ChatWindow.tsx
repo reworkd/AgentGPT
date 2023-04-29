@@ -207,14 +207,12 @@ const MacWindowHeader = (props: HeaderProps) => {
   const exportOptions = [
     <WindowButton
       key="Image"
-      delay={0.1}
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
       name={`${i18n?.t("IMAGE", "IMAGE", { ns: "common" })}`}
     />,
     <WindowButton
       key="Copy"
-      delay={0.15}
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
       name={`${i18n?.t("COPY", "COPY", { ns: "common" })}`}
@@ -243,7 +241,6 @@ const MacWindowHeader = (props: HeaderProps) => {
         <WindowButton
           ping
           key="Agent"
-          delay={0}
           onClick={() => props.onSave?.("db")}
           icon={<FaSave size={12} />}
           name={`${i18n?.t("SAVE", "SAVE", { ns: "common" })}`}

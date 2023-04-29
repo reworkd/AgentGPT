@@ -32,12 +32,11 @@ const PDFButton = ({
   return (
     <>
       <WindowButton
-        delay={0.2}
         onClick={() => {
           downloadPDF();
         }}
         icon={<FaFilePdf size={12} />}
-        name="PDF"
+        name={name}
       />
     </>
   );

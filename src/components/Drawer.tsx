@@ -120,6 +120,14 @@ const Drawer = ({
             {status === "unauthenticated" && (
               <div>
                 {`${t("SIGN_IN_NOTICE", "SIGN_IN_NOTICE", { ns: "drawer" })}`}
+                <a
+                  className="link"
+                  onClick={() => {
+                    signIn();
+                  }}
+                >
+                  Sign in
+                </a>
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (

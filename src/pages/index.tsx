@@ -53,15 +53,14 @@ const Home: NextPage = () => {
   const agentUtils = useAgent();
 
   useEffect(() => {
-    const key = "agentgpt-modal-opened-new";
+    const key = "agentgpt-modal-opened-v0.2";
     const savedModalData = localStorage.getItem(key);
 
-    // Momentarily always run
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-    }, 3000);
+    }, 1800);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
@@ -204,7 +203,7 @@ const Home: NextPage = () => {
               {tasks.length > 0 && <TaskWindow />}
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
+            <div className="flex w-full flex-col gap-2 sm:m-4 ">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}
@@ -240,11 +239,7 @@ const Home: NextPage = () => {
               </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">
-              <Button
-                disabled={disableDeployAgent}
-                onClick={handleNewGoal}
-                className="sm:mt-10"
-              >
+              <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
                 {agent == null ? (
                   t("Deploy Agent")
                 ) : (
@@ -257,7 +252,6 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent === null}
                 onClick={handleStopAgent}
-                className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
                 {!isAgentStopped && agent === null ? (

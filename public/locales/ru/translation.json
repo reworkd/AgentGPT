@@ -11,7 +11,7 @@
   "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "Ошибка при использовании вашего OpenAI API-ключа. Вы превысили ваш текущий квоту, пожалуйста, проверьте ваш план и данные для выставления счетов.",
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "Ошибка: у вашего API-ключа нет доступа к GPT-4. Сначала вам нужно зарегистрироваться в списке ожидания OpenAI. (Это отличается от ChatGPT Plus).",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "",
-  "> Create an agent by adding a name / goal, and hitting deploy!": "Создайте агента, добавив имя / цель и нажав 'развернуть'!",
+  "CREATE_AN_AGENT": "Создайте агента, добавив имя / цель и нажав 'развернуть'!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "Вы можете использовать свой собственный ключ OpenAI API во вкладке 'настройки', чтобы увеличить лимиты!",
   "Image": "Изображение",
   "Copy": "Копировать",

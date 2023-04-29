@@ -16,5 +16,6 @@
   "LINK": "link",
   "NOTE_API_KEY_USAGE": "This key is only used in the current browser session",
   "LABEL_MODEL": "Model",
-  "LANG": "Language"
+  "LANG": "Language",
+  "INVALID_OPENAI_API_KEY": Invalid API key!
 }

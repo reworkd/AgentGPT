@@ -38,7 +38,7 @@ const Home: NextPage = () => {
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const setIsAgentStopped = useAgentStore.use.setIsAgentStopped();
+  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
@@ -70,8 +70,8 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    setIsAgentStopped();
-  }, [agent, setIsAgentStopped]);
+    updateIsAgentStopped();
+  }, [agent, updateIsAgentStopped]);
 
   const handleAddMessage = (message: Message) => {
     if (isTask(message)) {

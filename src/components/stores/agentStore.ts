@@ -11,14 +11,14 @@ const initialAgentState = {
 interface AgentSlice {
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
-  setIsAgentStopped: () => void;
+  updateIsAgentStopped: () => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
 const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   return {
     ...initialAgentState,
-    setIsAgentStopped: () => {
+    updateIsAgentStopped: () => {
       set((state) => ({
         isAgentStopped: !state.agent?.isRunning,
       }));

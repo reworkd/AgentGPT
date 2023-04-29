@@ -238,18 +238,22 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
-      {props.onSave && (
-        <WindowButton
-          ping
-          key="Agent"
-          onClick={() => props.onSave?.("db")}
-          icon={<FaSave size={12} />}
-          name={`${i18n?.t("SAVE", "SAVE", { ns: "common" })}`}
-          styleClass={{
-            container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {props.onSave && (
+          <PopIn>
+            <WindowButton
+              ping
+              key="Agent"
+              onClick={() => props.onSave?.("db")}
+              icon={<FaSave size={12} />}
+              name={`${i18n?.t("SAVE", "SAVE", { ns: "common" })}`}
+              styleClass={{
+                container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+              }}
+            />
+          </PopIn>
+        )}
+      </AnimatePresence>
       <Menu
         name={`${i18n?.t("EXPORT", "EXPORT", { ns: "common" })}`}
         onChange={() => null}

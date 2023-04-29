@@ -316,6 +316,10 @@ const ChatMessage = ({
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
+            components={{
+              ul: (props) => <ul className="list-disc ml-8">{props.children}</ul>,
+              ol: (props) => <ol className="list-decimal ml-8">{props.children}</ol>,
+            }}
           >
             {message.info || ""}
           </ReactMarkdown>

@@ -1,0 +1,11 @@
+{
+  "HELP_BUTTON": "Pomoć",
+  "SETTINGS_BUTTON": "Postavke",
+  "MY_AGENTS": "Moji agenti",
+  "SIGN_IN_NOTICE": "Prijavite se da biste mogli spremiti svoje agente i upravljati svojim računom!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "Prvo morate stvoriti i spremiti svoj prvi agent prije nego što se ovdje pojavi išta!",
+  "SIGN_IN": "Prijava",
+  "SIGN_OUT": "Odjava",
+  "ACCOUNT" : "Račun",
+  "USER_IMAGE": "Slika korisnika"
+}

@@ -1,0 +1,9 @@
+{
+  "BETA": "贝塔",
+  "HEADING_DESCRIPTION": "在浏览器中编译，配置和安装自主 AI 代理。",
+  "AGENT_NAME": "名称",
+  "LABEL_AGENT_GOAL": "目标",
+  "PLACEHOLDER_AGENT_GOAL": "让世界变得更美好",
+  "BUTTON_DEPLOY_AGENT": "运行代理",
+  "BUTTON_STOP_AGENT": "停止代理"
+  }

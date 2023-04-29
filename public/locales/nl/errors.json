@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "FOUT bij het openen van de OpenAI API-sleutel. Controleer de API-sleutel of probeer het later opnieuw.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "FOUT bij het toevoegen van extra taken. Het kan zijn dat ons model het antwoord niet aankan en dit heeft veroorzaakt. Ga verder...",
+  "RATE_LIMIT_EXCEEDED": "U heeft het maximale aantal verzoeken bereikt! Vertraag alsjeblieft...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Deze agent heeft het maximum aantal uitvoerbare rondes bereikt. Om uw portemonnee te sparen, stopt deze agent nu... Het maximum aantal uitvoerbare rondes van de agent kan worden geconfigureerd in de instellingen.",
+  "DEMO_LOOPS_REACHED": "Sorry, maar omdat dit een demo-applicatie is, kunnen we onze agenten niet te lang laten draaien. Opmerking: als u langere runs wilt, geef dan uw eigen API-sleutel op in de instellingen. Stoppen...",
+  "AGENT_MANUALLY_SHUT_DOWN": "De agent is handmatig gestopt.",
+  "ALL_TASKS_COMPLETETD": "Alle taken zijn voltooid. Stoppen...",
+  "ERROR_API_KEY_QUOTA": "FOUT bij het gebruik van de OpenAI API-sleutel. U heeft uw huidige quota overschreden, controleer uw factureringsgegevens.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "FOUT: uw OpenAI API-sleutel heeft geen toegang tot GPT-4. U moet zich eerst aanmelden voor de OpenAI-wachtlijst. (Dit is anders dan ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "FOUT bij het ophalen van de initiële taken. Probeer het opnieuw, formuleer de doelstellingen van de agent duidelijker of pas deze aan zodat deze geschikt is voor ons model. Stoppen...",
+  "INVALID_OPENAI_API_KEY": "FOUT ongeldige OpenAI API-sleutel"
+}

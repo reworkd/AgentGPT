@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Compilează, configurează și instalează agenți autonomi de IA în browser-ul tău.",
+  "AGENT_NAME": "Nume",
+  "LABEL_AGENT_GOAL": "Scop",
+  "PLACEHOLDER_AGENT_GOAL": "Să facă lumea un loc mai bun",
+  "BUTTON_DEPLOY_AGENT": "Execută agentul",
+  "BUTTON_STOP_AGENT": "Oprește agentul"
+}

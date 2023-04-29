@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Temperatuur",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Hogere waarden maken de output meer willekeurig, terwijl lagere waarden het gerichter en bepaalder maken.",
+  "LOOP": "Lus",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Regelt het maximale aantal lussen dat de agent kan uitvoeren (een hogere waarde resulteert in meer API-oproepen).",
+  "TOKENS": "Tokens",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Regelt het maximale aantal tokens dat in elke API-oproep wordt gebruikt (een hogere waarde resulteert in gedetailleerdere antwoorden, maar is duurder).",
+  "SETTINGS_DIALOG_HEADER": "Instellingen ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Hier kunt u uw OpenAI API-sleutel toevoegen. Dit betekent dat u moet betalen voor uw eigen OpenAI-tokengebruik, maar u krijgt meer toegang tot ChatGPT! Bovendien kunt u elk model kiezen dat door OpenAI wordt aangeboden.",
+  "INFO_TO_USE_GPT4": "Om het GPT-4-model te gebruiken, moet u ook de API-sleutel opgeven. Je kunt het",
+  "HERE": "hier",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(Het ChatGPT Plus-abonnement werkt niet)",
+  "API_KEY": "API-sleutel",
+  "ADVANCED_SETTINGS": "Geavanceerde instellingen",
+  "NOTE_TO_GET_OPENAI_KEY": "OPMERKING: Om een ​​API-sleutel te krijgen, moet u een OpenAI-account registreren op de volgende link:",
+  "LINK": "API-sleutel aanvragen",
+  "NOTE_API_KEY_USAGE": "Deze sleutel wordt alleen gebruikt tijdens de huidige browsersessie.",
+  "LABEL_MODEL": "Model",
+  "LANG": "Taal"
+}

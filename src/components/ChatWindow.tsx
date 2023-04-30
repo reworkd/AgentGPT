@@ -240,7 +240,7 @@ const MacWindowHeader = (props: HeaderProps) => {
         items={exportOptions}
         styleClass={{
           container: "relative",
-          input: `bg-[#3a3a3a] animation-duration text-left px-2 text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          input: `bg-[#3a3a3a] animation-duration text-left py-1 px-2 text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
           option: "w-full py-[1px] md:py-0.5",
         }}
       />

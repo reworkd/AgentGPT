@@ -173,29 +173,30 @@ export const SettingsDialog: React.FC<{
         </a>
         .
       </p>
-      <p
-        className={clsx(
-          "my-2",
-          settings.customModelName === GPT_4 &&
+      {settings.customModelName === GPT_4 && (
+        <p
+          className={clsx(
+            "my-2",
             "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
-        )}
-      >
-        <FaExclamationCircle className="inline-block" />
-        &nbsp;
-        <b>
-          {t(
-            "To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it"
           )}
+        >
+          <FaExclamationCircle className="inline-block" />
           &nbsp;
-          <a
-            href="https://openai.com/waitlist/gpt-4-api"
-            className="text-blue-500"
-          >
-            {t("here")}
-          </a>
-          .&nbsp; {t("(ChatGPT Plus subscription will not work)")}
-        </b>
-      </p>
+          <b>
+            {t(
+              "To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it"
+            )}
+            &nbsp;
+            <a
+              href="https://openai.com/waitlist/gpt-4-api"
+              className="text-blue-500"
+            >
+              {t("here")}
+            </a>
+            .&nbsp; {t("(ChatGPT Plus subscription will not work)")}
+          </b>
+        </p>
+      )}
       <Input
         left={
           <>

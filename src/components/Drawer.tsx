@@ -38,7 +38,7 @@ const Drawer = ({
     // Function to check if the screen width is for desktop or tablet
     const checkScreenWidth = () => {
       const screenWidth = window.innerWidth;
-      if (screenWidth >= 768) {
+      if (screenWidth >= 850) {
         // 768px is the breakpoint for tablet devices
         setShowDrawer(true);
       } else {

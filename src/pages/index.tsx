@@ -146,11 +146,11 @@ const Home: NextPage = () => {
         />
         <div
           id="content"
-          className="z-10 flex min-h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
+          className="z-10 flex min-h-screen w-full items-center justify-center p-2 sm:px-4 md:px-10"
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-3 py-5 md:justify-center"
+            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
           >
             <div
               id="title"
@@ -198,7 +198,7 @@ const Home: NextPage = () => {
               {tasks.length > 0 && <TaskWindow />}
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 sm:m-4 ">
+            <div className="flex w-full flex-col gap-2 md:m-4 ">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}

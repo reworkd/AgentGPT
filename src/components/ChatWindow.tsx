@@ -29,6 +29,7 @@ import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
 import { AnimatePresence } from "framer-motion";
+import { BiExport } from "react-icons/Bi";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -236,12 +237,13 @@ const MacWindowHeader = (props: HeaderProps) => {
         )}
       </AnimatePresence>
       <Menu
+        icon={<BiExport />}
         name={`${t("Export")}`}
         onChange={() => null}
         items={exportOptions}
         styleClass={{
           container: "relative",
-          input: `bg-[#3a3a3a] w-28 animation-duration text-left px-4 text-sm p-1 font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          input: `bg-[#3a3a3a] animation-duration text-left px-2 text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
           option: "w-full py-[1px] md:py-0.5",
         }}
       />

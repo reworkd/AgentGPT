@@ -77,11 +77,11 @@ export type AgentStatus =
   | typeof AGENT_STATUS_STOPPED;
 
 // Agent Mode
-export const [DEFAULT_MODE, PAUSE_MODE] = [
-  "Default Mode" as const,
+export const [AUTOMATIC_MODE, PAUSE_MODE] = [
+  "Automatic Mode" as const,
   "Pause Mode" as const,
 ];
-export type AgentMode = typeof DEFAULT_MODE | typeof PAUSE_MODE;
+export type AgentMode = typeof AUTOMATIC_MODE | typeof PAUSE_MODE;
 
 // Agent Playback Control
 export const [AGENT_PLAY, AGENT_PAUSE] = ["Play" as const, "Pause" as const];

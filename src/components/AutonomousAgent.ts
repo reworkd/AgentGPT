@@ -11,7 +11,7 @@ import { env } from "../env/client.mjs";
 import { v4, v1 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
 import {
-  DEFAULT_MODE,
+  AUTOMATIC_MODE,
   PAUSE_MODE,
   AGENT_PLAY,
   AGENT_PAUSE,
@@ -70,7 +70,7 @@ class AutonomousAgent {
     this.modelSettings = modelSettings;
     this.session = session;
     this._id = v4();
-    this.mode = (modelSettings.agentMode || DEFAULT_MODE) as AgentMode;
+    this.mode = (modelSettings.agentMode || AUTOMATIC_MODE) as AgentMode;
     this.playbackControl =
       playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
   }

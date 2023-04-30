@@ -24,7 +24,7 @@ import {
   useAgentStore,
   resetAllMessageSlices,
 } from "../components/stores";
-import { isTask, AGENT_PLAY, DEFAULT_MODE } from "../types/agentTypes";
+import { isTask, AGENT_PLAY, AUTOMATIC_MODE } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 
@@ -96,7 +96,7 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
-    updateAgentMode(settingsModel.settings.agentMode || DEFAULT_MODE);
+    updateAgentMode(settingsModel.settings.agentMode || AUTOMATIC_MODE);
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),

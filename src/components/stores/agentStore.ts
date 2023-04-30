@@ -2,7 +2,7 @@ import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import type AutonomousAgent from "../AutonomousAgent";
-import { AGENT_PAUSE, DEFAULT_MODE } from "../../types/agentTypes";
+import { AGENT_PAUSE, AUTOMATIC_MODE } from "../../types/agentTypes";
 import type { AgentPlaybackControl } from "../../types/agentTypes";
 
 const resetters: (() => void)[] = [];
@@ -11,7 +11,7 @@ const initialAgentState = {
   agent: null,
   isAgentStopped: true,
   isAgentPaused: undefined,
-  agentMode: DEFAULT_MODE,
+  agentMode: AUTOMATIC_MODE as string,
 };
 
 interface AgentSlice {

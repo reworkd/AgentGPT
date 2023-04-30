@@ -44,21 +44,12 @@ const AgentPage: NextPage = () => {
       <ChatWindow
         messages={messages.filter((m) => m.type !== "thinking")}
         title={getAgent?.data?.name}
-        showDonation={false}
         className="min-h-[80vh] md:w-[80%]"
         fullscreen
       />
       <div className="flex flex-row gap-2">
-        <Button
-          icon={<FaShare />}
-          onClick={() => {
-            void window.navigator.clipboard
-              .writeText(shareLink())
-              .then(() => setShowCopied(true));
-          }}
-          enabledClassName={"bg-green-600 hover:bg-green-400"}
-        >
-          Share
+        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          Back
         </Button>
         <Button
           icon={<FaTrash />}
@@ -69,8 +60,17 @@ const AgentPage: NextPage = () => {
         >
           Delete
         </Button>
-        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
-          Back
+
+        <Button
+          icon={<FaShare />}
+          onClick={() => {
+            void window.navigator.clipboard
+              .writeText(shareLink())
+              .then(() => setShowCopied(true));
+          }}
+          enabledClassName={"bg-green-600 hover:bg-green-400"}
+        >
+          Share
         </Button>
       </div>
       <Toast

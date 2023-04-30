@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+/* Message & Task Type */
 export const [
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_THINKING,
@@ -64,6 +65,16 @@ export const messageSchema = z.union([taskSchema, nonTaskScehma]);
 
 export type Task = z.infer<typeof taskSchema>;
 export type Message = z.infer<typeof messageSchema>;
+
+/* Agent Type */
+export const [AGENT_STATUS_RUNNING, AGENT_STATUS_STOPPED] = [
+  "running" as const,
+  "stopped" as const,
+];
+
+export type AgentStatus =
+  | typeof AGENT_STATUS_RUNNING
+  | typeof AGENT_STATUS_STOPPED;
 
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {

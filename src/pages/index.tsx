@@ -19,40 +19,47 @@ import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import { useMessageStore, resetAllSlices } from "../components/store";
+import {
+  useMessageStore,
+  useAgentStore,
+  resetAllMessageSlices,
+} from "../components/stores";
 import { isTask } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
   const [t] = useTranslation();
-  // zustand states
+  // zustand states with state dependencies
+  const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const tasks = useMessageStore.use.tasks();
-  const addMessage = useMessageStore.use.addMessage();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+
+  const setAgent = useAgentStore.use.setAgent();
+  const isAgentStopped = useAgentStore.use.isAgentStopped();
+  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
+  const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
-  const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
   const settingsModel = useSettings();
-  const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
+
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
   useEffect(() => {
-    const key = "agentgpt-modal-opened-new";
+    const key = "agentgpt-modal-opened-v0.2";
     const savedModalData = localStorage.getItem(key);
 
-    // Momentarily always run
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-    }, 3000);
+    }, 1800);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
@@ -63,10 +70,8 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    if (agent == null) {
-      setShouldAgentStop(false);
-    }
-  }, [agent]);
+    updateIsAgentStopped();
+  }, [agent, updateIsAgentStopped]);
 
   const handleAddMessage = (message: Message) => {
     if (isTask(message)) {
@@ -79,10 +84,8 @@ const Home: NextPage = () => {
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
-  const isAgentStopped = () => !agent?.isRunning || agent === null;
-
   const handleNewGoal = () => {
-    const agent = new AutonomousAgent(
+    const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
       handleAddMessage,
@@ -90,10 +93,10 @@ const Home: NextPage = () => {
       settingsModel.settings,
       session ?? undefined
     );
-    setAgent(agent);
+    setAgent(newAgent);
     setHasSaved(false);
-    resetAllSlices();
-    agent.run().then(console.log).catch(console.error);
+    resetAllMessageSlices();
+    newAgent?.run().then(console.log).catch(console.error);
   };
 
   const handleKeyPress = (
@@ -110,7 +113,6 @@ const Home: NextPage = () => {
   };
 
   const handleStopAgent = () => {
-    setShouldAgentStop(true);
     agent?.stopAgent();
   };
 
@@ -122,7 +124,7 @@ const Home: NextPage = () => {
 
   const shouldShowSave =
     status === "authenticated" &&
-    !agent?.isRunning &&
+    isAgentStopped &&
     messages.length &&
     !hasSaved;
 
@@ -144,11 +146,11 @@ const Home: NextPage = () => {
         />
         <div
           id="content"
-          className="z-10 flex min-h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
+          className="z-10 flex min-h-screen w-full items-center justify-center p-2 sm:px-4 md:px-10"
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-3 py-5 md:justify-center"
+            className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
           >
             <div
               id="title"
@@ -161,8 +163,8 @@ const Home: NextPage = () => {
                 <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">
                   GPT
                 </span>
-                <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>Beta 🚀</Badge>
+                <PopIn delay={0.5}>
+                  <Badge>{t("Beta 🚀")}</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
@@ -179,9 +181,6 @@ const Home: NextPage = () => {
                 className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
-                showDonation={
-                  status != "loading" && !session?.user.subscriptionId
-                }
                 onSave={
                   shouldShowSave
                     ? (format) => {
@@ -195,14 +194,11 @@ const Home: NextPage = () => {
                     : undefined
                 }
                 scrollToBottom
-                isAgentStopped={isAgentStopped()}
               />
-              {tasks.length > 0 && (
-                <TaskWindow isAgentStopped={isAgentStopped()} />
-              )}
+              {tasks.length > 0 && <TaskWindow />}
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
+            <div className="flex w-full flex-col gap-2 md:m-4 ">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}
@@ -238,11 +234,7 @@ const Home: NextPage = () => {
               </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">
-              <Button
-                disabled={disableDeployAgent}
-                onClick={handleNewGoal}
-                className="sm:mt-10"
-              >
+              <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
                 {agent == null ? (
                   t("Deploy Agent")
                 ) : (
@@ -253,12 +245,11 @@ const Home: NextPage = () => {
                 )}
               </Button>
               <Button
-                disabled={agent == null}
+                disabled={agent === null}
                 onClick={handleStopAgent}
-                className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
-                {shouldAgentStop ? (
+                {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
                     <span className="ml-2">{t("Stopping")}</span>

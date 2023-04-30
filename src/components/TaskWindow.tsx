@@ -3,10 +3,11 @@ import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
 import { Task } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useMessageStore } from "../components/stores";
+import { useMessageStore } from "./stores";
 import { FaListAlt } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { useAgentStore } from "../components/stores";
+import { useAgentStore } from "./stores";
+import clsx from "clsx";
 
 export const TaskWindow = () => {
   const tasks = useMessageStore.use.tasks();
@@ -32,9 +33,11 @@ const Task = ({ task }: { task: Task }) => {
   return (
     <FadeIn>
       <div
-        className={`w-full animate-[rotate] rounded-md border-2 p-2 text-sm text-white ${
-          isAgentStopped ? "opacity-50" : ""
-        } ${getMessageContainerStyle(task)}`}
+        className={clsx(
+          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+          isAgentStopped && "opacity-50",
+          getMessageContainerStyle(task)
+        )}
       >
         {getTaskStatusIcon(task, { isAgentStopped })}
         <span>{task.value}</span>

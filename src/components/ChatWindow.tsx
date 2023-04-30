@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaClipboard, FaCopy, FaImage, FaSave } from "react-icons/fa";
+import { FaClipboard, FaImage, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -255,33 +255,12 @@ const ChatMessage = ({
   className?: string;
 }) => {
   const [t] = useTranslation();
-  const [showCopy, setShowCopy] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const handleCopyClick = () => {
-    void navigator.clipboard.writeText(message.value);
-    setCopied(true);
-  };
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    if (copied) {
-      timeoutId = setTimeout(() => {
-        setCopied(false);
-      }, 2000);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [copied]);
 
   return (
     <div
       className={`${getMessageContainerStyle(
         message
       )} mx-2 my-1 rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base`}
-      onMouseEnter={() => setShowCopy(true)}
-      onMouseLeave={() => setShowCopy(false)}
-      onClick={handleCopyClick}
     >
       {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space
@@ -316,22 +295,6 @@ const ChatMessage = ({
           }
         </>
       )}
-
-      <div className="relative">
-        {copied ? (
-          <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            {t("Copied!")}
-          </span>
-        ) : (
-          <span
-            className={`absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 ${
-              showCopy ? "visible" : "hidden"
-            }`}
-          >
-            <FaCopy className="text-white-300 cursor-pointer" />
-          </span>
-        )}
-      </div>
     </div>
   );
 };

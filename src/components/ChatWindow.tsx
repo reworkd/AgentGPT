@@ -25,7 +25,7 @@ import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
 import { AnimatePresence } from "framer-motion";
-import { BiExport } from "react-icons/Bi";
+import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
 
 interface ChatWindowProps extends HeaderProps {
@@ -234,7 +234,7 @@ const MacWindowHeader = (props: HeaderProps) => {
         )}
       </AnimatePresence>
       <Menu
-        icon={<BiExport />}
+        icon={<CgExport />}
         name={`${t("Export")}`}
         onChange={() => null}
         items={exportOptions}

@@ -94,7 +94,7 @@ const extractLanguageName = (languageString: string): string => {
   // The provided language will be "language-{PROGRAMMING_LANGUAGE}"
   const parts = languageString.split("-");
   if (parts.length > 1) {
-    return parts[1];
+    return parts[1] || "";
   }
   return "";
 };

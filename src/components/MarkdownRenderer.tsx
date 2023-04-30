@@ -5,6 +5,26 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 
+const MarkdownRenderer = ({ children }) => (
+  <ReactMarkdown
+    remarkPlugins={[remarkGfm]}
+    rehypePlugins={[rehypeHighlight]}
+    components={{
+      code: CustomCodeBlock,
+      pre: CustomPre,
+      p: CustomParagraph,
+      ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
+      ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
+    }}
+  >
+    {children}
+  </ReactMarkdown>
+);
+
+const CustomParagraph = ({ children }) => <p className="mb-4">{children}</p>;
+
+const CustomPre = ({ children }) => <pre className="mb-4">{children}</pre>;
+
 interface CustomCodeBlockProps {
   inline?: boolean;
   className?: string;
@@ -29,22 +49,5 @@ const CustomCodeBlock = ({
 
   return <code className={`hljs ${language}`}>{children}</code>;
 };
-
-const CustomParagraph = ({ children }) => <p className="mb-4">{children}</p>;
-
-const MarkdownRenderer = ({ children }) => (
-  <ReactMarkdown
-    remarkPlugins={[remarkGfm]}
-    rehypePlugins={[rehypeHighlight]}
-    components={{
-      code: CustomCodeBlock,
-      p: CustomParagraph,
-      ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
-      ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
-    }}
-  >
-    {children}
-  </ReactMarkdown>
-);
 
 export default MarkdownRenderer;

@@ -5,10 +5,6 @@ import { FaClipboard, FaCopy, FaImage, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github-dark.css";
 import WindowButton from "./WindowButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
@@ -30,6 +26,7 @@ import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
 import { AnimatePresence } from "framer-motion";
 import { BiExport } from "react-icons/Bi";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -303,22 +300,12 @@ const ChatMessage = ({
       )}
 
       {isAction(message) ? (
-        <div className="prose ml-2 max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
-            components={{
-              ul: (props) => (
-                <ul className="ml-8 list-disc">{props.children}</ul>
-              ),
-              ol: (props) => (
-                <ol className="ml-8 list-decimal">{props.children}</ol>
-              ),
-            }}
-          >
-            {message.info || ""}
-          </ReactMarkdown>
-        </div>
+        <>
+          <hr className="my-2 border-[1px] border-white/20" />
+          <div className="prose max-w-none">
+            <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
+          </div>
+        </>
       ) : (
         <>
           <span>{message.value}</span>

@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { appWithTranslation, useTranslation } from "next-i18next";
 import { useEffect } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -23,8 +24,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <GoogleAnalytics trackPageViews />
       <Analytics />
+      <Component {...pageProps} />
     </SessionProvider>
   );
 };

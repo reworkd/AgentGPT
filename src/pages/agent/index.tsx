@@ -11,10 +11,10 @@ import Toast from "../../components/toast";
 import { FaTrash, FaShare, FaBackspace } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const AgentPage: NextPage = () => {
-  const [ t ] = useTranslation();
+  const [t] = useTranslation();
   const [showCopied, setShowCopied] = useState(false);
   const router = useRouter();
 
@@ -42,13 +42,25 @@ const AgentPage: NextPage = () => {
       centered
     >
       <ChatWindow
-        messages={messages}
+        messages={messages.filter((m) => m.type !== "thinking")}
         title={getAgent?.data?.name}
-        showDonation={false}
         className="min-h-[80vh] md:w-[80%]"
         fullscreen
       />
       <div className="flex flex-row gap-2">
+        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          Back
+        </Button>
+        <Button
+          icon={<FaTrash />}
+          onClick={() => {
+            deleteAgent.mutate(agentId);
+          }}
+          enabledClassName={"bg-red-600 hover:bg-red-400"}
+        >
+          Delete
+        </Button>
+
         <Button
           icon={<FaShare />}
           onClick={() => {
@@ -60,22 +72,10 @@ const AgentPage: NextPage = () => {
         >
           Share
         </Button>
-        <Button
-          icon={<FaTrash />}
-          onClick={() => {
-            deleteAgent.mutate(agentId);
-          }}
-          enabledClassName={"bg-red-600 hover:bg-red-400"}
-        >
-          Delete
-        </Button>
-        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
-          Back
-        </Button>
       </div>
       <Toast
         model={[showCopied, setShowCopied]}
-        title={t('Copied to clipboard! 🚀')}
+        title={t("Copied to clipboard! 🚀")}
         className="bg-gray-950 text-sm"
       />
     </DefaultLayout>

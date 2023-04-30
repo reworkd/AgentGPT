@@ -47,3 +47,7 @@ yarn-error.log*
 /public/locales/$LOCALES
 
 .eslintcache
+
+# Sentry Auth Token
+.sentryclirc
+/volumes/

@@ -1,5 +1,5 @@
 {
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> Vytvorte agenta pridaním mena / cieľa a kliknutím na nasadiť!",
+  "CREATE_AN_AGENT": "Vytvorte agenta pridaním mena / cieľa a kliknutím na nasadiť!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "Môžete poskytnúť svoj vlastný OpenAI API kľúč v karte nastavenia pre zvýšenie limitov!",
   "Save": "Uložiť",
   "Image": "Obrázok",

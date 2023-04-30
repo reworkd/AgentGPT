@@ -11,7 +11,7 @@
   "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "OpenAI APIキーの使用中にエラーが発生しました。現在のクォータを超過しています。プランと請求明細を確認してください。",
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "APIキーにGPT-4アクセスがありません。最初にOpenAIのウェイトリストに参加する必要があります。（これはChatGPT Plusとは異なります）",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "最初のタスク配列の取得中にエラーが発生しました。再試行するか、目標をより明確にするか、モデルのポリシーに沿ったように目標を修正してください。シャットダウンします。",
-  "> Create an agent by adding a name / goal, and hitting deploy!": "名前/目標を追加して、デプロイをクリックしてエージェントを作成してください！",
+  "CREATE_AN_AGENT": "名前/目標を追加して、デプロイをクリックしてエージェントを作成してください！",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "増加した制限のために、設定タブで独自のOpenAI APIキーを提供できます！",
   "Image": "画像",
   "Copy": "コピー",

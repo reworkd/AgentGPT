@@ -3,6 +3,15 @@ import { PromptTemplate } from "langchain/prompts";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 
+const getServerSideKey = (): string => {
+  const keys: string[] = (process.env.OPENAI_API_KEY || "")
+    .split(",")
+    .map((key) => key.trim())
+    .filter((key) => key.length);
+
+  return keys[Math.floor(Math.random() * keys.length)] || "";
+};
+
 export const createModel = (settings: ModelSettings) => {
   let _settings: ModelSettings | undefined = settings;
   if (!settings.customModelName) {
@@ -10,15 +19,15 @@ export const createModel = (settings: ModelSettings) => {
   }
 
   return new OpenAI({
-    openAIApiKey: _settings?.customApiKey || process.env.OPENAI_API_KEY,
-    temperature: _settings?.customTemperature || 0.7,
+    openAIApiKey: _settings?.customApiKey || getServerSideKey(),
+    temperature: _settings?.customTemperature || 0.9,
     modelName: _settings?.customModelName || GPT_35_TURBO,
     maxTokens: _settings?.maxTokens || 400,
   });
 };
 
 export const startGoalPrompt = new PromptTemplate({
-  template: `You are an autonomous task creation AI called AgentGPT. You have access to google search for current events for small searches. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse(). Example: ["Research new marketing designs", "Create a campaign"]`,
+  template: `You are an autonomous task creation AI called AgentGPT. You have access to google search for current events for small searches. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings such as ["Research new marketing designs", "Write a python script to create a campaign"] that can be used in JSON.parse().`,
   inputVariables: ["goal"],
 });
 
@@ -29,7 +38,7 @@ export const analyzeTaskPrompt = new PromptTemplate({
 
 export const executeTaskPrompt = new PromptTemplate({
   template:
-    "You are an autonomous task execution AI called AgentGPT. You have the following objective `{goal}`. You have the following tasks `{task}`. Execute the task and return the response as a string.",
+    "You are an AI agent called AgentGPT. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task.",
   inputVariables: ["goal", "task"],
 });
 

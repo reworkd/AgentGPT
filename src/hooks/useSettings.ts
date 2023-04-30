@@ -1,5 +1,6 @@
 import { useState } from "react";
-import type { ModelSettings } from "../utils/types";
+import type { ModelSettings, SettingModel } from "../utils/types";
+
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
@@ -8,44 +9,46 @@ import {
 
 const SETTINGS_KEY = "AGENTGPT_SETTINGS";
 const DEFAULT_SETTINGS: ModelSettings = {
-  customApiKey: undefined,
+  customApiKey: "",
   customModelName: GPT_35_TURBO,
-  customTemperature: 0.7,
+  customTemperature: 0.9 as const,
   customMaxLoops: DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-  maxTokens: 400,
+  maxTokens: 300 as const,
 };
 
 const loadSettings = () => {
+  const settings = { ...DEFAULT_SETTINGS };
+
   if (typeof window === "undefined") {
-    return DEFAULT_SETTINGS;
+    return settings;
   }
 
   const data = localStorage.getItem(SETTINGS_KEY);
   if (!data) {
-    return DEFAULT_SETTINGS;
+    return settings;
   }
 
   try {
     const obj = JSON.parse(data) as ModelSettings;
     Object.entries(obj).forEach(([key, value]) => {
-      if (DEFAULT_SETTINGS.hasOwnProperty(key)) {
+      if (settings.hasOwnProperty(key)) {
         // @ts-ignore
-        DEFAULT_SETTINGS[key] = value;
+        settings[key] = value;
       }
     });
   } catch (error) {}
 
   if (
-    DEFAULT_SETTINGS.customApiKey &&
-    DEFAULT_SETTINGS.customMaxLoops === DEFAULT_MAX_LOOPS_FREE
+    settings.customApiKey &&
+    settings.customMaxLoops === DEFAULT_MAX_LOOPS_FREE
   ) {
-    DEFAULT_SETTINGS.customMaxLoops = DEFAULT_MAX_LOOPS_CUSTOM_API_KEY;
+    settings.customMaxLoops = DEFAULT_MAX_LOOPS_CUSTOM_API_KEY;
   }
 
-  return DEFAULT_SETTINGS;
+  return settings;
 };
 
-export function useSettings() {
+export function useSettings(): SettingModel {
   const [settings, setSettings] = useState<ModelSettings>(loadSettings);
 
   const saveSettings = (settings: ModelSettings) => {
@@ -53,8 +56,16 @@ export function useSettings() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   };
 
+  const resetSettings = () => {
+    localStorage.removeItem(SETTINGS_KEY);
+    setSettings((_) => {
+      return { ...DEFAULT_SETTINGS };
+    });
+  };
+
   return {
     settings,
     saveSettings,
+    resetSettings,
   };
 }

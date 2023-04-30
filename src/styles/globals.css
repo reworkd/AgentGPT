@@ -26,6 +26,19 @@
   right: 0;
 }
 
+.fading-hr {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+}
+
 /* Used for code / table formatting within messages */
 pre {
   @apply overflow-auto rounded-lg;
@@ -33,6 +46,10 @@ pre {
 
 .window-heights {
   @apply h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em];
+}
+
+.link {
+  @apply cursor-pointer text-sky-500 underline hover:text-sky-300;
 }
 
 table {
@@ -78,4 +95,15 @@ div::-webkit-scrollbar-thumb {
 /* set button(top and bottom of the scrollbar) */
 div::-webkit-scrollbar-button {
   display: none;
+}
+
+/*  disappearing animation */
+.animation-hide {
+  animation: hide 1s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 forwards;
+}
+
+@keyframes hide {
+  to {
+    opacity: 0;
+  }
 }

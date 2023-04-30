@@ -7,7 +7,7 @@ import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaRobot, FaStar } from "react-icons/fa";
+import { FaRobot, FaStar, FaPlay } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
@@ -16,36 +16,53 @@ import HelpDialog from "../components/HelpDialog";
 import { SettingsDialog } from "../components/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
-import type { Message } from "../types/agentTypes";
+import type { AgentPlaybackControl, Message } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
+import {
+  useMessageStore,
+  useAgentStore,
+  resetAllMessageSlices,
+} from "../components/stores";
+import { isTask, AGENT_PLAY, AUTOMATIC_MODE } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
   const [t] = useTranslation();
+  // zustand states with state dependencies
+  const addMessage = useMessageStore.use.addMessage();
+  const messages = useMessageStore.use.messages();
+  const tasks = useMessageStore.use.tasks();
+  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+
+  const setAgent = useAgentStore.use.setAgent();
+  const isAgentStopped = useAgentStore.use.isAgentStopped();
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const updateIsAgentPaused = useAgentStore.use.updateIsAgentPaused();
+  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
+  const agentMode = useAgentStore.use.agentMode();
+  const agent = useAgentStore.use.agent();
+
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
-  const [agent, setAgent] = React.useState<AutonomousAgent | null>(null);
-  const { settings, saveSettings } = useSettings();
-  const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
-  const [messages, setMessages] = React.useState<Message[]>([]);
+  const settingsModel = useSettings();
+
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
   useEffect(() => {
-    const key = "agentgpt-modal-opened-new";
+    const key = "agentgpt-modal-opened-v0.2";
     const savedModalData = localStorage.getItem(key);
 
-    // Momentarily always run
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-    }, 3000);
+    }, 1800);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
@@ -56,32 +73,53 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    if (agent == null) {
-      setShouldAgentStop(false);
-    }
-  }, [agent]);
+    updateIsAgentStopped();
+  }, [agent, updateIsAgentStopped]);
 
   const handleAddMessage = (message: Message) => {
-    setMessages((prev) => [...prev, message]);
+    if (isTask(message)) {
+      updateTaskStatus(message);
+    }
+
+    addMessage(message);
   };
 
-  const tasks = messages.filter((message) => message.type === "task");
+  const handlePause = (opts: {
+    agentPlaybackControl?: AgentPlaybackControl;
+  }) => {
+    if (opts.agentPlaybackControl !== undefined) {
+      updateIsAgentPaused(opts.agentPlaybackControl);
+    }
+  };
 
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
-    const agent = new AutonomousAgent(
+    const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
       handleAddMessage,
+      handlePause,
       () => setAgent(null),
-      settings,
+      settingsModel.settings,
+      agentMode,
       session ?? undefined
     );
-    setAgent(agent);
+    setAgent(newAgent);
     setHasSaved(false);
-    setMessages([]);
+    resetAllMessageSlices();
+    newAgent?.run().then(console.log).catch(console.error);
+  };
+
+  const handleContinue = () => {
+    if (!agent) {
+      return;
+    }
+
+    agent.updatePlayBackControl(AGENT_PLAY);
+    updateIsAgentPaused(agent.playbackControl);
+    agent.updateIsRunning(true);
     agent.run().then(console.log).catch(console.error);
   };
 
@@ -90,17 +128,18 @@ const Home: NextPage = () => {
       | React.KeyboardEvent<HTMLInputElement>
       | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
-    if (e.key === "Enter" && !disableDeployAgent) {
-      if (!e.shiftKey) {
-        // Only Enter is pressed, execute the function
-        handleNewGoal();
+    // Only Enter is pressed, execute the function
+    if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
+      if (isAgentPaused) {
+        handleContinue();
       }
+      handleNewGoal();
     }
   };
 
   const handleStopAgent = () => {
-    setShouldAgentStop(true);
     agent?.stopAgent();
+    updateIsAgentStopped();
   };
 
   const proTitle = (
@@ -111,9 +150,27 @@ const Home: NextPage = () => {
 
   const shouldShowSave =
     status === "authenticated" &&
-    !agent?.isRunning &&
+    isAgentStopped &&
     messages.length &&
     !hasSaved;
+
+  const firstButton = isAgentPaused ? (
+    <Button disabled={!isAgentPaused} onClick={handleContinue}>
+      <FaPlay size={20} />
+      <span className="ml-2">{t("Continue")}</span>
+    </Button>
+  ) : (
+    <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
+      {agent == null ? (
+        t("Deploy Agent")
+      ) : (
+        <>
+          <VscLoading className="animate-spin" size={20} />
+          <span className="ml-2">{t("Running")}</span>
+        </>
+      )}
+    </Button>
+  );
 
   return (
     <DefaultLayout>
@@ -122,7 +179,7 @@ const Home: NextPage = () => {
         close={() => setShowHelpDialog(false)}
       />
       <SettingsDialog
-        customSettings={[settings, saveSettings]}
+        customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
@@ -133,11 +190,11 @@ const Home: NextPage = () => {
         />
         <div
           id="content"
-          className="z-10 flex min-h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
+          className="z-10 flex min-h-screen w-full items-center justify-center p-2 sm:px-4 md:px-10"
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-3 py-5 md:justify-center"
+            className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
           >
             <div
               id="title"
@@ -150,8 +207,8 @@ const Home: NextPage = () => {
                 <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">
                   GPT
                 </span>
-                <PopIn delay={0.5} className="sm:absolute sm:right-0 sm:top-2">
-                  <Badge>Beta 🚀</Badge>
+                <PopIn delay={0.5}>
+                  <Badge>{t("Beta 🚀")}</Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
@@ -168,9 +225,6 @@ const Home: NextPage = () => {
                 className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
-                showDonation={
-                  status != "loading" && !session?.user.subscriptionId
-                }
                 onSave={
                   shouldShowSave
                     ? (format) => {
@@ -185,10 +239,10 @@ const Home: NextPage = () => {
                 }
                 scrollToBottom
               />
-              {tasks.length > 0 && <TaskWindow tasks={tasks} />}
+              {tasks.length > 0 && <TaskWindow />}
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
+            <div className="flex w-full flex-col gap-2 md:m-4 ">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}
@@ -224,27 +278,13 @@ const Home: NextPage = () => {
               </Expand>
             </div>
             <Expand delay={1.4} className="flex gap-2">
+              {firstButton}
               <Button
-                disabled={disableDeployAgent}
-                onClick={handleNewGoal}
-                className="sm:mt-10"
-              >
-                {agent == null ? (
-                  t("Deploy Agent")
-                ) : (
-                  <>
-                    <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Running")}</span>
-                  </>
-                )}
-              </Button>
-              <Button
-                disabled={agent == null}
+                disabled={agent === null}
                 onClick={handleStopAgent}
-                className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
-                {shouldAgentStop ? (
+                {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
                     <span className="ml-2">{t("Stopping")}</span>

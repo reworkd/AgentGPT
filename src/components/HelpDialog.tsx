@@ -13,7 +13,7 @@ export default function HelpDialog({
   const [t] = useTranslation();
   return (
     <Dialog
-      header={`${t("Welcome to AgentGPT 🤖")} `}
+      header={`${t("Welcome to AgentGPT 🤖")} 🤖`}
       isShown={show}
       close={close}
     >
@@ -26,16 +26,15 @@ export default function HelpDialog({
         </p>
         <div>
           <br />
-          {t(
-            "This platform is currently in beta, we are currently working on:"
-          )}
-          <ul className="ml-5 list-inside list-disc">
-            <li>{`${t("LONG_TERM_MEMORY")} 🧠`}</li>
-            <li>{`${t("WEB_BROWSING")} 🌐`}</li>
-            <li>{`${t("INTERACTION_WITH_WEBSITES_AND_PEOPLE")} 👨‍👩‍👦`}</li>
-          </ul>
+          {t("To learn more about AgentGPT, its roadmap, FAQ, etc, visit the ")}
+          <a
+            href="https://reworkd.github.io/AgentGPT-Documentation/docs/intro"
+            className="text-sky-500"
+          >
+            AgentGPT Documentation
+          </a>
           <br />
-          <p className="mt-2">{t("Follow the journey below:")}</p>
+          <p className="mt-2">{t("Join the community below:")}</p>
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div

@@ -6,11 +6,25 @@ import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 
 interface CustomCodeBlockProps {
+  inline?: boolean;
   className?: string;
   children: ReactNode;
 }
 
-const CustomCodeBlock = ({ className, children }: CustomCodeBlockProps) => {
+const CustomCodeBlock = ({
+  inline,
+  className,
+  children,
+}: CustomCodeBlockProps) => {
+  // Inline code blocks will be placed directly within a paragraph
+  if (inline) {
+    return (
+      <code className="rounded bg-gray-200 px-1 py-[1px] text-black">
+        {children}
+      </code>
+    );
+  }
+
   const language = className ? className.replace("language-", "") : "plaintext";
 
   return <code className={`hljs ${language}`}>{children}</code>;

@@ -1,4 +1,4 @@
-import { Fragment, memo } from "react";
+import { Fragment } from "react";
 import { Menu as MenuPrimitive } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 
@@ -36,4 +36,4 @@ function Menu({ name, items, disabled, onChange, styleClass }: MenuProps) {
   );
 }
 
-export default memo(Menu);
+export default Menu;

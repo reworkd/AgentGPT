@@ -26,6 +26,19 @@
   right: 0;
 }
 
+.fading-hr {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+}
+
 /* Used for code / table formatting within messages */
 pre {
   @apply overflow-auto rounded-lg;

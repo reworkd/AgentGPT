@@ -26,6 +26,16 @@ interface MessageSlice {
   addMessage: (newMessage: Message) => void;
 }
 
+const filterThinkingTasks = (prev: Message[], message: Message) => {
+  const _new = [...prev];
+  if (_new.length > 1 && _new.at(_new.length - 1)?.type === "thinking") {
+    _new.pop();
+  }
+
+  _new.push(message);
+  return _new;
+};
+
 const createMessageSlice: StateCreator<
   MessageSlice & TaskSlice,
   [],
@@ -40,7 +50,7 @@ const createMessageSlice: StateCreator<
       newMessage = { ...newMessage };
       set((state) => ({
         ...state,
-        messages: [...state.messages, newMessage],
+        messages: filterThinkingTasks(state.messages, newMessage),
         tasks:
           isTask(newTask) && !isExistingTask(newTask)
             ? [...state.tasks, newTask]

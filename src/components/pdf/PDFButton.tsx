@@ -14,14 +14,14 @@ const PDFButton = ({
   messages: Message[];
   name: string;
 }) => {
-  const content = getContent(messages);
+  const textSections = getTextSections(messages);
 
   const downloadPDF = async () => {
     const MyDocument = (await import("./MyDocument")).default as React.FC<{
-      content: string;
+      textSections: string[];
     }>;
 
-    const blob = await pdf(<MyDocument content={content} />).toBlob();
+    const blob = await pdf(<MyDocument textSections={textSections} />).toBlob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -33,19 +33,19 @@ const PDFButton = ({
   return (
     <>
       <WindowButton
-        delay={0.2}
         onClick={() => {
           downloadPDF().catch(console.error);
         }}
         icon={<FaFilePdf size={12} />}
-        name="PDF"
+        name={name}
       />
     </>
   );
 };
 
-const getContent = (messages: Message[]): string => {
+const getTextSections = (messages: Message[]): string[] => {
   const [t] = useTranslation();
+
   // Note "Thinking" messages have no `value` so they show up as new lines
   return messages
     .map((message) => {
@@ -53,11 +53,15 @@ const getContent = (messages: Message[]): string => {
         return `${t("Goal: ")}${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
-        return `${t("Adding Task: ")}${message.value}`;
+        if (message.info) {
+          return `${t(`Executing "${message.value}"`)} ${message.info}`;
+        } else {
+          return `${t("Adding Task:")} ${message.value}`;
+        }
       }
       return message.value;
     })
-    .join("\n");
+    .filter((message) => message !== "");
 };
 
 export default memo(PDFButton);

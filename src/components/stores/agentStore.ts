@@ -17,8 +17,8 @@ interface AgentSlice {
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
   isAgentPaused: boolean | undefined;
-  setIsAgentStopped: () => void;
   updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
+  updateIsAgentStopped: () => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
@@ -31,13 +31,12 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
         isAgentPaused: agentPlaybackControl === AGENT_PAUSE,
       }));
     },
-    setIsAgentStopped: () => {
+    updateIsAgentStopped: () => {
       set((state) => ({
         isAgentStopped: !state.agent?.isRunning,
       }));
     },
     setAgent: (newAgent) => {
-      console.log(newAgent);
       set(() => ({
         agent: newAgent,
       }));

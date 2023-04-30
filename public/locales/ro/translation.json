@@ -11,7 +11,7 @@
   "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.": "EROARE la utilizarea cheii dvs. API OpenAI. Ați depășit cota curentă, vă rugăm să verificați planul și detaliile de facturare.",
   "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)": "EROARE cheia dvs. API nu are acces la GPT-4. Trebuie să vă înscrieți mai întâi în lista de așteptare OpenAI. (Acest lucru este diferit de ChatGPT Plus)",
   "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.": "EROARE la preluarea tabloului de sarcini inițiale. Reîncercați, faceți obiectivul dvs. mai clar sau revizuiți obiectivul astfel încât să fie în conformitate cu politicile noastre pentru a fi rulat. Se închide.",
-  "> Create an agent by adding a name / goal, and hitting deploy!": "> Creați un agent adăugând un nume / obiectiv și apăsând deploy!",
+  "CREATE_AN_AGENT": "Creați un agent adăugând un nume / obiectiv și apăsând deploy!",
   "YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY": "Puteți furniza propriul dvs. cheie API OpenAI în fila Setări pentru a crește limitele!",
   "Image": "Imagine",
   "Copy": "Copiaza",

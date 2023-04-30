@@ -5,6 +5,7 @@ import {
   FaCog,
   FaDiscord,
   FaGithub,
+  FaHeart,
   FaQuestionCircle,
   FaRobot,
   FaRocket,
@@ -20,6 +21,7 @@ import { env } from "../env/client.mjs";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import FadingHr from "./FadingHr";
 
 const Drawer = ({
   showHelp,
@@ -37,7 +39,7 @@ const Drawer = ({
     // Function to check if the screen width is for desktop or tablet
     const checkScreenWidth = () => {
       const screenWidth = window.innerWidth;
-      if (screenWidth >= 768) {
+      if (screenWidth >= 850) {
         // 768px is the breakpoint for tablet devices
         setShowDrawer(true);
       } else {
@@ -79,6 +81,11 @@ const Drawer = ({
     setShowDrawer((prevState) => !prevState);
   };
 
+  const handleSupport = () => {
+    const donationUrl = "https://github.com/sponsors/reworkd-admin";
+    window.open(donationUrl, "_blank");
+  };
+
   const userAgents = query.data ?? [];
 
   return (
@@ -93,11 +100,13 @@ const Drawer = ({
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            My Agent(s)
+            <p className="font-bold">My Agents</p>
             <button
               className={clsx(
-                showDrawer ? "-translate-x-2" : "translate-x-12",
-                "absolute right-0 top-2 z-40 rounded-md border-2 border-white/20 bg-zinc-900 p-2  text-white transition-all hover:bg-zinc-700 "
+                showDrawer
+                  ? "-translate-x-2"
+                  : "translate-x-12 border-2 border-white/20",
+                "absolute right-0 top-2 z-40 rounded-md bg-zinc-900 p-2 text-white transition-all hover:bg-zinc-700 "
               )}
               onClick={toggleDrawer}
             >
@@ -119,9 +128,15 @@ const Drawer = ({
 
             {status === "unauthenticated" && (
               <div>
-                {t(
-                  "Sign in to be able to save agents and manage your account!"
-                )}
+                <a
+                  className="link"
+                  onClick={() => {
+                    signIn();
+                  }}
+                >
+                  Sign in
+                </a>{" "}
+                {t("to be able to save agents and manage your account!")}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
@@ -135,7 +150,7 @@ const Drawer = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <hr className="my-2 border-gray-600/10" />
+          <FadingHr className="my-2" />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
               <ProItem
@@ -152,13 +167,36 @@ const Drawer = ({
             text={t("Help")}
             onClick={showHelp}
           />
-          <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
           <DrawerItem
-            icon={<FaGithub />}
-            text="GitHub"
-            href="https://github.com/reworkd/AgentGPT"
-            target="_blank"
+            icon={<FaHeart />}
+            text="Support"
+            onClick={handleSupport}
           />
+          <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
+          <FadingHr className="my-2" />
+          <div className="flex flex-row items-center">
+            <DrawerItem
+              icon={<FaDiscord size={30} />}
+              text="Discord"
+              href="https://discord.gg/jdSBAnmdnY"
+              target="_blank"
+              small
+            />
+            <DrawerItem
+              icon={<FaTwitter size={30} />}
+              text="Twitter"
+              href="https://twitter.com/asimdotshrestha/status/1644883727707959296"
+              target="_blank"
+              small
+            />
+            <DrawerItem
+              icon={<FaGithub size={30} />}
+              text="GitHub"
+              href="https://github.com/reworkd/AgentGPT"
+              target="_blank"
+              small
+            />
+          </div>
         </div>
       </div>
     </>
@@ -220,7 +258,7 @@ const AuthItem: React.FC<{
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
   const [t] = useTranslation();
-  const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
+  const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const text = session?.user ? t("Sign Out") : t("Sign In");
   const onClick = session?.user ? signOut : signIn;
 

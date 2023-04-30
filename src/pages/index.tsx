@@ -38,16 +38,15 @@ const Home: NextPage = () => {
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const setIsAgentStopped = useAgentStore.use.setIsAgentStopped();
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const updateIsAgentPaused = useAgentStore.use.updateIsAgentPaused();
+  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
   const [name, setName] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const settingsModel = useSettings();
-  // const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
@@ -55,15 +54,14 @@ const Home: NextPage = () => {
   const agentUtils = useAgent();
 
   useEffect(() => {
-    const key = "agentgpt-modal-opened-new";
+    const key = "agentgpt-modal-opened-v0.2";
     const savedModalData = localStorage.getItem(key);
 
-    // Momentarily always run
     setTimeout(() => {
       if (savedModalData == null) {
         setShowHelpDialog(true);
       }
-    }, 3000);
+    }, 1800);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);
@@ -74,8 +72,8 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    setIsAgentStopped();
-  }, [agent, setIsAgentStopped]);
+    updateIsAgentStopped();
+  }, [agent, updateIsAgentStopped]);
 
   const handleAddMessage = (message: Message) => {
     if (isTask(message)) {
@@ -120,7 +118,6 @@ const Home: NextPage = () => {
     agent.updatePlayBackControl(AGENT_PLAY);
     updateIsAgentPaused(agent.playbackControl);
     agent.updateIsRunning(true);
-    console.log(isAgentPaused);
     agent.run().then(console.log).catch(console.error);
   };
 
@@ -140,7 +137,7 @@ const Home: NextPage = () => {
 
   const handleStopAgent = () => {
     agent?.stopAgent();
-    setIsAgentStopped();
+    updateIsAgentStopped();
   };
 
   const proTitle = (
@@ -199,11 +196,11 @@ const Home: NextPage = () => {
         />
         <div
           id="content"
-          className="z-10 flex min-h-screen w-full items-center justify-center p-2 px-2 sm:px-4 md:px-10"
+          className="z-10 flex min-h-screen w-full items-center justify-center p-2 sm:px-4 md:px-10"
         >
           <div
             id="layout"
-            className="flex h-full w-full max-w-screen-lg flex-col items-center justify-between gap-3 py-5 md:justify-center"
+            className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
           >
             <div
               id="title"
@@ -234,9 +231,6 @@ const Home: NextPage = () => {
                 className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
-                showDonation={
-                  status != "loading" && !session?.user.subscriptionId
-                }
                 onSave={
                   shouldShowSave
                     ? (format) => {
@@ -254,7 +248,7 @@ const Home: NextPage = () => {
               {tasks.length > 0 && <TaskWindow />}
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 sm:mt-4 md:mt-10">
+            <div className="flex w-full flex-col gap-2 md:m-4 ">
               <Expand delay={1.2}>
                 <Input
                   inputRef={nameInputRef}
@@ -294,7 +288,6 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent === null}
                 onClick={handleStopAgent}
-                className="sm:mt-10"
                 enabledClassName={"bg-red-600 hover:bg-red-400"}
               >
                 {!isAgentStopped && agent === null ? (

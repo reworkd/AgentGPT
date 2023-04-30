@@ -286,6 +286,7 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
     "it",
     "ja",
     "zh",
+    "zh-tw",
     "ko",
     "pl",
     "pt",

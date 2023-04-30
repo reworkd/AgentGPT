@@ -15,12 +15,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? 
-  access_token      String? 
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? 
+  id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -45,8 +45,8 @@ model User {
   emailVerified  DateTime?
   image          String?
   role           String?
-  subscriptionId String?   
-  customerId     String?   
+  subscriptionId String?   @db.Text
+  customerId     String?   @db.Text
 
   createDate DateTime @default(now())
 
@@ -68,8 +68,8 @@ model VerificationToken {
 model Agent {
   id     String @id @default(cuid())
   userId String
-  name   String 
-  goal   String 
+  name   String @db.Text
+  goal   String @db.Text
 
   deleteDate DateTime?
   createDate DateTime  @default(now())
@@ -85,8 +85,8 @@ model AgentTask {
   agentId String
   type    String
   status  String?
-  value   String  
-  info    String? 
+  value   String  @db.Text
+  info    String? @db.Text
   sort    Int
 
   deleteDate DateTime?

@@ -9,6 +9,7 @@ module.exports = {
       "it",
       "ja",
       "zh",
+      "zh-tw",
       "ko",
       "pl",
       "pt",

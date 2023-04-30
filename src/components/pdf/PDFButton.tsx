@@ -5,7 +5,7 @@ import React, { memo } from "react";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 const PDFButton = ({
   messages,

@@ -48,16 +48,8 @@ const AgentPage: NextPage = () => {
         fullscreen
       />
       <div className="flex flex-row gap-2">
-        <Button
-          icon={<FaShare />}
-          onClick={() => {
-            void window.navigator.clipboard
-              .writeText(shareLink())
-              .then(() => setShowCopied(true));
-          }}
-          enabledClassName={"bg-green-600 hover:bg-green-400"}
-        >
-          Share
+        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          Back
         </Button>
         <Button
           icon={<FaTrash />}
@@ -68,8 +60,17 @@ const AgentPage: NextPage = () => {
         >
           Delete
         </Button>
-        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
-          Back
+
+        <Button
+          icon={<FaShare />}
+          onClick={() => {
+            void window.navigator.clipboard
+              .writeText(shareLink())
+              .then(() => setShowCopied(true));
+          }}
+          enabledClassName={"bg-green-600 hover:bg-green-400"}
+        >
+          Share
         </Button>
       </div>
       <Toast

@@ -59,6 +59,7 @@ class AutonomousAgent {
     }) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
+    mode: AgentMode,
     session?: Session,
     playbackControl?: AgentPlaybackControl
   ) {
@@ -70,7 +71,7 @@ class AutonomousAgent {
     this.modelSettings = modelSettings;
     this.session = session;
     this._id = v4();
-    this.mode = (modelSettings.agentMode || AUTOMATIC_MODE) as AgentMode;
+    this.mode = mode || AUTOMATIC_MODE;
     this.playbackControl =
       playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
   }

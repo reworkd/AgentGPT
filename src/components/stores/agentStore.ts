@@ -1,9 +1,10 @@
 import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type AutonomousAgent from "../AutonomousAgent";
 import { AGENT_PAUSE, AUTOMATIC_MODE } from "../../types/agentTypes";
-import type { AgentPlaybackControl } from "../../types/agentTypes";
+import type { AgentPlaybackControl, AgentMode } from "../../types/agentTypes";
 
 const resetters: (() => void)[] = [];
 
@@ -11,15 +12,14 @@ const initialAgentState = {
   agent: null,
   isAgentStopped: true,
   isAgentPaused: undefined,
-  agentMode: AUTOMATIC_MODE as string,
 };
 
 interface AgentSlice {
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
   isAgentPaused: boolean | undefined;
-  agentMode: string;
-  updateAgentMode: (agentMode: string) => void;
+  agentMode: AgentMode;
+  updateAgentMode: (agentMode: AgentMode) => void;
   updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
   updateIsAgentStopped: () => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
@@ -29,6 +29,7 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
+    agentMode: AUTOMATIC_MODE,
     updateAgentMode: (agentMode) => {
       set(() => ({
         agentMode,
@@ -57,9 +58,18 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
 };
 
 export const useAgentStore = createSelectors(
-  create<AgentSlice>()((...a) => ({
-    ...createAgentSlice(...a),
-  }))
+  create<AgentSlice>()(
+    persist(
+      (...a) => ({
+        ...createAgentSlice(...a),
+      }),
+      {
+        name: "agent-storage",
+        storage: createJSONStorage(() => localStorage),
+        partialize: (state) => ({ agentMode: state.agentMode }),
+      }
+    )
+  )
 );
 
 export const resetAllAgentSlices = () =>

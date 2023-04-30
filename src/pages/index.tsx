@@ -41,7 +41,7 @@ const Home: NextPage = () => {
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const updateIsAgentPaused = useAgentStore.use.updateIsAgentPaused();
   const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
-  const updateAgentMode = useAgentStore.use.updateAgentMode();
+  const agentMode = useAgentStore.use.agentMode();
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
@@ -96,7 +96,6 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
-    updateAgentMode(settingsModel.settings.agentMode || AUTOMATIC_MODE);
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
@@ -104,6 +103,7 @@ const Home: NextPage = () => {
       handlePause,
       () => setAgent(null),
       settingsModel.settings,
+      agentMode,
       session ?? undefined
     );
     setAgent(newAgent);

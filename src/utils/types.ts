@@ -6,7 +6,6 @@ export type ModelSettings = {
   customTemperature?: number;
   customMaxLoops?: number;
   maxTokens?: number;
-  agentMode?: string;
 };
 
 export type SettingModel = {

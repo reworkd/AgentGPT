@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { ModelSettings, SettingModel } from "../utils/types";
-import { AUTOMATIC_MODE } from "../types/agentTypes";
 
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
@@ -15,7 +14,6 @@ const DEFAULT_SETTINGS: ModelSettings = {
   customTemperature: 0.9 as const,
   customMaxLoops: DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   maxTokens: 300 as const,
-  agentMode: AUTOMATIC_MODE,
 };
 
 const loadSettings = () => {

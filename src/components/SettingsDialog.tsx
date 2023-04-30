@@ -30,6 +30,7 @@ export const SettingsDialog: React.FC<{
   });
   const t = useTypeSafeTranslation();
   const agent = useAgentStore.use.agent();
+  const agentMode = useAgentStore.use.agentMode();
   const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   useEffect(() => {
@@ -236,13 +237,10 @@ export const SettingsDialog: React.FC<{
             <span className="ml-2">Mode: </span>
           </>
         }
-        value={settings.agentMode}
+        value={agentMode}
         disabled={agent !== null}
         onChange={() => null}
-        setValue={(e) => {
-          updateSettings("agentMode", e);
-          updateAgentMode(e);
-        }}
+        setValue={updateAgentMode as (agentMode: string) => void}
         type="combobox"
         toolTipProperties={{
           message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,

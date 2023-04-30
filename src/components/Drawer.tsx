@@ -172,7 +172,13 @@ const Drawer = ({
             text="Support"
             onClick={handleSupport}
           />
-          <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
+          <DrawerItem
+            icon={
+              <FaCog className="transition-transform group-hover:rotate-90" />
+            }
+            text="Settings"
+            onClick={showSettings}
+          />
           <FadingHr className="my-2" />
           <div className="flex flex-row items-center">
             <DrawerItem
@@ -240,7 +246,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
+        "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
         border && "border-[1px] border-white/20",
         `${className || ""}`
       )}

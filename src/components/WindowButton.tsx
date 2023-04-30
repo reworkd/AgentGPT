@@ -1,4 +1,5 @@
 import React from "react";
+import Ping from "./Ping";
 
 type WindowButtonProps = {
   ping?: boolean; // Toggles the ping animation
@@ -22,14 +23,7 @@ const WindowButton = ({
       }`}
       onClick={onClick}
     >
-      {ping ? (
-        <span className="absolute right-[-3px] top-[-3px] flex h-3 w-3">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-sky-500 opacity-90"></span>
-        </span>
-      ) : (
-        <></>
-      )}
+      {ping ? <Ping color="blue" /> : <></>}
       {icon}
       <p className="font-mono">{name}</p>
     </div>

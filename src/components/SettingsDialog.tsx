@@ -7,6 +7,7 @@ import {
   FaExclamationCircle,
   FaSyncAlt,
   FaCoins,
+  FaTachometerAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -16,6 +17,8 @@ import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
+import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
+import { useAgentStore } from "../components/stores";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -26,6 +29,9 @@ export const SettingsDialog: React.FC<{
     ...customSettings.settings,
   });
   const t = useTypeSafeTranslation();
+  const agent = useAgentStore.use.agent();
+  const agentMode = useAgentStore.use.agentMode();
+  const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   useEffect(() => {
     setSettings(customSettings.settings);
@@ -223,6 +229,24 @@ export const SettingsDialog: React.FC<{
         setValue={(e) => updateSettings("customModelName", e)}
         attributes={{ options: GPT_MODEL_NAMES }}
         disabled={disabled}
+      />
+      <Input
+        left={
+          <>
+            <FaTachometerAlt />
+            <span className="ml-2">Mode: </span>
+          </>
+        }
+        value={agentMode}
+        disabled={agent !== null}
+        onChange={() => null}
+        setValue={updateAgentMode as (agentMode: string) => void}
+        type="combobox"
+        toolTipProperties={{
+          message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,
+          disabled: false,
+        }}
+        attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
       />
       <Accordion child={advancedSettings} name={t("Advanced Settings")} />
     </Dialog>

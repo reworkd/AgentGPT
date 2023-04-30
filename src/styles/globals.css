@@ -99,7 +99,7 @@ div::-webkit-scrollbar-button {
 
 /*  disappearing animation */
 .animation-hide {
-  animation: hide 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 forwards;
+  animation: hide 1s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 forwards;
 }
 
 @keyframes hide {

@@ -18,6 +18,7 @@ import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
 import { DEFAULT_MODE, PAUSE_MODE } from "../types/agentTypes";
+import { useAgentStore } from "../components/stores";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -28,6 +29,8 @@ export const SettingsDialog: React.FC<{
     ...customSettings.settings,
   });
   const t = useTypeSafeTranslation();
+  const agent = useAgentStore.use.agent();
+  const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   useEffect(() => {
     setSettings(customSettings.settings);
@@ -151,8 +154,12 @@ export const SettingsDialog: React.FC<{
           </>
         }
         value={settings.agentMode}
+        disabled={agent !== null}
         onChange={() => null}
-        setValue={(e) => updateSettings("agentMode", e)}
+        setValue={(e) => {
+          updateSettings("agentMode", e);
+          updateAgentMode(e);
+        }}
         type="combobox"
         toolTipProperties={{
           message:

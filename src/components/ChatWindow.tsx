@@ -20,6 +20,7 @@ import {
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
+  PAUSE_MODE,
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
@@ -51,6 +52,8 @@ const ChatWindow = ({
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const agentMode = useAgentStore.use.agentMode();
+  const agent = useAgentStore.use.agent();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -87,10 +90,10 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
-        {isAgentPaused !== undefined && isAgentPaused && (
+        {agent !== null && agentMode === PAUSE_MODE && isAgentPaused && (
           <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
         )}
-        {isAgentPaused !== undefined && !isAgentPaused && (
+        {agent !== null && agentMode === PAUSE_MODE && !isAgentPaused && (
           <FaPlay className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
         )}
         {messages.map((message, index) => {
@@ -139,6 +142,9 @@ interface HeaderProps {
 
 const MacWindowHeader = (props: HeaderProps) => {
   const [t] = useTranslation();
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const agent = useAgentStore.use.agent();
+  const agentMode = useAgentStore.use.agentMode();
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -225,6 +231,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
+
       <AnimatePresence>
         {props.onSave && (
           <PopIn>
@@ -241,6 +248,25 @@ const MacWindowHeader = (props: HeaderProps) => {
           </PopIn>
         )}
       </AnimatePresence>
+
+      {agentMode === PAUSE_MODE && agent !== null && (
+        <div
+          className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
+        >
+          {isAgentPaused ? (
+            <>
+              <FaPause />
+              <p className="font-mono">Paused</p>
+            </>
+          ) : (
+            <>
+              <FaPlay />
+              <p className="font-mono">Running</p>
+            </>
+          )}
+        </div>
+      )}
+
       <Menu
         icon={<CgExport />}
         name={`${t("Export")}`}

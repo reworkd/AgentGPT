@@ -157,6 +157,8 @@ class AutonomousAgent {
     // Add new tasks
     try {
       const newTasks = await this.getAdditionalTasks(currentTask.value, result);
+      console.log(currentTask);
+      console.log(newTasks);
       for (const value of newTasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         const task: Task = {

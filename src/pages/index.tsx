@@ -24,7 +24,7 @@ import {
   useAgentStore,
   resetAllMessageSlices,
 } from "../components/stores";
-import { isTask, AGENT_PLAY } from "../types/agentTypes";
+import { isTask, AGENT_PLAY, DEFAULT_MODE } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 
@@ -41,6 +41,7 @@ const Home: NextPage = () => {
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const updateIsAgentPaused = useAgentStore.use.updateIsAgentPaused();
   const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
+  const updateAgentMode = useAgentStore.use.updateAgentMode();
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
@@ -95,6 +96,7 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
+    updateAgentMode(settingsModel.settings.agentMode || DEFAULT_MODE);
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
@@ -153,20 +155,12 @@ const Home: NextPage = () => {
     !hasSaved;
 
   const firstButton = isAgentPaused ? (
-    <Button
-      disabled={!isAgentPaused}
-      onClick={handleContinue}
-      className="sm:mt-10"
-    >
+    <Button disabled={!isAgentPaused} onClick={handleContinue}>
       <FaPlay size={20} />
       <span className="ml-2">{t("Continue")}</span>
     </Button>
   ) : (
-    <Button
-      disabled={disableDeployAgent}
-      onClick={handleNewGoal}
-      className="sm:mt-10"
-    >
+    <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
       {agent == null ? (
         t("Deploy Agent")
       ) : (
@@ -283,7 +277,7 @@ const Home: NextPage = () => {
                 />
               </Expand>
             </div>
-            <Expand delay={1.4} className="flex items-center gap-2">
+            <Expand delay={1.4} className="flex gap-2">
               {firstButton}
               <Button
                 disabled={agent === null}

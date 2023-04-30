@@ -21,6 +21,7 @@ import { env } from "../env/client.mjs";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import FadingHr from "./FadingHr";
 
 const Drawer = ({
   showHelp,
@@ -149,7 +150,7 @@ const Drawer = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <hr className="my-2 border-gray-600/10" />
+          <FadingHr className="my-2" />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
               <ProItem
@@ -172,7 +173,7 @@ const Drawer = ({
             onClick={handleSupport}
           />
           <DrawerItem icon={<FaCog />} text="Settings" onClick={showSettings} />
-          <hr className="my-2 border-white/20" />
+          <FadingHr className="my-2" />
           <div className="flex flex-row items-center">
             <DrawerItem
               icon={<FaDiscord size={30} />}

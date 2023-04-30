@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ModelSettings, SettingModel } from "../utils/types";
+
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,

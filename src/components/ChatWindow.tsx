@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaClipboard, FaImage, FaSave } from "react-icons/fa";
+import { FaClipboard, FaImage, FaSave, FaPlay, FaPause } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -20,10 +20,12 @@ import {
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
+  PAUSE_MODE,
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
+import { useAgentStore } from "../components/stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
@@ -49,6 +51,9 @@ const ChatWindow = ({
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const agentMode = useAgentStore.use.agentMode();
+  const agent = useAgentStore.use.agent();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -85,6 +90,12 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
+        {agent !== null && agentMode === PAUSE_MODE && isAgentPaused && (
+          <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
+        )}
+        {agent !== null && agentMode === PAUSE_MODE && !isAgentPaused && (
+          <FaPlay className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
+        )}
         {messages.map((message, index) => {
           if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
             return null;
@@ -131,6 +142,9 @@ interface HeaderProps {
 
 const MacWindowHeader = (props: HeaderProps) => {
   const [t] = useTranslation();
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const agent = useAgentStore.use.agent();
+  const agentMode = useAgentStore.use.agentMode();
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -217,6 +231,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
+
       <AnimatePresence>
         {props.onSave && (
           <PopIn>
@@ -233,6 +248,25 @@ const MacWindowHeader = (props: HeaderProps) => {
           </PopIn>
         )}
       </AnimatePresence>
+
+      {agentMode === PAUSE_MODE && agent !== null && (
+        <div
+          className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
+        >
+          {isAgentPaused ? (
+            <>
+              <FaPause />
+              <p className="font-mono">Paused</p>
+            </>
+          ) : (
+            <>
+              <FaPlay />
+              <p className="font-mono">Running</p>
+            </>
+          )}
+        </div>
+      )}
+
       <Menu
         icon={<CgExport />}
         name={`${t("Export")}`}

@@ -67,15 +67,6 @@ export type Task = z.infer<typeof taskSchema>;
 export type Message = z.infer<typeof messageSchema>;
 
 /* Agent Type */
-// Agent Status
-export const [AGENT_STATUS_RUNNING, AGENT_STATUS_STOPPED] = [
-  "running" as const,
-  "stopped" as const,
-];
-export type AgentStatus =
-  | typeof AGENT_STATUS_RUNNING
-  | typeof AGENT_STATUS_STOPPED;
-
 // Agent Mode
 export const [AUTOMATIC_MODE, PAUSE_MODE] = [
   "Automatic Mode" as const,

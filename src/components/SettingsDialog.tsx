@@ -160,9 +160,18 @@ export const SettingsDialog: React.FC<{
       contentClassName="text-md relative flex flex-col gap-2 p-2 leading-relaxed"
     >
       <p>
-        {t(
-          "Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers."
-        )}
+        Get your own OpenAI API key{" "}
+        <a className="link" href="https://platform.openai.com/account/api-keys">
+          here
+        </a>
+        . Ensure you have free credits available on your account, otherwise you{" "}
+        <a
+          className="link"
+          href="https://platform.openai.com/account/billing/overview"
+        >
+          must connect a credit card
+        </a>
+        .
       </p>
       <p
         className={clsx(
@@ -215,18 +224,6 @@ export const SettingsDialog: React.FC<{
         disabled={disabled}
       />
       <Accordion child={advancedSettings} name={t("Advanced Settings")} />
-      <strong className="mt-4">
-        {t(
-          "NOTE: To get a key, sign up for an OpenAI account and visit the following"
-        )}{" "}
-        <a
-          href="https://platform.openai.com/account/api-keys"
-          className="text-blue-500"
-        >
-          {t("link")}.
-        </a>{" "}
-        {t("This key is only used in the current browser session")}
-      </strong>
     </Dialog>
   );
 };

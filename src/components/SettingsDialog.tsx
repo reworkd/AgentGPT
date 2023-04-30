@@ -8,6 +8,7 @@ import {
   FaExclamationCircle,
   FaSyncAlt,
   FaCoins,
+  FaTachometerAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -17,6 +18,7 @@ import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
+import { DEFAULT_MODE, PAUSE_MODE } from "../types/agentTypes";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -142,6 +144,24 @@ export const SettingsDialog: React.FC<{
           max: 2000,
           step: 100,
         }}
+      />
+      <Input
+        left={
+          <>
+            <FaTachometerAlt />
+            <span className="ml-2">Mode: </span>
+          </>
+        }
+        value={settings.agentMode}
+        onChange={() => null}
+        setValue={(e) => updateSettings("agentMode", e)}
+        type="combobox"
+        toolTipProperties={{
+          message:
+            "Default Mode: Agent automatically executes every task. \n\nPause Mode: Agent pauses after every set of task(s)",
+          disabled: false,
+        }}
+        attributes={{ options: [DEFAULT_MODE, PAUSE_MODE] }}
       />
     </div>
   );

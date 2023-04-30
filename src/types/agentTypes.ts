@@ -67,18 +67,25 @@ export type Task = z.infer<typeof taskSchema>;
 export type Message = z.infer<typeof messageSchema>;
 
 /* Agent Type */
+// Agent Status
 export const [AGENT_STATUS_RUNNING, AGENT_STATUS_STOPPED] = [
   "running" as const,
   "stopped" as const,
 ];
+export type AgentStatus =
+  | typeof AGENT_STATUS_RUNNING
+  | typeof AGENT_STATUS_STOPPED;
 
-const AgentStatusSchema = z.union([
-  z.literal(AGENT_STATUS_RUNNING),
-  z.literal(AGENT_STATUS_STOPPED),
-  z.literal(""),
-]);
+// Agent Mode
+export const [DEFAULT_MODE, PAUSE_MODE] = [
+  "Default Mode" as const,
+  "Pause Mode" as const,
+];
+export type AgentMode = typeof DEFAULT_MODE | typeof PAUSE_MODE;
 
-export type AgentStatus = z.infer<typeof AgentStatusSchema>;
+// Agent Playback Control
+export const [AGENT_PLAY, AGENT_PAUSE] = ["Play" as const, "Pause" as const];
+export type AgentPlaybackControl = typeof AGENT_PLAY | typeof AGENT_PAUSE;
 
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {

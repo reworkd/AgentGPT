@@ -1,7 +1,14 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaClipboard, FaCopy, FaImage, FaSave } from "react-icons/fa";
+import {
+  FaClipboard,
+  FaCopy,
+  FaImage,
+  FaSave,
+  FaPlay,
+  FaPause,
+} from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -30,6 +37,7 @@ import {
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
+import { useAgentStore } from "../components/stores";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -54,6 +62,7 @@ const ChatWindow = ({
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -90,6 +99,12 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
+        {isAgentPaused !== undefined && isAgentPaused && (
+          <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
+        )}
+        {isAgentPaused !== undefined && !isAgentPaused && (
+          <FaPlay className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
+        )}
         {messages.map((message, index) => {
           if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
             return null;

@@ -25,10 +25,11 @@ import {
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
-import { useAgentStore } from "../components/stores";
+import { useAgentStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
+import { Switch } from "./Switch";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -129,6 +130,12 @@ const ChatWindow = ({
             </Expand>
           </>
         )}
+      </div>
+      <div className="flex items-center justify-center">
+        <div className="m-1 flex items-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
+          <p className="font-mono text-sm">Web search</p>
+          <Switch onChange={console.log} />
+        </div>
       </div>
     </div>
   );

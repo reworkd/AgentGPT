@@ -81,7 +81,7 @@ async function executeTaskAgent(
 
   // For local development when no SERP API Key provided
   if (analysis.action == "search" && !process.env.SERP_API_KEY) {
-    return `Failed to search as no SERP_API_KEY is provided. \n${
+    return `\`ERROR: Failed to search as no SERP_API_KEY is provided in ENV.\` \n\n${
       completion.text as string
     }`;
   }

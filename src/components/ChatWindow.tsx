@@ -1,18 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import {
-  FaBrain,
-  FaClipboard,
-  FaCog,
-  FaCopy,
-  FaGlobe,
-  FaImage,
-  FaListAlt,
-  FaPlayCircle,
-  FaSave,
-  FaStar,
-} from "react-icons/fa";
+import { FaClipboard, FaImage, FaSave, FaPlay, FaPause } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";

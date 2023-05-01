@@ -65,7 +65,7 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   };
 };
 
-const agentStore = create<AgentSlice>(
+const agentStore = create<AgentSlice>()(
   persist(
     (...a) => ({
       ...createAgentSlice(...a),
@@ -77,6 +77,7 @@ const agentStore = create<AgentSlice>(
     }
   )
 );
+
 export const useAgentStore = createSelectors(agentStore);
 
 export const resetAllAgentSlices = () =>

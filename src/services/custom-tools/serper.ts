@@ -40,7 +40,7 @@ export class Serper extends Tool {
 
     // Link means it is a snippet from a website and should not be viewed as a final answer
     if (searchResult.answerBox && !searchResult.answerBox.link) {
-      const answerValues = [];
+      const answerValues: string[] = [];
       if (searchResult.answerBox.title) {
         answerValues.push(searchResult.answerBox.title);
       }
@@ -50,7 +50,7 @@ export class Serper extends Tool {
       }
 
       if (searchResult.answerBox.snippet) {
-        answerValues.push(searchResult.answerBox.answer);
+        answerValues.push(searchResult.answerBox.snippet);
       }
 
       return answerValues.join("\n");

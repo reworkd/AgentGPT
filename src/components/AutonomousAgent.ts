@@ -368,6 +368,7 @@ class AutonomousAgent {
   }
 
   sendAnalysisMessage(analysis: Analysis) {
+    // Hack to send message with generic test. Should use a different type in the future
     let message = "🧠 Generating response...";
     if (analysis.action == "search") {
       message = `🌐 Searching the web for "${analysis.arg}"`;
@@ -385,7 +386,6 @@ class AutonomousAgent {
 
   sendErrorMessage(error: string) {
     this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
-    this.sendMessage({ type: "system", value: error });
   }
 }
 

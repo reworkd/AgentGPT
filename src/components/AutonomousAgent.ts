@@ -137,9 +137,11 @@ class AutonomousAgent {
     // Wait before starting
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
+    const currentTask = this.tasks.shift() as Task;
+
     // Analyze how to execute a task: Reason, web search, other tools...
-    this.sendAnalyzingMessage(this.tasks[0] || "");
-    const analysis = await this.analyzeTask(this.tasks[0] || "");
+    this.sendAnalyzingMessage(currentTask.value);
+    const analysis = await this.analyzeTask(currentTask.value);
     console.log("analysis", analysis);
     console.log("analysis", typeof analysis);
     console.log("analysis action", analysis.action);
@@ -148,18 +150,15 @@ class AutonomousAgent {
     // Get and remove first task
     this.completedTasks.push(this.tasks[0]?.value || "");
 
-    const currentTask = this.tasks.shift() as Task;
     this.sendThinkingMessage();
     this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
-    const result = await this.executeTask(currentTask.value);
+    const result = await this.executeTask(currentTask.value, analysis);
     this.sendMessage({
       ...currentTask,
       info: result,
       status: TASK_STATUS_COMPLETED,
     });
-    const result = await this.executeTask(currentTask as string, analysis);
-    this.sendExecutionMessage(currentTask as string, result, analysis);
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));

@@ -11,7 +11,6 @@ const resetters: (() => void)[] = [];
 const initialAgentState = {
   agent: null,
   isAgentStopped: true,
-  isWebSearchEnabled: false,
   isAgentPaused: undefined,
 };
 
@@ -19,11 +18,11 @@ interface AgentSlice {
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
   isAgentPaused: boolean | undefined;
-  isWebSearchEnabled: boolean;
   agentMode: AgentMode;
   updateAgentMode: (agentMode: AgentMode) => void;
   updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
   updateIsAgentStopped: () => void;
+  isWebSearchEnabled: boolean;
   setIsWebSearchEnabled: (isWebSearchEnabled: boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
@@ -48,9 +47,10 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
         isAgentStopped: !state.agent?.isRunning,
       }));
     },
-    setIsWebSearchEnabled: (isWebSearchEnabled: boolean) => {
+    isWebSearchEnabled: false,
+    setIsWebSearchEnabled: (isWebSearchEnabled) => {
       set(() => ({
-        isWebSearchEnabled: isWebSearchEnabled,
+        isWebSearchEnabled,
       }));
     },
     setAgent: (newAgent) => {
@@ -73,7 +73,10 @@ const agentStore = create<AgentSlice>()(
     {
       name: "agent-storage",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ agentMode: state.agentMode }),
+      partialize: (state) => ({
+        agentMode: state.agentMode,
+        isWebSearchEnabled: state.isWebSearchEnabled,
+      }),
     }
   )
 );

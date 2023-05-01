@@ -36,12 +36,22 @@ export class Serper extends Tool {
     const res = await this.callSerper(input);
     const searchResult: SearchResult = (await res.json()) as SearchResult;
 
-    if (searchResult.answerBox?.answer) {
-      return searchResult.answerBox.answer;
-    }
+    // Link means it is a snippet from a website and should not be viewed as a final answer
+    if (searchResult.answerBox && !searchResult.answerBox.link) {
+      const answerValues = [];
+      if (searchResult.answerBox.title) {
+        answerValues.push(searchResult.answerBox.title);
+      }
 
-    if (searchResult.answerBox?.snippet) {
-      return searchResult.answerBox.snippet;
+      if (searchResult.answerBox.answer) {
+        answerValues.push(searchResult.answerBox.answer);
+      }
+
+      if (searchResult.answerBox.snippet) {
+        answerValues.push(searchResult.answerBox.answer);
+      }
+
+      return answerValues.join("\n");
     }
 
     if (searchResult.sportsResults?.game_spotlight) {
@@ -63,7 +73,9 @@ export class Serper extends Tool {
       const resultsToLink = searchResult.organic.slice(0, 3);
       const links = resultsToLink.map((result) => result.link);
 
-      return `${summary}\n\nSome relevant links:\n${links.join("\n")}`;
+      return `${summary}\n\nLinks:\n${links
+        .map((link) => `- ${link}`)
+        .join("\n")}`;
     }
 
     return "No good search result found";
@@ -100,9 +112,10 @@ interface SearchResult {
 }
 
 interface AnswerBox {
-  title: string;
-  answer: string;
-  snippet: string;
+  title?: string;
+  answer?: string;
+  snippet?: string;
+  link?: string;
 }
 
 interface SportsResults {

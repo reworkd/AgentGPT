@@ -1,0 +1,63 @@
+name: Feature Request / Enhancement
+description: Suggest a new feature or feature enhancement for the project
+labels: ["enhancement", "needs triage"]
+body:
+  - type: checkboxes
+    id: no-duplicate-issues
+    attributes:
+      label: "⚠️ Please check that this feature request hasn't been suggested before."
+      description: "There are two locations for previous feature requests. Please search in both. Thank you. The **Label filters** may help make your search more focussed."
+      options:
+        - label: "I searched previous [Ideas in Discussions](https://github.com/reworkd/AgentGPT/discussions/categories/ideas) didn't find any similar feature requests."
+          required: true
+        - label: "I searched previous [Issues](https://github.com/reworkd/AgentGPT/labels/enhancement) didn't find any similar feature requests."
+          required: true
+
+  - type: textarea
+    id: feature-description
+    validations:
+      required: true
+    attributes:
+      label: "🔖 Feature description"
+      description: "A clear and concise description of what the feature request is."
+      placeholder: "You should add ..."
+
+  - type: textarea
+    id: solution
+    validations:
+      required: true
+    attributes:
+      label: "✔️ Solution"
+      description: "A clear and concise description of what you want to happen, and why."
+      placeholder: "In my use-case, ..."
+
+  - type: textarea
+    id: alternatives
+    validations:
+      required: false
+    attributes:
+      label: "❓ Alternatives"
+      description: "A clear and concise description of any alternative solutions or features you've considered."
+      placeholder: "I have considered ..."
+
+  - type: textarea
+    id: additional-context
+    validations:
+      required: false
+    attributes:
+      label: "📝 Additional Context"
+      description: "Add any other context or screenshots about the feature request here."
+      placeholder: "..."
+      
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: 'Acknowledgements'
+      description: 'Please confirm the following:'
+      options:
+        - label: 'My issue title is concise, descriptive, and in title casing.'
+          required: true
+        - label: 'I have searched the existing issues to make sure this feature has not been requested yet.'
+          required: true
+        - label: 'I have provided enough information for the maintainers to understand and evaluate this request.'
+          required: true

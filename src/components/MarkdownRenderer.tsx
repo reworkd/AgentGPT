@@ -89,7 +89,7 @@ const CustomCodeBlock = ({
 const CustomLink = ({ children, href }) => {
   return (
     <a
-      className="link"
+      className="link overflow-hidden"
       href={href as string}
       target="_blank"
       rel="noopener noreferrer"

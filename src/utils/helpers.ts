@@ -38,7 +38,8 @@ export const extractTasks = (
 
 export const extractArray = (inputStr: string): string[] => {
   // Match an outer array of strings (including nested arrays)
-  const regex = /(\[(?:\s*"(?:[^"\\]|\\.)*"\s*,?)+\s*\])/;
+  const regex =
+    /(\[(?:\s*(?:"(?:[^"\\]|\\.|\n)*"|'(?:[^'\\]|\\.|\n)*')\s*,?)+\s*\])/;
   const match = inputStr.match(regex);
 
   if (match && match[0]) {

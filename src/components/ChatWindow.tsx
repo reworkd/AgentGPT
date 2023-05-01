@@ -25,16 +25,18 @@ import {
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
-import { useAgentStore } from "../components/stores";
+import { useAgentStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
+import { Switch } from "./Switch";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
+  displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
 }
 
 const messageListId = "chat-window-message-list";
@@ -47,6 +49,7 @@ const ChatWindow = ({
   onSave,
   fullscreen,
   scrollToBottom,
+  displaySettings,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -54,6 +57,8 @@ const ChatWindow = ({
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const agentMode = useAgentStore.use.agentMode();
   const agent = useAgentStore.use.agent();
+  const isWebSearchEnabled = useAgentStore.use.isWebSearchEnabled();
+  const setIsWebSearchEnabled = useAgentStore.use.setIsWebSearchEnabled();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -130,6 +135,17 @@ const ChatWindow = ({
           </>
         )}
       </div>
+      {displaySettings && (
+        <div className="flex items-center justify-center">
+          <div className="m-1 flex items-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
+            <p className="font-mono text-sm">Web search</p>
+            <Switch
+              value={isWebSearchEnabled}
+              onChange={setIsWebSearchEnabled}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

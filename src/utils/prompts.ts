@@ -27,12 +27,12 @@ export const createModel = (settings: ModelSettings) => {
 };
 
 export const startGoalPrompt = new PromptTemplate({
-  template: `You are an autonomous task creation AI called AgentGPT. You have access to google search for current events for small searches. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached or completely reached. Return the response as an array of strings such as ["Research new marketing designs", "Write a python script to create a campaign"] that can be used in JSON.parse().`,
+  template: `You are a task creation AI called AgentGPT. You have access to google search for current events and for small searches. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["Research new marketing designs", "Write a python script to create a campaign"].`,
   inputVariables: ["goal"],
 });
 
 export const analyzeTaskPrompt = new PromptTemplate({
-  template: `You have the following objective "{goal}". You have the following tasks "{task}". Based on this information, evaluate what the best action to take is strictly from the list of actions: {actions}. You should use 'search' only for research about current events where arg is a simple clear search query. Use "reason" for all other actions. Return the response as an object of the form {{ "action": "string", "arg": "string" }} that can be used in JSON.parse() and NOTHING ELSE.`,
+  template: `You have the following higher level objective "{goal}". You currently are focusing on the following task: "{task}". Based on this information, evaluate what the best action to take is strictly from the list of actions: {actions}. You should use 'search' only for research about current events where arg is a simple clear search query. Use "reason" for all other actions. Return the response as an object of the form {{ "action": "string", "arg": "string" }} that can be used in JSON.parse() and NOTHING ELSE.`,
   inputVariables: ["goal", "actions", "task"],
 });
 

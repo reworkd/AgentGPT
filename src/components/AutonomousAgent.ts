@@ -140,17 +140,18 @@ class AutonomousAgent {
     const currentTask = this.tasks.shift() as Task;
 
     // Analyze how to execute a task: Reason, web search, other tools...
-    this.sendAnalyzingMessage(currentTask.value);
+    this.sendThinkingMessage();
     const analysis = await this.analyzeTask(currentTask.value);
     console.log("analysis", analysis);
     console.log("analysis", typeof analysis);
     console.log("analysis action", analysis.action);
 
+    this.sendAnalysisMessage(analysis);
+
     // Execute first task
     // Get and remove first task
     this.completedTasks.push(this.tasks[0]?.value || "");
 
-    this.sendThinkingMessage();
     this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
     const result = await this.executeTask(currentTask.value, analysis);
@@ -370,11 +371,15 @@ class AutonomousAgent {
     });
   }
 
-  sendAnalyzingMessage(task: string) {
+  sendAnalysisMessage(analysis: Analysis) {
+    let message = "🧠 Generating response...";
+    if (analysis.action == "search") {
+      message = `🌐 Searching the web for "${analysis.arg}"`;
+    }
+
     this.sendMessage({
-      type: "analyzing",
-      info: `Analyzing task "${task}"...`,
-      value: "",
+      type: MESSAGE_TYPE_SYSTEM,
+      value: message,
     });
   }
 
@@ -385,31 +390,6 @@ class AutonomousAgent {
   sendErrorMessage(error: string) {
     this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
     this.sendMessage({ type: "system", value: error });
-  }
-
-  sendExecutionMessage(task: string, execution: string, analysis: Analysis) {
-    // Value for type based on switch case of toolType
-    if (analysis.action == "search") {
-      this.sendMessage({
-        type: analysis.action,
-        info: `Searching the web for "${analysis.arg}"`,
-        value: execution,
-      });
-    } else {
-      this.sendMessage({
-        type: "action",
-        info: `Executing "${task}"`,
-        value: execution,
-      });
-    }
-  }
-
-  sendActionMessage(message: string) {
-    this.sendMessage({
-      type: "action",
-      info: message,
-      value: "",
-    });
   }
 }
 

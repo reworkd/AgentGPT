@@ -142,10 +142,6 @@ class AutonomousAgent {
     // Analyze how to execute a task: Reason, web search, other tools...
     this.sendThinkingMessage();
     const analysis = await this.analyzeTask(currentTask.value);
-    console.log("analysis", analysis);
-    console.log("analysis", typeof analysis);
-    console.log("analysis action", analysis.action);
-
     this.sendAnalysisMessage(analysis);
 
     // Execute first task

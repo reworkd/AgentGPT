@@ -65,20 +65,19 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   };
 };
 
-export const useAgentStore = createSelectors(
-  create<AgentSlice>()(
-    persist(
-      (...a) => ({
-        ...createAgentSlice(...a),
-      }),
-      {
-        name: "agent-storage",
-        storage: createJSONStorage(() => localStorage),
-        partialize: (state) => ({ agentMode: state.agentMode }),
-      }
-    )
+const agentStore = create<AgentSlice>(
+  persist(
+    (...a) => ({
+      ...createAgentSlice(...a),
+    }),
+    {
+      name: "agent-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ agentMode: state.agentMode }),
+    }
   )
 );
+export const useAgentStore = createSelectors(agentStore);
 
 export const resetAllAgentSlices = () =>
   resetters.forEach((resetter) => resetter());

@@ -38,6 +38,10 @@ const loadSettings = () => {
     });
   } catch (error) {}
 
+  if (!settings.customApiKey) {
+    return { ...DEFAULT_SETTINGS };
+  }
+
   if (
     settings.customApiKey &&
     settings.customMaxLoops === DEFAULT_MAX_LOOPS_FREE

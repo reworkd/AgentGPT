@@ -31,6 +31,7 @@ import type {
   Task,
   AgentPlaybackControl,
 } from "../types/agentTypes";
+import { useAgentStore } from "./stores";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -139,10 +140,17 @@ class AutonomousAgent {
 
     const currentTask = this.tasks.shift() as Task;
 
-    // Analyze how to execute a task: Reason, web search, other tools...
     this.sendThinkingMessage();
-    const analysis = await this.analyzeTask(currentTask.value);
-    this.sendAnalysisMessage(analysis);
+
+    // Default to reasoning
+    let analysis: Analysis = { action: "reason", arg: "" };
+
+    // If enabled, analyze what tool to use
+    if (useAgentStore.getState().isWebSearchEnabled) {
+      // Analyze how to execute a task: Reason, web search, other tools...
+      analysis = await this.analyzeTask(currentTask.value);
+      this.sendAnalysisMessage(analysis);
+    }
 
     // Execute first task
     // Get and remove first task
@@ -371,7 +379,7 @@ class AutonomousAgent {
     // Hack to send message with generic test. Should use a different type in the future
     let message = "🧠 Generating response...";
     if (analysis.action == "search") {
-      message = `🌐 Searching the web for "${analysis.arg}"`;
+      message = `🌐 Searching the web for "${analysis.arg}"...`;
     }
 
     this.sendMessage({

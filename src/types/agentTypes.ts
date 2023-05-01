@@ -5,17 +5,13 @@ export const [
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_THINKING,
   MESSAGE_TYPE_TASK,
-  MESSAGE_TYPE_ANALYZING,
   MESSAGE_TYPE_ACTION,
-  MESSAGE_TYPE_SEARCH,
   MESSAGE_TYPE_SYSTEM,
 ] = [
   "goal" as const,
   "thinking" as const,
   "task" as const,
-  "analyzing" as const,
   "action" as const,
-  "search" as const,
   "system" as const,
 ];
 
@@ -59,9 +55,7 @@ export const nonTaskScehma = z
     type: z.union([
       z.literal(MESSAGE_TYPE_GOAL),
       z.literal(MESSAGE_TYPE_THINKING),
-      z.literal(MESSAGE_TYPE_ANALYZING),
       z.literal(MESSAGE_TYPE_ACTION),
-      z.literal(MESSAGE_TYPE_SEARCH),
       z.literal(MESSAGE_TYPE_SYSTEM),
     ]),
   })

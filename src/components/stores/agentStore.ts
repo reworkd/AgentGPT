@@ -11,6 +11,7 @@ const resetters: (() => void)[] = [];
 const initialAgentState = {
   agent: null,
   isAgentStopped: true,
+  isWebSearchEnabled: false,
   isAgentPaused: undefined,
 };
 
@@ -75,7 +76,7 @@ const agentStore = create<AgentSlice>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         agentMode: state.agentMode,
-        isWebSearchEnabled: state.isWebSearchEnabled,
+        // isWebSearchEnabled: state.isWebSearchEnabled
       }),
     }
   )

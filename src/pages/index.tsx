@@ -154,23 +154,24 @@ const Home: NextPage = () => {
     messages.length &&
     !hasSaved;
 
-  const firstButton = isAgentPaused ? (
-    <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
-      <FaPlay size={20} />
-      <span className="ml-2">{t("Continue")}</span>
-    </Button>
-  ) : (
-    <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
-      {agent == null ? (
-        t("Deploy Agent")
-      ) : (
-        <>
-          <VscLoading className="animate-spin" size={20} />
-          <span className="ml-2">{t("Running")}</span>
-        </>
-      )}
-    </Button>
-  );
+  const firstButton =
+    isAgentPaused && !isAgentStopped ? (
+      <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
+        <FaPlay size={20} />
+        <span className="ml-2">{t("Continue")}</span>
+      </Button>
+    ) : (
+      <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
+        {agent == null ? (
+          t("Deploy Agent")
+        ) : (
+          <>
+            <VscLoading className="animate-spin" size={20} />
+            <span className="ml-2">{t("Running")}</span>
+          </>
+        )}
+      </Button>
+    );
 
   return (
     <DefaultLayout>

@@ -3,10 +3,11 @@ import { clsx } from "clsx";
 import React from "react";
 
 interface SwitchProps {
+  value: boolean;
   onChange: (checked: boolean) => void;
 }
 
-const Switch = ({ onChange }: SwitchProps) => {
+const Switch = ({ value, onChange }: SwitchProps) => {
   const handleChange = (checked: boolean) => {
     onChange(checked);
   };
@@ -21,6 +22,7 @@ const Switch = ({ onChange }: SwitchProps) => {
         "focus:outline-none focus-visible:ring focus-visible:ring-sky-500 focus-visible:ring-opacity-75"
       )}
       onCheckedChange={handleChange}
+      checked={value}
     >
       <SwitchPrimitive.Thumb
         className={clsx(

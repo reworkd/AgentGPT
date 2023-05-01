@@ -11,6 +11,7 @@ const resetters: (() => void)[] = [];
 const initialAgentState = {
   agent: null,
   isAgentStopped: true,
+  isWebSearchEnabled: false,
   isAgentPaused: undefined,
 };
 
@@ -18,10 +19,12 @@ interface AgentSlice {
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
   isAgentPaused: boolean | undefined;
+  isWebSearchEnabled: boolean;
   agentMode: AgentMode;
   updateAgentMode: (agentMode: AgentMode) => void;
   updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
   updateIsAgentStopped: () => void;
+  setIsWebSearchEnabled: (isWebSearchEnabled: boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
@@ -45,6 +48,11 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
         isAgentStopped: !state.agent?.isRunning,
       }));
     },
+    setIsWebSearchEnabled: (isWebSearchEnabled: boolean) => {
+      set(() => ({
+        isWebSearchEnabled: isWebSearchEnabled,
+      }));
+    },
     setAgent: (newAgent) => {
       set(() => ({
         agent: newAgent,
@@ -57,20 +65,20 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   };
 };
 
-export const useAgentStore = createSelectors(
-  create<AgentSlice>()(
-    persist(
-      (...a) => ({
-        ...createAgentSlice(...a),
-      }),
-      {
-        name: "agent-storage",
-        storage: createJSONStorage(() => localStorage),
-        partialize: (state) => ({ agentMode: state.agentMode }),
-      }
-    )
+const agentStore = create<AgentSlice>()(
+  persist(
+    (...a) => ({
+      ...createAgentSlice(...a),
+    }),
+    {
+      name: "agent-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ agentMode: state.agentMode }),
+    }
   )
 );
+
+export const useAgentStore = createSelectors(agentStore);
 
 export const resetAllAgentSlices = () =>
   resetters.forEach((resetter) => resetter());

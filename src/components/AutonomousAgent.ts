@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
+import type { Analysis } from "../services/agent-service";
 import AgentService from "../services/agent-service";
 import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
@@ -30,6 +31,7 @@ import type {
   Task,
   AgentPlaybackControl,
 } from "../types/agentTypes";
+import { useAgentStore } from "./stores";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -136,15 +138,27 @@ class AutonomousAgent {
     // Wait before starting
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
+    const currentTask = this.tasks.shift() as Task;
+
+    this.sendThinkingMessage();
+
+    // Default to reasoning
+    let analysis: Analysis = { action: "reason", arg: "" };
+
+    // If enabled, analyze what tool to use
+    if (useAgentStore.getState().isWebSearchEnabled) {
+      // Analyze how to execute a task: Reason, web search, other tools...
+      analysis = await this.analyzeTask(currentTask.value);
+      this.sendAnalysisMessage(analysis);
+    }
+
     // Execute first task
     // Get and remove first task
     this.completedTasks.push(this.tasks[0]?.value || "");
 
-    const currentTask = this.tasks.shift() as Task;
-    this.sendThinkingMessage();
     this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
-    const result = await this.executeTask(currentTask.value);
+    const result = await this.executeTask(currentTask.value, analysis);
     this.sendMessage({
       ...currentTask,
       info: result,
@@ -254,9 +268,9 @@ class AutonomousAgent {
     return res.data.newTasks as string[];
   }
 
-  async executeTask(task: string): Promise<string> {
+  async analyzeTask(task: string): Promise<Analysis> {
     if (this.shouldRunClientSide()) {
-      return await AgentService.executeTaskAgent(
+      return await AgentService.analyzeTaskAgent(
         this.modelSettings,
         this.goal,
         task
@@ -267,6 +281,28 @@ class AutonomousAgent {
       modelSettings: this.modelSettings,
       goal: this.goal,
       task: task,
+    };
+    const res = await this.post("/api/agent/analyze", data);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
+    return res.data.response as Analysis;
+  }
+
+  async executeTask(task: string, analysis: Analysis): Promise<string> {
+    // Run search server side since clients won't have a key
+    if (this.shouldRunClientSide() && analysis.action !== "search") {
+      return await AgentService.executeTaskAgent(
+        this.modelSettings,
+        this.goal,
+        task,
+        analysis
+      );
+    }
+
+    const data = {
+      modelSettings: this.modelSettings,
+      goal: this.goal,
+      task: task,
+      analysis: analysis,
     };
     const res = await this.post("/api/agent/execute", data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
@@ -336,6 +372,19 @@ class AutonomousAgent {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: "All tasks completed. Shutting down.",
+    });
+  }
+
+  sendAnalysisMessage(analysis: Analysis) {
+    // Hack to send message with generic test. Should use a different type in the future
+    let message = "🧠 Generating response...";
+    if (analysis.action == "search") {
+      message = `🌐 Searching the web for "${analysis.arg}"...`;
+    }
+
+    this.sendMessage({
+      type: MESSAGE_TYPE_SYSTEM,
+      value: message,
     });
   }
 

@@ -18,7 +18,7 @@ async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
   }).call({
     goal,
   });
-  console.log("Completion:" + (completion.text as string));
+  console.log("Goal", goal, "Completion:" + (completion.text as string));
   return extractTasks(completion.text as string, []);
 }
 
@@ -68,7 +68,7 @@ async function executeTaskAgent(
   console.log("Execution analysis:", analysis);
 
   if (analysis.action == "search" && process.env.SERP_API_KEY) {
-    return await new Serper(modelSettings)._call(analysis.arg);
+    return await new Serper(modelSettings, goal)._call(analysis.arg);
   }
 
   const completion = await new LLMChain({

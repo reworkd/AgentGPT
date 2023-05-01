@@ -18,12 +18,14 @@ export class Serper extends Tool {
 
   protected key: string;
   protected modelSettings: ModelSettings;
+  protected goal: string;
 
-  constructor(modelSettings: ModelSettings) {
+  constructor(modelSettings: ModelSettings, goal: string) {
     super();
 
     this.key = process.env.SERP_API_KEY ?? "";
     this.modelSettings = modelSettings;
+    this.goal = goal;
     if (!this.key) {
       throw new Error(
         "Serper API key not set. You can set it as SERPER_API_KEY in your .env file, or pass it to Serper."
@@ -67,6 +69,7 @@ export class Serper extends Tool {
       const snippets = searchResult.organic.map((result) => result.snippet);
       const summary = await summarizeSnippets(
         this.modelSettings,
+        this.goal,
         input,
         snippets
       );
@@ -144,6 +147,7 @@ interface RelatedSearch {
 
 const summarizeSnippets = async (
   modelSettings: ModelSettings,
+  goal: string,
   query: string,
   snippets: string[]
 ) => {
@@ -151,6 +155,7 @@ const summarizeSnippets = async (
     llm: createModel(modelSettings),
     prompt: summarizeSearchSnippets,
   }).call({
+    goal,
     query,
     snippets,
   });

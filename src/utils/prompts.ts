@@ -27,7 +27,7 @@ export const createModel = (settings: ModelSettings) => {
 };
 
 export const startGoalPrompt = new PromptTemplate({
-  template: `You are a task creation AI called AgentGPT. You have access to google search for current events and for small searches. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that your goal is more closely reached. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["Research new marketing designs", "Write a python script to create a campaign"].`,
+  template: `You are a task creation AI called AgentGPT. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that this goal is more closely, or completely reached. You have access to google search for tasks that require current events or small searches. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["Research new marketing designs", "Write a python script to create a campaign"].`,
   inputVariables: ["goal"],
 });
 
@@ -49,6 +49,6 @@ export const createTasksPrompt = new PromptTemplate({
 });
 
 export const summarizeSearchSnippets = new PromptTemplate({
-  template: `Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}". Return the summary as a string. Do not show you are summarizing.`,
-  inputVariables: ["query", "snippets"],
+  template: `Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string. Do not show you are summarizing.`,
+  inputVariables: ["goal", "query", "snippets"],
 });

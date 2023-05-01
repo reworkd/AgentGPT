@@ -239,7 +239,7 @@ const Home: NextPage = () => {
                     : undefined
                 }
                 scrollToBottom
-                displaySettings
+                // displaySettings (Disable web search)
               />
               {tasks.length > 0 && <TaskWindow />}
             </Expand>

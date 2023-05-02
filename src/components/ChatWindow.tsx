@@ -80,7 +80,7 @@ const ChatWindow = ({
 
   const handleChangeWebSearch = (value: boolean) => {
     // Change this value when we can no longer support web search
-    const WEB_SEARCH_ALLOWED = false;
+    const WEB_SEARCH_ALLOWED = true;
 
     if (WEB_SEARCH_ALLOWED) {
       setIsWebSearchEnabled(value);

@@ -16,9 +16,9 @@ import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
-import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
 import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
 import { useAgentStore } from "../components/stores";
+import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -28,7 +28,7 @@ export const SettingsDialog: React.FC<{
   const [settings, setSettings] = React.useState<ModelSettings>({
     ...customSettings.settings,
   });
-  const t = useTypeSafeTranslation();
+  const [t] = useTranslation();
   const agent = useAgentStore.use.agent();
   const agentMode = useAgentStore.use.agentMode();
   const updateAgentMode = useAgentStore.use.updateAgentMode();
@@ -54,9 +54,9 @@ export const SettingsDialog: React.FC<{
   const handleSave = () => {
     if (!keyIsValid(settings.customApiKey)) {
       alert(
-        t(
-          "Key is invalid, please ensure that you have set up billing in your OpenAI account!"
-        )
+        `${t("INVALID_OPENAI_API_KEY", {
+          ns: "settings",
+        })}`
       );
       return;
     }
@@ -78,7 +78,9 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaThermometerFull />
-            <span className="ml-2">Temp: </span>
+            <span className="ml-2">
+              {`${t("TEMPERATURE", { ns: "settings" })}`}
+            </span>
           </>
         }
         value={settings.customTemperature}
@@ -87,9 +89,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: t(
-            "Higher values will make the output more random, while lower values make the output more focused and deterministic."
-          ),
+          message: `${t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM", {
+            ns: "settings",
+          })}`,
           disabled: false,
         }}
         attributes={{
@@ -102,7 +104,7 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaSyncAlt />
-            <span className="ml-2">Loop #: </span>
+            <span className="ml-2">{`${t("LOOP", { ns: "settings" })}`}</span>
           </>
         }
         value={settings.customMaxLoops}
@@ -112,9 +114,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: t(
-            "Controls the maximum number of loops that the agent will run (higher value will make more API calls)."
-          ),
+          message: `${t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS", {
+            ns: "settings",
+          })}`,
           disabled: false,
         }}
         attributes={{
@@ -127,7 +129,7 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaCoins />
-            <span className="ml-2">Tokens: </span>
+            <span className="ml-2">{`${t("TOKENS", { ns: "settings" })}`}</span>
           </>
         }
         value={settings.maxTokens ?? 400}
@@ -137,8 +139,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message:
-            "Controls the maximum number of tokens used in each API call (higher value will make responses more detailed but cost more).",
+          message: `${t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION", {
+            ns: "settings",
+          })}`,
           disabled: false,
         }}
         attributes={{
@@ -152,15 +155,21 @@ export const SettingsDialog: React.FC<{
 
   return (
     <Dialog
-      header={t("Settings ⚙")}
+      header={`${t("SETTINGS_DIALOG_HEADER", {
+        ns: "settings",
+      })}`}
       isShown={show}
       close={close}
       footerButton={
         <>
           <Button className="bg-red-400 hover:bg-red-500" onClick={handleReset}>
-            Reset
+            {`${t("RESET", {
+              ns: "common",
+            })}`}
           </Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>{`${t("SAVE", {
+            ns: "common",
+          })}`}</Button>
         </>
       }
       contentClassName="text-md relative flex flex-col gap-2 p-2 leading-relaxed"
@@ -189,17 +198,18 @@ export const SettingsDialog: React.FC<{
           <FaExclamationCircle className="inline-block" />
           &nbsp;
           <b>
-            {t(
-              "To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it"
-            )}
+            {`${t("INFO_TO_USE_GPT4", { ns: "settings" })}`}
             &nbsp;
             <a
               href="https://openai.com/waitlist/gpt-4-api"
               className="text-blue-500"
             >
-              {t("here")}
+              {`${t("HERE", "HERE", { ns: "settings" })}`}
             </a>
-            .&nbsp; {t("(ChatGPT Plus subscription will not work)")}
+            .&nbsp;{" "}
+            {`${t("SUBSCRIPTION_WILL_NOT_WORK", {
+              ns: "settings",
+            })}`}
           </b>
         </p>
       )}
@@ -207,7 +217,9 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaKey />
-            <span className="ml-2">Key: </span>
+            <span className="ml-2">{`${t("API_KEY", {
+              ns: "settings",
+            })}`}</span>
           </>
         }
         placeholder={"sk-..."}
@@ -220,7 +232,9 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaMicrochip />
-            <span className="ml-2">Model:</span>
+            <span className="ml-2">{`${t("LABEL_MODEL", {
+              ns: "settings",
+            })}`}</span>
           </>
         }
         type="combobox"

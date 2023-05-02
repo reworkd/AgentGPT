@@ -133,7 +133,8 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION"),
+                  value:
+                    "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
                 }}
               />
             </Expand>

@@ -1,6 +1,6 @@
 {
   "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Wir haben außergewöhnlichen Verkehr, erwarten Sie Verzögerungen und Ausfälle, wenn Sie keinen eigenen API-Schlüssel verwenden 🚨",
-  "CREATE_AN_AGENT_DESCRIPTION": "> Erstellen Sie einen Agenten, indem Sie einen Namen/Ziel hinzufügen und auf Bereitstellen klicken!",
+  "CREATE_AN_AGENT_DESCRIPTION": "Erstellen Sie einen Agenten, indem Sie einen Namen/Ziel hinzufügen und auf Bereitstellen klicken!",
   "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Sie können Ihren eigenen OpenAI API-Schlüssel im Einstellungen-Tab für höhere Limits bereitstellen!",
   "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Unterstützen Sie die Weiterentwicklung von AgentGPT. 💝️",
   "CONSIDER_SPONSORING_ON_GITHUB": "Bitte erwägen Sie, das Projekt auf GitHub zu unterstützen.",
@@ -13,4 +13,4 @@
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Text wurde in die Zwischenablage kopiert",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Text konnte nicht in die Zwischenablage kopiert werden",
   "RESTART_IF_IT_TAKES_X_SEC": "(Starten Sie neu, wenn dies länger als 30 Sekunden dauert)"
-  }
+}

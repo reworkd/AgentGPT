@@ -27,8 +27,7 @@ import {
 import { isTask, AGENT_PLAY } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
-import type { Language } from "../utils/languages";
-import { ENGLISH, languages } from "../utils/languages";
+import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 
 const Home: NextPage = () => {
@@ -56,24 +55,6 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
-
-  const findLanguage = (nameOrLocale: string): Language => {
-    const selectedLanguage = languages.find(
-      (lang) => lang.code === nameOrLocale || lang.name === nameOrLocale
-    );
-    return selectedLanguage || ENGLISH;
-  };
-  const [displayLanguage, setDisplayLanguage] = React.useState<string>(
-    findLanguage(i18n.language)["name"]
-  );
-  const [agentLanguage, setAgentLanguage] = React.useState<string>(
-    findLanguage(i18n.language)["name"]
-  );
-
-  useEffect(() => {
-    setDisplayLanguage(findLanguage(i18n.language)["name"]);
-    setAgentLanguage(findLanguage(i18n.language)["name"]);
-  }, []);
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -120,7 +101,7 @@ const Home: NextPage = () => {
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
-      agentLanguage,
+      i18n.language,
       handleAddMessage,
       handlePause,
       () => setAgent(null),

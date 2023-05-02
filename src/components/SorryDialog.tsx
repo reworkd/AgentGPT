@@ -1,12 +1,12 @@
 import React from "react";
 import Dialog from "./Dialog";
 
-export interface WebSearchDialogProps {
+export interface SorryDialogProps {
   show: boolean;
   close: () => void;
 }
 
-export const SorryDialog = ({ show, close }: WebSearchDialogProps) => {
+export const SorryDialog = ({ show, close }: SorryDialogProps) => {
   return (
     <Dialog header="Sorry! 😭" isShown={show} close={close}>
       <p>Due to costs, we&apos;ve had to momentarily disable web search 🌐</p>
@@ -20,8 +20,8 @@ export const SorryDialog = ({ show, close }: WebSearchDialogProps) => {
           rel="noreferrer"
         >
           Roadmap
-        </a>&nbsp;
-        to understand when it may be back up.
+        </a>
+        &nbsp; to understand when it may be back up.
       </p>
     </Dialog>
   );

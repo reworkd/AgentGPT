@@ -127,11 +127,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: `${t(
-                    "YOU_CAN_PROVIDE_YOUR_API_KEY",
-                    "YOU_CAN_PROVIDE_YOUR_API_KEY",
-                    { ns: "chat" }
-                  )}`,
+                  value: `${t("YOU_CAN_PROVIDE_YOUR_API_KEY", { ns: "chat" })}`,
                 }}
               />
             </Expand>
@@ -323,7 +319,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
       {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
-          {`${t("RESTART_IF_IT_TAKES_X_SEC", "RESTART_IF_IT_TAKES_X_SEC", {
+          {`${t("RESTART_IF_IT_TAKES_X_SEC", {
             ns: "chat",
           })}`}
         </span>

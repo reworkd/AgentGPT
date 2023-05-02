@@ -65,7 +65,7 @@ const Toast = (props: Props) => {
                 </ToastPrimitive.Action>
               )}
               <ToastPrimitive.Close className="text-md flex w-full items-center justify-center rounded-2xl border border-transparent px-3 py-2 font-medium text-white hover:bg-white/20 ">
-                {`${t("CLOSE", "CLOSE", { ns: "common" })}`}
+                {`${t("CLOSE", { ns: "common" })}`}
               </ToastPrimitive.Close>
             </div>
           </div>

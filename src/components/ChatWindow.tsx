@@ -341,7 +341,8 @@ const ChatMessage = ({
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&
-              message.value.toLowerCase().includes("shut") && <FAQ />
+              (message.value.toLowerCase().includes("shut") ||
+                message.value.toLowerCase().includes("error")) && <FAQ />
           }
         </>
       )}

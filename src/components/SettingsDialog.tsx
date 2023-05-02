@@ -7,6 +7,7 @@ import {
   FaExclamationCircle,
   FaSyncAlt,
   FaCoins,
+  FaTachometerAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -15,7 +16,11 @@ import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
+import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
+import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
+import { useAgentStore } from "../components/stores";
 import { useTranslation } from "next-i18next";
+
 export const SettingsDialog: React.FC<{
   show: boolean;
   close: () => void;
@@ -25,6 +30,9 @@ export const SettingsDialog: React.FC<{
     ...customSettings.settings,
   });
   const [t] = useTranslation();
+  const agent = useAgentStore.use.agent();
+  const agentMode = useAgentStore.use.agentMode();
+  const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   useEffect(() => {
     setSettings(customSettings.settings);
@@ -178,36 +186,43 @@ export const SettingsDialog: React.FC<{
       contentClassName="text-md relative flex flex-col gap-2 p-2 leading-relaxed"
     >
       <p>
-        {`${t(
-          "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY",
-          "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY",
-          { ns: "settings" }
-        )}`}
+        Get your own OpenAI API key{" "}
+        <a className="link" href="https://platform.openai.com/account/api-keys">
+          here
+        </a>
+        . Ensure you have free credits available on your account, otherwise you{" "}
+        <a
+          className="link"
+          href="https://platform.openai.com/account/billing/overview"
+        >
+          must connect a credit card
+        </a>
+        .
       </p>
-      <p
-        className={clsx(
-          "my-2",
-          settings.customModelName === GPT_4 &&
+      {settings.customModelName === GPT_4 && (
+        <p
+          className={clsx(
+            "my-2",
             "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
-        )}
-      >
-        <FaExclamationCircle className="inline-block" />
-        &nbsp;
-        <b>
-          {`${t("INFO_TO_USE_GPT4", "INFO_TO_USE_GPT4", { ns: "settings" })}`}
+          )}
+        >
+          <FaExclamationCircle className="inline-block" />
           &nbsp;
-          <a
-            href="https://openai.com/waitlist/gpt-4-api"
-            className="text-blue-500"
-          >
-            {`${t("HERE", "HERE", { ns: "settings" })}`}
-          </a>
-          {". "}
-          {`${t("SUBSCRIPTION_WILL_NOT_WORK", "SUBSCRIPTION_WILL_NOT_WORK", {
+          <b>
+            {`${t("INFO_TO_USE_GPT4", "INFO_TO_USE_GPT4", { ns: "settings" })}`}
+            &nbsp;
+            <a
+              href="https://openai.com/waitlist/gpt-4-api"
+              className="text-blue-500"
+            >
+              {`${t("HERE", "HERE", { ns: "settings" })}`}
+            </a>
+            .&nbsp;           {`${t("SUBSCRIPTION_WILL_NOT_WORK", "SUBSCRIPTION_WILL_NOT_WORK", {
             ns: "settings",
           })}`}
-        </b>{" "}
-      </p>
+          </b>
+        </p>
+      )}
       <Input
         left={
           <>
@@ -239,24 +254,25 @@ export const SettingsDialog: React.FC<{
         attributes={{ options: GPT_MODEL_NAMES }}
         disabled={disabled}
       />
-      <Accordion
-        child={advancedSettings}
-        name={`${t("ADVANCED_SETTINGS", "ADVANCED_SETTINGS", {
-          ns: "settings",
-        })}`}
+      <Input
+        left={
+          <>
+            <FaTachometerAlt />
+            <span className="ml-2">Mode: </span>
+          </>
+        }
+        value={agentMode}
+        disabled={agent !== null}
+        onChange={() => null}
+        setValue={updateAgentMode as (agentMode: string) => void}
+        type="combobox"
+        toolTipProperties={{
+          message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,
+          disabled: false,
+        }}
+        attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
       />
-      <strong className="mt-4">
-        {`${t("NOTE_TO_GET_OPENAI_KEY", "NOTE_TO_GET_OPENAI_KEY", {
-          ns: "settings",
-        })}`}{" "}
-        <a
-          href="https://platform.openai.com/account/api-keys"
-          className="text-blue-500"
-        >
-          {`${t("LINK", "LINK", { ns: "settings" })}`}
-        </a>{". "}
-        {`${t("NOTE_API_KEY_USAGE", "NOTE_API_KEY_USAGE", { ns: "settings" })}`}
-      </strong>
+      <Accordion child={advancedSettings} name={t("Advanced Settings")} />
     </Dialog>
   );
 };

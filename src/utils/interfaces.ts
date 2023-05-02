@@ -1,4 +1,5 @@
 import type { ModelSettings } from "./types";
+import type { Analysis } from "../services/agent-service";
 
 export interface RequestBody {
   modelSettings: ModelSettings;
@@ -9,4 +10,5 @@ export interface RequestBody {
   lastTask?: string;
   result?: string;
   completedTasks?: string[];
+  analysis?: Analysis;
 }

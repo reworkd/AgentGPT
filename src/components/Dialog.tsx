@@ -48,7 +48,7 @@ export default function Dialog({
           {/*body*/}
           <div
             className={clsx(
-              "text-md relative max-h-[50vh] flex-auto overflow-y-auto p-3 leading-relaxed",
+              "text-md relative max-h-[50vh] flex-auto overflow-y-auto p-5 leading-relaxed md:p-7",
               contentClassName
             )}
           >

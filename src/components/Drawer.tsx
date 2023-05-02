@@ -21,6 +21,7 @@ import { env } from "../env/client.mjs";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import FadingHr from "./FadingHr";
 
 const Drawer = ({
   showHelp,
@@ -38,7 +39,7 @@ const Drawer = ({
     // Function to check if the screen width is for desktop or tablet
     const checkScreenWidth = () => {
       const screenWidth = window.innerWidth;
-      if (screenWidth >= 768) {
+      if (screenWidth >= 850) {
         // 768px is the breakpoint for tablet devices
         setShowDrawer(true);
       } else {
@@ -151,7 +152,7 @@ const Drawer = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <hr className="my-2 border-gray-600/10" />
+          <FadingHr className="my-2" />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
               <ProItem
@@ -174,16 +175,51 @@ const Drawer = ({
             onClick={handleSupport}
           />
           <DrawerItem
-            icon={<FaCog />}
+            icon={
+              <FaCog className="transition-transform group-hover:rotate-90" />
+            }
             text={`${t("SETTINGS_BUTTON", "SETTINGS_BUTTON", { ns: "drawer" })}`}
             onClick={showSettings}
           />
-          <DrawerItem
-            icon={<FaGithub />}
-            text="GitHub"
-            href="https://github.com/reworkd/AgentGPT"
-            target="_blank"
-          />
+          <FadingHr className="my-2" />
+          <div className="flex flex-row items-center">
+            <DrawerItem
+              icon={
+                <FaDiscord
+                  size={30}
+                  className="transition-colors group-hover:fill-current group-hover:text-indigo-400"
+                />
+              }
+              text="Discord"
+              href="https://discord.gg/jdSBAnmdnY"
+              target="_blank"
+              small
+            />
+            <DrawerItem
+              icon={
+                <FaTwitter
+                  size={30}
+                  className="transition-colors group-hover:fill-current group-hover:text-sky-500"
+                />
+              }
+              text="Twitter"
+              href="https://twitter.com/asimdotshrestha/status/1644883727707959296"
+              target="_blank"
+              small
+            />
+            <DrawerItem
+              icon={
+                <FaGithub
+                  size={30}
+                  className="transition-colors group-hover:fill-current group-hover:text-purple-500"
+                />
+              }
+              text="GitHub"
+              href="https://github.com/reworkd/AgentGPT"
+              target="_blank"
+              small
+            />
+          </div>
         </div>
       </div>
     </>
@@ -210,7 +246,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     return (
       <a
         className={clsx(
-          "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
+          "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
           border && "border-[1px] border-white/20",
           `${className || ""}`
         )}
@@ -227,7 +263,7 @@ const DrawerItem = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
+        "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
         border && "border-[1px] border-white/20",
         `${className || ""}`
       )}
@@ -245,7 +281,7 @@ const AuthItem: React.FC<{
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
   const [t] = useTranslation();
-  const icon = session?.user ? <FaSignInAlt /> : <FaSignOutAlt />;
+  const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const text = session?.user ? `${t("SIGN_IN", "SIGN_IN", { ns: "drawer" })}` : `${t("SIGN_OUT", "SIGN_OUT", { ns: "drawer" })}`;
   const onClick = session?.user ? signOut : signIn;
 
@@ -265,7 +301,7 @@ const ProItem: React.FC<{
       <img
         src={session?.user.image}
         className="h-6 w-6 rounded-full"
-        alt={`${t("USER_IMAGE", "USER_IMAGE", { ns: "drawer" })}`}
+        alt="User Image"
       />
     );
   }

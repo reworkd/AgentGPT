@@ -4,7 +4,7 @@ import Button from "./Button";
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 
-export default function Dialog({
+const Dialog = ({
   header,
   children,
   isShown,
@@ -18,7 +18,7 @@ export default function Dialog({
   close: () => void;
   footerButton?: React.ReactNode;
   contentClassName?: string;
-}) {
+}) => {
   const [t] = useTranslation();
   if (!isShown) {
     return <>{null}</>;
@@ -68,4 +68,6 @@ export default function Dialog({
       </div>
     </div>
   );
-}
+};
+
+export default Dialog;

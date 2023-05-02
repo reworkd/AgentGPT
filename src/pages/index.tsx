@@ -30,6 +30,7 @@ import { useSettings } from "../hooks/useSettings";
 import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SorryDialog } from "../components/SorryDialog";
+import { SignInDialog } from "../components/SignInDialog";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -55,6 +56,7 @@ const Home: NextPage = () => {
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [showSorryDialog, setShowSorryDialog] = React.useState(false);
+  const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
@@ -100,6 +102,11 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
+    if (session === null) {
+      setShowSignInDialog(true);
+      return;
+    }
+
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
@@ -192,6 +199,10 @@ const Home: NextPage = () => {
       <SorryDialog
         show={showSorryDialog}
         close={() => setShowSorryDialog(false)}
+      />
+      <SignInDialog
+        show={showSignInDialog}
+        close={() => setShowSignInDialog(false)}
       />
       <main className="flex min-h-screen flex-row">
         <Drawer

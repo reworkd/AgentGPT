@@ -50,13 +50,15 @@ const getTextSections = (messages: Message[]): string[] => {
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `${t("Goal: ")}${message.value}`;
+        return `${t("AGENT_GOAL", { ns: "indexPage" })}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
         if (message.info) {
-          return `${t(`Executing "${message.value}"`)} ${message.info}`;
+          return `${t("EXECUTING", { ns: "common" })} "${message.value}": ${
+            message.info
+          }`;
         } else {
-          return `${t("Adding Task:")} ${message.value}`;
+          return `${t("ADDING_TASK", { ns: "common" })}: ${message.value}`;
         }
       }
       return message.value;

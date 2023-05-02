@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Temperatura",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Više vrijednosti čine izlaz više slučajnim, dok niže vrijednosti čine izlaz usredotočenijim i preciznijim.",
+  "LOOP": "Petlja",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Kontrolira maksimalni broj petlji koje će agent pokrenuti (viša vrijednost rezultira više API poziva).",
+  "TOKENS": "Tokeni",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Kontrolira maksimalni broj tokena korištenih u svakom pojedinom API pozivu (viša vrijednost rezultira detaljnijim odgovorima, ali je skuplje).",
+  "SETTINGS_DIALOG_HEADER": "Postavke ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Ovdje možete dodati svoj OpenAI API ključ. To znači da ćete morati platiti za korištenje vlastitog OpenAI tokena, ali ćete dobiti veći pristup ChatGPT-u! Također možete odabrati bilo koji model koji nudi OpenAI.",
+  "INFO_TO_USE_GPT4": "Za korištenje GPT-4 modela potreban je i API ključ. Možete ga nabaviti",
+  "HERE": "ovdje",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(ChatGPT Plus pretplata neće raditi)",
+  "API_KEY": "API ključ",
+  "ADVANCED_SETTINGS": "Napredne postavke",
+  "NOTE_TO_GET_OPENAI_KEY": "NAPOMENA: Da biste dobili API ključ, morate se registrirati za OpenAI račun na sljedećoj poveznici:",
+  "LINK": "Zahtjev za API ključ",
+  "NOTE_API_KEY_USAGE": "Ovaj ključ se koristi samo u trenutnoj sesiji preglednika.",
+  "LABEL_MODEL": "Model",
+  "LANG": "Jezik"
+  }

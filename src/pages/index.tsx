@@ -27,9 +27,12 @@ import {
 import { isTask, AGENT_PLAY } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
+import type { Language } from "../utils/languages";
+import { ENGLISH, languages } from "../utils/languages";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 const Home: NextPage = () => {
-  const [t] = useTranslation();
+  const { i18n } = useTranslation();
   // zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
@@ -53,6 +56,24 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
+
+  const findLanguage = (nameOrLocale: string): Language => {
+    const selectedLanguage = languages.find(
+      (lang) => lang.code === nameOrLocale || lang.name === nameOrLocale
+    );
+    return selectedLanguage || ENGLISH;
+  };
+  const [displayLanguage, setDisplayLanguage] = React.useState<string>(
+    findLanguage(i18n.language)["name"]
+  );
+  const [agentLanguage, setAgentLanguage] = React.useState<string>(
+    findLanguage(i18n.language)["name"]
+  );
+
+  useEffect(() => {
+    setDisplayLanguage(findLanguage(i18n.language)["name"]);
+    setAgentLanguage(findLanguage(i18n.language)["name"]);
+  }, []);
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -99,6 +120,7 @@ const Home: NextPage = () => {
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
+      agentLanguage,
       handleAddMessage,
       handlePause,
       () => setAgent(null),
@@ -158,16 +180,16 @@ const Home: NextPage = () => {
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
         <FaPlay size={20} />
-        <span className="ml-2">{t("Continue")}</span>
+        <span className="ml-2">{i18n.t("Continue")}</span>
       </Button>
     ) : (
       <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
         {agent == null ? (
-          t("Deploy Agent")
+          i18n.t("Deploy Agent")
         ) : (
           <>
             <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{t("Running")}</span>
+            <span className="ml-2">{i18n.t("Running")}</span>
           </>
         )}
       </Button>
@@ -209,14 +231,19 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5}>
-                  <Badge>{t("Beta 🚀")}</Badge>
+                  <Badge>
+                    {`${i18n?.t("BETA", {
+                      ns: "indexPage",
+                    })}`}{" "}
+                    🚀
+                  </Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {t(
-                    "Assemble, configure, and deploy autonomous AI Agents in your browser."
-                  )}
+                  {i18n.t("HEADING_DESCRIPTION", {
+                    ns: "indexPage",
+                  })}
                 </p>
               </div>
             </div>
@@ -251,7 +278,9 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t("AGENT_NAME")}</span>
+                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                        ns: "indexPage",
+                      })}`}</span>
                     </>
                   }
                   value={name}
@@ -267,14 +296,18 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t("AGENT_GOAL")}</span>
+                      <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                        ns: "indexPage",
+                      })}`}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${t("Make the world a better place.")}`}
+                  placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                    ns: "indexPage",
+                  })}`}
                   type="textarea"
                 />
               </Expand>
@@ -289,10 +322,14 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Stopping")}</span>
+                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                      ns: "indexPage",
+                    })}`}</span>
                   </>
                 ) : (
-                  t("Stop Agent")
+                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                    ns: "indexPage",
+                  })}`
                 )}
               </Button>
             </Expand>
@@ -306,30 +343,12 @@ const Home: NextPage = () => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = [
-    "en",
-    "hu",
-    "fr",
-    "de",
-    "it",
-    "ja",
-    "zh",
-    "ko",
-    "pl",
-    "pt",
-    "ro",
-    "ru",
-    "uk",
-    "es",
-    "nl",
-    "sk",
-    "hr",
-  ];
+  const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, ["translation"])),
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
     },
   };
 };

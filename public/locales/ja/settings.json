@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "温度",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "より高い値は出力をよりランダムにしますが、より低い値はより焦点を絞り、定義されたものにします。",
+  "LOOP": "ループ",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "エージェントが実行するループの最大数を制御します（高い値はより多くのAPI呼び出しを生成します）。",
+  "TOKENS": "トークン",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "各API呼び出しで使用されるトークンの最大数を制御します（より高い値は詳細な応答を生成しますが、コストがかかります）。",
+  "SETTINGS_DIALOG_HEADER": "設定 ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "ここでOpenAI APIキーを追加できます。これにより、独自のOpenAIトークンを使用するために支払いをする必要がありますが、ChatGPTにより大きなアクセス権が与えられます！また、OpenAIが提供する任意のモデルを選択できます。",
+  "INFO_TO_USE_GPT4": "GPT-4モデルを使用するには、APIキーの指定が必要です。取得できます",
+  "HERE": "こちら",
+  "SUBSCRIPTION_WILL_NOT_WORK": "（ChatGPT Plusのサブスクリプションは機能しません）",
+  "API_KEY": "APIキー",
+  "ADVANCED_SETTINGS": "高度な設定",
+  "NOTE_TO_GET_OPENAI_KEY": "注意：APIキーを取得するには、次のリンクでOpenAIアカウントに登録する必要があります。",
+  "LINK": "APIキーの申請",
+  "NOTE_API_KEY_USAGE": "このキーは現在のブラウザセッションでのみ使用されます。",
+  "LABEL_MODEL": "モデル",
+  "LANG": "言語"
+  }

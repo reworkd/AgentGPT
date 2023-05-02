@@ -1,0 +1,13 @@
+{
+  "SAVE": "Save",
+  "IMAGE": "Image",
+  "COPY": "Copy",
+  "EXPORT": "Export",
+  "RESET": "Reset",
+  "CLOSE": "Close",
+  "LOOP": "Loop",
+  "CURRENT_TASKS": "Current Tasks",
+  "ADDING_TASK": "Adding Task",
+  "COPIED_TO_CLIPBOARD": "Copied to clipboard! 🚀",
+  "CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy!"
+}

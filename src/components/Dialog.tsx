@@ -60,7 +60,7 @@ export default function Dialog({
               enabledClassName="bg-yellow-600 hover:bg-yellow-500"
               onClick={close}
             >
-              {t("Close")}
+              {`${t("CLOSE", { ns: "common" })}`}
             </Button>
             {footerButton}
           </div>

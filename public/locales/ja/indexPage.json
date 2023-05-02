@@ -1,0 +1,9 @@
+{
+  "BETA": "ベータ版",
+  "HEADING_DESCRIPTION": "ブラウザーで自律型AIエージェントを構成、設定、およびインストールします。",
+  "AGENT_NAME": "名前",
+  "LABEL_AGENT_GOAL": "目標",
+  "PLACEHOLDER_AGENT_GOAL": "世界をより良い場所にする",
+  "BUTTON_DEPLOY_AGENT": "エージェントを実行",
+  "BUTTON_STOP_AGENT": "エージェントを停止"
+}

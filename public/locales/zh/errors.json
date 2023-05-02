@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "在连接 OpenAI API 时出错。请检查 API 密钥，或稍后再试。",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "添加其他任务时出错。可能是因为我们的模型无法处理您的响应和结果。继续...",
+  "RATE_LIMIT_EXCEEDED": "已达到最大查询次数！请放慢速度...😅",
+  "AGENT_MAXED_OUT_LOOPS": "此代理已达到可运行循环的最大次数。为了节省您的钱包，此代理现在将停止... 可以在设置中配置代理运行循环的最大次数。",
+  "DEMO_LOOPS_REACHED": "抱歉，因为这是一个演示应用程序，所以我们无法让代理运行太长时间。备注：如果您想运行更长时间，请在设置中提供自己的 API 密钥。停止...",
+  "AGENT_MANUALLY_SHUT_DOWN": "代理已手动关闭。",
+  "ALL_TASKS_COMPLETETD": "所有任务已完成。停止...",
+  "ERROR_API_KEY_QUOTA": "使用 OpenAI API 密钥时出错。您已超出当前配额，请检查您的帐单信息。",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "错误：您的 OpenAI API 密钥没有 GPT-4 访问权限。您首先需要在 OpenAI 等待列表中注册。 （这与 ChatGPT Plus 不同）",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "检索初始任务时出错。请重试，更清楚地表达代理目标，或者修改代理以使其符合我们的模型。停止...",
+  "INVALID_OPENAI_API_KEY": "錯誤，OpenAI API 金鑰無效"
+}

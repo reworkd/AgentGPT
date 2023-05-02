@@ -1,0 +1,21 @@
+{
+  "TEMPERATURE": "Temp.",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
+  "LOOP": "Loop",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
+  "TOKENS": "Tokens",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Controls the maximum number of tokens used in each API call (higher value will make responses more detailed but cost more).",
+  "SETTINGS_DIALOG_HEADER": "Settings ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Here you can add your OpenAI API key. This will require you to pay for your own OpenAI usage but give you greater access to AgentGPT! You can additionally select any model OpenAI offers.",
+  "INFO_TO_USE_GPT4": "To use the GPT-4 model, you need to also provide the API key for GPT-4. You can request for it",
+  "HERE": "here",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(ChatGPT Plus subscription will not work)",
+  "API_KEY": "Key",
+  "ADVANCED_SETTINGS": "Advanced settings",
+  "NOTE_TO_GET_OPENAI_KEY": "NOTE: To get a key, sign up for an OpenAI account and visit the following",
+  "LINK": "link",
+  "NOTE_API_KEY_USAGE": "This key is only used in the current browser session",
+  "LABEL_MODEL": "Model",
+  "LANG": "Language",
+  "INVALID_OPENAI_API_KEY": "Invalid API key!"
+}

@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Temperametum",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Magasabb értékek több véletlenszerűséget adnak a kimenetnek, míg alacsonyabb értékek fókuszáltabbá és meghatározottabbá teszik azt.",
+  "LOOP": "Ciklus",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Szabályozza az ügynök által futtatott ciklusok maximális számát (magasabb érték több API-hívást eredményez).",
+  "TOKENS": "Tokenek",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Szabályozza a minden egyes API-hívásban használt tokenek maximális számát (magasabb érték részletesebb válaszokat eredményez, de többe kerül).",
+  "SETTINGS_DIALOG_HEADER": "Beállítások ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Itt adhatja hozzá az OpenAI API-kulcsát. Ez azt jelenti, hogy saját OpenAI token felhasználásáért fizetnie kell, de nagyobb hozzáférést kap a ChatGPT-hez! Továbbá bármely OpenAI által kínált modellt is kiválaszthat.",
+  "INFO_TO_USE_GPT4": "A GPT-4 modell használatához szükséges az API-kulcs megadása is. Beszerezheti",
+  "HERE": "itt",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(A ChatGPT Plus előfizetés nem működik)",
+  "API_KEY": "Kulcs",
+  "ADVANCED_SETTINGS": "Haladó beállítások",
+  "NOTE_TO_GET_OPENAI_KEY": "MEGJEGYZÉS: Az API-kulcs megszerzéséhez regisztrálnia kell egy OpenAI-fiókot, amit a következő hivatkozáson tehet meg:",
+  "LINK": "API kulcs igénylése",
+  "NOTE_API_KEY_USAGE": "Ez a kulcs csak az aktuális böngészői munkamenetben használatos.",
+  "LABEL_MODEL": "Modell",
+  "LANG": "Nyelv"
+}

@@ -48,7 +48,7 @@ We welcome ideas for improvements and new features. To suggest an enhancement, o
 
 ### Code Style
 
-AgentGPT uses [ESLint](https://eslint.org/) as its code style guide. Please ensure that your code follows these guidelines.
+AgentGPT uses [ESLint](https://eslint.org/) as its code style guide. Please ensure that your code follows these guidelines. 
 
 ### Commit Messages
 
@@ -61,3 +61,4 @@ Write clear and concise commit messages that briefly describe the changes made i
 - [ESLint Style Guide](https://eslint.org/)
 
 Thank you once again for your interest in contributing to AgentGPT. We look forward to collaborating with you and creating an even better project together!
+

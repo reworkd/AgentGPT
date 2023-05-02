@@ -29,6 +29,7 @@ import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
 import { Switch } from "./Switch";
+import { env } from "../env/client.mjs";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -80,9 +81,9 @@ const ChatWindow = ({
 
   const handleChangeWebSearch = (value: boolean) => {
     // Change this value when we can no longer support web search
-    const WEB_SEARCH_ALLOWED = false;
+    const WEB_SEARCH_ALLOWED = env.NEXT_PUBLIC_WEB_SEARCH_ENABLED as boolean;
 
-    if (WEB_SEARCH_ALLOWED) {
+    if (WEB_SEARCH_ALLOWED === true) {
       setIsWebSearchEnabled(value);
     } else {
       openSorryDialog?.();

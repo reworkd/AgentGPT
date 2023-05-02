@@ -10,28 +10,29 @@ export default function HelpDialog({
   show: boolean;
   close: () => void;
 }) {
-  const [ t ] = useTranslation();
+  const [t] = useTranslation();
   return (
     <Dialog
-      header={t('WELCOME_TO_AGENT_GPT','WELCOME_TO_AGENT_GPT', {ns: 'help'})}
+      header={t("WELCOME_TO_AGENT_GPT", { ns: "help" })}
       isShown={show}
       close={close}
     >
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <p>
-          <strong>AgentGPT</strong>{" "}
-          {t('INTRODUCING_AGENTGPT','INTRODUCING_AGENTGPT', {ns: 'help'})}
+          <strong>AgentGPT</strong> {t("INTRODUCING_AGENTGPT", { ns: "help" })}
         </p>
         <div>
-          {t('TO_LEARN_MORE_ABOUT_AGENTGPT','TO_LEARN_MORE_ABOUT_AGENTGPT', {ns: 'help'})}
+          {t("TO_LEARN_MORE_ABOUT_AGENTGPT", {
+            ns: "help",
+          })}
           <a
             href="https://reworkd.github.io/AgentGPT-Documentation/docs/intro"
             className="text-sky-500"
           >
-            {t('AGENTGPT_DOCUMENTATION','AGENTGPT_DOCUMENTATION', {ns: 'help'})}
+            {t("AGENTGPT_DOCUMENTATION", { ns: "help" })}
           </a>
           <br />
-          <p className="mt-2">{t('FOLLOW_THE_JOURNEY','FOLLOW_THE_JOURNEY', {ns: 'help'})}</p>
+          <p className="mt-2">{t("FOLLOW_THE_JOURNEY", { ns: "help" })}</p>
         </div>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div

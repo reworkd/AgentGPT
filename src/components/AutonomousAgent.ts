@@ -116,7 +116,7 @@ class AutonomousAgent {
   }
 
   async loop() {
-    console.log(`${i18n?.t('LOOP','LOOP', {ns: 'common'})}: ${this.numLoops}`);
+    console.log(`Loops: ${this.numLoops}`);
     console.log(this.tasks);
 
     this.conditionalPause();
@@ -193,7 +193,13 @@ class AutonomousAgent {
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(`${i18n?.t('ERROR_ADDING_ADDITIONAL_TASKS','ERROR_ADDING_ADDITIONAL_TASKS', {ns: 'errors'})}`);
+      this.sendErrorMessage(
+        `${i18n?.t(
+          "ERROR_ADDING_ADDITIONAL_TASKS",
+          "ERROR_ADDING_ADDITIONAL_TASKS",
+          { ns: "errors" }
+        )}`
+      );
 
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
@@ -229,13 +235,17 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startGoalAgent(this.modelSettings, this.goal, this.language);
+      return await AgentService.startGoalAgent(
+        this.modelSettings,
+        this.goal,
+        this.language
+      );
     }
 
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
-      language: this.language
+      language: this.language,
     };
     const res = await this.post(`/api/agent/start`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
@@ -324,7 +334,11 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(`${i18n?.t('RATE_LIMIT_EXCEEDED','RATE_LIMIT_EXCEEDED', {ns: 'errors'})}`);
+        this.sendErrorMessage(
+          `${i18n?.t("RATE_LIMIT_EXCEEDED", "RATE_LIMIT_EXCEEDED", {
+            ns: "errors",
+          })}`
+        );
       }
 
       throw e;
@@ -364,22 +378,32 @@ class AutonomousAgent {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: !!this.modelSettings.customApiKey
-        ? `${i18n?.t('AGENT_MAXED_OUT_LOOPS','AGENT_MAXED_OUT_LOOPS', {ns: 'errors'})}`
-        : `${i18n?.t('DEMO_LOOPS_REACHED','DEMO_LOOPS_REACHED', {ns: 'errors'})}`,
+        ? `${i18n?.t("AGENT_MAXED_OUT_LOOPS", "AGENT_MAXED_OUT_LOOPS", {
+            ns: "errors",
+          })}`
+        : `${i18n?.t("DEMO_LOOPS_REACHED", "DEMO_LOOPS_REACHED", {
+            ns: "errors",
+          })}`,
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: `${i18n?.t('AGENT_MANUALLY_SHUT_DOWN','AGENT_MANUALLY_SHUT_DOWN', {ns: 'errors'})}`,
+      value: `${i18n?.t(
+        "AGENT_MANUALLY_SHUT_DOWN",
+        "AGENT_MANUALLY_SHUT_DOWN",
+        { ns: "errors" }
+      )}`,
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: `${i18n?.t('ALL_TASKS_COMPLETETD','ALL_TASKS_COMPLETETD', {ns: 'errors'})}`,
+      value: `${i18n?.t("ALL_TASKS_COMPLETETD", "ALL_TASKS_COMPLETETD", {
+        ns: "errors",
+      })}`,
     });
   }
 
@@ -426,18 +450,21 @@ const testConnection = async (modelSettings: ModelSettings) => {
 };
 
 const getMessageFromError = (e: unknown) => {
-  let message =
-  `${i18n?.t('ERROR_ACCESSING_OPENAI_API_KEY','ERROR_ACCESSING_OPENAI_API_KEY', {ns: 'errors'})}`;
+  let message = `${i18n?.t("ERROR_ACCESSING_OPENAI_API_KEY", {
+    ns: "errors",
+  })}`;
   if (axios.isAxiosError(e)) {
     const axiosError = e;
     if (axiosError.response?.status === 429) {
-      message = `${i18n?.t('ERROR_API_KEY_QUOTA','ERROR_API_KEY_QUOTA', {ns: 'errors'})}`;
+      message = `${i18n?.t("ERROR_API_KEY_QUOTA", {
+        ns: "errors",
+      })}`;
     }
     if (axiosError.response?.status === 404) {
-      message = `${i18n?.t('ERROR_OPENAI_API_KEY_NO_GPT4','ERROR_OPENAI_API_KEY_NO_GPT4', {ns: 'errors'})}`;
+      message = `${i18n?.t("ERROR_OPENAI_API_KEY_NO_GPT4", { ns: "errors" })}`;
     }
   } else {
-    message = `${i18n?.t('ERROR_RETRIEVE_INITIAL_TASKS','ERROR_RETRIEVE_INITIAL_TASKS', {ns: 'errors'})}`;
+    message = `${i18n?.t("ERROR_RETRIEVE_INITIAL_TASKS", { ns: "errors" })}`;
   }
   return message;
 };

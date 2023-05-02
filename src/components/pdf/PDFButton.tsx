@@ -1,10 +1,9 @@
 import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
-import jsPDF from "jspdf";
+import { pdf } from "@react-pdf/renderer";
 import React, { memo } from "react";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
-import { v1 } from "uuid";
 
 import { useTranslation } from "react-i18next";
 
@@ -17,23 +16,25 @@ const PDFButton = ({
 }) => {
   const textSections = getTextSections(messages);
 
-  const downloadPDF = () => {
-    const doc = new jsPDF();
-    let y = 20; //margin
-    textSections.forEach((text, index) => {
-      const splittedText = doc.splitTextToSize(text, 180);
-      doc.text(splittedText, 20, y, { align: "left" });
-      y += splittedText.length * 10 + 10;
-    });
+  const downloadPDF = async () => {
+    const MyDocument = (await import("./MyDocument")).default as React.FC<{
+      textSections: string[];
+    }>;
 
-    doc.save(`exported-${name}.pdf`);
+    const blob = await pdf(<MyDocument textSections={textSections} />).toBlob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "my-document.pdf";
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
     <>
       <WindowButton
         onClick={() => {
-          downloadPDF();
+          downloadPDF().catch(console.error);
         }}
         icon={<FaFilePdf size={12} />}
         name={name}
@@ -49,13 +50,15 @@ const getTextSections = (messages: Message[]): string[] => {
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `${t('AGENT_GOAL', 'AGENT_GOAL', {ns: 'indexPage'})}: ${message.value}`;
+        return `${t("AGENT_GOAL", { ns: "indexPage" })}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
         if (message.info) {
-          return `${t('EXECUTING', 'EXECUTING', {ns: 'common'})} "${message.value}": ${message.info}`;
+          return `${t("EXECUTING", { ns: "common" })} "${message.value}": ${
+            message.info
+          }`;
         } else {
-          return `${t('ADDING_TASK', 'ADDING_TASK', {ns: 'common'})}: ${message.value}`;
+          return `${t("ADDING_TASK", { ns: "common" })}: ${message.value}`;
         }
       }
       return message.value;

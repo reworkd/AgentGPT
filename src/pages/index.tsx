@@ -73,7 +73,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     setDisplayLanguage(findLanguage(i18n.language)["name"]);
     setAgentLanguage(findLanguage(i18n.language)["name"]);
-  });
+  }, []);
 
   useEffect(() => {
     const key = "agentgpt-modal-opened-v0.2";
@@ -241,9 +241,9 @@ const Home: NextPage = () => {
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {`${i18n?.t("HEADING_DESCRIPTION", "HEADING_DESCRIPTION", {
+                  {i18n.t("HEADING_DESCRIPTION", {
                     ns: "indexPage",
-                  })}`}
+                  })}
                 </p>
               </div>
             </div>
@@ -278,11 +278,9 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{`${i18n?.t(
-                        "AGENT_NAME",
-                        "AGENT_NAME",
-                        { ns: "indexPage" }
-                      )}`}</span>
+                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                        ns: "indexPage",
+                      })}`}</span>
                     </>
                   }
                   value={name}
@@ -298,22 +296,18 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{`${i18n?.t(
-                        "LABEL_AGENT_GOAL",
-                        "LABEL_AGENT_GOAL",
-                        { ns: "indexPage" }
-                      )}`}</span>
+                      <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                        ns: "indexPage",
+                      })}`}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${i18n?.t(
-                    "PLACEHOLDER_AGENT_GOAL",
-                    "PLACEHOLDER_AGENT_GOAL",
-                    { ns: "indexPage" }
-                  )}`}
+                  placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                    ns: "indexPage",
+                  })}`}
                   type="textarea"
                 />
               </Expand>
@@ -328,11 +322,9 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${i18n?.t(
-                      "BUTTON_STOPPING",
-                      "BUTTON_STOPPING",
-                      { ns: "indexPage" }
-                    )}`}</span>
+                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                      ns: "indexPage",
+                    })}`}</span>
                   </>
                 ) : (
                   `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {

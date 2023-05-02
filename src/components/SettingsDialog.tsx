@@ -16,7 +16,6 @@ import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
-import { useTypeSafeTranslation } from "../hooks/useTypeSafeTranslation";
 import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
 import { useAgentStore } from "../components/stores";
 import { useTranslation } from "next-i18next";
@@ -55,7 +54,7 @@ export const SettingsDialog: React.FC<{
   const handleSave = () => {
     if (!keyIsValid(settings.customApiKey)) {
       alert(
-        `${t("INVALID_OPENAI_API_KEY", "INVALID_OPENAI_API_KEY", {
+        `${t("INVALID_OPENAI_API_KEY", {
           ns: "settings",
         })}`
       );
@@ -80,7 +79,7 @@ export const SettingsDialog: React.FC<{
           <>
             <FaThermometerFull />
             <span className="ml-2">
-              {`${t("TEMPERATURE", "TEMPERATURE", { ns: "settings" })}`}
+              {`${t("TEMPERATURE", { ns: "settings" })}`}
             </span>
           </>
         }
@@ -90,11 +89,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: `${t(
-            "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM",
-            "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM",
-            { ns: "settings" }
-          )}`,
+          message: `${t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM", {
+            ns: "settings",
+          })}`,
           disabled: false,
         }}
         attributes={{
@@ -107,9 +104,7 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaSyncAlt />
-            <span className="ml-2">
-              {`${t("LOOP", "LOOP", { ns: "settings" })}`}
-            </span>
+            <span className="ml-2">{`${t("LOOP", { ns: "settings" })}`}</span>
           </>
         }
         value={settings.customMaxLoops}
@@ -119,11 +114,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: `${t(
-            "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS",
-            "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS",
-            { ns: "settings" }
-          )}`,
+          message: `${t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS", {
+            ns: "settings",
+          })}`,
           disabled: false,
         }}
         attributes={{
@@ -136,9 +129,7 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaCoins />
-            <span className="ml-2">
-              {`${t("TOKENS", "TOKENS", { ns: "settings" })}`}
-            </span>
+            <span className="ml-2">{`${t("TOKENS", { ns: "settings" })}`}</span>
           </>
         }
         value={settings.maxTokens ?? 400}
@@ -148,11 +139,9 @@ export const SettingsDialog: React.FC<{
         }
         type="range"
         toolTipProperties={{
-          message: `${t(
-            "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION",
-            "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION",
-            { ns: "settings" }
-          )}`,
+          message: `${t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION", {
+            ns: "settings",
+          })}`,
           disabled: false,
         }}
         attributes={{
@@ -166,7 +155,7 @@ export const SettingsDialog: React.FC<{
 
   return (
     <Dialog
-      header={`${t("SETTINGS_DIALOG_HEADER", "SETTINGS_DIALOG_HEADER", {
+      header={`${t("SETTINGS_DIALOG_HEADER", {
         ns: "settings",
       })}`}
       isShown={show}
@@ -174,11 +163,11 @@ export const SettingsDialog: React.FC<{
       footerButton={
         <>
           <Button className="bg-red-400 hover:bg-red-500" onClick={handleReset}>
-          {`${t("RESET", "RESET", {
-            ns: "common",
-          })}`}
+            {`${t("RESET", {
+              ns: "common",
+            })}`}
           </Button>
-          <Button onClick={handleSave}>{`${t("SAVE", "SAVE", {
+          <Button onClick={handleSave}>{`${t("SAVE", {
             ns: "common",
           })}`}</Button>
         </>
@@ -209,7 +198,7 @@ export const SettingsDialog: React.FC<{
           <FaExclamationCircle className="inline-block" />
           &nbsp;
           <b>
-            {`${t("INFO_TO_USE_GPT4", "INFO_TO_USE_GPT4", { ns: "settings" })}`}
+            {`${t("INFO_TO_USE_GPT4", { ns: "settings" })}`}
             &nbsp;
             <a
               href="https://openai.com/waitlist/gpt-4-api"
@@ -217,9 +206,10 @@ export const SettingsDialog: React.FC<{
             >
               {`${t("HERE", "HERE", { ns: "settings" })}`}
             </a>
-            .&nbsp;           {`${t("SUBSCRIPTION_WILL_NOT_WORK", "SUBSCRIPTION_WILL_NOT_WORK", {
-            ns: "settings",
-          })}`}
+            .&nbsp;{" "}
+            {`${t("SUBSCRIPTION_WILL_NOT_WORK", {
+              ns: "settings",
+            })}`}
           </b>
         </p>
       )}
@@ -227,7 +217,7 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaKey />
-            <span className="ml-2">{`${t("API_KEY", "API_KEY", {
+            <span className="ml-2">{`${t("API_KEY", {
               ns: "settings",
             })}`}</span>
           </>
@@ -242,7 +232,7 @@ export const SettingsDialog: React.FC<{
         left={
           <>
             <FaMicrochip />
-            <span className="ml-2">{`${t("LABEL_MODEL", "LABEL_MODEL", {
+            <span className="ml-2">{`${t("LABEL_MODEL", {
               ns: "settings",
             })}`}</span>
           </>

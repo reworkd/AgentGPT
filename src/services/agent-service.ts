@@ -45,8 +45,7 @@ async function analyzeTaskAgent(
   console.log("Analysis completion:\n", completion.text);
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const analysis = JSON.parse(completion.text) as Analysis;
-    return analysis;
+    return JSON.parse(completion.text) as Analysis;
   } catch (e) {
     console.error("Error parsing analysis", e);
     // Default to reasoning
@@ -156,7 +155,7 @@ const OpenAIAgentService: AgentService = {
 };
 
 const MockAgentService: AgentService = {
-  startGoalAgent: async (modelSettings, goal) => {
+  startGoalAgent: async (modelSettings, goal, language) => {
     return await new Promise((resolve) => resolve(["Task 1"]));
   },
 

@@ -14,7 +14,9 @@ const getServerSideKey = (): string => {
 
 export const createModel = (settings: ModelSettings) => {
   let _settings: ModelSettings | undefined = settings;
-  if (!settings.customModelName) {
+
+  // Only apply custom settings if an API key is used
+  if (!settings.customApiKey) {
     _settings = undefined;
   }
 

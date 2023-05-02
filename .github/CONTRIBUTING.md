@@ -61,3 +61,4 @@ Write clear and concise commit messages that briefly describe the changes made i
 - [ESLint Style Guide](https://eslint.org/)
 
 Thank you once again for your interest in contributing to AgentGPT. We look forward to collaborating with you and creating an even better project together!
+

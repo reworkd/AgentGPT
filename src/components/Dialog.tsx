@@ -10,14 +10,12 @@ const Dialog = ({
   isShown,
   close,
   footerButton,
-  contentClassName,
 }: {
   header: React.ReactNode;
   children: React.ReactNode;
   isShown: boolean;
   close: () => void;
   footerButton?: React.ReactNode;
-  contentClassName?: string;
 }) => {
   const [t] = useTranslation();
   if (!isShown) {
@@ -48,8 +46,7 @@ const Dialog = ({
           {/*body*/}
           <div
             className={clsx(
-              "text-md relative max-h-[50vh] flex-auto overflow-y-auto p-5 leading-relaxed md:p-7",
-              contentClassName
+              "text-md relative max-h-[50vh] flex-auto overflow-y-auto p-5 leading-relaxed md:p-7"
             )}
           >
             {children}

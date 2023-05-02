@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",
+    "@hello-pangea/dnd": "^16.2.0",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-switch": "^1.0.2",
@@ -47,6 +48,7 @@
     "next-i18next": "^13.2.2",
     "nextjs-google-analytics": "^2.3.3",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-i18next": "^12.2.1",
     "react-icons": "^4.8.0",

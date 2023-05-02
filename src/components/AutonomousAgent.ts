@@ -32,6 +32,7 @@ import type {
   AgentPlaybackControl,
 } from "../types/agentTypes";
 import { useAgentStore } from "./stores";
+import { useMessageStore } from "./stores";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -138,6 +139,7 @@ class AutonomousAgent {
     // Wait before starting
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
+    this.tasks = this.getTasksFromStore();
     const currentTask = this.tasks.shift() as Task;
 
     this.sendThinkingMessage();
@@ -236,6 +238,13 @@ class AutonomousAgent {
     const res = await this.post(`/api/agent/start`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
+  }
+
+  getTasksFromStore() {
+    const tasks = useMessageStore.getState().tasks;
+    return tasks.filter((task: Task) => {
+      return task.status === TASK_STATUS_STARTED;
+    });
   }
 
   async getAdditionalTasks(

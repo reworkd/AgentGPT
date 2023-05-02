@@ -12,7 +12,7 @@ export const SorryDialog = ({ show, close }: WebSearchDialogProps) => {
       <p>Due to costs, we&apos;ve had to momentarily disable web search 🌐</p>
       <br />
       <p>
-        Please monitor our{" "}
+        Please monitor our&nbsp;
         <a
           className="link"
           href="https://reworkd.github.io/AgentGPT-Documentation/docs/roadmap"
@@ -20,7 +20,7 @@ export const SorryDialog = ({ show, close }: WebSearchDialogProps) => {
           rel="noreferrer"
         >
           Roadmap
-        </a>{" "}
+        </a>&nbsp;
         to understand when it may be back up.
       </p>
     </Dialog>

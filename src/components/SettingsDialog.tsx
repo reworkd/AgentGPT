@@ -17,7 +17,7 @@ import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
-import { useAgentStore } from "../components/stores";
+import { useAgentStore } from "./stores";
 import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{
@@ -172,7 +172,6 @@ export const SettingsDialog: React.FC<{
           })}`}</Button>
         </>
       }
-      contentClassName="text-md relative flex flex-col gap-2 p-2 leading-relaxed"
     >
       <p>
         Get your own OpenAI API key{" "}
@@ -213,56 +212,58 @@ export const SettingsDialog: React.FC<{
           </b>
         </p>
       )}
-      <Input
-        left={
-          <>
-            <FaKey />
-            <span className="ml-2">{`${t("API_KEY", {
-              ns: "settings",
-            })}`}</span>
-          </>
-        }
-        placeholder={"sk-..."}
-        type="password"
-        value={settings.customApiKey}
-        onChange={(e) => updateSettings("customApiKey", e.target.value)}
-      />
-      <LanguageCombobox />
-      <Input
-        left={
-          <>
-            <FaMicrochip />
-            <span className="ml-2">{`${t("LABEL_MODEL", {
-              ns: "settings",
-            })}`}</span>
-          </>
-        }
-        type="combobox"
-        value={settings.customModelName}
-        onChange={() => null}
-        setValue={(e) => updateSettings("customModelName", e)}
-        attributes={{ options: GPT_MODEL_NAMES }}
-        disabled={disabled}
-      />
-      <Input
-        left={
-          <>
-            <FaTachometerAlt />
-            <span className="ml-2">Mode: </span>
-          </>
-        }
-        value={agentMode}
-        disabled={agent !== null}
-        onChange={() => null}
-        setValue={updateAgentMode as (agentMode: string) => void}
-        type="combobox"
-        toolTipProperties={{
-          message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,
-          disabled: false,
-        }}
-        attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
-      />
-      <Accordion child={advancedSettings} name={t("Advanced Settings")} />
+      <div className="mt-2 flex flex-col gap-2">
+        <Input
+          left={
+            <>
+              <FaKey />
+              <span className="ml-2">{`${t("API_KEY", {
+                ns: "settings",
+              })}`}</span>
+            </>
+          }
+          placeholder={"sk-..."}
+          type="password"
+          value={settings.customApiKey}
+          onChange={(e) => updateSettings("customApiKey", e.target.value)}
+        />
+        <LanguageCombobox />
+        <Input
+          left={
+            <>
+              <FaMicrochip />
+              <span className="ml-2">{`${t("LABEL_MODEL", {
+                ns: "settings",
+              })}`}</span>
+            </>
+          }
+          type="combobox"
+          value={settings.customModelName}
+          onChange={() => null}
+          setValue={(e) => updateSettings("customModelName", e)}
+          attributes={{ options: GPT_MODEL_NAMES }}
+          disabled={disabled}
+        />
+        <Input
+          left={
+            <>
+              <FaTachometerAlt />
+              <span className="ml-2">Mode: </span>
+            </>
+          }
+          value={agentMode}
+          disabled={agent !== null}
+          onChange={() => null}
+          setValue={updateAgentMode as (agentMode: string) => void}
+          type="combobox"
+          toolTipProperties={{
+            message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,
+            disabled: false,
+          }}
+          attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
+        />
+        <Accordion child={advancedSettings} name={t("Advanced Settings")} />
+      </div>
     </Dialog>
   );
 };

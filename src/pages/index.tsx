@@ -29,6 +29,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
+import { SorryDialog } from "../components/SorryDialog";
+import { SignInDialog } from "../components/SignInDialog";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -53,6 +55,8 @@ const Home: NextPage = () => {
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
+  const [showSorryDialog, setShowSorryDialog] = React.useState(false);
+  const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
@@ -98,6 +102,12 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = () => {
+    // Do not force login locally for people that don't have auth setup
+    if (session === null && process.env.NODE_ENV === "production") {
+      setShowSignInDialog(true);
+      return;
+    }
+
     const newAgent = new AutonomousAgent(
       name.trim(),
       goalInput.trim(),
@@ -187,6 +197,14 @@ const Home: NextPage = () => {
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
+      <SorryDialog
+        show={showSorryDialog}
+        close={() => setShowSorryDialog(false)}
+      />
+      <SignInDialog
+        show={showSignInDialog}
+        close={() => setShowSignInDialog(false)}
+      />
       <main className="flex min-h-screen flex-row">
         <Drawer
           showHelp={() => setShowHelpDialog(true)}
@@ -247,7 +265,8 @@ const Home: NextPage = () => {
                     : undefined
                 }
                 scrollToBottom
-                // displaySettings (Disable web search)
+                displaySettings
+                openSorryDialog={() => setShowSorryDialog(true)}
               />
               {tasks.length > 0 && <TaskWindow />}
             </Expand>

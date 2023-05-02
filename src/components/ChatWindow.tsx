@@ -24,7 +24,6 @@ import {
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import type { Translation } from "../utils/types";
 import { useAgentStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
@@ -223,13 +222,13 @@ const MacWindowHeader = (props: HeaderProps) => {
       key="Image"
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name={`${i18n?.t("IMAGE", "IMAGE", { ns: "common" })}`}
+      name={`${t("IMAGE", "IMAGE", { ns: "common" })}`}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
-      name={`${i18n?.t("COPY", "COPY", { ns: "common" })}`}
+      name={`${t("COPY", "COPY", { ns: "common" })}`}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
@@ -260,7 +259,7 @@ const MacWindowHeader = (props: HeaderProps) => {
               key="Agent"
               onClick={() => props.onSave?.("db")}
               icon={<FaSave size={12} />}
-              name={`${i18n?.t("SAVE", "SAVE", { ns: "common" })}`}
+              name={`${t("SAVE", { ns: "common" })}`}
               styleClass={{
                 container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
               }}
@@ -289,8 +288,7 @@ const MacWindowHeader = (props: HeaderProps) => {
 
       <Menu
         icon={<CgExport />}
-        name={`${t("Export")}`}
-        name={`${i18n?.t("EXPORT", "EXPORT", { ns: "common" })}`}
+        name={`${t("EXPORT", { ns: "common" })}`}
         onChange={() => null}
         items={exportOptions}
         styleClass={{
@@ -302,13 +300,7 @@ const MacWindowHeader = (props: HeaderProps) => {
     </div>
   );
 };
-const ChatMessage = ({
-  message,
-  className,
-}: {
-  message: Message;
-  className?: string;
-}) => {
+const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
 
   return (
@@ -323,7 +315,7 @@ const ChatMessage = ({
           <div className="mr-2 inline-block h-[0.9em]">
             {getTaskStatusIcon(message, {})}
           </div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
+          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
         </>
       )}
 
@@ -357,21 +349,23 @@ const ChatMessage = ({
   );
 };
 
-const getMessagePrefix = (message: Message, t: Translation) => {
+const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
-    return `${i18n?.t("EMBARKING_ON_NEW_GOAL", "EMBARKING_ON_NEW_GOAL", {
-      ns: "chat",
-    })}`;
+    return `${
+      i18n?.t("EMBARKING_ON_NEW_GOAL", "EMBARKING_ON_NEW_GOAL", {
+        ns: "chat",
+      }) || ""
+    }`;
   } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return `${i18n?.t("THINKING", "THINKING", { ns: "chat" })}`;
+    return `${i18n?.t("THINKING", { ns: "chat" }) || ""}`;
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return `${i18n?.t("TASK_ADDED", "TASK_ADDED", { ns: "chat" })}`;
+    return `${i18n?.t("TASK_ADDED", "TASK_ADDED", { ns: "chat" }) || ""} `;
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return `${i18n?.t("COMPLETING", "COMPLETING", { ns: "chat" })} ${
+    return `${i18n?.t("COMPLETING", "COMPLETING", { ns: "chat" }) || ""} ${
       message.value
     }`;
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return `${i18n?.t("NO_MORE_TASKS", "NO_MORE_TASKS", { ns: "chat" })}`;
+    return `${i18n?.t("NO_MORE_TASKS", "NO_MORE_TASKS", { ns: "chat" }) || ""}`;
   }
   return "";
 };
@@ -380,7 +374,7 @@ const FAQ = () => {
   return (
     <p>
       <br />
-      `${i18n?.t("IF_YOU_ARE_FACEING_WITH_ISSUE", "IF_YOU_ARE_FACEING_WITH_ISSUE", { ns: "chat" })}`
+      If you are facing issues, please head over to our{" "}
       <a
         href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq"
         className="text-sky-500"

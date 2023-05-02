@@ -99,11 +99,10 @@ const createTaskSlice: StateCreator<
           if (startIdx < 0 || startIdx >= state.tasks.length || targetIdx < 0 || targetIdx >= state.tasks.length){
             return {...state};
           }
-          const updatedTasks: Task[] = state.tasks.map((_, i) => {
-            if (i == startIdx) return state.tasks[targetIdx];
-            if (i == targetIdx) return state.tasks[startIdx];
-            return state.tasks[i];
-          }) as Task[]; // guaranteed to be not out of bounds
+          
+          const updatedTasks = Array.from(state.tasks);
+          const [removed] = updatedTasks.splice(startIdx, 1);
+          updatedTasks.splice(targetIdx, 0, removed!);
 
           return {
             ...state,

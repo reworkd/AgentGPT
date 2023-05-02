@@ -10,7 +10,6 @@ import { useAgentStore } from "./stores";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import clsx from "clsx";
 
-
 export const TaskWindow = () => {
   const tasks = useMessageStore.use.tasks();
   const reorderTasks = useMessageStore.use.reorderTasks();
@@ -25,10 +24,7 @@ export const TaskWindow = () => {
     if (result.destination.index === result.source.index) {
       return;
     }
-    reorderTasks(
-      result.source.index,
-      result.destination.index
-    );
+    reorderTasks(result.source.index, result.destination.index);
   }
 
   return (
@@ -39,13 +35,14 @@ export const TaskWindow = () => {
             <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-300 ">
               <FaListAlt /> {t("Current tasks")}
             </div>
-            <div className="window-heights mb-2 w-full px-1 ">
+            <div className="window-heights mb-2 w-full px-1">
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
+                className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden"
+              >
                 {tasks.map((task, i) => (
-                  <Task key={task.taskId} index={i} task={task}  />
+                  <Task key={task.taskId} index={i} task={task} />
                 ))}
               </div>
             </div>
@@ -56,25 +53,28 @@ export const TaskWindow = () => {
   );
 };
 
-
-const Task = ({ task, index }: { task: Task, index: number }) => {
+const Task = ({ task, index }: { task: Task; index: number }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
   return (
     <Draggable draggableId={task.taskId} index={index}>
-      {provided => (
+      {(provided) => (
         <FadeIn>
           <div
-            className={clsx(
-              "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
-              isAgentStopped && "opacity-50",
-              getMessageContainerStyle(task)
-            )}
+            className="bg-zinc-900"
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            {getTaskStatusIcon(task, { isAgentStopped })}
-            <span>{task.value}</span>
+            <div
+              className={clsx(
+                "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+                isAgentStopped && "opacity-50",
+                getMessageContainerStyle(task)
+              )}
+            >
+              {getTaskStatusIcon(task, { isAgentStopped })}
+              <span>{task.value}</span>
+            </div>
           </div>
         </FadeIn>
       )}

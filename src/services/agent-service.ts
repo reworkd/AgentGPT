@@ -30,7 +30,6 @@ async function startGoalAgent(
 async function analyzeTaskAgent(
   modelSettings: ModelSettings,
   goal: string,
-  language: string,
   task: string
 ) {
   const actions = ["reason", "search"];
@@ -68,6 +67,7 @@ export const DefaultAnalysis: Analysis = {
 async function executeTaskAgent(
   modelSettings: ModelSettings,
   goal: string,
+  language: string,
   task: string,
   analysis: Analysis
 ) {
@@ -83,7 +83,7 @@ async function executeTaskAgent(
   }).call({
     goal,
     language,
-    task
+    task,
   });
 
   // For local development when no SERP API Key provided
@@ -113,7 +113,7 @@ async function createTasksAgent(
     language,
     tasks,
     lastTask,
-    result
+    result,
   });
 
   return extractTasks(completion.text as string, completedTasks || []);
@@ -128,12 +128,12 @@ interface AgentService {
   analyzeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
-    language: string,
     task: string
   ) => Promise<Analysis>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     task: string,
     analysis: Analysis
   ) => Promise<string>;
@@ -175,7 +175,6 @@ const MockAgentService: AgentService = {
   analyzeTaskAgent: async (
     modelSettings: ModelSettings,
     goal: string,
-    language: string,
     task: string
   ) => {
     return await new Promise((resolve) =>
@@ -189,6 +188,7 @@ const MockAgentService: AgentService = {
   executeTaskAgent: async (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     task: string,
     analysis: Analysis
   ) => {

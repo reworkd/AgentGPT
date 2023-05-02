@@ -283,8 +283,8 @@ const AuthItem: React.FC<{
   const [t] = useTranslation();
   const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const text = session?.user
-    ? `${t("SIGN_IN", { ns: "drawer" })}`
-    : `${t("SIGN_OUT", { ns: "drawer" })}`;
+    ? `${t("SIGN_OUT", { ns: "drawer" })}`
+    : `${t("SIGN_IN", { ns: "drawer" })}`;
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;

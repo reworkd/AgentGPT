@@ -36,6 +36,7 @@ interface ChatWindowProps extends HeaderProps {
   fullscreen?: boolean;
   scrollToBottom?: boolean;
   displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
+  openSorryDialog?: () => void;
 }
 
 const messageListId = "chat-window-message-list";
@@ -49,6 +50,7 @@ const ChatWindow = ({
   fullscreen,
   scrollToBottom,
   displaySettings,
+  openSorryDialog,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -75,6 +77,18 @@ const ChatWindow = ({
       }
     }
   });
+
+  const handleChangeWebSearch = (value: boolean) => {
+    // Change this value when we can no longer support web search
+    const WEB_SEARCH_ALLOWED = false;
+
+    if (WEB_SEARCH_ALLOWED) {
+      setIsWebSearchEnabled(value);
+    } else {
+      openSorryDialog?.();
+      setIsWebSearchEnabled(false);
+    }
+  };
 
   return (
     <div
@@ -127,7 +141,9 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: `${t("YOU_CAN_PROVIDE_YOUR_API_KEY", { ns: "chat" })}`,
+                  value: `${t("YOU_CAN_PROVIDE_YOUR_API_KEY", {
+                    ns: "chat",
+                  })}`,
                 }}
               />
             </Expand>
@@ -135,15 +151,17 @@ const ChatWindow = ({
         )}
       </div>
       {displaySettings && (
-        <div className="flex items-center justify-center">
-          <div className="m-1 flex items-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
-            <p className="font-mono text-sm">Web search</p>
-            <Switch
-              value={isWebSearchEnabled}
-              onChange={setIsWebSearchEnabled}
-            />
+        <>
+          <div className="flex items-center justify-center">
+            <div className="m-1 flex items-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
+              <p className="font-mono text-sm">Web search</p>
+              <Switch
+                value={isWebSearchEnabled}
+                onChange={handleChangeWebSearch}
+              />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

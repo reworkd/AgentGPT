@@ -13,14 +13,15 @@ export default function HelpDialog({
   const [t] = useTranslation();
   return (
     <Dialog
-      header={t("WELCOME_TO_AGENT_GPT", { ns: "help" })}
+      header={`${t("WELCOME_TO_AGENT_GPT", { ns: "help" })} 🤖`}
       isShown={show}
       close={close}
     >
-      <div className="text-md relative flex-auto p-2 leading-relaxed">
+      <div>
         <p>
           <strong>AgentGPT</strong> {t("INTRODUCING_AGENTGPT", { ns: "help" })}
         </p>
+        <br />
         <div>
           {t("TO_LEARN_MORE_ABOUT_AGENTGPT", {
             ns: "help",
@@ -31,9 +32,9 @@ export default function HelpDialog({
           >
             {t("AGENTGPT_DOCUMENTATION", { ns: "help" })}
           </a>
-          <br />
-          <p className="mt-2">{t("FOLLOW_THE_JOURNEY", { ns: "help" })}</p>
         </div>
+        <br />
+        <p className="mt-2">{t("FOLLOW_THE_JOURNEY", { ns: "help" })}</p>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div
             className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"

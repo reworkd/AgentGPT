@@ -17,7 +17,7 @@ import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
-import { useAgentStore } from "../components/stores";
+import { useAgentStore } from "./stores";
 import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{

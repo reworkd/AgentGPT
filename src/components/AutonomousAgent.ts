@@ -296,6 +296,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
       task: task,
     };
     const res = await this.post("/api/agent/analyze", data);

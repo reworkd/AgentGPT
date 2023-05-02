@@ -1,3 +1,4 @@
+import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import DefaultLayout from "../../layout/default";
 import Button from "../../components/Button";
@@ -12,6 +13,9 @@ import { FaTrash, FaShare, FaBackspace } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
 import { useTranslation } from "react-i18next";
+import { languages } from "../../utils/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();
@@ -83,3 +87,14 @@ const AgentPage: NextPage = () => {
 };
 
 export default AgentPage;
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  const supportedLocales = languages.map((language) => language.code);
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
+  return {
+    props: {
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+    },
+  };
+};

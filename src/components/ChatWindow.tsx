@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation, i18n } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import { FaClipboard, FaImage, FaSave, FaPlay, FaPause } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -315,7 +315,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
           <div className="mr-2 inline-block h-[0.9em]">
             {getTaskStatusIcon(message, {})}
           </div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+          <span className="mr-2 font-bold">
+            {t(getMessagePrefix(message), { ns: "chat" })}
+          </span>
         </>
       )}
 
@@ -336,7 +338,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       ) : (
         <>
-          <span>{message.value}</span>
+          <span>{t(message.value, { ns: "chat" })}</span>
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&
@@ -349,23 +351,18 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
+// Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
-    return `${
-      i18n?.t("EMBARKING_ON_NEW_GOAL", "EMBARKING_ON_NEW_GOAL", {
-        ns: "chat",
-      }) || ""
-    }`;
+    return "EMBARKING_ON_NEW_GOAL";
   } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return `${i18n?.t("THINKING", { ns: "chat" }) || ""}`;
+    return "THINKING";
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return `${i18n?.t("TASK_ADDED", "TASK_ADDED", { ns: "chat" }) || ""} `;
+    return "TASK_ADDED";
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return `${i18n?.t("COMPLETING", "COMPLETING", { ns: "chat" }) || ""} ${
-      message.value
-    }`;
+    return `Completing: ${message.value}`;
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return `${i18n?.t("NO_MORE_TASKS", "NO_MORE_TASKS", { ns: "chat" }) || ""}`;
+    return "NO_MORE_TASKS";
   }
   return "";
 };

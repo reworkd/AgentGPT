@@ -51,6 +51,6 @@ export const createTasksPrompt = new PromptTemplate({
 });
 
 export const summarizeSearchSnippets = new PromptTemplate({
-  template: `You must answer in {language}. Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string. Do not show you are summarizing.`,
-  inputVariables: ["goal", "language", "query", "snippets"],
+  template: `Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string. Do not show you are summarizing.`,
+  inputVariables: ["goal", "query", "snippets"],
 });

@@ -46,6 +46,7 @@ export const TaskWindow = () => {
                 ))}
               </div>
             </div>
+            {provided.placeholder}
           </Expand>
         )}
       </Droppable>
@@ -56,7 +57,7 @@ export const TaskWindow = () => {
 const Task = ({ task, index }: { task: Task; index: number }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
   return (
-    <Draggable draggableId={task.taskId} index={index}>
+    <Draggable draggableId={task.taskId!} index={index}>
       {(provided) => (
         <FadeIn>
           <div

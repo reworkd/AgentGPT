@@ -57,6 +57,8 @@ const initialTaskState = {
 interface TaskSlice {
   tasks: Task[];
   updateTaskStatus: (updatedTask: Task) => void;
+  reorderTasks: (startIdx: number, targetIdx: number) => void;
+  deleteTask: (taskToDelete: Task) => void;
 }
 
 const createTaskSlice: StateCreator<
@@ -92,7 +94,33 @@ const createTaskSlice: StateCreator<
           tasks: updatedTasks,
         };
       });
+    },  
+    reorderTasks: (startIdx: number, targetIdx: number) => {
+      set((state) => {
+          if (startIdx < 0 || startIdx >= state.tasks.length || targetIdx < 0 || targetIdx >= state.tasks.length){
+            return {...state};
+          }
+          const updatedTasks = Array.from(state.tasks);
+          const [removed] = updatedTasks.splice(startIdx, 1);
+          updatedTasks.splice(targetIdx, 0, removed!);
+
+          return {
+            ...state,
+            tasks: updatedTasks,
+          };
+      });
     },
+    deleteTask: (taskToDelete) => {
+      set((state) => {
+        const updatedTasks = state.tasks.filter((task) => {
+          return task.taskId! != taskToDelete.taskId!;
+        });
+        return {
+          ...state,
+          tasks: updatedTasks,
+        };
+      })
+    }
   };
 };
 

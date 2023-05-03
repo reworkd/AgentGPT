@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Generate Sponsors 💖
-        uses: JamesIves/github-sponsors-readme-action@v1
+        uses: JamesIves/github-sponsors-readme-action@v1.2.2
         with:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           file: 'README.md'

@@ -15,10 +15,15 @@ jobs:
         with:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           file: 'README.md'
+          minimum: 1399
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.1
         with:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
-          commit-message: "🎉 Update Sponsors"
           branch: "workflow/sponsors"
+          title: "🤖 Update Sponsors"
+          commit-message: "🤖 Update Sponsors"
+          body: "🤖 Automated pull request created by [sponsors action](https://github.com/reworkd/AgentGPT/actions/workflows/sponsors.yml)"
+          labels: "documentation"
+

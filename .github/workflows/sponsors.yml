@@ -15,3 +15,9 @@ jobs:
         with:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           file: 'README.md'
+
+      - name: Update Github Readme 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: main
+          folder: '.'

@@ -16,8 +16,9 @@ jobs:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           file: 'README.md'
 
-      - name: Update Github Readme 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5.0.1
         with:
-          branch: docs
-          folder: '.'
+          token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
+          commit-message: "🎉 Update Sponsors"
+          branch: "workflow/sponsors"

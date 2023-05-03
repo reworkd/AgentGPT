@@ -1,6 +1,6 @@
 {
   "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 We are experiencing exceptional traffic, expect delays and failures if you do not use your own API key🚨",
-  "CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy!",
+  "CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
   "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
   "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Help support the advancement of AgentGPT. 💝️",
   "CONSIDER_SPONSORING_ON_GITHUB": "Please consider sponsoring the project on GitHub.",

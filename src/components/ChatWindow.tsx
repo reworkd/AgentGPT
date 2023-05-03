@@ -38,6 +38,7 @@ interface ChatWindowProps extends HeaderProps {
   scrollToBottom?: boolean;
   displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
   openSorryDialog?: () => void;
+  setAgentRun?: (name: string, goal: string) => void;
 }
 
 const messageListId = "chat-window-message-list";
@@ -52,6 +53,7 @@ const ChatWindow = ({
   scrollToBottom,
   displaySettings,
   openSorryDialog,
+  setAgentRun,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -83,7 +85,7 @@ const ChatWindow = ({
     // Change this value when we can no longer support web search
     const WEB_SEARCH_ALLOWED = env.NEXT_PUBLIC_WEB_SEARCH_ENABLED as boolean;
 
-    if (WEB_SEARCH_ALLOWED === true) {
+    if (WEB_SEARCH_ALLOWED) {
       setIsWebSearchEnabled(value);
     } else {
       openSorryDialog?.();
@@ -130,7 +132,7 @@ const ChatWindow = ({
 
         {messages.length === 0 && (
           <>
-            <Expand delay={0.8} type="spring">
+            <PopIn delay={0.8}>
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
@@ -138,17 +140,29 @@ const ChatWindow = ({
                     "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
                 }}
               />
-            </Expand>
-            <Expand delay={0.9} type="spring">
-              <ChatMessage
-                message={{
-                  type: MESSAGE_TYPE_SYSTEM,
-                  value: `${t("YOU_CAN_PROVIDE_YOUR_API_KEY", {
-                    ns: "chat",
-                  })}`,
-                }}
-              />
-            </Expand>
+            </PopIn>
+            <PopIn delay={1.5}>
+              <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
+                <ExampleAgentButton
+                  name="PlatformerGPT 🎮"
+                  setAgentRun={setAgentRun}
+                >
+                  Write some code to make a platformer game.
+                </ExampleAgentButton>
+                <ExampleAgentButton
+                  name="TravelGPT 🌴"
+                  setAgentRun={setAgentRun}
+                >
+                  Plan a detailed trip to Hawaii.
+                </ExampleAgentButton>
+                <ExampleAgentButton
+                  name="ResearchGPT 📜"
+                  setAgentRun={setAgentRun}
+                >
+                  Create a comprehensive report of the Nike company
+                </ExampleAgentButton>
+              </div>
+            </PopIn>
           </>
         )}
       </div>
@@ -165,6 +179,36 @@ const ChatWindow = ({
           </div>
         </>
       )}
+    </div>
+  );
+};
+
+const ExampleAgentButton = ({
+  name,
+  children,
+  setAgentRun,
+}: {
+  name: string;
+  children: string;
+  setAgentRun?: (name: string, goal: string) => void;
+}) => {
+  const handleClick = () => {
+    if (setAgentRun) {
+      setAgentRun(name, children);
+    }
+  };
+
+  return (
+    <div
+      className={clsx(
+        `w-full p-2 sm:w-[33%]`,
+        `cursor-pointer rounded-lg bg-sky-600 font-mono text-sm hover:bg-sky-700 sm:text-base`,
+        `border-[2px] border-white/20 hover:border-[#1E88E5]/40`
+      )}
+      onClick={handleClick}
+    >
+      <p className="text-lg font-black">{name}</p>
+      {children}
     </div>
   );
 };

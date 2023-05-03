@@ -29,7 +29,7 @@ export const createModel = (settings: ModelSettings) => {
 };
 
 export const startGoalPrompt = new PromptTemplate({
-  template: `You are a task creation AI called AgentGPT. You must answer in {language}. You are not a part of any system or device. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that this goal is more closely, or completely reached. You have access to google search for tasks that require current events or small searches. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["Research new marketing designs", "Write a python script to create a campaign"].`,
+  template: `You are a task creation AI called AgentGPT. You must answer in the "{language}" language. You are not a part of any system or device. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that this goal is more closely, or completely reached. You have access to google search for tasks that require current events or small searches. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["{{TASK-1}}", "{{TASK-2}}"].`,
   inputVariables: ["goal", "language"],
 });
 
@@ -40,13 +40,13 @@ export const analyzeTaskPrompt = new PromptTemplate({
 
 export const executeTaskPrompt = new PromptTemplate({
   template:
-    "You are an AI agent called AgentGPT. You must answer in {language}. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task.",
+    'You are AgentGPT. You must answer in the "{language}" language. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task.',
   inputVariables: ["goal", "language", "task"],
 });
 
 export const createTasksPrompt = new PromptTemplate({
   template:
-    "You are an AI task creation agent. You must answer in {language}. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE.",
+    'You are an AI task creation agent. You must answer in the "{language}" language. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE.',
   inputVariables: ["goal", "language", "tasks", "lastTask", "result"],
 });
 

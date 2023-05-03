@@ -50,7 +50,7 @@ const getTextSections = (messages: Message[]): string[] => {
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `${t("AGENT_GOAL", { ns: "indexPage" })}: ${message.value}`;
+        return `${t("LABEL_AGENT_GOAL", { ns: "indexPage" })}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
         if (message.info) {

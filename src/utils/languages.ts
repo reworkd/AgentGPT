@@ -30,3 +30,12 @@ export const availableLanguages: Language[] = [
 export const languages: Language[] = availableLanguages.sort((a, b) =>
   a.name.localeCompare(b.name)
 );
+
+export const findLanguage = (nameOrLocale: string): Language => {
+  const selectedLanguage = languages.find(
+    (lang) =>
+      lang.code === nameOrLocale ||
+      lang.name === nameOrLocale.substring(4).trim()
+  );
+  return selectedLanguage || ENGLISH;
+};

@@ -132,7 +132,7 @@ const ChatWindow = ({
 
         {messages.length === 0 && (
           <>
-            <PopIn delay={0.8} type="spring">
+            <PopIn delay={0.8}>
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
@@ -141,7 +141,7 @@ const ChatWindow = ({
                 }}
               />
             </PopIn>
-            <PopIn delay={1.5} type="spring">
+            <PopIn delay={1.5}>
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
                 <ExampleAgentButton
                   name="PlatformerGPT 🎮"

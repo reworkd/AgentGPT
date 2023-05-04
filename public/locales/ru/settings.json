@@ -21,5 +21,11 @@
   "INVALID_OPENAI_API_KEY": "Неверный API-ключ!",
   "GET_YOUR_OWN_APIKEY": "Получите свой собственный ключ API OpenAI",
   "ENSURE_YOU_HAVE_FREE_CREDITS": "Убедитесь, что у вас есть свободные кредиты на вашем аккаунте, иначе",
-  "MUST_CONNECT_CREADIT_CARD": "необходимо подключить кредитную карту"
+  "MUST_CONNECT_CREADIT_CARD": "необходимо подключить кредитную карту",
+  "AUTOMATIC_MODE": "Автоматический режим",
+  "AUTOMATIC_MODE_DESCRIPTION": "(По умолчанию): Агент автоматически выполняет каждую задачу.",
+  "PAUSE_MODE": "Режим паузы",
+  "PAUSE_MODE_DESCRIPTION": "Агент приостанавливает выполнение после каждого набора задач(и)",
+  "PLAY": "Воспроизвести",
+  "PAUSE": "Пауза"
 }

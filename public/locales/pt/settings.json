@@ -21,5 +21,11 @@
   "INVALID_OPENAI_API_KEY": "Chave de API inválida!",
   "GET_YOUR_OWN_APIKEY": "Obtenha sua própria chave de API da OpenAI",
   "ENSURE_YOU_HAVE_FREE_CREDITS": "Certifique-se de ter créditos disponíveis em sua conta, caso contrário",
-  "MUST_CONNECT_CREADIT_CARD": "deve conectar um cartão de crédito"
+  "MUST_CONNECT_CREADIT_CARD": "deve conectar um cartão de crédito",
+  "AUTOMATIC_MODE": "Modo automático",
+  "AUTOMATIC_MODE_DESCRIPTION": "(Padrão): O agente executa automaticamente todas as tarefas.",
+  "PAUSE_MODE": "Modo de pausa",
+  "PAUSE_MODE_DESCRIPTION": "O agente pausa após cada conjunto de tarefa(s)",
+  "PLAY": "Reproduzir",
+  "PAUSE": "Pausar"
 }

@@ -36,6 +36,7 @@ module.exports = {
     "languages",
     "drawer",
     "indexPage",
+    "sorryDialog",
   ],
   react: {
     useSuspense: false,

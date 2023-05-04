@@ -9,5 +9,8 @@
   "CURRENT_TASKS": "Current Tasks",
   "ADDING_TASK": "Adding Task",
   "COPIED_TO_CLIPBOARD": "Copied to clipboard! 🚀",
-  "CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy!"
+  "CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy!",
+  "PAUSED": "Paused",
+  "RUNNING": "Running",
+  "CONTINUE": "Continue"
 }

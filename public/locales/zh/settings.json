@@ -16,5 +16,16 @@
   "LINK": "获取API密钥",
   "NOTE_API_KEY_USAGE": "此密钥仅在当前浏览器会话中使用。",
   "LABEL_MODEL": "模型",
-  "LANG": "语言"
-  }
+  "LANG": "语言",
+  "LABEL_MODE": "模式",
+  "INVALID_OPENAI_API_KEY": "无效的 API 密钥！",
+  "GET_YOUR_OWN_APIKEY": "获取您自己的 OpenAI API 密钥",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "确保您的帐户上有可用的免费学分，否则您必须",
+  "MUST_CONNECT_CREADIT_CARD": "连接信用卡",
+  "AUTOMATIC_MODE": "自动模式",
+  "AUTOMATIC_MODE_DESCRIPTION": "（默认）：代理自动执行每个任务。",
+  "PAUSE_MODE": "暂停模式",
+  "PAUSE_MODE_DESCRIPTION": "代理在每组任务后暂停",
+  "PLAY": "播放",
+  "PAUSE": "暂停"
+}

@@ -335,12 +335,12 @@ const MacWindowHeader = (props: HeaderProps) => {
           {isAgentPaused ? (
             <>
               <FaPause />
-              <p className="font-mono">Paused</p>
+              <p className="font-mono">{`${t("PAUSED", { ns: "common" })}`}</p>
             </>
           ) : (
             <>
               <FaPlay />
-              <p className="font-mono">Running</p>
+              <p className="font-mono">{`${t("RUNNING", { ns: "common" })}`}</p>
             </>
           )}
         </div>

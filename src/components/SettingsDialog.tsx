@@ -18,7 +18,7 @@ import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
 import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
 import { useAgentStore } from "./stores";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -174,16 +174,16 @@ export const SettingsDialog: React.FC<{
       }
     >
       <p>
-        Get your own OpenAI API key{" "}
+      {`${t("GET_YOUR_OWN_APIKEY", { ns: "settings" })}`}{' '}
         <a className="link" href="https://platform.openai.com/account/api-keys">
-          here
+        {`${t("HERE", { ns: "settings" })}`}
         </a>
-        . Ensure you have free credits available on your account, otherwise you{" "}
+        .{' '}{`${t("ENSURE_YOU_HAVE_FREE_CREDITS", { ns: "settings" })}`}{' '}
         <a
           className="link"
           href="https://platform.openai.com/account/billing/overview"
         >
-          must connect a credit card
+          {`${t("MUST_CONNECT_CREADIT_CARD", { ns: "settings" })}`}
         </a>
         .
       </p>
@@ -248,7 +248,9 @@ export const SettingsDialog: React.FC<{
           left={
             <>
               <FaTachometerAlt />
-              <span className="ml-2">Mode: </span>
+              <span className="ml-2">{`${t("LABEL_MODE", {
+                ns: "settings",
+              })}`}</span>
             </>
           }
           value={agentMode}
@@ -257,12 +259,12 @@ export const SettingsDialog: React.FC<{
           setValue={updateAgentMode as (agentMode: string) => void}
           type="combobox"
           toolTipProperties={{
-            message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,
+            message: `${t('AUTOMATIC_MODE', {ns: 'settings'})} ${t('AUTOMATIC_MODE_DESCRIPTION', {ns: 'settings'})} \n\n${t('PAUSE_MODE', {ns: 'settings'})}: ${t('PAUSE_MODE_DESCRIPTION', {ns: 'settings'})}`,
             disabled: false,
           }}
-          attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
+          attributes={{ options: [`${t('AUTOMATIC_MODE', {ns: 'settings'})}`, `${t('PAUSE_MODE', {ns: 'settings'})}`] }}
         />
-        <Accordion child={advancedSettings} name={t("Advanced Settings")} />
+        <Accordion child={advancedSettings} name={t("ADVANCED_SETTINGS", {ns: 'settings'})} />
       </div>
     </Dialog>
   );

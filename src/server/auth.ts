@@ -1,11 +1,29 @@
-import type { GetServerSidePropsContext } from "next";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
+import type { AuthOptions } from "next-auth";
 import { getServerSession, type NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
+import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import type { CookieValueTypes } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { prisma } from "./db";
 import { serverEnv } from "../env/schema.mjs";
+import { z } from "zod";
+import { v4 } from "uuid";
+import type { AdapterSession } from "next-auth/src/adapters";
+
+const adapter = PrismaAdapter(prisma);
+
+const monthFromNow = () => {
+  const now = new Date(Date.now());
+  return new Date(now.setMonth(now.getMonth() + 1));
+};
 
 /**
  * Module augmentation for `next-auth` types
@@ -30,14 +48,41 @@ const providers = [
     clientSecret: serverEnv.DISCORD_CLIENT_SECRET ?? "",
     allowDangerousEmailAccountLinking: true,
   }),
-];
+  Credentials({
+    name: "Development Only (Insecure)",
+    credentials: {
+      name: { label: "name", type: "text" },
+    },
+    async authorize(credentials, req) {
+      if (!credentials) return null;
 
+      const creds = z
+        .object({
+          name: z.string().min(1),
+        })
+        .parse(credentials);
+
+      const user = await adapter.getUserByEmail(creds.name);
+      if (user) return user;
+
+      return adapter.createUser({
+        name: creds.name,
+        email: creds.name,
+        image: undefined,
+        role: undefined,
+        subscriptionId: undefined,
+        emailVerified: null,
+      });
+    },
+  }),
+];
 /**
  * Options for NextAuth.js used to configure
  * adapters, providers, callbacks, etc.
  * @see https://next-auth.js.org/configuration/options
  **/
-export const authOptions: NextAuthOptions = {
+
+const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, user }) {
       if (session.user) {
@@ -54,6 +99,57 @@ export const authOptions: NextAuthOptions = {
     colorScheme: "dark",
     logo: "https://agentgpt.reworkd.ai/logo-white.svg",
   },
+};
+
+export const options = (
+  req: NextApiRequest,
+  res: NextApiResponse
+): AuthOptions => {
+  return {
+    ...authOptions,
+    callbacks: {
+      ...authOptions.callbacks,
+      async signIn({ user }) {
+        if (user) {
+          const session = (await adapter.createSession({
+            sessionToken: v4(),
+            userId: user.id,
+            expires: monthFromNow(),
+          })) as AdapterSession;
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+          setCookie("next-auth.session-token", session.sessionToken, {
+            expires: session.expires,
+            req: req,
+            res: res,
+          });
+        }
+
+        return true;
+      },
+    },
+    jwt: {
+      encode: async ({ token, secret, maxAge }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+        const cookie = getCookie("next-auth.session-token", {
+          req: req,
+          res: res,
+        }) as CookieValueTypes;
+
+        switch (typeof cookie) {
+          case "boolean":
+            return cookie.toString();
+          case "string":
+            return cookie;
+          default:
+            return "";
+        }
+      },
+      decode: ({ token, secret }) => {
+        return null;
+      },
+    },
+  };
 };
 
 /**

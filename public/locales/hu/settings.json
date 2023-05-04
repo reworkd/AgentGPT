@@ -16,5 +16,16 @@
   "LINK": "API kulcs igénylése",
   "NOTE_API_KEY_USAGE": "Ez a kulcs csak az aktuális böngészői munkamenetben használatos.",
   "LABEL_MODEL": "Modell",
-  "LANG": "Nyelv"
+  "LANG": "Nyelv",
+  "LABEL_MODE": "Mód",
+  "INVALID_OPENAI_API_KEY": "Érvénytelen API kulcs!",
+  "GET_YOUR_OWN_APIKEY": "Szerezze be saját OpenAI API kulcsát",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Győződjön meg róla, hogy szabad kredittel rendelkezik, különben",
+  "MUST_CONNECT_CREADIT_CARD": "hozzá kell adnia egy hitelkártyát",
+  "AUTOMATIC_MODE": "Automatikus mód",
+  "AUTOMATIC_MODE_DESCRIPTION": "(Alapértelmezett): Az ügynök automatikusan végrehajt minden feladatot.",
+  "PAUSE_MODE": "Szünet mód",
+  "PAUSE_MODE_DESCRIPTION": "Az ügynök szünetel minden feladatkészlet után.",
+  "PLAY": "Lejátszás",
+  "PAUSE": "Szünet"
 }

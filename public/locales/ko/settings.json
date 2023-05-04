@@ -16,5 +16,16 @@
   "LINK": "API 키 요청",
   "NOTE_API_KEY_USAGE": "이 키는 현재 브라우저 세션에서만 사용됩니다.",
   "LABEL_MODEL": "모델",
-  "LANG": "언어"
-  }
+  "LANG": "언어",
+  "LABEL_MODE": "모드",
+  "INVALID_OPENAI_API_KEY": "잘못된 API 키입니다!",
+  "GET_YOUR_OWN_APIKEY": "당신만의 OpenAI API 키를 가져오세요",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "계정에 무료 크레딧이 있는지 확인하세요. 그렇지 않으면",
+  "MUST_CONNECT_CREADIT_CARD": "신용카드를 연결해야 합니다",
+  "AUTOMATIC_MODE": "자동 모드",
+  "AUTOMATIC_MODE_DESCRIPTION": "(기본값) 에이전트는 모든 작업을 자동으로 실행합니다.",
+  "PAUSE_MODE": "일시 정지 모드",
+  "PAUSE_MODE_DESCRIPTION": "에이전트는 각 작업 집합 후에 일시 정지됩니다.",
+  "PLAY": "재생",
+  "PAUSE": "일시 정지"
+}

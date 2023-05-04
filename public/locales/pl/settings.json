@@ -16,5 +16,16 @@
   "LINK": "Zażądaj klucza API",
   "NOTE_API_KEY_USAGE": "Ten klucz jest używany tylko w bieżącej sesji przeglądarki.",
   "LABEL_MODEL": "Model",
-  "LANG": "Język"
-  }
+  "LANG": "Język",
+  "LABEL_MODE": "Tryb",
+  "INVALID_OPENAI_API_KEY": "Nieprawidłowy klucz API!",
+  "GET_YOUR_OWN_APIKEY": "Otrzymaj swój własny klucz API OpenAI",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Upewnij się, że masz wolne kredyty na swoim koncie, w przeciwnym razie",
+  "MUST_CONNECT_CREADIT_CARD": "musisz połączyć kartę kredytową",
+  "AUTOMATIC_MODE": "Tryb automatyczny",
+  "AUTOMATIC_MODE_DESCRIPTION": "(Domyślnie): Agenty wykonują zadania automatycznie.",
+  "PAUSE_MODE": "Tryb pauzy",
+  "PAUSE_MODE_DESCRIPTION": "Agent przerywa po każdym zbiorze zadania",
+  "PLAY": "Odtwórz",
+  "PAUSE": "Pauza"
+}

@@ -186,7 +186,7 @@ const Home: NextPage = () => {
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
         <FaPlay size={20} />
-        <span className="ml-2">{i18n.t("Continue")}</span>
+        <span className="ml-2">{i18n.t("CONTINUE", {ns: 'common'})}</span>
       </Button>
     ) : (
       <Button
@@ -195,11 +195,11 @@ const Home: NextPage = () => {
         onClick={() => handleNewGoal(nameInput, goalInput)}
       >
         {agent == null ? (
-          i18n.t("Deploy Agent")
+          i18n.t("BUTTON_DEPLOY_AGENT", {ns: 'indexPage'})
         ) : (
           <>
             <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{i18n.t("Running")}</span>
+            <span className="ml-2">{i18n.t("RUNNING", {ns: 'common'})}</span>
           </>
         )}
       </Button>

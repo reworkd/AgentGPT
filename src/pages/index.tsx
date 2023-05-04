@@ -31,6 +31,7 @@ import { findLanguage, languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -117,7 +118,7 @@ const Home: NextPage = () => {
     }
 
     // Do not force login locally for people that don't have auth setup
-    if (session === null && process.env.NODE_ENV === "production") {
+    if (session === null && env.NEXT_PUBLIC_FORCE_AUTH) {
       setShowSignInDialog(true);
       return;
     }

@@ -16,5 +16,10 @@
   "LINK": "Запит ключа API",
   "NOTE_API_KEY_USAGE": "Цей ключ використовується лише протягом поточної сесії браузера.",
   "LABEL_MODEL": "Модель",
-  "LANG": "Мова"
-  }
+  "LANG": "Мова",
+  "LABEL_MODE": "Режим",
+  "INVALID_OPENAI_API_KEY": "Неприпустимий API-ключ!",
+  "GET_YOUR_OWN_APIKEY": "Отримайте свій власний ключ API OpenAI",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Переконайтеся, що у вас є вільні кредити на вашому рахунку, інакше ви",
+  "MUST_CONNECT_CREADIT_CARD": "повинні підключити кредитну картку"
+}

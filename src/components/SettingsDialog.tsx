@@ -174,16 +174,16 @@ export const SettingsDialog: React.FC<{
       }
     >
       <p>
-        Get your own OpenAI API key{" "}
+      {`${t("GET_YOUR_OWN_APIKEY", { ns: "settings" })}`}
         <a className="link" href="https://platform.openai.com/account/api-keys">
-          here
+        {`${t("HERE", { ns: "settings" })}`}
         </a>
-        . Ensure you have free credits available on your account, otherwise you{" "}
+        . {`${t("ENSURE_YOU_HAVE_FREE_CREDITS", { ns: "settings" })}`}
         <a
           className="link"
           href="https://platform.openai.com/account/billing/overview"
         >
-          must connect a credit card
+          {`${t("MUST_CONNECT_CREADIT_CARD", { ns: "settings" })}`}
         </a>
         .
       </p>
@@ -248,7 +248,9 @@ export const SettingsDialog: React.FC<{
           left={
             <>
               <FaTachometerAlt />
-              <span className="ml-2">Mode: </span>
+              <span className="ml-2">{`${t("LABEL_MODE", {
+                ns: "settings",
+              })}`}</span>
             </>
           }
           value={agentMode}
@@ -262,7 +264,7 @@ export const SettingsDialog: React.FC<{
           }}
           attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
         />
-        <Accordion child={advancedSettings} name={t("Advanced Settings")} />
+        <Accordion child={advancedSettings} name={t("ADVANCED_SETTINGS", {ns: 'settings'})} />
       </div>
     </Dialog>
   );

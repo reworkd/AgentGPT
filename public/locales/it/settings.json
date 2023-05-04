@@ -16,5 +16,10 @@
   "LINK": "Richiesta chiave API",
   "NOTE_API_KEY_USAGE": "Questa chiave verrà utilizzata solo durante la sessione del browser corrente.",
   "LABEL_MODEL": "Modello",
-  "LANG": "Lingua"
-  }
+  "LANG": "Lingua",
+  "LABEL_MODE": "Modalità",
+  "INVALID_OPENAI_API_KEY": "Chiave API non valida!",
+  "GET_YOUR_OWN_APIKEY": "Ottieni la tua chiave API OpenAI",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Assicurati di avere crediti gratuiti disponibili sul tuo account, altrimenti",
+  "MUST_CONNECT_CREADIT_CARD": "devi collegare una carta di credito"
+}

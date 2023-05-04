@@ -16,5 +16,10 @@
   "LINK": "API-Schlüssel beantragen",
   "NOTE_API_KEY_USAGE": "Dieser Schlüssel wird nur in der aktuellen Browsersitzung verwendet.",
   "LABEL_MODEL": "Modell",
-  "LANG": "Sprache"
-  }
+  "LANG": "Sprache",
+  "LABEL_MODE": "Modus",
+  "INVALID_OPENAI_API_KEY": "Ungültiger API-Schlüssel!",
+  "GET_YOUR_OWN_APIKEY": "Holen Sie sich Ihren eigenen OpenAI-API-Schlüssel",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Stellen Sie sicher, dass Sie freie Guthaben auf Ihrem Konto haben, sonst",
+  "MUST_CONNECT_CREADIT_CARD": "müssen Sie eine Kreditkarte verbinden"
+}

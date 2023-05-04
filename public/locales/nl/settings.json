@@ -16,5 +16,10 @@
   "LINK": "API-sleutel aanvragen",
   "NOTE_API_KEY_USAGE": "Deze sleutel wordt alleen gebruikt tijdens de huidige browsersessie.",
   "LABEL_MODEL": "Model",
-  "LANG": "Taal"
+  "LANG": "Taal",
+  "LABEL_MODE": "Modus",
+  "INVALID_OPENAI_API_KEY": "Ongeldige API-sleutel!",
+  "GET_YOUR_OWN_APIKEY": "Vraag je eigen OpenAI API-sleutel aan",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Zorg ervoor dat je gratis credits beschikbaar hebt op je account, anders",
+  "MUST_CONNECT_CREADIT_CARD": "moet je een creditcard koppelen"
 }

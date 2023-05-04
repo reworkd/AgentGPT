@@ -16,5 +16,10 @@
   "LINK": "Zahtjev za API ključ",
   "NOTE_API_KEY_USAGE": "Ovaj ključ se koristi samo u trenutnoj sesiji preglednika.",
   "LABEL_MODEL": "Model",
-  "LANG": "Jezik"
-  }
+  "LANG": "Jezik",
+  "LABEL_MODE": "Mode",
+  "INVALID_OPENAI_API_KEY": "Clé API invalide !",
+  "GET_YOUR_OWN_APIKEY": "Obtenez votre propre clé API OpenAI",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "Assurez-vous que vous disposez de crédits gratuits disponibles sur votre compte, sinon",
+  "MUST_CONNECT_CREADIT_CARD": "vous devez connecter une carte de crédit"
+}

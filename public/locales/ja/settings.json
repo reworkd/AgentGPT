@@ -16,5 +16,10 @@
   "LINK": "APIキーの申請",
   "NOTE_API_KEY_USAGE": "このキーは現在のブラウザセッションでのみ使用されます。",
   "LABEL_MODEL": "モデル",
-  "LANG": "言語"
-  }
+  "LANG": "言語",
+  "LABEL_MODE": "モード",
+  "INVALID_OPENAI_API_KEY": "APIキーが無効です！",
+  "GET_YOUR_OWN_APIKEY": "自分自身のOpenAI APIキーを取得してください",
+  "ENSURE_YOU_HAVE_FREE_CREDITS": "アカウントに無料のクレジットがあることを確認してください。さもなければ、",
+  "MUST_CONNECT_CREADIT_CARD": "クレジットカードを接続する必要があります"
+}

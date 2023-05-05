@@ -27,12 +27,11 @@ jobs:
         working-directory: platform
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - name: Install deps
-        uses: knowsuchagency/poetry-install@v1
+      - uses: actions/setup-python@v2
+      - run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
         env:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Run flake8 check

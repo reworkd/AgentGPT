@@ -1,0 +1,109 @@
+name: Testing Platform
+
+on: push
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install deps
+        uses: knowsuchagency/poetry-install@v1
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run black check
+        run: poetry run black --check .
+  flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install deps
+        uses: knowsuchagency/poetry-install@v1
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run flake8 check
+        run: poetry run flake8 --count .
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install deps
+        uses: knowsuchagency/poetry-install@v1
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run mypy check
+        run: poetry run mypy .
+  pytest:
+    runs-on: ubuntu-latest
+    services:
+
+      reworkd_platform-db:
+        image: bitnami/mysql:8.0.30
+        env:
+          MYSQL_ROOT_PASSWORD: "reworkd_platform"
+          MYSQL_ROOT_USER: "reworkd_platform"
+          MYSQL_DATABASE: "reworkd_platform"
+          MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+        options: >-
+          --health-cmd="mysqladmin ping -u root"
+          --health-interval=15s
+          --health-timeout=5s
+          --health-retries=6
+        ports:
+          - 3306:3306
+
+      reworkd_platform-zookeeper:
+        image: "bitnami/zookeeper:3.7.1"
+        env:
+          ALLOW_ANONYMOUS_LOGIN: "yes"
+          ZOO_LOG_LEVEL: "ERROR"
+        options: >-
+          --health-cmd="zkServer.sh status"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=8
+
+      reworkd_platform-kafka:
+        image: bitnami/kafka:3.2.0
+        env:
+          KAFKA_BROKER_ID: "1"
+          ALLOW_PLAINTEXT_LISTENER: "yes"
+          KAFKA_CFG_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
+          KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+          KAFKA_CFG_ZOOKEEPER_CONNECT: "reworkd_platform-zookeeper:2181"
+        options: >-
+          --health-cmd="kafka-topics.sh --list --bootstrap-server localhost:9092"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=8
+        ports:
+          - 9092:9092
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install deps
+        uses: knowsuchagency/poetry-install@v1
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run pytest check
+        run: poetry run pytest -vv --cov="reworkd_platform" .
+        env:
+          REWORKD_PLATFORM_HOST: "0.0.0.0"
+          REWORKD_PLATFORM_DB_HOST: localhost
+          REWORKD_PLATFORM_KAFKA_BOOTSTRAP_SERVERS: '["localhost:9092"]'
+

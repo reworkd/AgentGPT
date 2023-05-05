@@ -1,0 +1,78 @@
+version: '3.9'
+
+services:
+  api: &main_app
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+      target: prod
+    image: reworkd_platform:${REWORKD_PLATFORM_VERSION:-latest}
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      REWORKD_PLATFORM_HOST: 0.0.0.0
+      REWORKD_PLATFORM_DB_HOST: reworkd_platform-db
+      REWORKD_PLATFORM_DB_PORT: 3306
+      REWORKD_PLATFORM_DB_USER: reworkd_platform
+      REWORKD_PLATFORM_DB_PASS: reworkd_platform
+      REWORKD_PLATFORM_DB_BASE: reworkd_platform
+      TESTKAFKA_KAFKA_BOOTSTRAP_SERVERS: '["reworkd_platform-kafka:9092"]'
+
+  db:
+    image: bitnami/mysql:8.0.30
+    hostname: reworkd_platform-db
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: "reworkd_platform"
+      MYSQL_ROOT_PASSWORD: "reworkd_platform"
+      MYSQL_DATABASE: "reworkd_platform"
+      MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+    healthcheck:
+      test: mysqladmin ping -h localhost
+      interval: 10s
+      timeout: 5s
+      retries: 40
+    volumes:
+      - reworkd_platform-db-data:/bitnami/mysql/data
+
+  zookeeper:
+    image: "bitnami/zookeeper:3.7.1"
+    hostname: "reworkd_platform-zookeeper"
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOO_LOG_LEVEL: "ERROR"
+    healthcheck:
+      test: zkServer.sh status
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  kafka:
+    image: "bitnami/kafka:3.2.0"
+    hostname: "reworkd_platform-kafka"
+    environment:
+      KAFKA_BROKER_ID: "1"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://reworkd_platform-kafka:9092"
+      KAFKA_CFG_ZOOKEEPER_CONNECT: "reworkd_platform-zookeeper:2181"
+    healthcheck:
+      test: kafka-topics.sh --list --bootstrap-server localhost:9092
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+
+
+volumes:
+  reworkd_platform-db-data:
+    name: reworkd_platform-db-data

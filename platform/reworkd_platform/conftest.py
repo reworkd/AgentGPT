@@ -1,28 +1,28 @@
 import asyncio
-from asyncio.events import AbstractEventLoop
 import sys
-from typing import Any, Generator, AsyncGenerator
+import uuid
+from asyncio.events import AbstractEventLoop
+from typing import Any, AsyncGenerator, Generator
+from unittest.mock import Mock
 
 import pytest
+from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI
 from httpx import AsyncClient
-import uuid
-from unittest.mock import Mock
-from aiokafka import AIOKafkaProducer
-from reworkd_platform.services.kafka.dependencies import get_kafka_producer
-from reworkd_platform.services.kafka.lifetime import init_kafka, shutdown_kafka
-
-from reworkd_platform.settings import settings
-from reworkd_platform.web.application import get_app
 from sqlalchemy.ext.asyncio import (
-    create_async_engine,
-    AsyncSession,
-    AsyncEngine,
     AsyncConnection,
+    AsyncEngine,
+    AsyncSession,
     async_sessionmaker,
+    create_async_engine,
 )
+
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.utils import create_database, drop_database
+from reworkd_platform.services.kafka.dependencies import get_kafka_producer
+from reworkd_platform.services.kafka.lifetime import init_kafka, shutdown_kafka
+from reworkd_platform.settings import settings
+from reworkd_platform.web.application import get_app
 
 
 @pytest.fixture(scope="session")

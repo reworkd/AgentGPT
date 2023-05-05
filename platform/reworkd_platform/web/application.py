@@ -1,18 +1,20 @@
+import logging
+from importlib import metadata
+
+import sentry_sdk
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
-import logging
-from reworkd_platform.web.api.router import api_router
-from reworkd_platform.settings import settings
-from reworkd_platform.web.lifetime import (
-    register_startup_event,
-    register_shutdown_event,
-)
-from importlib import metadata
-import sentry_sdk
-from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+
 from reworkd_platform.logging import configure_logging
+from reworkd_platform.settings import settings
+from reworkd_platform.web.api.router import api_router
+from reworkd_platform.web.lifetime import (
+    register_shutdown_event,
+    register_startup_event,
+)
 
 
 def get_app() -> FastAPI:

@@ -1,10 +1,7 @@
 import ssl
 
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import (
-    create_async_engine,
-    AsyncEngine,
-)
+from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from reworkd_platform.settings import settings
 

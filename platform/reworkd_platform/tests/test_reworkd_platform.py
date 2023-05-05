@@ -1,7 +1,7 @@
+import pytest
 from fastapi import FastAPI
 from httpx import AsyncClient
 from starlette import status
-import pytest
 
 
 @pytest.mark.anyio

@@ -57,6 +57,7 @@ body:
     id: possible-solution
     attributes:
       label: Possible solution
+      placeholder: I think that change foo to type bar would fix it...
       description: |
         Not obligatory, but please suggest a fix or reason for the bug, if you have an idea.  
       
@@ -72,24 +73,6 @@ body:
         - label: Linux
         - label: macOS
         - label: Windows
-
-  - type: input
-    id: nextjs-version
-    attributes:
-      label: Next JS Version
-      description: Which NextJS version are you using?
-      placeholder: 13
-    validations:
-      required: true
-      
-  - type: input
-    id: AgentGPT-version
-    attributes:
-      label: AgentGPT Version
-      description: Which AgentGPT version are you using?
-      placeholder: v0.2.0 Beta 2.0
-    validations:
-      required: true
 
   - type: checkboxes
     id: acknowledgements

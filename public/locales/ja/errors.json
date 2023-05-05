@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI APIキーにアクセスできませんでした。APIキーを確認するか、後でもう一度お試しください。",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "追加タスクの追加中にエラーが発生しました。モデルが回答を扱えない可能性があるため、処理を続行します...",
+  "RATE_LIMIT_EXCEEDED": "最大クエリ数に達しました！ 一時的にお待ちください...😅",
+  "AGENT_MAXED_OUT_LOOPS": "このエージェントは、最大実行可能なループ数に達しました。財布を救うために、このエージェントは今停止します... エージェントの最大実行可能なループ数は設定で構成できます。",
+  "DEMO_LOOPS_REACHED": "申し訳ありませんが、これはデモアプリケーションなので、エージェントを長時間実行することはできません。注：より長い実行を希望する場合は、設定でAPIキーを入力してください。停止...",
+  "AGENT_MANUALLY_SHUT_DOWN": "エージェントが手動でシャットダウンされました。",
+  "ALL_TASKS_COMPLETETD": "すべてのタスクが完了しました。停止...",
+  "ERROR_API_KEY_QUOTA": "OpenAI APIキーを使用する際のエラー。現在のクォータを超えています。請求情報を確認してください。",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "エラー：お持ちのOpenAI APIキーにはGPT-4アクセス権がありません。まずOpenAIの待ち行列に登録する必要があります。（ChatGPT Plusとは異なります）",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "初期タスクの取得中にエラーが発生しました。再試行するか、エージェントの目的を明確にしたり、モデルに適合するように変更してください。停止...",
+  "INVALID_OPENAI_API_KEY": "エラー 無効なOpenAI APIキー"
+}

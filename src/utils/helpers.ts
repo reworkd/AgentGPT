@@ -17,18 +17,29 @@ export const isArrayOfType = <T>(
   );
 };
 
+export const removeTaskPrefix = (input: string): string => {
+  // Regular expression to match task prefixes. Consult tests to understand regex
+  const prefixPattern =
+    /^(Task\s*\d*\.\s*|Task\s*\d*[-:]?\s*|-?\d+\s*[-:]?\s*)/i;
+
+  // Replace the matched prefix with an empty string
+  return input.replace(prefixPattern, "");
+};
+
 export const extractTasks = (
   text: string,
   completedTasks: string[]
 ): string[] => {
   return extractArray(text)
     .filter(realTasksFilter)
-    .filter((task) => !(completedTasks || []).includes(task));
+    .filter((task) => !(completedTasks || []).includes(task))
+    .map(removeTaskPrefix);
 };
 
 export const extractArray = (inputStr: string): string[] => {
   // Match an outer array of strings (including nested arrays)
-  const regex = /(\[(?:\s*"(?:[^"\\]|\\.)*"\s*,?)+\s*\])/;
+  const regex =
+    /(\[(?:\s*(?:"(?:[^"\\]|\\.|\n)*"|'(?:[^'\\]|\\.|\n)*')\s*,?)+\s*\])/;
   const match = inputStr.match(regex);
 
   if (match && match[0]) {

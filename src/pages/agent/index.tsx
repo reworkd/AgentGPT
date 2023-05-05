@@ -1,3 +1,4 @@
+import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import DefaultLayout from "../../layout/default";
 import Button from "../../components/Button";
@@ -12,6 +13,9 @@ import { FaTrash, FaShare, FaBackspace } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
 import { useTranslation } from "react-i18next";
+import { languages } from "../../utils/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();
@@ -48,6 +52,19 @@ const AgentPage: NextPage = () => {
         fullscreen
       />
       <div className="flex flex-row gap-2">
+        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          Back
+        </Button>
+        <Button
+          icon={<FaTrash />}
+          onClick={() => {
+            deleteAgent.mutate(agentId);
+          }}
+          enabledClassName={"bg-red-600 hover:bg-red-400"}
+        >
+          Delete
+        </Button>
+
         <Button
           icon={<FaShare />}
           onClick={() => {
@@ -59,22 +76,10 @@ const AgentPage: NextPage = () => {
         >
           Share
         </Button>
-        <Button
-          icon={<FaTrash />}
-          onClick={() => {
-            deleteAgent.mutate(agentId);
-          }}
-          enabledClassName={"bg-red-600 hover:bg-red-400"}
-        >
-          Delete
-        </Button>
-        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
-          Back
-        </Button>
       </div>
       <Toast
         model={[showCopied, setShowCopied]}
-        title={t("Copied to clipboard! 🚀")}
+        title={`${t("COPIED_TO_CLIPBOARD", { ns: "common" })}`}
         className="bg-gray-950 text-sm"
       />
     </DefaultLayout>
@@ -82,3 +87,14 @@ const AgentPage: NextPage = () => {
 };
 
 export default AgentPage;
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  const supportedLocales = languages.map((language) => language.code);
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
+  return {
+    props: {
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+    },
+  };
+};

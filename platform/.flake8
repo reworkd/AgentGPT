@@ -1,0 +1,115 @@
+[flake8]
+max-complexity = 6
+inline-quotes = double
+max-line-length = 88
+extend-ignore = E203
+docstring_style=sphinx
+
+ignore =
+  ; Found `f` string
+  WPS305,
+  ; Missing docstring in public module
+  D100,
+  ; Missing docstring in magic method
+  D105,
+  ; Missing docstring in __init__
+  D107,
+  ; Found `__init__.py` module with logic
+  WPS412,
+  ; Found class without a base class
+  WPS306,
+  ; Missing docstring in public nested class
+  D106,
+  ; First line should be in imperative mood
+  D401,
+  ; Found wrong variable name
+  WPS110,
+  ; Found `__init__.py` module with logic
+  WPS326,
+  ; Found string constant over-use
+  WPS226,
+  ; Found upper-case constant in a class
+  WPS115,
+  ; Found nested function
+  WPS602,
+  ; Found method without arguments
+  WPS605,
+  ; Found overused expression
+  WPS204,
+  ; Found too many module members
+  WPS202,
+  ; Found too high module cognitive complexity
+  WPS232,
+  ; line break before binary operator
+  W503,
+  ; Found module with too many imports
+  WPS201,
+  ; Inline strong start-string without end-string.
+  RST210,
+  ; Found nested class
+  WPS431,
+  ; Found wrong module name
+  WPS100,
+  ; Found too many methods
+  WPS214,
+  ; Found too long ``try`` body
+  WPS229,
+  ; Found unpythonic getter or setter
+  WPS615,
+  ; Found a line that starts with a dot
+  WPS348,
+  ; Found complex default value (for dependency injection)
+  WPS404,
+  ;  not perform function calls in argument defaults (for dependency injection)
+  B008,
+  ; Model should define verbose_name in its Meta inner class
+  DJ10,
+  ; Model should define verbose_name_plural in its Meta inner class
+  DJ11,
+  ; Found mutable module constant.
+  WPS407,
+  ; Found too many empty lines in `def`
+  WPS473,
+  ; Found missing trailing comma
+  C812,
+
+per-file-ignores =
+  ; all tests
+  test_*.py,tests.py,tests_*.py,*/tests/*,conftest.py:
+  ; Use of assert detected
+  S101,
+  ; Found outer scope names shadowing
+  WPS442,
+  ; Found too many local variables
+  WPS210,
+  ; Found magic number
+  WPS432,
+  ; Missing parameter(s) in Docstring
+  DAR101,
+  ; Found too many arguments
+  WPS211,
+
+  ; all init files
+  __init__.py:
+  ; ignore not used imports
+  F401,
+  ; ignore import with wildcard
+  F403,
+  ; Found wrong metadata variable
+  WPS410,
+
+exclude =
+  ./.cache,
+  ./.git,
+  ./.idea,
+  ./.mypy_cache,
+  ./.pytest_cache,
+  ./.venv,
+  ./venv,
+  ./env,
+  ./cached_venv,
+  ./docs,
+  ./deploy,
+  ./var,
+  ./.vscode,
+  *migrations*,

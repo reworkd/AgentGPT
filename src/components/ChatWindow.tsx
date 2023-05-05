@@ -83,7 +83,7 @@ const ChatWindow = ({
 
   const handleChangeWebSearch = (value: boolean) => {
     // Change this value when we can no longer support web search
-    const WEB_SEARCH_ALLOWED = env.NEXT_PUBLIC_WEB_SEARCH_ENABLED as boolean;
+    const WEB_SEARCH_ALLOWED = env.NEXT_PUBLIC_WEB_SEARCH_ENABLED;
 
     if (WEB_SEARCH_ALLOWED) {
       setIsWebSearchEnabled(value);
@@ -340,7 +340,7 @@ const MacWindowHeader = (props: HeaderProps) => {
           ) : (
             <>
               <FaPlay />
-              <p className="font-mono">{`${t("RUNNING", { ns: "common" })}`}</p>
+              <p className="font-mono">{`${t("Running", { ns: "common" })}`}</p>
             </>
           )}
         </div>

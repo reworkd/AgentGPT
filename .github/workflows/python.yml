@@ -1,13 +1,12 @@
 name: Testing Platform
 on: push
 
-defaults:
-  run:
-    working-directory: platform
-
 jobs:
   black:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./platform
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -22,6 +21,9 @@ jobs:
         run: poetry run black --check .
   flake8:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./platform
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -36,6 +38,9 @@ jobs:
         run: poetry run flake8 --count .
   mypy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./platform
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -48,8 +53,12 @@ jobs:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Run mypy check
         run: poetry run mypy .
+
   pytest:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./platform
     services:
       reworkd_platform-db:
         image: bitnami/mysql:8.0.30
@@ -65,7 +74,6 @@ jobs:
           --health-retries=6
         ports:
           - 3306:3306
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python

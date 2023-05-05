@@ -70,6 +70,8 @@ ignore =
   WPS407,
   ; Found too many empty lines in `def`
   WPS473,
+  ; Found missing trailing comma
+  C812,
 
 per-file-ignores =
   ; all tests

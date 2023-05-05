@@ -1,8 +1,6 @@
 from typing import Any, AsyncGenerator
-from unittest.mock import Mock
 
 import pytest
-from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import (
@@ -14,8 +12,6 @@ from sqlalchemy.ext.asyncio import (
 
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.utils import create_database, drop_database
-from reworkd_platform.services.kafka.dependencies import get_kafka_producer
-from reworkd_platform.services.kafka.lifetime import init_kafka, shutdown_kafka
 from reworkd_platform.settings import settings
 from reworkd_platform.web.application import get_app
 
@@ -86,23 +82,7 @@ async def dbsession(
 
 
 @pytest.fixture
-async def test_kafka_producer() -> AsyncGenerator[AIOKafkaProducer, None]:
-    """
-    Creates kafka's producer.
-
-    :yields: kafka's producer.
-    """
-    app_mock = Mock()
-    await init_kafka(app_mock)
-    yield app_mock.state.kafka_producer
-    await shutdown_kafka(app_mock)
-
-
-@pytest.fixture
-def fastapi_app(
-    dbsession: AsyncSession,
-    test_kafka_producer: AIOKafkaProducer,
-) -> FastAPI:
+def fastapi_app(dbsession: AsyncSession) -> FastAPI:
     """
     Fixture for creating FastAPI app.
 
@@ -110,7 +90,6 @@ def fastapi_app(
     """
     application = get_app()
     application.dependency_overrides[get_db_session] = lambda: dbsession
-    application.dependency_overrides[get_kafka_producer] = lambda: test_kafka_producer
     return application  # noqa: WPS331
 
 

@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./platform
+        working-directory: platform
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -19,11 +19,12 @@ jobs:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Run black check
         run: poetry run black --check .
+
   flake8:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./platform
+        working-directory: platform
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -36,11 +37,12 @@ jobs:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Run flake8 check
         run: poetry run flake8 --count .
+
   mypy:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./platform
+        working-directory: platform
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -58,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./platform
+        working-directory: platform
     services:
       reworkd_platform-db:
         image: bitnami/mysql:8.0.30

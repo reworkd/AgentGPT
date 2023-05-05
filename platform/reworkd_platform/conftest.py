@@ -1,8 +1,4 @@
-import asyncio
-import sys
-import uuid
-from asyncio.events import AbstractEventLoop
-from typing import Any, AsyncGenerator, Generator
+from typing import Any, AsyncGenerator
 from unittest.mock import Mock
 
 import pytest
@@ -10,7 +6,6 @@ from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import (
-    AsyncConnection,
     AsyncEngine,
     AsyncSession,
     async_sessionmaker,

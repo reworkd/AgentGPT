@@ -129,3 +129,9 @@ docker run -p "3306:3306" -e "MYSQL_PASSWORD=reworkd_platform" -e "MYSQL_USER=re
 ```bash
 pytest -vv .
 ```
+
+## Running linters
+```bash
+# Flake
+poetry run autoflake --in-place --remove-duplicate-keys --remove-all-unused-imports -r .
+```

@@ -1,6 +1,6 @@
 import logging
 import sys
-from typing import Any, Union
+from typing import Union
 
 from loguru import logger
 

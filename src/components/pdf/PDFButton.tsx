@@ -38,10 +38,14 @@ const PDFButton = ({
           doc.addFont(fontUrl, "customfont", "normal");
           doc.setFont("customfont");
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        doc.text(doc.splitTextToSize(text, 180), 20, index * 10 + 10, {
-          align: "left",
-        });
+        doc.text(
+          doc.splitTextToSize(text, 180) as string,
+          20,
+          index * 10 + 10,
+          {
+            align: "left",
+          }
+        );
       } else {
         doc.setFontSize(12);
         doc.text("", 20, index * 10 + 10, { align: "left" });

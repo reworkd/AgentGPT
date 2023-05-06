@@ -1,5 +1,13 @@
 name: Testing Platform
-on: push
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'platform/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'platform/**'
 
 jobs:
   black:

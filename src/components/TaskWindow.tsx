@@ -1,7 +1,11 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
-import { Task } from "../types/agentTypes";
+import {
+  MESSAGE_TYPE_TASK,
+  Task,
+  TASK_STATUS_STARTED,
+} from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useMessageStore } from "./stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
@@ -10,11 +14,24 @@ import { useAgentStore } from "./stores";
 import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
+import { v1 } from "uuid";
 
 export const TaskWindow = () => {
   const [customTask, setCustomTask] = React.useState("");
   const tasks = useMessageStore.use.tasks();
+  const addMessage = useMessageStore.use.addMessage();
   const [t] = useTranslation();
+
+  const handleAddTask = () => {
+    addMessage({
+      taskId: v1().toString(),
+      value: customTask,
+      status: TASK_STATUS_STARTED,
+      type: MESSAGE_TYPE_TASK,
+    });
+    setCustomTask("");
+  };
+
   return (
     <Expand className="xl mx-2 mt-4 hidden w-[20rem] flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 px-1 font-mono shadow-2xl xl:flex">
       <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-300 ">
@@ -35,7 +52,8 @@ export const TaskWindow = () => {
           />
           <Button
             className="font-sm px-2 py-2 text-sm sm:px-2 sm:py-2"
-            onClick={() => {}}
+            onClick={handleAddTask}
+            disabled={!customTask}
           >
             Add
           </Button>

@@ -12,5 +12,6 @@
   "NO_MORE_TASKS": "Keine weiteren Unteraufgaben für:",
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Text wurde in die Zwischenablage kopiert",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Text konnte nicht in die Zwischenablage kopiert werden",
-  "RESTART_IF_IT_TAKES_X_SEC": "(Starten Sie neu, wenn dies länger als 30 Sekunden dauert)"
+  "RESTART_IF_IT_TAKES_X_SEC": "(Starten Sie neu, wenn dies länger als 30 Sekunden dauert)",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Erstelle einen Agenten, indem du einen Namen/ein Ziel hinzufügst und auf Deploy drückst!"
 }

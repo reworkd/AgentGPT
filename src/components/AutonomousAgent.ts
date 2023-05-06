@@ -43,7 +43,7 @@ class AutonomousAgent {
   language: string;
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
-  isRunning = true;
+  isRunning = false;
   renderMessage: (message: Message) => void;
   handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
   shutdown: () => void;
@@ -82,29 +82,9 @@ class AutonomousAgent {
   }
 
   async run() {
-    if (this.getRemainingTasks().length === 0) {
-      this.sendGoalMessage();
-      this.sendThinkingMessage();
-
-      // Initialize by getting taskValues
-      try {
-        const taskValues = await this.getInitialTasks();
-        for (const value of taskValues) {
-          await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-          const task: Task = {
-            taskId: v1().toString(),
-            value,
-            status: TASK_STATUS_STARTED,
-            type: MESSAGE_TYPE_TASK,
-          };
-          this.sendMessage(task);
-        }
-      } catch (e) {
-        console.log(e);
-        this.sendErrorMessage(getMessageFromError(e));
-        this.shutdown();
-        return;
-      }
+    if (!this.isRunning) {
+      this.isRunning = true;
+      await this.startGoal();
     }
 
     await this.loop();
@@ -113,9 +93,32 @@ class AutonomousAgent {
     }
   }
 
-  async loop() {
-    console.log(`Loops: ${this.numLoops}`);
+  async startGoal() {
+    this.sendGoalMessage();
+    this.sendThinkingMessage();
 
+    // Initialize by getting taskValues
+    try {
+      const taskValues = await this.getInitialTasks();
+      for (const value of taskValues) {
+        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
+        const task: Task = {
+          taskId: v1().toString(),
+          value,
+          status: TASK_STATUS_STARTED,
+          type: MESSAGE_TYPE_TASK,
+        };
+        this.sendMessage(task);
+      }
+    } catch (e) {
+      console.log(e);
+      this.sendErrorMessage(getMessageFromError(e));
+      this.shutdown();
+      return;
+    }
+  }
+
+  async loop() {
     this.conditionalPause();
 
     if (!this.isRunning) {
@@ -208,12 +211,15 @@ class AutonomousAgent {
   }
 
   private conditionalPause() {
-    if (this.mode !== PAUSE_MODE) {
+    console.log(`Mode: ${this.mode}`);
+    if (this.mode != PAUSE_MODE) {
+      console.log("Mode is not pause mode", PAUSE_MODE, this.mode);
       return;
     }
 
     // decide whether to pause agent when pause mode is enabled
     this.isRunning = !(this.playbackControl === AGENT_PAUSE);
+    console.log(`isRunning: ${this.isRunning}`);
 
     // reset playbackControl to pause so agent pauses on next set of task(s)
     if (this.playbackControl === AGENT_PLAY) {

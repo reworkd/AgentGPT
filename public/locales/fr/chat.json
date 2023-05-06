@@ -12,5 +12,6 @@
   "NO_MORE_TASKS": "Plus de sous-tâches pour :",
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Texte copié dans le presse-papiers",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Impossible de copier le texte dans le presse-papiers",
-  "RESTART_IF_IT_TAKES_X_SEC": "(Redémarrez si cela prend plus de 30 secondes)"
+  "RESTART_IF_IT_TAKES_X_SEC": "(Redémarrez si cela prend plus de 30 secondes)",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Créez un agent en ajoutant un nom/objectif et en appuyant sur déployer !"
 }

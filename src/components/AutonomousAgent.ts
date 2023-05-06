@@ -31,7 +31,7 @@ import type {
   Task,
   AgentPlaybackControl,
 } from "../types/agentTypes";
-import { useAgentStore } from "./stores";
+import { useAgentStore, useMessageStore } from "./stores";
 import { i18n } from "next-i18next";
 
 const TIMEOUT_LONG = 1000;
@@ -41,7 +41,6 @@ class AutonomousAgent {
   name: string;
   goal: string;
   language: string;
-  tasks: Message[] = [];
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = true;
@@ -83,7 +82,7 @@ class AutonomousAgent {
   }
 
   async run() {
-    if (this.tasks.length === 0) {
+    if (this.getRemainingTasks().length === 0) {
       this.sendGoalMessage();
       this.sendThinkingMessage();
 
@@ -99,7 +98,6 @@ class AutonomousAgent {
             type: MESSAGE_TYPE_TASK,
           };
           this.sendMessage(task);
-          this.tasks.push(task);
         }
       } catch (e) {
         console.log(e);
@@ -117,7 +115,6 @@ class AutonomousAgent {
 
   async loop() {
     console.log(`Loops: ${this.numLoops}`);
-    console.log(this.tasks);
 
     this.conditionalPause();
 
@@ -125,7 +122,7 @@ class AutonomousAgent {
       return;
     }
 
-    if (this.tasks.length === 0) {
+    if (this.getRemainingTasks().length === 0) {
       this.sendCompletedMessage();
       this.shutdown();
       return;
@@ -142,7 +139,9 @@ class AutonomousAgent {
     // Wait before starting
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
-    const currentTask = this.tasks.shift() as Task;
+    // Start with first task
+    const currentTask = this.getRemainingTasks()[0] as Task;
+    this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
     this.sendThinkingMessage();
 
@@ -156,18 +155,14 @@ class AutonomousAgent {
       this.sendAnalysisMessage(analysis);
     }
 
-    // Execute first task
-    // Get and remove first task
-    this.completedTasks.push(this.tasks[0]?.value || "");
-
-    this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
-
     const result = await this.executeTask(currentTask.value, analysis);
     this.sendMessage({
       ...currentTask,
       info: result,
       status: TASK_STATUS_COMPLETED,
     });
+
+    this.completedTasks.push(currentTask.value || "");
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -184,7 +179,6 @@ class AutonomousAgent {
           status: TASK_STATUS_STARTED,
           type: MESSAGE_TYPE_TASK,
         };
-        this.tasks.push(task);
         this.sendMessage(task);
       }
 
@@ -204,6 +198,13 @@ class AutonomousAgent {
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
     await this.loop();
+  }
+
+  getRemainingTasks() {
+    const tasks = useMessageStore.getState().tasks;
+    return tasks.filter((task: Task) => {
+      return task.status === TASK_STATUS_STARTED;
+    });
   }
 
   private conditionalPause() {
@@ -256,7 +257,7 @@ class AutonomousAgent {
     currentTask: string,
     result: string
   ): Promise<string[]> {
-    const taskValues = this.tasks.map((task) => task.value);
+    const taskValues = this.getRemainingTasks().map((task) => task.value);
 
     if (this.shouldRunClientSide()) {
       return await AgentService.createTasksAgent(

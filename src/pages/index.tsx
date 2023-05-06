@@ -288,7 +288,7 @@ const Home: NextPage = () => {
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
               />
-              {tasks.length > 0 && <TaskWindow />}
+              {(agent || tasks.length > 0) && <TaskWindow />}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">

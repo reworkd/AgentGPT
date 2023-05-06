@@ -186,7 +186,7 @@ const Home: NextPage = () => {
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
         <FaPlay size={20} />
-        <span className="ml-2">{i18n.t("CONTINUE", {ns: 'common'})}</span>
+        <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
       </Button>
     ) : (
       <Button
@@ -195,11 +195,11 @@ const Home: NextPage = () => {
         onClick={() => handleNewGoal(nameInput, goalInput)}
       >
         {agent == null ? (
-          i18n.t("BUTTON_DEPLOY_AGENT", {ns: 'indexPage'})
+          i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
         ) : (
           <>
             <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{i18n.t("RUNNING", {ns: 'common'})}</span>
+            <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
           </>
         )}
       </Button>
@@ -288,7 +288,7 @@ const Home: NextPage = () => {
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
               />
-              {tasks.length > 0 && <TaskWindow />}
+              {(agent || tasks.length > 0) && <TaskWindow />}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">

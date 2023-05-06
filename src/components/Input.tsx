@@ -6,6 +6,7 @@ import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
 
 interface InputProps {
+  className?: string;
   left?: React.ReactNode;
   value: string | number | undefined;
   onChange: (
@@ -30,6 +31,7 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const {
+    className,
     placeholder,
     left,
     value,
@@ -104,7 +106,8 @@ const Input = (props: InputProps) => {
           "border:black delay-50 w-full rounded-xl bg-[#3a3a3a] py-1 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:py-3 md:text-lg",
           !isTypeRange() && "border-[2px] border-white/10 px-2",
           disabled && " cursor-not-allowed hover:border-white/10",
-          left && "md:rounded-l-none"
+          left && "md:rounded-l-none",
+          className
         )}
         ref={inputRef}
         placeholder={placeholder}

@@ -8,8 +8,11 @@ import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useAgentStore } from "./stores";
 import clsx from "clsx";
+import Input from "./Input";
+import Button from "./Button";
 
 export const TaskWindow = () => {
+  const [customTask, setCustomTask] = React.useState("");
   const tasks = useMessageStore.use.tasks();
   const [t] = useTranslation();
   return (

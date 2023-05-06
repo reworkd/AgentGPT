@@ -6,7 +6,7 @@ import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
 
 interface InputProps {
-  className?: string;
+  small?: boolean; // Will lower padding and font size. Currently only works for the default input
   left?: React.ReactNode;
   value: string | number | undefined;
   onChange: (
@@ -31,7 +31,7 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const {
-    className,
+    small,
     placeholder,
     left,
     value,
@@ -107,7 +107,7 @@ const Input = (props: InputProps) => {
           !isTypeRange() && "border-[2px] border-white/10 px-2",
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none",
-          className
+          small && "text-sm sm:py-[0]"
         )}
         ref={inputRef}
         placeholder={placeholder}
@@ -123,9 +123,11 @@ const Input = (props: InputProps) => {
 
   return (
     <div
-      className={`items-left z-5 flex w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a] ${
-        isTypeRange() ? "md: border-white/10 md:border-[2px]" : ""
-      } shadow-xl md:flex-row md:items-center`}
+      className={clsx(
+        `items-left z-5 flex h-fit w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a]`,
+        isTypeRange() && "md: border-white/10 md:border-[2px]",
+        `shadow-xl md:flex-row md:items-center`
+      )}
     >
       {left && (
         <Label left={left} type={type} toolTipProperties={toolTipProperties} />

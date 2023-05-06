@@ -205,9 +205,7 @@ class AutonomousAgent {
 
   getRemainingTasks() {
     const tasks = useMessageStore.getState().tasks;
-    return tasks.filter((task: Task) => {
-      return task.status === TASK_STATUS_STARTED;
-    });
+    return tasks.filter((task: Task) => task.status === TASK_STATUS_STARTED);
   }
 
   private conditionalPause() {

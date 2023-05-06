@@ -205,21 +205,16 @@ class AutonomousAgent {
 
   getRemainingTasks() {
     const tasks = useMessageStore.getState().tasks;
-    return tasks.filter((task: Task) => {
-      return task.status === TASK_STATUS_STARTED;
-    });
+    return tasks.filter((task: Task) => task.status === TASK_STATUS_STARTED);
   }
 
   private conditionalPause() {
-    console.log(`Mode: ${this.mode}`);
     if (this.mode != PAUSE_MODE) {
-      console.log("Mode is not pause mode", PAUSE_MODE, this.mode);
       return;
     }
 
     // decide whether to pause agent when pause mode is enabled
     this.isRunning = !(this.playbackControl === AGENT_PAUSE);
-    console.log(`isRunning: ${this.isRunning}`);
 
     // reset playbackControl to pause so agent pauses on next set of task(s)
     if (this.playbackControl === AGENT_PLAY) {

@@ -17,11 +17,25 @@ export const TaskWindow = () => {
       <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-300 ">
         <FaListAlt /> {t("Current tasks")}
       </div>
-      <div className="window-heights mb-2 w-full px-1 ">
-        <div className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
+      <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
+        <div className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
           {tasks.map((task, i) => (
             <Task key={i} task={task} />
           ))}
+        </div>
+        <div className="flex flex-row gap-1">
+          <Input
+            value={customTask}
+            onChange={(e) => setCustomTask(e.target.value)}
+            placeholder={"Custom task"}
+            className="py-1 text-xs sm:py-2"
+          />
+          <Button
+            className="font-sm px-2 py-2 text-sm sm:px-2 sm:py-2"
+            onClick={() => {}}
+          >
+            Add
+          </Button>
         </div>
       </div>
     </Expand>

@@ -73,7 +73,7 @@ const PDFButton = ({
 };
 
 const getTextSections = (messages: Message[]): string[] => {
-  // Note "Thinking" messages have no `value` so they show up as new lines
+  // Note "Thinking" messages have no `value` so they show up as new line
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {

@@ -38,5 +38,6 @@ else
   printf $ENV > .env
   ./prisma/useSqlite.sh
   npm install
+  prisma db push
   npm run dev
 fi

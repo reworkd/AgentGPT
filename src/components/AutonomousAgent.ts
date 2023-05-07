@@ -119,15 +119,15 @@ class AutonomousAgent {
   }
 
   async loop() {
-    this.conditionalPause();
-
-    if (!this.isRunning) {
-      return;
-    }
-
     if (this.getRemainingTasks().length === 0) {
       this.sendCompletedMessage();
       this.shutdown();
+      return;
+    }
+
+    this.conditionalPause();
+
+    if (!this.isRunning) {
       return;
     }
 

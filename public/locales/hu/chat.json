@@ -12,5 +12,6 @@
   "NO_MORE_TASKS": "Nincsenek további alfeladatok ehhez:",
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Szöveg másolva a vágólapra",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nem sikerült a szöveg vágólapra másolása",
-  "RESTART_IF_IT_TAKES_X_SEC": "(Frissítse az oldalt vagy indítsa újra az ügynököt manuálisan, ha ez több mint 30 másodpercig tart)"
+  "RESTART_IF_IT_TAKES_X_SEC": "(Frissítse az oldalt vagy indítsa újra az ügynököt manuálisan, ha ez több mint 30 másodpercig tart)",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Hozzon létre egy ügynököt név/cél hozzáadásával, és a telepítés gombra kattintva!"
 }

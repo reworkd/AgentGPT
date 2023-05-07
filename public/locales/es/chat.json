@@ -12,5 +12,6 @@
   "NO_MORE_TASKS": "No hay más sub-tareas para:",
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Texto copiado al portapapeles",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "No se pudo copiar el texto al portapapeles",
-  "RESTART_IF_IT_TAKES_X_SEC": "(Reiniciar si esto tarda más de 30 segundos)"
+  "RESTART_IF_IT_TAKES_X_SEC": "(Reiniciar si esto tarda más de 30 segundos)",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 ¡Cree un agente agregando un nombre / objetivo y presionando implementar!"
 }

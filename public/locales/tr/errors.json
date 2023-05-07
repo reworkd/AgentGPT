@@ -1,0 +1,13 @@
+{
+	"AGENT_MANUALLY_SHUT_DOWN": "Temsilci manuel olarak kapatıldı.",
+	"AGENT_MAXED_OUT_LOOPS": "Bu ajan döngülerde maksimuma ulaştı. \nCüzdanınızı kurtarmak için bu aracı kapatılıyor. \nGelişmiş ayarlarda döngü sayısını yapılandırabilirsiniz.",
+	"ALL_TASKS_COMPLETETD": "Tüm görevler tamamlandı. \nKapatmak.",
+	"DEMO_LOOPS_REACHED": "Üzgünüz, çünkü bu bir demo, ajanlarımızı çok uzun süre çalıştıramayız. \nDaha uzun çalıştırmalar istiyorsanız, lütfen Ayarlar'da kendi API anahtarınızı sağlayın. \nKapatmak.",
+	"ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI'nin API'sine erişirken HATA. \nLütfen API anahtarınızı kontrol edin veya daha sonra tekrar deneyin",
+	"ERROR_ADDING_ADDITIONAL_TASKS": "Ek görev(ler) eklenirken HATA. \nBunları çalıştırmak modelimizin ilkelerine aykırı olabilir. \nDevam ediyor.",
+	"ERROR_API_KEY_QUOTA": "OpenAI API anahtarınızı kullanırken HATA. \nMevcut kotanızı aştınız, lütfen planınızı ve fatura ayrıntılarınızı kontrol edin.",
+	"ERROR_OPENAI_API_KEY_NO_GPT4": "HATA, API anahtarınızın GPT-4 erişimi yok. \nÖnce OpenAI'nin bekleme listesine katılmalısınız. \n(Bu, ChatGPT Plus'tan farklıdır)",
+	"ERROR_RETRIEVE_INITIAL_TASKS": "İlk görevler dizisi alınırken HATA. \nYeniden deneyin, hedefinizi daha net hale getirin veya hedefinizi, çalıştırılacak modelimizin politikaları dahilinde olacak şekilde revize edin. \nKapatmak.",
+	"INVALID_OPENAI_API_KEY": "HATA geçersiz OpenAI API anahtarı",
+	"RATE_LIMIT_EXCEEDED": "Hız limiti aşıldı! \nLütfen yavaşlayın...😅"
+}

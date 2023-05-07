@@ -12,5 +12,6 @@
   "NO_MORE_TASKS": "Nema više pod-zadataka za:",
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Tekst kopiran u međuspremnik",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nije moguće kopirati tekst u međuspremnik",
-  "RESTART_IF_IT_TAKES_X_SEC": "(Ponovo pokrenite ako ovo traje više od 30 sekundi)"
+  "RESTART_IF_IT_TAKES_X_SEC": "(Ponovo pokrenite ako ovo traje više od 30 sekundi)",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Izradite agenta dodavanjem imena/cilja i pritiskom na Deploy!"
 }

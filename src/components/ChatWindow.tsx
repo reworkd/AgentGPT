@@ -340,7 +340,7 @@ const MacWindowHeader = (props: HeaderProps) => {
           ) : (
             <>
               <FaPlay />
-              <p className="font-mono">{`${t("Running", { ns: "common" })}`}</p>
+              <p className="font-mono">{`${t("RUNNING", { ns: "common" })}`}</p>
             </>
           )}
         </div>

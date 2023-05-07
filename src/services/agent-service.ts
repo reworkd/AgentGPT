@@ -11,12 +11,17 @@ import { LLMChain } from "langchain/chains";
 import { extractTasks } from "../utils/helpers";
 import { Serper } from "./custom-tools/serper";
 
-async function startGoalAgent(modelSettings: ModelSettings, goal: string) {
+async function startGoalAgent(
+  modelSettings: ModelSettings,
+  goal: string,
+  language: string
+) {
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: startGoalPrompt,
   }).call({
     goal,
+    language,
   });
   console.log("Goal", goal, "Completion:" + (completion.text as string));
   return extractTasks(completion.text as string, []);
@@ -40,8 +45,7 @@ async function analyzeTaskAgent(
   console.log("Analysis completion:\n", completion.text);
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const analysis = JSON.parse(completion.text) as Analysis;
-    return analysis;
+    return JSON.parse(completion.text) as Analysis;
   } catch (e) {
     console.error("Error parsing analysis", e);
     // Default to reasoning
@@ -62,6 +66,7 @@ export const DefaultAnalysis: Analysis = {
 async function executeTaskAgent(
   modelSettings: ModelSettings,
   goal: string,
+  language: string,
   task: string,
   analysis: Analysis
 ) {
@@ -76,6 +81,7 @@ async function executeTaskAgent(
     prompt: executeTaskPrompt,
   }).call({
     goal,
+    language,
     task,
   });
 
@@ -92,6 +98,7 @@ async function executeTaskAgent(
 async function createTasksAgent(
   modelSettings: ModelSettings,
   goal: string,
+  language: string,
   tasks: string[],
   lastTask: string,
   result: string,
@@ -102,6 +109,7 @@ async function createTasksAgent(
     prompt: createTasksPrompt,
   }).call({
     goal,
+    language,
     tasks,
     lastTask,
     result,
@@ -113,7 +121,8 @@ async function createTasksAgent(
 interface AgentService {
   startGoalAgent: (
     modelSettings: ModelSettings,
-    goal: string
+    goal: string,
+    language: string
   ) => Promise<string[]>;
   analyzeTaskAgent: (
     modelSettings: ModelSettings,
@@ -123,12 +132,14 @@ interface AgentService {
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     task: string,
     analysis: Analysis
   ) => Promise<string>;
   createTasksAgent: (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     tasks: string[],
     lastTask: string,
     result: string,
@@ -144,13 +155,14 @@ const OpenAIAgentService: AgentService = {
 };
 
 const MockAgentService: AgentService = {
-  startGoalAgent: async (modelSettings, goal) => {
+  startGoalAgent: async (modelSettings, goal, language) => {
     return await new Promise((resolve) => resolve(["Task 1"]));
   },
 
   createTasksAgent: async (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     tasks: string[],
     lastTask: string,
     result: string,
@@ -175,6 +187,7 @@ const MockAgentService: AgentService = {
   executeTaskAgent: async (
     modelSettings: ModelSettings,
     goal: string,
+    language: string,
     task: string,
     analysis: Analysis
   ) => {

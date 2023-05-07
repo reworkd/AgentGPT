@@ -1,0 +1,16 @@
+{
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Stiamo riscontrando un traffico eccezionalmente elevato, si prevedono ritardi e errori se non si utilizza la propria chiave API 🚨",
+  "CREATE_AN_AGENT_DESCRIPTION": "Crea un agente aggiungendo nome e obiettivo, quindi premi il pulsante \"Avvia agente!\"",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 È possibile fornire la propria chiave API OpenAI nella scheda Impostazioni per ottenere limiti superiori!",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Aiuta a sostenere lo sviluppo di AgentGPT. 💝️",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Considera di sponsorizzare il progetto su GitHub.",
+  "SUPPORT_NOW": "Supporto ora 🚀",
+  "EMBARKING_ON_NEW_GOAL": "Affrontando un nuovo obiettivo:",
+  "THINKING": "Pensando...",
+  "TASK_ADDED": "Compito aggiunto:",
+  "COMPLETING": "Completando:",
+  "NO_MORE_TASKS": "Non ci sono più sottocompiti per questo:",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Testo copiato negli appunti",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Impossibile copiare il testo negli appunti",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Ricaricare la pagina o avviare manualmente l'agente se ciò richiede più di 30 secondi)"
+}

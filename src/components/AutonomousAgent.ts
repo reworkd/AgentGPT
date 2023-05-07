@@ -31,8 +31,8 @@ import type {
   Task,
   AgentPlaybackControl,
 } from "../types/agentTypes";
-import { useAgentStore } from "./stores";
-import { useMessageStore } from "./stores";
+import { useAgentStore, useMessageStore } from "./stores";
+import { i18n } from "next-i18next";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -40,10 +40,10 @@ const TIMOUT_SHORT = 800;
 class AutonomousAgent {
   name: string;
   goal: string;
-  tasks: Message[] = [];
+  language: string;
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
-  isRunning = true;
+  isRunning = false;
   renderMessage: (message: Message) => void;
   handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
   shutdown: () => void;
@@ -56,6 +56,7 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
+    language: string,
     renderMessage: (message: Message) => void,
     handlePause: (opts: {
       agentPlaybackControl?: AgentPlaybackControl;
@@ -68,6 +69,7 @@ class AutonomousAgent {
   ) {
     this.name = name;
     this.goal = goal;
+    this.language = language;
     this.renderMessage = renderMessage;
     this.handlePause = handlePause;
     this.shutdown = shutdown;
@@ -80,30 +82,9 @@ class AutonomousAgent {
   }
 
   async run() {
-    if (this.tasks.length === 0) {
-      this.sendGoalMessage();
-      this.sendThinkingMessage();
-
-      // Initialize by getting taskValues
-      try {
-        const taskValues = await this.getInitialTasks();
-        for (const value of taskValues) {
-          await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-          const task: Task = {
-            taskId: v1().toString(),
-            value,
-            status: TASK_STATUS_STARTED,
-            type: MESSAGE_TYPE_TASK,
-          };
-          this.sendMessage(task);
-          this.tasks.push(task);
-        }
-      } catch (e) {
-        console.log(e);
-        this.sendErrorMessage(getMessageFromError(e));
-        this.shutdown();
-        return;
-      }
+    if (!this.isRunning) {
+      this.isRunning = true;
+      await this.startGoal();
     }
 
     await this.loop();
@@ -112,17 +93,39 @@ class AutonomousAgent {
     }
   }
 
-  async loop() {
-    console.log(`Loop ${this.numLoops}`);
-    console.log(this.tasks);
+  async startGoal() {
+    this.sendGoalMessage();
+    this.sendThinkingMessage();
 
+    // Initialize by getting taskValues
+    try {
+      const taskValues = await this.getInitialTasks();
+      for (const value of taskValues) {
+        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
+        const task: Task = {
+          taskId: v1().toString(),
+          value,
+          status: TASK_STATUS_STARTED,
+          type: MESSAGE_TYPE_TASK,
+        };
+        this.sendMessage(task);
+      }
+    } catch (e) {
+      console.log(e);
+      this.sendErrorMessage(getMessageFromError(e));
+      this.shutdown();
+      return;
+    }
+  }
+
+  async loop() {
     this.conditionalPause();
 
     if (!this.isRunning) {
       return;
     }
 
-    if (this.tasks.length === 0) {
+    if (this.getRemainingTasks().length === 0) {
       this.sendCompletedMessage();
       this.shutdown();
       return;
@@ -139,8 +142,9 @@ class AutonomousAgent {
     // Wait before starting
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
-    this.tasks = this.getTasksFromStore();
-    const currentTask = this.tasks.shift() as Task;
+    // Start with first task
+    const currentTask = this.getRemainingTasks()[0] as Task;
+    this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
     this.sendThinkingMessage();
 
@@ -154,18 +158,14 @@ class AutonomousAgent {
       this.sendAnalysisMessage(analysis);
     }
 
-    // Execute first task
-    // Get and remove first task
-    this.completedTasks.push(this.tasks[0]?.value || "");
-
-    this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
-
     const result = await this.executeTask(currentTask.value, analysis);
     this.sendMessage({
       ...currentTask,
       info: result,
       status: TASK_STATUS_COMPLETED,
     });
+
+    this.completedTasks.push(currentTask.value || "");
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -182,7 +182,6 @@ class AutonomousAgent {
           status: TASK_STATUS_STARTED,
           type: MESSAGE_TYPE_TASK,
         };
-        this.tasks.push(task);
         this.sendMessage(task);
       }
 
@@ -192,15 +191,25 @@ class AutonomousAgent {
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
-        `ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.`
+        `${i18n?.t(
+          "ERROR_ADDING_ADDITIONAL_TASKS",
+          "ERROR_ADDING_ADDITIONAL_TASKS",
+          { ns: "errors" }
+        )}`
       );
+
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
     await this.loop();
   }
 
+  getRemainingTasks() {
+    const tasks = useMessageStore.getState().tasks;
+    return tasks.filter((task: Task) => task.status === TASK_STATUS_STARTED);
+  }
+
   private conditionalPause() {
-    if (this.mode !== PAUSE_MODE) {
+    if (this.mode != PAUSE_MODE) {
       return;
     }
 
@@ -228,35 +237,34 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startGoalAgent(this.modelSettings, this.goal);
+      return await AgentService.startGoalAgent(
+        this.modelSettings,
+        this.goal,
+        this.language
+      );
     }
 
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
     };
     const res = await this.post(`/api/agent/start`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
   }
 
-  getTasksFromStore() {
-    const tasks = useMessageStore.getState().tasks;
-    return tasks.filter((task: Task) => {
-      return task.status === TASK_STATUS_STARTED;
-    });
-  }
-
   async getAdditionalTasks(
     currentTask: string,
     result: string
   ): Promise<string[]> {
-    const taskValues = this.tasks.map((task) => task.value);
+    const taskValues = this.getRemainingTasks().map((task) => task.value);
 
     if (this.shouldRunClientSide()) {
       return await AgentService.createTasksAgent(
         this.modelSettings,
         this.goal,
+        this.language,
         taskValues,
         currentTask,
         result,
@@ -267,6 +275,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
       tasks: taskValues,
       lastTask: currentTask,
       result: result,
@@ -289,6 +298,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
       task: task,
     };
     const res = await this.post("/api/agent/analyze", data);
@@ -302,6 +312,7 @@ class AutonomousAgent {
       return await AgentService.executeTaskAgent(
         this.modelSettings,
         this.goal,
+        this.language,
         task,
         analysis
       );
@@ -310,6 +321,7 @@ class AutonomousAgent {
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
+      language: this.language,
       task: task,
       analysis: analysis,
     };
@@ -325,7 +337,11 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage("Rate limit exceeded. Please slow down. 😅");
+        this.sendErrorMessage(
+          `${i18n?.t("RATE_LIMIT_EXCEEDED", "RATE_LIMIT_EXCEEDED", {
+            ns: "errors",
+          })}`
+        );
       }
 
       throw e;
@@ -365,22 +381,32 @@ class AutonomousAgent {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: !!this.modelSettings.customApiKey
-        ? `This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.`
-        : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+        ? `${i18n?.t("AGENT_MAXED_OUT_LOOPS", "AGENT_MAXED_OUT_LOOPS", {
+            ns: "errors",
+          })}`
+        : `${i18n?.t("DEMO_LOOPS_REACHED", "DEMO_LOOPS_REACHED", {
+            ns: "errors",
+          })}`,
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: `The agent has been manually shutdown.`,
+      value: `${i18n?.t(
+        "AGENT_MANUALLY_SHUT_DOWN",
+        "AGENT_MANUALLY_SHUT_DOWN",
+        { ns: "errors" }
+      )}`,
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: "All tasks completed. Shutting down.",
+      value: `${i18n?.t("ALL_TASKS_COMPLETETD", "ALL_TASKS_COMPLETETD", {
+        ns: "errors",
+      })}`,
     });
   }
 
@@ -427,18 +453,21 @@ const testConnection = async (modelSettings: ModelSettings) => {
 };
 
 const getMessageFromError = (e: unknown) => {
-  let message =
-    "ERROR accessing OpenAI APIs. Please check your API key or try again later";
+  let message = `${i18n?.t("ERROR_ACCESSING_OPENAI_API_KEY", {
+    ns: "errors",
+  })}`;
   if (axios.isAxiosError(e)) {
     const axiosError = e;
     if (axiosError.response?.status === 429) {
-      message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
+      message = `${i18n?.t("ERROR_API_KEY_QUOTA", {
+        ns: "errors",
+      })}`;
     }
     if (axiosError.response?.status === 404) {
-      message = `ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)`;
+      message = `${i18n?.t("ERROR_OPENAI_API_KEY_NO_GPT4", { ns: "errors" })}`;
     }
   } else {
-    message = `ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.`;
+    message = `${i18n?.t("ERROR_RETRIEVE_INITIAL_TASKS", { ns: "errors" })}`;
   }
   return message;
 };

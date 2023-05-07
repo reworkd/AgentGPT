@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Sastavite, konfigurirajte i instalirajte autonomne AI agente u svom pregledniku.",
+  "AGENT_NAME": "Ime",
+  "LABEL_AGENT_GOAL": "Cilj",
+  "PLACEHOLDER_AGENT_GOAL": "Učinite svijet boljim mjestom",
+  "BUTTON_DEPLOY_AGENT": "Pokreni agenta",
+  "BUTTON_STOP_AGENT": "Zaustavi agenta"
+}

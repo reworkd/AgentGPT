@@ -10,7 +10,7 @@ export const config = {
 
 const handler = async (request: NextRequest) => {
   try {
-    const { modelSettings, goal, task, analysis } =
+    const { modelSettings, goal, language, task, analysis } =
       (await request.json()) as RequestBody;
     if (task === undefined) {
       return;
@@ -19,6 +19,7 @@ const handler = async (request: NextRequest) => {
     const response = await AgentService.executeTaskAgent(
       modelSettings,
       goal,
+      language,
       task,
       analysis || DefaultAnalysis
     );

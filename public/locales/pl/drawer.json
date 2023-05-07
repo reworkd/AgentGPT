@@ -1,0 +1,11 @@
+{
+  "HELP_BUTTON": "Pomoc",
+  "SETTINGS_BUTTON": "Ustawienia",
+  "MY_AGENTS": "Moje agenci",
+  "SIGN_IN_NOTICE": "Zaloguj się, aby zapisać swoich agentów i zarządzać swoim kontem!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "Musisz najpierw stworzyć i zapisać swojego pierwszego agenta, zanim pojawi się tutaj coś!",
+  "SIGN_IN": "Zaloguj się",
+  "SIGN_OUT": "Wyloguj się",
+  "ACCOUNT" : "Konto",
+  "USER_IMAGE": "Zdjęcie użytkownika"
+}

@@ -3,14 +3,16 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import type { toolTipProperties } from "./types";
 
 interface TooltipProps {
-  child: React.ReactNode;
+  // child: React.ReactNode;
+  children: React.ReactNode;
   toolTipProperties?: toolTipProperties;
   style?: { [key: string]: string };
   sideOffset: number;
 }
 
 const Tooltip = ({
-  child,
+  // child,
+  children,
   toolTipProperties = { message: "", disabled: true },
   style = { container: "" },
   sideOffset,
@@ -20,11 +22,15 @@ const Tooltip = ({
     <div className={style.container}>
       <TooltipPrimitive.Provider>
         <TooltipPrimitive.Root delayDuration={0}>
-          <TooltipPrimitive.Trigger asChild>{child}</TooltipPrimitive.Trigger>
+          <TooltipPrimitive.Trigger asChild>
+            {children}
+          </TooltipPrimitive.Trigger>
           {disabled ? null : (
             <TooltipPrimitive.Portal>
               <TooltipPrimitive.Content
-                className="will-change animation-transform user-select-none z-40 w-3/5 rounded-sm bg-black px-3.5 py-2.5 text-white shadow-lg "
+                className={`will-change animation-transform user-select-none z-40 w-3/5 rounded-sm bg-black px-3.5 py-2.5 text-white shadow-lg ${
+                  style?.content || ""
+                }`}
                 sideOffset={sideOffset}
               >
                 <span className="whitespace-pre-line">{message}</span>

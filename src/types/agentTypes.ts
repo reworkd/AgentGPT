@@ -39,6 +39,7 @@ export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
 export const messageSchemaBase = z.object({
   value: z.string(),
+  iteration: z.number().optional(),
   info: z.string().optional().nullable(),
 });
 

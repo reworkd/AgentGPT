@@ -19,11 +19,15 @@ const resetters: (() => void)[] = [];
 
 const initialMessageState = {
   messages: [],
+  latestIteration: 0,
 };
 
 interface MessageSlice {
   messages: Message[];
+  latestIteration: number;
   addMessage: (newMessage: Message) => void;
+  updateMessage: (newMessage: Message) => void;
+  deleteMessage: (targetMessage: Message) => void;
 }
 
 const createMessageSlice: StateCreator<
@@ -31,7 +35,7 @@ const createMessageSlice: StateCreator<
   [],
   [],
   MessageSlice
-> = (set) => {
+> = (set, get) => {
   resetters.push(() => set(initialMessageState));
   return {
     ...initialMessageState,
@@ -40,12 +44,39 @@ const createMessageSlice: StateCreator<
       newMessage = { ...newMessage };
       set((state) => ({
         ...state,
+        ...(newMessage.iteration !== undefined && {
+          latestIteration: Math.max(
+            state.latestIteration,
+            newMessage.iteration
+          ),
+        }),
         messages: [...state.messages, newMessage],
         tasks:
           isTask(newTask) && !isExistingTask(newTask)
             ? [...state.tasks, newTask]
             : [...state.tasks],
       }));
+    },
+    updateMessage: (newMessage) => {
+      if (isTask(newMessage)) {
+        set((state) => {
+          return {
+            ...state,
+            messages: getUpdatedTasks(newMessage, state.messages),
+          };
+        });
+      }
+    },
+    deleteMessage: (targetMessage) => {
+      if (isTask(targetMessage)) {
+        set((state) => {
+          return {
+            ...state,
+            messages: getTasksAfterRemoval(targetMessage, state.messages),
+          };
+        });
+        console.log(get().messages);
+      }
     },
   };
 };
@@ -56,7 +87,8 @@ const initialTaskState = {
 
 interface TaskSlice {
   tasks: Task[];
-  updateTaskStatus: (updatedTask: Task) => void;
+  updateTask: (updatedTask: Task, typeOfUpdate?: "existing" | "all") => void;
+  deleteTask: (targetMessage: Message) => void;
 }
 
 const createTaskSlice: StateCreator<
@@ -64,38 +96,72 @@ const createTaskSlice: StateCreator<
   [],
   [],
   TaskSlice
-> = (set) => {
+> = (set, get) => {
   resetters.push(() => set(initialTaskState));
   return {
     ...initialTaskState,
-    updateTaskStatus: (updatedTask) => {
-      const { taskId, info, status: newStatus } = updatedTask;
-
-      if (!isExistingTask(updatedTask) || taskId === undefined) {
+    updateTask: (newTask, typeOfUpdate) => {
+      if (typeOfUpdate === "existing" && !isExistingTask(newTask)) {
         return;
       }
 
       set((state) => {
-        const updatedTasks = state.tasks.map((task) => {
-          if (task.taskId === taskId) {
-            return {
-              ...task,
-              status: newStatus,
-              info,
-            };
-          }
-          return task;
-        });
-
         return {
           ...state,
-          tasks: updatedTasks,
+          tasks: getUpdatedTasks(newTask, state.tasks) as Task[],
         };
       });
+    },
+    deleteTask: (targetTask) => {
+      set((state) => {
+        return {
+          ...state,
+          tasks: getTasksAfterRemoval(targetTask, state.tasks) as Task[],
+        };
+      });
+      console.log(get().tasks);
     },
   };
 };
 
+/* Helper functions */
+const getUpdatedTasks = (newTask: Task, messages: Message[]) => {
+  const { taskId, info, status, value } = newTask;
+
+  if (taskId === undefined) {
+    return messages;
+  }
+
+  return messages.map((task) => {
+    if (isTask(task) && task.taskId === taskId) {
+      return {
+        ...task,
+        status,
+        value,
+        info,
+      };
+    }
+    return task;
+  });
+};
+
+const getTasksAfterRemoval = (targetTask: Task, messages: Message[]) => {
+  const { taskId } = targetTask;
+
+  if (taskId === undefined) {
+    return messages;
+  }
+
+  return messages.filter((task) => {
+    if ((isTask(task) && task.taskId !== taskId) || !isTask(task)) {
+      return {
+        ...task,
+      };
+    }
+  });
+};
+
+/* Exports */
 export const useMessageStore = createSelectors(
   create<MessageSlice & TaskSlice>()((...a) => ({
     ...createMessageSlice(...a),

@@ -308,7 +308,7 @@ class AutonomousAgent {
 
   sendMessage(message: Message) {
     if (this.isRunning) {
-      this.renderMessage(message);
+      this.renderMessage({ ...message, iteration: this.numLoops });
     }
   }
 

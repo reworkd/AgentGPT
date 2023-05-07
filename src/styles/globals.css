@@ -97,6 +97,18 @@ div::-webkit-scrollbar-button {
   display: none;
 }
 
+/* textarea scrollbar */
+textarea::-webkit-scrollbar {
+  opacity: 0.25;
+  width: 7.5px;
+}
+
+/* scrollbar itself */
+textarea::-webkit-scrollbar-thumb {
+  background: rgb(24 24 27 / var(--tw-bg-opacity));
+  border-radius: 10px;
+}
+
 /*  disappearing animation */
 .animation-hide {
   animation: hide 1s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 forwards;
@@ -105,5 +117,12 @@ div::-webkit-scrollbar-button {
 @keyframes hide {
   to {
     opacity: 0;
+  }
+}
+
+/* layered shadow style */
+@layer utilities {
+  .layeredShadow {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.1);
   }
 }

@@ -1,11 +1,22 @@
-import type { ReactNode } from "react";
-import React, { useEffect, useRef, useState } from "react";
+import type { ForwardedRef, ReactNode } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaClipboard, FaImage, FaSave, FaPlay, FaPause } from "react-icons/fa";
+import {
+  FaClipboard,
+  FaImage,
+  FaSave,
+  FaPlay,
+  FaPause,
+  FaEdit,
+  FaTrashAlt,
+  FaCheck,
+  FaTimes,
+} from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
 import WindowButton from "./WindowButton";
+import IconButton from "./IconButton";
 import PDFButton from "./pdf/PDFButton";
 import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
@@ -21,11 +32,12 @@ import {
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
   PAUSE_MODE,
+  isTask,
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import type { Translation } from "../utils/types";
-import { useAgentStore } from "../components/stores";
+import { useAgentStore, useMessageStore } from "../components/stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
@@ -251,7 +263,7 @@ const MacWindowHeader = (props: HeaderProps) => {
 
       {agentMode === PAUSE_MODE && agent !== null && (
         <div
-          className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
+          className={`animation-duration text-gray/50 invisible flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5 md:visible`}
         >
           {isAgentPaused ? (
             <>
@@ -281,57 +293,278 @@ const MacWindowHeader = (props: HeaderProps) => {
     </div>
   );
 };
-const ChatMessage = ({
-  message,
-  className,
-}: {
-  message: Message;
-  className?: string;
-}) => {
-  const [t] = useTranslation();
+const ChatMessage = forwardRef(
+  (
+    {
+      message,
+      className,
+    }: {
+      message: Message;
+      className?: string;
+    },
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
+    const [t] = useTranslation();
+    const tasks = useMessageStore.use.tasks();
+    const updateMessage = useMessageStore.use.updateMessage();
+    const deleteMessage = useMessageStore.use.deleteMessage();
+    const deleteTask = useMessageStore.use.deleteTask();
+    const latestIteration = useMessageStore.use.latestIteration();
 
-  return (
-    <div
-      className={`${getMessageContainerStyle(
-        message
-      )} mx-2 my-1 rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base`}
-    >
-      {message.type != MESSAGE_TYPE_SYSTEM && (
-        // Avoid for system messages as they do not have an icon and will cause a weird space
-        <>
-          <div className="mr-2 inline-block h-[0.9em]">
-            {getTaskStatusIcon(message, {})}
+    const isMutableMessage =
+      message.iteration === latestIteration &&
+      isTask(message) &&
+      message.status === TASK_STATUS_STARTED;
+
+    const [isTextAreaDisabled, setIsTextAreaDisabled] = useState(true);
+    const [textAreaValue, setTextAreaValue] = useState(message.value);
+
+    const messageButtonGroupRef = useRef<HTMLDivElement>(null);
+    const editButtonGroupRef = useRef<HTMLDivElement>(null);
+    const messageIconRef = useRef<HTMLDivElement>(null);
+    const messagePrefixRef = useRef<HTMLSpanElement>(null);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+      toggleEditMessageStyles(!isTextAreaDisabled);
+    }, [isTextAreaDisabled]);
+
+    const toggleEditMessageStyles = (active) => {
+      const initial = "initial";
+      const none = "none";
+      const inlineFlex = "inline-flex";
+      const display = active ? none : initial;
+
+      if (messageButtonGroupRef.current) {
+        messageButtonGroupRef.current.style.display = active
+          ? none
+          : inlineFlex;
+      }
+
+      if (editButtonGroupRef.current) {
+        editButtonGroupRef.current.style.display = active ? inlineFlex : none;
+      }
+
+      if (messageIconRef.current) {
+        messageIconRef.current.style.display = active ? none : "inline-block";
+      }
+
+      if (messagePrefixRef.current) {
+        messagePrefixRef.current.style.display = display;
+      }
+
+      if (textAreaRef.current) {
+        textAreaRef.current.style.width = active ? "100%" : initial;
+        textAreaRef.current.style.backgroundColor = active
+          ? "#616161"
+          : initial;
+      }
+    };
+
+    const saveEdit = () => {
+      setTextAreaValue((prevTextAreaValue) => prevTextAreaValue.trim());
+      updateMessage({ ...message, value: textAreaValue });
+      setIsTextAreaDisabled(true);
+    };
+
+    const cancelEdit = () => {
+      setIsTextAreaDisabled(true);
+    };
+
+    const handleEditMessage = () => {
+      setIsTextAreaDisabled(false);
+    };
+
+    const handleMessageKeyUp = (
+      e: React.KeyboardEvent<HTMLTextAreaElement>
+    ) => {
+      const isSaveMessage = e.key === "Enter" && !e.shiftKey;
+
+      if (isSaveMessage && isTask(message)) {
+        saveEdit();
+      }
+
+      if (isSaveMessage || e.key === "Escape") {
+        cancelEdit();
+      }
+    };
+
+    const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setTextAreaValue(e.currentTarget.value);
+    };
+
+    const handleDeleteMessage = () => {
+      deleteMessage(message);
+      deleteTask(message);
+    };
+
+    const editButtonGroup = (
+      <ButtonGroup
+        styleClass={{
+          container: "",
+        }}
+        ref={editButtonGroupRef}
+      >
+        <IconButton
+          key="save"
+          styleClass={{
+            container: "w-8 h-8 hover:bg-[#8e8e93]",
+          }}
+          icon={<FaCheck />}
+          toolTipProperties={{
+            message: "Save",
+            disabled: false,
+          }}
+          onClick={() => saveEdit()}
+        />
+        <IconButton
+          key="cancel"
+          styleClass={{ container: "w-8 h-8 hover:bg-[#8e8e93]" }}
+          icon={<FaTimes />}
+          toolTipProperties={{
+            message: "Cancel",
+            disabled: false,
+          }}
+          onClick={() => cancelEdit()}
+        />
+      </ButtonGroup>
+    );
+
+    const messageButtonGroup = (
+      <ButtonGroup
+        styleClass={{
+          container:
+            "hover:shadow absolute right-0 top-0 inline-flex rounded-tr-md",
+        }}
+        ref={messageButtonGroupRef}
+      >
+        <IconButton
+          key="edit"
+          styleClass={{
+            container: "w-8 h-8 hover:bg-[#8e8e93] p-1",
+          }}
+          icon={<FaEdit />}
+          toolTipProperties={{
+            message: "Edit",
+            disabled: false,
+          }}
+          onClick={handleEditMessage}
+        />
+        {tasks.length > 0 && (
+          <IconButton
+            key="delete"
+            styleClass={{
+              container:
+                "w-8 h-8 rounded-tr-md hover:bg-red-500 hover:text-white p-1 text-red-500",
+            }}
+            icon={<FaTrashAlt />}
+            toolTipProperties={{
+              message: "Delete",
+              disabled: false,
+            }}
+            disabled={tasks.length < 1}
+            onClick={handleDeleteMessage}
+          />
+        )}
+      </ButtonGroup>
+    );
+
+    return (
+      <div
+        className={`${getMessageContainerStyle(
+          message
+        )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:text-base ${
+          isTextAreaDisabled ? "pb-2 sm:pb-3" : "pt-2 sm:pt-3"
+        } ${isMutableMessage || latestIteration === 0 ? "" : "opacity-60"} ${
+          isMutableMessage ? "pt-7" : "pt-2 sm:pt-3"
+        }`}
+      >
+        {message.type != MESSAGE_TYPE_SYSTEM && (
+          // Avoid for system messages as they do not have an icon and will cause a weird space
+          <>
+            <div
+              className="mr-2 inline-block h-[0.9em] align-top"
+              ref={messageIconRef}
+            >
+              {getTaskStatusIcon(message, {})}
+            </div>
+            <span className="mr-2 align-top font-bold" ref={messagePrefixRef}>
+              {getMessagePrefix(message, t)}
+            </span>
+          </>
+        )}
+
+        {message.type == MESSAGE_TYPE_THINKING && (
+          <span className="italic text-zinc-400">
+            (Redeploy if this takes more than 30 seconds)
+          </span>
+        )}
+
+        {isAction(message) ? (
+          <>
+            <hr className="my-2 border-[1px] border-white/20" />
+            <div className="prose max-w-none">
+              <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
+            </div>
+          </>
+        ) : (
+          <>
+            {isMutableMessage && !isTextAreaDisabled ? (
+              <div>
+                <textarea
+                  className="lg:3/4 resize-none rounded-md border-none bg-transparent p-1.5 align-middle font-mono text-sm focus-visible:outline-none sm:text-base"
+                  value={textAreaValue}
+                  ref={textAreaRef}
+                  disabled={isTextAreaDisabled}
+                  onKeyUp={handleMessageKeyUp}
+                  onInput={handleMessageInput}
+                  maxLength={2000}
+                  rows={3}
+                />
+                {editButtonGroup}
+              </div>
+            ) : (
+              <span>{message.value}</span>
+            )}
+            {
+              // Link to the FAQ if it is a shutdown message
+              message.type == MESSAGE_TYPE_SYSTEM &&
+                message.value.toLowerCase().includes("shut") && <FAQ />
+            }
+          </>
+        )}
+        {isMutableMessage && (
+          <div>
+            {messageButtonGroup}
+            {/* {editButtonGroup} */}
           </div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
-        </>
-      )}
+        )}
+      </div>
+    );
+  }
+);
 
-      {message.type == MESSAGE_TYPE_THINKING && (
-        <span className="italic text-zinc-400">
-          (Redeploy if this takes more than 30 seconds)
-        </span>
-      )}
+ChatMessage.displayName = "ChatMessage";
 
-      {isAction(message) ? (
-        <>
-          <hr className="my-2 border-[1px] border-white/20" />
-          <div className="prose max-w-none">
-            <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
-          </div>
-        </>
-      ) : (
-        <>
-          <span>{message.value}</span>
-          {
-            // Link to the FAQ if it is a shutdown message
-            message.type == MESSAGE_TYPE_SYSTEM &&
-              message.value.toLowerCase().includes("shut") && <FAQ />
-          }
-        </>
-      )}
-    </div>
-  );
-};
+interface ButtonGroupProps {
+  children: React.ReactNode;
+  styleClass?: { [key: string]: string };
+}
+
+const ButtonGroup = forwardRef(
+  (
+    { children, styleClass }: ButtonGroupProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
+    return (
+      <div className={`${styleClass?.container || ""}`} role="group" ref={ref}>
+        {children}
+      </div>
+    );
+  }
+);
+
+ButtonGroup.displayName = "ButtonGroup";
 
 const getMessagePrefix = (message: Message, t: Translation) => {
   if (message.type === MESSAGE_TYPE_GOAL) {

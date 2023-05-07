@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const tasks = useMessageStore.use.tasks();
-  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+  const updateTask = useMessageStore.use.updateTask();
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
 
   const handleAddMessage = (message: Message) => {
     if (isTask(message)) {
-      updateTaskStatus(message);
+      updateTask(message);
     }
 
     addMessage(message);

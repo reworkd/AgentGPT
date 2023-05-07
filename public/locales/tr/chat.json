@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "Tamamlanıyor:",
+	"CONSIDER_SPONSORING_ON_GITHUB": "Lütfen GitHub'da projeye sponsor olmayı düşünün.",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Metin panoya kopyalandı",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Metin panoya kopyalanamıyor",
+	"CREATE_AN_AGENT_DESCRIPTION": "Bir ad / hedef ekleyerek ve konuşlandır'a basarak bir aracı oluşturun! Aşağıdaki örneklerimizi deneyin!",
+	"EMBARKING_ON_NEW_GOAL": "Yeni bir hedefe başlamak:",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Olağanüstü trafik yaşıyoruz, kendi API anahtarınızı kullanmazsanız gecikmeler ve başarısızlıklar bekliyoruz🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ AgentGPT'nin ilerlemesini desteklemeye yardımcı olun. \n💝️",
+	"NO_MORE_TASKS": "Şunun için başka alt görev yok:",
+	"RESTART_IF_IT_TAKES_X_SEC": "(30 saniyeden fazla sürerse yeniden başlatın)",
+	"SUPPORT_NOW": "Şimdi destek 🚀",
+	"TASK_ADDED": "Görev eklendi:",
+	"THINKING": "Düşünüyorum...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Arttırılmış limitler için ayarlar sekmesinden kendi OpenAI API anahtarınızı sağlayabilirsiniz!",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Bir ad/hedef ekleyip konuşlandır'a basarak bir aracı oluşturun!"
+}

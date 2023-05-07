@@ -31,9 +31,10 @@ const PDFButton = ({
       doc.addFont(fontUrl, "customfont", "normal");
       doc.setFont("customfont");
     }
-    getTextSections(messages).forEach((text, index) => {
+
+    doc.setFontSize(12); getTextSections(messages).forEach((text, index) => {
       const splittedText = doc.splitTextToSize(text, 180);
-      doc.text(splittedText, 20, index * 15 + 15, { align: "left" });
+      doc.text(splittedText, 20, index * 10 + 10, { align: "left" });
     });
     doc.save(`export-${name}.pdf`);
   };

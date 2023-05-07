@@ -44,9 +44,6 @@ model User {
   email          String?   @unique
   emailVerified  DateTime?
   image          String?
-  role           String?
-  subscriptionId String?   @db.Text
-  customerId     String?   @db.Text
 
   createDate DateTime @default(now())
 

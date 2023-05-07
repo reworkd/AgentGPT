@@ -52,8 +52,6 @@ export const options = (
             name: creds.name,
             email: creds.name,
             image: undefined,
-            role: undefined,
-            subscriptionId: undefined,
             emailVerified: null,
           });
         },

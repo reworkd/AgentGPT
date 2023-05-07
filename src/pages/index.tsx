@@ -170,12 +170,6 @@ const Home: NextPage = () => {
     updateIsAgentStopped();
   };
 
-  const proTitle = (
-    <>
-      AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
-    </>
-  );
-
   const shouldShowSave =
     status === "authenticated" &&
     isAgentStopped &&
@@ -270,7 +264,7 @@ const Home: NextPage = () => {
               <ChatWindow
                 className="sm:mt-4"
                 messages={messages}
-                title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
+                title="AgentGPT"
                 onSave={
                   shouldShowSave
                     ? (format) => {

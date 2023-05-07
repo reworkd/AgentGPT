@@ -8,19 +8,15 @@ import {
   FaHeart,
   FaQuestionCircle,
   FaRobot,
-  FaRocket,
   FaSignInAlt,
   FaSignOutAlt,
   FaTwitter,
-  FaUser,
 } from "react-icons/fa";
 import clsx from "clsx";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
-import { env } from "../env/client.mjs";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
 import FadingHr from "./FadingHr";
 
 const Drawer = ({
@@ -59,22 +55,8 @@ const Drawer = ({
     };
   }, []);
 
-  const sub = api.account.subscribe.useMutation({
-    onSuccess: async (url: any) => {
-      if (!url) return;
-      await router.push(url);
-    },
-  });
-
   const query = api.agent.getAll.useQuery(undefined, {
     enabled: !!session?.user,
-  });
-
-  const manage = api.account.manage.useMutation({
-    onSuccess: async (url: any) => {
-      if (!url) return;
-      await router.push(url);
-    },
   });
 
   const toggleDrawer = () => {
@@ -114,8 +96,7 @@ const Drawer = ({
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            {userAgents.map(
-              (agent: any | undefined, index: any | undefined) => (
+            {userAgents.map((agent, index) => (
                 <DrawerItem
                   key={index}
                   icon={<FaRobot />}
@@ -151,14 +132,6 @@ const Drawer = ({
 
         <div className="flex flex-col gap-1">
           <FadingHr className="my-2" />
-          {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
-            (router.query.pro && (
-              <ProItem
-                sub={sub.mutate}
-                manage={manage.mutate}
-                session={session}
-              />
-            ))}
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
           <DrawerItem
             icon={<FaQuestionCircle />}
@@ -286,45 +259,6 @@ const AuthItem: React.FC<{
   const onClick = session?.user ? signOut : signIn;
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
-};
-
-const ProItem: React.FC<{
-  session: Session | null;
-  sub: () => any;
-  manage: () => any;
-}> = ({ sub, manage, session }) => {
-  const [t] = useTranslation();
-  const text = session?.user?.subscriptionId
-    ? `${t("ACCOUNT", { ns: "drawer" })}`
-    : `${t("GO_PRO", { ns: "drawer" })}`;
-  let icon = session?.user ? <FaUser /> : <FaRocket />;
-  if (session?.user?.image) {
-    icon = (
-      <img
-        src={session?.user.image}
-        className="h-6 w-6 rounded-full"
-        alt="User Image"
-      />
-    );
-  }
-
-  return (
-    <DrawerItem
-      icon={icon}
-      text={text}
-      onClick={async () => {
-        if (!session?.user) {
-          void (await signIn());
-        }
-
-        if (session?.user.subscriptionId) {
-          void manage();
-        } else {
-          void sub();
-        }
-      }}
-    />
-  );
 };
 
 export default Drawer;

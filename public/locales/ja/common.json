@@ -1,0 +1,11 @@
+{
+  "SAVE": "保存",
+  "IMAGE": "画像",
+  "COPY": "コピー",
+  "EXPORT": "エクスポート",
+  "RESET": "リセット",
+  "CLOSE": "閉じる",
+  "LOOP": "ループ",
+  "CURRENT_TASKS": "現在のタスク",
+  "ADDING_TASK": "タスクの追加"
+}

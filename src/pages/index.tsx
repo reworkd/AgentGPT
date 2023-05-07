@@ -24,12 +24,17 @@ import {
   useAgentStore,
   resetAllMessageSlices,
 } from "../components/stores";
-import { isTask, AGENT_PLAY, AUTOMATIC_MODE } from "../types/agentTypes";
+import { isTask, AGENT_PLAY } from "../types/agentTypes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
+import { findLanguage, languages } from "../utils/languages";
+import nextI18NextConfig from "../../next-i18next.config.js";
+import { SorryDialog } from "../components/SorryDialog";
+import { SignInDialog } from "../components/SignInDialog";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
-  const [t] = useTranslation();
+  const { i18n } = useTranslation();
   // zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
@@ -45,12 +50,14 @@ const Home: NextPage = () => {
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
-  const [name, setName] = React.useState<string>("");
+  const [nameInput, setNameInput] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const settingsModel = useSettings();
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
+  const [showSorryDialog, setShowSorryDialog] = React.useState(false);
+  const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
@@ -76,6 +83,16 @@ const Home: NextPage = () => {
     updateIsAgentStopped();
   }, [agent, updateIsAgentStopped]);
 
+  const setAgentRun = (newName: string, newGoal: string) => {
+    if (agent != null) {
+      return;
+    }
+
+    setNameInput(newName);
+    setGoalInput(newGoal);
+    handleNewGoal(newName, newGoal);
+  };
+
   const handleAddMessage = (message: Message) => {
     if (isTask(message)) {
       updateTask(message);
@@ -93,12 +110,23 @@ const Home: NextPage = () => {
   };
 
   const disableDeployAgent =
-    agent != null || isEmptyOrBlank(name) || isEmptyOrBlank(goalInput);
+    agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
 
-  const handleNewGoal = () => {
+  const handleNewGoal = (name: string, goal: string) => {
+    if (name.trim() === "" || goal.trim() === "") {
+      return;
+    }
+
+    // Do not force login locally for people that don't have auth setup
+    if (session === null && env.NEXT_PUBLIC_FORCE_AUTH) {
+      setShowSignInDialog(true);
+      return;
+    }
+
     const newAgent = new AutonomousAgent(
       name.trim(),
-      goalInput.trim(),
+      goal.trim(),
+      findLanguage(i18n.language).name,
       handleAddMessage,
       handlePause,
       () => setAgent(null),
@@ -133,7 +161,7 @@ const Home: NextPage = () => {
       if (isAgentPaused) {
         handleContinue();
       }
-      handleNewGoal();
+      handleNewGoal(nameInput, goalInput);
     }
   };
 
@@ -154,23 +182,28 @@ const Home: NextPage = () => {
     messages.length &&
     !hasSaved;
 
-  const firstButton = isAgentPaused ? (
-    <Button disabled={!isAgentPaused} onClick={handleContinue}>
-      <FaPlay size={20} />
-      <span className="ml-2">{t("Continue")}</span>
-    </Button>
-  ) : (
-    <Button disabled={disableDeployAgent} onClick={handleNewGoal}>
-      {agent == null ? (
-        t("Deploy Agent")
-      ) : (
-        <>
-          <VscLoading className="animate-spin" size={20} />
-          <span className="ml-2">{t("Running")}</span>
-        </>
-      )}
-    </Button>
-  );
+  const firstButton =
+    isAgentPaused && !isAgentStopped ? (
+      <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
+        <FaPlay size={20} />
+        <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
+      </Button>
+    ) : (
+      <Button
+        ping={!disableDeployAgent}
+        disabled={disableDeployAgent}
+        onClick={() => handleNewGoal(nameInput, goalInput)}
+      >
+        {agent == null ? (
+          i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
+        ) : (
+          <>
+            <VscLoading className="animate-spin" size={20} />
+            <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
+          </>
+        )}
+      </Button>
+    );
 
   return (
     <DefaultLayout>
@@ -182,6 +215,14 @@ const Home: NextPage = () => {
         customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
+      />
+      <SorryDialog
+        show={showSorryDialog}
+        close={() => setShowSorryDialog(false)}
+      />
+      <SignInDialog
+        show={showSignInDialog}
+        close={() => setShowSignInDialog(false)}
       />
       <main className="flex min-h-screen flex-row">
         <Drawer
@@ -208,14 +249,19 @@ const Home: NextPage = () => {
                   GPT
                 </span>
                 <PopIn delay={0.5}>
-                  <Badge>{t("Beta 🚀")}</Badge>
+                  <Badge>
+                    {`${i18n?.t("BETA", {
+                      ns: "indexPage",
+                    })}`}{" "}
+                    🚀
+                  </Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {t(
-                    "Assemble, configure, and deploy autonomous AI Agents in your browser."
-                  )}
+                  {i18n.t("HEADING_DESCRIPTION", {
+                    ns: "indexPage",
+                  })}
                 </p>
               </div>
             </div>
@@ -231,15 +277,18 @@ const Home: NextPage = () => {
                         setHasSaved(true);
                         agentUtils.saveAgent({
                           goal: goalInput.trim(),
-                          name: name.trim(),
+                          name: nameInput.trim(),
                           tasks: messages,
                         });
                       }
                     : undefined
                 }
                 scrollToBottom
+                displaySettings
+                openSorryDialog={() => setShowSorryDialog(true)}
+                setAgentRun={setAgentRun}
               />
-              {tasks.length > 0 && <TaskWindow />}
+              {(agent || tasks.length > 0) && <TaskWindow />}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">
@@ -249,12 +298,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{t("AGENT_NAME")}</span>
+                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                        ns: "indexPage",
+                      })}`}</span>
                     </>
                   }
-                  value={name}
+                  value={nameInput}
                   disabled={agent != null}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setNameInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
                   placeholder="AgentGPT"
                   type="text"
@@ -265,14 +316,18 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{t("AGENT_GOAL")}</span>
+                      <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                        ns: "indexPage",
+                      })}`}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${t("Make the world a better place.")}`}
+                  placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                    ns: "indexPage",
+                  })}`}
                   type="textarea"
                 />
               </Expand>
@@ -287,10 +342,14 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("Stopping")}</span>
+                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                      ns: "indexPage",
+                    })}`}</span>
                   </>
                 ) : (
-                  t("Stop Agent")
+                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                    ns: "indexPage",
+                  })}`
                 )}
               </Button>
             </Expand>
@@ -304,30 +363,12 @@ const Home: NextPage = () => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = [
-    "en",
-    "hu",
-    "fr",
-    "de",
-    "it",
-    "ja",
-    "zh",
-    "ko",
-    "pl",
-    "pt",
-    "ro",
-    "ru",
-    "uk",
-    "es",
-    "nl",
-    "sk",
-    "hr",
-  ];
+  const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, ["translation"])),
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
     },
   };
 };

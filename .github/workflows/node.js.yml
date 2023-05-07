@@ -19,5 +19,7 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm test
+        env:
+          OPENAI_API_KEY: sk-0000000000
       - run: ./prisma/useSqlite.sh && npm run postinstall
 

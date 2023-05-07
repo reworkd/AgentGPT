@@ -1,0 +1,99 @@
+name: Testing Platform
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'platform/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'platform/**'
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run black check
+        run: poetry run black --check .
+
+  flake8:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run flake8 check
+        run: poetry run flake8 --count .
+
+  mypy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run mypy check
+        run: poetry run mypy .
+
+  pytest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    services:
+      reworkd_platform-db:
+        image: bitnami/mysql:8.0.30
+        env:
+          MYSQL_ROOT_PASSWORD: "reworkd_platform"
+          MYSQL_ROOT_USER: "reworkd_platform"
+          MYSQL_DATABASE: "reworkd_platform"
+          MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+        options: >-
+          --health-cmd="mysqladmin ping -u root"
+          --health-interval=15s
+          --health-timeout=5s
+          --health-retries=6
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run pytest check
+        run: poetry run pytest -vv --cov="reworkd_platform" .
+        env:
+          REWORKD_PLATFORM_HOST: "0.0.0.0"
+          REWORKD_PLATFORM_DB_HOST: localhost
+          REWORKD_PLATFORM_KAFKA_BOOTSTRAP_SERVERS: '["localhost:9092"]'
+

@@ -6,21 +6,25 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/default.css";
 
-const MarkdownRenderer = ({ children }) => (
-  <ReactMarkdown
-    remarkPlugins={[remarkGfm]}
-    rehypePlugins={[rehypeHighlight]}
-    components={{
-      pre: CustomPre,
-      code: CustomCodeBlock,
-      p: (props) => <p className="mb-4">{props.children}</p>,
-      ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
-      ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
-    }}
-  >
-    {children}
-  </ReactMarkdown>
-);
+const MarkdownRenderer = ({ children }) => {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[() => rehypeHighlight({ ignoreMissing: true })]}
+      components={{
+        pre: CustomPre,
+        code: CustomCodeBlock,
+        a: (props) =>
+          CustomLink({ children: props.children, href: props.href }),
+        p: (props) => <p className="mb-4">{props.children}</p>,
+        ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
+        ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
+      }}
+    >
+      {children}
+    </ReactMarkdown>
+  );
+};
 
 const CustomPre = ({ children }: { children: ReactNode }) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -83,6 +87,19 @@ const CustomCodeBlock = ({
   const language = className ? className.replace("language-", "") : "plaintext";
 
   return <code className={`hljs ${language}`}>{children}</code>;
+};
+
+const CustomLink = ({ children, href }) => {
+  return (
+    <a
+      className="link overflow-hidden"
+      href={href as string}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  );
 };
 
 const isValidCustomCodeBlock = (

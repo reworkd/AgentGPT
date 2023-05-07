@@ -1,0 +1,12 @@
+{
+  "HELP_BUTTON": "Help",
+  "SETTINGS_BUTTON": "Settings",
+  "SUPPORT_BUTTON": "Support",
+  "MY_AGENTS": "My agents",
+  "SIGN_IN_NOTICE": " to be able to save agents and manage your account!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "You need to create and save your first agent before anything shows up here!",
+  "SIGN_IN": "Sign In",
+  "SIGN_OUT": "Sign Out",
+  "ACCOUNT": "Account",
+  "USER_IMAGE": "User Image"
+}

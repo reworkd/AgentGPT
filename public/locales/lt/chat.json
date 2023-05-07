@@ -1,0 +1,16 @@
+{
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Mesame neįprastai didelį eismą, tikimasi delsų ir klaidų, jei nenaudojate savo API rakto 🚨",
+  "CREATE_AN_AGENT_DESCRIPTION": "Sukurkite agentą pridėdami pavadinimą ir tikslą, tada paspauskite mygtuką \"Paleisti agentą!\"",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Galite pateikti savo OpenAI API raktą skirtai padidinti limitus nustatymuose!",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Padėkite plėtoti AgentGPT. 💝️",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Remkite projektą per GitHub.",
+  "SUPPORT_NOW": "Palaikyti dabar 🚀",
+  "EMBARKING_ON_NEW_GOAL": "Įgyvendinama nauja tikslas:",
+  "THINKING": "Mąstymas...",
+  "TASK_ADDED": "Užduotis pridėta:",
+  "COMPLETING": "Baigiama:",
+  "NO_MORE_TASKS": "Nėra daugiau sub-ūduočių:",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Tekstas nukopijuotas į iškarpinę",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nepavyko nukopijuoti teksto į iškarpinę",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Atnaujinkite puslapį arba paleiskite agentą iš naujo rankiniu būdu, jei tai užtrunka daugiau nei 30 sekundžių)"
+}

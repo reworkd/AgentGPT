@@ -1,19 +1,41 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
-import { Task } from "../types/agentTypes";
+import { 
+  MESSAGE_TYPE_TASK,
+  Task,
+  TASK_STATUS_STARTED,
+} from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useMessageStore } from "./stores";
-import { FaListAlt } from "react-icons/fa";
+import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useAgentStore } from "./stores";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import clsx from "clsx";
+import Input from "./Input";
+import Button from "./Button";
+import { v1 } from "uuid";
+
 
 export const TaskWindow = () => {
+  const [customTask, setCustomTask] = React.useState("");
   const tasks = useMessageStore.use.tasks();
+
+  const addMessage = useMessageStore.use.addMessage();
   const reorderTasks = useMessageStore.use.reorderTasks();
+
   const [t] = useTranslation();
+
+  const handleAddTask = () => {
+    addMessage({
+      taskId: v1().toString(),
+      value: customTask,
+      status: TASK_STATUS_STARTED,
+      type: MESSAGE_TYPE_TASK,
+    });
+    setCustomTask("");
+  };
 
   function onDragEnd(result) {
     console.log("source: " + result.source.index);
@@ -35,15 +57,29 @@ export const TaskWindow = () => {
             <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-300 ">
               <FaListAlt /> {t("Current tasks")}
             </div>
-            <div className="window-heights mb-2 w-full px-1">
-              <div
+            <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
+              <div 
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden"
-              >
+                className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
                 {tasks.map((task, i) => (
-                  <Task key={task.taskId} index={i} task={task} />
+                  <Task index={i} key={i} task={task} />
                 ))}
+              </div>
+              <div className="flex flex-row gap-1">
+                <Input
+                  value={customTask}
+                  onChange={(e) => setCustomTask(e.target.value)}
+                  placeholder={"Custom task"}
+                  small
+                />
+                <Button
+                  className="font-sm px-2 py-[0] text-sm sm:px-2 sm:py-[0]"
+                  onClick={handleAddTask}
+                  disabled={!customTask}
+                >
+                  Add
+                </Button>
               </div>
             </div>
             {provided.placeholder}
@@ -56,29 +92,45 @@ export const TaskWindow = () => {
 
 const Task = ({ task, index }: { task: Task; index: number }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
+  const deleteTask = useMessageStore.use.deleteTask();
+  const isTaskDeletable =
+    task.taskId && !isAgentStopped && task.status === "started";
+
+  const handleDeleteTask = () => {
+    if (isTaskDeletable) {
+      deleteTask(task.taskId as string);
+    }
+  };
+
   return (
     <Draggable draggableId={task.taskId!} index={index}>
-      {(provided) => (
-        <FadeIn>
-          <div
-            className="bg-zinc-900"
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
+        {(provided) => (
+          <FadeIn>
             <div
               className={clsx(
-                "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+                "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white bg-zinc-900",
                 isAgentStopped && "opacity-50",
                 getMessageContainerStyle(task)
               )}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
             >
               {getTaskStatusIcon(task, { isAgentStopped })}
               <span>{task.value}</span>
+              <div className="flex justify-end">
+                <FaTimesCircle
+                  onClick={handleDeleteTask}
+                  className={clsx(
+                    isTaskDeletable && "cursor-pointer hover:text-red-500",
+                    !isTaskDeletable && "cursor-not-allowed opacity-30"
+                  )}
+                  size={12}
+                />
+              </div>
             </div>
-          </div>
-        </FadeIn>
-      )}
-    </Draggable>
+          </FadeIn>
+        )}
+      </Draggable>
   );
 };

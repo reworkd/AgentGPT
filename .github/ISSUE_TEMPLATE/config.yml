@@ -1,0 +1,7 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Ask a question
+    url: https://github.com/reworkd/AgentGPT/discussions/categories/q-a
+    about: Ask questions and discuss with other community members
+  - name: Discuss the Project in Discord
+    url: https://discord.gg/jjYCfaqu

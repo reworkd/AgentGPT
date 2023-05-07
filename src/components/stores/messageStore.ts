@@ -24,6 +24,7 @@ const initialMessageState = {
 interface MessageSlice {
   messages: Message[];
   addMessage: (newMessage: Message) => void;
+  deleteTask: (taskId: string) => void;
 }
 
 const createMessageSlice: StateCreator<
@@ -45,6 +46,13 @@ const createMessageSlice: StateCreator<
           isTask(newTask) && !isExistingTask(newTask)
             ? [...state.tasks, newTask]
             : [...state.tasks],
+      }));
+    },
+
+    deleteTask: (taskId) => {
+      set((state) => ({
+        ...state,
+        tasks: state.tasks.filter((task) => task.taskId !== taskId),
       }));
     },
   };

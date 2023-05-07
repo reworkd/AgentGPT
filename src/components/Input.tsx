@@ -6,6 +6,7 @@ import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
 
 interface InputProps {
+  small?: boolean; // Will lower padding and font size. Currently only works for the default input
   left?: React.ReactNode;
   value: string | number | undefined;
   onChange: (
@@ -30,6 +31,7 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const {
+    small,
     placeholder,
     left,
     value,
@@ -85,7 +87,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "border:black delay-50 h-20 w-full resize-none rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] p-2 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] md:text-lg",
+          "border:black delay-50 h-15 w-full resize-none rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] p-2 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:h-20 md:text-lg",
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none"
         )}
@@ -104,7 +106,8 @@ const Input = (props: InputProps) => {
           "border:black delay-50 w-full rounded-xl bg-[#3a3a3a] py-1 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:py-3 md:text-lg",
           !isTypeRange() && "border-[2px] border-white/10 px-2",
           disabled && " cursor-not-allowed hover:border-white/10",
-          left && "md:rounded-l-none"
+          left && "md:rounded-l-none",
+          small && "text-sm sm:py-[0]"
         )}
         ref={inputRef}
         placeholder={placeholder}
@@ -120,9 +123,11 @@ const Input = (props: InputProps) => {
 
   return (
     <div
-      className={`items-left z-5 flex w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a] ${
-        isTypeRange() ? "md: border-white/10 md:border-[2px]" : ""
-      } shadow-xl md:flex-row md:items-center`}
+      className={clsx(
+        `items-left z-5 flex h-fit w-full flex-col rounded-xl font-mono text-lg text-white/75 shadow-xl md:flex-row md:items-center md:bg-[#3a3a3a]`,
+        isTypeRange() && "md: border-white/10 md:border-[2px]",
+        `shadow-xl md:flex-row md:items-center`
+      )}
     >
       {left && (
         <Label left={left} type={type} toolTipProperties={toolTipProperties} />

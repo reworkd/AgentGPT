@@ -10,15 +10,26 @@ import ReactPDF, {
 import View = ReactPDF.View;
 import { i18n } from "next-i18next";
 
-const fontUrl = {
-  ru: "./fonts/Roboto-Regular.ttf",
-  zh: "./fonts/SimSun.ttf",
-  ja: "./fonts/japanese.ttf",
-}[i18n?.language || "en"];
+const getFontUrl = (languageCode: string) => {
+  switch (languageCode) {
+    case "ru":
+      return "./fonts/Roboto-Regular.ttf";
+    case "zh":
+      return "./fonts/SimSun.ttf";
+    case "ja":
+      return "./fonts/Nasu-Regular.ttf";
+    case "ko":
+      return "./fonts/NanumMyeongjo-Regular.ttf";
+    default:
+      return "./fonts/Roboto-Regular.ttf";
+  }
+};
+
+const fontUrl = getFontUrl(i18n?.language || "en");
 
 Font.register({
   family: "customfont",
-  src: fontUrl as string,
+  src: fontUrl,
 });
 
 const styles = StyleSheet.create({
@@ -29,7 +40,7 @@ const styles = StyleSheet.create({
     wordBreak: "break-all",
   },
   horizontalRule: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.3,
     borderBottomColor: "#000",
     borderBottomStyle: "solid",
   },

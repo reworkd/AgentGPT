@@ -436,7 +436,7 @@ const ChatMessage = ({ message }: { message: Message; className?: string }) => {
 
     if (textAreaRef.current) {
       textAreaRef.current.style.width = active ? "100%" : initial;
-      textAreaRef.current.style.backgroundColor = active ? "#616161" : initial;
+      textAreaRef.current.style.backgroundColor = active ? "#545454" : initial;
     }
   };
 
@@ -534,8 +534,8 @@ const ChatMessage = ({ message }: { message: Message; className?: string }) => {
       className={`${getMessageContainerStyle(
         message
       )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 pt-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:pt-3 sm:text-base ${
-        isTextAreaDisabled ? "pb-2 sm:pb-3" : ""
-      } ${isMutableMessage ? "bg-white/[0.4] hover:bg-white/[0.35]" : ""} 
+        isTextAreaDisabled ? "pb-2 hover:bg-white/[0.3] sm:pb-3" : ""
+      } ${isMutableMessage ? "bg-white/[0.35]" : ""} 
         `}
       onTouchStart={handleEditMessage}
       onDoubleClick={handleEditMessage}

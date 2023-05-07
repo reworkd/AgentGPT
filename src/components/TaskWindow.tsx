@@ -91,9 +91,10 @@ const Task = ({ task }: { task: Task }) => {
         <span className="break-words">{task.value}</span>
         <div className="flex justify-end">
           <IconButton
+            name="Delete"
             styleClass={{
               container: 
-                `${isTaskDeletable ? "cursor-pointer hover:text-red-500" : "cursor-not-allowed opacity-30"}`
+                `${isTaskDeletable && !isAgentStopped ? "cursor-pointer hover:text-red-500" : "cursor-not-allowed opacity-30"}`
               ,
             }}
             icon={<FaTimesCircle size={12}/>}

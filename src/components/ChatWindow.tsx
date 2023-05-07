@@ -488,8 +488,9 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
       >
         <IconButton
           key="save"
+          name="Save"
           styleClass={{
-            container: "w-8 h-8 hover:text-green-400 px-2",
+            container: "w-8 h-8 hover:text-green-400 px-2 cursor-pointer",
           }}
           icon={<FaCheck />}
           toolTipProperties={{
@@ -500,6 +501,7 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
         />
         <IconButton
           key="cancel"
+          name="Cancel"
           styleClass={{ container: "w-8 h-8 hover:text-red-500 px-2" }}
           icon={<FaTimes />}
           toolTipProperties={{
@@ -573,6 +575,7 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
               <div>
                 <textarea
                   className="lg:3/4 resize-none rounded-md border-none bg-transparent p-1.5 align-middle font-mono text-sm focus-visible:outline-none sm:text-base"
+                  aria-label="Edit Task Message"
                   value={textAreaValue}
                   ref={textAreaRef}
                   disabled={isTextAreaDisabled}
@@ -596,11 +599,13 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
         )}
         {isMutableMessage && isTextAreaDisabled && (
           <Menu
+            name="More"
+            variant="minimal"
             icon={<FaEllipsisV />}
             onChange={() => null}
             items={messageOptions}
             styleClass={{
-              container: " absolute right-0 top-0 inline-flex bg-transparent ",
+              container: "absolute right-0 top-0 inline-flex bg-transparent ",
               input: ` animation-duration text-sm md:text-md font-mono text-gray/50 transition-all py-1 sm:py-2 sm:px-1 hover:text-white/50`,
               optionsContainer: "right-0 top-4 md:top-5 w-24 rounded-md border-[4px] border-zinc-900",
               option: "w-full",

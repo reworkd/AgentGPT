@@ -4,6 +4,7 @@ import type { toolTipProperties } from "./types";
 
 type IconButtonProps = {
   onClick?: () => void;
+  name: string;
   icon: React.ReactNode;
   disabled?: boolean;
   styleClass?: { [key: string]: string };
@@ -12,6 +13,7 @@ type IconButtonProps = {
 
 const IconButton = ({
   onClick,
+  name,
   icon,
   disabled = false,
   styleClass,
@@ -27,9 +29,10 @@ const IconButton = ({
       toolTipProperties={toolTipProperties}
     >
       <button
-        className={`flex cursor-pointer items-center gap-2 text-sm  ${
+        className={`flex items-center gap-2 text-sm  ${
           styleClass?.container || ""
         }`}
+        aria-label={name}
         onClick={onClick}
         disabled={disabled}
       >

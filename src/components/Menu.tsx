@@ -6,7 +6,8 @@ import clsx from "clsx";
 
 interface MenuProps {
   icon?: ReactNode;
-  name?: string;
+  name: string;
+  variant: "minimal" | "default"
   items: JSX.Element[];
   disabled?: boolean;
   onChange: (value: string) => void;
@@ -16,6 +17,7 @@ interface MenuProps {
 function Menu({
   icon,
   name,
+  variant = "default",
   items,
   disabled,
   onChange,
@@ -26,9 +28,10 @@ function Menu({
       <div className={styleClass?.container}>
         <MenuPrimitive.Button
           className={clsx(styleClass?.input, "flex items-center gap-1")}
+          aria-label={name}
         >
           <div>{icon}</div>
-          {name && (
+          {variant !== "minimal" && (
             <>
               <p>{name}</p> 
               <FaChevronDown size={15} className="ml-2" />  

@@ -33,7 +33,7 @@ const PDFButton = ({
     }
     getTextSections(messages).forEach((text, index) => {
       const splittedText = doc.splitTextToSize(text, 180);
-      doc.text(splittedText, 20, index * 10 + 15, { align: "left" });
+      doc.text(splittedText, 20, index * 15 + 15, { align: "left" });
     });
     doc.save(`export-${name}.pdf`);
   };

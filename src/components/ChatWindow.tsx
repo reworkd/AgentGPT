@@ -385,8 +385,9 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
     const deleteTask = useMessageStore.use.deleteTask();
     const latestIteration = useMessageStore.use.latestIteration();
 
+    const isLatestMessage = message.iteration === latestIteration || latestIteration === 0
     const isMutableMessage =
-      (message.iteration === latestIteration || latestIteration === 0) &&
+      isLatestMessage &&
       isTask(message) &&
       message.status === TASK_STATUS_STARTED && 
       agentMode === PAUSE_MODE ;
@@ -536,7 +537,7 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
           message
         )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:text-base pt-2 sm:pt-3 ${
           isTextAreaDisabled ? "pb-2 sm:pb-3" : ""
-        } ${agentMode !== PAUSE_MODE || isMutableMessage ? "" : "opacity-60"} 
+        } ${agentMode !== PAUSE_MODE || isLatestMessage ? "" : "opacity-60"} 
         `}
       >
         {message.type != MESSAGE_TYPE_SYSTEM && (

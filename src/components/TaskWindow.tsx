@@ -16,6 +16,7 @@ import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
+import { useMemo } from 'react';
 
 
 export const TaskWindow = () => {
@@ -38,8 +39,6 @@ export const TaskWindow = () => {
   };
 
   function onDragEnd(result) {
-    console.log("source: " + result.source.index);
-    console.log("destination: " + result.destination.index);
     if (!result.destination) {
       return;
     }
@@ -62,9 +61,7 @@ export const TaskWindow = () => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
-                {tasks.map((task, i) => (
-                  <Task index={i} key={i} task={task} />
-                ))}
+                {tasks.map((task, i) => (<Task index={i} key={i} task={task}/>))}
               </div>
               <div className="flex flex-row gap-1">
                 <Input
@@ -103,7 +100,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
   };
 
   return (
-    <Draggable draggableId={task.taskId!} index={index}>
+    <Draggable key={task.taskId!} draggableId={task.taskId!} index={index}>
         {(provided) => (
           <FadeIn>
             <div

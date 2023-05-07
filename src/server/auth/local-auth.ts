@@ -4,7 +4,6 @@ import Credentials from "next-auth/providers/credentials";
 import {getCookie, setCookie} from "cookies-next";
 import {z} from "zod";
 import {v4} from "uuid";
-import type {AdapterSession} from "next-auth/src/adapters";
 import type {IncomingMessage, ServerResponse} from "http";
 import type {Adapter} from "next-auth/adapters";
 
@@ -67,7 +66,7 @@ export const options = (
             sessionToken: v4(),
             userId: user.id,
             expires: monthFromNow(),
-          })) as AdapterSession;
+          }));
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           setCookie("next-auth.session-token", session.sessionToken, {

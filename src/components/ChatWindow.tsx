@@ -11,7 +11,7 @@ import {
   FaCheck,
   FaTimes,
   FaEllipsisV,
-  FaTrashAlt
+  FaTrashAlt,
 } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -296,14 +296,14 @@ const MacWindowHeader = (props: HeaderProps) => {
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
       name={`${t("IMAGE", { ns: "common" })}`}
-      styleClass={{container: "text-sm hover:bg-white/10"}}
+      styleClass={{ container: "text-sm hover:bg-white/10" }}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
       name={`${t("COPY", { ns: "common" })}`}
-      styleClass={{container: "text-sm hover:bg-white/10"}}
+      styleClass={{ container: "text-sm hover:bg-white/10" }}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
@@ -369,243 +369,256 @@ const MacWindowHeader = (props: HeaderProps) => {
         styleClass={{
           container: "relative",
           input: `bg-[#3a3a3a] animation-duration text-left py-1 px-2 text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
-          optionsContainer: "right-0 top-full rounded-xl border-[2px] border-white/10",
+          optionsContainer:
+            "right-0 top-full rounded-xl border-[2px] border-white/10",
           option: "w-full py-[1px] md:py-0.5",
         }}
       />
     </div>
   );
 };
-const ChatMessage = ({message }: { message: Message; className?: string;}) => {
-    const [t] = useTranslation();
-    const agentMode = useAgentStore.use.agentMode();
-    const updateMessage = useMessageStore.use.updateMessage();
-    const deleteMessage = useMessageStore.use.deleteMessage();
-    const latestIteration = useMessageStore.use.latestIteration();
+const ChatMessage = ({ message }: { message: Message; className?: string }) => {
+  const [t] = useTranslation();
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const updateMessage = useMessageStore.use.updateMessage();
+  const deleteMessage = useMessageStore.use.deleteMessage();
+  const latestIteration = useMessageStore.use.latestIteration();
 
-    const isLatestMessage = message.iteration === latestIteration || latestIteration === 0
-    const isMutableMessage =
-      isLatestMessage &&
-      isTask(message) &&
-      message.status === TASK_STATUS_STARTED && 
-      agentMode === PAUSE_MODE ;
+  const isLatestMessage =
+    message.iteration === latestIteration || latestIteration === 0;
+  const isMutableMessage =
+    isLatestMessage &&
+    isTask(message) &&
+    message.status === TASK_STATUS_STARTED &&
+    !!isAgentPaused;
 
-    const [isTextAreaDisabled, setIsTextAreaDisabled] = useState(true);
-    const [textAreaValue, setTextAreaValue] = useState(message.value);
+  const [isTextAreaDisabled, setIsTextAreaDisabled] = useState(true);
+  const [textAreaValue, setTextAreaValue] = useState(message.value);
 
-    const messageButtonGroupRef = useRef<HTMLDivElement>(null);
-    const editButtonGroupRef = useRef<HTMLDivElement>(null);
-    const messageIconRef = useRef<HTMLDivElement>(null);
-    const messagePrefixRef = useRef<HTMLSpanElement>(null);
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const messageButtonGroupRef = useRef<HTMLDivElement>(null);
+  const editButtonGroupRef = useRef<HTMLDivElement>(null);
+  const messageIconRef = useRef<HTMLDivElement>(null);
+  const messagePrefixRef = useRef<HTMLSpanElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-    useEffect(() => {
-      toggleEditMessageStyles(!isTextAreaDisabled);
-    }, [isTextAreaDisabled]);
+  useEffect(() => {
+    toggleEditMessageStyles(!isTextAreaDisabled);
+  }, [isTextAreaDisabled]);
 
-    const toggleEditMessageStyles = (active) => {
-      const initial = "initial";
-      const none = "none";
-      const inlineFlex = "inline-flex";
-      const display = active ? none : initial;
+  useEffect(() => {
+    if (isAgentPaused) {
+      return;
+    }
+    setIsTextAreaDisabled(true);
+  }, [isAgentPaused]);
 
-      if (messageButtonGroupRef.current) {
-        messageButtonGroupRef.current.style.display = active
-          ? none
-          : inlineFlex;
-      }
+  const toggleEditMessageStyles = (active) => {
+    const initial = "initial";
+    const none = "none";
+    const inlineFlex = "inline-flex";
+    const display = active ? none : initial;
 
-      if (editButtonGroupRef.current) {
-        editButtonGroupRef.current.style.display = active ? inlineFlex : none;
-      }
+    if (messageButtonGroupRef.current) {
+      messageButtonGroupRef.current.style.display = active ? none : inlineFlex;
+    }
 
-      if (messageIconRef.current) {
-        messageIconRef.current.style.display = active ? none : "inline-block";
-      }
+    if (editButtonGroupRef.current) {
+      editButtonGroupRef.current.style.display = active ? inlineFlex : none;
+    }
 
-      if (messagePrefixRef.current) {
-        messagePrefixRef.current.style.display = display;
-      }
+    if (messageIconRef.current) {
+      messageIconRef.current.style.display = active ? none : "inline-block";
+    }
 
-      if (textAreaRef.current) {
-        textAreaRef.current.style.width = active ? "100%" : initial;
-        textAreaRef.current.style.backgroundColor = active
-          ? "#616161"
-          : initial;
-      }
-    };
+    if (messagePrefixRef.current) {
+      messagePrefixRef.current.style.display = display;
+    }
 
-    const saveEdit = () => {
-      setTextAreaValue((prevTextAreaValue) => prevTextAreaValue.trim());
+    if (textAreaRef.current) {
+      textAreaRef.current.style.width = active ? "100%" : initial;
+      textAreaRef.current.style.backgroundColor = active ? "#616161" : initial;
+    }
+  };
 
-      const updatedMessage = { ...message, value: textAreaValue };
-      updateMessage(updatedMessage);
+  const saveEdit = () => {
+    setTextAreaValue((prevTextAreaValue) => prevTextAreaValue.trim());
 
-      setIsTextAreaDisabled(true);
-    };
+    const updatedMessage = { ...message, value: textAreaValue };
+    updateMessage(updatedMessage);
 
-    const cancelEdit = () => {
-      setIsTextAreaDisabled(true);
-    };
+    setIsTextAreaDisabled(true);
+  };
 
-    const handleEditMessage = () => {
-      setIsTextAreaDisabled(false);
-    };
+  const cancelEdit = () => {
+    setIsTextAreaDisabled(true);
+  };
 
-    const handleMessageKeyUp = (
-      e: React.KeyboardEvent<HTMLTextAreaElement>
-    ) => {
-      const isSaveMessage = e.key === "Enter" && !e.shiftKey;
+  const handleEditMessage = () => {
+    setIsTextAreaDisabled(false);
+  };
 
-      if (isSaveMessage && isTask(message)) {
-        saveEdit();
-      }
+  const handleMessageKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const isSaveMessage = e.key === "Enter" && !e.shiftKey;
 
-      if (isSaveMessage || e.key === "Escape") {
-        cancelEdit();
-      }
-    };
+    if (isSaveMessage && isTask(message)) {
+      saveEdit();
+    }
 
-    const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setTextAreaValue(e.currentTarget.value);
-    };
+    if (isSaveMessage || e.key === "Escape") {
+      cancelEdit();
+    }
+  };
 
-    const editButtonGroup = (
-      <ButtonGroup
+  const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextAreaValue(e.currentTarget.value);
+  };
+
+  const editButtonGroup = (
+    <ButtonGroup
+      styleClass={{ container: "float-right" }}
+      ref={editButtonGroupRef}
+    >
+      <IconButton
+        key="save"
+        name="Save"
         styleClass={{
-          container: "",
+          container: "w-8 h-8 hover:text-green-400 px-2 cursor-pointer",
         }}
-        ref={editButtonGroupRef}
-      >
-        <IconButton
-          key="save"
-          name="Save"
-          styleClass={{
-            container: "w-8 h-8 hover:text-green-400 px-2 cursor-pointer",
-          }}
-          icon={<FaCheck />}
-          toolTipProperties={{
-            message: "Save",
-            disabled: false,
-          }}
-          onClick={() => saveEdit()}
-        />
-        <IconButton
-          key="cancel"
-          name="Cancel"
-          styleClass={{ container: "w-8 h-8 hover:text-red-500 px-2" }}
-          icon={<FaTimes />}
-          toolTipProperties={{
-            message: "Cancel",
-            disabled: false,
-          }}
-          onClick={() => cancelEdit()}
-        />
-      </ButtonGroup>
-    );
+        icon={<FaCheck />}
+        toolTipProperties={{
+          message: "Save",
+          disabled: false,
+        }}
+        onClick={() => saveEdit()}
+      />
+      <IconButton
+        key="cancel"
+        name="Cancel"
+        styleClass={{
+          container: "w-8 h-8 hover:text-red-500 px-2",
+        }}
+        icon={<FaTimes />}
+        toolTipProperties={{
+          message: "Cancel",
+          disabled: false,
+        }}
+        onClick={() => cancelEdit()}
+      />
+    </ButtonGroup>
+  );
 
-    const messageOptions = [
-      <WindowButton
-        key="edit"
-        onClick={handleEditMessage}
-        icon={<FaEdit />}
-        name="Edit"
-        styleClass={{container: "text-xs bg-zinc-900 rounded-sm hover:bg-[#1E88E5]"}}
-      />,
-      <WindowButton
-        key="delete"
-        onClick={() => deleteMessage(message)}
-        icon={<FaTrashAlt />}
-        name="Delete"
-        styleClass={{container: "text-xs bg-zinc-900 rounded-sm text-red-500 hover:bg-red-500 hover:text-white"}}
-      />,
-    ];
-    
-    return (
-      <div
-        className={`${getMessageContainerStyle(
-          message
-        )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:text-base pt-2 sm:pt-3 ${
-          isTextAreaDisabled ? "pb-2 sm:pb-3" : ""
-        } ${agentMode !== PAUSE_MODE || isLatestMessage ? "" : "opacity-60"} 
+  const messageOptions = [
+    <WindowButton
+      key="edit"
+      onClick={handleEditMessage}
+      icon={<FaEdit />}
+      name="Edit"
+      styleClass={{
+        container: "text-xs bg-zinc-900 rounded-sm hover:bg-[#1E88E5]",
+      }}
+    />,
+    <WindowButton
+      key="delete"
+      onClick={() => deleteMessage(message)}
+      icon={<FaTrashAlt />}
+      name="Delete"
+      styleClass={{
+        container:
+          "text-xs bg-zinc-900 rounded-sm text-red-500 hover:bg-red-500 hover:text-white",
+      }}
+    />,
+  ];
+
+  return (
+    <div
+      className={`${getMessageContainerStyle(
+        message
+      )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 pt-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:pt-3 sm:text-base ${
+        isTextAreaDisabled ? "pb-2 sm:pb-3" : ""
+      } ${isMutableMessage ? "bg-white/[0.4] hover:bg-white/[0.35]" : ""} 
         `}
-      >
-        {message.type != MESSAGE_TYPE_SYSTEM && (
-          // Avoid for system messages as they do not have an icon and will cause a weird space
-          <>
-            <div
-              className="mr-2 inline-block h-[0.9em] align-top"
-              ref={messageIconRef}
-            >
-              {getTaskStatusIcon(message, {})}
-            </div>
-            <span className="mr-2 align-top font-bold" ref={messagePrefixRef}>
-               {t(getMessagePrefix(message), { ns: "chat" })}
-            </span>
-          </>
-        )}
-
-        {message.type == MESSAGE_TYPE_THINKING && (
-          <span className="italic text-zinc-400">
-            {`${t("RESTART_IF_IT_TAKES_X_SEC", {
-              ns: "chat",
-            })}`}
+      onTouchStart={handleEditMessage}
+      onDoubleClick={handleEditMessage}
+    >
+      {message.type != MESSAGE_TYPE_SYSTEM && (
+        // Avoid for system messages as they do not have an icon and will cause a weird space
+        <>
+          <div
+            className="mr-2 inline-block h-[0.9em] align-top"
+            ref={messageIconRef}
+          >
+            {getTaskStatusIcon(message, {})}
+          </div>
+          <span className="mr-2 align-top font-bold" ref={messagePrefixRef}>
+            {t(getMessagePrefix(message), { ns: "chat" })}
           </span>
-        )}
+        </>
+      )}
 
-        {isAction(message) ? (
-          <>
-            <hr className="my-2 border-[1px] border-white/20" />
-            <div className="prose max-w-none">
-              <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
+      {message.type == MESSAGE_TYPE_THINKING && (
+        <span className="italic text-zinc-400">
+          {`${t("RESTART_IF_IT_TAKES_X_SEC", {
+            ns: "chat",
+          })}`}
+        </span>
+      )}
+
+      {isAction(message) ? (
+        <>
+          <hr className="my-2 border-[1px] border-white/20" />
+          <div className="prose max-w-none">
+            <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
+          </div>
+        </>
+      ) : (
+        <>
+          {isMutableMessage && !isTextAreaDisabled ? (
+            <div className="inline-block w-full">
+              <textarea
+                className="lg:3/4 resize-none rounded-md border-none bg-transparent p-1.5 align-middle font-mono text-sm focus-visible:outline-none sm:text-base"
+                aria-label="Edit Task Message"
+                value={textAreaValue}
+                ref={textAreaRef}
+                disabled={isTextAreaDisabled}
+                onKeyUp={handleMessageKeyUp}
+                onInput={handleMessageInput}
+                maxLength={2000}
+                rows={3}
+              />
+              {editButtonGroup}
             </div>
-          </>
-        ) : (
-          <>
-            {isMutableMessage && !isTextAreaDisabled ? (
-              <div>
-                <textarea
-                  className="lg:3/4 resize-none rounded-md border-none bg-transparent p-1.5 align-middle font-mono text-sm focus-visible:outline-none sm:text-base"
-                  aria-label="Edit Task Message"
-                  value={textAreaValue}
-                  ref={textAreaRef}
-                  disabled={isTextAreaDisabled}
-                  onKeyUp={handleMessageKeyUp}
-                  onInput={handleMessageInput}
-                  maxLength={2000}
-                  rows={3}
-                />
-                {editButtonGroup}
-              </div>
-            ) : (
-              <span className="break-words">{t(message.value, { ns: "chat" })}</span>
-            )}
-            {
-              // Link to the FAQ if it is a shutdown message
-              message.type == MESSAGE_TYPE_SYSTEM &&
+          ) : (
+            <span className="break-words">
+              {t(message.value, { ns: "chat" })}
+            </span>
+          )}
+          {
+            // Link to the FAQ if it is a shutdown message
+            message.type == MESSAGE_TYPE_SYSTEM &&
               (message.value.toLowerCase().includes("shut") ||
                 message.value.toLowerCase().includes("error")) && <FAQ />
-            }
-          </>
-        )}
-        {isMutableMessage && isTextAreaDisabled && (
-          <Menu
-            name="More"
-            variant="minimal"
-            icon={<FaEllipsisV />}
-            onChange={() => null}
-            items={messageOptions}
-            styleClass={{
-              container: "absolute right-0 top-0 inline-flex bg-transparent ",
-              input: ` animation-duration text-sm md:text-md font-mono text-gray/50 transition-all py-1 sm:py-2 sm:px-1 hover:text-white/50`,
-              optionsContainer: "right-0 top-4 md:top-5 w-24 rounded-md border-[4px] border-zinc-900",
-              option: "w-full",
-            }}
-          />
-        )}
-      </div>
-    );
-  };
+          }
+        </>
+      )}
+      {isMutableMessage && isTextAreaDisabled && (
+        <Menu
+          name="More"
+          variant="minimal"
+          icon={<FaEllipsisV />}
+          onChange={() => null}
+          items={messageOptions}
+          styleClass={{
+            container: "absolute right-0 top-0 inline-flex bg-transparent ",
+            input: ` animation-duration text-sm md:text-md font-mono text-gray/50 transition-all py-1 sm:py-2 sm:px-1 hover:text-white/50`,
+            optionsContainer:
+              "right-0 top-4 md:top-5 w-24 rounded-md border-[4px] border-zinc-900",
+            option: "w-full",
+          }}
+        />
+      )}
+    </div>
+  );
+};
 
 interface ButtonGroupProps {
   children: React.ReactNode;
@@ -626,7 +639,6 @@ const ButtonGroup = forwardRef(
 );
 
 ButtonGroup.displayName = "ButtonGroup";
-
 
 // Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {

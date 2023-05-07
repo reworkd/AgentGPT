@@ -95,7 +95,7 @@ const Home: NextPage = () => {
 
   const handleAddMessage = (message: Message) => {
     if (isTask(message)) {
-      updateTask(message);
+      updateTask(message, "existing");
     }
 
     addMessage(message);

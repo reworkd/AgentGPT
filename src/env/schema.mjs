@@ -5,14 +5,6 @@ const requiredForProduction = () =>
   process.env.NODE_ENV === "production"
     ? z.string().min(1).trim()
     : z.string().min(1).trim().optional();
-
-const requiredAuthEnabledForProduction = () => {
-  return process.env.NODE_ENV === "production" &&
-  process.env.NEXT_PUBLIC_FF_AUTH_ENABLED === "true"
-    ? z.string().min(1).trim()
-    : z.string().min(1).trim().optional();
-};
-
 function stringToBoolean() {
   return z.preprocess((str) => str === "true", z.boolean());
 }
@@ -38,12 +30,12 @@ export const serverSchema = z.object({
   ),
   OPENAI_API_KEY: z.string(),
 
-  GOOGLE_CLIENT_ID: requiredAuthEnabledForProduction(),
-  GOOGLE_CLIENT_SECRET: requiredAuthEnabledForProduction(),
-  GITHUB_CLIENT_ID: requiredAuthEnabledForProduction(),
-  GITHUB_CLIENT_SECRET: requiredAuthEnabledForProduction(),
-  DISCORD_CLIENT_ID: requiredAuthEnabledForProduction(),
-  DISCORD_CLIENT_SECRET: requiredAuthEnabledForProduction(),
+  GOOGLE_CLIENT_ID: z.string().min(1).trim().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().min(1).trim().optional(),
+  GITHUB_CLIENT_ID: z.string().min(1).trim().optional(),
+  GITHUB_CLIENT_SECRET: z.string().min(1).trim().optional(),
+  DISCORD_CLIENT_ID: z.string().min(1).trim().optional(),
+  DISCORD_CLIENT_SECRET: z.string().min(1).trim().optional(),
 
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
@@ -93,7 +85,6 @@ export const clientSchema = z.object({
     .string()
     .transform((str) => str === "true")
     .optional(),
-  NEXT_PUBLIC_FF_AUTH_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_WEB_SEARCH_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_FORCE_AUTH: stringToBoolean(),
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
@@ -112,7 +103,6 @@ export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
   NEXT_PUBLIC_STRIPE_DONATION_ENABLED:
   process.env.NEXT_PUBLIC_STRIPE_DONATION_ENABLED,
-  NEXT_PUBLIC_FF_AUTH_ENABLED: process.env.NEXT_PUBLIC_FF_AUTH_ENABLED,
   NEXT_PUBLIC_WEB_SEARCH_ENABLED: process.env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
   NEXT_PUBLIC_FORCE_AUTH: process.env.NEXT_PUBLIC_FORCE_AUTH,
   NEXT_PUBLIC_VERCEL_URL:

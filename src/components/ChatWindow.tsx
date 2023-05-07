@@ -8,9 +8,10 @@ import {
   FaPlay,
   FaPause,
   FaEdit,
-  FaTrashAlt,
   FaCheck,
   FaTimes,
+  FaEllipsisV,
+  FaTrashAlt
 } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -36,7 +37,7 @@ import {
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useAgentStore } from "./stores";
+import { useAgentStore, useMessageStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
@@ -295,12 +296,14 @@ const MacWindowHeader = (props: HeaderProps) => {
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
       name={`${t("IMAGE", { ns: "common" })}`}
+      styleClass={{container: "text-sm hover:bg-white/10"}}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
       name={`${t("COPY", { ns: "common" })}`}
+      styleClass={{container: "text-sm hover:bg-white/10"}}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
@@ -333,7 +336,7 @@ const MacWindowHeader = (props: HeaderProps) => {
               icon={<FaSave size={12} />}
               name={`${t("SAVE", { ns: "common" })}`}
               styleClass={{
-                container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+                container: `relative text-sm bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
               }}
             />
           </PopIn>
@@ -366,34 +369,27 @@ const MacWindowHeader = (props: HeaderProps) => {
         styleClass={{
           container: "relative",
           input: `bg-[#3a3a3a] animation-duration text-left py-1 px-2 text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+          optionsContainer: "right-0 top-full rounded-xl border-[2px] border-white/10",
           option: "w-full py-[1px] md:py-0.5",
         }}
       />
     </div>
   );
 };
-const ChatMessage = forwardRef(
-  (
-    {
-      message,
-      className,
-    }: {
-      message: Message;
-      className?: string;
-    },
-    ref: ForwardedRef<HTMLDivElement>
-  ) => {
+const ChatMessage = ({message }: { message: Message; className?: string;}) => {
     const [t] = useTranslation();
-    const tasks = useMessageStore.use.tasks();
+    const agentMode = useAgentStore.use.agentMode();
     const updateMessage = useMessageStore.use.updateMessage();
+    const updateTask = useMessageStore.use.updateTask();
     const deleteMessage = useMessageStore.use.deleteMessage();
     const deleteTask = useMessageStore.use.deleteTask();
     const latestIteration = useMessageStore.use.latestIteration();
 
     const isMutableMessage =
-      message.iteration === latestIteration &&
+      (message.iteration === latestIteration || latestIteration === 0) &&
       isTask(message) &&
-      message.status === TASK_STATUS_STARTED;
+      message.status === TASK_STATUS_STARTED && 
+      agentMode === PAUSE_MODE ;
 
     const [isTextAreaDisabled, setIsTextAreaDisabled] = useState(true);
     const [textAreaValue, setTextAreaValue] = useState(message.value);
@@ -442,7 +438,13 @@ const ChatMessage = forwardRef(
 
     const saveEdit = () => {
       setTextAreaValue((prevTextAreaValue) => prevTextAreaValue.trim());
-      updateMessage({ ...message, value: textAreaValue });
+
+      const updatedMessage = { ...message, value: textAreaValue };
+      updateMessage(updatedMessage);
+      if (isTask(updatedMessage)) {
+        updateTask(updatedMessage);
+      }
+
       setIsTextAreaDisabled(true);
     };
 
@@ -487,7 +489,7 @@ const ChatMessage = forwardRef(
         <IconButton
           key="save"
           styleClass={{
-            container: "w-8 h-8 hover:bg-[#8e8e93]",
+            container: "w-8 h-8 hover:text-green-400 px-2",
           }}
           icon={<FaCheck />}
           toolTipProperties={{
@@ -498,7 +500,7 @@ const ChatMessage = forwardRef(
         />
         <IconButton
           key="cancel"
-          styleClass={{ container: "w-8 h-8 hover:bg-[#8e8e93]" }}
+          styleClass={{ container: "w-8 h-8 hover:text-red-500 px-2" }}
           icon={<FaTimes />}
           toolTipProperties={{
             message: "Cancel",
@@ -509,54 +511,31 @@ const ChatMessage = forwardRef(
       </ButtonGroup>
     );
 
-    const messageButtonGroup = (
-      <ButtonGroup
-        styleClass={{
-          container:
-            "hover:shadow absolute right-0 top-0 inline-flex rounded-tr-md",
-        }}
-        ref={messageButtonGroupRef}
-      >
-        <IconButton
-          key="edit"
-          styleClass={{
-            container: "w-8 h-8 hover:bg-[#8e8e93] p-1",
-          }}
-          icon={<FaEdit />}
-          toolTipProperties={{
-            message: "Edit",
-            disabled: false,
-          }}
-          onClick={handleEditMessage}
-        />
-        {tasks.length > 0 && (
-          <IconButton
-            key="delete"
-            styleClass={{
-              container:
-                "w-8 h-8 rounded-tr-md hover:bg-red-500 hover:text-white p-1 text-red-500",
-            }}
-            icon={<FaTrashAlt />}
-            toolTipProperties={{
-              message: "Delete",
-              disabled: false,
-            }}
-            disabled={tasks.length < 1}
-            onClick={handleDeleteMessage}
-          />
-        )}
-      </ButtonGroup>
-    );
-
+    const messageOptions = [
+      <WindowButton
+        key="edit"
+        onClick={handleEditMessage}
+        icon={<FaEdit />}
+        name="Edit"
+        styleClass={{container: "text-xs bg-zinc-900 rounded-sm hover:bg-[#1E88E5]"}}
+      />,
+      <WindowButton
+        key="delete"
+        onClick={handleDeleteMessage}
+        icon={<FaTrashAlt />}
+        name="Delete"
+        styleClass={{container: "text-xs bg-zinc-900 rounded-sm text-red-500 hover:bg-red-500 hover:text-white"}}
+      />,
+    ];
+    
     return (
       <div
         className={`${getMessageContainerStyle(
           message
-        )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:text-base ${
-          isTextAreaDisabled ? "pb-2 sm:pb-3" : "pt-2 sm:pt-3"
-        } ${isMutableMessage || latestIteration === 0 ? "" : "opacity-60"} ${
-          isMutableMessage ? "pt-7" : "pt-2 sm:pt-3"
-        }`}
+        )} relative mx-2 my-1 rounded-lg border-[2px] bg-white/20 px-2 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:px-3 sm:text-base pt-2 sm:pt-3 ${
+          isTextAreaDisabled ? "pb-2 sm:pb-3" : ""
+        } ${agentMode !== PAUSE_MODE || isMutableMessage ? "" : "opacity-60"} 
+        `}
       >
         {message.type != MESSAGE_TYPE_SYSTEM && (
           // Avoid for system messages as they do not have an icon and will cause a weird space
@@ -605,7 +584,7 @@ const ChatMessage = forwardRef(
                 {editButtonGroup}
               </div>
             ) : (
-              <span>{t(message.value, { ns: "chat" })}</span>
+              <span className="break-words">{t(message.value, { ns: "chat" })}</span>
             )}
             {
               // Link to the FAQ if it is a shutdown message
@@ -615,18 +594,22 @@ const ChatMessage = forwardRef(
             }
           </>
         )}
-        {isMutableMessage && (
-          <div>
-            {messageButtonGroup}
-            {/* {editButtonGroup} */}
-          </div>
+        {isMutableMessage && isTextAreaDisabled && (
+          <Menu
+            icon={<FaEllipsisV />}
+            onChange={() => null}
+            items={messageOptions}
+            styleClass={{
+              container: " absolute right-0 top-0 inline-flex bg-transparent ",
+              input: ` animation-duration text-sm md:text-md font-mono text-gray/50 transition-all py-1 sm:py-2 sm:px-1 hover:text-white/50`,
+              optionsContainer: "right-0 top-4 md:top-5 w-24 rounded-md border-[4px] border-zinc-900",
+              option: "w-full",
+            }}
+          />
         )}
       </div>
     );
-  }
-);
-
-ChatMessage.displayName = "ChatMessage";
+  };
 
 interface ButtonGroupProps {
   children: React.ReactNode;

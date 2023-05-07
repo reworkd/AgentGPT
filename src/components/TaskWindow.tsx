@@ -15,6 +15,7 @@ import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
+import IconButton from "./IconButton";
 
 export const TaskWindow = () => {
   const [customTask, setCustomTask] = React.useState("");
@@ -66,12 +67,14 @@ export const TaskWindow = () => {
 const Task = ({ task }: { task: Task }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
   const deleteTask = useMessageStore.use.deleteTask();
+  const deleteMessage = useMessageStore.use.deleteMessage();
   const isTaskDeletable =
-    task.taskId && !isAgentStopped && task.status === "started";
+    task.taskId && !isAgentStopped && task.status === TASK_STATUS_STARTED;
 
   const handleDeleteTask = () => {
     if (isTaskDeletable) {
-      deleteTask(task.taskId as string);
+      deleteTask(task);
+      deleteMessage(task);
     }
   };
 
@@ -85,15 +88,20 @@ const Task = ({ task }: { task: Task }) => {
         )}
       >
         {getTaskStatusIcon(task, { isAgentStopped })}
-        <span>{task.value}</span>
+        <span className="break-words">{task.value}</span>
         <div className="flex justify-end">
-          <FaTimesCircle
+          <IconButton
+            styleClass={{
+              container: 
+                `${isTaskDeletable ? "cursor-pointer hover:text-red-500" : "cursor-not-allowed opacity-30"}`
+              ,
+            }}
+            icon={<FaTimesCircle size={12}/>}
             onClick={handleDeleteTask}
-            className={clsx(
-              isTaskDeletable && "cursor-pointer hover:text-red-500",
-              !isTaskDeletable && "cursor-not-allowed opacity-30"
-            )}
-            size={12}
+            toolTipProperties={{
+              message: "Delete",
+              disabled: !isTaskDeletable,
+            }}
           />
         </div>
       </div>

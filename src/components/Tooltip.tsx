@@ -3,7 +3,6 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import type { toolTipProperties } from "./types";
 
 interface TooltipProps {
-  // child: React.ReactNode;
   children: React.ReactNode;
   toolTipProperties?: toolTipProperties;
   style?: { [key: string]: string };
@@ -11,7 +10,6 @@ interface TooltipProps {
 }
 
 const Tooltip = ({
-  // child,
   children,
   toolTipProperties = { message: "", disabled: true },
   style = { container: "" },

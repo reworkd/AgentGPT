@@ -27,7 +27,7 @@ const IconButton = ({
       toolTipProperties={toolTipProperties}
     >
       <button
-        className={`flex cursor-pointer items-center gap-2 px-2 text-sm  ${
+        className={`flex cursor-pointer items-center gap-2 text-sm  ${
           styleClass?.container || ""
         }`}
         onClick={onClick}

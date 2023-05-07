@@ -18,7 +18,7 @@ const WindowButton = ({
 }: WindowButtonProps) => {
   return (
     <div
-      className={`flex cursor-pointer items-center gap-2 p-1 px-2 text-sm hover:bg-white/10 ${
+      className={`flex cursor-pointer items-center gap-2 p-1 px-2 ${
         styleClass?.container || ""
       }`}
       onClick={onClick}

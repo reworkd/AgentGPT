@@ -94,27 +94,30 @@ class AutonomousAgent {
   }
 
   async startGoal() {
-    this.sendGoalMessage();
-    this.sendThinkingMessage();
-
-    // Initialize by getting taskValues
-    try {
-      const taskValues = await this.getInitialTasks();
-      for (const value of taskValues) {
-        await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        const task: Task = {
-          taskId: v1().toString(),
-          value,
-          status: TASK_STATUS_STARTED,
-          type: MESSAGE_TYPE_TASK,
-        };
-        this.sendMessage(task);
+    // ensure tasks fetching is only run once at the start
+    if (useMessageStore.getState().tasks.length === 0) { 
+      this.sendGoalMessage();
+      this.sendThinkingMessage();
+  
+      // Initialize by getting taskValues
+      try {
+        const taskValues = await this.getInitialTasks();
+        for (const value of taskValues) {
+          await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
+          const task: Task = {
+            taskId: v1().toString(),
+            value,
+            status: TASK_STATUS_STARTED,
+            type: MESSAGE_TYPE_TASK,
+          };
+          this.sendMessage(task);
+        }
+      } catch (e) {
+        console.log(e);
+        this.sendErrorMessage(getMessageFromError(e));
+        this.shutdown();
+        return;
       }
-    } catch (e) {
-      console.log(e);
-      this.sendErrorMessage(getMessageFromError(e));
-      this.shutdown();
-      return;
     }
   }
 

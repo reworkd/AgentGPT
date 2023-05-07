@@ -43,6 +43,7 @@ const PDFButton = ({
       onClick={downloadPDF}
       icon={<FaFilePdf size={12} />}
       name="PDF"
+      styleClass={{container: "text-sm hover:bg-white/10"}}
     />
   );
 }

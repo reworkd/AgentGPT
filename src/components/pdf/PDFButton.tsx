@@ -31,24 +31,32 @@ const PDFButton = ({
       ja: "./fonts/japanese.ttf",
     }[i18n?.language || "en"];
 
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const lineHeight = doc.getLineHeightFactor();
+    let y = 10;
+
     getTextSections(messages).forEach((text, index) => {
-      if (text.length > 0) {
-        doc.setFontSize(12);
-        if (fontUrl) {
-          doc.addFont(fontUrl, "customfont", "normal");
-          doc.setFont("customfont");
-        }
-        doc.text(
-          doc.splitTextToSize(text, 180) as string,
-          20,
-          index * 10 + 10,
-          {
-            align: "left",
-          }
-        );
+      let splittedText = doc.splitTextToSize(text, 180) as string;
+      if (splittedText.length <= 0) {
+        splittedText = text;
+      }
+      doc.setFontSize(12);
+      if (fontUrl) {
+        doc.addFont(fontUrl, "customfont", "normal");
+        doc.setFont("customfont");
+      }
+      if (y + doc.getTextDimensions(splittedText).h * lineHeight > pageHeight) {
+        doc.addPage();
+        y = 10;
+        doc.text(splittedText, 20, y, {
+          align: "left",
+        });
+        y += doc.getTextDimensions(splittedText).h;
       } else {
-        doc.setFontSize(12);
-        doc.text("", 20, index * 10 + 10, { align: "left" });
+        doc.text(splittedText, 20, y, {
+          align: "left",
+        });
+        y += lineHeight * doc.getTextDimensions(splittedText).h;
       }
     });
 

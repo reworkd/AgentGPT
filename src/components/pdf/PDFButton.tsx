@@ -14,7 +14,7 @@ import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
-import { i18n } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 
 const PDFButton = ({
   messages,

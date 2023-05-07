@@ -66,14 +66,12 @@ export const TaskWindow = () => {
 
 const Task = ({ task }: { task: Task }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const deleteTask = useMessageStore.use.deleteTask();
   const deleteMessage = useMessageStore.use.deleteMessage();
   const isTaskDeletable =
     task.taskId && !isAgentStopped && task.status === TASK_STATUS_STARTED;
 
   const handleDeleteTask = () => {
     if (isTaskDeletable) {
-      deleteTask(task);
       deleteMessage(task);
     }
   };

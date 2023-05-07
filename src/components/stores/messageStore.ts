@@ -65,6 +65,7 @@ const createMessageSlice: StateCreator<
             messages: getUpdatedTasks(newMessage, state.messages),
           };
         });
+        get().updateTask(newMessage);
       }
     },
     deleteMessage: (targetMessage) => {
@@ -75,7 +76,7 @@ const createMessageSlice: StateCreator<
             messages: getTasksAfterRemoval(targetMessage, state.messages),
           };
         });
-        console.log(get().messages);
+        get().deleteTask(targetMessage);
       }
     },
   };
@@ -88,7 +89,7 @@ const initialTaskState = {
 interface TaskSlice {
   tasks: Task[];
   updateTask: (updatedTask: Task, typeOfUpdate?: "existing" | "all") => void;
-  deleteTask: (targetMessage: Message) => void;
+  deleteTask: (targetTask: Task) => void;
 }
 
 const createTaskSlice: StateCreator<
@@ -96,7 +97,7 @@ const createTaskSlice: StateCreator<
   [],
   [],
   TaskSlice
-> = (set, get) => {
+> = (set) => {
   resetters.push(() => set(initialTaskState));
   return {
     ...initialTaskState,
@@ -104,7 +105,6 @@ const createTaskSlice: StateCreator<
       if (typeOfUpdate === "existing" && !isExistingTask(newTask)) {
         return;
       }
-
       set((state) => {
         return {
           ...state,
@@ -119,7 +119,6 @@ const createTaskSlice: StateCreator<
           tasks: getTasksAfterRemoval(targetTask, state.tasks) as Task[],
         };
       });
-      console.log(get().tasks);
     },
   };
 };

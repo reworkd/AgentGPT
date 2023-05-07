@@ -7,7 +7,7 @@ import clsx from "clsx";
 interface MenuProps {
   icon?: ReactNode;
   name: string;
-  variant: "minimal" | "default"
+  variant?: "minimal" | "default"
   items: JSX.Element[];
   disabled?: boolean;
   onChange: (value: string) => void;
@@ -38,7 +38,7 @@ function Menu({
             </>
           )}
         </MenuPrimitive.Button>
-          <MenuPrimitive.Items className={`${styleClass?.optionsContainer || ""} absolute z-20 mt-1 max-h-48 w-full bg-[#3a3a3a] tracking-wider shadow-xl outline-0`}>
+          <MenuPrimitive.Items className={`${styleClass?.optionsContainer || ""} absolute z-20 mt-1 max-h-48 bg-[#3a3a3a] tracking-wider shadow-xl outline-0`}>
             {items.map((item) => {
               const itemName = (item.props as { name: string }).name;
               return (

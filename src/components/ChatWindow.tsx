@@ -380,9 +380,7 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
     const [t] = useTranslation();
     const agentMode = useAgentStore.use.agentMode();
     const updateMessage = useMessageStore.use.updateMessage();
-    const updateTask = useMessageStore.use.updateTask();
     const deleteMessage = useMessageStore.use.deleteMessage();
-    const deleteTask = useMessageStore.use.deleteTask();
     const latestIteration = useMessageStore.use.latestIteration();
 
     const isLatestMessage = message.iteration === latestIteration || latestIteration === 0
@@ -442,9 +440,6 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
 
       const updatedMessage = { ...message, value: textAreaValue };
       updateMessage(updatedMessage);
-      if (isTask(updatedMessage)) {
-        updateTask(updatedMessage);
-      }
 
       setIsTextAreaDisabled(true);
     };
@@ -473,11 +468,6 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
 
     const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setTextAreaValue(e.currentTarget.value);
-    };
-
-    const handleDeleteMessage = () => {
-      deleteMessage(message);
-      deleteTask(message);
     };
 
     const editButtonGroup = (
@@ -524,7 +514,7 @@ const ChatMessage = ({message }: { message: Message; className?: string;}) => {
       />,
       <WindowButton
         key="delete"
-        onClick={handleDeleteMessage}
+        onClick={() => deleteMessage(message)}
         icon={<FaTrashAlt />}
         name="Delete"
         styleClass={{container: "text-xs bg-zinc-900 rounded-sm text-red-500 hover:bg-red-500 hover:text-white"}}

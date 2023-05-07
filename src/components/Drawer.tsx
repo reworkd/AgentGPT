@@ -159,9 +159,7 @@ const Drawer = ({
                 session={session}
               />
             ))}
-          {env.NEXT_PUBLIC_FF_AUTH_ENABLED && (
-            <AuthItem session={session} signIn={signIn} signOut={signOut} />
-          )}
+          <AuthItem session={session} signIn={signIn} signOut={signOut} />
           <DrawerItem
             icon={<FaQuestionCircle />}
             text={`${t("HELP_BUTTON", { ns: "drawer" })}`}

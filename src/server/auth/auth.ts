@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
     }),
     DiscordProvider({
       clientId: serverEnv.DISCORD_CLIENT_ID ?? "",
-      clientSecret: serverEnv.DISCORD_CLIENT_ID ?? "",
+      clientSecret: serverEnv.DISCORD_CLIENT_SECRET ?? "",
       allowDangerousEmailAccountLinking: true,
     }),
   ],

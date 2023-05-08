@@ -38,7 +38,7 @@
     "chromadb": "^1.4.1",
     "clsx": "^1.2.1",
     "cookies-next": "^2.1.1",
-    "framer-motion": "^10.11.2",
+    "framer-motion": "^10.12.8",
     "html-to-image": "^1.11.11",
     "i18next": "^22.4.15",
     "jspdf": "^2.5.1",

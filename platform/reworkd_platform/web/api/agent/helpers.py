@@ -9,8 +9,9 @@ def remove_task_prefix(input_str: str) -> str:
 
 
 def extract_tasks(text: str, completed_tasks: List[str]) -> List[str]:
-    return [remove_task_prefix(task) for task in extract_array(text)
-            if real_tasks_filter(task) and task not in completed_tasks]
+    filtered_tasks = [remove_task_prefix(task) for task in extract_array(text) if
+                      real_tasks_filter(task)]
+    return [task for task in filtered_tasks if task not in completed_tasks]
 
 
 def extract_array(input_str: str) -> List[str]:

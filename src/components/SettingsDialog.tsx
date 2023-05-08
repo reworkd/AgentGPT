@@ -7,7 +7,6 @@ import {
   FaExclamationCircle,
   FaSyncAlt,
   FaCoins,
-  FaTachometerAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -16,8 +15,6 @@ import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
-import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
-import { useAgentStore } from "./stores";
 import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{
@@ -29,9 +26,6 @@ export const SettingsDialog: React.FC<{
     ...customSettings.settings,
   });
   const [t] = useTranslation();
-  const agent = useAgentStore.use.agent();
-  const agentMode = useAgentStore.use.agentMode();
-  const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   useEffect(() => {
     setSettings(customSettings.settings);
@@ -243,32 +237,6 @@ export const SettingsDialog: React.FC<{
           setValue={(e) => updateSettings("customModelName", e)}
           attributes={{ options: GPT_MODEL_NAMES }}
           disabled={disabled}
-        />
-        <Input
-          left={
-            <>
-              <FaTachometerAlt />
-              <span className="ml-2">{`${t("LABEL_MODE", {
-                ns: "settings",
-              })}`}</span>
-            </>
-          }
-          value={agentMode}
-          disabled={agent !== null}
-          onChange={() => null}
-          setValue={updateAgentMode as (agentMode: string) => void}
-          type="combobox"
-          toolTipProperties={{
-            message: `${t("AUTOMATIC_MODE", { ns: "settings" })} ${t(
-              "AUTOMATIC_MODE_DESCRIPTION",
-              { ns: "settings" }
-            )} \n\n${t("PAUSE_MODE", { ns: "settings" })}: ${t(
-              "PAUSE_MODE_DESCRIPTION",
-              { ns: "settings" }
-            )}`,
-            disabled: false,
-          }}
-          attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
         />
         <Accordion
           child={advancedSettings}

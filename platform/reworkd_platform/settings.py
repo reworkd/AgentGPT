@@ -40,6 +40,9 @@ class Settings(BaseSettings):
 
     log_level: LogLevel = LogLevel.INFO
 
+    # OpenAI
+    openai_api_key: str
+
     # Variables for the database
     db_host: str = "localhost"
     db_port: int = 3306

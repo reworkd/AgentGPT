@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderBottomStyle: "solid",
   },
   section: {
-    fontSize: 12,
+    fontSize: 9,
     fontFamily: "customfont",
     marginVertical: 10,
     lineHeight: 1.5,

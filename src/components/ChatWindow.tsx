@@ -32,7 +32,6 @@ import {
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
-  AUTOMATIC_MODE,
   PAUSE_MODE,
   isTask,
 } from "../types/agentTypes";
@@ -71,12 +70,10 @@ const ChatWindow = ({
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
-
   const scrollRef = useRef<HTMLDivElement>(null);
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const agentMode = useAgentStore.use.agentMode();
   const agent = useAgentStore.use.agent();
-  const updateAgentMode = useAgentStore.use.updateAgentMode();
   const isWebSearchEnabled = useAgentStore.use.isWebSearchEnabled();
   const setIsWebSearchEnabled = useAgentStore.use.setIsWebSearchEnabled();
 
@@ -107,10 +104,6 @@ const ChatWindow = ({
       openSorryDialog?.();
       setIsWebSearchEnabled(false);
     }
-  };
-
-  const handleUpdateAgentMode = (value: boolean) => {
-    updateAgentMode(value ? PAUSE_MODE : AUTOMATIC_MODE);
   };
 
   return (
@@ -187,38 +180,18 @@ const ChatWindow = ({
         )}
       </div>
       {displaySettings && (
-        <div className="flex flex-col items-center justify-center md:flex-row">
-          <SwitchContainer label="Web Search">
-            <Switch
-              disabled={agent !== null}
-              value={isWebSearchEnabled}
-              onChange={handleChangeWebSearch}
-            />
-          </SwitchContainer>
-          <SwitchContainer label={PAUSE_MODE}>
-            <Switch
-              disabled={agent !== null}
-              value={agentMode === PAUSE_MODE}
-              onChange={handleUpdateAgentMode}
-            />
-          </SwitchContainer>
-        </div>
+        <>
+          <div className="flex items-center justify-center">
+            <div className="m-1 flex items-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
+              <p className="font-mono text-sm">Web search</p>
+              <Switch
+                value={isWebSearchEnabled}
+                onChange={handleChangeWebSearch}
+              />
+            </div>
+          </div>
+        </>
       )}
-    </div>
-  );
-};
-
-const SwitchContainer = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
-      <p className="font-mono text-sm">{label}</p>
-      {children}
     </div>
   );
 };

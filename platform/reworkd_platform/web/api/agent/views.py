@@ -1,12 +1,13 @@
 from fastapi import APIRouter
 
 from reworkd_platform.settings import settings
+from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
 router = APIRouter()
 
 
-@router.get("/health")
-def health_check() -> str:
+@router.post("/create")
+def health_check(model_settings: ModelSettings) -> str:
     """
     Checks the health of a project.
 

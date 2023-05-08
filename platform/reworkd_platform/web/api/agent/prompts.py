@@ -1,36 +1,8 @@
-from random import randint
-from typing import Optional
-
-from langchain import OpenAI, PromptTemplate
-
-from reworkd_platform.settings import settings
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
-
-GPT_35_TURBO = "gpt-3.5-turbo"
-
-
-def get_server_side_key() -> str:
-    keys = [key.strip() for key in
-            (settings.openai_api_key or "").split(",")
-            if key.strip()]
-    return keys[randint(0, len(keys) - 1)] if keys else ""
-
-
-def create_model(model_settings: Optional[ModelSettings]) -> OpenAI:
-    _model_settings = model_settings
-    if not model_settings or not model_settings.customApiKey:
-        _model_settings = None
-    return OpenAI(
-        openAIApiKey=_model_settings.customApiKey or get_server_side_key(),
-        temperature=_model_settings.customTemperature or 0.9,
-        modelName=_model_settings.customModelName or GPT_35_TURBO,
-        maxTokens=_model_settings.maxTokens or 400
-    )
-
+from langchain import PromptTemplate
 
 start_goal_prompt = PromptTemplate(
-    template="""You are a task creation AI called AgentGPT. You must answer in the "{
-    language}" language. You are not a part of any system or device. You have the
+    template="""You are a task creation AI called AgentGPT. You must answer in the
+    "{language}" language. You are not a part of any system or device. You have the
     following objective "{goal}". Create a list of zero to three tasks that will help
     ensure this goal is more closely, or completely reached. You have access to
     google search for tasks that require current events or small searches. Return the
@@ -58,10 +30,10 @@ execute_task_prompt = PromptTemplate(
 )
 
 create_tasks_prompt = PromptTemplate(
-    template="""You are an AI task creation agent. You must answer in the "{
-    language}" language. You have the following objective `{goal}`. You have the
-    following incomplete tasks `{tasks}` and have just executed the following task `{
-    lastTask}` and received the following result `{result}`. Based on this, create a
+    template="""You are an AI task creation agent. You must answer in the "{language}"
+    language. You have the following objective `{goal}`. You have the
+    following incomplete tasks `{tasks}` and have just executed the following task
+    `{lastTask}` and received the following result `{result}`. Based on this, create a
     new task to be completed by your AI system ONLY IF NEEDED such that your goal is
     more closely reached or completely reached. Return the response as an array of
     strings that can be used in JSON.parse() and NOTHING ELSE.""",

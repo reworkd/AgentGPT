@@ -1,12 +1,12 @@
-from dataclasses import dataclass
 from typing import Literal
 
+from pydantic import BaseModel
 
-@dataclass
-class Analysis:
+
+class Analysis(BaseModel):
     action: Literal["reason", "search"]
     arg: str
 
 
 def get_default_analysis() -> Analysis:
-    return Analysis("reason", "No analysis")
+    return Analysis(action="reason", arg="Default option when analyzing errors.")

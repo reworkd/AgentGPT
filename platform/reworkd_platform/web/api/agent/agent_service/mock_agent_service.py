@@ -33,8 +33,8 @@ class MockAgentService(AgentService):
         task: str
     ) -> Analysis:
         return Analysis(
-            "reason",
-            "Mock analysis"
+            action="reason",
+            arg="Mock analysis"
         )
 
     async def execute_task_agent(

@@ -62,8 +62,9 @@ class OpenAIAgentService(AgentService):
     ) -> Analysis:
         llm = create_model(model_settings)
         chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
+        actions = ["reason", "search"]
 
-        completion = chain.run({"goal": goal, "task": task})
+        completion = chain.run({"goal": goal, "task": task, "actions": actions})
         print("Analysis completion:\n", completion)
         try:
             return Analysis.parse_raw(completion)

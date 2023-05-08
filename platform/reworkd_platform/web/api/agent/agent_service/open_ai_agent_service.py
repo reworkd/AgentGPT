@@ -4,7 +4,6 @@ from typing import List, Optional
 
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
-from langchain.prompts import PromptTemplate
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
@@ -49,12 +48,11 @@ class OpenAIAgentService(AgentService):
         language: str
     ) -> List[str]:
         llm = create_model(model_settings)
-        prompt = PromptTemplate.from_string(start_goal_prompt)
-        chain = LLMChain(llm=llm, prompt=prompt)
+        chain = LLMChain(llm=llm, prompt=start_goal_prompt)
 
         completion = chain.run({"goal": goal, "language": language})
-        print(f"Goal: {goal}, Completion: {completion.text}")
-        return extract_tasks(completion.text, [])
+        print(f"Goal: {goal}, Completion: {completion}")
+        return extract_tasks(completion, [])
 
     async def analyze_task_agent(
         self,
@@ -63,13 +61,12 @@ class OpenAIAgentService(AgentService):
         task: str
     ) -> Analysis:
         llm = create_model(model_settings)
-        prompt = PromptTemplate.from_string(analyze_task_prompt)
-        chain = LLMChain(llm=llm, prompt=prompt)
+        chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
 
         completion = chain.run({"goal": goal, "task": task})
-        print("Analysis completion:\n", completion.text)
+        print("Analysis completion:\n", completion)
         try:
-            return Analysis.parse_raw(completion.text)
+            return Analysis.parse_raw(completion)
         except Exception as e:
             print(f"Error parsing analysis: {e}")
             return get_default_analysis()
@@ -89,14 +86,14 @@ class OpenAIAgentService(AgentService):
             pass
 
         llm = create_model(model_settings)
-        prompt = PromptTemplate.from_string(execute_task_prompt)
-        chain = LLMChain(llm=llm, prompt=prompt)
+        chain = LLMChain(llm=llm, prompt=execute_task_prompt)
 
         completion = chain.run({"goal": goal, "language": language, "task": task})
 
         if analysis.action == "search" and not environ.get("SERP_API_KEY"):
-            return f"ERROR: Failed to search as no SERP_API_KEY is provided in ENV.\n\n{completion.text}"
-        return completion.text
+            return f"ERROR: Failed to search as no SERP_API_KEY is provided in ENV." \
+                   f"\n\n{completion}"
+        return completion
 
     async def create_tasks_agent(
         self,
@@ -109,8 +106,7 @@ class OpenAIAgentService(AgentService):
         completed_tasks: Optional[List[str]] = None
     ) -> List[str]:
         llm = create_model(model_settings)
-        prompt = PromptTemplate.from_string(create_tasks_prompt)
-        chain = LLMChain(llm=llm, prompt=prompt)
+        chain = LLMChain(llm=llm, prompt=create_tasks_prompt)
 
         completion = chain.run(
             {
@@ -122,4 +118,4 @@ class OpenAIAgentService(AgentService):
             }
         )
 
-        return extract_tasks(completion.text, completed_tasks or [])
+        return extract_tasks(completion, completed_tasks or [])

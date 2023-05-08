@@ -10,7 +10,7 @@ module.exports = {
       "ja",
       "lt",
       "zh",
-      "zh-tw",
+      "zh-TW",
       "ko",
       "pl",
       "pt",

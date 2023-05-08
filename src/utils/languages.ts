@@ -14,7 +14,7 @@ export const availableLanguages: Language[] = [
   { code: "ja", name: "日本語", flag: "🇯🇵" },
   { code: "ko", name: "한국어", flag: "🇰🇷" },
   { code: "zh", name: "简体中文", flag: "🇨🇳" },
-  { code: "zh-tw", name: "繁體中文", flag: "🇹🇼" },
+  { code: "zh-TW", name: "繁體中文", flag: "🇹🇼" },
   { code: "hr", name: "Hrvatski", flag: "🇭🇷" },
   { code: "lt", name: "Lietuvių", flag: "🇱🇹" },
   { code: "uk", name: "Українська", flag: "🇺🇦" },

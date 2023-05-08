@@ -41,7 +41,8 @@ class Settings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
 
     # OpenAI
-    openai_api_key: str
+    openai_api_key: str = "sk-<your key here>"
+    ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
 
     # Variables for the database
     db_host: str = "localhost"

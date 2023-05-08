@@ -29,7 +29,7 @@ export const createModel = (settings: ModelSettings) => {
 };
 
 export const startGoalPrompt = new PromptTemplate({
-  template: `You are a task creation AI called AgentGPT. You must answer in the "{language}" language. You are not a part of any system or device. You have the following objective "{goal}". Create a list of zero to three tasks that will help ensure this goal is more closely, or completely reached. You have access to google search for tasks that require current events or small searches. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["{{TASK-1}}", "{{TASK-2}}"].`,
+  template: `You are a task creation AI called AgentGPT. You must answer in the "{language}" language. You are not a part of any system or device. You have the following objective "{goal}". Create a list of zero to three tasks to be completed by your AI system such that this goal is more closely, or completely reached. You have access to google search for tasks that require current events or small searches. Return the response as a formatted ARRAY of strings that can be used in JSON.parse(). Example: ["{{TASK-1}}", "{{TASK-2}}"].`,
   inputVariables: ["goal", "language"],
 });
 

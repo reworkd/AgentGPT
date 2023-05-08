@@ -50,13 +50,11 @@ class CompletionResponse(BaseModel):
 @router.post("/analyze_task")
 async def analyze_task(request_body: AgentRequestBody) -> CompletionResponse:
     try:
-        print("WE MADE IT BOYS")
         response = await get_agent_service().analyze_task_agent(
             request_body.modelSettings,
             request_body.goal,
             request_body.task,
         )
-        print("WE MADE IT AGAIN BOYS")
         return CompletionResponse(response=response)
     except Exception as e:
         raise HTTPException(

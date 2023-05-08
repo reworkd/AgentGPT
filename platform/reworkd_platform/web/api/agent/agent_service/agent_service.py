@@ -1,14 +1,7 @@
-from dataclasses import dataclass
 from typing import List, Optional, Protocol
-from typing import Literal
 
+from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
-
-
-@dataclass
-class Analysis:
-    action: Literal["reason", "search"]
-    arg: str
 
 
 class AgentService(Protocol):

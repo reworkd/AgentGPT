@@ -11,7 +11,7 @@ GPT_35_TURBO = "gpt-3.5-turbo"
 
 def get_server_side_key() -> str:
     keys = [key.strip() for key in
-            (settings.environ.get("OPENAI_API_KEY") or "").split(",")
+            (settings.openai_api_key or "").split(",")
             if key.strip()]
     return keys[randint(0, len(keys) - 1)] if keys else ""
 

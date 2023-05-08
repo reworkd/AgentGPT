@@ -13,29 +13,28 @@ export default function HelpDialog({
   const [t] = useTranslation();
   return (
     <Dialog
-      header={`${t("Welcome to AgentGPT 🤖")} 🤖`}
+      header={`${t("WELCOME_TO_AGENT_GPT", { ns: "help" })} 🤖`}
       isShown={show}
       close={close}
     >
-      <div className="text-md relative flex-auto p-2 leading-relaxed">
+      <div>
         <p>
-          <strong>AgentGPT</strong>{" "}
-          {t(
-            "allows you to configure and deploy Autonomous AI agents. Name your custom AI and have it embark on any goal imaginable. It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀"
-          )}
+          <strong>AgentGPT</strong> {t("INTRODUCING_AGENTGPT", { ns: "help" })}
         </p>
+        <br />
         <div>
-          <br />
-          {t("To learn more about AgentGPT, its roadmap, FAQ, etc, visit the ")}
+          {t("TO_LEARN_MORE_ABOUT_AGENTGPT", {
+            ns: "help",
+          })}
           <a
             href="https://reworkd.github.io/AgentGPT-Documentation/docs/intro"
             className="text-sky-500"
           >
-            AgentGPT Documentation
+            {t("AGENTGPT_DOCUMENTATION", { ns: "help" })}
           </a>
-          <br />
-          <p className="mt-2">{t("Join the community below:")}</p>
         </div>
+        <br />
+        <p className="mt-2">{t("FOLLOW_THE_JOURNEY", { ns: "help" })}</p>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div
             className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"

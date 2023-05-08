@@ -1,9 +1,5 @@
 import type { GetServerSidePropsContext } from "next";
-import {
-  getServerSession,
-  type NextAuthOptions,
-  type DefaultSession,
-} from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
@@ -17,19 +13,6 @@ import { serverEnv } from "../env/schema.mjs";
  * and keep type safety
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-    } & DefaultSession["user"] &
-      User;
-  }
-
-  interface User {
-    role?: string;
-    subscriptionId: string | undefined;
-  }
-}
 
 const providers = [
   GoogleProvider({

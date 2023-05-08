@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Temperatūra",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Didesnės reikšmės padidina atsakymų atsitiktinumą, o mažesnės reikšmės padeda sukoncentruoti atsakymą ir jį nukreipti.",
+  "LOOP": "Ciklas",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Valdo maksimalų leidžiamų ciklų skaičių (didelis skaičius reiškia daugiau API užklausų).",
+  "TOKENS": "Žetoniai",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Valdo maksimalų žetonų skaičių, naudojamų kiekviename API užklausime (didelis skaičius reiškia išsamesnius atsakymus, bet didesnes išlaidas).",
+  "SETTINGS_DIALOG_HEADER": "Nustatymai ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Čia galite pridėti savo OpenAI API raktą. Tai reiškia, kad turėsite sumokėti už savo OpenAI žetonus, tačiau gausite didesnę prieigą prie ChatGPT! Be to, galite pasirinkti bet kurią OpenAI modelį.",
+  "INFO_TO_USE_GPT4": "Norint naudoti GPT-4 modelį, taip pat reikalingas API raktas. Jį galite gauti",
+  "HERE": "čia",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(ChatGPT Plus prenumerata neveiks)",
+  "API_KEY": "API raktas",
+  "ADVANCED_SETTINGS": "Išplėstiniai nustatymai",
+  "NOTE_TO_GET_OPENAI_KEY": "PRIMINIMAS: Norint gauti API raktą, turite užsiregistruoti OpenAI paskyroje, kurią galite sukurti šiuo nuorodos adresu:",
+  "LINK": "API rakto užsakymas",
+  "NOTE_API_KEY_USAGE": "Šis raktas naudojamas tik dabartinėje naršymo sesijoje.",
+  "LABEL_MODEL": "Modelis",
+  "LANG": "Kalba"
+  }

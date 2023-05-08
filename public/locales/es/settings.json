@@ -1,0 +1,20 @@
+{
+  "TEMPERATURE": "Temperatura",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Valores más altos hacen que la salida sea más aleatoria, mientras que valores más bajos la hacen más enfocada y definida.",
+  "LOOP": "Bucle",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Controla el número máximo de bucles que el agente puede ejecutar (un valor más alto resultará en más llamadas a la API).",
+  "TOKENS": "Tokens",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Controla el número máximo de tokens utilizados en cada llamada a la API (un valor más alto resultará en respuestas más detalladas, pero también será más costoso).",
+  "SETTINGS_DIALOG_HEADER": "Configuración ⚙",
+  "HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Aquí puedes agregar tu clave de API de OpenAI. Esto significa que tendrás que pagar por el uso de tu propio token de OpenAI, ¡pero obtendrás un mayor acceso a ChatGPT! Además, también puedes elegir cualquier modelo ofrecido por OpenAI.",
+  "INFO_TO_USE_GPT4": "Para utilizar el modelo GPT-4, también es necesario proporcionar la clave de API. Puedes obtenerla",
+  "HERE": "aquí",
+  "SUBSCRIPTION_WILL_NOT_WORK": "(La suscripción a ChatGPT Plus no funcionará)",
+  "API_KEY": "API",
+  "ADVANCED_SETTINGS": "Configuración avanzada",
+  "NOTE_TO_GET_OPENAI_KEY": "NOTA: Para obtener una clave de API, necesitas registrarte en una cuenta de OpenAI, lo cual puedes hacer en el siguiente enlace:",
+  "LINK": "Solicita una clave de API",
+  "NOTE_API_KEY_USAGE": "Esta clave solo se utiliza en la sesión actual del navegador.",
+  "LABEL_MODEL": "Modelo",
+  "LANG": "Idioma"
+}

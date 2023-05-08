@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "Fehler beim Zugriff auf den OpenAI API-Schlüssel. Bitte überprüfen Sie den API-Schlüssel oder versuchen Sie es später erneut.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "Fehler beim Hinzufügen zusätzlicher Aufgaben. Möglicherweise kann unser Modell die Antwort nicht handhaben und hat dies verursacht. Fortfahren...",
+  "RATE_LIMIT_EXCEEDED": "Maximale Anzahl an Anfragen erreicht! Bitte langsamer machen...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Dieser Agent hat die maximale Anzahl ausführbarer Durchläufe erreicht. Um Geld zu sparen, wird dieser Agent jetzt gestoppt... Die maximale Anzahl von Agentenläufen kann in den Einstellungen konfiguriert werden.",
+  "DEMO_LOOPS_REACHED": "Entschuldigung, da dies eine Demoversion ist, können wir unsere Agenten nicht zu lange laufen lassen. Hinweis: Wenn Sie längere Laufzeiten wünschen, geben Sie bitte einen eigenen API-Schlüssel in den Einstellungen an. Stoppen...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agent manuell gestoppt.",
+  "ALL_TASKS_COMPLETETD": "Alle Aufgaben wurden abgeschlossen. Stoppen...",
+  "ERROR_API_KEY_QUOTA": "Fehler bei der Verwendung des OpenAI API-Schlüssels. Sie haben Ihre derzeitige Quote überschritten. Bitte überprüfen Sie Ihre Abrechnungsinformationen.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "FEHLER: Ihr OpenAI API-Schlüssel hat keinen Zugriff auf GPT-4. Sie müssen sich zuerst auf der OpenAI-Warteliste anmelden. (Dies unterscheidet sich vom ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "Fehler beim Abrufen der Ausgangsaufgaben. Versuchen Sie es erneut, formulieren Sie das Ziel des Agenten klarer oder passen Sie es so an, dass es unserem Modell entspricht. Stoppen...",
+  "INVALID_OPENAI_API_KEY": "FEHLER ungültiger OpenAI-API-Schlüssel"
+}

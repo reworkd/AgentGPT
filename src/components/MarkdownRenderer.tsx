@@ -13,6 +13,7 @@ const MarkdownRenderer = ({ children }) => (
     components={{
       pre: CustomPre,
       code: CustomCodeBlock,
+      a: (props) => CustomLink({ children: props.children, href: props.href }),
       p: (props) => <p className="mb-4">{props.children}</p>,
       ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
       ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
@@ -83,6 +84,19 @@ const CustomCodeBlock = ({
   const language = className ? className.replace("language-", "") : "plaintext";
 
   return <code className={`hljs ${language}`}>{children}</code>;
+};
+
+const CustomLink = ({ children, href }) => {
+  return (
+    <a
+      className="link overflow-hidden"
+      href={href as string}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  );
 };
 
 const isValidCustomCodeBlock = (

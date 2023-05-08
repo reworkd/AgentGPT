@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaClipboard, FaImage, FaSave } from "react-icons/fa";
+import { FaClipboard, FaImage, FaSave, FaPlay, FaPause } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -20,19 +20,25 @@ import {
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
+  PAUSE_MODE,
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import type { Translation } from "../utils/types";
+import { useAgentStore } from "./stores";
 import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
+import { Switch } from "./Switch";
+import { env } from "../env/client.mjs";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   className?: string;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
+  displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
+  openSorryDialog?: () => void;
+  setAgentRun?: (name: string, goal: string) => void;
 }
 
 const messageListId = "chat-window-message-list";
@@ -45,10 +51,18 @@ const ChatWindow = ({
   onSave,
   fullscreen,
   scrollToBottom,
+  displaySettings,
+  openSorryDialog,
+  setAgentRun,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const agentMode = useAgentStore.use.agentMode();
+  const agent = useAgentStore.use.agent();
+  const isWebSearchEnabled = useAgentStore.use.isWebSearchEnabled();
+  const setIsWebSearchEnabled = useAgentStore.use.setIsWebSearchEnabled();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -66,6 +80,18 @@ const ChatWindow = ({
       }
     }
   });
+
+  const handleChangeWebSearch = (value: boolean) => {
+    // Change this value when we can no longer support web search
+    const WEB_SEARCH_ALLOWED = env.NEXT_PUBLIC_WEB_SEARCH_ENABLED as boolean;
+
+    if (WEB_SEARCH_ALLOWED) {
+      setIsWebSearchEnabled(value);
+    } else {
+      openSorryDialog?.();
+      setIsWebSearchEnabled(false);
+    }
+  };
 
   return (
     <div
@@ -85,6 +111,12 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
+        {agent !== null && agentMode === PAUSE_MODE && isAgentPaused && (
+          <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
+        )}
+        {agent !== null && agentMode === PAUSE_MODE && !isAgentPaused && (
+          <FaPlay className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
+        )}
         {messages.map((message, index) => {
           if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
             return null;
@@ -100,25 +132,83 @@ const ChatWindow = ({
 
         {messages.length === 0 && (
           <>
-            <Expand delay={0.8} type="spring">
+            <PopIn delay={0.8}>
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "👉 " + t("CREATE_AN_AGENT"),
+                  value:
+                    "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
                 }}
               />
-            </Expand>
-            <Expand delay={0.9} type="spring">
-              <ChatMessage
-                message={{
-                  type: MESSAGE_TYPE_SYSTEM,
-                  value: `📢 ${t("YOU_CAN_PROVIDE_YOUR_OWN_OPENAI_KEY")}`,
-                }}
-              />
-            </Expand>
+            </PopIn>
+            <PopIn delay={1.5}>
+              <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
+                <ExampleAgentButton
+                  name="PlatformerGPT 🎮"
+                  setAgentRun={setAgentRun}
+                >
+                  Write some code to make a platformer game.
+                </ExampleAgentButton>
+                <ExampleAgentButton
+                  name="TravelGPT 🌴"
+                  setAgentRun={setAgentRun}
+                >
+                  Plan a detailed trip to Hawaii.
+                </ExampleAgentButton>
+                <ExampleAgentButton
+                  name="ResearchGPT 📜"
+                  setAgentRun={setAgentRun}
+                >
+                  Create a comprehensive report of the Nike company
+                </ExampleAgentButton>
+              </div>
+            </PopIn>
           </>
         )}
       </div>
+      {displaySettings && (
+        <>
+          <div className="flex items-center justify-center">
+            <div className="m-1 flex items-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
+              <p className="font-mono text-sm">Web search</p>
+              <Switch
+                value={isWebSearchEnabled}
+                onChange={handleChangeWebSearch}
+              />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+const ExampleAgentButton = ({
+  name,
+  children,
+  setAgentRun,
+}: {
+  name: string;
+  children: string;
+  setAgentRun?: (name: string, goal: string) => void;
+}) => {
+  const handleClick = () => {
+    if (setAgentRun) {
+      setAgentRun(name, children);
+    }
+  };
+
+  return (
+    <div
+      className={clsx(
+        `w-full p-2 sm:w-[33%]`,
+        `cursor-pointer rounded-lg bg-sky-600 font-mono text-sm hover:bg-sky-700 sm:text-base`,
+        `border-[2px] border-white/20 hover:border-[#1E88E5]/40`
+      )}
+      onClick={handleClick}
+    >
+      <p className="text-lg font-black">{name}</p>
+      {children}
     </div>
   );
 };
@@ -131,6 +221,9 @@ interface HeaderProps {
 
 const MacWindowHeader = (props: HeaderProps) => {
   const [t] = useTranslation();
+  const isAgentPaused = useAgentStore.use.isAgentPaused();
+  const agent = useAgentStore.use.agent();
+  const agentMode = useAgentStore.use.agentMode();
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -189,13 +282,13 @@ const MacWindowHeader = (props: HeaderProps) => {
       key="Image"
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name={`${t("Image")}`}
+      name={`${t("IMAGE", { ns: "common" })}`}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
-      name={`${t("Copy")}`}
+      name={`${t("COPY", { ns: "common" })}`}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
@@ -217,6 +310,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
+
       <AnimatePresence>
         {props.onSave && (
           <PopIn>
@@ -225,7 +319,7 @@ const MacWindowHeader = (props: HeaderProps) => {
               key="Agent"
               onClick={() => props.onSave?.("db")}
               icon={<FaSave size={12} />}
-              name={`${t("Save")}`}
+              name={`${t("SAVE", { ns: "common" })}`}
               styleClass={{
                 container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
               }}
@@ -233,9 +327,28 @@ const MacWindowHeader = (props: HeaderProps) => {
           </PopIn>
         )}
       </AnimatePresence>
+
+      {agentMode === PAUSE_MODE && agent !== null && (
+        <div
+          className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
+        >
+          {isAgentPaused ? (
+            <>
+              <FaPause />
+              <p className="font-mono">Paused</p>
+            </>
+          ) : (
+            <>
+              <FaPlay />
+              <p className="font-mono">Running</p>
+            </>
+          )}
+        </div>
+      )}
+
       <Menu
         icon={<CgExport />}
-        name={`${t("Export")}`}
+        name={`${t("EXPORT", { ns: "common" })}`}
         onChange={() => null}
         items={exportOptions}
         styleClass={{
@@ -247,13 +360,7 @@ const MacWindowHeader = (props: HeaderProps) => {
     </div>
   );
 };
-const ChatMessage = ({
-  message,
-  className,
-}: {
-  message: Message;
-  className?: string;
-}) => {
+const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
 
   return (
@@ -268,13 +375,17 @@ const ChatMessage = ({
           <div className="mr-2 inline-block h-[0.9em]">
             {getTaskStatusIcon(message, {})}
           </div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message, t)}</span>
+          <span className="mr-2 font-bold">
+            {t(getMessagePrefix(message), { ns: "chat" })}
+          </span>
         </>
       )}
 
       {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
-          (Redeploy if this takes more than 30 seconds)
+          {`${t("RESTART_IF_IT_TAKES_X_SEC", {
+            ns: "chat",
+          })}`}
         </span>
       )}
 
@@ -287,11 +398,12 @@ const ChatMessage = ({
         </>
       ) : (
         <>
-          <span>{message.value}</span>
+          <span>{t(message.value, { ns: "chat" })}</span>
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&
-              message.value.toLowerCase().includes("shut") && <FAQ />
+              (message.value.toLowerCase().includes("shut") ||
+                message.value.toLowerCase().includes("error")) && <FAQ />
           }
         </>
       )}
@@ -299,17 +411,18 @@ const ChatMessage = ({
   );
 };
 
-const getMessagePrefix = (message: Message, t: Translation) => {
+// Returns the translation key of the prefix
+const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
-    return t("Embarking on a new goal:");
+    return "EMBARKING_ON_NEW_GOAL";
   } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return t("Thinking...");
+    return "THINKING";
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return t("Added task:");
+    return "TASK_ADDED";
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
     return `Completing: ${message.value}`;
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return t("No more subtasks for:");
+    return "NO_MORE_TASKS";
   }
   return "";
 };
@@ -318,7 +431,7 @@ const FAQ = () => {
   return (
     <p>
       <br />
-      If you are facing any issues, please visit our{" "}
+      If you are facing issues, please head over to our{" "}
       <a
         href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq"
         className="text-sky-500"

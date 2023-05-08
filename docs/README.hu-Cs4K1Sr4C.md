@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-<a href="https://agentgpt.reworkd.ai">🔗 Gyorshivatkozás</a>
+<a href="https://agentgpt.reworkd.ai">🔗 Weboldal</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="#-getting-started">🤝 Hozzájárulás</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -262,7 +262,7 @@ npm run dev
 ---
 
 <h3 align="center">
-🙌🏻 Our Sponsers Continued 🙌🏻
+🙌🏻 További szponzoraink 🙌🏻
 </h3>
 
 <div align="center" dir="auto">

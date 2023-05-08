@@ -27,7 +27,7 @@ const Tooltip = ({
                 className="will-change animation-transform user-select-none z-40 w-3/5 rounded-sm bg-black px-3.5 py-2.5 text-white shadow-lg "
                 sideOffset={sideOffset}
               >
-                {message}
+                <span className="whitespace-pre-line">{message}</span>
                 <TooltipPrimitive.Arrow className="fill-black" />
               </TooltipPrimitive.Content>
             </TooltipPrimitive.Portal>

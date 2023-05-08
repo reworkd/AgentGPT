@@ -78,7 +78,7 @@
     "autoprefixer": "^10.4.7",
     "cross-env": "^7.0.3",
     "eslint": "^8.30.0",
-    "eslint-config-next": "13.1.6",
+    "eslint-config-next": "13.4.1",
     "husky": "^8.0.3",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",

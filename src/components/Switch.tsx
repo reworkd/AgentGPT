@@ -27,7 +27,7 @@ const Switch = ({ value, disabled = false, onChange }: SwitchProps) => {
         "radix-state-checked:bg-sky-600 dark:radix-state-unchecked:bg-zinc-800",
         "relative inline-flex h-4 w-7 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out",
         "focus:outline-none focus-visible:ring focus-visible:ring-sky-500 focus-visible:ring-opacity-75",
-        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer "
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer "
       )}
       disabled={disabled}
       onCheckedChange={handleChange}

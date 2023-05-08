@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
-import { pdf } from "@react-pdf/renderer";
-import React, { memo } from "react";
+import jsPDF from "jspdf";
+import React, { memo, useState, useEffect } from "react";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
-
-import { useTranslation } from "react-i18next";
+import { useTranslation, i18n } from "next-i18next";
 
 const PDFButton = ({
   messages,
@@ -15,50 +15,81 @@ const PDFButton = ({
   name: string;
 }) => {
   const textSections = getTextSections(messages);
+  const [language, setLanguage] = useState<string>();
 
-  const downloadPDF = async () => {
-    const MyDocument = (await import("./MyDocument")).default as React.FC<{
-      textSections: string[];
-    }>;
+  useEffect(() => {
+    setLanguage(i18n?.language);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n?.language]);
 
-    const blob = await pdf(<MyDocument textSections={textSections} />).toBlob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "my-document.pdf";
-    link.click();
-    URL.revokeObjectURL(url);
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    const fontUrl = {
+      ru: "./fonts/russian.ttf",
+      zh: "./fonts/chinese.ttf",
+      ja: "./fonts/japanese.ttf",
+    }[i18n?.language || "en"];
+
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const lineHeight = doc.getLineHeightFactor();
+    let y = 10;
+
+    getTextSections(messages).forEach((text, index) => {
+      let splittedText = doc.splitTextToSize(text, 180) as string;
+      if (splittedText.length <= 0) {
+        splittedText = text;
+      }
+      doc.setFontSize(12);
+      if (fontUrl) {
+        doc.addFont(fontUrl, "customfont", "normal");
+        doc.setFont("customfont");
+      }
+      if (y + doc.getTextDimensions(splittedText).h * lineHeight > pageHeight) {
+        doc.addPage();
+        y = 10;
+        doc.text(splittedText, 20, y, {
+          align: "left",
+        });
+        y += doc.getTextDimensions(splittedText).h;
+      } else {
+        doc.text(splittedText, 20, y, {
+          align: "left",
+        });
+        y += lineHeight * doc.getTextDimensions(splittedText).h;
+      }
+    });
+
+    doc.save(`export-${name}.pdf`);
   };
 
   return (
-    <>
-      <WindowButton
-        onClick={() => {
-          downloadPDF().catch(console.error);
-        }}
-        icon={<FaFilePdf size={12} />}
-        name={name}
-      />
-    </>
+    <WindowButton
+      onClick={downloadPDF}
+      icon={<FaFilePdf size={12} />}
+      name="PDF"
+    />
   );
 };
 
 const getTextSections = (messages: Message[]): string[] => {
-  const [t] = useTranslation();
-
-  // Note "Thinking" messages have no `value` so they show up as new lines
+  // Note "Thinking" messages have no `value` so they show up as new line
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `${t("AGENT_GOAL", { ns: "indexPage" })}: ${message.value}`;
+        return `${i18n?.t("LABEL_AGENT_GOAL", { ns: "indexPage" })}: ${
+          message.value
+        }`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
         if (message.info) {
-          return `${t("EXECUTING", { ns: "common" })} "${message.value}": ${
-            message.info
-          }`;
+          return `${i18n?.t("EXECUTING", { ns: "common" })}: "${
+            message.value
+          }": ${message.info}`;
         } else {
-          return `${t("ADDING_TASK", { ns: "common" })}: ${message.value}`;
+          return `${i18n?.t("ADDING_TASK", { ns: "common" })}: ${
+            message.value
+          }`;
         }
       }
       return message.value;

@@ -7,7 +7,6 @@ import {
   FaExclamationCircle,
   FaSyncAlt,
   FaCoins,
-  FaTachometerAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
@@ -16,8 +15,6 @@ import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
 import clsx from "clsx";
-import { AUTOMATIC_MODE, PAUSE_MODE } from "../types/agentTypes";
-import { useAgentStore } from "./stores";
 import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{
@@ -29,9 +26,6 @@ export const SettingsDialog: React.FC<{
     ...customSettings.settings,
   });
   const [t] = useTranslation();
-  const agent = useAgentStore.use.agent();
-  const agentMode = useAgentStore.use.agentMode();
-  const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   useEffect(() => {
     setSettings(customSettings.settings);
@@ -174,16 +168,16 @@ export const SettingsDialog: React.FC<{
       }
     >
       <p>
-        Get your own OpenAI API key{" "}
+        {`${t("GET_YOUR_OWN_APIKEY", { ns: "settings" })}`}{" "}
         <a className="link" href="https://platform.openai.com/account/api-keys">
-          here
+          {`${t("HERE", { ns: "settings" })}`}
         </a>
-        . Ensure you have free credits available on your account, otherwise you{" "}
+        . {`${t("ENSURE_YOU_HAVE_FREE_CREDITS", { ns: "settings" })}`}{" "}
         <a
           className="link"
           href="https://platform.openai.com/account/billing/overview"
         >
-          must connect a credit card
+          {`${t("MUST_CONNECT_CREADIT_CARD", { ns: "settings" })}`}
         </a>
         .
       </p>
@@ -244,25 +238,10 @@ export const SettingsDialog: React.FC<{
           attributes={{ options: GPT_MODEL_NAMES }}
           disabled={disabled}
         />
-        <Input
-          left={
-            <>
-              <FaTachometerAlt />
-              <span className="ml-2">Mode: </span>
-            </>
-          }
-          value={agentMode}
-          disabled={agent !== null}
-          onChange={() => null}
-          setValue={updateAgentMode as (agentMode: string) => void}
-          type="combobox"
-          toolTipProperties={{
-            message: `${AUTOMATIC_MODE} (Default): Agent automatically executes every task. \n\n${PAUSE_MODE}: Agent pauses after every set of task(s)`,
-            disabled: false,
-          }}
-          attributes={{ options: [AUTOMATIC_MODE, PAUSE_MODE] }}
+        <Accordion
+          child={advancedSettings}
+          name={t("ADVANCED_SETTINGS", { ns: "settings" })}
         />
-        <Accordion child={advancedSettings} name={t("Advanced Settings")} />
       </div>
     </Dialog>
   );

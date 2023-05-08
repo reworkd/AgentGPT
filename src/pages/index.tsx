@@ -31,6 +31,7 @@ import { findLanguage, languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -117,7 +118,7 @@ const Home: NextPage = () => {
     }
 
     // Do not force login locally for people that don't have auth setup
-    if (session === null && process.env.NODE_ENV === "production") {
+    if (session === null && env.NEXT_PUBLIC_FORCE_AUTH) {
       setShowSignInDialog(true);
       return;
     }
@@ -185,7 +186,7 @@ const Home: NextPage = () => {
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
         <FaPlay size={20} />
-        <span className="ml-2">{i18n.t("Continue")}</span>
+        <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
       </Button>
     ) : (
       <Button
@@ -194,11 +195,11 @@ const Home: NextPage = () => {
         onClick={() => handleNewGoal(nameInput, goalInput)}
       >
         {agent == null ? (
-          i18n.t("Deploy Agent")
+          i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
         ) : (
           <>
             <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{i18n.t("Running")}</span>
+            <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
           </>
         )}
       </Button>
@@ -287,7 +288,7 @@ const Home: NextPage = () => {
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
               />
-              {tasks.length > 0 && <TaskWindow />}
+              {(agent || tasks.length > 0) && <TaskWindow />}
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">

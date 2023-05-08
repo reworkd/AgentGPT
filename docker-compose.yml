@@ -1,6 +1,8 @@
-version: "3.0"
+version: '3.9'
+
 services:
-  autogpt:
+  next:
+    container_name: next
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,3 +11,23 @@ services:
     volumes:
       - .env.docker:/app/.env
       - ./db:/app/db
+
+  platform:
+    container_name: platform
+    build:
+      context: ./platform
+      target: prod
+    ports:
+      - "8000:8000"
+    restart: always
+    env_file:
+      - .env
+    environment:
+      REWORKD_PLATFORM_HOST: 0.0.0.0
+      REWORKD_PLATFORM_DB_HOST: reworkd_platform-db
+      REWORKD_PLATFORM_DB_PORT: 3306
+      REWORKD_PLATFORM_DB_USER: reworkd_platform
+      REWORKD_PLATFORM_DB_PASS: reworkd_platform
+      REWORKD_PLATFORM_DB_BASE: reworkd_platform
+      REWORKD_PLATFORM_DB_CA_PATH: /etc/ssl/certs/ca-certificates.crt
+

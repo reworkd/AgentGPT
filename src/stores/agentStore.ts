@@ -2,9 +2,9 @@ import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type AutonomousAgent from "../AutonomousAgent";
-import { AGENT_PAUSE, AUTOMATIC_MODE } from "../../types/agentTypes";
-import type { AgentPlaybackControl, AgentMode } from "../../types/agentTypes";
+import type AutonomousAgent from "../components/AutonomousAgent";
+import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
+import type { AgentPlaybackControl, AgentMode } from "../types/agentTypes";
 
 const resetters: (() => void)[] = [];
 

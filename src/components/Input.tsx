@@ -3,7 +3,7 @@ import Label from "./Label";
 import clsx from "clsx";
 import Combobox from "./Combobox";
 import { isArrayOfType } from "../utils/helpers";
-import type { toolTipProperties } from "./types";
+import type { toolTipProperties } from "../types";
 
 interface InputProps {
   small?: boolean; // Will lower padding and font size. Currently only works for the default input

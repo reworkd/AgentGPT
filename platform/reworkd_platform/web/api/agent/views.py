@@ -3,8 +3,9 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from reworkd_platform.web.api.agent.agent_service.agent_service_provider import \
-    get_agent_service
+from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
+    get_agent_service,
+)
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
@@ -36,10 +37,10 @@ async def start(request_body: AgentRequestBody) -> NewTasksResponse:
             request_body.language,
         )
         return NewTasksResponse(newTasks=new_tasks)
-    except Exception as e:
+    except Exception as error:
         raise HTTPException(
             status_code=500,
-            detail=f"An error occurred while processing the request. {e}"
+            detail=f"An error occurred while processing the request. {error}",
         )
 
 
@@ -56,10 +57,10 @@ async def analyze_task(request_body: AgentRequestBody) -> CompletionResponse:
             request_body.task,
         )
         return CompletionResponse(response=response)
-    except Exception as e:
+    except Exception as error:
         raise HTTPException(
             status_code=500,
-            detail=f"An error occurred while processing the request. {e}"
+            detail=f"An error occurred while processing the request. {error}",
         )
 
 
@@ -74,10 +75,10 @@ async def execute_task(request_body: AgentRequestBody) -> CompletionResponse:
             request_body.analysis,
         )
         return CompletionResponse(response=response)
-    except Exception as e:
+    except Exception as error:
         raise HTTPException(
             status_code=500,
-            detail=f"An error occurred while processing the request. {e}"
+            detail=f"An error occurred while processing the request. {error}",
         )
 
 
@@ -91,11 +92,11 @@ async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
             request_body.tasks,
             request_body.lastTask,
             request_body.result,
-            request_body.completedTasks
+            request_body.completedTasks,
         )
         return NewTasksResponse(newTasks=new_tasks)
-    except Exception as e:
+    except Exception as error:
         raise HTTPException(
             status_code=500,
-            detail=f"An error occurred while processing the request. {e}"
+            detail=f"An error occurred while processing the request. {error}",
         )

@@ -8,7 +8,7 @@ start_goal_prompt = PromptTemplate(
     google search for tasks that require current events or small searches. Return the
     response as a formatted ARRAY of strings that can be used in JSON.parse().
     Example: ["{{TASK-1}}", "{{TASK-2}}"].""",
-    input_variables=["goal", "language"]
+    input_variables=["goal", "language"],
 )
 
 analyze_task_prompt = PromptTemplate(
@@ -19,7 +19,7 @@ analyze_task_prompt = PromptTemplate(
     simple clear search query based on the task only. Use "reason" for all other
     actions. Return the response as an object of the form {{ "action": "string",
     "arg": "string" }} that can be used in JSON.parse() and NOTHING ELSE.""",
-    input_variables=["goal", "actions", "task"]
+    input_variables=["goal", "actions", "task"],
 )
 
 execute_task_prompt = PromptTemplate(
@@ -27,7 +27,7 @@ execute_task_prompt = PromptTemplate(
     the following overall objective `{goal}` and the following sub-task, `{task}`.
     Perform the task. If the task involves writing code, provide code snippets in
     markdown.""",
-    input_variables=["goal", "language", "task"]
+    input_variables=["goal", "language", "task"],
 )
 
 create_tasks_prompt = PromptTemplate(
@@ -38,7 +38,7 @@ create_tasks_prompt = PromptTemplate(
     new task to be completed by your AI system ONLY IF NEEDED such that your goal is
     more closely reached or completely reached. Return the response as an array of
     strings that can be used in JSON.parse() and NOTHING ELSE.""",
-    input_variables=["goal", "language", "tasks", "lastTask", "result"]
+    input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )
 
 summarize_search_snippets = PromptTemplate(
@@ -46,5 +46,5 @@ summarize_search_snippets = PromptTemplate(
     results filling in information where necessary. This summary should answer the
     following query: "{query}" with the following goal "{goal}" in mind. Return the
     summary as a string. Do not show you are summarizing.""",
-    input_variables=["goal", "query", "snippets"]
+    input_variables=["goal", "query", "snippets"],
 )

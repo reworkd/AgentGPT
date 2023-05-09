@@ -1,14 +1,17 @@
 import pytest
 
-from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import \
-    GPT_35_TURBO
-from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import \
-    create_model
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
+    GPT_35_TURBO,
+)
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
+    create_model,
+)
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
 
 @pytest.mark.parametrize(
-    "custom_settings, expected_temperature, expected_model_name, expected_max_tokens", [
+    "custom_settings, expected_temperature, expected_model_name, expected_max_tokens",
+    [
         (
             ModelSettings(
                 customApiKey="test_api_key",
@@ -18,7 +21,7 @@ from reworkd_platform.web.api.agent.model_settings import ModelSettings
             ),
             0.222,
             "Custom_Model",
-            1234
+            1234,
         ),
         (
             ModelSettings(
@@ -28,15 +31,12 @@ from reworkd_platform.web.api.agent.model_settings import ModelSettings
             ),
             0.9,
             GPT_35_TURBO,
-            400
+            400,
         ),
-    ]
+    ],
 )
 def test_create_model(
-    custom_settings,
-    expected_temperature,
-    expected_model_name,
-    expected_max_tokens
+    custom_settings, expected_temperature, expected_model_name, expected_max_tokens
 ) -> None:
     model = create_model(custom_settings)
 

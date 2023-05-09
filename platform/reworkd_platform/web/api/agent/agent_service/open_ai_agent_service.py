@@ -10,18 +10,20 @@ from reworkd_platform.web.api.agent.agent_service.agent_service import AgentServ
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
 from reworkd_platform.web.api.agent.helpers import extract_tasks
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
-from reworkd_platform.web.api.agent.prompts import (start_goal_prompt,
-                                                    analyze_task_prompt,
-                                                    execute_task_prompt,
-                                                    create_tasks_prompt)
+from reworkd_platform.web.api.agent.prompts import (
+    start_goal_prompt,
+    analyze_task_prompt,
+    execute_task_prompt,
+    create_tasks_prompt,
+)
 
 GPT_35_TURBO = "gpt-3.5-turbo"
 
 
 def get_server_side_key() -> str:
-    keys = [key.strip() for key in
-            (settings.openai_api_key or "").split(",")
-            if key.strip()]
+    keys = [
+        key.strip() for key in (settings.openai_api_key or "").split(",") if key.strip()
+    ]
     return keys[randint(0, len(keys) - 1)] if keys else ""
 
 
@@ -32,20 +34,24 @@ def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
         _model_settings = None
 
     return ChatOpenAI(
-        openai_api_key=_model_settings.customApiKey if _model_settings else
-        get_server_side_key(),
-        temperature=_model_settings.customTemperature if _model_settings else 0.9,
-        model_name=_model_settings.customModelName if _model_settings else GPT_35_TURBO,
-        max_tokens=_model_settings.maxTokens if _model_settings else 400
+        openai_api_key=_model_settings.customApiKey
+        if _model_settings
+        else get_server_side_key(),
+        temperature=_model_settings.customTemperature
+        if _model_settings and _model_settings.customTemperature is not None
+        else 0.9,
+        model_name=_model_settings.customModelName
+        if _model_settings and _model_settings.customModelName is not None
+        else GPT_35_TURBO,
+        max_tokens=_model_settings.maxTokens
+        if _model_settings and _model_settings.maxTokens is not None
+        else 400,
     )
 
 
 class OpenAIAgentService(AgentService):
     async def start_goal_agent(
-        self,
-        model_settings: ModelSettings,
-        goal: str,
-        language: str
+        self, model_settings: ModelSettings, goal: str, language: str
     ) -> List[str]:
         llm = create_model(model_settings)
         chain = LLMChain(llm=llm, prompt=start_goal_prompt)
@@ -55,10 +61,7 @@ class OpenAIAgentService(AgentService):
         return extract_tasks(completion, [])
 
     async def analyze_task_agent(
-        self,
-        model_settings: ModelSettings,
-        goal: str,
-        task: str
+        self, model_settings: ModelSettings, goal: str, task: str
     ) -> Analysis:
         llm = create_model(model_settings)
         chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
@@ -78,7 +81,7 @@ class OpenAIAgentService(AgentService):
         goal: str,
         language: str,
         task: str,
-        analysis: Analysis
+        analysis: Analysis,
     ) -> str:
         print("Execution analysis:", analysis)
 
@@ -92,8 +95,10 @@ class OpenAIAgentService(AgentService):
         completion = chain.run({"goal": goal, "language": language, "task": task})
 
         if analysis.action == "search" and not environ.get("SERP_API_KEY"):
-            return f"ERROR: Failed to search as no SERP_API_KEY is provided in ENV." \
-                   f"\n\n{completion}"
+            return (
+                f"ERROR: Failed to search as no SERP_API_KEY is provided in ENV."
+                f"\n\n{completion}"
+            )
         return completion
 
     async def create_tasks_agent(
@@ -104,7 +109,7 @@ class OpenAIAgentService(AgentService):
         tasks: List[str],
         last_task: str,
         result: str,
-        completed_tasks: Optional[List[str]] = None
+        completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
         llm = create_model(model_settings)
         chain = LLMChain(llm=llm, prompt=create_tasks_prompt)
@@ -115,7 +120,7 @@ class OpenAIAgentService(AgentService):
                 "language": language,
                 "tasks": tasks,
                 "last_task": last_task,
-                "result": result
+                "result": result,
             }
         )
 

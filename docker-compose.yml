@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .env.docker:/app/.env
+      - ./next/.env.docker:/app/.env
       - ./db:/app/db
 
   platform:

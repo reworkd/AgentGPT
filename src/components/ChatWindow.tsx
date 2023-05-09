@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaClipboard, FaImage, FaSave, FaPlay, FaPause } from "react-icons/fa";
+import { FaClipboard, FaImage, FaPause, FaPlay, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
 import * as htmlToImage from "html-to-image";
@@ -11,17 +11,17 @@ import FadeIn from "./motions/FadeIn";
 import Menu from "./Menu";
 import type { Message } from "../types/agentTypes";
 import {
-  isAction,
-  getTaskStatus,
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_THINKING,
-  MESSAGE_TYPE_SYSTEM,
-  TASK_STATUS_STARTED,
-  TASK_STATUS_EXECUTING,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_FINAL,
   AUTOMATIC_MODE,
+  getTaskStatus,
+  isAction,
+  MESSAGE_TYPE_GOAL,
+  MESSAGE_TYPE_SYSTEM,
+  MESSAGE_TYPE_THINKING,
   PAUSE_MODE,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_FINAL,
+  TASK_STATUS_STARTED,
 } from "../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
@@ -40,6 +40,7 @@ interface ChatWindowProps extends HeaderProps {
   displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
   openSorryDialog?: () => void;
   setAgentRun?: (name: string, goal: string) => void;
+  visibleOnMobile?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -55,6 +56,7 @@ const ChatWindow = ({
   displaySettings,
   openSorryDialog,
   setAgentRun,
+  visibleOnMobile,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -102,10 +104,11 @@ const ChatWindow = ({
 
   return (
     <div
-      className={
-        "border-translucent flex w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
-        (className ?? "")
-      }
+      className={clsx(
+        "border-translucent w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
+        className,
+        visibleOnMobile ? "flex" : "hidden"
+      )}
     >
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
@@ -163,7 +166,7 @@ const ChatWindow = ({
         )}
       </div>
       {displaySettings && (
-        <div className="flex flex-col items-center justify-center md:flex-row">
+        <div className="flex flex-row items-center justify-center">
           <SwitchContainer label="Web Search">
             <Switch
               disabled={agent !== null}

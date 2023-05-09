@@ -71,8 +71,8 @@ class OpenAIAgentService(AgentService):
         print("Analysis completion:\n", completion)
         try:
             return Analysis.parse_raw(completion)
-        except Exception as e:
-            print(f"Error parsing analysis: {e}")
+        except Exception as error:
+            print(f"Error parsing analysis: {error}")
             return get_default_analysis()
 
     async def execute_task_agent(

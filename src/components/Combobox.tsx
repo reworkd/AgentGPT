@@ -19,10 +19,7 @@ const Combobox = ({
 }: ComboboxProps) => {
   const [query, setQuery] = useState("");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (
-      event.target instanceof HTMLInputElement &&
-      typeof event.target.value === "string"
-    ) {
+    if (event.target instanceof HTMLInputElement) {
       setQuery(event.target.value);
     }
   };
@@ -30,8 +27,8 @@ const Combobox = ({
   const filteredOptions =
     query === ""
       ? options
-      : options.filter((opt) =>
-          opt.toLowerCase().includes(query.toLowerCase())
+      : options.filter((e) =>
+          e.toLowerCase().includes(query.toLowerCase())
         );
 
   return (

@@ -3,7 +3,7 @@ import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useAgentStore, useMessageStore } from "./stores";
+import { useAgentStore, useMessageStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";

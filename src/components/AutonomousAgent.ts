@@ -26,8 +26,8 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../types/agentTypes";
-import { useAgentStore, useMessageStore } from "./stores";
-import { i18n } from "next-i18next";
+import { useAgentStore, useMessageStore } from "../stores";
+import { translate } from "../utils/translations";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -182,20 +182,15 @@ class AutonomousAgent {
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(
-        `${i18n?.t("ERROR_ADDING_ADDITIONAL_TASKS", "ERROR_ADDING_ADDITIONAL_TASKS", {
-          ns: "errors",
-        })}`
-      );
+      this.sendErrorMessage(translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors"));
 
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
     await this.loop();
   }
 
-  getRemainingTasks() {
-    const tasks = useMessageStore.getState().tasks;
-    return tasks.filter((task: Task) => task.status === TASK_STATUS_STARTED);
+  getRemainingTasks(): Task[] {
+    return useMessageStore.getState().tasks.filter((t: Task) => t.status === TASK_STATUS_STARTED);
   }
 
   private conditionalPause() {
@@ -316,11 +311,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(
-          `${i18n?.t("RATE_LIMIT_EXCEEDED", "RATE_LIMIT_EXCEEDED", {
-            ns: "errors",
-          })}`
-        );
+        this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
       }
 
       throw e;
@@ -359,29 +350,24 @@ class AutonomousAgent {
   sendLoopMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: !!this.modelSettings.customApiKey
-        ? `${i18n?.t("AGENT_MAXED_OUT_LOOPS", "AGENT_MAXED_OUT_LOOPS", {
-            ns: "errors",
-          })}`
-        : `${i18n?.t("DEMO_LOOPS_REACHED", "DEMO_LOOPS_REACHED", {
-            ns: "errors",
-          })}`,
+      value: translate(
+        !!this.modelSettings.customApiKey ? "AGENT_MAXED_OUT_LOOPS" : "DEMO_LOOPS_REACHED",
+        "errors"
+      ),
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: `${i18n?.t("AGENT_MANUALLY_SHUT_DOWN", "AGENT_MANUALLY_SHUT_DOWN", { ns: "errors" })}`,
+      value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: `${i18n?.t("ALL_TASKS_COMPLETETD", "ALL_TASKS_COMPLETETD", {
-        ns: "errors",
-      })}`,
+      value: translate("ALL_TASKS_COMPLETETD", "errors"),
     });
   }
 
@@ -428,23 +414,15 @@ const testConnection = async (modelSettings: ModelSettings) => {
 };
 
 const getMessageFromError = (e: unknown) => {
-  let message = `${i18n?.t("ERROR_ACCESSING_OPENAI_API_KEY", {
-    ns: "errors",
-  })}`;
+  let message = "ERROR_RETRIEVE_INITIAL_TASKS";
+
   if (axios.isAxiosError(e)) {
-    const axiosError = e;
-    if (axiosError.response?.status === 429) {
-      message = `${i18n?.t("ERROR_API_KEY_QUOTA", {
-        ns: "errors",
-      })}`;
-    }
-    if (axiosError.response?.status === 404) {
-      message = `${i18n?.t("ERROR_OPENAI_API_KEY_NO_GPT4", { ns: "errors" })}`;
-    }
-  } else {
-    message = `${i18n?.t("ERROR_RETRIEVE_INITIAL_TASKS", { ns: "errors" })}`;
+    if (e.response?.status === 429) message = "ERROR_API_KEY_QUOTA";
+    if (e.response?.status === 404) message = "ERROR_OPENAI_API_KEY_NO_GPT4";
+    else message = "ERROR_ACCESSING_OPENAI_API_KEY";
   }
-  return message;
+
+  return translate(message, "errors");
 };
 
 export default AutonomousAgent;

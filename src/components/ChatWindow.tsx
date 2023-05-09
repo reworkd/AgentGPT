@@ -111,8 +111,7 @@ const ChatWindow = ({
       <div
         className={clsx(
           "mb-2 mr-2 ",
-          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") ||
-            "window-heights"
+          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") || "window-heights"
         )}
         ref={scrollRef}
         onScroll={handleScroll}
@@ -143,29 +142,19 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value:
-                    "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
+                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
                 }}
               />
             </PopIn>
             <PopIn delay={1.5}>
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
-                <ExampleAgentButton
-                  name="PlatformerGPT 🎮"
-                  setAgentRun={setAgentRun}
-                >
+                <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
                   Write some code to make a platformer game.
                 </ExampleAgentButton>
-                <ExampleAgentButton
-                  name="TravelGPT 🌴"
-                  setAgentRun={setAgentRun}
-                >
+                <ExampleAgentButton name="TravelGPT 🌴" setAgentRun={setAgentRun}>
                   Plan a detailed trip to Hawaii.
                 </ExampleAgentButton>
-                <ExampleAgentButton
-                  name="ResearchGPT 📜"
-                  setAgentRun={setAgentRun}
-                >
+                <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
                   Create a comprehensive report of the Nike company
                 </ExampleAgentButton>
               </div>
@@ -195,13 +184,7 @@ const ChatWindow = ({
   );
 };
 
-const SwitchContainer = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => {
+const SwitchContainer = ({ label, children }: { label: string; children: React.ReactNode }) => {
   return (
     <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
       <p className="font-mono text-sm">{label}</p>
@@ -376,7 +359,6 @@ const MacWindowHeader = (props: HeaderProps) => {
       <Menu
         icon={<CgExport />}
         name={`${t("EXPORT", { ns: "common" })}`}
-        onChange={() => null}
         items={exportOptions}
         styleClass={{
           container: "relative",
@@ -399,12 +381,8 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
-          <div className="mr-2 inline-block h-[0.9em]">
-            {getTaskStatusIcon(message, {})}
-          </div>
-          <span className="mr-2 font-bold">
-            {t(getMessagePrefix(message), { ns: "chat" })}
-          </span>
+          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+          <span className="mr-2 font-bold">{t(getMessagePrefix(message), { ns: "chat" })}</span>
         </>
       )}
 
@@ -459,10 +437,7 @@ const FAQ = () => {
     <p>
       <br />
       If you are facing issues, please head over to our{" "}
-      <a
-        href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq"
-        className="text-sky-500"
-      >
+      <a href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq" className="text-sky-500">
         FAQ
       </a>
     </p>

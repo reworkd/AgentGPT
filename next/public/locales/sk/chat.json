@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "Dokončovanie:",
+	"CONSIDER_SPONSORING_ON_GITHUB": "Zvážte podporu projektu na Github-e.",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Text skopírovaný do schránky",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nepodarilo sa skopírovať text do schránky",
+	"CREATE_AN_AGENT_DESCRIPTION": "Vytvorte agenta pridaním mena a cieľa a kliknite na tlačidlo \"Spustiť agenta!\"",
+	"EMBARKING_ON_NEW_GOAL": "Začíname nový cieľ:",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Momentálne sa stretávame s mimoriadne vysokou premávkou. Očakávajte meškania a chyby, ak aký nepoužívate svoj API kľúč 🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Podporte rozvoj AgentGPT. 💝️",
+	"NO_MORE_TASKS": "Žiadne ďalšie úlohy nie sú k dispozícii pre:",
+	"RESTART_IF_IT_TAKES_X_SEC": "(Ak to trvá viac ako 30 sekúnd, obnovte stránku alebo spustite agenta znova manuálne)",
+	"SUPPORT_NOW": "Podporiť teraz 🚀",
+	"TASK_ADDED": "Úloha pridaná:",
+	"THINKING": "Premýšľanie...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Môžete uviesť svoj OpenAI API kľúč v sekcii Nastavenia, aby ste zvýšili obmedzenia!",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Vytvorte agenta pridaním mena/cieľa a stlačením nasadiť!"
+}

@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta試用版",
+  "HEADING_DESCRIPTION": "在瀏覽器中編譯、配置並安裝自主AI機器人。",
+  "AGENT_NAME": "名稱",
+  "LABEL_AGENT_GOAL": "目標",
+  "PLACEHOLDER_AGENT_GOAL": "讓世界變個更美好",
+  "BUTTON_DEPLOY_AGENT": "執行AI機器人",
+  "BUTTON_STOP_AGENT": "停止AI機器人"
+}

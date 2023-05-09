@@ -11,7 +11,11 @@ import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
 
-export const TaskWindow = () => {
+export interface TaskWindowProps {
+  visibleOnMobile?: boolean;
+}
+
+export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
   const tasks = useMessageStore.use.tasks();
@@ -29,12 +33,20 @@ export const TaskWindow = () => {
   };
 
   return (
-    <Expand className="xl mx-2 mt-4 hidden w-[20rem] flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 px-1 font-mono shadow-2xl xl:flex">
-      <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-300 ">
+    <Expand
+      className={clsx(
+        "w-full flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 font-mono shadow-2xl xl:mx-2 xl:flex xl:w-[20rem] xl:px-1",
+        !visibleOnMobile && "hidden"
+      )}
+    >
+      <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-100 ">
         <FaListAlt /> {t("Current tasks")}
       </div>
       <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
         <div className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
+          <p className="p-2 text-xs text-gray-300">
+            This window will display agent tasks as they are created.
+          </p>
           {tasks.map((task, i) => (
             <Task key={i} task={task} />
           ))}

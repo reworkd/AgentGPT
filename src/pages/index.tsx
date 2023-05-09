@@ -31,7 +31,7 @@ import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
-  // zustand states with state dependencies
+  // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
@@ -264,7 +264,6 @@ const Home: NextPage = () => {
             </div>
             <Expand className="flex w-full flex-row">
               <ChatWindow
-                className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
                 onSave={
@@ -283,8 +282,9 @@ const Home: NextPage = () => {
                 displaySettings
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
+                visibleOnMobile={mobileVisibleWindow === "Chat"}
               />
-              <TaskWindow />
+              <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">

@@ -10,9 +10,7 @@ interface InputProps {
   left?: React.ReactNode;
   value: string | number | undefined;
   onChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   placeholder?: string;
   disabled?: boolean;
@@ -23,9 +21,7 @@ interface InputProps {
   toolTipProperties?: toolTipProperties;
   inputRef?: React.RefObject<HTMLInputElement>;
   onKeyDown?: (
-    e:
-      | React.KeyboardEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLTextAreaElement>
+    e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => void;
 }
 
@@ -129,15 +125,9 @@ const Input = (props: InputProps) => {
         `shadow-xl md:flex-row md:items-center`
       )}
     >
-      {left && (
-        <Label left={left} type={type} toolTipProperties={toolTipProperties} />
-      )}
+      {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}
       {inputElement}
-      {isTypeRange() && (
-        <p className="m-auto w-1/6 px-0 text-center text-sm md:text-lg">
-          {value}
-        </p>
-      )}
+      {isTypeRange() && <p className="m-auto w-1/6 px-0 text-center text-sm md:text-lg">{value}</p>}
     </div>
   );
 };

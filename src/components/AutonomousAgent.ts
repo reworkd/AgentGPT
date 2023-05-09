@@ -9,27 +9,22 @@ import {
 } from "../utils/constants";
 import type { Session } from "next-auth";
 import { env } from "../env/client.mjs";
-import { v4, v1 } from "uuid";
+import { v1, v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
+import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
 import {
-  AUTOMATIC_MODE,
-  PAUSE_MODE,
-  AGENT_PLAY,
   AGENT_PAUSE,
-  TASK_STATUS_STARTED,
-  TASK_STATUS_EXECUTING,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_FINAL,
-  MESSAGE_TYPE_TASK,
+  AGENT_PLAY,
+  AUTOMATIC_MODE,
   MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_THINKING,
   MESSAGE_TYPE_SYSTEM,
-} from "../types/agentTypes";
-import type {
-  AgentMode,
-  Message,
-  Task,
-  AgentPlaybackControl,
+  MESSAGE_TYPE_TASK,
+  MESSAGE_TYPE_THINKING,
+  PAUSE_MODE,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_FINAL,
+  TASK_STATUS_STARTED,
 } from "../types/agentTypes";
 import { useAgentStore, useMessageStore } from "./stores";
 import { i18n } from "next-i18next";
@@ -58,9 +53,7 @@ class AutonomousAgent {
     goal: string,
     language: string,
     renderMessage: (message: Message) => void,
-    handlePause: (opts: {
-      agentPlaybackControl?: AgentPlaybackControl;
-    }) => void,
+    handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
     mode: AgentMode,
@@ -77,8 +70,7 @@ class AutonomousAgent {
     this.session = session;
     this._id = v4();
     this.mode = mode || AUTOMATIC_MODE;
-    this.playbackControl =
-      playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
+    this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
   }
 
   async run() {
@@ -191,11 +183,9 @@ class AutonomousAgent {
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
-        `${i18n?.t(
-          "ERROR_ADDING_ADDITIONAL_TASKS",
-          "ERROR_ADDING_ADDITIONAL_TASKS",
-          { ns: "errors" }
-        )}`
+        `${i18n?.t("ERROR_ADDING_ADDITIONAL_TASKS", "ERROR_ADDING_ADDITIONAL_TASKS", {
+          ns: "errors",
+        })}`
       );
 
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
@@ -237,11 +227,7 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startGoalAgent(
-        this.modelSettings,
-        this.goal,
-        this.language
-      );
+      return await AgentService.startGoalAgent(this.modelSettings, this.goal, this.language);
     }
 
     const data = {
@@ -254,10 +240,7 @@ class AutonomousAgent {
     return res.data.newTasks as string[];
   }
 
-  async getAdditionalTasks(
-    currentTask: string,
-    result: string
-  ): Promise<string[]> {
+  async getAdditionalTasks(currentTask: string, result: string): Promise<string[]> {
     const taskValues = this.getRemainingTasks().map((task) => task.value);
 
     if (this.shouldRunClientSide()) {
@@ -288,11 +271,7 @@ class AutonomousAgent {
 
   async analyzeTask(task: string): Promise<Analysis> {
     if (this.shouldRunClientSide()) {
-      return await AgentService.analyzeTaskAgent(
-        this.modelSettings,
-        this.goal,
-        task
-      );
+      return await AgentService.analyzeTaskAgent(this.modelSettings, this.goal, task);
     }
 
     const data = {
@@ -393,11 +372,7 @@ class AutonomousAgent {
   sendManualShutdownMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: `${i18n?.t(
-        "AGENT_MANUALLY_SHUT_DOWN",
-        "AGENT_MANUALLY_SHUT_DOWN",
-        { ns: "errors" }
-      )}`,
+      value: `${i18n?.t("AGENT_MANUALLY_SHUT_DOWN", "AGENT_MANUALLY_SHUT_DOWN", { ns: "errors" })}`,
     });
   }
 

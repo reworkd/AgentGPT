@@ -40,6 +40,7 @@ interface ChatWindowProps extends HeaderProps {
   displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
   openSorryDialog?: () => void;
   setAgentRun?: (name: string, goal: string) => void;
+  visibleOnMobile?: boolean;
 }
 
 const messageListId = "chat-window-message-list";
@@ -55,6 +56,7 @@ const ChatWindow = ({
   displaySettings,
   openSorryDialog,
   setAgentRun,
+  visibleOnMobile,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -102,10 +104,11 @@ const ChatWindow = ({
 
   return (
     <div
-      className={
-        "border-translucent flex w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
-        (className ?? "")
-      }
+      className={clsx(
+        "border-translucent w-full flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
+        className,
+        visibleOnMobile ? "flex" : "hidden"
+      )}
     >
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
@@ -163,7 +166,7 @@ const ChatWindow = ({
         )}
       </div>
       {displaySettings && (
-        <div className="flex flex-col items-center justify-center md:flex-row">
+        <div className="flex flex-row items-center justify-center">
           <SwitchContainer label="Web Search">
             <Switch
               disabled={agent !== null}

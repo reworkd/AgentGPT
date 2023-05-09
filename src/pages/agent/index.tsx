@@ -9,7 +9,7 @@ import { api } from "../../utils/api";
 import ChatWindow from "../../components/ChatWindow";
 import type { Message } from "../../types/agentTypes";
 import Toast from "../../components/toast";
-import { FaTrash, FaShare, FaBackspace } from "react-icons/fa";
+import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
 import { useTranslation } from "react-i18next";
@@ -50,6 +50,7 @@ const AgentPage: NextPage = () => {
         title={getAgent?.data?.name}
         className="min-h-[80vh] md:w-[80%]"
         fullscreen
+        visibleOnMobile
       />
       <div className="flex flex-row gap-2">
         <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
@@ -68,9 +69,7 @@ const AgentPage: NextPage = () => {
         <Button
           icon={<FaShare />}
           onClick={() => {
-            void window.navigator.clipboard
-              .writeText(shareLink())
-              .then(() => setShowCopied(true));
+            void window.navigator.clipboard.writeText(shareLink()).then(() => setShowCopied(true));
           }}
           enabledClassName={"bg-green-600 hover:bg-green-400"}
         >

@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
-import { type NextPage, type GetStaticProps } from "next";
+import { type GetStaticProps, type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaRobot, FaStar, FaPlay } from "react-icons/fa";
+import { FaPlay, FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
@@ -17,14 +17,10 @@ import { SettingsDialog } from "../components/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { AgentPlaybackControl, Message } from "../types/agentTypes";
+import { AGENT_PLAY, isTask } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import {
-  useMessageStore,
-  useAgentStore,
-  resetAllMessageSlices,
-} from "../components/stores";
-import { isTask, AGENT_PLAY } from "../types/agentTypes";
+import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../components/stores";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 import { findLanguage, languages } from "../utils/languages";
@@ -35,10 +31,9 @@ import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
-  // zustand states with state dependencies
+  // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
-  const tasks = useMessageStore.use.tasks();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
   const setAgent = useAgentStore.use.setAgent();
@@ -52,6 +47,7 @@ const Home: NextPage = () => {
   const { session, status } = useAuth();
   const [nameInput, setNameInput] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
+  const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const settingsModel = useSettings();
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
@@ -101,9 +97,7 @@ const Home: NextPage = () => {
     addMessage(message);
   };
 
-  const handlePause = (opts: {
-    agentPlaybackControl?: AgentPlaybackControl;
-  }) => {
+  const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
     if (opts.agentPlaybackControl !== undefined) {
       updateIsAgentPaused(opts.agentPlaybackControl);
     }
@@ -152,9 +146,7 @@ const Home: NextPage = () => {
   };
 
   const handleKeyPress = (
-    e:
-      | React.KeyboardEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLTextAreaElement>
+    e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     // Only Enter is pressed, execute the function
     if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
@@ -176,11 +168,13 @@ const Home: NextPage = () => {
     </>
   );
 
+  const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
+    // This controls whether the ChatWindow or TaskWindow is visible on mobile
+    setMobileVisibleWindow(visibleWindow);
+  };
+
   const shouldShowSave =
-    status === "authenticated" &&
-    isAgentStopped &&
-    messages.length &&
-    !hasSaved;
+    status === "authenticated" && isAgentStopped && messages.length && !hasSaved;
 
   const firstButton =
     isAgentPaused && !isAgentStopped ? (
@@ -207,23 +201,14 @@ const Home: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <HelpDialog
-        show={showHelpDialog}
-        close={() => setShowHelpDialog(false)}
-      />
+      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
       <SettingsDialog
         customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
-      <SorryDialog
-        show={showSorryDialog}
-        close={() => setShowSorryDialog(false)}
-      />
-      <SignInDialog
-        show={showSignInDialog}
-        close={() => setShowSignInDialog(false)}
-      />
+      <SorryDialog show={showSorryDialog} close={() => setShowSorryDialog(false)} />
+      <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
       <main className="flex min-h-screen flex-row">
         <Drawer
           showHelp={() => setShowHelpDialog(true)}
@@ -237,17 +222,12 @@ const Home: NextPage = () => {
             id="layout"
             className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
           >
-            <div
-              id="title"
-              className="relative flex flex-col items-center font-mono"
-            >
+            <div id="title" className="relative flex flex-col items-center font-mono">
               <div className="flex flex-row items-start shadow-2xl">
                 <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">
                   Agent
                 </span>
-                <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">
-                  GPT
-                </span>
+                <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
                 <PopIn delay={0.5}>
                   <Badge>
                     {`${i18n?.t("BETA", {
@@ -266,9 +246,24 @@ const Home: NextPage = () => {
               </div>
             </div>
 
+            <div>
+              <Button
+                className="rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden"
+                disabled={mobileVisibleWindow == "Chat"}
+                onClick={() => handleVisibleWindowClick("Chat")}
+              >
+                Chat
+              </Button>
+              <Button
+                className="rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden"
+                disabled={mobileVisibleWindow == "Tasks"}
+                onClick={() => handleVisibleWindowClick("Tasks")}
+              >
+                Tasks
+              </Button>
+            </div>
             <Expand className="flex w-full flex-row">
               <ChatWindow
-                className="sm:mt-4"
                 messages={messages}
                 title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
                 onSave={
@@ -287,8 +282,9 @@ const Home: NextPage = () => {
                 displaySettings
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
+                visibleOnMobile={mobileVisibleWindow === "Chat"}
               />
-              {(agent || tasks.length > 0) && <TaskWindow />}
+              <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">

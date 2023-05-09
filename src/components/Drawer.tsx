@@ -30,7 +30,7 @@ const Drawer = ({
   showHelp: () => void;
   showSettings: () => void;
 }) => {
-  const [t] = useTranslation();
+  const [t] = useTranslation("drawer");
   const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
@@ -60,7 +60,7 @@ const Drawer = ({
   }, []);
 
   const sub = api.account.subscribe.useMutation({
-    onSuccess: async (url: any) => {
+    onSuccess: async (url) => {
       if (!url) return;
       await router.push(url);
     },
@@ -71,7 +71,7 @@ const Drawer = ({
   });
 
   const manage = api.account.manage.useMutation({
-    onSuccess: async (url: any) => {
+    onSuccess: async (url) => {
       if (!url) return;
       await router.push(url);
     },
@@ -100,7 +100,7 @@ const Drawer = ({
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            <p className="font-bold">{`${t("MY_AGENTS", { ns: "drawer" })}`}</p>
+            <p className="font-bold">{t("MY_AGENTS")}</p>
             <button
               className={clsx(
                 showDrawer
@@ -114,8 +114,7 @@ const Drawer = ({
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            {userAgents.map(
-              (agent: any | undefined, index: any | undefined) => (
+            {userAgents.map((agent, index) => (
                 <DrawerItem
                   key={index}
                   icon={<FaRobot />}
@@ -134,16 +133,14 @@ const Drawer = ({
                     signIn();
                   }}
                 >
-                  {`${t("SIGN_IN", { ns: "drawer" })}`}
+                  {t("SIGN_IN")}
                 </a>{" "}
-                {`${t("SIGN_IN_NOTICE", { ns: "drawer" })}`}
+                {t("SIGN_IN_NOTICE")}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
               <div>
-                {`${t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST", {
-                  ns: "drawer",
-                })}`}
+                {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
               </div>
             )}
           </ul>
@@ -162,21 +159,19 @@ const Drawer = ({
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
           <DrawerItem
             icon={<FaQuestionCircle />}
-            text={`${t("HELP_BUTTON", { ns: "drawer" })}`}
+            text={t("HELP_BUTTON")}
             onClick={showHelp}
           />
           <DrawerItem
             icon={<FaHeart />}
-            text={`${t("SUPPORT_BUTTON", { ns: "drawer" })}`}
+            text={t("SUPPORT_BUTTON")}
             onClick={handleSupport}
           />
           <DrawerItem
             icon={
               <FaCog className="transition-transform group-hover:rotate-90" />
             }
-            text={`${t("SETTINGS_BUTTON", {
-              ns: "drawer",
-            })}`}
+            text={t("SETTINGS_BUTTON")}
             onClick={showSettings}
           />
           <FadingHr className="my-2" />
@@ -246,7 +241,7 @@ const DrawerItem = (props: DrawerItemProps) => {
         className={clsx(
           "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
           border && "border-[1px] border-white/20",
-          `${className || ""}`
+          className
         )}
         href={href}
         target={target ?? "_blank"}
@@ -263,7 +258,7 @@ const DrawerItem = (props: DrawerItemProps) => {
       className={clsx(
         "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
         border && "border-[1px] border-white/20",
-        `${className || ""}`
+        className
       )}
       onClick={onClick}
     >
@@ -278,12 +273,12 @@ const AuthItem: React.FC<{
   signIn: () => void;
   signOut: () => void;
 }> = ({ signIn, signOut, session }) => {
-  const [t] = useTranslation();
+  const [t] = useTranslation("drawer");
   const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
-  const text = session?.user
-    ? `${t("SIGN_OUT", { ns: "drawer" })}`
-    : `${t("SIGN_IN", { ns: "drawer" })}`;
   const onClick = session?.user ? signOut : signIn;
+  const text = session?.user
+    ? t("SIGN_OUT")
+    : t("SIGN_IN");
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
 };
@@ -293,10 +288,10 @@ const ProItem: React.FC<{
   sub: () => any;
   manage: () => any;
 }> = ({ sub, manage, session }) => {
-  const [t] = useTranslation();
+  const [t] = useTranslation("drawer");
   const text = session?.user?.subscriptionId
-    ? `${t("ACCOUNT", { ns: "drawer" })}`
-    : `${t("GO_PRO", { ns: "drawer" })}`;
+    ? t("ACCOUNT")
+    : t("GO_PRO");
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
     icon = (

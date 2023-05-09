@@ -194,7 +194,7 @@ class AutonomousAgent {
     return useMessageStore
       .getState()
       .tasks
-      .filter((t: Task) => t.status === TASK_STATUS_STARTED) as Task[];
+      .filter((t: Task) => t.status === TASK_STATUS_STARTED);
   }
 
   private conditionalPause() {

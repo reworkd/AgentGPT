@@ -1,12 +1,12 @@
 import {authOptions as prodOptions} from "./auth";
 import {options as devOptions} from "./local-auth";
-import {NextApiRequest, NextApiResponse} from "next";
-import {AuthOptions} from "next-auth";
+import type {NextApiRequest, NextApiResponse} from "next";
+import type {AuthOptions} from "next-auth";
 import merge from "lodash/merge";
 
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
-import {IncomingMessage, ServerResponse} from "http";
+import type {IncomingMessage, ServerResponse} from "http";
 import {PrismaAdapter} from "@next-auth/prisma-adapter";
 import {prisma} from "../db";
 import type {Adapter} from "next-auth/adapters";

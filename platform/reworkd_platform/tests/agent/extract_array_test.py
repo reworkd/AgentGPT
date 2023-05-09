@@ -51,8 +51,8 @@ from reworkd_platform.web.api.agent.helpers import extract_array
             1,
             ["Only one element"]
         )]
-    )
-def test_extract_array(model_result, expected_length, expected_output):
+)
+def test_extract_array(model_result, expected_length, expected_output) -> None:
     result = extract_array(model_result)
     assert len(result) == expected_length
     assert result == expected_output

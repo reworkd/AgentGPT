@@ -37,7 +37,7 @@ def test_create_model(
     expected_temperature,
     expected_model_name,
     expected_max_tokens
-):
+) -> None:
     model = create_model(custom_settings)
 
     assert model.temperature == expected_temperature

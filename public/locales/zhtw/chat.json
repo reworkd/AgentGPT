@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "完成：",
+	"CONSIDER_SPONSORING_ON_GITHUB": "透過GitHub贊助本專案。",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "文字已複製到剪貼簿",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "無法將文字複製至剪貼簿",
+	"CREATE_AN_AGENT_DESCRIPTION": "創建一個AI機器人，輸入名稱和目標，然後點擊\"啟動AI！\"按鈕",
+	"EMBARKING_ON_NEW_GOAL": "執行新目標：",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 我們正在經歷高流量，如果您沒有使用自己的API金鑰，預計會有延遲或錯誤 🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ 支持AgentGPT的發展。 💝️",
+	"NO_MORE_TASKS": "沒有更多的次要任務可以執行：",
+	"RESTART_IF_IT_TAKES_X_SEC": "（如果需要30秒以上，請重新整理網頁或手動重新啟動AI機器人）",
+	"SUPPORT_NOW": "現在支持 🚀",
+	"TASK_ADDED": "已添加任務：",
+	"THINKING": "思考中...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 您可以在設定中提供自己的 OpenAI API 金鑰以解除AI回數上限！",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 輸入名稱/目標並點擊部署以創建一個AI機器人！"
+}

@@ -34,7 +34,6 @@ const Home: NextPage = () => {
   // zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
-  const tasks = useMessageStore.use.tasks();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
   const setAgent = useAgentStore.use.setAgent();
@@ -285,7 +284,7 @@ const Home: NextPage = () => {
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
               />
-              {(agent || tasks.length > 0) && <TaskWindow />}
+              <TaskWindow />
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4 ">

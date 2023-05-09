@@ -1,16 +1,11 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
-import {
-  MESSAGE_TYPE_TASK,
-  Task,
-  TASK_STATUS_STARTED,
-} from "../types/agentTypes";
+import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useMessageStore } from "./stores";
+import { useAgentStore, useMessageStore } from "./stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { useAgentStore } from "./stores";
 import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
@@ -18,6 +13,7 @@ import { v1 } from "uuid";
 
 export const TaskWindow = () => {
   const [customTask, setCustomTask] = React.useState("");
+  const agent = useAgentStore.use.agent();
   const tasks = useMessageStore.use.tasks();
   const addMessage = useMessageStore.use.addMessage();
   const [t] = useTranslation();
@@ -53,7 +49,7 @@ export const TaskWindow = () => {
           <Button
             className="font-sm px-2 py-[0] text-sm sm:px-2 sm:py-[0]"
             onClick={handleAddTask}
-            disabled={!customTask}
+            disabled={!customTask || agent == null}
           >
             Add
           </Button>
@@ -66,8 +62,7 @@ export const TaskWindow = () => {
 const Task = ({ task }: { task: Task }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
   const deleteTask = useMessageStore.use.deleteTask();
-  const isTaskDeletable =
-    task.taskId && !isAgentStopped && task.status === "started";
+  const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
 
   const handleDeleteTask = () => {
     if (isTaskDeletable) {

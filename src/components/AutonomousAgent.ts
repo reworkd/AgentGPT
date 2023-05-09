@@ -1,13 +1,17 @@
 import axios from "axios";
-import type {ModelSettings} from "../utils/types";
-import type {Analysis} from "../services/agent-service";
+import type { ModelSettings } from "../utils/types";
+import type { Analysis } from "../services/agent-service";
 import AgentService from "../services/agent-service";
-import {DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_LOOPS_FREE, DEFAULT_MAX_LOOPS_PAID,} from "../utils/constants";
-import type {Session} from "next-auth";
-import {env} from "../env/client.mjs";
-import {v1, v4} from "uuid";
-import type {RequestBody} from "../utils/interfaces";
-import type {AgentMode, AgentPlaybackControl, Message, Task,} from "../types/agentTypes";
+import {
+  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
+  DEFAULT_MAX_LOOPS_FREE,
+  DEFAULT_MAX_LOOPS_PAID,
+} from "../utils/constants";
+import type { Session } from "next-auth";
+import { env } from "../env/client.mjs";
+import { v1, v4 } from "uuid";
+import type { RequestBody } from "../utils/interfaces";
+import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
 import {
   AGENT_PAUSE,
   AGENT_PLAY,
@@ -22,8 +26,8 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../types/agentTypes";
-import {useAgentStore, useMessageStore} from "../stores";
-import {translate} from "../utils/translations";
+import { useAgentStore, useMessageStore } from "../stores";
+import { translate } from "../utils/translations";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -178,9 +182,7 @@ class AutonomousAgent {
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(
-        translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors")
-      );
+      this.sendErrorMessage(translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors"));
 
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
@@ -188,10 +190,7 @@ class AutonomousAgent {
   }
 
   getRemainingTasks(): Task[] {
-    return useMessageStore
-      .getState()
-      .tasks
-      .filter((t: Task) => t.status === TASK_STATUS_STARTED);
+    return useMessageStore.getState().tasks.filter((t: Task) => t.status === TASK_STATUS_STARTED);
   }
 
   private conditionalPause() {
@@ -312,8 +311,7 @@ class AutonomousAgent {
       this.shutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(
-          translate("RATE_LIMIT_EXCEEDED", "errors"));
+        this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
       }
 
       throw e;
@@ -352,23 +350,24 @@ class AutonomousAgent {
   sendLoopMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: translate(!!this.modelSettings.customApiKey
-        ? "AGENT_MAXED_OUT_LOOPS" : "DEMO_LOOPS_REACHED",
-        'errors')
+      value: translate(
+        !!this.modelSettings.customApiKey ? "AGENT_MAXED_OUT_LOOPS" : "DEMO_LOOPS_REACHED",
+        "errors"
+      ),
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors")
+      value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: translate("ALL_TASKS_COMPLETETD", "errors")
+      value: translate("ALL_TASKS_COMPLETETD", "errors"),
     });
   }
 
@@ -418,9 +417,9 @@ const getMessageFromError = (e: unknown) => {
   let message = "ERROR_RETRIEVE_INITIAL_TASKS";
 
   if (axios.isAxiosError(e)) {
-    if (e.response?.status === 429) message = "ERROR_API_KEY_QUOTA"
-    if (e.response?.status === 404) message = "ERROR_OPENAI_API_KEY_NO_GPT4"
-    else message = "ERROR_ACCESSING_OPENAI_API_KEY"
+    if (e.response?.status === 429) message = "ERROR_API_KEY_QUOTA";
+    if (e.response?.status === 404) message = "ERROR_OPENAI_API_KEY_NO_GPT4";
+    else message = "ERROR_ACCESSING_OPENAI_API_KEY";
   }
 
   return translate(message, "errors");

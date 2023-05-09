@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Combobox from "./Combobox";
 import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 interface InputProps {
   small?: boolean; // Will lower padding and font size. Currently only works for the default input
@@ -40,6 +41,8 @@ const Input = (props: InputProps) => {
     toolTipProperties,
     onKeyDown,
   } = props;
+  const [isHidden, setIsHidden] = React.useState(false);
+
   const isTypeCombobox = () => {
     return type === "combobox";
   };
@@ -50,6 +53,14 @@ const Input = (props: InputProps) => {
 
   const isTypeTextArea = () => {
     return type === "textarea";
+  };
+
+  const isTypePassword = () => {
+    return type === "password";
+  };
+
+  const handleApiKeyToggle = (e) => {
+    setIsHidden(!isHidden);
   };
 
   let inputElement;
@@ -94,6 +105,37 @@ const Input = (props: InputProps) => {
         onKeyDown={onKeyDown}
         {...attributes}
       />
+    );
+  } else if (isTypePassword()) {
+    inputElement = (
+      <div
+        className={clsx(
+          "flex w-full flex-row items-center overflow-clip rounded-xl border-[2px] border-white/10 bg-[#3a3a3a]  px-2 hover:border-[#1E88E5]/40 focus:border-[#1E88E5]",
+          disabled && " cursor-not-allowed hover:border-white/10",
+          left && "md:rounded-l-none",
+          small && "text-sm sm:py-[0]"
+        )}
+      >
+        <input
+          className={clsx(
+            "delay-50 w-full  flex-grow overflow-ellipsis   bg-transparent py-1 text-sm tracking-wider outline-0 transition-all  placeholder:text-white/20 sm:py-3 md:text-lg"
+          )}
+          ref={inputRef}
+          placeholder={placeholder}
+          type={isHidden ? "text" : "password"}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          onKeyDown={onKeyDown}
+          {...attributes}
+        />
+        <div
+          className="flex-none cursor-pointer rounded-full p-2 hover:bg-white/20"
+          onClick={(e) => handleApiKeyToggle(e)}
+        >
+          {isHidden ? <FaRegEye /> : <FaRegEyeSlash />}
+        </div>
+      </div>
     );
   } else {
     inputElement = (

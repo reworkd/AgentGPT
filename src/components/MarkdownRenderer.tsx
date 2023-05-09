@@ -1,6 +1,6 @@
+import type { ReactNode } from "react";
 import React, { useCallback, useState } from "react";
 import { FaCopy } from "react-icons/fa";
-import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -14,8 +14,7 @@ const MarkdownRenderer = ({ children }) => {
       components={{
         pre: CustomPre,
         code: CustomCodeBlock,
-        a: (props) =>
-          CustomLink({ children: props.children, href: props.href }),
+        a: (props) => CustomLink({ children: props.children, href: props.href }),
         p: (props) => <p className="mb-4">{props.children}</p>,
         ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
         ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
@@ -70,18 +69,10 @@ interface CustomCodeBlockProps {
   children: ReactNode;
 }
 
-const CustomCodeBlock = ({
-  inline,
-  className,
-  children,
-}: CustomCodeBlockProps) => {
+const CustomCodeBlock = ({ inline, className, children }: CustomCodeBlockProps) => {
   // Inline code blocks will be placed directly within a paragraph
   if (inline) {
-    return (
-      <code className="rounded bg-gray-200 px-1 py-[1px] text-black">
-        {children}
-      </code>
-    );
+    return <code className="rounded bg-gray-200 px-1 py-[1px] text-black">{children}</code>;
   }
 
   const language = className ? className.replace("language-", "") : "plaintext";

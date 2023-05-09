@@ -42,9 +42,7 @@ const Toast = (props: Props) => {
               </ToastPrimitive.Title>
               {props.description && (
                 <ToastPrimitive.Description className="dark:text-gray-10 text-md mt-1 rounded-md bg-slate-800/50 p-1 text-white">
-                  <pre className="overflow-hidden text-ellipsis">
-                    {props.description}
-                  </pre>
+                  <pre className="overflow-hidden text-ellipsis">{props.description}</pre>
                 </ToastPrimitive.Description>
               )}
             </div>

@@ -9,13 +9,7 @@ type WindowButtonProps = {
   styleClass?: { [key: string]: string };
 };
 
-const WindowButton = ({
-  ping,
-  onClick,
-  icon,
-  name,
-  styleClass,
-}: WindowButtonProps) => {
+const WindowButton = ({ ping, onClick, icon, name, styleClass }: WindowButtonProps) => {
   return (
     <div
       className={`flex cursor-pointer items-center gap-2 p-1 px-2 text-sm hover:bg-white/10 ${

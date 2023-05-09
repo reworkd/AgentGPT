@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: 18.x
           cache: "npm"
+          cache-dependency-path: next/package-lock.json
       - run: npm ci
       - run: npm test
         env:

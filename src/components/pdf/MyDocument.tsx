@@ -1,35 +1,28 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import React from "react";
-import ReactPDF, {
-  Document,
-  Font,
-  Page,
-  StyleSheet,
-  Text,
-} from "@react-pdf/renderer";
-import View = ReactPDF.View;
+import ReactPDF, { Document, Font, Page, StyleSheet, Text } from "@react-pdf/renderer";
 import { i18n } from "next-i18next";
+import View = ReactPDF.View;
 
-const getFontUrl = (languageCode: string) => {
+const getFontUrlForLanguageCode = (languageCode: string) => {
   switch (languageCode) {
-    case "ru":
-      return "./fonts/Roboto-Regular.ttf";
+    case "en":
+      return ""; // Do not use a custom font for english
     case "zh":
-      return "./fonts/SimSun.ttf";
+      return "/fonts/SimSun.ttf";
     case "ja":
-      return "./fonts/Nasu-Regular.ttf";
+      return "/fonts/Nasu-Regular.ttf";
     case "ko":
-      return "./fonts/NanumMyeongjo-Regular.ttf";
+      return "/fonts/NanumMyeongjo-Regular.ttf";
     default:
-      return "./fonts/Roboto-Regular.ttf";
+      return "/fonts/Roboto-Regular.ttf";
   }
 };
 
-const fontUrl = getFontUrl(i18n?.language || "en");
+const getFontUrl = () => getFontUrlForLanguageCode(i18n?.language || "en");
 
 Font.register({
-  family: "customfont",
-  src: fontUrl,
+  family: "customFont",
+  src: getFontUrl(),
 });
 
 const styles = StyleSheet.create({
@@ -45,8 +38,8 @@ const styles = StyleSheet.create({
     borderBottomStyle: "solid",
   },
   section: {
-    fontSize: 9,
-    fontFamily: "customfont",
+    fontSize: 10,
+    ...(getFontUrl() == "" ? {} : { fontFamily: "customFont" }),
     marginVertical: 10,
     lineHeight: 1.5,
     wordBreak: "break-all",

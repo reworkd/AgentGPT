@@ -3,20 +3,10 @@ import { useTranslation } from "next-i18next";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 import Dialog from "./Dialog";
 
-export default function HelpDialog({
-  show,
-  close,
-}: {
-  show: boolean;
-  close: () => void;
-}) {
+export default function HelpDialog({ show, close }: { show: boolean; close: () => void }) {
   const [t] = useTranslation();
   return (
-    <Dialog
-      header={`${t("WELCOME_TO_AGENT_GPT", { ns: "help" })} 🤖`}
-      isShown={show}
-      close={close}
-    >
+    <Dialog header={`${t("WELCOME_TO_AGENT_GPT", { ns: "help" })} 🤖`} isShown={show} close={close}>
       <div>
         <p>
           <strong>AgentGPT</strong> {t("INTRODUCING_AGENTGPT", { ns: "help" })}
@@ -38,9 +28,7 @@ export default function HelpDialog({
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div
             className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"
-            onClick={() =>
-              window.open("https://discord.gg/jdSBAnmdnY", "_blank")
-            }
+            onClick={() => window.open("https://discord.gg/jdSBAnmdnY", "_blank")}
           >
             <FaDiscord size={30} />
           </div>
@@ -57,9 +45,7 @@ export default function HelpDialog({
           </div>
           <div
             className="cursor-pointer rounded-full bg-black/30 p-3 hover:bg-black/70"
-            onClick={() =>
-              window.open("https://github.com/reworkd/AgentGPT", "_blank")
-            }
+            onClick={() => window.open("https://github.com/reworkd/AgentGPT", "_blank")}
           >
             <FaGithub size={30} />
           </div>

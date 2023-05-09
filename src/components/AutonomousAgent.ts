@@ -49,9 +49,7 @@ class AutonomousAgent {
     goal: string,
     language: string,
     renderMessage: (message: Message) => void,
-    handlePause: (opts: {
-      agentPlaybackControl?: AgentPlaybackControl;
-    }) => void,
+    handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
     mode: AgentMode,
@@ -68,8 +66,7 @@ class AutonomousAgent {
     this.session = session;
     this._id = v4();
     this.mode = mode || AUTOMATIC_MODE;
-    this.playbackControl =
-      playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
+    this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
   }
 
   async run() {
@@ -226,11 +223,7 @@ class AutonomousAgent {
       if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
         await testConnection(this.modelSettings);
       }
-      return await AgentService.startGoalAgent(
-        this.modelSettings,
-        this.goal,
-        this.language
-      );
+      return await AgentService.startGoalAgent(this.modelSettings, this.goal, this.language);
     }
 
     const data = {
@@ -243,10 +236,7 @@ class AutonomousAgent {
     return res.data.newTasks as string[];
   }
 
-  async getAdditionalTasks(
-    currentTask: string,
-    result: string
-  ): Promise<string[]> {
+  async getAdditionalTasks(currentTask: string, result: string): Promise<string[]> {
     const taskValues = this.getRemainingTasks().map((task) => task.value);
 
     if (this.shouldRunClientSide()) {
@@ -277,11 +267,7 @@ class AutonomousAgent {
 
   async analyzeTask(task: string): Promise<Analysis> {
     if (this.shouldRunClientSide()) {
-      return await AgentService.analyzeTaskAgent(
-        this.modelSettings,
-        this.goal,
-        task
-      );
+      return await AgentService.analyzeTaskAgent(this.modelSettings, this.goal, task);
     }
 
     const data = {

@@ -41,7 +41,6 @@
     "framer-motion": "^10.12.8",
     "html-to-image": "^1.11.11",
     "i18next": "^22.4.15",
-    "jspdf": "^2.5.1",
     "langchain": "^0.0.63",
     "lodash": "^4.17.21",
     "micro": "^10.0.1",

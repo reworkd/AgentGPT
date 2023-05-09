@@ -1,9 +1,9 @@
 import {
-  createModel,
-  startGoalPrompt,
-  executeTaskPrompt,
-  createTasksPrompt,
   analyzeTaskPrompt,
+  createModel,
+  createTasksPrompt,
+  executeTaskPrompt,
+  startGoalPrompt,
 } from "../utils/prompts";
 import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";
@@ -11,11 +11,7 @@ import { LLMChain } from "langchain/chains";
 import { extractTasks } from "../utils/helpers";
 import { Serper } from "./custom-tools/serper";
 
-async function startGoalAgent(
-  modelSettings: ModelSettings,
-  goal: string,
-  language: string
-) {
+async function startGoalAgent(modelSettings: ModelSettings, goal: string, language: string) {
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
     prompt: startGoalPrompt,
@@ -27,11 +23,7 @@ async function startGoalAgent(
   return extractTasks(completion.text as string, []);
 }
 
-async function analyzeTaskAgent(
-  modelSettings: ModelSettings,
-  goal: string,
-  task: string
-) {
+async function analyzeTaskAgent(modelSettings: ModelSettings, goal: string, task: string) {
   const actions = ["reason", "search"];
   const completion = await new LLMChain({
     llm: createModel(modelSettings),
@@ -124,11 +116,7 @@ interface AgentService {
     goal: string,
     language: string
   ) => Promise<string[]>;
-  analyzeTaskAgent: (
-    modelSettings: ModelSettings,
-    goal: string,
-    task: string
-  ) => Promise<Analysis>;
+  analyzeTaskAgent: (modelSettings: ModelSettings, goal: string, task: string) => Promise<Analysis>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
     goal: string,
@@ -171,11 +159,7 @@ const MockAgentService: AgentService = {
     return await new Promise((resolve) => resolve(["Task 4"]));
   },
 
-  analyzeTaskAgent: async (
-    modelSettings: ModelSettings,
-    goal: string,
-    task: string
-  ) => {
+  analyzeTaskAgent: async (modelSettings: ModelSettings, goal: string, task: string) => {
     return await new Promise((resolve) =>
       resolve({
         action: "reason",
@@ -195,6 +179,4 @@ const MockAgentService: AgentService = {
   },
 };
 
-export default env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED
-  ? MockAgentService
-  : OpenAIAgentService;
+export default env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED ? MockAgentService : OpenAIAgentService;

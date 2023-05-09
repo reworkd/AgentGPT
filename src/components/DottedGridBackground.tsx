@@ -6,10 +6,7 @@ interface DottedGridBackgroundProps {
   className?: string;
 }
 
-const DottedGridBackground = ({
-  children,
-  className,
-}: DottedGridBackgroundProps) => {
+const DottedGridBackground = ({ children, className }: DottedGridBackgroundProps) => {
   return <div className={clsx(className, "background")}>{children}</div>;
 };
 

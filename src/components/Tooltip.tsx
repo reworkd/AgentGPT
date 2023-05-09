@@ -17,7 +17,7 @@ const Tooltip = ({
 }: TooltipProps) => {
   const { message, disabled } = toolTipProperties;
   return (
-    <div className={style.container}>
+    <div className={style?.container}>
       <TooltipPrimitive.Provider>
         <TooltipPrimitive.Root delayDuration={0}>
           <TooltipPrimitive.Trigger asChild>{child}</TooltipPrimitive.Trigger>

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "sqlite"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -15,12 +15,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String? 
+  access_token      String? 
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String? 
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -45,8 +45,8 @@ model User {
   emailVerified  DateTime?
   image          String?
   role           String?
-  subscriptionId String?   @db.Text
-  customerId     String?   @db.Text
+  subscriptionId String?   
+  customerId     String?   
 
   createDate DateTime @default(now())
 
@@ -68,8 +68,8 @@ model VerificationToken {
 model Agent {
   id     String @id @default(cuid())
   userId String
-  name   String @db.Text
-  goal   String @db.Text
+  name   String 
+  goal   String 
 
   deleteDate DateTime?
   createDate DateTime  @default(now())
@@ -85,8 +85,8 @@ model AgentTask {
   agentId String
   type    String
   status  String?
-  value   String  @db.Text
-  info    String? @db.Text
+  value   String  
+  info    String? 
   sort    Int
 
   deleteDate DateTime?

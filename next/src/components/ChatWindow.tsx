@@ -324,23 +324,6 @@ const MacWindowHeader = (props: HeaderProps) => {
         {props.title}
       </Expand>
 
-      <AnimatePresence>
-        {props.onSave && (
-          <PopIn>
-            <WindowButton
-              ping
-              key="Agent"
-              onClick={() => props.onSave?.("db")}
-              icon={<FaSave size={12} />}
-              name={`${t("SAVE", { ns: "common" })}`}
-              styleClass={{
-                container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
-              }}
-            />
-          </PopIn>
-        )}
-      </AnimatePresence>
-
       {agentMode === PAUSE_MODE && agent !== null && (
         <div
           className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
@@ -358,6 +341,23 @@ const MacWindowHeader = (props: HeaderProps) => {
           )}
         </div>
       )}
+
+      <AnimatePresence>
+        {props.onSave && (
+          <PopIn>
+            <WindowButton
+              ping
+              key="Agent"
+              onClick={() => props.onSave?.("db")}
+              icon={<FaSave size={12} />}
+              name={`${t("SAVE", { ns: "common" })}`}
+              styleClass={{
+                container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
+              }}
+            />
+          </PopIn>
+        )}
+      </AnimatePresence>
 
       <Menu
         icon={<CgExport />}
@@ -400,7 +400,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {isAction(message) ? (
         <>
           <hr className="my-2 border-[1px] border-white/20" />
-          <div className="prose max-w-none">
+          <div className="prose">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>
         </>

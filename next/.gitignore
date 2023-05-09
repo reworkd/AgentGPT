@@ -51,4 +51,3 @@ yarn-error.log*
 # Sentry Auth Token
 .sentryclirc
 /volumes/
-schema.prismae

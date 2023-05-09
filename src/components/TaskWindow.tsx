@@ -44,9 +44,11 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
       </div>
       <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
         <div className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
-          <p className="w-full p-2 text-center text-xs text-gray-300">
-            This window will display agent tasks as they are created.
-          </p>
+          {tasks.length == 0 && (
+            <p className="w-full p-2 text-center text-xs text-gray-300">
+              This window will display agent tasks as they are created.
+            </p>
+          )}
           {tasks.map((task, i) => (
             <Task key={i} task={task} />
           ))}

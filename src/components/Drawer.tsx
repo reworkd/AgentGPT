@@ -103,9 +103,7 @@ const Drawer = ({
             <p className="font-bold">{t("MY_AGENTS")}</p>
             <button
               className={clsx(
-                showDrawer
-                  ? "-translate-x-2"
-                  : "translate-x-12 border-2 border-white/20",
+                showDrawer ? "-translate-x-2" : "translate-x-12 border-2 border-white/20",
                 "absolute right-0 top-2 z-40 rounded-md bg-zinc-900 p-2 text-white transition-all hover:bg-zinc-700 "
               )}
               onClick={toggleDrawer}
@@ -148,11 +146,7 @@ const Drawer = ({
           <FadingHr className="my-2" />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
-              <ProItem
-                sub={sub.mutate}
-                manage={manage.mutate}
-                session={session}
-              />
+              <ProItem sub={sub.mutate} manage={manage.mutate} session={session} />
             ))}
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
           <DrawerItem
@@ -218,10 +212,7 @@ const Drawer = ({
 };
 
 interface DrawerItemProps
-  extends Pick<
-    React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    "href" | "target"
-  > {
+  extends Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target"> {
   icon: React.ReactNode;
   text: string;
   border?: boolean;
@@ -256,7 +247,7 @@ const DrawerItem = (props: DrawerItemProps) => {
       className={clsx(
         "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
         border && "border-[1px] border-white/20",
-        className
+        `${className || ""}`
       )}
       onClick={onClick}
     >
@@ -292,13 +283,7 @@ const ProItem: React.FC<{
     : t("GO_PRO");
   let icon = session?.user ? <FaUser /> : <FaRocket />;
   if (session?.user?.image) {
-    icon = (
-      <img
-        src={session?.user.image}
-        className="h-6 w-6 rounded-full"
-        alt="User Image"
-      />
-    );
+    icon = <img src={session?.user.image} className="h-6 w-6 rounded-full" alt="User Image" />;
   }
 
   return (

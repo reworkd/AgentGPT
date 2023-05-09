@@ -8,25 +8,14 @@ interface MenuProps {
   icon?: ReactNode;
   name: string;
   items: JSX.Element[];
-  disabled?: boolean;
-  onChange: (value: string) => void;
   styleClass?: { [key: string]: string };
 }
 
-function Menu({
-  icon,
-  name,
-  items,
-  disabled,
-  onChange,
-  styleClass,
-}: MenuProps) {
+function Menu({ icon, name, items, styleClass }: MenuProps) {
   return (
     <MenuPrimitive>
       <div className={styleClass?.container}>
-        <MenuPrimitive.Button
-          className={clsx(styleClass?.input, "flex items-center gap-1")}
-        >
+        <MenuPrimitive.Button className={clsx(styleClass?.input, "flex items-center gap-1")}>
           <div>{icon}</div>
           <p>{name}</p>
           <FaChevronDown size={15} className="ml-2" />

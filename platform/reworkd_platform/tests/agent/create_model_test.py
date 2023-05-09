@@ -36,7 +36,10 @@ from reworkd_platform.web.api.agent.model_settings import ModelSettings
     ],
 )
 def test_create_model(
-    custom_settings, expected_temperature, expected_model_name, expected_max_tokens
+    custom_settings: ModelSettings,
+    expected_temperature: float,
+    expected_model_name: str,
+    expected_max_tokens: int,
 ) -> None:
     model = create_model(custom_settings)
 

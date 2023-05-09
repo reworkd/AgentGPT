@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import Button from "./Button";
 import {
   FaCoins,
@@ -26,6 +26,8 @@ export const SettingsDialog: React.FC<{
     ...customSettings.settings,
   });
   const [t] = useTranslation();
+
+  const [apiKeyViewToggle, setApiKeyViewToggle] = useState(false);
 
   useEffect(() => {
     setSettings(customSettings.settings);
@@ -203,6 +205,8 @@ export const SettingsDialog: React.FC<{
           type="password"
           value={settings.customApiKey}
           onChange={(e) => updateSettings("customApiKey", e.target.value)}
+          togglehide={apiKeyViewToggle}
+          setToggleHide={setApiKeyViewToggle}
         />
         <LanguageCombobox />
         <Input

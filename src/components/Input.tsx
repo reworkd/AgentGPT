@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Combobox from "./Combobox";
 import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "./types";
+import {FaRegEyeSlash, FaRegEye} from "react-icons/fa";
 
 interface InputProps {
   small?: boolean; // Will lower padding and font size. Currently only works for the default input
@@ -23,6 +24,8 @@ interface InputProps {
   onKeyDown?: (
     e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => void;
+  togglehide?:boolean;
+  setToggleHide: (value: React.SetStateAction<boolean>) => void;
 }
 
 const Input = (props: InputProps) => {
@@ -39,6 +42,8 @@ const Input = (props: InputProps) => {
     inputRef,
     toolTipProperties,
     onKeyDown,
+    togglehide,
+    setToggleHide
   } = props;
   const isTypeCombobox = () => {
     return type === "combobox";
@@ -50,6 +55,14 @@ const Input = (props: InputProps) => {
 
   const isTypeTextArea = () => {
     return type === "textarea";
+  };
+
+  const isTypePassword = () => {
+    return type === "password";
+  };
+
+  const handleApiKeyToggle=(e)=>{
+    setToggleHide(!togglehide);
   };
 
   let inputElement;
@@ -95,7 +108,31 @@ const Input = (props: InputProps) => {
         {...attributes}
       />
     );
-  } else {
+  } else if(isTypePassword()){
+    inputElement=(
+      <div className={clsx("w-full flex flex-row items-center bg-[#3a3a3a] rounded-xl border-[2px] border-white/10 px-2  overflow-clip hover:border-[#1E88E5]/40 focus:border-[#1E88E5]",
+      disabled && " cursor-not-allowed hover:border-white/10",
+      left && "md:rounded-l-none",
+      small && "text-sm sm:py-[0]")}>
+        <input
+          className={clsx(
+            "flex-grow bg-transparent  delay-50 w-full   py-1 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20  sm:py-3 md:text-lg overflow-ellipsis",
+          )}
+          ref={inputRef}
+          placeholder={placeholder}
+          type={togglehide?"text":"password"}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          onKeyDown={onKeyDown}
+          {...attributes}
+        />
+        <div className="flex-none px-2" onClick={(e)=>handleApiKeyToggle(e)}>
+          {togglehide ? <FaRegEye/> : <FaRegEyeSlash/>}
+        </div>
+      </div>
+    );
+  }else {
     inputElement = (
       <input
         className={clsx(

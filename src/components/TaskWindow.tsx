@@ -6,7 +6,6 @@ import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useAgentStore, useMessageStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { useAgentStore } from "../stores";
 import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";

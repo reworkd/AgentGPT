@@ -1,6 +1,6 @@
 import React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import type { toolTipProperties } from "./types";
+import type { toolTipProperties } from "../types";
 
 interface TooltipProps {
   child: React.ReactNode;

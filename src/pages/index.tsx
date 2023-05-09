@@ -20,7 +20,7 @@ import type { AgentPlaybackControl, Message } from "../types/agentTypes";
 import { AGENT_PLAY, isTask } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../components/stores";
+import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 import { findLanguage, languages } from "../utils/languages";

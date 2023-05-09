@@ -129,9 +129,7 @@ const Drawer = ({
               <div>
                 <a
                   className="link"
-                  onClick={() => {
-                    signIn();
-                  }}
+                  onClick={() => void signIn()}
                 >
                   {t("SIGN_IN")}
                 </a>{" "}
@@ -227,7 +225,7 @@ interface DrawerItemProps
   icon: React.ReactNode;
   text: string;
   border?: boolean;
-  onClick?: () => any;
+  onClick?: () => Promise<void> | void;
   className?: string;
   small?: boolean;
 }
@@ -270,8 +268,8 @@ const DrawerItem = (props: DrawerItemProps) => {
 
 const AuthItem: React.FC<{
   session: Session | null;
-  signIn: () => void;
-  signOut: () => void;
+  signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
 }> = ({ signIn, signOut, session }) => {
   const [t] = useTranslation("drawer");
   const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
@@ -285,8 +283,8 @@ const AuthItem: React.FC<{
 
 const ProItem: React.FC<{
   session: Session | null;
-  sub: () => any;
-  manage: () => any;
+  sub: () => void;
+  manage: () => void;
 }> = ({ sub, manage, session }) => {
   const [t] = useTranslation("drawer");
   const text = session?.user?.subscriptionId
@@ -309,13 +307,13 @@ const ProItem: React.FC<{
       text={text}
       onClick={async () => {
         if (!session?.user) {
-          void (await signIn());
+           return await signIn();
         }
 
         if (session?.user.subscriptionId) {
-          void manage();
+           return manage();
         } else {
-          void sub();
+          return sub();
         }
       }}
     />

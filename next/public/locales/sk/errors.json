@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "Chyba pri prístupe k OpenAI API kľúču. Skontrolujte prosím svoj API kľúč alebo to skúste neskôr.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "Chyba pri pridávaní ďalších úloh. Možno naša model nevie spracovať váš výber a toto je výsledkom. Pokračovanie...",
+  "RATE_LIMIT_EXCEEDED": "Dosiahli ste maximálny počet dotazov! Prosím, spomaľte...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Tento agent dosiahol maximálny počet opakovaní. Pretože chceme ušetriť vašu peňaženku, tento agent sa teraz zastaví... Maximálny počet behov agenta je možné konfigurovať v nastaveniach.",
+  "DEMO_LOOPS_REACHED": "Prepáčte, ale táto je ukážková aplikácia, takže nemôžeme nechať našich agentov behať príliš dlho. Poznámka: Ak chcete behy predĺžiť, zadajte vlastný API kľúč v nastaveniach. Zastavenie...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agent bol ručne vypnutý.",
+  "ALL_TASKS_COMPLETETD": "Všetky úlohy sú dokončené. Zastavenie...",
+  "ERROR_API_KEY_QUOTA": "Chyba pri používaní OpenAI API kľúča. Prekročili ste svoju súčasnú kvótu, skontrolujte svoje fakturačné údaje.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "Chyba: Váš OpenAI API kľúč nemá prístup k GPT-4. Najskôr sa musíte zaregistrovať v OpenAI čakacej zoznamu. (To sa líši od ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "Chyba pri získavaní základných úloh. Skúste to znova, zmeňte cieľ agenta tak, aby bol jasný alebo ho upravte tak, aby zodpovedal nášmu modelu. Zastavenie...",
+  "INVALID_OPENAI_API_KEY": "Chyba neplatný OpenAI API-kľúč"
+}

@@ -1,0 +1,12 @@
+{
+	"ACCOUNT": "帐户",
+	"HELP_BUTTON": "帮助",
+	"MY_AGENTS": "我的代理人",
+	"NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "在此显示任何内容之前，您需要先创建和保存第一个代理人！",
+	"SETTINGS_BUTTON": "设置",
+	"SIGN_IN": "登录",
+	"SIGN_IN_NOTICE": "请登录以保存您的代理人并管理您的帐户！",
+	"SIGN_OUT": "退出",
+	"SUPPORT_BUTTON": "支持",
+	"USER_IMAGE": "用户图片"
+}

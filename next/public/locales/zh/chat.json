@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "完成：",
+	"CONSIDER_SPONSORING_ON_GITHUB": "通过GitHub赞助该项目。",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "文本已复制到剪贴板",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "无法将文本复制到剪贴板",
+	"CREATE_AN_AGENT_DESCRIPTION": "创建一个代理，添加名称和目标，然后单击\"启动代理！\"按钮",
+	"EMBARKING_ON_NEW_GOAL": "迎接新目标：",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 我们正在经历异常的流量，请预计会有延迟和错误，如果您没有使用自己的API密钥 🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ 支持AgentGPT的发展。 💝️",
+	"NO_MORE_TASKS": "没有更多的子任务可以使用：",
+	"RESTART_IF_IT_TAKES_X_SEC": "（如果需要30秒以上，请刷新页面或手动重新启动代理）",
+	"SUPPORT_NOW": "现在支持 🚀",
+	"TASK_ADDED": "任务已添加：",
+	"THINKING": "思考中...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 您可以在设置选项卡中提供自己的OpenAI API密钥以获得提高的限制！",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 通过添加名称/目标并按部署来创建代理！"
+}

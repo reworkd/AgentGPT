@@ -10,6 +10,8 @@ import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
+import { AnimatePresence } from "framer-motion";
+import FadeOut from "./motions/FadeOut";
 
 export interface TaskWindowProps {
   visibleOnMobile?: boolean;
@@ -49,9 +51,11 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
               This window will display agent tasks as they are created.
             </p>
           )}
-          {tasks.map((task, i) => (
-            <Task key={i} task={task} />
-          ))}
+          <AnimatePresence mode="popLayout">
+            {tasks.map((task, i) => (
+              <Task key={i} index={i} task={task} />
+            ))}
+          </AnimatePresence>
         </div>
         <div className="flex flex-row gap-1">
           <Input
@@ -73,7 +77,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   );
 };
 
-const Task = ({ task }: { task: Task }) => {
+const Task = ({ task, index }: { task: Task; index: number }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
   const deleteTask = useMessageStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
@@ -85,27 +89,29 @@ const Task = ({ task }: { task: Task }) => {
   };
 
   return (
-    <FadeIn>
-      <div
-        className={clsx(
-          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
-          isAgentStopped && "opacity-50",
-          getMessageContainerStyle(task)
-        )}
-      >
-        {getTaskStatusIcon(task, { isAgentStopped })}
-        <span>{task.value}</span>
-        <div className="flex justify-end">
-          <FaTimesCircle
-            onClick={handleDeleteTask}
-            className={clsx(
-              isTaskDeletable && "cursor-pointer hover:text-red-500",
-              !isTaskDeletable && "cursor-not-allowed opacity-30"
-            )}
-            size={12}
-          />
+    <FadeOut delay={index * 0.25}>
+      <FadeIn>
+        <div
+          className={clsx(
+            "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+            isAgentStopped && "opacity-50",
+            getMessageContainerStyle(task)
+          )}
+        >
+          {getTaskStatusIcon(task, { isAgentStopped })}
+          <span>{task.value}</span>
+          <div className="flex justify-end">
+            <FaTimesCircle
+              onClick={handleDeleteTask}
+              className={clsx(
+                isTaskDeletable && "cursor-pointer hover:text-red-500",
+                !isTaskDeletable && "cursor-not-allowed opacity-30"
+              )}
+              size={12}
+            />
+          </div>
         </div>
-      </div>
-    </FadeIn>
+      </FadeIn>
+    </FadeOut>
   );
 };

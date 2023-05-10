@@ -10,7 +10,7 @@ services:
       - "3000:3000"
     volumes:
       - ./next/.env.docker:/app/.env
-      - ./db:/app/db
+      - ./next/:/app/
 
   platform:
     container_name: platform

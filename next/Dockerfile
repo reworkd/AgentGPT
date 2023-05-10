@@ -5,6 +5,9 @@ ARG NODE_ENV
 
 ENV NODE_ENV=$NODE_ENV
 
+# Needed for the wait-for-db script
+RUN apk add --no-cache netcat-openbsd
+
 # Set the working directory
 WORKDIR /next
 
@@ -20,6 +23,12 @@ RUN chmod +x /usr/local/bin/wait-for-db.sh
 
 # Copy the rest of the application code
 COPY . .
+
+# Ensure correct line endings after these files are edited by windows
+RUN apk add --no-cache dos2unix netcat-openbsd \
+    && dos2unix /next/wait-for-db.sh \
+    && dos2unix /next/entrypoint.sh
+
 
 # Expose the port the app will run on
 EXPOSE 3000

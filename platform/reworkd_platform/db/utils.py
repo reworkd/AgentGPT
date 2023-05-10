@@ -12,6 +12,12 @@ def create_engine() -> AsyncEngine:
 
     :return: SQLAlchemy engine instance.
     """
+    if settings.environment == "dev":
+        return create_async_engine(
+            str(settings.db_url),
+            echo=settings.db_echo,
+        )
+
     ssl_context = ssl.create_default_context(cafile=settings.db_ca_path)
     ssl_context.verify_mode = ssl.CERT_REQUIRED
     connect_args = {"ssl": ssl_context}

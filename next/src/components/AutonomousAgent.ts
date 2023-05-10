@@ -230,7 +230,7 @@ class AutonomousAgent {
       goal: this.goal,
       language: this.language,
     };
-    const res = await this.post(`/api/agent/start`, data);
+    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/start`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.newTasks as string[];
   }
@@ -254,12 +254,13 @@ class AutonomousAgent {
       modelSettings: this.modelSettings,
       goal: this.goal,
       language: this.language,
-      tasks: taskValues,
       lastTask: currentTask,
+      tasks: taskValues,
       result: result,
       completedTasks: this.completedTasks,
     };
-    const res = await this.post(`/api/agent/create`, data);
+    console.log(data);
+    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/create`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     return res.data.newTasks as string[];
   }
@@ -275,7 +276,7 @@ class AutonomousAgent {
       language: this.language,
       task: task,
     };
-    const res = await this.post("/api/agent/analyze", data);
+    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/analyze`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as Analysis;
   }
@@ -299,7 +300,7 @@ class AutonomousAgent {
       task: task,
       analysis: analysis,
     };
-    const res = await this.post("/api/agent/execute", data);
+    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/execute`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as string;
   }

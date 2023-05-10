@@ -92,7 +92,9 @@ If you provide your own API key, you can increase the output length within the a
 ### Misc
 <details>
 <summary>What is the difference between this and ChatGPT?</summary>
-ChatGPT is a great tool that will allow you to ask a specific question and receive a result. AgentGPT on the otherhand is a platform for AI agents. You configure an agent to accomplish a broad goal, and it will automatically think and perform tasks to achieve it.
+ChatGPT is a great tool that will allow you to ask a specific question and receive a result. It also follows a conversation, so after you have received a response, you can continue talking to it and it will remember (within limits) what was descussed previously.
+
+AgentGPT on the otherhand is a platform for AI agents. You configure an agent to accomplish a broad goal, and it will automatically think and perform tasks to achieve it.
 </details>
 
 <details>

@@ -1,4 +1,6 @@
 import { withSentryConfig } from "@sentry/nextjs";
+import nextI18NextConfig from "./next-i18next.config.js";
+
 // @ts-check
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -6,16 +8,18 @@ import { withSentryConfig } from "@sentry/nextjs";
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
 
-import nextI18NextConfig from './next-i18next.config.js'
-
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
   /* If trying out the experimental appDir, comment the i18n config out
    * @see https://github.com/vercel/next.js/issues/41980 */
-  i18n:nextI18NextConfig.i18n,
-  webpack: function (config, options) {
+  i18n: nextI18NextConfig.i18n,
+  webpack: function(config, options) {
     config.experiments = { asyncWebAssembly: true, layers: true };
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300
+    };
     return config;
   }
 };
@@ -25,8 +29,8 @@ export default withSentryConfig(config, {
   // Suppresses source map uploading logs during build
   silent: true,
   org: "reworkd",
-  project: "agentgpt",
-  }, {
+  project: "agentgpt"
+}, {
   // For all available options, see  https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
@@ -42,5 +46,5 @@ export default withSentryConfig(config, {
 
   // Automatically tree-shake Sentry logger statements to reduce bundle size
   disableLogger: true,
-  environment: process.env.NEXT_PUBLIC_VERCEL_ENV,
+  environment: process.env.NEXT_PUBLIC_VERCEL_ENV
 });

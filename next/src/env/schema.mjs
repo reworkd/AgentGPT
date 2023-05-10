@@ -5,6 +5,7 @@ const requiredForProduction = () =>
   process.env.NODE_ENV === "production"
     ? z.string().min(1).trim()
     : z.string().min(1).trim().optional();
+
 function stringToBoolean() {
   return z.preprocess((str) => str === "true", z.boolean());
 }
@@ -90,7 +91,8 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
   NEXT_PUBLIC_FF_SUB_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
-  NEXT_PUBLIC_VERCEL_URL: z.string().optional()
+  NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
+  NEXT_PUBLIC_BACKEND_URL: z.string().url()
 });
 
 /**
@@ -105,11 +107,10 @@ export const clientEnv = {
   process.env.NEXT_PUBLIC_STRIPE_DONATION_ENABLED,
   NEXT_PUBLIC_WEB_SEARCH_ENABLED: process.env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
   NEXT_PUBLIC_FORCE_AUTH: process.env.NEXT_PUBLIC_FORCE_AUTH,
-  NEXT_PUBLIC_VERCEL_URL:
-    process.env.NEXT_PUBLIC_VERCEL_URL ?? "http://localhost:3000",
+  NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL ?? "http://localhost:3000",
+  NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_FF_SUB_ENABLED: process.env.NEXT_PUBLIC_FF_SUB_ENABLED,
-  NEXT_PUBLIC_FF_MOCK_MODE_ENABLED:
-  process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED
+  NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED
 };

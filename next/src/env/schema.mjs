@@ -92,7 +92,7 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_FF_SUB_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
-  NEXT_PUBLIC_BACKEND_URL: requiredForProduction()
+  NEXT_PUBLIC_BACKEND_URL: z.string().url()
 });
 
 /**

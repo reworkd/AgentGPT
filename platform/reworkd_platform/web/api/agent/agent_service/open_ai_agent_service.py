@@ -119,7 +119,7 @@ class OpenAIAgentService(AgentService):
                 "goal": goal,
                 "language": language,
                 "tasks": tasks,
-                "last_task": last_task,
+                "lastTask": last_task,
                 "result": result,
             }
         )

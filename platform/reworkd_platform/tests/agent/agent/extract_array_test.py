@@ -1,3 +1,5 @@
+from typing import List
+
 import pytest
 
 from reworkd_platform.web.api.agent.helpers import extract_array
@@ -42,7 +44,9 @@ from reworkd_platform.web.api.agent.helpers import extract_array
         ),
     ],
 )
-def test_extract_array(model_result, expected_length, expected_output) -> None:
+def test_extract_array(
+    model_result: str, expected_length: int, expected_output: List[str]
+) -> None:
     result = extract_array(model_result)
     assert len(result) == expected_length
     assert result == expected_output

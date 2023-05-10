@@ -20,6 +20,8 @@ services:
     ports:
       - "8000:8000"
     restart: always
+    volumes:
+      - ./platform:/app/src/
     env_file:
       - next/.env
     environment:

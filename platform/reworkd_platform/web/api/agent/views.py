@@ -49,7 +49,7 @@ class CompletionResponse(BaseModel):
     response: str
 
 
-@router.post("/analyze_task")
+@router.post("/analyze")
 async def analyze_task(request_body: AgentRequestBody) -> CompletionResponse:
     try:
         response = await get_agent_service().analyze_task_agent(
@@ -76,7 +76,7 @@ async def wiki(req: Wiki) -> str:
     return WikipediaSearch({}).call(req.goal, req.task, req.query)
 
 
-@router.post("/execute_task")
+@router.post("/execute")
 async def execute_task(request_body: AgentRequestBody) -> CompletionResponse:
     try:
         response = await get_agent_service().execute_task_agent(

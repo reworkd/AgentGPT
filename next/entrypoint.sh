@@ -9,7 +9,7 @@ source .env
 
 # Run Prisma commands
 if [[ ! -f "/app/prisma/${DATABASE_URL:5}" ]]; then
-  npx prisma migrate dev --name init
+  npx prisma migrate deploy --name init
   npx prisma db push
 fi
 

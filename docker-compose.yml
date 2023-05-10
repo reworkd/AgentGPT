@@ -4,7 +4,7 @@ services:
   next:
     container_name: next
     build:
-      context: .
+      context: ./next
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -21,13 +21,31 @@ services:
       - "8000:8000"
     restart: always
     env_file:
-      - .env
+      - next/.env
     environment:
       REWORKD_PLATFORM_HOST: 0.0.0.0
-      REWORKD_PLATFORM_DB_HOST: reworkd_platform-db
-      REWORKD_PLATFORM_DB_PORT: 3306
-      REWORKD_PLATFORM_DB_USER: reworkd_platform
-      REWORKD_PLATFORM_DB_PASS: reworkd_platform
-      REWORKD_PLATFORM_DB_BASE: reworkd_platform
-      REWORKD_PLATFORM_DB_CA_PATH: /etc/ssl/certs/ca-certificates.crt
+      REWORKD_PLATFORM_DB_HOST: db
+      REWORKD_PLATFORM_DB_PORT: "3306"
+      REWORKD_PLATFORM_DB_USER: "reworkd_platform"
+      REWORKD_PLATFORM_DB_PASS: "reworkd_platform"
+      REWORKD_PLATFORM_DB_BASE: "reworkd_platform"
+    depends_on:
+      - db
 
+  db:
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    build:
+      context: ./db
+    environment:
+      MYSQL_DATABASE: "reworkd_platform"
+      MYSQL_USER: "reworkd_platform"
+      MYSQL_PASSWORD: "reworkd_platform"
+      MYSQL_ROOT_PASSWORD: "reworkd_platform"
+    volumes:
+      - db_data:/var/lib/mysql
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+
+volumes:
+  db_data:

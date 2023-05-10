@@ -23,7 +23,7 @@ export const SorryDialog = ({ show, close }: SorryDialogProps) => {
         })}`}
         <a
           className="link"
-          href="https://reworkd.github.io/AgentGPT-Documentation/docs/roadmap"
+          href="https://docs.reworkd.ai/roadmap"
           target="_blank"
           rel="noreferrer"
         >

@@ -440,7 +440,7 @@ const FAQ = () => {
     <p>
       <br />
       If you are facing issues, please head over to our{" "}
-      <a href="https://reworkd.github.io/AgentGPT-Documentation/docs/faq" className="text-sky-500">
+      <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
         FAQ
       </a>
     </p>

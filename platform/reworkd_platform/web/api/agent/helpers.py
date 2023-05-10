@@ -18,8 +18,8 @@ def extract_tasks(text: str, completed_tasks: List[str]) -> List[str]:
 
 
 def extract_array(input_str: str) -> List[str]:
-    regex = r"(\[(?:\s*(?:\"(?:[^\"\\]|\\.|\\n)*\"|\'(?:[^\'\\]|\\.|\\n)*\')\s*,' \
-    '?)+\s*\])"
+    regex = r"(\[(?:\s*(?:\"(?:[^\"\\]|\\.|\\n)*\"|\'(?:[^\'\\]|\\.|\\n)*\')\s*," \
+            r"?)+\s*\])"
     match = re.search(regex, input_str)
 
     if match and match[0]:

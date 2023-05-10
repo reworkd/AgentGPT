@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'AgentGPT',
   tagline: 'Autonomous AI agents directly in your browser',
-  favicon: 'img/favicon.ico',
+  favicon: 'favicon.ico',
   url: 'https://docs.reworkd.ai',
   baseUrl: '/',
   organizationName: 'reworkd', // Usually your GitHub org/user name.

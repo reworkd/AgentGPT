@@ -41,10 +41,9 @@ create_tasks_prompt = PromptTemplate(
     input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )
 
-summarize_search_snippets = PromptTemplate(
-    template="""Summarize the following snippets "{snippets}" from google search
-    results filling in information where necessary. This summary should answer the
-    following query: "{query}" with the following goal "{goal}" in mind. Return the
-    summary as a string. Do not show you are summarizing.""",
+summarize_prompt = PromptTemplate(
+    template="""Summarize the following text "{snippets}" Write in a style expected
+    of the goal "{goal}", be concise if necessary and attempt to answer the query:
+    "{query}" as best as possible.""",
     input_variables=["goal", "query", "snippets"],
 )

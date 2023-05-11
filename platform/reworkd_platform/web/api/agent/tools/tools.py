@@ -1,6 +1,6 @@
 from typing import Type, List
 
-from reworkd_platform.web.api.agent.tools.think import Think
+from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
@@ -8,7 +8,7 @@ from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 def get_available_tools() -> List[Type[Tool]]:
     return [
         Wikipedia,
-        Think,
+        Reason,
     ]
 
 
@@ -35,4 +35,4 @@ def get_tool_from_name(tool_name: str) -> Type[Tool]:
 
 
 def get_default_tool() -> Type[Tool]:
-    return Think
+    return Reason

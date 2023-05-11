@@ -1,14 +1,11 @@
 from langchain import LLMChain
 
-from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
-    create_model,
-)
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.model_settings import ModelSettings, create_model
 from reworkd_platform.web.api.agent.prompts import execute_task_prompt
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
-class Think(Tool):
+class Reason(Tool):
     description = "Reason about via existing information or understanding."
 
     def __init__(self, model_settings: ModelSettings):

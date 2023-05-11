@@ -22,6 +22,7 @@ NEXTAUTH_SECRET=$(openssl rand -base64 32)
 ENV="NODE_ENV=development\n\
 NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
 NEXTAUTH_URL=http://localhost:3000\n\
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n"
 

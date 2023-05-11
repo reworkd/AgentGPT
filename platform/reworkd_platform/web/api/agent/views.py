@@ -45,19 +45,14 @@ async def start(request_body: AgentRequestBody) -> NewTasksResponse:
         )
 
 
-class CompletionResponse(BaseModel):
-    response: str
-
-
 @router.post("/analyze")
-async def analyze_task(request_body: AgentRequestBody) -> CompletionResponse:
+async def analyze_task(request_body: AgentRequestBody) -> Analysis:
     try:
-        response = await get_agent_service().analyze_task_agent(
+        return await get_agent_service().analyze_task_agent(
             request_body.modelSettings,
             request_body.goal,
             request_body.task,
         )
-        return CompletionResponse(response=response)
     except Exception as error:
         raise HTTPException(
             status_code=500,
@@ -74,6 +69,10 @@ class Wiki(BaseModel):
 @router.post("/test-wiki-search")
 async def wiki(req: Wiki) -> str:
     return Wikipedia({}).call(req.goal, req.task, req.query)
+
+
+class CompletionResponse(BaseModel):
+    response: str
 
 
 @router.post("/execute")

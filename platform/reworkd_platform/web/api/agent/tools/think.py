@@ -9,10 +9,10 @@ from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
 class Think(Tool):
+    description = "Reason about via existing information or understanding."
+
     def __init__(self, model_settings: ModelSettings):
-        super().__init__(
-            "Reason about via existing information or understanding.", model_settings
-        )
+        super().__init__(model_settings)
 
     def call(self, goal: str, task: str, input_str: str) -> str:
         llm = create_model(self.model_settings)

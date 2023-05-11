@@ -5,7 +5,9 @@ from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import summarize
 
 
-class WikipediaSearch(Tool):
+class Wikipedia(Tool):
+    description = "Search Wikipedia for information."
+
     def __init__(self, model_settings: ModelSettings):
         super().__init__("Wiki", model_settings)
         self.wikipedia = WikipediaAPIWrapper()

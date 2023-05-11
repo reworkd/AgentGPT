@@ -8,7 +8,7 @@ from reworkd_platform.web.api.agent.agent_service.agent_service_provider import 
 )
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
-from reworkd_platform.web.api.agent.tools.wikipedia_search import WikipediaSearch
+from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 router = APIRouter()
 
@@ -73,7 +73,7 @@ class Wiki(BaseModel):
 
 @router.post("/test-wiki-search")
 async def wiki(req: Wiki) -> str:
-    return WikipediaSearch({}).call(req.goal, req.task, req.query)
+    return Wikipedia({}).call(req.goal, req.task, req.query)
 
 
 @router.post("/execute")

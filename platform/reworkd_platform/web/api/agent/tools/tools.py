@@ -12,11 +12,15 @@ def get_available_tools() -> List[Type[Tool]]:
     ]
 
 
-def get_tool_descriptions() -> str:
+def get_tool_name(tool: Type[Tool]) -> str:
+    return tool.__name__.lower()
+
+
+def get_tools_overview() -> str:
     """Return a formatted string of name: description pairs for all available tools"""
     return "\n".join(
         [
-            f"{tool.__name__.lower()}: {tool.description}"
+            f"{get_tool_name(tool)}: {tool.description}"
             for tool in get_available_tools()
         ]
     )
@@ -24,7 +28,7 @@ def get_tool_descriptions() -> str:
 
 def get_tool_from_name(tool_name: str) -> Type[Tool]:
     for tool in get_available_tools():
-        if tool.__name__.lower() == tool_name.lower():
+        if get_tool_name(tool) == tool_name:
             return tool
 
     return get_default_tool()

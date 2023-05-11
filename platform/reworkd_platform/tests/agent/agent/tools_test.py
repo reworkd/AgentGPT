@@ -1,13 +1,18 @@
 from reworkd_platform.web.api.agent.tools.think import Think
-from reworkd_platform.web.api.agent.tools.tools import (get_tool_descriptions,
+from reworkd_platform.web.api.agent.tools.tools import (get_tools_overview,
                                                         get_tool_from_name,
-                                                        get_default_tool)
+                                                        get_default_tool, get_tool_name)
 from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 
-def test_get_tool_descriptions() -> None:
+def test_get_tool_name() -> None:
+    assert get_tool_name(Wikipedia) == "wikipedia"
+    assert get_tool_name(Think) == "think"
+
+
+def test_get_tools_overview() -> None:
     """Simple test to assert that the wikipedia description is what we expect."""
-    descriptions = get_tool_descriptions().split("\n")
+    descriptions = get_tools_overview().split("\n")
     wikipedia_description = "wikipedia: Search Wikipedia for information."
     assert wikipedia_description in descriptions
 

@@ -1,9 +1,9 @@
 name: Testing Platform
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'platform/**'
+#  push:
+#    branches: [ "main" ]
+#    paths:
+#      - 'platform/**'
   pull_request:
     branches: [ "main" ]
     paths:

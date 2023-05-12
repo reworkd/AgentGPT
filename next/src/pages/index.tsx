@@ -162,6 +162,11 @@ const Home: NextPage = () => {
     updateIsAgentStopped();
   };
 
+  const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
+    // This controls whether the ChatWindow or TaskWindow is visible on mobile
+    setMobileVisibleWindow(visibleWindow);
+  };
+
   const shouldShowSave =
     status === "authenticated" && isAgentStopped && messages.length && !hasSaved;
 

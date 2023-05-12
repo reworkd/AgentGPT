@@ -376,7 +376,7 @@ class AutonomousAgent {
     // Hack to send message with generic test. Should use a different type in the future
     let message = "⏰ Generating response...";
     if (analysis.action == "search") {
-      message = `🌐 Searching the web for "${analysis.arg}"...`;
+      message = `🔍 Searching the web for "${analysis.arg}"...`;
     }
     if (analysis.action == "wikipedia") {
       message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;

@@ -9,6 +9,7 @@ jobs:
     name: Invoke Webhooks
     runs-on: ubuntu-latest
     environment: production
+    if: github.repository == 'reworkd/AgentGPT'
     steps:
     - name: Trigger Webhooks
       run: |

@@ -1,0 +1,12 @@
+{
+  "name": "AgentGPT",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {},
+  "devDependencies": {
+    "prisma": "^4.14.0"
+  },
+  "dependencies": {
+    "node_modules/@prisma/client": "^4.14.0"
+  }
+}

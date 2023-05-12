@@ -25,10 +25,9 @@ analyze_task_prompt = PromptTemplate(
 )
 
 execute_task_prompt = PromptTemplate(
-    template="""You are AgentGPT. You must answer in the "{language}" language. Given
+    template="""Answer in the "{language}" language. Given
     the following overall objective `{goal}` and the following sub-task, `{task}`.
-    Perform the task. If the task involves writing code, provide code snippets in
-    markdown.""",
+    Perform the task and return an adequate response.""",
     input_variables=["goal", "language", "task"],
 )
 

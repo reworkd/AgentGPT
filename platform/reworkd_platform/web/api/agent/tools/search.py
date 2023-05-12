@@ -16,7 +16,7 @@ def _google_serper_search_results(
     search_term: str, search_type: str = "search", **kwargs: Any
 ) -> dict:
     headers = {
-        "X-API-KEY": settings.serper_api_key or "",
+        "X-API-KEY": settings.serp_api_key or "",
         "Content-Type": "application/json",
     }
     params = {

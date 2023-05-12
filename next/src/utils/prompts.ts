@@ -40,7 +40,7 @@ export const analyzeTaskPrompt = new PromptTemplate({
 
 export const executeTaskPrompt = new PromptTemplate({
   template:
-    'Answer in the "{language}" language. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task in a detailed manner. If coding is required, provide code in markdown',
+    'Answer in the "{language}" language. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task and return an adequate response.',
   inputVariables: ["goal", "language", "task"],
 });
 

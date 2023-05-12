@@ -45,9 +45,10 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: str = "sk-<your key here>"
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
+    serp_api_key: str = ""
 
     # Frontend URL for CORS
-    reworkd_platform_frontend_url: str = "http://localhost:3000"
+    frontend_url: str = "http://localhost:3000"
 
     # Variables for the database
     db_host: str = "localhost"

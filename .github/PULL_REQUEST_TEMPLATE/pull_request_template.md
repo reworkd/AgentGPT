@@ -20,7 +20,7 @@
 ## Types of changes
 
 <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
- 
+
 Changes visible to users:
 
 - [ ] **Bug fix** (prefix: `fix` - non-breaking change which fixes an issue)
@@ -43,7 +43,7 @@ Internal changes:
 
 - [ ] My code follows the code style of this project and passes `npm run lint`.
 - [ ] My change requires a change to the documentation.
-- [ ] I have [updated the documentation](https://reworkd.github.io/AgentGPT-Documentation/docs/intro) accordingly.  #   {DOCUMENTATION}     <------- this should lead to the doc that could be changed/ didnt find it
+- [ ] I have [updated the documentation](https://docs.reworkd.ai) accordingly.  #   {DOCUMENTATION}     <------- this should lead to the doc that could be changed/ didnt find it
 - [ ] My change has adequate [Unit Test coverage]({PLACEHOLDER}).
 
 ## Terms

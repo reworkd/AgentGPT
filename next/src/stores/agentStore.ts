@@ -1,17 +1,16 @@
 import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../components/AutonomousAgent";
+import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
 import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
-import type { AgentPlaybackControl, AgentMode } from "../types/agentTypes";
 
 const resetters: (() => void)[] = [];
 
 const initialAgentState = {
   agent: null,
   isAgentStopped: true,
-  isWebSearchEnabled: false,
   isAgentPaused: undefined,
 };
 
@@ -32,6 +31,7 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
+    isWebSearchEnabled: false,
     agentMode: AUTOMATIC_MODE,
     updateAgentMode: (agentMode) => {
       set(() => ({
@@ -48,7 +48,6 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
         isAgentStopped: !state.agent?.isRunning,
       }));
     },
-    isWebSearchEnabled: false,
     setIsWebSearchEnabled: (isWebSearchEnabled) => {
       set(() => ({
         isWebSearchEnabled,
@@ -84,5 +83,4 @@ const agentStore = create<AgentSlice>()(
 
 export const useAgentStore = createSelectors(agentStore);
 
-export const resetAllAgentSlices = () =>
-  resetters.forEach((resetter) => resetter());
+export const resetAllAgentSlices = () => resetters.forEach((resetter) => resetter());

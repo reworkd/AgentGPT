@@ -3,8 +3,12 @@ name: Node.js CI
 on:
   push:
     branches: ["main"]
+    paths:
+      - 'next/**'
   pull_request:
     branches: ["main"]
+    paths:
+      - 'next/**'
 
 jobs:
   build:

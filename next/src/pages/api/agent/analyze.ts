@@ -15,14 +15,8 @@ const handler = async (request: NextRequest) => {
       return;
     }
 
-    const response = await AgentService.analyzeTaskAgent(
-      modelSettings,
-      goal,
-      task
-    );
-    return NextResponse.json({
-      response: response,
-    });
+    const response = await AgentService.analyzeTaskAgent(modelSettings, goal, task);
+    return NextResponse.json(response);
   } catch (e) {}
 
   return serverError();

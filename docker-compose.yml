@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./next/.env.docker:/next/.env
+      - ./next/.env:/next/.env
       - ./next/:/next/
       - /next/node_modules
       - /next/.next
@@ -42,6 +42,8 @@ services:
     restart: always
     build:
       context: ./db
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: "reworkd_platform"
       MYSQL_USER: "reworkd_platform"

@@ -27,6 +27,7 @@ aiokafka = "^0.8.0"
 requests = "^2.29.0"
 langchain = "^0.0.162"
 openai = "^0.27.6"
+wikipedia = "^1.4.0"
 
 
 [tool.poetry.dev-dependencies]

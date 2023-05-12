@@ -15,7 +15,11 @@ def get_available_tools() -> List[Type[Tool]]:
 
 
 def get_tool_name(tool: Type[Tool]) -> str:
-    return tool.__name__.lower()
+    return format_tool_name(tool.__name__)
+
+
+def format_tool_name(tool_name: str) -> str:
+    return tool_name.lower()
 
 
 def get_tools_overview() -> str:
@@ -27,7 +31,7 @@ def get_tools_overview() -> str:
 
 def get_tool_from_name(tool_name: str) -> Type[Tool]:
     for tool in get_available_tools():
-        if get_tool_name(tool) == tool_name:
+        if get_tool_name(tool) == format_tool_name(tool_name):
             return tool
 
     return get_default_tool()

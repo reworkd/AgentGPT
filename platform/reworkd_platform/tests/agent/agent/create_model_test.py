@@ -1,12 +1,9 @@
 import pytest
 
 from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
-    GPT_35_TURBO,
-)
-from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
     create_model,
 )
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.model_settings import ModelSettings, GPT_35_TURBO
 
 
 @pytest.mark.parametrize(

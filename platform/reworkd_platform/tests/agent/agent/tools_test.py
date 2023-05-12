@@ -10,7 +10,7 @@ from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 def test_get_tool_name() -> None:
     assert get_tool_name(Wikipedia) == "wikipedia"
-    assert get_tool_name(Reason) == "think"
+    assert get_tool_name(Reason) == "reason"
 
 
 def test_get_tools_overview() -> None:
@@ -27,7 +27,7 @@ def test_get_tools_overview() -> None:
 def test_get_tool_from_name() -> None:
     assert get_tool_from_name("Wikipedia") == Wikipedia
     assert get_tool_from_name("WiKiPeDia") == Wikipedia
-    assert get_tool_from_name("Think") == Reason
+    assert get_tool_from_name("Reason") == Reason
     assert get_tool_from_name("NonExistingTool") == Reason
 
 

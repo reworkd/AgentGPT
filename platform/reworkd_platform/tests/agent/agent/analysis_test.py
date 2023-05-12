@@ -21,4 +21,4 @@ def test_get_default_analysis() -> None:
     default_analysis = get_default_analysis()
     assert isinstance(default_analysis, Analysis)
     assert default_analysis.action == "reason"
-    assert default_analysis.arg == "Default option when analyzing errors."
+    assert default_analysis.arg == "Analyze errored out"

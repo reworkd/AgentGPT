@@ -6,9 +6,11 @@ from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
 class Image(Tool):
-    description = "Used to sketch, draw, or generate an image. The input string " \
-                  "should be a detailed description of the image touching on image " \
-                  "style, image focus, color, etc"
+    description = (
+        "Used to sketch, draw, or generate an image. The input string "
+        "should be a detailed description of the image touching on image "
+        "style, image focus, color, etc"
+    )
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
@@ -21,6 +23,6 @@ class Image(Tool):
             n=1,
             size="256x256",
         )
-        image_url = response['data'][0]['url']
+        image_url = response["data"][0]["url"]
 
         return f"![{input_str}]({image_url})"

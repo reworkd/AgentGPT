@@ -21,10 +21,7 @@ def get_tool_name(tool: Type[Tool]) -> str:
 def get_tools_overview() -> str:
     """Return a formatted string of name: description pairs for all available tools"""
     return "\n".join(
-        [
-            f"{get_tool_name(tool)}: {tool.description}"
-            for tool in get_available_tools()
-        ]
+        [f"{get_tool_name(tool)}: {tool.description}" for tool in get_available_tools()]
     )
 
 

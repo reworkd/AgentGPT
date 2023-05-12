@@ -11,8 +11,10 @@ from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
     create_tasks_prompt,
 )
-from reworkd_platform.web.api.agent.tools.tools import (get_tools_overview,
-                                                        get_tool_from_name)
+from reworkd_platform.web.api.agent.tools.tools import (
+    get_tools_overview,
+    get_tool_from_name,
+)
 
 
 class OpenAIAgentService(AgentService):

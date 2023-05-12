@@ -162,12 +162,6 @@ const Home: NextPage = () => {
     updateIsAgentStopped();
   };
 
-  const proTitle = (
-    <>
-      AgentGPT<span className="ml-1 text-amber-500/90">Pro</span>
-    </>
-  );
-
   const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
     // This controls whether the ChatWindow or TaskWindow is visible on mobile
     setMobileVisibleWindow(visibleWindow);
@@ -265,7 +259,7 @@ const Home: NextPage = () => {
             <Expand className="flex w-full flex-row">
               <ChatWindow
                 messages={messages}
-                title={session?.user.subscriptionId ? proTitle : "AgentGPT"}
+                title="AgentGPT"
                 onSave={
                   shouldShowSave
                     ? (format) => {

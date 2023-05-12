@@ -18,8 +18,6 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.role = user.role;
-        session.user.subscriptionId = user.subscriptionId;
       }
       return session;
     },

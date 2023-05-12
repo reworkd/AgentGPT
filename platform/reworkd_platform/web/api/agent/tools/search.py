@@ -46,7 +46,8 @@ class Search(Tool):
             input_str,
         )
 
-        k = 4  # Number of results to return
+        k = 6  # Number of results to return
+        max_links = 3  # Number of links to return
         snippets = []
         links = []
 
@@ -78,7 +79,7 @@ class Search(Tool):
         for result in results["organic"][:k]:
             if "snippet" in result:
                 snippets.append(result["snippet"])
-            if "link" in result:
+            if "link" in result and len(links) < max_links:
                 links.append(result["link"])
             for attribute, value in result.get("attributes", {}).items():
                 snippets.append(f"{attribute}: {value}.")

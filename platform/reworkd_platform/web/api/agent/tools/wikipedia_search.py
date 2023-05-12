@@ -9,7 +9,7 @@ class Wikipedia(Tool):
     description = "Search Wikipedia for information about historical figures or events"
 
     def __init__(self, model_settings: ModelSettings):
-        super().__init__("Wiki", model_settings)
+        super().__init__(model_settings)
         self.wikipedia = WikipediaAPIWrapper()
 
     def call(self, goal: str, task: str, input_str: str) -> str:

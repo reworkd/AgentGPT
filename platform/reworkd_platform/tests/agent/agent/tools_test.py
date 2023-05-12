@@ -15,13 +15,14 @@ def test_get_tool_name() -> None:
 
 def test_get_tools_overview() -> None:
     """Simple test to assert that the wikipedia description is what we expect."""
-    descriptions = get_tools_overview().split("\n")
+    overview = get_tools_overview()
     wikipedia_description = (
-        "wikipedia: Search Wikipedia for information about "
-        + "historical figures or events."
+        "wikipedia: Search Wikipedia for information about historical people, "
+        "events, places or research. \n"
+        "The argument should be a simple query."
     )
 
-    assert wikipedia_description in descriptions
+    assert wikipedia_description in overview
 
 
 def test_get_tool_from_name() -> None:

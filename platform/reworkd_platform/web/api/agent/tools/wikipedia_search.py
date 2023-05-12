@@ -6,7 +6,11 @@ from reworkd_platform.web.api.agent.tools.utils import summarize
 
 
 class Wikipedia(Tool):
-    description = "Search Wikipedia for information about historical figures or events."
+    description = (
+        "Search Wikipedia for information about historical people, events, places or "
+        "research. \n"
+        "The argument should be a simple query."
+    )
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)

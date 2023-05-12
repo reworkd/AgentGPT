@@ -32,7 +32,7 @@ RUN chmod +x /app/src/entrypoint.sh
 RUN apt-get update && apt-get install -y netcat-openbsd dos2unix \
     && dos2unix /app/src/entrypoint.sh \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-ENTRYPOINT ["sh", "entrypoint.sh"]
+#ENTRYPOINT ["sh", "entrypoint.sh"]
 
 
 CMD ["/usr/local/bin/python", "-m", "reworkd_platform"]

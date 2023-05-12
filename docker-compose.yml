@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./next/.env.docker:/next/.env
+      - ./next/.env:/next/.env
       - ./next/:/next/
       - /next/node_modules
       - /next/.next

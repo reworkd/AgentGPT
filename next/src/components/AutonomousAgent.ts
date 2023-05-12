@@ -278,7 +278,7 @@ class AutonomousAgent {
     };
     const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/analyze`, data);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data.response as Analysis;
+    return res.data as Analysis;
   }
 
   async executeTask(task: string, analysis: Analysis): Promise<string> {
@@ -374,9 +374,15 @@ class AutonomousAgent {
 
   sendAnalysisMessage(analysis: Analysis) {
     // Hack to send message with generic test. Should use a different type in the future
-    let message = "🧠 Generating response...";
+    let message = "⏰ Generating response...";
     if (analysis.action == "search") {
-      message = `🌐 Searching the web for "${analysis.arg}"...`;
+      message = `🔍 Searching the web for "${analysis.arg}"...`;
+    }
+    if (analysis.action == "wikipedia") {
+      message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;
+    }
+    if (analysis.action == "image") {
+      message = `🎨 Generating an image with prompt: "${analysis.arg}"...`;
     }
 
     this.sendMessage({

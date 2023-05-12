@@ -258,7 +258,9 @@ const MacWindowHeader = (props: HeaderProps) => {
         link.download = "agent-gpt-output.png";
         link.click();
       })
-      .catch(console.error);
+      .catch(() =>
+        alert("Error saving image! Note this doesn't work if the AI generated an image")
+      );
   };
 
   const copyElementText = (elementId: string) => {

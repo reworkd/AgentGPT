@@ -7,8 +7,7 @@ class Tool(ABC):
     description: str
     model_settings: ModelSettings
 
-    def __init__(self, description: str, model_settings: ModelSettings):
-        self.description = description
+    def __init__(self, model_settings: ModelSettings):
         self.model_settings = model_settings
 
     @abstractmethod

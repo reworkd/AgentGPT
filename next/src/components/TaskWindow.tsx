@@ -51,7 +51,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
               This window will display agent tasks as they are created.
             </p>
           )}
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {tasks.map((task, i) => (
               <Task key={i} index={i} task={task} />
             ))}

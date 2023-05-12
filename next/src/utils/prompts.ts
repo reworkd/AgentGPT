@@ -3,7 +3,7 @@ import { PromptTemplate } from "langchain/prompts";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
 
-const getServerSideKey = (): string => {
+export const getServerSideKey = (): string => {
   const keys: string[] = (process.env.OPENAI_API_KEY || "")
     .split(",")
     .map((key) => key.trim())

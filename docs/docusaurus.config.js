@@ -68,7 +68,21 @@ const config = {
       },
       colorMode: {
         defaultMode: 'dark',
-        respectPrefersColorScheme: false,
+        respectPrefersColorScheme: true,
+      },
+      algolia: {
+        appId: '0G401MURU8',
+        apiKey: '9155bc53c9ece019df8734db3c893206', // public API key
+        indexName: 'reworkd',
+        contextualSearch: true,
+        searchParameters: {},
+        searchPagePath: 'false',
+
+        // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+        replaceSearchResultPathname: {
+          from: '/docs/', // or as RegExp: /\/docs\//
+          to: '/',
+        },
       },
     }),
 };

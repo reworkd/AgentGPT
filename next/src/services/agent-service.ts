@@ -19,7 +19,6 @@ async function startGoalAgent(modelSettings: ModelSettings, goal: string, langua
     goal,
     language,
   });
-  console.log("Goal", goal, "Completion:" + (completion.text as string));
   return extractTasks(completion.text as string, []);
 }
 
@@ -34,7 +33,6 @@ async function analyzeTaskAgent(modelSettings: ModelSettings, goal: string, task
     task,
   });
 
-  console.log("Analysis completion:\n", completion.text);
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return JSON.parse(completion.text) as Analysis;
@@ -62,8 +60,6 @@ async function executeTaskAgent(
   task: string,
   analysis: Analysis
 ) {
-  console.log("Execution analysis:", analysis);
-
   if (analysis.action == "search" && process.env.SERP_API_KEY) {
     return await new Serper(modelSettings, goal)._call(analysis.arg);
   }

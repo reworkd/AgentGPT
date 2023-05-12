@@ -1,7 +1,4 @@
-import base64
-
 import openai
-import requests
 from langchain import WikipediaAPIWrapper
 
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
@@ -26,10 +23,4 @@ class Image(Tool):
         )
         image_url = response['data'][0]['url']
 
-        # Load the image data
-        image_data = requests.get(image_url).content
-
-        # Encode the image data as Base64
-        image_base64 = base64.b64encode(image_data).decode('utf-8')
-
-        return f"![{input_str}](data:image/jpeg;base64,{image_base64})"
+        return f"![{input_str}]({image_url})"

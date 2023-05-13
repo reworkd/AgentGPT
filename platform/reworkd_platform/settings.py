@@ -50,9 +50,6 @@ class Settings(BaseSettings):
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
 
-    # Frontend URL for CORS
-    reworkd_platform_frontend_url: str = "http://localhost:3000"
-
     # Variables for the database
     db_host: str = "localhost"
     db_port: int = 3306

@@ -126,7 +126,7 @@ Not yet but this is coming very soon! Keep an eye on our <a href="/roadmap">road
 
 <details>
 <summary>I'm having trouble setting up AgentGPT locally!</summary>
-Please visit our <a href="/setup">setup</a> guide to diagnose any issues. If you have a problem that is undocumented, please submit an <a href="https://github.com/reworkd/AgentGPT/issues">issue on GitHub</a>.
+Please visit our <a href="/development/setup">setup</a> guide to diagnose any issues. If you have a problem that is undocumented, please submit an <a href="https://github.com/reworkd/AgentGPT/issues">issue on GitHub</a>.
 </details>
 
 

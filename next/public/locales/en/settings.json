@@ -17,7 +17,7 @@
 	"LANG": "Language",
 	"LINK": "link",
 	"LOOP": "Loop",
-	"MUST_CONNECT_CREADIT_CARD": "must connect a credit card",
+	"MUST_CONNECT_CREDIT_CARD": "must connect a credit card",
 	"NOTE_API_KEY_USAGE": "This key is only used in the current browser session",
 	"NOTE_TO_GET_OPENAI_KEY": "NOTE: To get a key, sign up for an OpenAI account and visit the following",
 	"PAUSE": "Pause",

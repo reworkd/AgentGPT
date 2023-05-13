@@ -17,7 +17,7 @@
 	"LANG": "Kalba",
 	"LINK": "API rakto užsakymas",
 	"LOOP": "Ciklas",
-	"MUST_CONNECT_CREADIT_CARD": "privalote prijungti kreditinę kortelę",
+	"MUST_CONNECT_CREDIT_CARD": "privalote prijungti kreditinę kortelę",
 	"NOTE_API_KEY_USAGE": "Šis raktas naudojamas tik dabartinėje naršymo sesijoje.",
 	"NOTE_TO_GET_OPENAI_KEY": "PRIMINIMAS: Norint gauti API raktą, turite užsiregistruoti OpenAI paskyroje, kurią galite sukurti šiuo nuorodos adresu:",
 	"PAUSE": "Pauzė",

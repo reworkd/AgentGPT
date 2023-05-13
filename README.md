@@ -70,6 +70,7 @@ This platform is currently in beta, a full list of completed and planed features
 - ✅ **End-to-end typesafe API**: [tRPC](https://trpc.io/).
 
 ## 👨‍🚀 Getting Started
+✨ For the latest guide, visit our [Setup documentation](https://docs.reworkd.ai/development/setup)
 
 ### 🐳 Docker Setup
 

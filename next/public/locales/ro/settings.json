@@ -17,7 +17,7 @@
 	"LANG": "Limbă",
 	"LINK": "Solicitare cheie API",
 	"LOOP": "Bucle",
-	"MUST_CONNECT_CREADIT_CARD": "trebuie să conectați o carte de credit",
+	"MUST_CONNECT_CREDIT_CARD": "trebuie să conectați o carte de credit",
 	"NOTE_API_KEY_USAGE": "Această cheie este valabilă doar pentru sesiunea curentă a browser-ului.",
 	"NOTE_TO_GET_OPENAI_KEY": "NOTĂ: Pentru a obține o cheie API, trebuie să vă înregistrați pentru un cont OpenAI la următorul link:",
 	"PAUSE": "Pauză",

@@ -17,7 +17,7 @@
 	"LANG": "語言",
 	"LINK": "獲得API金鑰",
 	"LOOP": "循環",
-	"MUST_CONNECT_CREADIT_CARD": "連接信用卡",
+	"MUST_CONNECT_CREDIT_CARD": "連接信用卡",
 	"NOTE_API_KEY_USAGE": "此金鑰僅在當前瀏覽器對話中使用。",
 	"NOTE_TO_GET_OPENAI_KEY": "注意：如果要獲取金鑰，請註冊OpenAI帳號並瀏覽一下網址：",
 	"PAUSE": "暫停",

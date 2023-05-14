@@ -17,7 +17,7 @@
 	"LANG": "Dil",
 	"LINK": "bağlantı",
 	"LOOP": "Döngü",
-	"MUST_CONNECT_CREADIT_CARD": "kredi kartı bağlamalı",
+	"MUST_CONNECT_CREDIT_CARD": "kredi kartı bağlamalı",
 	"NOTE_API_KEY_USAGE": "Bu anahtar yalnızca geçerli tarayıcı oturumunda kullanılır",
 	"NOTE_TO_GET_OPENAI_KEY": "NOT: Bir anahtar almak için bir OpenAI hesabına kaydolun ve aşağıdakileri ziyaret edin.",
 	"PAUSE": "Duraklat",

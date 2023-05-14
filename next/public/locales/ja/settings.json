@@ -17,7 +17,7 @@
 	"LANG": "言語",
 	"LINK": "APIキーの申請",
 	"LOOP": "ループ",
-	"MUST_CONNECT_CREADIT_CARD": "クレジットカードを接続する必要があります",
+	"MUST_CONNECT_CREDIT_CARD": "クレジットカードを接続する必要があります",
 	"NOTE_API_KEY_USAGE": "このキーは現在のブラウザセッションでのみ使用されます。",
 	"NOTE_TO_GET_OPENAI_KEY": "注意：APIキーを取得するには、次のリンクでOpenAIアカウントに登録する必要があります。",
 	"PAUSE": "一時停止",

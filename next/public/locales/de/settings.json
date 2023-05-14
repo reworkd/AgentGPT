@@ -17,7 +17,7 @@
 	"LANG": "Sprache",
 	"LINK": "API-Schlüssel beantragen",
 	"LOOP": "Schleife",
-	"MUST_CONNECT_CREADIT_CARD": "müssen Sie eine Kreditkarte verbinden",
+	"MUST_CONNECT_CREDIT_CARD": "müssen Sie eine Kreditkarte verbinden",
 	"NOTE_API_KEY_USAGE": "Dieser Schlüssel wird nur in der aktuellen Browsersitzung verwendet.",
 	"NOTE_TO_GET_OPENAI_KEY": "HINWEIS: Um den API-Schlüssel zu erhalten, müssen Sie ein OpenAI-Konto registrieren, das Sie unter dem folgenden Link tun können:",
 	"PAUSE": "Pause",

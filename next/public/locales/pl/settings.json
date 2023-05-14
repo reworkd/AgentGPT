@@ -17,7 +17,7 @@
 	"LANG": "Język",
 	"LINK": "Zażądaj klucza API",
 	"LOOP": "Pętla",
-	"MUST_CONNECT_CREADIT_CARD": "musisz połączyć kartę kredytową",
+	"MUST_CONNECT_CREDIT_CARD": "musisz połączyć kartę kredytową",
 	"NOTE_API_KEY_USAGE": "Ten klucz jest używany tylko w bieżącej sesji przeglądarki.",
 	"NOTE_TO_GET_OPENAI_KEY": "UWAGA: Aby uzyskać klucz API, musisz zarejestrować konto OpenAI, co możesz zrobić pod tym linkiem:",
 	"PAUSE": "Pauza",

@@ -17,7 +17,7 @@
 	"LANG": "Taal",
 	"LINK": "API-sleutel aanvragen",
 	"LOOP": "Lus",
-	"MUST_CONNECT_CREADIT_CARD": "moet je een creditcard koppelen",
+	"MUST_CONNECT_CREDIT_CARD": "moet je een creditcard koppelen",
 	"NOTE_API_KEY_USAGE": "Deze sleutel wordt alleen gebruikt tijdens de huidige browsersessie.",
 	"NOTE_TO_GET_OPENAI_KEY": "OPMERKING: Om een ​​API-sleutel te krijgen, moet u een OpenAI-account registreren op de volgende link:",
 	"PAUSE": "Pauzeren",

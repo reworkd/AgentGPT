@@ -254,9 +254,7 @@ class AutonomousAgent {
 
   private async post<T>(url: string, data: RequestBody) {
     try {
-      const res = (await axios.post(url, data)).data as T;
-      console.log(url, res);
-      return res;
+      return (await axios.post(url, data)).data as T;
     } catch (e) {
       this.shutdown();
 

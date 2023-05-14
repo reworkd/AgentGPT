@@ -19,7 +19,9 @@ async function startGoalAgent(modelSettings: ModelSettings, goal: string, langua
     goal,
     language,
   });
-  return extractTasks(completion.text as string, []);
+  return {
+    newTasks: extractTasks(completion.text as string, []),
+  }
 }
 
 async function analyzeTaskAgent(modelSettings: ModelSettings, goal: string, task: string) {
@@ -61,7 +63,7 @@ async function executeTaskAgent(
   analysis: Analysis
 ) {
   if (analysis.action == "search" && process.env.SERP_API_KEY) {
-    return await new Serper(modelSettings, goal)._call(analysis.arg);
+    return {response: await new Serper(modelSettings, goal)._call(analysis.arg)};
   }
 
   const completion = await new LLMChain({
@@ -75,12 +77,12 @@ async function executeTaskAgent(
 
   // For local development when no SERP API Key provided
   if (analysis.action == "search" && !process.env.SERP_API_KEY) {
-    return `\`ERROR: Failed to search as no SERP_API_KEY is provided in ENV.\` \n\n${
+    return {response: `\`ERROR: Failed to search as no SERP_API_KEY is provided in ENV.\` \n\n${
       completion.text as string
-    }`;
+    }`};
   }
 
-  return completion.text as string;
+  return { response: completion.text as string };
 }
 
 async function createTasksAgent(
@@ -103,7 +105,9 @@ async function createTasksAgent(
     result,
   });
 
-  return extractTasks(completion.text as string, completedTasks || []);
+  return {
+    newTasks: extractTasks(completion.text as string, completedTasks || [])
+  };
 }
 
 interface AgentService {
@@ -111,7 +115,7 @@ interface AgentService {
     modelSettings: ModelSettings,
     goal: string,
     language: string
-  ) => Promise<string[]>;
+  ) => Promise<{newTasks: string[]}>;
   analyzeTaskAgent: (modelSettings: ModelSettings, goal: string, task: string) => Promise<Analysis>;
   executeTaskAgent: (
     modelSettings: ModelSettings,
@@ -119,7 +123,7 @@ interface AgentService {
     language: string,
     task: string,
     analysis: Analysis
-  ) => Promise<string>;
+  ) => Promise<{ response: string }>;
   createTasksAgent: (
     modelSettings: ModelSettings,
     goal: string,
@@ -128,7 +132,7 @@ interface AgentService {
     lastTask: string,
     result: string,
     completedTasks: string[] | undefined
-  ) => Promise<string[]>;
+  ) => Promise<{ newTasks: string[]}>;
 }
 
 const OpenAIAgentService: AgentService = {
@@ -140,7 +144,9 @@ const OpenAIAgentService: AgentService = {
 
 const MockAgentService: AgentService = {
   startGoalAgent: async (modelSettings, goal, language) => {
-    return await new Promise((resolve) => resolve(["Task 1"]));
+    return await new Promise((resolve) => resolve({
+      newTasks: ["Task 1"]
+    }));
   },
 
   createTasksAgent: async (
@@ -152,7 +158,7 @@ const MockAgentService: AgentService = {
     result: string,
     completedTasks: string[] | undefined
   ) => {
-    return await new Promise((resolve) => resolve(["Task 4"]));
+    return await new Promise((resolve) => resolve({ newTasks: ["Task 4"]}));
   },
 
   analyzeTaskAgent: async (modelSettings: ModelSettings, goal: string, task: string) => {
@@ -171,7 +177,7 @@ const MockAgentService: AgentService = {
     task: string,
     analysis: Analysis
   ) => {
-    return await new Promise((resolve) => resolve("Result: " + task));
+    return await new Promise((resolve) => resolve({ response: "Result: " + task }));
   },
 };
 

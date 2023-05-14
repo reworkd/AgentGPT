@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
@@ -30,12 +30,12 @@ class NewTasksResponse(BaseModel):
 
 
 @router.post("/start")
-async def start(request_body: AgentRequestBody) -> NewTasksResponse:
+async def start(res: Request) -> NewTasksResponse:
+    data = AgentRequestBody.parse_obj(await res.json())
+
     try:
         new_tasks = await get_agent_service().start_goal_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.language,
+            data.modelSettings, data.goal, data.language
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:
@@ -46,12 +46,14 @@ async def start(request_body: AgentRequestBody) -> NewTasksResponse:
 
 
 @router.post("/analyze")
-async def analyze_task(request_body: AgentRequestBody) -> Analysis:
+async def analyze_task(res: Request) -> Analysis:
+    data = AgentRequestBody.parse_obj(await res.json())
+
     try:
         return await get_agent_service().analyze_task_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.task,
+            data.modelSettings,
+            data.goal,
+            data.task,
         )
     except Exception as error:
         raise HTTPException(
@@ -76,14 +78,16 @@ class CompletionResponse(BaseModel):
 
 
 @router.post("/execute")
-async def execute_task(request_body: AgentRequestBody) -> CompletionResponse:
+async def execute_task(res: Request) -> CompletionResponse:
+    data = AgentRequestBody.parse_obj(json_)
+
     try:
         response = await get_agent_service().execute_task_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.language,
-            request_body.task,
-            request_body.analysis,
+            data.modelSettings,
+            data.goal,
+            data.language,
+            data.task,
+            data.analysis,
         )
         return CompletionResponse(response=response)
     except Exception as error:
@@ -94,16 +98,18 @@ async def execute_task(request_body: AgentRequestBody) -> CompletionResponse:
 
 
 @router.post("/create")
-async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
+async def create_tasks(res: Request) -> NewTasksResponse:
+    data = AgentRequestBody.parse_obj(json_)
+
     try:
         new_tasks = await get_agent_service().create_tasks_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.language,
-            request_body.tasks,
-            request_body.lastTask,
-            request_body.result,
-            request_body.completedTasks,
+            data.modelSettings,
+            data.goal,
+            data.language,
+            data.tasks,
+            data.lastTask,
+            data.result,
+            data.completedTasks,
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:

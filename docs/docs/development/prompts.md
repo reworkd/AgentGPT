@@ -10,7 +10,8 @@ of its prompts.
 
 ## Getting started with prompting
 
-- [Learn prompting](https://learnprompting.org/)
+- [Learn prompting docs](https://learnprompting.org/)
+- [Prompt engineering guide](https://www.promptingguide.ai/techniques/consistency)
 - [Prompt engineering for developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/)
 
 ## Key terms
@@ -38,5 +39,5 @@ something similar to how BabyAGI operates.
 
 ### ReAct
 
-ReAct stands for reasoning + action and is a flow for getting an agent to iteratively solve a problem. More docs coming
-soon!
+ReAct stands for reasoning + action. It is a prompting technique that interleaves both reasoning and action generation
+into a single output, allowing the model to better synergize thoughts with actions.

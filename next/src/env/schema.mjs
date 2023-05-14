@@ -1,5 +1,5 @@
 // @ts-check
-import { z } from "zod";
+import {z} from "zod";
 
 const requiredForProduction = () =>
   process.env.NODE_ENV === "production"
@@ -36,6 +36,8 @@ export const serverSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().min(1).trim().optional(),
   DISCORD_CLIENT_ID: z.string().min(1).trim().optional(),
   DISCORD_CLIENT_SECRET: z.string().min(1).trim().optional(),
+
+  PLATFORM_URL: z.string().url().optional(),
 });
 
 /**
@@ -55,6 +57,8 @@ export const serverEnv = {
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+
+  PLATFORM_URL: process.env.PLATFORM_URL,
 };
 
 /**

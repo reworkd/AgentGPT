@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("dotenv").config();
-const $ = require("jquery");
 const path = require("path");
 const fs = require("fs");
 const { Configuration, OpenAIApi } = require("openai");
@@ -13,16 +13,14 @@ const ROOT_DIR = __dirname;
 const LOCALES_DIR = path.join(ROOT_DIR, "public", "locales");
 const TRANSLATION_DIR = path.join(ROOT_DIR, "public", "locales", "translation");
 
-const TRANSLATION_SERVICE = process.env.TRANSLATION_SERVICE || "google";
-const TANSLATION_METHOD = process.env.TANSLATION_METHOD || "chat";
-
 const REGEX = /translate\(['"`](.*?)['"`](,\s*['"`](.*?)['"`])?\)/g;
 
 const collectAndTranslate = async (
   dirPath,
-  sourceLanguageCode = "en",
+  sourceLanguageCode,
   targetLanguageCode,
-  translationService
+  translationService,
+  translationMethod
 ) => {
   const files = fs.readdirSync(dirPath);
   files.forEach(async (file) => {
@@ -32,7 +30,8 @@ const collectAndTranslate = async (
         filePath,
         sourceLanguageCode,
         targetLanguageCode,
-        translationService
+        translationService,
+        translationMethod
       );
     } else {
       const extname = path.extname(filePath);
@@ -63,16 +62,16 @@ const collectAndTranslate = async (
                 sourceTranslationValue
               );
               translations[translationKey] = translatedValue;
-              console.log(translations[translationKey]);
+              console.log(translationKey + ": " + translations[translationKey]);
             }
             if (translationService == "openai") {
               const TRANSLATE_PROMPT = `Translate the \`${sourceTranslationValue}\` text using the \`${targetLanguageCode}\` language code then respond only with the translated text.`;
-              if (TANSLATION_METHOD === "text") {
+              if (translationMethod == "text") {
                 translations[translationKey] = await translateViaTextCompletion(TRANSLATE_PROMPT);
               } else {
                 translations[translationKey] = await translateViaChatCompletion(TRANSLATE_PROMPT);
               }
-              console.log(translations[translationKey]);
+              console.log(translationKey + ": " + translations[translationKey]);
             }
             fs.writeFileSync(targetTranslationFile, JSON.stringify(translations, null, 2));
           }
@@ -82,7 +81,116 @@ const collectAndTranslate = async (
   });
 };
 
-async function GoogleTranslate(sourceLanguageCode, targetLanguageCode, sourceTranslationValue) {
+const onlyCollect = async () => {};
+
+const onlyTranslate = async () => {};
+
+const { ArgumentParser } = require("argparse");
+const parser = new ArgumentParser();
+parser.add_argument("-s", "--sourceLanguage", {
+  help: "source language code",
+  default: process.env.TRANSLATION_SOURCE_LANGUAGE || "",
+});
+parser.add_argument("-t", "--targetLanguage", { help: "target language code" });
+parser.add_argument("-service", "--translation-service", {
+  help: "translation service (e.g., google, openai)",
+  default: process.env.TRANSLATION_SERVICE || "google",
+});
+parser.add_argument("-method", "--translation-method", {
+  help: "translation method (e.g., chat, machine)",
+  default: process.env.TRANSLATION_METHOD || "chat",
+});
+const args = parser.parse_args();
+
+const sourceLanguageCode = args.source;
+const targetLanguageCode = args.target;
+const translationService = args.translation_service;
+const translationMethod = args.translation_method;
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+rl.question(
+  "Select a mode (e.g., CollectAndTranslate (default), OnlyCollect, OnlyTranslate): ",
+  (mode) => {
+    if (mode === "CollectAndTranslate") {
+      CollectAndTranslateInformationGathering();
+    } else if (mode === "OnlyCollect") {
+    } else if (mode === "OnlyTranslate") {
+    } else {
+      CollectAndTranslateInformationGathering();
+    }
+  }
+);
+
+function CollectAndTranslateInformationGathering() {
+  rl.question(
+    "Enter the source language's code (Default: en): ",
+    (sourceLanguageCode = sourceLanguageCode) => {
+      rl.question(
+        "Enter the target language's code (e.g., fr): ",
+        (targetLanguageCode = targetLanguageCode) => {
+          if (!fs.existsSync(TRANSLATION_DIR)) {
+            fs.mkdirSync(TRANSLATION_DIR, { recursive: true });
+          }
+          rl.question(
+            "Choose a translation service (e.g., google (default), openai): ",
+            async (service) => {
+              if (service === "openai" && process.env.OPENAI_API_KEY === "") {
+                return "Please set the OPENAI_API_KEY environment variable to run this script";
+              } else if (service === "openai") {
+                rl.question("Choose a method (e.g., chat (default), text): ", async (method) => {
+                  await startCollectAndTranslate(
+                    sourceLanguageCode,
+                    targetLanguageCode,
+                    service,
+                    method
+                  );
+                  rl.close();
+                });
+              } else {
+                await startCollectAndTranslate(
+                  sourceLanguageCode,
+                  targetLanguageCode,
+                  service,
+                  (method = null)
+                );
+                rl.close();
+              }
+            }
+          );
+        }
+      );
+    }
+  );
+}
+
+async function startCollectAndTranslate(sourceLanguageCode, targetLanguageCode, service, method) {
+  await collectAndTranslate(
+    ROOT_DIR,
+    sourceLanguageCode,
+    targetLanguageCode,
+    service || translationService,
+    method || translationMethod
+  );
+}
+
+async function startOnlyCollect() {
+  await onlyCollect(ROOT_DIR, rewrite || true, removeUnused || true);
+}
+
+async function startOnlyTranslate(sourceLanguageCode, targetLanguageCode, service, method) {
+  await onlyTranslate(
+    sourceLanguageCode,
+    targetLanguageCode,
+    service || translationService,
+    method || translationMethod
+  );
+}
+
+const GoogleTranslate = async (sourceLanguageCode, targetLanguageCode, sourceTranslationValue) => {
   const params = new URLSearchParams({
     client: "gtx",
     sl: sourceLanguageCode,
@@ -102,18 +210,18 @@ async function GoogleTranslate(sourceLanguageCode, targetLanguageCode, sourceTra
     .catch((error) => console.log(error));
 
   return translationResult;
-}
+};
 
-async function translateViaChatCompletion(TRANSLATE_PROMPT) {
+const translateViaChatCompletion = async (TRANSLATE_PROMPT) => {
   const translationResult = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     temperature: 1,
     messages: [{ role: "user", content: TRANSLATE_PROMPT }],
   });
   return translationResult.data.choices[0].message.content.replace(/^['",`]+|['",`]+$/g, "");
-}
+};
 
-async function translateViaTextCompletion(TRANSLATE_PROMPT) {
+const translateViaTextCompletion = async (TRANSLATE_PROMPT) => {
   const translationResult = await openai.createCompletion({
     model: "text-davinci-003",
     prompt: TRANSLATE_PROMPT,
@@ -124,32 +232,4 @@ async function translateViaTextCompletion(TRANSLATE_PROMPT) {
     presence_penalty: 0,
   });
   return translationResult.data.choices[0].text.split("\n\n")[1].replace(/^['",`]+|['",`]+$/g, "");
-}
-
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-rl.question("Enter the source language code (Default: en): ", (sourceLanguageCode) => {
-  rl.question("Enter the target language code (e.g., fr): ", async (targetLanguageCode) => {
-    rl.question(
-      "Choose a translation service (e.g., google, openai (Default: google)): ",
-      async (service) => {
-        if (service === "openai" && process.env.OPENAI_API_KEY === "") {
-          return "Please set the OPENAI_API_KEY environment variable to run this script";
-        }
-        if (!fs.existsSync(TRANSLATION_DIR)) {
-          fs.mkdirSync(TRANSLATION_DIR, { recursive: true });
-        }
-        await collectAndTranslate(
-          ROOT_DIR,
-          sourceLanguageCode,
-          targetLanguageCode,
-          service || TRANSLATION_SERVICE
-        );
-        rl.close();
-      }
-    );
-  });
-});
+};

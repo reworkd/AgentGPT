@@ -68,6 +68,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/argparse": "^2.0.10",
     "@types/micro-cors": "^0.1.2",
     "@types/node": "^18.11.18",
     "@types/prettier": "^2.7.2",

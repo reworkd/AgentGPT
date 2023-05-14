@@ -81,9 +81,38 @@ const collectAndTranslate = async (
   });
 };
 
-const onlyCollect = async () => {};
+const onlyCollect = async (dirPath) => {
+  const files = fs.readdirSync(dirPath);
+  files.forEach(async (file) => {
+    const filePath = path.join(dirPath, file);
+    if (fs.statSync(filePath).isDirectory() && !filePath.includes("node_modules")) {
+      await onlyCollect(filePath);
+    } else {
+      const extname = path.extname(filePath);
+      if (extname === ".ts" || extname === ".tsx" || extname === ".js" || extname === ".jsx") {
+        const content = fs.readFileSync(filePath, "utf-8");
+        const regex = REGEX;
+        let match;
+        while ((match = regex.exec(content)) !== null) {
+          const translationKey = match[1];
+          const namespace = match[3] || "common";
+          const targetTranslationFile = path.join(TRANSLATION_DIR, `${namespace}.json`);
+          let translations = {};
+          if (fs.existsSync(targetTranslationFile)) {
+            translations = JSON.parse(fs.readFileSync(targetTranslationFile, "utf-8"));
+          }
+          if (!translations[translationKey]) {
+            translations[translationKey] = translationKey;
+            fs.writeFileSync(targetTranslationFile, JSON.stringify(translations, null, 2));
+            console.log(translationKey + " added to " + targetTranslationFile);
+          }
+        }
+      }
+    }
+  });
+};
 
-const onlyTranslate = async () => {};
+const onlyTranslate = async (dirPath, sourceLanguage, targetLanguage) => {};
 
 const { ArgumentParser } = require("argparse");
 const parser = new ArgumentParser();
@@ -112,12 +141,15 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+
 rl.question(
   "Select a mode (e.g., CollectAndTranslate (default), OnlyCollect, OnlyTranslate): ",
-  (mode) => {
+  async (mode) => {
     if (mode === "CollectAndTranslate") {
       CollectAndTranslateInformationGathering();
     } else if (mode === "OnlyCollect") {
+      await startOnlyCollect();
+      rl.close();
     } else if (mode === "OnlyTranslate") {
     } else {
       CollectAndTranslateInformationGathering();
@@ -178,7 +210,10 @@ async function startCollectAndTranslate(sourceLanguageCode, targetLanguageCode, 
 }
 
 async function startOnlyCollect() {
-  await onlyCollect(ROOT_DIR, rewrite || true, removeUnused || true);
+  if (!fs.existsSync(TRANSLATION_DIR)) {
+    fs.mkdirSync(TRANSLATION_DIR, { recursive: true });
+  }
+  await onlyCollect(ROOT_DIR);
 }
 
 async function startOnlyTranslate(sourceLanguageCode, targetLanguageCode, service, method) {

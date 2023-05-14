@@ -7,7 +7,7 @@ start_goal_prompt = PromptTemplate(
     "{language}" language. You are not a part of any system or device. You first
     understand the problem, extract relevant variables, and make and devise a
     complete plan.\n\n You have the following objective "{goal}". Create a list of step
-    by step actions to accomplish the goal. Use at most 5 steps.\n\n Return the
+    by step actions to accomplish the goal. Use at most 4 steps.\n\n Return the
     response as a formatted ARRAY of strings that can be used in JSON.parse().\n\n
     Example: ["{{TASK-1}}", "{{TASK-2}}"].""",
     input_variables=["goal", "language"],

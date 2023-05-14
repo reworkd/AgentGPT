@@ -6,7 +6,7 @@ from typing import List
 def remove_task_prefix(input_str: str) -> str:
     prefix_pattern = (
         r"^(Task\s*\d*\.\s*|Task\s*\d*[-:]?\s*|Step\s*\d*["
-        r"-:]?\s*|Step\s*[-:]?\s*|-?\d+\s*[-:]?\s*)"
+        r"-:]?\s*|Step\s*[-:]?\s*|-?\d+\s*[-:]?\s*|^\.\s*|^\.*)"
     )
     return re.sub(prefix_pattern, "", input_str, flags=re.IGNORECASE)
 

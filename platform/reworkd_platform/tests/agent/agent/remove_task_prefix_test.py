@@ -59,3 +59,15 @@ def test_removes_step_colon_no_space() -> None:
     task_input = "Step:This is a sample task"
     output = remove_task_prefix(task_input)
     assert output == "This is a sample task"
+
+
+def test_removes_leading_dot_space() -> None:
+    task_input = ". This is a sample task"
+    output = remove_task_prefix(task_input)
+    assert output == "This is a sample task"
+
+
+def test_removes_leading_dot() -> None:
+    task_input = ".This is a sample task"
+    output = remove_task_prefix(task_input)
+    assert output == "This is a sample task"

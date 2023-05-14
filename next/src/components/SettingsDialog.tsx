@@ -106,7 +106,7 @@ export const SettingsDialog: React.FC<{
         }}
         attributes={{
           min: 1,
-          max: 100,
+          max: 25,
           step: 1,
         }}
       />
@@ -161,8 +161,8 @@ export const SettingsDialog: React.FC<{
         <a className="link" href="https://platform.openai.com/account/api-keys">
           {`${t("HERE", { ns: "settings" })}`}
         </a>
-        . {`${t("ENSURE_YOU_HAVE_FREE_CREDITS", { ns: "settings" })}`}{" "}
-        <a className="link" href="https://platform.openai.com/account/billing/overview">
+        .{" "}
+        <a className="link font-bold" href="https://platform.openai.com/account/billing/overview">
           {`${t("MUST_CONNECT_CREDIT_CARD", { ns: "settings" })}`}
         </a>
         .

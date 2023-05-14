@@ -5,7 +5,6 @@
 	"AUTOMATIC_MODE_DESCRIPTION": "(Numatytasis): Agentas automatiškai vykdo kiekvieną užduotį.",
 	"CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Valdo maksimalų žetonų skaičių, naudojamų kiekviename API užklausime (didelis skaičius reiškia išsamesnius atsakymus, bet didesnes išlaidas).",
 	"CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Valdo maksimalų leidžiamų ciklų skaičių (didelis skaičius reiškia daugiau API užklausų).",
-	"ENSURE_YOU_HAVE_FREE_CREDITS": "Įsitikinkite, kad jūsų sąskaitoje yra laisvų kreditų, kitaip",
 	"GET_YOUR_OWN_APIKEY": "Gaukite savo OpenAI API raktą",
 	"HERE": "čia",
 	"HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Čia galite pridėti savo OpenAI API raktą. Tai reiškia, kad turėsite sumokėti už savo OpenAI žetonus, tačiau gausite didesnę prieigą prie ChatGPT! Be to, galite pasirinkti bet kurią OpenAI modelį.",

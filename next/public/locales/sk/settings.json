@@ -5,7 +5,6 @@
 	"AUTOMATIC_MODE_DESCRIPTION": "(Predvolené): Agent automaticky vykonáva každú úlohu.",
 	"CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Ovládajte maximálny počet tokenov použitých v každom volaní API (vyššia hodnota poskytuje podrobnejšie odpovede, ale je drahšia).",
 	"CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Ovládajte maximálny počet slučiek, ktoré spustí agent (vyššia hodnota znamená viac volaní API).",
-	"ENSURE_YOU_HAVE_FREE_CREDITS": "Uistite sa, že máte k dispozícii voľné kredity na svojom účte, inak musíte",
 	"GET_YOUR_OWN_APIKEY": "Získajte svoj vlastný OpenAI API kľúč",
 	"HERE": "tu",
 	"HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Tu môžete pridať svoj OpenAI API kľúč. To znamená, že musíte platiť za použitie vlastného OpenAI tokenu, ale získate väčší prístup k ChatGPT! Okrem toho môžete vybrať akýkoľvek model ponúkaný OpenAI.",

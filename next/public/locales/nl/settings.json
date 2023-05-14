@@ -5,7 +5,6 @@
 	"AUTOMATIC_MODE_DESCRIPTION": "(Standaard): Agent voert automatisch elke taak uit.",
 	"CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Regelt het maximale aantal tokens dat in elke API-oproep wordt gebruikt (een hogere waarde resulteert in gedetailleerdere antwoorden, maar is duurder).",
 	"CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Regelt het maximale aantal lussen dat de agent kan uitvoeren (een hogere waarde resulteert in meer API-oproepen).",
-	"ENSURE_YOU_HAVE_FREE_CREDITS": "Zorg ervoor dat je gratis credits beschikbaar hebt op je account, anders",
 	"GET_YOUR_OWN_APIKEY": "Vraag je eigen OpenAI API-sleutel aan",
 	"HERE": "hier",
 	"HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Hier kunt u uw OpenAI API-sleutel toevoegen. Dit betekent dat u moet betalen voor uw eigen OpenAI-tokengebruik, maar u krijgt meer toegang tot ChatGPT! Bovendien kunt u elk model kiezen dat door OpenAI wordt aangeboden.",

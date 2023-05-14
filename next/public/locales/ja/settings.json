@@ -5,7 +5,6 @@
 	"AUTOMATIC_MODE_DESCRIPTION": "（デフォルト）：エージェントはすべてのタスクを自動的に実行します。",
 	"CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "各API呼び出しで使用されるトークンの最大数を制御します（より高い値は詳細な応答を生成しますが、コストがかかります）。",
 	"CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "エージェントが実行するループの最大数を制御します（高い値はより多くのAPI呼び出しを生成します）。",
-	"ENSURE_YOU_HAVE_FREE_CREDITS": "アカウントに無料のクレジットがあることを確認してください。さもなければ、",
 	"GET_YOUR_OWN_APIKEY": "自分自身のOpenAI APIキーを取得してください",
 	"HERE": "こちら",
 	"HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "ここでOpenAI APIキーを追加できます。これにより、独自のOpenAIトークンを使用するために支払いをする必要がありますが、ChatGPTにより大きなアクセス権が与えられます！また、OpenAIが提供する任意のモデルを選択できます。",

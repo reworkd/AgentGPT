@@ -5,7 +5,6 @@
 	"AUTOMATIC_MODE_DESCRIPTION": "(Padrão): O agente executa automaticamente todas as tarefas.",
 	"CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Controla o número máximo de tokens usados em cada chamada de API (valores mais altos resultam em respostas mais detalhadas, mas também mais caras).",
 	"CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Controla o número máximo de loops executados pelo agente (valores mais altos resultam em mais chamadas de API).",
-	"ENSURE_YOU_HAVE_FREE_CREDITS": "Certifique-se de ter créditos disponíveis em sua conta, caso contrário",
 	"GET_YOUR_OWN_APIKEY": "Obtenha sua própria chave de API da OpenAI",
 	"HERE": "aqui",
 	"HERE_YOU_CAN_ADD_YOUR_OPENAI_API_KEY": "Aqui você pode adicionar sua chave de API da OpenAI. Isso significa que você terá que pagar pelo uso de seu próprio token da OpenAI, mas terá acesso mais amplo ao ChatGPT! Além disso, você pode escolher qualquer modelo oferecido pela OpenAI.",

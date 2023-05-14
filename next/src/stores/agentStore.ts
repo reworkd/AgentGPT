@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../components/AutonomousAgent";
 import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
 import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
+import { env } from "../env/client.mjs";
 
 const resetters: (() => void)[] = [];
 
@@ -31,7 +32,7 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
-    isWebSearchEnabled: false,
+    isWebSearchEnabled: env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
     agentMode: AUTOMATIC_MODE,
     updateAgentMode: (agentMode) => {
       set(() => ({

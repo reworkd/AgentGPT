@@ -1,12 +1,7 @@
 import axios from "axios";
-import type {ModelSettings} from "../utils/types";
-import type {Analysis} from "../services/agent-service";
-import AgentService from "../services/agent-service";
-import {
-  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-  DEFAULT_MAX_LOOPS_FREE,
-  DEFAULT_MAX_LOOPS_PAID,
-} from "../utils/constants";
+import type { ModelSettings } from "../utils/types";
+import type { Analysis } from "../services/agent-service";
+import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import type { Session } from "next-auth";
 import { env } from "../env/client.mjs";
 import { v1, v4 } from "uuid";
@@ -26,8 +21,8 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../types/agentTypes";
-import {useAgentStore, useMessageStore} from "../stores";
-import {translate} from "../utils/translations";
+import { useAgentStore, useMessageStore } from "../stores";
+import { translate } from "../utils/translations";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -214,13 +209,6 @@ class AutonomousAgent {
   }
 
   async getInitialTasks(): Promise<string[]> {
-    if (this.shouldRunClientSide()) {
-      if (!env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED) {
-        await testConnection(this.modelSettings);
-      }
-      return await AgentService.startGoalAgent(this.modelSettings, this.goal, this.language);
-    }
-
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -233,18 +221,6 @@ class AutonomousAgent {
 
   async getAdditionalTasks(currentTask: string, result: string): Promise<string[]> {
     const taskValues = this.getRemainingTasks().map((task) => task.value);
-
-    if (this.shouldRunClientSide()) {
-      return await AgentService.createTasksAgent(
-        this.modelSettings,
-        this.goal,
-        this.language,
-        taskValues,
-        currentTask,
-        result,
-        this.completedTasks
-      );
-    }
 
     const data = {
       modelSettings: this.modelSettings,
@@ -262,10 +238,6 @@ class AutonomousAgent {
   }
 
   async analyzeTask(task: string): Promise<Analysis> {
-    if (this.shouldRunClientSide()) {
-      return await AgentService.analyzeTaskAgent(this.modelSettings, this.goal, task);
-    }
-
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -278,17 +250,6 @@ class AutonomousAgent {
   }
 
   async executeTask(task: string, analysis: Analysis): Promise<string> {
-    // Run search server side since clients won't have a key
-    if (this.shouldRunClientSide() && analysis.action !== "search") {
-      return await AgentService.executeTaskAgent(
-        this.modelSettings,
-        this.goal,
-        this.language,
-        task,
-        analysis
-      );
-    }
-
     const data = {
       modelSettings: this.modelSettings,
       goal: this.goal,
@@ -313,10 +274,6 @@ class AutonomousAgent {
 
       throw e;
     }
-  }
-
-  private shouldRunClientSide() {
-    return !!this.modelSettings.customApiKey;
   }
 
   updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {

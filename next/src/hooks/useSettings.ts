@@ -42,11 +42,12 @@ const loadSettings = () => {
     return { ...DEFAULT_SETTINGS };
   }
 
-  if (
-    settings.customApiKey &&
-    settings.customMaxLoops === DEFAULT_MAX_LOOPS_FREE
-  ) {
+  if (settings.customApiKey && settings.customMaxLoops === DEFAULT_MAX_LOOPS_FREE) {
     settings.customMaxLoops = DEFAULT_MAX_LOOPS_CUSTOM_API_KEY;
+  }
+
+  if (settings.customMaxLoops && settings.customMaxLoops > 25) {
+    settings.customMaxLoops = 25;
   }
 
   return settings;

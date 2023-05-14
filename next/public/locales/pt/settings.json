@@ -17,7 +17,7 @@
 	"LANG": "Idioma",
 	"LINK": "Solicitar chave de API",
 	"LOOP": "Laço",
-	"MUST_CONNECT_CREADIT_CARD": "deve conectar um cartão de crédito",
+	"MUST_CONNECT_CREDIT_CARD": "deve conectar um cartão de crédito",
 	"NOTE_API_KEY_USAGE": "Esta chave só será usada nesta sessão do navegador.",
 	"NOTE_TO_GET_OPENAI_KEY": "OBSERVAÇÃO: Para obter uma chave de API, você precisa se registrar em uma conta da OpenAI, o que pode ser feito no seguinte link:",
 	"PAUSE": "Pausar",

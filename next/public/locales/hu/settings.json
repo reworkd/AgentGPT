@@ -17,7 +17,7 @@
 	"LANG": "Nyelv",
 	"LINK": "API kulcs igénylése",
 	"LOOP": "Ciklus",
-	"MUST_CONNECT_CREADIT_CARD": "hozzá kell adnia egy hitelkártyát",
+	"MUST_CONNECT_CREDIT_CARD": "hozzá kell adnia egy hitelkártyát",
 	"NOTE_API_KEY_USAGE": "Ez a kulcs csak az aktuális böngészői munkamenetben használatos.",
 	"NOTE_TO_GET_OPENAI_KEY": "MEGJEGYZÉS: Az API-kulcs megszerzéséhez regisztrálnia kell egy OpenAI-fiókot, amit a következő hivatkozáson tehet meg:",
 	"PAUSE": "Szünet",

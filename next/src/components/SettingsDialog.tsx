@@ -163,7 +163,7 @@ export const SettingsDialog: React.FC<{
         </a>
         . {`${t("ENSURE_YOU_HAVE_FREE_CREDITS", { ns: "settings" })}`}{" "}
         <a className="link" href="https://platform.openai.com/account/billing/overview">
-          {`${t("MUST_CONNECT_CREADIT_CARD", { ns: "settings" })}`}
+          {`${t("MUST_CONNECT_CREDIT_CARD", { ns: "settings" })}`}
         </a>
         .
       </p>

@@ -17,7 +17,7 @@
 	"LANG": "Jazyk",
 	"LINK": "Získanie API kľúča",
 	"LOOP": "Smyčka",
-	"MUST_CONNECT_CREADIT_CARD": "pripojiť kreditnú kartu",
+	"MUST_CONNECT_CREDIT_CARD": "pripojiť kreditnú kartu",
 	"NOTE_API_KEY_USAGE": "Tento kľúč sa použije iba počas aktuálnej relácie prehliadača.",
 	"NOTE_TO_GET_OPENAI_KEY": "POZNÁMKA: Na získanie API kľúča musíte zaregistrovať OpenAI účet, ktorý môžete urobiť na nasledujúcej adrese:",
 	"PAUSE": "Pozastaviť",

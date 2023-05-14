@@ -17,7 +17,7 @@
 	"LANG": "Jezik",
 	"LINK": "Zahtjev za API ključ",
 	"LOOP": "Petlja",
-	"MUST_CONNECT_CREADIT_CARD": "vous devez connecter une carte de crédit",
+	"MUST_CONNECT_CREDIT_CARD": "vous devez connecter une carte de crédit",
 	"NOTE_API_KEY_USAGE": "Ovaj ključ se koristi samo u trenutnoj sesiji preglednika.",
 	"NOTE_TO_GET_OPENAI_KEY": "NAPOMENA: Da biste dobili API ključ, morate se registrirati za OpenAI račun na sljedećoj poveznici:",
 	"PAUSE": "Pauza",

@@ -12,7 +12,8 @@
     "lint": "cross-env SKIP_ENV_VALIDATION=1 next lint",
     "start": "next start",
     "prepare": "cd .. && husky install next/.husky",
-    "test": "cross-env SKIP_ENV_VALIDATION=1 jest"
+    "test": "cross-env SKIP_ENV_VALIDATION=1 jest",
+    "translate": "node ./translate.cjs"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",

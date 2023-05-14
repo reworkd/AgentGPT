@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import type { RequestBody } from "../../../utils/interfaces";
 import AgentService, { DefaultAnalysis } from "../../../services/agent-service";
 import { serverError } from "../responses";
+import { withFallback } from "./apiUtils";
 
 export const config = {
   runtime: "edge",
@@ -10,22 +11,22 @@ export const config = {
 
 const handler = async (request: NextRequest) => {
   try {
-    const { modelSettings, goal, language, task, analysis } =
-      (await request.json()) as RequestBody;
+    const data = (await request.json()) as RequestBody;
+    const { modelSettings, goal, language, task, analysis } = data;
     if (task === undefined) {
       return;
     }
 
-    const response = await AgentService.executeTaskAgent(
-      modelSettings,
-      goal,
-      language,
-      task,
-      analysis || DefaultAnalysis
+    const response = await withFallback("execute", data, () =>
+      AgentService.executeTaskAgent(
+        modelSettings,
+        goal,
+        language,
+        task,
+        analysis || DefaultAnalysis
+      )
     );
-    return NextResponse.json({
-      response: response,
-    });
+    return NextResponse.json(response);
   } catch (e) {}
 
   return serverError();

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import type { RequestBody } from "../../../utils/interfaces";
 import AgentService from "../../../services/agent-service";
 import { serverError } from "../responses";
+import { withFallback } from "./apiUtils";
 
 export const config = {
   runtime: "edge",
@@ -10,9 +11,12 @@ export const config = {
 
 const handler = async (request: NextRequest) => {
   try {
-    const { modelSettings, goal, language } = (await request.json()) as RequestBody;
-    const newTasks = await AgentService.startGoalAgent(modelSettings, goal, language);
-    return NextResponse.json({ newTasks });
+    const body = (await request.json()) as RequestBody;
+    const { modelSettings, goal, language } = body;
+    const newTasks = await withFallback("start", body, () =>
+      AgentService.startGoalAgent(modelSettings, goal, language)
+    );
+    return NextResponse.json(newTasks);
   } catch (e) {}
 
   return serverError();

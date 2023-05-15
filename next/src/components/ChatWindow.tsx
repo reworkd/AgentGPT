@@ -113,8 +113,9 @@ const ChatWindow = ({
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
         className={clsx(
-          "mb-2 mr-2 ",
-          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") || "window-heights"
+          "flex flex-col gap-2 px-2",
+          fullscreen && "max-h-[75vh] flex-grow overflow-auto",
+          fullscreen || "window-heights"
         )}
         ref={scrollRef}
         onScroll={handleScroll}
@@ -149,18 +150,16 @@ const ChatWindow = ({
                 }}
               />
             </PopIn>
-            <PopIn delay={1.5}>
-              <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
-                <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
-                  Write some code to make a platformer game.
-                </ExampleAgentButton>
-                <ExampleAgentButton name="TravelGPT 🌴" setAgentRun={setAgentRun}>
-                  Plan a detailed trip to Hawaii.
-                </ExampleAgentButton>
-                <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
-                  Create a comprehensive report of the Nike company
-                </ExampleAgentButton>
-              </div>
+            <PopIn delay={1.5} className="flex flex-col justify-between gap-2 sm:flex-row">
+              <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
+                Write some code to make a platformer game.
+              </ExampleAgentButton>
+              <ExampleAgentButton name="TravelGPT 🌴" setAgentRun={setAgentRun}>
+                Plan a detailed trip to Hawaii.
+              </ExampleAgentButton>
+              <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
+                Create a comprehensive report of the Nike company
+              </ExampleAgentButton>
             </PopIn>
           </>
         )}
@@ -381,7 +380,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     <div
       className={`${getMessageContainerStyle(
         message
-      )} mx-2 my-1 rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base`}
+      )} rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:p-3 sm:text-base`}
     >
       {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space

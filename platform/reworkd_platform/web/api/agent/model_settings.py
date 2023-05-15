@@ -24,6 +24,8 @@ def get_server_side_key() -> str:
 
 GPT_35_TURBO = "gpt-3.5-turbo"
 
+openai.api_base = settings.openai_api_base
+
 
 def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
     _model_settings = model_settings

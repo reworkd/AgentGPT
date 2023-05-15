@@ -109,6 +109,11 @@ const ChatWindow = ({
         className,
         visibleOnMobile ? "flex" : "hidden"
       )}
+      style={{
+        boxShadow: "0px 6px 6px black, inset 0px 0px 6px #0003",
+        backgroundColor: "#18181b40",
+        backdropFilter: "blur(3px)",
+      }}
     >
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div

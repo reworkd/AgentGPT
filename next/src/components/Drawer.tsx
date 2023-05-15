@@ -19,13 +19,7 @@ import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import FadingHr from "./FadingHr";
 
-const Drawer = ({
-  showHelp,
-  showSettings,
-}: {
-  showHelp: () => void;
-  showSettings: () => void;
-}) => {
+const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings: () => void }) => {
   const [t] = useTranslation("drawer");
   const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
@@ -79,6 +73,11 @@ const Drawer = ({
           "z-30 m-0 flex h-screen w-72 flex-col justify-between bg-zinc-900 p-3 font-mono text-white shadow-3xl transition-all",
           "fixed top-0 "
         )}
+        style={{
+          boxShadow: "6px 0px 10px black",
+          backgroundColor: "#4b49496e",
+          backdropFilter: "blur(3px)",
+        }}
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
@@ -95,31 +94,25 @@ const Drawer = ({
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
             {userAgents.map((agent, index) => (
-                <DrawerItem
-                  key={index}
-                  icon={<FaRobot />}
-                  text={agent.name}
-                  className="w-full"
-                  onClick={() => void router.push(`/agent?id=${agent.id}`)}
-                />
-              )
-            )}
+              <DrawerItem
+                key={index}
+                icon={<FaRobot />}
+                text={agent.name}
+                className="w-full"
+                onClick={() => void router.push(`/agent?id=${agent.id}`)}
+              />
+            ))}
 
             {status === "unauthenticated" && (
               <div>
-                <a
-                  className="link"
-                  onClick={() => void signIn()}
-                >
+                <a className="link" onClick={() => void signIn()}>
                   {t("SIGN_IN")}
                 </a>{" "}
                 {t("SIGN_IN_NOTICE")}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
-              <div>
-                {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
-              </div>
+              <div>{t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}</div>
             )}
           </ul>
         </div>
@@ -127,20 +120,10 @@ const Drawer = ({
         <div className="flex flex-col gap-1">
           <FadingHr className="my-2" />
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
+          <DrawerItem icon={<FaQuestionCircle />} text={t("HELP_BUTTON")} onClick={showHelp} />
+          <DrawerItem icon={<FaHeart />} text={t("SUPPORT_BUTTON")} onClick={handleSupport} />
           <DrawerItem
-            icon={<FaQuestionCircle />}
-            text={t("HELP_BUTTON")}
-            onClick={showHelp}
-          />
-          <DrawerItem
-            icon={<FaHeart />}
-            text={t("SUPPORT_BUTTON")}
-            onClick={handleSupport}
-          />
-          <DrawerItem
-            icon={
-              <FaCog className="transition-transform group-hover:rotate-90" />
-            }
+            icon={<FaCog className="transition-transform group-hover:rotate-90" />}
             text={t("SETTINGS_BUTTON")}
             onClick={showSettings}
           />
@@ -243,9 +226,7 @@ const AuthItem: React.FC<{
   const [t] = useTranslation("drawer");
   const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const onClick = session?.user ? signOut : signIn;
-  const text = session?.user
-    ? t("SIGN_OUT")
-    : t("SIGN_IN");
+  const text = session?.user ? t("SIGN_OUT") : t("SIGN_IN");
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
 };

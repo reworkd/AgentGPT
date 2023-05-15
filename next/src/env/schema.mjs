@@ -60,7 +60,7 @@ export const serverEnv = {
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 
   PLATFORM_URL: process.env.PLATFORM_URL,
-  OPENAI_API_BASE: process.env.OPENAI_BASE_URL,
+  OPENAI_API_BASE: process.env.OPENAI_API_BASE,
 };
 
 /**

@@ -7,25 +7,14 @@ export const [
   MESSAGE_TYPE_TASK,
   MESSAGE_TYPE_ACTION,
   MESSAGE_TYPE_SYSTEM,
-] = [
-  "goal" as const,
-  "thinking" as const,
-  "task" as const,
-  "action" as const,
-  "system" as const,
-];
+] = ["goal" as const, "thinking" as const, "task" as const, "action" as const, "system" as const];
 
 export const [
   TASK_STATUS_STARTED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
-] = [
-  "started" as const,
-  "executing" as const,
-  "completed" as const,
-  "final" as const,
-];
+] = ["started" as const, "executing" as const, "completed" as const, "final" as const];
 
 const TaskStatusSchema = z.union([
   z.literal(TASK_STATUS_STARTED),
@@ -68,10 +57,7 @@ export type Message = z.infer<typeof messageSchema>;
 
 /* Agent Type */
 // Agent Mode
-export const [AUTOMATIC_MODE, PAUSE_MODE] = [
-  "Automatic Mode" as const,
-  "Pause Mode" as const,
-];
+export const [AUTOMATIC_MODE, PAUSE_MODE] = ["Automatic Mode" as const, "Pause Mode" as const];
 export type AgentMode = typeof AUTOMATIC_MODE | typeof PAUSE_MODE;
 
 // Agent Playback Control
@@ -80,12 +66,7 @@ export type AgentPlaybackControl = typeof AGENT_PLAY | typeof AGENT_PAUSE;
 
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {
-  try {
-    taskSchema.parse(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
+  return taskSchema.safeParse(value).success;
 };
 
 /* Helper Functions */
@@ -100,3 +81,5 @@ export const getTaskStatus = (value: unknown): string | undefined => {
 export const isAction = (value: unknown): boolean => {
   return isTask(value) && value.status === TASK_STATUS_COMPLETED;
 };
+
+export type AgentStatus = "paused" | "stopped" | "running";

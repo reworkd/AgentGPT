@@ -45,7 +45,7 @@ pre {
 }
 
 .window-heights {
-  @apply h-[14em] overflow-y-auto overflow-x-hidden sm-h:h-[17em] md-h:h-[22em] lg-h:h-[30em];
+  @apply h-[60vh] overflow-y-auto overflow-x-hidden;
 }
 
 .link {

@@ -3,21 +3,19 @@ import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
-import ChatWindow from "../components/ChatWindow";
+import ChatWindow from "../components/console/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaPlay, FaRobot, FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
-import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import { SettingsDialog } from "../components/SettingsDialog";
-import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
-import type { AgentPlaybackControl, Message } from "../types/agentTypes";
-import { AGENT_PLAY, isTask } from "../types/agentTypes";
+import type { AgentMode, Message } from "../types/agentTypes";
+import { AUTOMATIC_MODE, isTask, PAUSE_MODE } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
@@ -28,6 +26,8 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
 import { env } from "../env/client.mjs";
+import { MediaControls } from "../components/console/MediaControls";
+import { TaskWindow } from "../components/TaskWindow";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -37,15 +37,10 @@ const Home: NextPage = () => {
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
 
   const setAgent = useAgentStore.use.setAgent();
-  const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const isAgentPaused = useAgentStore.use.isAgentPaused();
-  const updateIsAgentPaused = useAgentStore.use.updateIsAgentPaused();
-  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
-  const agentMode = useAgentStore.use.agentMode();
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
-  const [nameInput, setNameInput] = React.useState<string>("");
+  const [nameInput, setNameInput] = React.useState<string>("FIX ME");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const settingsModel = useSettings();
@@ -75,10 +70,6 @@ const Home: NextPage = () => {
     nameInputRef?.current?.focus();
   }, []);
 
-  useEffect(() => {
-    updateIsAgentStopped();
-  }, [agent, updateIsAgentStopped]);
-
   const setAgentRun = (newName: string, newGoal: string) => {
     if (agent != null) {
       return;
@@ -97,10 +88,8 @@ const Home: NextPage = () => {
     addMessage(message);
   };
 
-  const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
-    if (opts.agentPlaybackControl !== undefined) {
-      updateIsAgentPaused(opts.agentPlaybackControl);
-    }
+  const handlePause = () => {
+    agentUtils.setStatus("paused");
   };
 
   const disableDeployAgent =
@@ -117,32 +106,40 @@ const Home: NextPage = () => {
       return;
     }
 
+    agentUtils.setRunningMode(AUTOMATIC_MODE);
     const newAgent = new AutonomousAgent(
       name.trim(),
       goal.trim(),
       findLanguage(i18n.language).name,
-      handleAddMessage,
-      handlePause,
-      () => setAgent(null),
       settingsModel.settings,
-      agentMode,
-      session ?? undefined
+      agentUtils.runningMode,
+      {
+        onMessage: handleAddMessage,
+        onPause: handlePause,
+        onShutdown: () => {
+          agentUtils.setStatus("stopped");
+          console.log("Stopped", agentUtils.status);
+          setAgent(null);
+        },
+      }
     );
     setAgent(newAgent);
     setHasSaved(false);
     resetAllMessageSlices();
     newAgent?.run().then(console.log).catch(console.error);
+    agentUtils.setStatus("running");
   };
 
-  const handleContinue = () => {
+  const handleContinue = (mode: AgentMode = "Automatic Mode") => {
     if (!agent) {
+      handleNewGoal(nameInput, goalInput);
       return;
     }
 
-    agent.updatePlayBackControl(AGENT_PLAY);
-    updateIsAgentPaused(agent.playbackControl);
-    agent.updateIsRunning(true);
+    agentUtils.setRunningMode(mode);
+    agent.mode = mode;
     agent.run().then(console.log).catch(console.error);
+    agentUtils.setStatus("running");
   };
 
   const handleKeyPress = (
@@ -150,48 +147,14 @@ const Home: NextPage = () => {
   ) => {
     // Only Enter is pressed, execute the function
     if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      if (isAgentPaused) {
+      if (agentUtils.status === "paused") {
         handleContinue();
       }
       handleNewGoal(nameInput, goalInput);
     }
   };
-
-  const handleStopAgent = () => {
-    agent?.stopAgent();
-    updateIsAgentStopped();
-  };
-
-  const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
-    // This controls whether the ChatWindow or TaskWindow is visible on mobile
-    setMobileVisibleWindow(visibleWindow);
-  };
-
   const shouldShowSave =
-    status === "authenticated" && isAgentStopped && messages.length && !hasSaved;
-
-  const firstButton =
-    isAgentPaused && !isAgentStopped ? (
-      <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
-        <FaPlay size={20} />
-        <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
-      </Button>
-    ) : (
-      <Button
-        ping={!disableDeployAgent}
-        disabled={disableDeployAgent}
-        onClick={() => handleNewGoal(nameInput, goalInput)}
-      >
-        {agent == null ? (
-          i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
-        ) : (
-          <>
-            <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
-          </>
-        )}
-      </Button>
-    );
+    status === "authenticated" && agentUtils.status === "stopped" && messages.length && !hasSaved;
 
   return (
     <DefaultLayout>
@@ -240,29 +203,13 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <div>
-              <Button
-                className="rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden"
-                disabled={mobileVisibleWindow == "Chat"}
-                onClick={() => handleVisibleWindowClick("Chat")}
-              >
-                Chat
-              </Button>
-              <Button
-                className="rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden"
-                disabled={mobileVisibleWindow == "Tasks"}
-                onClick={() => handleVisibleWindowClick("Tasks")}
-              >
-                Tasks
-              </Button>
-            </div>
-            <Expand className="flex w-full flex-row">
+            <Expand className="flex max-h-[60vh] w-full flex-grow flex-row sm:pt-2">
               <ChatWindow
                 messages={messages}
                 title="AgentGPT"
                 onSave={
                   shouldShowSave
-                    ? (format) => {
+                    ? () => {
                         setHasSaved(true);
                         agentUtils.saveAgent({
                           goal: goalInput.trim(),
@@ -277,30 +224,29 @@ const Home: NextPage = () => {
                 openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
                 visibleOnMobile={mobileVisibleWindow === "Chat"}
-              />
-              <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
+              >
+                <MediaControls
+                  status={agentUtils.status}
+                  onPlay={() => {
+                    handleContinue(AUTOMATIC_MODE);
+                  }}
+                  onStop={() => {
+                    agent?.stopAgent();
+                    agentUtils.setStatus("stopped");
+                    agentUtils.setRunningMode(AUTOMATIC_MODE);
+                  }}
+                  onPause={() => {
+                    agentUtils.setRunningMode(PAUSE_MODE);
+                    if (agent) agent.mode = PAUSE_MODE;
+                  }}
+                  onStepForward={() => {
+                    handleContinue(PAUSE_MODE);
+                  }}
+                />
+              </ChatWindow>
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 md:m-4 ">
-              <Expand delay={1.2}>
-                <Input
-                  inputRef={nameInputRef}
-                  left={
-                    <>
-                      <FaRobot />
-                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
-                        ns: "indexPage",
-                      })}`}</span>
-                    </>
-                  }
-                  value={nameInput}
-                  disabled={agent != null}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="AgentGPT"
-                  type="text"
-                />
-              </Expand>
+            <div className="flex w-full flex-col gap-2 md:m-8">
               <Expand delay={1.3}>
                 <Input
                   left={
@@ -322,27 +268,6 @@ const Home: NextPage = () => {
                 />
               </Expand>
             </div>
-            <Expand delay={1.4} className="flex gap-2">
-              {firstButton}
-              <Button
-                disabled={agent === null}
-                onClick={handleStopAgent}
-                enabledClassName={"bg-red-600 hover:bg-red-400"}
-              >
-                {!isAgentStopped && agent === null ? (
-                  <>
-                    <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
-                      ns: "indexPage",
-                    })}`}</span>
-                  </>
-                ) : (
-                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                    ns: "indexPage",
-                  })}`
-                )}
-              </Button>
-            </Expand>
           </div>
         </div>
       </main>

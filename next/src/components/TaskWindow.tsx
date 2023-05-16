@@ -35,13 +35,8 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   };
 
   return (
-    <Expand
-      className={clsx(
-        "w-full flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 font-mono shadow-2xl xl:mx-2 xl:flex xl:w-[20rem] xl:px-1",
-        !visibleOnMobile && "hidden"
-      )}
-    >
-      <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-100 ">
+    <>
+      <div className=" top-0 flex items-center justify-center gap-2 p-2 text-gray-100 ">
         <FaListAlt /> {t("Current tasks")}
       </div>
       <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
@@ -73,12 +68,15 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
           </Button>
         </div>
       </div>
-    </Expand>
+    </>
   );
 };
 
 const Task = ({ task, index }: { task: Task; index: number }) => {
-  const isAgentStopped = useAgentStore.use.isAgentStopped();
+  const agentStatus = useAgentStore.use.agentStatus();
+
+  const isAgentStopped = agentStatus === "stopped";
+
   const deleteTask = useMessageStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
 

@@ -6,10 +6,8 @@ import type { Session } from "next-auth";
 import { env } from "../env/client.mjs";
 import { v1, v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
-import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
+import type { AgentMode, Message, Task } from "../types/agentTypes";
 import {
-  AGENT_PAUSE,
-  AGENT_PLAY,
   AUTOMATIC_MODE,
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_SYSTEM,
@@ -27,6 +25,12 @@ import { translate } from "../utils/translations";
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
 
+interface AutonomousAgentCallbacks {
+  onMessage: (message: Message) => void;
+  onPause: () => void;
+  onShutdown: () => void;
+}
+
 class AutonomousAgent {
   name: string;
   goal: string;
@@ -34,50 +38,42 @@ class AutonomousAgent {
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = false;
-  renderMessage: (message: Message) => void;
-  handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
-  shutdown: () => void;
   numLoops = 0;
-  session?: Session;
-  _id: string;
   mode: AgentMode;
-  playbackControl: AgentPlaybackControl;
+  callbacks: AutonomousAgentCallbacks;
+
+  _id: string;
+  _hasRun = false;
+  _hasShutdown = false;
+  _canPause = false;
 
   constructor(
     name: string,
     goal: string,
     language: string,
-    renderMessage: (message: Message) => void,
-    handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
-    shutdown: () => void,
     modelSettings: ModelSettings,
     mode: AgentMode,
-    session?: Session,
-    playbackControl?: AgentPlaybackControl
+    callbacks: AutonomousAgentCallbacks
   ) {
     this.name = name;
     this.goal = goal;
     this.language = language;
-    this.renderMessage = renderMessage;
-    this.handlePause = handlePause;
-    this.shutdown = shutdown;
     this.modelSettings = modelSettings;
-    this.session = session;
-    this._id = v4();
     this.mode = mode || AUTOMATIC_MODE;
-    this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
+    this.callbacks = callbacks;
+
+    this._id = v4();
   }
 
   async run() {
-    if (!this.isRunning) {
-      this.isRunning = true;
+    if (!this._hasRun) {
+      this._hasRun = true;
       await this.startGoal();
     }
 
+    this.isRunning = true;
+    this._canPause = false;
     await this.loop();
-    if (this.mode === PAUSE_MODE && !this.isRunning) {
-      this.handlePause({ agentPlaybackControl: this.playbackControl });
-    }
   }
 
   async startGoal() {
@@ -98,32 +94,29 @@ class AutonomousAgent {
         this.sendMessage(task);
       }
     } catch (e) {
-      console.log(e);
-      this.sendErrorMessage(getMessageFromError(e));
-      this.shutdown();
-      return;
+      return this._shutdownInternal(() => this.sendErrorMessage(getMessageFromError(e)));
     }
   }
 
   async loop() {
-    this.conditionalPause();
-
-    if (!this.isRunning) {
+    if (this._hasShutdown) {
       return;
     }
 
-    if (this.getRemainingTasks().length === 0) {
-      this.sendCompletedMessage();
-      this.shutdown();
+    if (this.mode === PAUSE_MODE && this._canPause) {
+      this.callbacks.onPause();
       return;
+    }
+
+    this._canPause = true;
+    if (this.getRemainingTasks().length === 0) {
+      return this._shutdownInternal(() => this.sendCompletedMessage());
     }
 
     this.numLoops += 1;
     const maxLoops = this.maxLoops();
     if (this.numLoops > maxLoops) {
-      this.sendLoopMessage();
-      this.shutdown();
-      return;
+      return this._shutdownInternal(() => this.sendLoopMessage());
     }
 
     // Wait before starting
@@ -178,30 +171,15 @@ class AutonomousAgent {
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors"));
-
       this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
+
     await this.loop();
   }
 
   getRemainingTasks(): Task[] {
     return useMessageStore.getState().tasks.filter((t: Task) => t.status === TASK_STATUS_STARTED);
   }
-
-  private conditionalPause() {
-    if (this.mode != PAUSE_MODE) {
-      return;
-    }
-
-    // decide whether to pause agent when pause mode is enabled
-    this.isRunning = !(this.playbackControl === AGENT_PAUSE);
-
-    // reset playbackControl to pause so agent pauses on next set of task(s)
-    if (this.playbackControl === AGENT_PLAY) {
-      this.playbackControl = AGENT_PAUSE;
-    }
-  }
-
   private maxLoops() {
     return !!this.modelSettings.customApiKey
       ? this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
@@ -262,11 +240,17 @@ class AutonomousAgent {
     return res.data.response as string;
   }
 
+  private _shutdownInternal(finalMessage: () => void) {
+    finalMessage();
+    this._hasShutdown = true;
+    this.callbacks.onShutdown();
+  }
+
   private async post(url: string, data: RequestBody) {
     try {
       return await axios.post(url, data);
     } catch (e) {
-      this.shutdown();
+      this.callbacks.onShutdown();
 
       if (axios.isAxiosError(e) && e.response?.status === 429) {
         this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
@@ -275,26 +259,12 @@ class AutonomousAgent {
       throw e;
     }
   }
-
-  updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
-    this.playbackControl = newPlaybackControl;
-  }
-
-  updateIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
   stopAgent() {
-    this.sendManualShutdownMessage();
-    this.isRunning = false;
-    this.shutdown();
-    return;
+    return this._shutdownInternal(() => this.sendManualShutdownMessage());
   }
 
   sendMessage(message: Message) {
-    if (this.isRunning) {
-      this.renderMessage(message);
-    }
+    if (!this._hasShutdown) this.callbacks.onMessage(message);
   }
 
   sendGoalMessage() {

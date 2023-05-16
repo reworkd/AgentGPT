@@ -1,4 +1,6 @@
 import type { TFunction } from "i18next";
+import { ReactNode } from "react";
+import { Message } from "../types/agentTypes";
 
 export type ModelSettings = {
   customApiKey?: string;
@@ -15,3 +17,9 @@ export type SettingModel = {
 };
 
 export type Translation = TFunction<"translation", undefined>;
+
+export type HeaderProps = {
+  title?: string | ReactNode;
+  messages: Message[];
+  onSave?: (format: string) => void;
+};

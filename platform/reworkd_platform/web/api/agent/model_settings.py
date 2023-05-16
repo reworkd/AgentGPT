@@ -1,6 +1,7 @@
 from random import randint
 from typing import Optional
 
+import openai
 from langchain.chat_models import ChatOpenAI
 from pydantic import BaseModel
 

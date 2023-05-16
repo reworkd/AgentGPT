@@ -51,5 +51,5 @@ def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
         headers={
             "Helicone-Auth": f"Bearer {settings.helicone_api_key}",
             "Helicone-User-Id": model_settings.userEmail,
-        }
+        },
     )

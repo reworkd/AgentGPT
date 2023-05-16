@@ -4,7 +4,6 @@ import type { Analysis } from "../services/agent-service";
 import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
-import type { RequestBody } from "../utils/interfaces";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
 import {
   AGENT_PAUSE,
@@ -22,6 +21,7 @@ import {
 } from "../types/agentTypes";
 import { useAgentStore, useMessageStore } from "../stores";
 import { translate } from "../utils/translations";
+import { AgentApi } from "../services/agent-api";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -41,6 +41,7 @@ class AutonomousAgent {
   _id: string;
   mode: AgentMode;
   playbackControl: AgentPlaybackControl;
+  $api: AgentApi;
 
   constructor(
     name: string,
@@ -65,6 +66,15 @@ class AutonomousAgent {
     this._id = v4();
     this.mode = mode || AUTOMATIC_MODE;
     this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
+
+    this.$api = new AgentApi(
+      {
+        goal,
+        language,
+        modelSettings,
+      },
+      this.onApiError
+    );
   }
 
   async run() {
@@ -85,7 +95,7 @@ class AutonomousAgent {
 
     // Initialize by getting taskValues
     try {
-      const taskValues = await this.getInitialTasks();
+      const taskValues = await this.$api.getInitialTasks();
       for (const value of taskValues) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         const task: Task = {
@@ -140,11 +150,11 @@ class AutonomousAgent {
     // If enabled, analyze what tool to use
     if (useAgentStore.getState().isWebSearchEnabled) {
       // Analyze how to execute a task: Reason, web search, other tools...
-      analysis = await this.analyzeTask(currentTask.value);
+      analysis = await this.$api.analyzeTask(currentTask.value);
       this.sendAnalysisMessage(analysis);
     }
 
-    const result = await this.executeTask(currentTask.value, analysis);
+    const result = await this.$api.executeTask(currentTask.value, analysis);
     this.sendMessage({
       ...currentTask,
       info: result,
@@ -159,7 +169,14 @@ class AutonomousAgent {
 
     // Add new tasks
     try {
-      const newTasks = await this.getAdditionalTasks(currentTask.value, result);
+      const newTasks = await this.$api.getAdditionalTasks(
+        {
+          current: currentTask.value,
+          remaining: this.getRemainingTasks().map((task) => task.value),
+          completed: this.completedTasks,
+        },
+        result
+      );
       for (const value of newTasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         const task: Task = {
@@ -205,65 +222,6 @@ class AutonomousAgent {
     return !!this.modelSettings.customApiKey
       ? this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
       : DEFAULT_MAX_LOOPS_FREE;
-  }
-
-  async getInitialTasks(): Promise<string[]> {
-    return (
-      await this.post<{ newTasks: string[] }>("/api/agent/start", {
-        modelSettings: this.modelSettings,
-        goal: this.goal,
-        language: this.language,
-      })
-    ).newTasks;
-  }
-
-  async getAdditionalTasks(currentTask: string, result: string): Promise<string[]> {
-    return (
-      await this.post<{ newTasks: string[] }>("/api/agent/create", {
-        modelSettings: this.modelSettings,
-        goal: this.goal,
-        language: this.language,
-        lastTask: currentTask,
-        tasks: this.getRemainingTasks().map((task) => task.value),
-        result: result,
-        completedTasks: this.completedTasks,
-      })
-    ).newTasks;
-  }
-
-  async analyzeTask(task: string): Promise<Analysis> {
-    return await this.post<Analysis>("api/agent/analyze", {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-      task: task,
-    });
-  }
-
-  async executeTask(task: string, analysis: Analysis): Promise<string> {
-    return (
-      await this.post<{ response: string }>("/api/agent/execute", {
-        modelSettings: this.modelSettings,
-        goal: this.goal,
-        language: this.language,
-        task: task,
-        analysis: analysis,
-      })
-    ).response;
-  }
-
-  private async post<T>(url: string, data: RequestBody) {
-    try {
-      return (await axios.post(url, data)).data as T;
-    } catch (e) {
-      this.shutdown();
-
-      if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
-      }
-
-      throw e;
-    }
   }
 
   updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
@@ -341,27 +299,17 @@ class AutonomousAgent {
   sendErrorMessage(error: string) {
     this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
   }
-}
 
-const testConnection = async (modelSettings: ModelSettings) => {
-  // A dummy connection to see if the key is valid
-  // Can't use LangChain / OpenAI libraries to test because they have retries in place
-  return await axios.post(
-    "https://api.openai.com/v1/chat/completions",
-    {
-      model: modelSettings.customModelName,
-      messages: [{ role: "user", content: "Say this is a test" }],
-      max_tokens: 7,
-      temperature: 0,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${modelSettings.customApiKey ?? ""}`,
-      },
+  private onApiError = (e: unknown) => {
+    this.shutdown();
+
+    if (axios.isAxiosError(e) && e.response?.status === 429) {
+      this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
     }
-  );
-};
+
+    throw e;
+  };
+}
 
 const getMessageFromError = (e: unknown) => {
   let message = "ERROR_RETRIEVE_INITIAL_TASKS";

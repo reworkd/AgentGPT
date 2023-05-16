@@ -47,4 +47,8 @@ def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
         max_tokens=_model_settings.maxTokens
         if _model_settings and _model_settings.maxTokens is not None
         else 400,
+        headers={
+            "Helicone-Auth": f"Bearer {settings.helicone_api_key}",
+            "Helicone-User-Id": "test@gmail.com",
+        }
     )

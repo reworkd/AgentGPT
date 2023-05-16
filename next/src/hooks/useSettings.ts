@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ModelSettings, SettingModel } from "../utils/types";
 
 import {
@@ -6,6 +6,7 @@ import {
   DEFAULT_MAX_LOOPS_FREE,
   GPT_35_TURBO,
 } from "../utils/constants";
+import { useSession } from "next-auth/react";
 
 const SETTINGS_KEY = "AGENTGPT_SETTINGS";
 const DEFAULT_SETTINGS: ModelSettings = {
@@ -55,7 +56,18 @@ const loadSettings = () => {
 
 export function useSettings(): SettingModel {
   const [settings, setSettings] = useState<ModelSettings>(loadSettings);
+  const { data: session } = useSession();
 
+  // TODO: Remove once we validate auth through the backend
+  useEffect(() => {
+    if (session?.user.email != settings.userEmail) {
+      setSettings((prev) => {
+        return { ...prev, userEmail: session?.user.email || undefined };
+      });
+    }
+  }, [session?.user.email]);
+
+  console.log("SETTINGS", settings.userEmail);
   const saveSettings = (settings: ModelSettings) => {
     setSettings(settings);
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));

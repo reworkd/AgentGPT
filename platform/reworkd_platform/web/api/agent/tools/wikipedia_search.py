@@ -7,9 +7,9 @@ from reworkd_platform.web.api.agent.tools.utils import summarize
 
 class Wikipedia(Tool):
     description = (
-        "Search Wikipedia for information about historical people, events, places or "
-        "research. \n"
-        "The argument should be a simple query."
+        "Search Wikipedia for information about historical people, companies, events, "
+        "places or research. This should be used over search for broad overviews of "
+        "specific nouns.\n The argument should be a simple query of just the noun."
     )
 
     def __init__(self, model_settings: ModelSettings):

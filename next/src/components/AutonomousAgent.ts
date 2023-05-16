@@ -3,7 +3,6 @@ import type { ModelSettings } from "../utils/types";
 import type { Analysis } from "../services/agent-service";
 import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import type { Session } from "next-auth";
-import { env } from "../env/client.mjs";
 import { v1, v4 } from "uuid";
 import type { RequestBody } from "../utils/interfaces";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
@@ -209,62 +208,53 @@ class AutonomousAgent {
   }
 
   async getInitialTasks(): Promise<string[]> {
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-    };
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/start`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data.newTasks as string[];
+    return (
+      await this.post<{ newTasks: string[] }>("/api/agent/start", {
+        modelSettings: this.modelSettings,
+        goal: this.goal,
+        language: this.language,
+      })
+    ).newTasks;
   }
 
   async getAdditionalTasks(currentTask: string, result: string): Promise<string[]> {
-    const taskValues = this.getRemainingTasks().map((task) => task.value);
-
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-      lastTask: currentTask,
-      tasks: taskValues,
-      result: result,
-      completedTasks: this.completedTasks,
-    };
-    console.log(data);
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/create`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    return res.data.newTasks as string[];
+    return (
+      await this.post<{ newTasks: string[] }>("/api/agent/create", {
+        modelSettings: this.modelSettings,
+        goal: this.goal,
+        language: this.language,
+        lastTask: currentTask,
+        tasks: this.getRemainingTasks().map((task) => task.value),
+        result: result,
+        completedTasks: this.completedTasks,
+      })
+    ).newTasks;
   }
 
   async analyzeTask(task: string): Promise<Analysis> {
-    const data = {
+    return await this.post<Analysis>("api/agent/analyze", {
       modelSettings: this.modelSettings,
       goal: this.goal,
       language: this.language,
       task: task,
-    };
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/analyze`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data as Analysis;
+    });
   }
 
   async executeTask(task: string, analysis: Analysis): Promise<string> {
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-      task: task,
-      analysis: analysis,
-    };
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/execute`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data.response as string;
+    return (
+      await this.post<{ response: string }>("/api/agent/execute", {
+        modelSettings: this.modelSettings,
+        goal: this.goal,
+        language: this.language,
+        task: task,
+        analysis: analysis,
+      })
+    ).response;
   }
 
-  private async post(url: string, data: RequestBody) {
+  private async post<T>(url: string, data: RequestBody) {
     try {
-      return await axios.post(url, data);
+      return (await axios.post(url, data)).data as T;
     } catch (e) {
       this.shutdown();
 

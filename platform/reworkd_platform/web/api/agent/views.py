@@ -30,12 +30,10 @@ class NewTasksResponse(BaseModel):
 
 
 @router.post("/start")
-async def start(request_body: AgentRequestBody) -> NewTasksResponse:
+async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
     try:
         new_tasks = await get_agent_service().start_goal_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.language,
+            request_body.modelSettings, request_body.goal, request_body.language
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:
@@ -46,7 +44,7 @@ async def start(request_body: AgentRequestBody) -> NewTasksResponse:
 
 
 @router.post("/analyze")
-async def analyze_task(request_body: AgentRequestBody) -> Analysis:
+async def create_tasks(request_body: AgentRequestBody) -> Analysis:
     try:
         return await get_agent_service().analyze_task_agent(
             request_body.modelSettings,
@@ -76,7 +74,7 @@ class CompletionResponse(BaseModel):
 
 
 @router.post("/execute")
-async def execute_task(request_body: AgentRequestBody) -> CompletionResponse:
+async def create_tasks(request_body: AgentRequestBody) -> CompletionResponse:
     try:
         response = await get_agent_service().execute_task_agent(
             request_body.modelSettings,

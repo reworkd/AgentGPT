@@ -1,5 +1,5 @@
 // @ts-check
-import {z} from "zod";
+import { z } from "zod";
 
 const requiredForProduction = () =>
   process.env.NODE_ENV === "production"
@@ -38,6 +38,7 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string().min(1).trim().optional(),
 
   PLATFORM_URL: z.string().url().optional(),
+  OPENAI_API_BASE: z.string().url().optional(),
 });
 
 /**
@@ -59,6 +60,7 @@ export const serverEnv = {
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 
   PLATFORM_URL: process.env.PLATFORM_URL,
+  OPENAI_API_BASE: process.env.OPENAI_API_BASE,
 };
 
 /**

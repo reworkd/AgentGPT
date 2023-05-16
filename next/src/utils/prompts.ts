@@ -13,6 +13,7 @@ export const getServerSideKey = (): string => {
   return keys[Math.floor(Math.random() * keys.length)] || "";
 };
 
+console.log(env.OPENAI_API_BASE);
 export const createModel = (settings: ModelSettings) => {
   let _settings: ModelSettings | undefined = settings;
 
@@ -29,7 +30,7 @@ export const createModel = (settings: ModelSettings) => {
       maxTokens: _settings?.maxTokens || 400,
     },
     {
-      basePath: (env.OPENAI_API_BASE as string) || undefined,
+      basePath: (process.env.OPENAI_API_BASE as string) || undefined,
     }
   );
 };

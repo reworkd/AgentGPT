@@ -2,7 +2,6 @@ import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import type { ModelSettings } from "./types";
 import { GPT_35_TURBO } from "./constants";
-import { env } from "../env/server.mjs";
 
 export const getServerSideKey = (): string => {
   const keys: string[] = (process.env.OPENAI_API_KEY || "")
@@ -13,7 +12,6 @@ export const getServerSideKey = (): string => {
   return keys[Math.floor(Math.random() * keys.length)] || "";
 };
 
-console.log(env.OPENAI_API_BASE);
 export const createModel = (settings: ModelSettings) => {
   let _settings: ModelSettings | undefined = settings;
 

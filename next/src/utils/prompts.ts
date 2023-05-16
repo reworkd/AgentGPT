@@ -32,7 +32,7 @@ export const createModel = (settings: ModelSettings) => {
       baseOptions: {
         headers: {
           "Helicone-Auth": `Bearer ${(process.env.HELICONE_API_KEY as string) || ""}`,
-          "Helicone-User-Id": "test@gmail.com",
+          "Helicone-User-Id": settings.userEmail || "",
         },
       },
     }

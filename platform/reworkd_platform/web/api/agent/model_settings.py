@@ -14,6 +14,7 @@ class ModelSettings(BaseModel):
     customTemperature: Optional[float] = None
     customMaxLoops: Optional[int] = None
     maxTokens: Optional[int] = None
+    userEmail: Optional[str] = None
 
 
 def get_server_side_key() -> str:
@@ -49,6 +50,6 @@ def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
         else 400,
         headers={
             "Helicone-Auth": f"Bearer {settings.helicone_api_key}",
-            "Helicone-User-Id": "test@gmail.com",
+            "Helicone-User-Id": model_settings.userEmail,
         }
     )

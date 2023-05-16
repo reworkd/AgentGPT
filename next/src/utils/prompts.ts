@@ -29,6 +29,12 @@ export const createModel = (settings: ModelSettings) => {
     },
     {
       basePath: (process.env.OPENAI_API_BASE as string) || undefined,
+      baseOptions: {
+        headers: {
+          "Helicone-Auth": `Bearer ${(process.env.HELICONE_API_KEY as string) || ""}`,
+          "Helicone-User-Id": settings.userEmail || "",
+        },
+      },
     }
   );
 };

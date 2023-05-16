@@ -38,6 +38,7 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string().min(1).trim().optional(),
 
   PLATFORM_URL: z.string().url().optional(),
+  HELICONE_API_KEY: z.string().optional(),
   OPENAI_API_BASE: z.string().url().optional(),
 });
 
@@ -60,6 +61,7 @@ export const serverEnv = {
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 
   PLATFORM_URL: process.env.PLATFORM_URL,
+  HELICONE_API_KEY: process.env.HELICONE_API_KEY,
   OPENAI_API_BASE: process.env.OPENAI_API_BASE,
 };
 

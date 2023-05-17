@@ -150,7 +150,7 @@ const Drawer = ({
               icon={
                 <FaDiscord
                   size={30}
-                  className="transition-colors group-hover:fill-current group-hover:text-indigo-400"
+                  className="transition-colors group-hover:fill-current group-hover:text-purple-400"
                 />
               }
               text="Discord"
@@ -162,7 +162,7 @@ const Drawer = ({
               icon={
                 <FaTwitter
                   size={30}
-                  className="transition-colors group-hover:fill-current group-hover:text-sky-500"
+                  className="transition-colors group-hover:fill-current group-hover:text-pink-500"
                 />
               }
               text="Twitter"

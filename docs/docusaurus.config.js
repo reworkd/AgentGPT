@@ -8,13 +8,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'AgentGPT',
+  title: 'AgentQi',
   tagline: 'Autonomous AI agents directly in your browser',
   favicon: 'favicon.ico',
   url: 'https://docs.reworkd.ai',
   baseUrl: '/',
   organizationName: 'reworkd', // Usually your GitHub org/user name.
-  projectName: 'AgentGPT', // Usually your repo name.
+  projectName: 'AgentQi', // Usually your repo name.
   trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -49,7 +49,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: '🤖 AgentGPT',
+        title: '🤖 AgentQi',
         items: [
           {
             type: 'docSidebar',

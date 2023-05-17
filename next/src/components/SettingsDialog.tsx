@@ -145,7 +145,7 @@ export const SettingsDialog: React.FC<{
       close={close}
       footerButton={
         <>
-          <Button className="bg-red-400 hover:bg-red-500" onClick={handleReset}>
+          <Button className="bg-red-300 hover:bg-red-400" onClick={handleReset}>
             {`${t("RESET", {
               ns: "common",
             })}`}

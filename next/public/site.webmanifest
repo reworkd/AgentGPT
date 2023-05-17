@@ -1,6 +1,6 @@
 {
-  "name": "Agent-GPT",
-  "short_name": "Agent-GPT",
+  "name": "Agent-Qi",
+  "short_name": "Agent-Qi",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#575193",
+  "background_color": "#6F42C1",
   "display": "standalone"
 }

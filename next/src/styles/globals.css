@@ -2,27 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 16px;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-touch-callout: none;
-
 /* Used for the background effect in the landing page */
 .background {
   background-image: radial-gradient(
@@ -33,6 +12,17 @@ body {
   background-size: 30px 30px;
   background-position: 0 0, 15px 15px;
 }
+
+body {
+  background-image: radial-gradient(
+    circle,
+    rgba(58, 58, 58, 0.75) 2px,
+    transparent 0px
+  );
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
 
 .lower-gradient {
   background-image: linear-gradient(

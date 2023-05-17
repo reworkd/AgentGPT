@@ -180,7 +180,7 @@ export const SettingsDialog: React.FC<{
           <b>
             {`${t("INFO_TO_USE_GPT4", { ns: "settings" })}`}
             &nbsp;
-            <a href="https://openai.com/waitlist/gpt-4-api" className="text-blue-500">
+            <a href="https://openai.com/waitlist/gpt-4-api" className="text-purple-500">
               {`${t("HERE", "HERE", { ns: "settings" })}`}
             </a>
             .&nbsp;{" "}

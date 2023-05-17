@@ -37,13 +37,13 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
         "text-gray/50 relative rounded-lg border-[2px] border-white/30 px-4 py-1 font-bold transition-all sm:px-10 sm:py-3",
         props.disabled && "cursor-not-allowed border-white/10 bg-zinc-900 text-white/30",
         props.disabled ||
-          "mou cursor-pointer bg-[#7033EA]/70 text-white/80 hover:border-white/80 hover:bg-[#9333EA] hover:text-white hover:shadow-2xl",
+          "mou cursor-pointer bg-[#9333EA]/70 text-white/80 hover:border-white/80 hover:bg-[#9333EA] hover:text-white hover:shadow-2xl",
         props.disabled || props.enabledClassName,
         props.className
       )}
       onClick={onClick}
     >
-      {props.ping ? <Ping color="white" /> : <></>}
+      {props.ping ? <Ping color="purple" /> : <></>}
       <div className="flex items-center justify-center">
         {loading ? (
           <Loader />

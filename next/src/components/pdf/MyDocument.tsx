@@ -28,13 +28,13 @@ Font.register({
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    backgroundColor: "#6F42C1",
+    backgroundColor: "#7333EA",
     padding: 40,
     wordBreak: "break-all",
   },
   horizontalRule: {
     borderBottomWidth: 0.20,
-    borderBottomColor: "#6F42C1",
+    borderBottomColor: "#9333EA",
     borderBottomStyle: "solid",
   },
   section: {

@@ -22,7 +22,7 @@ import type { Message } from "../../types/agentTypes";
 
 export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {
-    return "border-white/10 hover:border-white/40";
+    return "border-pink/10 hover:border-pink/40";
   }
 
   switch (message.status) {

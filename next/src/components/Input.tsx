@@ -94,7 +94,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "border:black delay-50 h-15 w-full resize-none rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] p-2 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#1E88E5]/40 focus:border-[#1E88E5] sm:h-20 md:text-lg",
+          "border:black delay-50 h-15 w-full resize-none rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] p-2 text-sm tracking-wider outline-0 transition-all placeholder:text-white/20 hover:border-[#EA3EB9]/40 focus:border-[#EA3EB9] sm:h-20 md:text-lg",
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none"
         )}
@@ -110,7 +110,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <div
         className={clsx(
-          "flex w-full flex-row items-center overflow-clip rounded-xl border-[2px] border-white/10 bg-[#3a3a3a]  px-2 hover:border-[#1E88E5]/40 focus:border-[#1E88E5]",
+          "flex w-full flex-row items-center overflow-clip rounded-xl border-[2px] border-white/10 bg-[#3a3a3a]  px-2 hover:border-[#EA3EB9]/40 focus:border-[#EA3EB9]",
           disabled && " cursor-not-allowed hover:border-white/10",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"

@@ -6,7 +6,7 @@
 .background {
   background-image: radial-gradient(
     circle,
-    rgb(111,66,193) 2px,
+    rgb(0, 217, 255) 5px,
     transparent 1px
   );
   background-size: 30px 30px;
@@ -83,9 +83,9 @@ div::-webkit-scrollbar-track {
 
 /* scrollbar itself */
 div::-webkit-scrollbar-thumb {
-  background-color: #5861f3;
+  background-color: #a704ff;
   border-radius: 3px;
-  border: 2px solid #ea3eb9;
+  border: 2px solid #491366;
 }
 
 /* set button (top and bottom of the scrollbar) */

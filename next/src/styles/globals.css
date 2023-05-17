@@ -6,7 +6,7 @@
 .background {
   background-image: radial-gradient(
     circle,
-    rgb(0, 217, 255) 5px,
+    rgb(0, 217, 255) 2px,
     transparent 1px
   );
   background-size: 30px 30px;

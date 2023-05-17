@@ -1,3 +1,5 @@
+# script bash qui configure les variables d'environnement pour une application Web Next.js et l'exécute localement
+
 #!/bin/bash
 cd "$(dirname "$0")" || exit
 

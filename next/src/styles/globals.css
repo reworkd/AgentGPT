@@ -6,20 +6,20 @@
 .background {
   background-image: radial-gradient(
     circle,
-    rgba(58, 58, 58, 0.75) 2px,
-    transparent 0px
+    rgb(175, 54, 255) 2px,
+    transparent 1px
   );
   background-size: 30px 30px;
-  background-position: 0 0, 15px 15px;
+  background-position: 0 0, 20px 20px;
 }
 
 .lower-gradient {
   background-image: linear-gradient(
     to top,
-    rgba(255, 255, 255, 0.03),
-    rgba(255, 255, 255, 0)
+    rgba(46, 9, 39),
+    rgba(84, 11, 65)
   );
-  height: 20vh;
+  height: 30vh;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -49,12 +49,12 @@ pre {
 }
 
 .link {
-  @apply cursor-pointer text-sky-500 underline hover:text-sky-300;
+  @apply cursor-pointer text-purple-400 underline hover:text-purple-300;
 }
 
 table {
-  @apply w-full rounded-lg text-white;
-  background-color: #0d1117;
+  @apply w-full rounded-lg text-gray-100;
+  background-color: #2e2538;
 }
 
 th,
@@ -63,41 +63,37 @@ td {
 }
 
 th {
-  background-color: #161b22;
+  background-color: #2c2137;
 }
 
 tr:nth-child(even) {
-  background-color: #1c2028;
+  background-color: #372947;
 }
 
-/* Customize website's scrollbar like Mac OS
-Not supports in Firefox and IE */
+/* Customize website's scrollbar like Andromeda theme */
 /* total width */
 div::-webkit-scrollbar {
-  border-radius: 16px;
-  background-color: #464649;
-  width: 16px;
+  width: 6px;
 }
 
 /* background of the scrollbar except button or resizer */
 div::-webkit-scrollbar-track {
-  border-radius: 16px;
-  background-color: #464649;
+  background: #1e1b2e;
 }
 
 /* scrollbar itself */
 div::-webkit-scrollbar-thumb {
-  background-color: #babac0;
-  border-radius: 16px;
-  border: 2px solid #464649;
+  background-color: #a704ff;
+  border-radius: 3px;
+  border: 2px solid #491366;
 }
 
-/* set button(top and bottom of the scrollbar) */
+/* set button (top and bottom of the scrollbar) */
 div::-webkit-scrollbar-button {
   display: none;
 }
 
-/*  disappearing animation */
+/* disappearing animation */
 .animation-hide {
   animation: hide 1s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 forwards;
 }

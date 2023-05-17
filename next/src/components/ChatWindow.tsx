@@ -215,8 +215,8 @@ const ExampleAgentButton = ({
     <div
       className={clsx(
         `w-full p-2 sm:w-[33%]`,
-        `cursor-pointer rounded-lg bg-sky-600 font-mono text-sm hover:bg-sky-700 sm:text-base`,
-        `border-[2px] border-white/20 hover:border-[#1E88E5]/40`
+        `cursor-pointer rounded-lg bg-purple-600 font-mono text-sm hover:bg-purple-700 sm:text-base`,
+        `border-[2px] border-white/20 hover:border-[#EA3EB9]/40`
       )}
       onClick={handleClick}
     >
@@ -442,7 +442,9 @@ const FAQ = () => {
     <p>
       <br />
       If you are facing issues, please head over to our{" "}
-      <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
+      <a href="https://docs.reworkd.ai/faq" className="text-
+
+      ple-800">
         FAQ
       </a>
     </p>

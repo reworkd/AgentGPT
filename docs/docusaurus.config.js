@@ -1,18 +1,20 @@
-// @ts-check
+// @ts-nocheck
 // Note: type annotations allow type checking and IDEs autocompletion
 
+// @ts-ignore
 const lightCodeTheme = require('prism-react-renderer/themes/github');
+// @ts-ignore
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'AgentGPT',
+  title: 'AgentQi',
   tagline: 'Autonomous AI agents directly in your browser',
   favicon: 'favicon.ico',
   url: 'https://docs.reworkd.ai',
   baseUrl: '/',
   organizationName: 'reworkd', // Usually your GitHub org/user name.
-  projectName: 'AgentGPT', // Usually your repo name.
+  projectName: 'AgentQi', // Usually your repo name.
   trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -27,12 +29,14 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          // @ts-ignore
           sidebarPath: require.resolve('./sidebars.js'),
           routeBasePath: '/',
           editUrl: 'https://github.com/reworkd/AgentGPT/tree/main/docs/',
         },
         blog: false,
         theme: {
+          // @ts-ignore
           customCss: require.resolve('./src/css/custom.css'),
         },
       }),
@@ -45,7 +49,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: '🤖 AgentGPT',
+        title: '🤖 AgentQi',
         items: [
           {
             type: 'docSidebar',

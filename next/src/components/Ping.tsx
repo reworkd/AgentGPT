@@ -1,9 +1,9 @@
 import React from "react";
 
-const Ping = ({ color }: { color: "blue" | "white" }) => {
+const Ping = ({ color }: { color: "purple" | "white" }) => {
   const colorClasses = {
-    primary: color == "blue" ? "bg-sky-400" : "bg-white",
-    secondary: color == "blue" ? "bg-sky-400" : "bg-white",
+    primary: color == "purple" ? "bg-purple-400" : "bg-white",
+    secondary: color == "purple" ? "bg-purple-400" : "bg-white",
   };
 
   return (

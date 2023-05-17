@@ -1,7 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+const tailwind base;
+const tailwind components;
+const tailwind utilities;
+const tailwind variants;
 
 .background {
   background-image: radial-gradient(

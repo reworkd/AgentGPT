@@ -145,7 +145,7 @@ export const SettingsDialog: React.FC<{
       close={close}
       footerButton={
         <>
-          <Button className="bg-red-300 hover:bg-red-400" onClick={handleReset}>
+          <Button className="bg-red-400 hover:bg-red-500" onClick={handleReset}>
             {`${t("RESET", {
               ns: "common",
             })}`}
@@ -162,6 +162,7 @@ export const SettingsDialog: React.FC<{
           {`${t("HERE", { ns: "settings" })}`}
         </a>
         .{" "}
+
         <a className="link font-bold" href="https://platform.openai.com/account/billing/overview">
           {`${t("MUST_CONNECT_CREDIT_CARD", { ns: "settings" })}`}
         </a>
@@ -179,7 +180,7 @@ export const SettingsDialog: React.FC<{
           <b>
             {`${t("INFO_TO_USE_GPT4", { ns: "settings" })}`}
             &nbsp;
-            <a href="https://openai.com/waitlist/gpt-4-api" className="text-purple-500">
+            <a href="https://openai.com/waitlist/gpt-4-api" className="text-blue-500">
               {`${t("HERE", "HERE", { ns: "settings" })}`}
             </a>
             .&nbsp;{" "}

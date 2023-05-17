@@ -71,3 +71,9 @@ def test_removes_leading_dot() -> None:
     task_input = ".This is a sample task"
     output = remove_task_prefix(task_input)
     assert output == "This is a sample task"
+
+
+def test_removes_digit_dot_space_prefix() -> None:
+    task_input = "1. Research the history and background of Nike company."
+    output = remove_task_prefix(task_input)
+    assert output == "Research the history and background of Nike company."

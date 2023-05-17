@@ -46,6 +46,7 @@ class AutonomousAgent {
   _hasRun = false;
   _hasShutdown = false;
   _canPause = false;
+  $api: AgentApi;
 
   constructor(
     name: string,
@@ -63,6 +64,14 @@ class AutonomousAgent {
     this.callbacks = callbacks;
 
     this._id = v4();
+      this.$api = new AgentApi(
+      {
+        goal,
+        language,
+        modelSettings,
+      },
+      this.onApiError
+    );
   }
 
   async run() {
@@ -82,7 +91,7 @@ class AutonomousAgent {
 
     // Initialize by getting taskValues
     try {
-      const taskValues = await this.getInitialTasks();
+      const taskValues = await this.$api.getInitialTasks();
       for (const value of taskValues) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         const task: Task = {
@@ -134,11 +143,11 @@ class AutonomousAgent {
     // If enabled, analyze what tool to use
     if (useAgentStore.getState().isWebSearchEnabled) {
       // Analyze how to execute a task: Reason, web search, other tools...
-      analysis = await this.analyzeTask(currentTask.value);
+      analysis = await this.$api.analyzeTask(currentTask.value);
       this.sendAnalysisMessage(analysis);
     }
 
-    const result = await this.executeTask(currentTask.value, analysis);
+    const result = await this.$api.executeTask(currentTask.value, analysis);
     this.sendMessage({
       ...currentTask,
       info: result,
@@ -153,7 +162,14 @@ class AutonomousAgent {
 
     // Add new tasks
     try {
-      const newTasks = await this.getAdditionalTasks(currentTask.value, result);
+      const newTasks = await this.$api.getAdditionalTasks(
+        {
+          current: currentTask.value,
+          remaining: this.getRemainingTasks().map((task) => task.value),
+          completed: this.completedTasks,
+        },
+        result
+      );
       for (const value of newTasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
         const task: Task = {
@@ -186,79 +202,14 @@ class AutonomousAgent {
       : DEFAULT_MAX_LOOPS_FREE;
   }
 
-  async getInitialTasks(): Promise<string[]> {
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-    };
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/start`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data.newTasks as string[];
+  updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
+    this.playbackControl = newPlaybackControl;
   }
 
-  async getAdditionalTasks(currentTask: string, result: string): Promise<string[]> {
-    const taskValues = this.getRemainingTasks().map((task) => task.value);
-
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-      lastTask: currentTask,
-      tasks: taskValues,
-      result: result,
-      completedTasks: this.completedTasks,
-    };
-    console.log(data);
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/create`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    return res.data.newTasks as string[];
+  updateIsRunning(isRunning: boolean) {
+    this.isRunning = isRunning;
   }
 
-  async analyzeTask(task: string): Promise<Analysis> {
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-      task: task,
-    };
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/analyze`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data as Analysis;
-  }
-
-  async executeTask(task: string, analysis: Analysis): Promise<string> {
-    const data = {
-      modelSettings: this.modelSettings,
-      goal: this.goal,
-      language: this.language,
-      task: task,
-      analysis: analysis,
-    };
-    const res = await this.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/agent/execute`, data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
-    return res.data.response as string;
-  }
-
-  private _shutdownInternal(finalMessage: () => void) {
-    finalMessage();
-    this._hasShutdown = true;
-    this.callbacks.onShutdown();
-  }
-
-  private async post(url: string, data: RequestBody) {
-    try {
-      return await axios.post(url, data);
-    } catch (e) {
-      this.callbacks.onShutdown();
-
-      if (axios.isAxiosError(e) && e.response?.status === 429) {
-        this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
-      }
-
-      throw e;
-    }
-  }
   stopAgent() {
     return this._shutdownInternal(() => this.sendManualShutdownMessage());
   }
@@ -321,27 +272,17 @@ class AutonomousAgent {
   sendErrorMessage(error: string) {
     this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
   }
-}
 
-const testConnection = async (modelSettings: ModelSettings) => {
-  // A dummy connection to see if the key is valid
-  // Can't use LangChain / OpenAI libraries to test because they have retries in place
-  return await axios.post(
-    "https://api.openai.com/v1/chat/completions",
-    {
-      model: modelSettings.customModelName,
-      messages: [{ role: "user", content: "Say this is a test" }],
-      max_tokens: 7,
-      temperature: 0,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${modelSettings.customApiKey ?? ""}`,
-      },
+  private onApiError = (e: unknown) => {
+    this.shutdown();
+
+    if (axios.isAxiosError(e) && e.response?.status === 429) {
+      this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
     }
-  );
-};
+
+    throw e;
+  };
+}
 
 const getMessageFromError = (e: unknown) => {
   let message = "ERROR_RETRIEVE_INITIAL_TASKS";

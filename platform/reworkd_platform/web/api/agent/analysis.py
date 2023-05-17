@@ -10,6 +10,7 @@ tool_names = [get_tool_name(tool) for tool in get_available_tools()]
 
 
 class Analysis(BaseModel):
+    reasoning: str
     action: str
     arg: str
 

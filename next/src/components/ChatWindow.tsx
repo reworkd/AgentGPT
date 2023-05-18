@@ -353,24 +353,13 @@ const MacWindowHeader = (props: HeaderProps) => {
               onClick={() => props.onSave?.("db")}
               icon={<FaSave size={12} />}
               name={`${t("SAVE", { ns: "common" })}`}
-              styleClass={{
-                container: `relative bg-[#3a3a3a] md:w-20 text-center font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
-              }}
+              border
             />
           </PopIn>
         )}
       </AnimatePresence>
 
-      <Menu
-        icon={<CgExport />}
-        name={`${t("EXPORT", { ns: "common" })}`}
-        items={exportOptions}
-        styleClass={{
-          container: "relative",
-          input: `bg-[#3a3a3a] animation-duration text-left py-1 px-2 text-sm font-mono rounded-lg text-gray/50 border-[2px] border-white/30 font-bold transition-all sm:py-0.5 hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b] focus-visible:outline-none focus:border-[#1E88E5]`,
-          option: "w-full py-[1px] md:py-0.5",
-        }}
-      />
+      <Menu icon={<CgExport size={15} />} items={exportOptions} />
     </div>
   );
 };

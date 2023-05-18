@@ -16,6 +16,7 @@ import {
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_THINKING,
   getTaskStatus,
+  AgentStatus,
 } from "../../types/agentTypes";
 
 import type { Message } from "../../types/agentTypes";
@@ -39,12 +40,8 @@ export const getMessageContainerStyle = (message: Message) => {
   }
 };
 
-export const getTaskStatusIcon = (
-  message: Message,
-  config: { [key: string]: string | boolean | undefined }
-) => {
+export const getTaskStatusIcon = (message: Message, status?: AgentStatus) => {
   const taskStatusIconClass = "mr-1 mb-1 inline-block";
-  const { isAgentStopped } = config;
 
   if (message.type === MESSAGE_TYPE_GOAL) {
     return <FaStar className="text-yellow-300" />;
@@ -53,22 +50,18 @@ export const getTaskStatusIcon = (
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
     return <FaThumbtack className={`${taskStatusIconClass} -rotate-45`} />;
   } else if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
-    return isAgentStopped ? (
+    return status === "stopped" ? (
       <FaStopCircle className={`${taskStatusIconClass}`} />
     ) : (
       <FaCircleNotch className={`${taskStatusIconClass} animate-spin`} />
     );
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
     return (
-      <FaRegCheckCircle
-        className={`${taskStatusIconClass} text-green-500 hover:text-green-400`}
-      />
+      <FaRegCheckCircle className={`${taskStatusIconClass} text-green-500 hover:text-green-400`} />
     );
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
     return (
-      <FaCheckCircle
-        className={`${taskStatusIconClass} text-green-500 hover:text-green-400`}
-      />
+      <FaCheckCircle className={`${taskStatusIconClass} text-green-500 hover:text-green-400`} />
     );
   }
 };

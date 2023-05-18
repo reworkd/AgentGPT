@@ -27,11 +27,10 @@ import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
 import { env } from "../env/client.mjs";
 import { MediaControls } from "../components/console/MediaControls";
-import { TaskWindow } from "../components/TaskWindow";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
-  // Zustand states with state dependencies
+
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
@@ -118,20 +117,21 @@ const Home: NextPage = () => {
         onPause: handlePause,
         onShutdown: () => {
           agentUtils.setStatus("stopped");
-          console.log("Stopped", agentUtils.status);
-          setAgent(null);
+        },
+        onStart: () => {
+          agentUtils.setStatus("running");
         },
       }
     );
     setAgent(newAgent);
     setHasSaved(false);
     resetAllMessageSlices();
+
     newAgent?.run().then(console.log).catch(console.error);
-    agentUtils.setStatus("running");
   };
 
   const handleContinue = (mode: AgentMode = "Automatic Mode") => {
-    if (!agent) {
+    if (!agent || agentUtils.status === "stopped") {
       handleNewGoal(nameInput, goalInput);
       return;
     }
@@ -139,7 +139,6 @@ const Home: NextPage = () => {
     agentUtils.setRunningMode(mode);
     agent.mode = mode;
     agent.run().then(console.log).catch(console.error);
-    agentUtils.setStatus("running");
   };
 
   const handleKeyPress = (

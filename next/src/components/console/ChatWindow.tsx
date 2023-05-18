@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { FaPause, FaPlay } from "react-icons/fa";
 import PopIn from "../motions/popin";
 import FadeIn from "../motions/FadeIn";
-import type { Message } from "../../types/agentTypes";
+import type { AgentStatus, Message } from "../../types/agentTypes";
 import {
   AUTOMATIC_MODE,
   getTaskStatus,
@@ -20,14 +20,13 @@ import {
 } from "../../types/agentTypes";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
-import { useAgentStore } from "../../stores";
 import MarkdownRenderer from "./MarkdownRenderer";
-import { env } from "../../env/client.mjs";
 import { MacWindowHeader } from "./MacWindowHeader";
 import type { HeaderProps } from "../../utils/types";
 import { messageListId } from "../../utils/constants";
 import { TaskWindow } from "../TaskWindow";
 import FadingHr from "../FadingHr";
+import { useAgent } from "../../hooks/useAgent";
 
 interface ChatWindowProps extends PropsWithChildren<HeaderProps> {
   className?: string;
@@ -56,12 +55,7 @@ const ChatWindow = ({
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isAgentPaused = useAgentStore.use.isAgentPaused();
-  const agentMode = useAgentStore.use.agentMode();
-  const agent = useAgentStore.use.agent();
-  const updateAgentMode = useAgentStore.use.updateAgentMode();
-  const isWebSearchEnabled = useAgentStore.use.isWebSearchEnabled();
-  const setIsWebSearchEnabled = useAgentStore.use.setIsWebSearchEnabled();
+  const { agent, status, runningMode } = useAgent();
 
   const [activeTab, setActiveTab] = useState<"chat" | "tasks">("chat");
 
@@ -82,14 +76,16 @@ const ChatWindow = ({
     }
   });
 
+  const pauseAnimation = agent && runningMode === PAUSE_MODE && status === "paused" && (
+    <FaPause
+      className="animation-hide absolute left-1/2 top-1/2 -translate-x-1/2 text-lg"
+      size="50"
+    />
+  );
+
   const chatTab = (
     <>
-      {agent !== null && agentMode === PAUSE_MODE && isAgentPaused && (
-        <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
-      )}
-      {agent !== null && agentMode === PAUSE_MODE && !isAgentPaused && (
-        <FaPlay className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
-      )}
+      {pauseAnimation}
       {messages.map((message, index) => {
         if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
           return null;
@@ -97,7 +93,7 @@ const ChatWindow = ({
 
         return (
           <FadeIn key={`${index}-${message.type}`}>
-            <ChatMessage message={message} />
+            <ChatMessage message={message} status={status} />
           </FadeIn>
         );
       })}
@@ -207,7 +203,7 @@ const ExampleAgentButton = ({
   );
 };
 
-const ChatMessage = ({ message }: { message: Message }) => {
+const ChatMessage = ({ message, status }: { message: Message; status?: AgentStatus }) => {
   const [t] = useTranslation();
 
   return (
@@ -219,7 +215,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
-          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, status)}</div>
           <span className="mr-2 font-bold">{t(getMessagePrefix(message), { ns: "chat" })}</span>
         </>
       )}

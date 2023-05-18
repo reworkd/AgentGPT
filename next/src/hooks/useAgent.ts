@@ -1,5 +1,5 @@
 import { api } from "../utils/api";
-import type { Message } from "../types/agentTypes";
+import type { AgentStatus, Message } from "../types/agentTypes";
 import { useAuth } from "./useAuth";
 import { useAgentStore } from "../stores";
 
@@ -25,9 +25,10 @@ export function useAgent() {
   };
 
   return {
+    agent: store.agent,
     saveAgent,
     status: store.agentStatus,
-    setStatus: store.updateAgentStatus,
+    setStatus: (e: AgentStatus) => store.updateAgentStatus(e),
     runningMode: store.agentMode,
     setRunningMode: store.updateAgentMode,
   };

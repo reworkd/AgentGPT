@@ -2,10 +2,7 @@ import axios from "axios";
 import type { ModelSettings } from "../utils/types";
 import type { Analysis } from "../services/agent-service";
 import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
-import type { Session } from "next-auth";
-import { env } from "../env/client.mjs";
 import { v1, v4 } from "uuid";
-import type { RequestBody } from "../utils/interfaces";
 import type { AgentMode, Message, Task } from "../types/agentTypes";
 import {
   AUTOMATIC_MODE,
@@ -21,6 +18,8 @@ import {
 } from "../types/agentTypes";
 import { useAgentStore, useMessageStore } from "../stores";
 import { translate } from "../utils/translations";
+import { AgentApi } from "../services/agent-api";
+import { Optional } from "../types";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -29,6 +28,7 @@ interface AutonomousAgentCallbacks {
   onMessage: (message: Message) => void;
   onPause: () => void;
   onShutdown: () => void;
+  onStart: () => void;
 }
 
 class AutonomousAgent {
@@ -64,7 +64,7 @@ class AutonomousAgent {
     this.callbacks = callbacks;
 
     this._id = v4();
-      this.$api = new AgentApi(
+    this.$api = new AgentApi(
       {
         goal,
         language,
@@ -86,6 +86,7 @@ class AutonomousAgent {
   }
 
   async startGoal() {
+    this.callbacks.onStart();
     this.sendGoalMessage();
     this.sendThinkingMessage();
 
@@ -196,20 +197,12 @@ class AutonomousAgent {
   getRemainingTasks(): Task[] {
     return useMessageStore.getState().tasks.filter((t: Task) => t.status === TASK_STATUS_STARTED);
   }
+
   private maxLoops() {
     return !!this.modelSettings.customApiKey
       ? this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
       : DEFAULT_MAX_LOOPS_FREE;
   }
-
-  updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
-    this.playbackControl = newPlaybackControl;
-  }
-
-  updateIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
   stopAgent() {
     return this._shutdownInternal(() => this.sendManualShutdownMessage());
   }
@@ -274,14 +267,21 @@ class AutonomousAgent {
   }
 
   private onApiError = (e: unknown) => {
-    this.shutdown();
+    let message: Optional<() => void> = undefined;
 
     if (axios.isAxiosError(e) && e.response?.status === 429) {
-      this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
+      message = () => void this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
     }
 
+    this._shutdownInternal(message);
     throw e;
   };
+
+  private _shutdownInternal(finalMessage?: () => void) {
+    finalMessage?.();
+    this._hasShutdown = true;
+    this.callbacks.onShutdown();
+  }
 }
 
 const getMessageFromError = (e: unknown) => {

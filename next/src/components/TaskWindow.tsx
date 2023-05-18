@@ -1,9 +1,8 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
-import Expand from "./motions/expand";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useAgentStore, useMessageStore } from "../stores";
+import { useMessageStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
@@ -12,6 +11,7 @@ import Button from "./Button";
 import { v1 } from "uuid";
 import { AnimatePresence } from "framer-motion";
 import FadeOut from "./motions/FadeOut";
+import { useAgent } from "../hooks/useAgent";
 
 export interface TaskWindowProps {
   visibleOnMobile?: boolean;
@@ -19,7 +19,7 @@ export interface TaskWindowProps {
 
 export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
-  const agent = useAgentStore.use.agent();
+  const { agent, status } = useAgent();
   const tasks = useMessageStore.use.tasks();
   const addMessage = useMessageStore.use.addMessage();
   const [t] = useTranslation();
@@ -73,9 +73,8 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 };
 
 const Task = ({ task, index }: { task: Task; index: number }) => {
-  const agentStatus = useAgentStore.use.agentStatus();
-
-  const isAgentStopped = agentStatus === "stopped";
+  const { agent, status } = useAgent();
+  const isAgentStopped = status === "stopped";
 
   const deleteTask = useMessageStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
@@ -96,7 +95,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
             getMessageContainerStyle(task)
           )}
         >
-          {getTaskStatusIcon(task, { isAgentStopped })}
+          {getTaskStatusIcon(task, status)}
           <span>{task.value}</span>
           <div className="flex justify-end">
             <FaTimesCircle

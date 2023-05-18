@@ -14,7 +14,7 @@ function Menu({ icon, name, items, chevron }: MenuProps) {
   return (
     <MenuPrimitive>
       <div className="relative">
-        <MenuPrimitive.Button className="flex items-center gap-1 rounded-lg border-[1px] border-white/30 bg-[#3a3a3a] p-2 font-bold hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b]">
+        <MenuPrimitive.Button className="flex h-8 items-center gap-1 rounded-lg border-[1px] border-white/30 bg-[#3a3a3a] p-2 font-bold hover:border-[#1E88E5]/40 hover:bg-[#6b6b6b]">
           <div>{icon}</div>
           {name && <p className="text-gray/50 font-mono text-sm">{name}</p>}
           {chevron && <FaChevronDown size={15} className="ml-2" />}

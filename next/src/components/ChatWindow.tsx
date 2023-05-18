@@ -368,9 +368,11 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
   return (
     <div
-      className={`${getMessageContainerStyle(
-        message
-      )} mx-2 my-1 rounded-lg border-[2px] bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base`}
+      className={clsx(
+        getMessageContainerStyle(message),
+        "mx-2 my-1 rounded-lg border-[1px] bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
+        "sm:my-1.5 sm:text-sm"
+      )}
     >
       {message.type != MESSAGE_TYPE_SYSTEM && (
         // Avoid for system messages as they do not have an icon and will cause a weird space

@@ -36,7 +36,6 @@ analyze_task_prompt = PromptTemplate(
     }}\n\n
     that can be used in JSON.parse() and NOTHING ELSE.
     """,
-
     input_variables=["goal", "task", "tools_overview"],
 )
 

@@ -144,7 +144,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
                 />
               }
               text="Twitter"
-              href="https://twitter.com/asimdotshrestha/status/1644883727707959296"
+              href="https://twitter.com/reworkdai"
               target="_blank"
               small
             />

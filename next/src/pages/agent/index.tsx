@@ -12,7 +12,7 @@ import Toast from "../../components/toast";
 import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";

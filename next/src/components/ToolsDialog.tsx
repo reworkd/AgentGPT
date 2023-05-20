@@ -57,7 +57,7 @@ export const ToolsDialog: React.FC<{
               <p className="font-bold">{tool.name}</p>
               <p className="text-sm">{tool.description}</p>
             </div>
-            <Switch value={false} onChange={() => {}} />
+            <Switch value={true} onChange={() => null} />
           </div>
         ))}
       </div>

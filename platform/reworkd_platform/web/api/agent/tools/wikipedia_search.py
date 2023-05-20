@@ -11,6 +11,7 @@ class Wikipedia(Tool):
         "places or research. This should be used over search for broad overviews of "
         "specific nouns.\n The argument should be a simple query of just the noun."
     )
+    public_description = "Search Wikipedia for historical information."
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)

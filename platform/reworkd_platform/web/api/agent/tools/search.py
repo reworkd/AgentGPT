@@ -37,6 +37,7 @@ class Search(Tool):
         "news and people.\n"
         "The argument should be the search query."
     )
+    public_description = "Search google for information about current events."
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)

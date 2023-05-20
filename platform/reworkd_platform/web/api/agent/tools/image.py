@@ -11,6 +11,7 @@ class Image(Tool):
         "should be a detailed description of the image touching on image "
         "style, image focus, color, etc"
     )
+    public_description = "Generate AI images."
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)

@@ -7,7 +7,8 @@ import Expand from "../motions/expand";
 import { AnimatePresence } from "framer-motion";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
-import React, { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import React from "react";
 import type { HeaderProps } from "../../utils/types";
 import { messageListId } from "../../utils/constants";
 import PopIn from "../motions/popin";
@@ -16,8 +17,8 @@ import clsx from "clsx";
 const Tab = (props: PropsWithChildren<{ onClick: () => void; active: boolean }>) => (
   <button
     className={clsx(
-      "z-1 ml-1 -translate-y-9 rounded-t-lg border-[2px] border-b-0 border-white/20 bg-zinc-900 px-2 text-sm text-gray-300 transition-all",
-      props.active && "bg-zinc-900"
+      props.active ? "-translate-y-[2.75em] bg-zinc-900" : "-translate-y-[2.9em]",
+      "ml-1 rounded-t-lg border-[2px] border-b-0 border-white/20 bg-zinc-900 px-2 text-sm text-gray-300 transition-all"
     )}
     onClick={props.onClick}
   >

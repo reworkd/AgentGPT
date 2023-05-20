@@ -28,6 +28,7 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
 import { env } from "../env/client.mjs";
+import { ToolsDialog } from "../components/ToolsDialog";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -54,6 +55,7 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [showSorryDialog, setShowSorryDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
+  const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
@@ -196,6 +198,7 @@ const Home: NextPage = () => {
   return (
     <DefaultLayout>
       <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
+      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
       <SettingsDialog
         customSettings={settingsModel}
         show={showSettingsDialog}
@@ -300,7 +303,7 @@ const Home: NextPage = () => {
                   placeholder="AgentGPT"
                   type="text"
                 />
-                <Button ping>
+                <Button ping onClick={() => setShowToolsDialog(true)}>
                   <p className="mr-3">Tools</p>
                   <FaCog />
                 </Button>

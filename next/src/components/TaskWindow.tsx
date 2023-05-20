@@ -1,10 +1,12 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
+import Expand from "./motions/expand";
+import type { AgentStatus } from "../types/agentTypes";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useMessageStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
@@ -13,11 +15,20 @@ import { AnimatePresence } from "framer-motion";
 import FadeOut from "./motions/FadeOut";
 import { useAgent } from "../hooks/useAgent";
 
-export interface TaskWindowProps {
-  visibleOnMobile?: boolean;
-}
+export const TaskWindow = ({ className }: { className?: string }) => {
+  return (
+    <Expand
+      className={clsx(
+        className,
+        "w-full flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 font-mono shadow-2xl xl:mx-2 xl:flex xl:w-[20rem] xl:px-1"
+      )}
+    >
+      <TaskWindowContent />
+    </Expand>
+  );
+};
 
-export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
+export const TaskWindowContent = () => {
   const [customTask, setCustomTask] = React.useState("");
   const { agent, status } = useAgent();
   const tasks = useMessageStore.use.tasks();
@@ -36,11 +47,12 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 
   return (
     <>
-      <div className=" top-0 flex items-center justify-center gap-2 p-2 text-gray-100 ">
-        <FaListAlt /> {t("Current tasks")}
+      <div className="md:text-md flex items-center justify-center bg-zinc-900 text-sm text-gray-100 md:p-2">
+        <FaListAlt />
+        &nbsp;{t("Current tasks")}
       </div>
-      <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
-        <div className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
+      <div className="flex w-full flex-col gap-2 overflow-auto px-1 py-1">
+        <div className="flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
           {tasks.length == 0 && (
             <p className="w-full p-2 text-center text-xs text-gray-300">
               This window will display agent tasks as they are created.
@@ -48,7 +60,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
           )}
           <AnimatePresence>
             {tasks.map((task, i) => (
-              <Task key={i} index={i} task={task} />
+              <Task key={i} index={i} task={task} status={status} />
             ))}
           </AnimatePresence>
         </div>
@@ -72,12 +84,9 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   );
 };
 
-const Task = ({ task, index }: { task: Task; index: number }) => {
-  const { agent, status } = useAgent();
-  const isAgentStopped = status === "stopped";
-
+const Task = ({ task, status, index }: { task: Task; status: AgentStatus; index: number }) => {
   const deleteTask = useMessageStore.use.deleteTask();
-  const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
+  const isTaskDeletable = task.taskId && status != "stopped" && task.status === "started";
 
   const handleDeleteTask = () => {
     if (isTaskDeletable) {
@@ -91,7 +100,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
         <div
           className={clsx(
             "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
-            isAgentStopped && "opacity-50",
+            status == "stopped" && "opacity-50",
             getMessageContainerStyle(task)
           )}
         >

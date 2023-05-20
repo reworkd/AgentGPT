@@ -6,8 +6,7 @@ import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/console/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
-import Button from "../components/Button";
-import { FaStar } from "react-icons/fa";
+import { FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
@@ -27,6 +26,7 @@ import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
 import { env } from "../env/client.mjs";
 import { MediaControls } from "../components/console/MediaControls";
+import { TaskWindow } from "../components/TaskWindow";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
-  const [nameInput, setNameInput] = React.useState<string>("FIX ME");
+  const [nameInput, setNameInput] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const settingsModel = useSettings();
@@ -243,9 +243,31 @@ const Home: NextPage = () => {
                   }}
                 />
               </ChatWindow>
+              <TaskWindow className="hidden xl:flex" />
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-8">
+              <Expand delay={1.2}>
+                <Input
+                  inputRef={nameInputRef}
+                  left={
+                    <>
+                      <FaRobot />
+                      <span className="ml-2">
+                        {i18n?.t("AGENT_NAME", {
+                          ns: "indexPage",
+                        })}
+                      </span>
+                    </>
+                  }
+                  value={nameInput}
+                  disabled={agent != null}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
+                  placeholder="AgentGPT"
+                  type="text"
+                />
+              </Expand>
               <Expand delay={1.3}>
                 <Input
                   left={

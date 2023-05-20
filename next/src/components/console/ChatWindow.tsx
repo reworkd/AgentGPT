@@ -24,7 +24,7 @@ import MarkdownRenderer from "./MarkdownRenderer";
 import { MacWindowHeader } from "./MacWindowHeader";
 import type { HeaderProps } from "../../utils/types";
 import { messageListId } from "../../utils/constants";
-import { TaskWindow } from "../TaskWindow";
+import { TaskWindow, TaskWindowContent } from "../TaskWindow";
 import FadingHr from "../FadingHr";
 import { useAgent } from "../../hooks/useAgent";
 
@@ -125,7 +125,7 @@ const ChatWindow = ({
     </>
   );
 
-  const taskTab = <TaskWindow />;
+  const taskTab = <TaskWindowContent />;
 
   return (
     <div
@@ -210,8 +210,7 @@ const ChatMessage = ({ message, status }: { message: Message; status?: AgentStat
     <div
       className={clsx(
         getMessageContainerStyle(message),
-        "mx-2 my-1 rounded-lg border-[1px] bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
-        "sm:my-1.5 sm:text-sm"
+        "rounded-lg border-[1px] bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:text-sm"
       )}
     >
       {message.type != MESSAGE_TYPE_SYSTEM && (

@@ -109,7 +109,7 @@ export const MacWindowHeader = (
 
   return (
     <div className="bg-g flex items-center gap-1 overflow-visible rounded-t-3xl p-3">
-      <div className="absolute">
+      <div className="absolute xl:hidden">
         {props.tabs.map((t, i) => (
           <Tab key={i} onClick={t.onCLick} active={t.isActive}>
             {t.title}

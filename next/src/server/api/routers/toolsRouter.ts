@@ -4,19 +4,21 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import axios from "axios";
 import { env } from "../../../env/server.mjs";
 
-const Tool = z.object({
+const ToolSchema = z.object({
   name: z.string(),
   description: z.string(),
   color: z.string(),
 });
+export type Tool = z.infer<typeof ToolSchema>;
 
-const ToolResponse = z.object({
-  tools: z.array(Tool),
+const ToolResponseSchema = z.object({
+  tools: z.array(ToolSchema),
 });
+export type ToolResponse = z.infer<typeof ToolResponseSchema>;
 
 export const toolsRouter = createTRPCRouter({
-  getUserTools: publicProcedure.query(async ({ ctx }): Promise<z.infer<typeof ToolResponse>> => {
+  getUserTools: publicProcedure.query(async ({ ctx }): Promise<ToolResponse> => {
     const res = await axios.get(`${env.NEXT_PUBLIC_BACKEND_URL}/agent/tools`);
-    return ToolResponse.parse(res.data);
+    return ToolResponseSchema.parse(res.data);
   }),
 });

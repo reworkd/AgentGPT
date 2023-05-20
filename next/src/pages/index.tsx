@@ -7,7 +7,7 @@ import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaPlay, FaRobot, FaStar } from "react-icons/fa";
+import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
@@ -281,8 +281,8 @@ const Home: NextPage = () => {
               <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 md:m-4 ">
-              <Expand delay={1.2}>
+            <div className="flex w-full flex-col gap-2 md:m-4">
+              <Expand delay={1.2} className="flex flex-row gap-2">
                 <Input
                   inputRef={nameInputRef}
                   left={
@@ -300,6 +300,10 @@ const Home: NextPage = () => {
                   placeholder="AgentGPT"
                   type="text"
                 />
+                <Button ping>
+                  <p className="mr-3">Tools</p>
+                  <FaCog />
+                </Button>
               </Expand>
               <Expand delay={1.3}>
                 <Input

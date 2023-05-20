@@ -8,6 +8,7 @@ from reworkd_platform.web.api.agent.agent_service.agent_service_provider import 
 )
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.tools.tools import get_tool_name, get_external_tools
 from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 router = APIRouter()
@@ -109,3 +110,27 @@ async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
             status_code=500,
             detail=f"An error occurred while processing the request. {error}",
         )
+
+
+class ToolModel(BaseModel):
+    name: str
+    description: str
+    color: str
+
+
+class ToolsResponse(BaseModel):
+    tools: List[ToolModel]
+
+
+@router.get("/tools")
+async def get_user_tools() -> ToolsResponse:
+    tools = get_external_tools()
+    formatted_tools = [
+        ToolModel(
+            name=get_tool_name(tool),
+            description=tool.public_description,
+            color="bg-blue-400",
+        )
+        for tool in tools
+    ]
+    return ToolsResponse(tools=formatted_tools)

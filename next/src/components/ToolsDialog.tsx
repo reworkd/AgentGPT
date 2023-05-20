@@ -55,7 +55,7 @@ export const ToolsDialog: React.FC<{
             />
             <div className="flex flex-grow flex-col gap-1">
               <p className="font-bold">{tool.name}</p>
-              <p className="text-sm">{tool.description}</p>
+              <p className="text-xs sm:text-sm">{tool.description}</p>
             </div>
             <Switch value={true} onChange={() => null} />
           </div>

@@ -285,7 +285,7 @@ const Home: NextPage = () => {
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4">
-              <Expand delay={1.2} className="flex flex-row gap-2">
+              <Expand delay={1.2} className="flex flex-row items-end gap-2">
                 <Input
                   inputRef={nameInputRef}
                   left={
@@ -303,7 +303,7 @@ const Home: NextPage = () => {
                   placeholder="AgentGPT"
                   type="text"
                 />
-                <Button ping onClick={() => setShowToolsDialog(true)}>
+                <Button ping onClick={() => setShowToolsDialog(true)} className="h-fit">
                   <p className="mr-3">Tools</p>
                   <FaCog />
                 </Button>

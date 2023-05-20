@@ -10,7 +10,7 @@ export const ToolsDialog: React.FC<{
   show: boolean;
   close: () => void;
 }> = ({ show, close }) => {
-  const { data, isError } = api.tools.getUserTools.useQuery();
+  const { data, isSuccess } = api.tools.getUserTools.useQuery();
 
   return (
     <Dialog
@@ -38,7 +38,7 @@ export const ToolsDialog: React.FC<{
             <Switch value={true} onChange={() => null} disabled />
           </div>
         ))}
-        {isError && <p className="text-red-500">Error loading tools</p>}
+        {!isSuccess && <p className="text-center text-red-300">Error loading tools.</p>}
       </div>
     </Dialog>
   );

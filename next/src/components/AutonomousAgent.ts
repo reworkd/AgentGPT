@@ -145,7 +145,11 @@ class AutonomousAgent {
     this.sendThinkingMessage();
 
     // Default to reasoning
-    let analysis: Analysis = { action: "reason", arg: "" };
+    let analysis: Analysis = {
+      reasoning: "I'll just think about it...",
+      action: "reason",
+      arg: "",
+    };
 
     // If enabled, analyze what tool to use
     if (useAgentStore.getState().isWebSearchEnabled) {

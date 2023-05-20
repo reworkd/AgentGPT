@@ -8,8 +8,7 @@ from reworkd_platform.web.api.agent.agent_service.agent_service_provider import 
 )
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
-from reworkd_platform.web.api.agent.tools.tools import (get_tool_name,
-                                                        get_external_tools)
+from reworkd_platform.web.api.agent.tools.tools import get_tool_name, get_external_tools
 from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 router = APIRouter()
@@ -130,7 +129,7 @@ async def get_user_tools() -> ToolsResponse:
         ToolModel(
             name=get_tool_name(tool),
             description=tool.public_description,
-            color="bg-blue-400"
+            color="bg-blue-400",
         )
         for tool in tools
     ]

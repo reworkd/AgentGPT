@@ -99,7 +99,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             ))}
 
             {status === "unauthenticated" && (
-              <div>
+              <div className="text-sm">
                 <a className="link" onClick={() => void signIn()}>
                   {t("SIGN_IN")}
                 </a>{" "}
@@ -107,7 +107,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
-              <div>{t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}</div>
+              <div className="text-sm">{t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}</div>
             )}
           </ul>
         </div>

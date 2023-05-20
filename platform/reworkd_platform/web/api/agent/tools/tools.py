@@ -1,5 +1,6 @@
 from typing import Type, List
 
+from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
@@ -8,11 +9,21 @@ from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 
 def get_available_tools() -> List[Type[Tool]]:
+    return get_external_tools() + get_default_tools()
+
+
+def get_external_tools() -> List[Type[Tool]]:
     return [
-        Reason,
         Wikipedia,
         Image,
         Search,
+    ]
+
+
+def get_default_tools() -> List[Type[Tool]]:
+    return [
+        Reason,
+        Conclude,
     ]
 
 

@@ -10,6 +10,7 @@ tool_names = [get_tool_name(tool) for tool in get_available_tools()]
 
 
 class Analysis(BaseModel):
+    reasoning: str
     action: str
     arg: str
 
@@ -21,4 +22,8 @@ class Analysis(BaseModel):
 
 
 def get_default_analysis() -> Analysis:
-    return Analysis(action=get_tool_name(get_default_tool()), arg="Analyze errored out")
+    return Analysis(
+        reasoning="Hmm... I'll have to try again",
+        action=get_tool_name(get_default_tool()),
+        arg="Analyze errored out",
+    )

@@ -7,9 +7,10 @@ from reworkd_platform.web.api.agent.tools.tools import get_default_tool, get_too
 
 def test_analysis_model() -> None:
     valid_tool_name = get_tool_name(get_default_tool())
-    analysis = Analysis(action=valid_tool_name, arg="test argument")
+    analysis = Analysis(action=valid_tool_name, arg="arg", reasoning="reasoning")
     assert analysis.action == valid_tool_name
-    assert analysis.arg == "test argument"
+    assert analysis.arg == "arg"
+    assert analysis.reasoning == "reasoning"
 
 
 def test_analysis_model_invalid_tool() -> None:

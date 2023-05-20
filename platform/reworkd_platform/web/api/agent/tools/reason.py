@@ -1,7 +1,6 @@
 from langchain import LLMChain
 
 from reworkd_platform.web.api.agent.model_settings import ModelSettings, create_model
-from reworkd_platform.web.api.agent.prompts import execute_task_prompt
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
@@ -12,6 +11,8 @@ class Reason(Tool):
         super().__init__(model_settings)
 
     def call(self, goal: str, task: str, input_str: str) -> str:
+        from reworkd_platform.web.api.agent.prompts import execute_task_prompt
+
         llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=execute_task_prompt)
 

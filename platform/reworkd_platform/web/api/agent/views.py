@@ -44,7 +44,7 @@ async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
 
 
 @router.post("/analyze")
-async def create_tasks(request_body: AgentRequestBody) -> Analysis:
+async def analyze_tasks(request_body: AgentRequestBody) -> Analysis:
     try:
         return await get_agent_service().analyze_task_agent(
             request_body.modelSettings,
@@ -74,7 +74,7 @@ class CompletionResponse(BaseModel):
 
 
 @router.post("/execute")
-async def create_tasks(request_body: AgentRequestBody) -> CompletionResponse:
+async def execute_tasks(request_body: AgentRequestBody) -> CompletionResponse:
     try:
         response = await get_agent_service().execute_task_agent(
             request_body.modelSettings,

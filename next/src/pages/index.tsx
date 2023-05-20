@@ -285,7 +285,7 @@ const Home: NextPage = () => {
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4">
-              <Expand delay={1.2} className="flex flex-row items-end gap-2">
+              <Expand delay={1.2} className="flex flex-row items-end gap-2 md:items-center">
                 <Input
                   inputRef={nameInputRef}
                   left={

@@ -9,4 +9,4 @@ class Conclude(Tool):
         super().__init__(model_settings)
 
     def call(self, goal: str, task: str, input_str: str) -> str:
-        return ""
+        return "Task execution concluded."

@@ -3,7 +3,7 @@ import {
   createModel,
   createTasksPrompt,
   executeTaskPrompt,
-  startGoalPrompt,
+  startGoalPrompt
 } from "../utils/prompts";
 import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";

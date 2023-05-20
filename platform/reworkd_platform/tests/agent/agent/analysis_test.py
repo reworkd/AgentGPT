@@ -10,7 +10,7 @@ def test_analysis_model() -> None:
     analysis = Analysis(action=valid_tool_name, arg="arg", reasoning="reasoning")
     assert analysis.action == valid_tool_name
     assert analysis.arg == "arg"
-    assert analysis.arg == "reasoning"
+    assert analysis.reasoning == "reasoning"
 
 
 def test_analysis_model_invalid_tool() -> None:

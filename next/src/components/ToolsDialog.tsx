@@ -33,7 +33,7 @@ export const ToolsDialog: React.FC<{
               className={clsx("h-10 w-10 rounded-full border-[1px] border-white/30", tool.color)}
             />
             <div className="flex flex-grow flex-col gap-1">
-              <p className="font-bold">{tool.name}</p>
+              <p className="font-bold capitalize">{tool.name}</p>
               <p className="text-xs sm:text-sm">{tool.description}</p>
             </div>
             <Switch value={true} onChange={() => null} disabled />

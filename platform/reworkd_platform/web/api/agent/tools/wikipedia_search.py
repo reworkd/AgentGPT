@@ -17,6 +17,7 @@ class Wikipedia(Tool):
         super().__init__(model_settings)
         self.wikipedia = WikipediaAPIWrapper()
 
-    def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(self, goal: str, task: str, input_str: str) -> str:
+        # TODO: Make the below async
         wikipedia_search = self.wikipedia.run(input_str)
-        return summarize(self.model_settings, goal, task, [wikipedia_search])
+        return await summarize(self.model_settings, goal, task, [wikipedia_search])

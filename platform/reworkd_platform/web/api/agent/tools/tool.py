@@ -12,5 +12,5 @@ class Tool(ABC):
         self.model_settings = model_settings
 
     @abstractmethod
-    def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(self, goal: str, task: str, input_str: str) -> str:
         pass

@@ -1,15 +1,15 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
 from pydantic import BaseModel
 
+from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
 )
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
-from reworkd_platform.web.api.agent.tools.tools import get_tool_name, get_external_tools
-from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
+from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 
 router = APIRouter()
 
@@ -31,7 +31,14 @@ class NewTasksResponse(BaseModel):
 
 
 @router.post("/start")
-async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
+async def create_tasks(
+    request_body: AgentRequestBody = Body(
+        example={
+            "goal": "Create business plan for a bagel company",
+            "task": "Identify the most common bagel shapes",
+        }
+    ),
+) -> NewTasksResponse:
     try:
         new_tasks = await get_agent_service().start_goal_agent(
             request_body.modelSettings, request_body.goal, request_body.language
@@ -45,7 +52,9 @@ async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
 
 
 @router.post("/analyze")
-async def analyze_tasks(request_body: AgentRequestBody) -> Analysis:
+async def create_tasks(
+    request_body: AgentRequestBody,
+) -> Analysis:
     try:
         return await get_agent_service().analyze_task_agent(
             request_body.modelSettings,
@@ -67,7 +76,7 @@ class Wiki(BaseModel):
 
 @router.post("/test-wiki-search")
 async def wiki(req: Wiki) -> str:
-    return Wikipedia({}).call(req.goal, req.task, req.query)
+    return settings.frontend_url
 
 
 class CompletionResponse(BaseModel):
@@ -75,7 +84,9 @@ class CompletionResponse(BaseModel):
 
 
 @router.post("/execute")
-async def execute_tasks(request_body: AgentRequestBody) -> CompletionResponse:
+async def create_tasks(
+    request_body: AgentRequestBody,
+) -> CompletionResponse:
     try:
         response = await get_agent_service().execute_task_agent(
             request_body.modelSettings,
@@ -93,7 +104,9 @@ async def execute_tasks(request_body: AgentRequestBody) -> CompletionResponse:
 
 
 @router.post("/create")
-async def create_tasks(request_body: AgentRequestBody) -> NewTasksResponse:
+async def create_tasks(
+    request_body: AgentRequestBody,
+) -> NewTasksResponse:
     try:
         new_tasks = await get_agent_service().create_tasks_agent(
             request_body.modelSettings,
@@ -129,7 +142,7 @@ async def get_user_tools() -> ToolsResponse:
         ToolModel(
             name=get_tool_name(tool),
             description=tool.public_description,
-            color="bg-blue-400",
+            color="TODO: Change to image of tool",
         )
         for tool in tools
     ]

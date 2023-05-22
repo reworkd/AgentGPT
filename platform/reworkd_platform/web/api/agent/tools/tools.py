@@ -5,7 +5,6 @@ from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
 from reworkd_platform.web.api.agent.tools.tool import Tool
-from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 
 def get_available_tools() -> List[Type[Tool]]:
@@ -14,7 +13,7 @@ def get_available_tools() -> List[Type[Tool]]:
 
 def get_external_tools() -> List[Type[Tool]]:
     return [
-        Wikipedia,
+        # Wikipedia, # Requires an async version
         Image,
         Search,
     ]

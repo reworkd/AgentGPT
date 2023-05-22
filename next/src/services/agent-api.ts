@@ -1,6 +1,7 @@
 import type { RequestBody } from "../utils/interfaces";
 import axios from "axios";
 import type { Analysis } from "./agent-service";
+import { env } from "../env/client.mjs";
 
 type ApiProps = Pick<RequestBody, "modelSettings" | "language" | "goal">;
 
@@ -36,7 +37,7 @@ export class AgentApi {
   }
 
   async analyzeTask(task: string): Promise<Analysis> {
-    return await this.post<Analysis>("api/agent/analyze", {
+    return await this.post<Analysis>("/api/agent/analyze", {
       task: task,
     });
   }
@@ -62,7 +63,7 @@ export class AgentApi {
     };
 
     try {
-      return (await axios.post(url, requestBody)).data as T;
+      return (await axios.post(env.NEXT_PUBLIC_BACKEND_URL + url, requestBody)).data as T;
     } catch (e) {
       this.onError(e);
     }

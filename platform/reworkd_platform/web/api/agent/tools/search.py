@@ -1,5 +1,3 @@
-from typing import Any
-
 import aiohttp
 
 from reworkd_platform.settings import settings
@@ -13,7 +11,7 @@ from reworkd_platform.web.api.agent.tools.utils import summarize
 
 
 async def _google_serper_search_results(
-    search_term: str, search_type: str = "search", **kwargs: Any
+    search_term: str, search_type: str = "search"
 ) -> dict:
     headers = {
         "X-API-KEY": settings.serp_api_key or "",
@@ -21,7 +19,6 @@ async def _google_serper_search_results(
     }
     params = {
         "q": search_term,
-        **{key: value for key, value in kwargs.items() if value is not None},
     }
 
     async with aiohttp.ClientSession() as session:

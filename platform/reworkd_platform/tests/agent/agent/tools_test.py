@@ -16,19 +16,15 @@ def test_get_tool_name() -> None:
 def test_get_tools_overview() -> None:
     """Simple test to assert that the wikipedia description is what we expect."""
     overview = get_tools_overview()
-    wikipedia_description = (
-        "Search Wikipedia for information about historical people, companies, events, "
-        "places or research. This should be used over search for broad overviews of "
-        "specific nouns.\n The argument should be a simple query of just the noun."
-    )
+    reasoning_description = "Reason about via existing information or understanding."
 
-    assert wikipedia_description in overview
+    assert reasoning_description in overview
 
 
 def test_get_tool_from_name() -> None:
-    assert get_tool_from_name("Wikipedia") == Wikipedia
-    assert get_tool_from_name("WiKiPeDia") == Wikipedia
     assert get_tool_from_name("Reason") == Reason
+    assert get_tool_from_name("ReAsOn") == Reason
+    assert get_tool_from_name("REASON") == Reason
     assert get_tool_from_name("NonExistingTool") == Reason
 
 

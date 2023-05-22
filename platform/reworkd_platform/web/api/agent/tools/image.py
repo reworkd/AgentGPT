@@ -1,5 +1,4 @@
 import openai
-from langchain import WikipediaAPIWrapper
 
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
 from reworkd_platform.web.api.agent.tools.tool import Tool
@@ -15,9 +14,8 @@ class Image(Tool):
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
-        self.wikipedia = WikipediaAPIWrapper()
 
-    def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(self, goal: str, task: str, input_str: str) -> str:
         response = openai.Image.create(
             api_key=self.model_settings.customApiKey,
             prompt=input_str,

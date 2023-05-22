@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from langchain.chains import LLMChain
-from langchain.output_parsers import PydanticOutputParser, OutputFixingParser
+from langchain.output_parsers import PydanticOutputParser
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
@@ -49,7 +49,7 @@ class OpenAIAgentService(AgentService):
 
         print("Analysis completion:\n", completion)
         try:
-            return parser.parse(completion)
+            return pydantic_parser.parse(completion)
         except Exception as error:
             print(f"Error parsing analysis: {error}")
             return get_default_analysis()

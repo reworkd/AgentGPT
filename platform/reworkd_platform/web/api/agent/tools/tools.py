@@ -42,7 +42,9 @@ def get_tools_overview(tools: List[Type[Tool]]) -> str:
     """Return a formatted string of name: description pairs for all available tools"""
 
     # Create a list of formatted strings
-    formatted_strings = [f"{get_tool_name(tool)}: {tool.description}" for tool in tools]
+    formatted_strings = [
+        f"'{get_tool_name(tool)}': {tool.description}" for tool in tools
+    ]
 
     # Remove duplicates by converting the list to a set and back to a list
     unique_strings = list(set(formatted_strings))

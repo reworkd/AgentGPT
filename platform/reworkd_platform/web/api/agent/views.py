@@ -61,7 +61,7 @@ async def analyze_tasks(
             request_body.modelSettings,
             request_body.goal,
             request_body.task,
-            request_body.toolNames,
+            request_body.toolNames if request_body.toolNames else [],
         )
     except Exception as error:
         raise HTTPException(

@@ -32,8 +32,8 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
-    isWebSearchEnabled: env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
     agentMode: AUTOMATIC_MODE,
+    isWebSearchEnabled: env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
     updateAgentMode: (agentMode) => {
       set(() => ({
         agentMode,

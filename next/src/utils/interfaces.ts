@@ -11,4 +11,5 @@ export interface RequestBody {
   result?: string;
   completedTasks?: string[];
   analysis?: Analysis;
+  toolNames?: string[];
 }

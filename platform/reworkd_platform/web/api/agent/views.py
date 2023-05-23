@@ -20,6 +20,7 @@ class AgentRequestBody(BaseModel):
     language: Optional[str] = "English"
     task: Optional[str]
     analysis: Optional[Analysis]
+    toolNames: Optional[List[str]]
     tasks: Optional[List[str]]
     lastTask: Optional[str]
     result: Optional[str]
@@ -31,7 +32,7 @@ class NewTasksResponse(BaseModel):
 
 
 @router.post("/start")
-async def create_tasks(
+async def start_tasks(
     request_body: AgentRequestBody = Body(
         example={
             "goal": "Create business plan for a bagel company",
@@ -52,7 +53,7 @@ async def create_tasks(
 
 
 @router.post("/analyze")
-async def create_tasks(
+async def analyze_tasks(
     request_body: AgentRequestBody,
 ) -> Analysis:
     try:
@@ -60,6 +61,7 @@ async def create_tasks(
             request_body.modelSettings,
             request_body.goal,
             request_body.task,
+            request_body.toolNames if request_body.toolNames else [],
         )
     except Exception as error:
         raise HTTPException(
@@ -84,7 +86,7 @@ class CompletionResponse(BaseModel):
 
 
 @router.post("/execute")
-async def create_tasks(
+async def execute_tasks(
     request_body: AgentRequestBody,
 ) -> CompletionResponse:
     try:

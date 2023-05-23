@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from langchain.chains import LLMChain
-from langchain.output_parsers import PydanticOutputParser, OutputFixingParser
+from langchain.output_parsers import PydanticOutputParser
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
@@ -15,6 +15,7 @@ from reworkd_platform.web.api.agent.prompts import (
 from reworkd_platform.web.api.agent.tools.tools import (
     get_tools_overview,
     get_tool_from_name,
+    get_user_tools,
 )
 
 
@@ -30,21 +31,24 @@ class OpenAIAgentService(AgentService):
         return extract_tasks(completion, [])
 
     async def analyze_task_agent(
-        self, model_settings: ModelSettings, goal: str, task: str
+        self, model_settings: ModelSettings, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
         llm = create_model(model_settings)
         chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
 
         pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
-        parser = OutputFixingParser.from_llm(parser=pydantic_parser, llm=llm)
 
         completion = await chain.arun(
-            {"goal": goal, "task": task, "tools_overview": get_tools_overview()}
+            {
+                "goal": goal,
+                "task": task,
+                "tools_overview": get_tools_overview(get_user_tools(tool_names)),
+            }
         )
 
         print("Analysis completion:\n", completion)
         try:
-            return parser.parse(completion)
+            return pydantic_parser.parse(completion)
         except Exception as error:
             print(f"Error parsing analysis: {error}")
             return get_default_analysis()

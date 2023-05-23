@@ -26,6 +26,7 @@ interface AgentSlice {
   agentMode: AgentMode;
   updateAgentMode: (agentMode: AgentMode) => void;
   setTools: (tools: Tool[]) => void;
+  updateToolActiveState: (toolName: string) => void;
   updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
   updateIsAgentStopped: () => void;
   setIsWebSearchEnabled: (isWebSearchEnabled: boolean) => void;
@@ -46,6 +47,13 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
     setTools: (tools) => {
       set(() => ({
         tools,
+      }));
+    },
+    updateToolActiveState: (toolName: string) => {
+      set((state) => ({
+        tools: state.tools.map((tool) =>
+          tool.name === toolName ? { ...tool, active: !tool.active } : tool
+        ),
       }));
     },
     updateIsAgentPaused: (agentPlaybackControl) => {

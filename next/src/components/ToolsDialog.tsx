@@ -13,11 +13,13 @@ export const ToolsDialog: React.FC<{
 }> = ({ show, close }) => {
   const tools = useAgentStore.use.tools();
   const setTools = useAgentStore.use.setTools();
+  const updateToolActiveState = useAgentStore.use.updateToolActiveState();
+
   // Load the data here but then immediate store in Zustand so that we can use it elsewhere
-  const { data, isSuccess } = api.tools.getUserTools.useQuery(undefined, {
+  const { isSuccess } = api.tools.getUserTools.useQuery(undefined, {
     retry: false,
     onSuccess: (data) => {
-      setTools(data.tools);
+      setTools(data);
     },
   });
 
@@ -44,7 +46,7 @@ export const ToolsDialog: React.FC<{
               <p className="font-bold capitalize">{tool.name}</p>
               <p className="text-xs sm:text-sm">{tool.description}</p>
             </div>
-            <Switch value={true} onChange={() => null} disabled />
+            <Switch value={tool.active} onChange={() => updateToolActiveState(tool.name)} />
           </div>
         ))}
         {!isSuccess && <p className="text-center text-red-300">Error loading tools.</p>}

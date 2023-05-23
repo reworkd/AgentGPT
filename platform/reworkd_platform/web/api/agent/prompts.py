@@ -26,6 +26,7 @@ analyze_task_prompt = PromptTemplate(
 
     {tools_overview}\n\n
 
+    Actions are the one word actions above.
     You cannot pick an action outside of this list.
     Return your response in an object of the form\n\n
 
@@ -42,7 +43,11 @@ analyze_task_prompt = PromptTemplate(
 execute_task_prompt = PromptTemplate(
     template="""Answer in the "{language}" language. Given
     the following overall objective `{goal}` and the following sub-task, `{task}`.
-    Perform the task and return an adequate response.""",
+
+    Perform the task by understanding the problem, extracting variables, and being smart
+    and efficient. Provide a descriptive response, make decisions yourself when
+    confronted with choices and provide reasoning for ideas / decisions.
+    """,
     input_variables=["goal", "language", "task"],
 )
 

@@ -5,12 +5,23 @@ import { Switch } from "./Switch";
 import clsx from "clsx";
 import { api } from "../utils/api";
 import type { Tool } from "../server/api/routers/toolsRouter";
+import { useAgentStore } from "../stores";
 
 export const ToolsDialog: React.FC<{
   show: boolean;
   close: () => void;
 }> = ({ show, close }) => {
-  const { data, isSuccess } = api.tools.getUserTools.useQuery();
+  const tools = useAgentStore.use.tools();
+  const setTools = useAgentStore.use.setTools();
+  const updateToolActiveState = useAgentStore.use.updateToolActiveState();
+
+  // Load the data here but then immediate store in Zustand so that we can use it elsewhere
+  const { isSuccess } = api.tools.getUserTools.useQuery(undefined, {
+    retry: false,
+    onSuccess: (data) => {
+      setTools(data);
+    },
+  });
 
   return (
     <Dialog
@@ -25,7 +36,7 @@ export const ToolsDialog: React.FC<{
     >
       <p>Select what external tools your agents have access to.</p>
       <div className="mt-5 flex flex-col gap-3 ">
-        {data?.tools.map((tool) => (
+        {tools.map((tool) => (
           <div
             key={tool.name + tool.description}
             className="flex items-center gap-3 rounded-md border-[1px] border-white/30 bg-zinc-800 p-2 px-4 text-white"
@@ -35,7 +46,7 @@ export const ToolsDialog: React.FC<{
               <p className="font-bold capitalize">{tool.name}</p>
               <p className="text-xs sm:text-sm">{tool.description}</p>
             </div>
-            <Switch value={true} onChange={() => null} disabled />
+            <Switch value={tool.active} onChange={() => updateToolActiveState(tool.name)} />
           </div>
         ))}
         {!isSuccess && <p className="text-center text-red-300">Error loading tools.</p>}
@@ -46,6 +57,6 @@ export const ToolsDialog: React.FC<{
 
 const ToolAvatar = ({ tool }: { tool: Tool }) => {
   return (
-    <div className={clsx("h-10 w-10 rounded-full border-[1px] border-white/30", tool.color)} />
+    <div className={clsx("h-10 w-10 rounded-full border-[1px] border-white/30 bg-amber-600")} />
   );
 };

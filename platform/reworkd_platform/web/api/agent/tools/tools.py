@@ -7,6 +7,10 @@ from reworkd_platform.web.api.agent.tools.search import Search
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
+def get_user_tools(tool_names: List[str]) -> List[Type[Tool]]:
+    return list(map(get_tool_from_name, tool_names)) + get_default_tools()
+
+
 def get_available_tools() -> List[Type[Tool]]:
     return get_external_tools() + get_default_tools()
 
@@ -34,11 +38,19 @@ def format_tool_name(tool_name: str) -> str:
     return tool_name.lower()
 
 
-def get_tools_overview() -> str:
+def get_tools_overview(tools: List[Type[Tool]]) -> str:
     """Return a formatted string of name: description pairs for all available tools"""
-    return "\n".join(
-        [f"{get_tool_name(tool)}: {tool.description}" for tool in get_available_tools()]
-    )
+
+    # Create a list of formatted strings
+    formatted_strings = [
+        f"'{get_tool_name(tool)}': {tool.description}" for tool in tools
+    ]
+
+    # Remove duplicates by converting the list to a set and back to a list
+    unique_strings = list(set(formatted_strings))
+
+    # Join the unique strings with newlines
+    return "\n".join(unique_strings)
 
 
 def get_tool_from_name(tool_name: str) -> Type[Tool]:

@@ -1,32 +1,60 @@
+from reworkd_platform.web.api.agent.tools.conclude import Conclude
+from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
+from reworkd_platform.web.api.agent.tools.search import Search
 from reworkd_platform.web.api.agent.tools.tools import (
-    get_tools_overview,
+    get_default_tools,
     get_tool_from_name,
-    get_default_tool,
+    get_tools_overview,
     get_tool_name,
+    format_tool_name,
+    get_user_tools,
+    get_default_tool,
 )
-from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 
 def test_get_tool_name() -> None:
-    assert get_tool_name(Wikipedia) == "wikipedia"
+    assert get_tool_name(Image) == "image"
+    assert get_tool_name(Search) == "search"
     assert get_tool_name(Reason) == "reason"
 
 
-def test_get_tools_overview() -> None:
-    """Simple test to assert that the wikipedia description is what we expect."""
-    overview = get_tools_overview()
-    reasoning_description = "Reason about via existing information or understanding."
+def test_format_tool_name() -> None:
+    assert format_tool_name("Search") == "search"
+    assert format_tool_name("reason") == "reason"
+    assert format_tool_name("Conclude") == "conclude"
+    assert format_tool_name("CoNcLuDe") == "conclude"
 
-    assert reasoning_description in overview
 
+def test_get_tools_overview_no_duplicates() -> None:
+    """Test to assert that the tools overview doesn't include duplicates."""
+    tools = [Image, Search, Reason, Conclude, Image, Search]
+    overview = get_tools_overview(tools)
 
-def test_get_tool_from_name() -> None:
-    assert get_tool_from_name("Reason") == Reason
-    assert get_tool_from_name("ReAsOn") == Reason
-    assert get_tool_from_name("REASON") == Reason
-    assert get_tool_from_name("NonExistingTool") == Reason
+    # Check if each unique tool description is included in the overview
+    for tool in set(tools):
+        expected_description = f"'{get_tool_name(tool)}': {tool.description}"
+        assert expected_description in overview
+
+    # Check for duplicates in the overview
+    overview_list = overview.split("\n")
+    assert len(overview_list) == len(
+        set(overview_list)
+    ), "Overview includes duplicate entries"
 
 
 def test_get_default_tool() -> None:
     assert get_default_tool() == Reason
+
+
+def test_get_tool_from_name() -> None:
+    assert get_tool_from_name("Search") == Search
+    assert get_tool_from_name("reason") == Reason
+    assert get_tool_from_name("CoNcLuDe") == Conclude
+    assert get_tool_from_name("NonExistingTool") == Reason
+
+
+def test_get_user_tools() -> None:
+    user_tools = ["image", "search"]
+    tools = get_user_tools(user_tools)
+    assert set(tools) == set(get_default_tools() + [Image, Search])

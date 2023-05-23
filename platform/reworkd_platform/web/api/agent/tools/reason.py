@@ -5,7 +5,10 @@ from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
 class Reason(Tool):
-    description = "Reason about via existing information or understanding."
+    description = (
+        "Reason about task via existing information or understanding. "
+        "Make decisions / selections from options."
+    )
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)

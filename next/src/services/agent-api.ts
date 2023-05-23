@@ -2,6 +2,7 @@ import type { RequestBody } from "../utils/interfaces";
 import axios from "axios";
 import type { Analysis } from "./agent-service";
 import { env } from "../env/client.mjs";
+import { useAgentStore } from "../stores";
 
 type ApiProps = Pick<RequestBody, "modelSettings" | "language" | "goal">;
 
@@ -39,6 +40,7 @@ export class AgentApi {
   async analyzeTask(task: string): Promise<Analysis> {
     return await this.post<Analysis>("/api/agent/analyze", {
       task: task,
+      toolNames: useAgentStore.getState().tools.map((tool) => tool.name),
     });
   }
 

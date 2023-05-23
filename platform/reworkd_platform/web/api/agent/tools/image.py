@@ -1,6 +1,9 @@
 import openai
 
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.model_settings import (
+    ModelSettings,
+    get_server_side_key,
+)
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
@@ -16,8 +19,14 @@ class Image(Tool):
         super().__init__(model_settings)
 
     async def call(self, goal: str, task: str, input_str: str) -> str:
+        api_key = (
+            self.model_settings.customApiKey
+            if self.model_settings.customApiKey
+            else get_server_side_key()
+        )
+
         response = openai.Image.create(
-            api_key=self.model_settings.customApiKey,
+            api_key=api_key,
             prompt=input_str,
             n=1,
             size="256x256",

@@ -18,7 +18,9 @@ export type Tool = ToolModel & { active: boolean };
  */
 export const toolsRouter = createTRPCRouter({
   getUserTools: publicProcedure.query(async ({ ctx }): Promise<Tool[]> => {
-    const res = await axios.get<{ tools: ToolModel[] }>(`${env.PLATFORM_URL}/api/agent/tools`);
+    const res = await axios.get<{ tools: ToolModel[] }>(
+      `${env.PLATFORM_URL || ""}/api/agent/tools`
+    );
     const toolModels = res.data.tools.map((toolModel) => ToolModelSchema.parse(toolModel));
 
     return toolModels.map((toolModel) => {

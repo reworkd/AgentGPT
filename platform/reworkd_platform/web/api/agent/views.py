@@ -7,7 +7,7 @@ from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
 )
-from reworkd_platform.web.api.agent.analysis import Analysis
+from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 
@@ -17,7 +17,7 @@ router = APIRouter()
 class AgentRequestBody(BaseModel):
     modelSettings: ModelSettings = ModelSettings()
     goal: str
-    language: Optional[str] = "English"
+    language: str = "English"
     task: Optional[str]
     analysis: Optional[Analysis]
     toolNames: Optional[List[str]]
@@ -33,7 +33,7 @@ class NewTasksResponse(BaseModel):
 
 @router.post("/start")
 async def start_tasks(
-    request_body: AgentRequestBody = Body(
+    req_body: AgentRequestBody = Body(
         example={
             "goal": "Create business plan for a bagel company",
             "task": "Identify the most common bagel shapes",
@@ -42,7 +42,7 @@ async def start_tasks(
 ) -> NewTasksResponse:
     try:
         new_tasks = await get_agent_service().start_goal_agent(
-            request_body.modelSettings, request_body.goal, request_body.language
+            req_body.modelSettings, req_body.goal, req_body.language
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:
@@ -54,14 +54,14 @@ async def start_tasks(
 
 @router.post("/analyze")
 async def analyze_tasks(
-    request_body: AgentRequestBody,
+    req_body: AgentRequestBody,
 ) -> Analysis:
     try:
         return await get_agent_service().analyze_task_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.task,
-            request_body.toolNames if request_body.toolNames else [],
+            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
+            req_body.goal,
+            req_body.task if req_body.task else "",
+            req_body.toolNames if req_body.toolNames else [],
         )
     except Exception as error:
         raise HTTPException(
@@ -87,15 +87,15 @@ class CompletionResponse(BaseModel):
 
 @router.post("/execute")
 async def execute_tasks(
-    request_body: AgentRequestBody,
+    req_body: AgentRequestBody,
 ) -> CompletionResponse:
     try:
         response = await get_agent_service().execute_task_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.language,
-            request_body.task,
-            request_body.analysis,
+            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
+            req_body.goal if req_body.goal else "",
+            req_body.language,
+            req_body.task if req_body.task else "",
+            req_body.analysis if req_body.analysis else get_default_analysis(),
         )
         return CompletionResponse(response=response)
     except Exception as error:
@@ -107,17 +107,17 @@ async def execute_tasks(
 
 @router.post("/create")
 async def create_tasks(
-    request_body: AgentRequestBody,
+    req_body: AgentRequestBody,
 ) -> NewTasksResponse:
     try:
         new_tasks = await get_agent_service().create_tasks_agent(
-            request_body.modelSettings,
-            request_body.goal,
-            request_body.language,
-            request_body.tasks,
-            request_body.lastTask,
-            request_body.result,
-            request_body.completedTasks,
+            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
+            req_body.goal,
+            req_body.language,
+            req_body.tasks if req_body.tasks else [],
+            req_body.lastTask if req_body.lastTask else "",
+            req_body.result if req_body.result else "",
+            req_body.completedTasks if req_body.completedTasks else [],
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:

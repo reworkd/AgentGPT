@@ -35,6 +35,7 @@ def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
         _model_settings = None
 
     return ChatOpenAI(
+        client=None,  # Meta private value but mypy will complain its missing
         openai_api_key=_model_settings.customApiKey
         if _model_settings
         else get_server_side_key(),

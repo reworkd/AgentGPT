@@ -15,7 +15,9 @@ class Wikipedia(Tool):
 
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
-        self.wikipedia = WikipediaAPIWrapper()
+        self.wikipedia = WikipediaAPIWrapper(
+            wiki_client=None,  # Meta private value but mypy will complain its missing
+        )
 
     async def call(self, goal: str, task: str, input_str: str) -> str:
         # TODO: Make the below async

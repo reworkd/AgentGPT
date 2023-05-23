@@ -33,7 +33,7 @@ def test_get_tools_overview_no_duplicates() -> None:
 
     # Check if each unique tool description is included in the overview
     for tool in set(tools):
-        expected_description = f"{get_tool_name(tool)}: {tool.description}"
+        expected_description = f"'{get_tool_name(tool)}': {tool.description}"
         assert expected_description in overview
 
     # Check for duplicates in the overview

@@ -1,3 +1,5 @@
+from typing import Any, List
+
 import aiohttp
 
 from reworkd_platform.settings import settings
@@ -12,7 +14,7 @@ from reworkd_platform.web.api.agent.tools.utils import summarize
 
 async def _google_serper_search_results(
     search_term: str, search_type: str = "search"
-) -> dict:
+) -> dict[str, Any]:
     headers = {
         "X-API-KEY": settings.serp_api_key or "",
         "Content-Type": "application/json",
@@ -48,8 +50,8 @@ class Search(Tool):
 
         k = 6  # Number of results to return
         max_links = 3  # Number of links to return
-        snippets = []
-        links = []
+        snippets: List[str] = []
+        links: List[str] = []
 
         if results.get("answerBox"):
             answer_values = []

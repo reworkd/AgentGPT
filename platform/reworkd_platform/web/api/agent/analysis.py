@@ -15,7 +15,7 @@ class Analysis(BaseModel):
     arg: str
 
     @validator("action")
-    def action_must_be_valid_tool(cls, v):
+    def action_must_be_valid_tool(cls, v: str) -> str:
         if v not in tool_names:
             raise ValueError("Analysis action is not a valid tool")
         return v

@@ -1,3 +1,5 @@
+from typing import Type, List
+
 from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
@@ -10,6 +12,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
     format_tool_name,
     get_user_tools,
     get_default_tool,
+    Tool,
 )
 
 
@@ -28,7 +31,7 @@ def test_format_tool_name() -> None:
 
 def test_get_tools_overview_no_duplicates() -> None:
     """Test to assert that the tools overview doesn't include duplicates."""
-    tools = [Image, Search, Reason, Conclude, Image, Search]
+    tools: List[Type[Tool]] = [Image, Search, Reason, Conclude, Image, Search]
     overview = get_tools_overview(tools)
 
     # Check if each unique tool description is included in the overview

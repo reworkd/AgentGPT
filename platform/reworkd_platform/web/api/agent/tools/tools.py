@@ -1,5 +1,6 @@
 from typing import Type, List
 
+from reworkd_platform.web.api.agent.tools.code import Code
 from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
@@ -20,6 +21,7 @@ def get_external_tools() -> List[Type[Tool]]:
         # Wikipedia, # Requires an async version
         Image,
         Search,
+        Code,
     ]
 
 

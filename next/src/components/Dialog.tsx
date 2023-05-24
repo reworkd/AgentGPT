@@ -62,15 +62,21 @@ export type DialogBackgroundProps = {
   children: React.ReactNode;
   close: () => void;
 };
+
 export const DialogBackground = ({ isShown, children, close }: DialogBackgroundProps) => {
   if (!isShown) {
     return <>{null}</>;
   }
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-black/70 p-3 font-mono text-white outline-none backdrop-blur-sm transition-all">
-      <div className="absolute bottom-0 left-0 right-0 top-0 " onClick={close} />
-      {children}
+    <div
+      className={clsx(
+        "fixed inset-0 z-40 flex items-center justify-center overflow-hidden",
+        "bg-black/70 p-3 font-mono text-white outline-none backdrop-blur-sm transition-all"
+      )}
+      onClick={close}
+    >
+      <div className="relative max-h-full overflow-y-auto">{children}</div>
     </div>
   );
 };

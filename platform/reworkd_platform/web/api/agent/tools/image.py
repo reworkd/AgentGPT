@@ -9,13 +9,10 @@ from reworkd_platform.web.api.agent.model_settings import (
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
-# Use AI to generate an Image based on a prompt
-# Use the replicate API if its available, otherwise use DALL-E
-def is_replicate_available() -> bool:
-    return settings.replicate_api_key is not None
-
-
 async def get_replicate_image(input_str: str) -> str:
+    if settings.replicate_api_key is None:
+        raise RuntimeError("Replicate API key not set")
+
     client = replicate.Client(settings.replicate_api_key)
     output = client.run(
         "stability-ai/stable-diffusion"
@@ -26,6 +23,7 @@ async def get_replicate_image(input_str: str) -> str:
     return output[0]
 
 
+# Use AI to generate an Image based on a prompt
 async def get_open_ai_image(input_str: str) -> str:
     api_key = get_server_side_key()
 
@@ -51,9 +49,10 @@ class Image(Tool):
         super().__init__(model_settings)
 
     async def call(self, goal: str, task: str, input_str: str) -> str:
-        url = (
-            (await get_replicate_image(input_str))
-            if is_replicate_available()
-            else (await get_open_ai_image(input_str))
-        )
+        # Use the replicate API if its available, otherwise use DALL-E
+        try:
+            url = await get_replicate_image(input_str)
+        except RuntimeError:
+            url = await get_open_ai_image(input_str)
+
         return f"![{input_str}]({url})"

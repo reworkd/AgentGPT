@@ -9,7 +9,6 @@ from reworkd_platform.settings import settings
 
 
 class ModelSettings(BaseModel):
-    customApiKey: Optional[str] = None
     customModelName: Optional[str] = None
     customTemperature: Optional[float] = None
     customMaxLoops: Optional[int] = None
@@ -29,23 +28,16 @@ openai.api_base = settings.openai_api_base
 
 
 def create_model(model_settings: Optional[ModelSettings]) -> ChatOpenAI:
-    _model_settings = model_settings
-
-    if not model_settings or not model_settings.customApiKey:
-        _model_settings = None
-
     return ChatOpenAI(
         client=None,  # Meta private value but mypy will complain its missing
-        openai_api_key=_model_settings.customApiKey
-        if _model_settings
-        else get_server_side_key(),
-        temperature=_model_settings.customTemperature
-        if _model_settings and _model_settings.customTemperature is not None
+        openai_api_key=get_server_side_key(),
+        temperature=model_settings.customTemperature
+        if model_settings and model_settings.customTemperature is not None
         else 0.9,
-        model_name=_model_settings.customModelName
-        if _model_settings and _model_settings.customModelName is not None
+        model_name=model_settings.customModelName
+        if model_settings and model_settings.customModelName is not None
         else GPT_35_TURBO,
-        max_tokens=_model_settings.maxTokens
-        if _model_settings and _model_settings.maxTokens is not None
+        max_tokens=model_settings.maxTokens
+        if model_settings and model_settings.maxTokens is not None
         else 400,
     )

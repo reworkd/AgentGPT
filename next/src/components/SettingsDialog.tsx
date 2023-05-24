@@ -1,20 +1,12 @@
 import React, { useEffect } from "react";
 import Button from "./Button";
-import {
-  FaCoins,
-  FaExclamationCircle,
-  FaKey,
-  FaMicrochip,
-  FaSyncAlt,
-  FaThermometerFull,
-} from "react-icons/fa";
+import { FaCoins, FaMicrochip, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
 import Dialog from "./Dialog";
 import Input from "./Input";
-import { GPT_4, GPT_MODEL_NAMES } from "../utils/constants";
+import { GPT_MODEL_NAMES } from "../utils/constants";
 import Accordion from "./Accordion";
 import type { ModelSettings, SettingModel } from "../utils/types";
 import LanguageCombobox from "./LanguageCombobox";
-import clsx from "clsx";
 import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{
@@ -37,21 +29,7 @@ export const SettingsDialog: React.FC<{
     });
   };
 
-  function keyIsValid(key: string | undefined) {
-    const pattern = /^sk-[a-zA-Z0-9]{48}$/;
-    return key && pattern.test(key);
-  }
-
   const handleSave = () => {
-    if (!keyIsValid(settings.customApiKey)) {
-      alert(
-        `${t("INVALID_OPENAI_API_KEY", {
-          ns: "settings",
-        })}`
-      );
-      return;
-    }
-
     customSettings.saveSettings(settings);
     close();
     return;
@@ -62,7 +40,6 @@ export const SettingsDialog: React.FC<{
     close();
   };
 
-  const disabled = !settings.customApiKey;
   const advancedSettings = (
     <div className="flex flex-col gap-2">
       <Input
@@ -95,7 +72,6 @@ export const SettingsDialog: React.FC<{
           </>
         }
         value={settings.customMaxLoops}
-        disabled={disabled}
         onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
@@ -118,7 +94,6 @@ export const SettingsDialog: React.FC<{
           </>
         }
         value={settings.maxTokens ?? 400}
-        disabled={disabled}
         onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
         type="range"
         toolTipProperties={{
@@ -156,54 +131,7 @@ export const SettingsDialog: React.FC<{
         </>
       }
     >
-      <p>
-        {`${t("GET_YOUR_OWN_APIKEY", { ns: "settings" })}`}{" "}
-        <a className="link" href="https://platform.openai.com/account/api-keys">
-          {`${t("HERE", { ns: "settings" })}`}
-        </a>
-        .{" "}
-        <a className="link font-bold" href="https://platform.openai.com/account/billing/overview">
-          {`${t("MUST_CONNECT_CREDIT_CARD", { ns: "settings" })}`}
-        </a>
-        .
-      </p>
-      {settings.customModelName === GPT_4 && (
-        <p
-          className={clsx(
-            "my-2",
-            "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
-          )}
-        >
-          <FaExclamationCircle className="inline-block" />
-          &nbsp;
-          <b>
-            {`${t("INFO_TO_USE_GPT4", { ns: "settings" })}`}
-            &nbsp;
-            <a href="https://openai.com/waitlist/gpt-4-api" className="text-blue-500">
-              {`${t("HERE", "HERE", { ns: "settings" })}`}
-            </a>
-            .&nbsp;{" "}
-            {`${t("SUBSCRIPTION_WILL_NOT_WORK", {
-              ns: "settings",
-            })}`}
-          </b>
-        </p>
-      )}
-      <div className="mt-2 flex flex-col gap-2">
-        <Input
-          left={
-            <>
-              <FaKey />
-              <span className="ml-2">{`${t("API_KEY", {
-                ns: "settings",
-              })}`}</span>
-            </>
-          }
-          placeholder={"sk-..."}
-          type="password"
-          value={settings.customApiKey}
-          onChange={(e) => updateSettings("customApiKey", e.target.value)}
-        />
+      <div className="mt-2 flex w-full flex-col gap-2">
         <LanguageCombobox />
         <Input
           left={
@@ -219,7 +147,6 @@ export const SettingsDialog: React.FC<{
           onChange={() => null}
           setValue={(e) => updateSettings("customModelName", e)}
           attributes={{ options: GPT_MODEL_NAMES }}
-          disabled={disabled}
         />
         <Accordion child={advancedSettings} name={t("ADVANCED_SETTINGS", { ns: "settings" })} />
       </div>

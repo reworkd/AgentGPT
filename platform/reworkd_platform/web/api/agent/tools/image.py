@@ -19,11 +19,7 @@ class Image(Tool):
         super().__init__(model_settings)
 
     async def call(self, goal: str, task: str, input_str: str) -> str:
-        api_key = (
-            self.model_settings.customApiKey
-            if self.model_settings.customApiKey
-            else get_server_side_key()
-        )
+        api_key = get_server_side_key()
 
         response = openai.Image.create(
             api_key=api_key,

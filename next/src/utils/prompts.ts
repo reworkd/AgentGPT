@@ -13,19 +13,11 @@ export const getServerSideKey = (): string => {
 };
 
 export const createModel = (settings: ModelSettings) => {
-  let _settings: ModelSettings | undefined = settings;
-
-  // Only apply custom settings if an API key is used
-  if (!settings.customApiKey) {
-    _settings = undefined;
-  }
-
   return new OpenAI(
     {
-      openAIApiKey: _settings?.customApiKey || getServerSideKey(),
-      temperature: _settings?.customTemperature || 0.9,
-      modelName: _settings?.customModelName || GPT_35_TURBO,
-      maxTokens: _settings?.maxTokens || 400,
+      temperature: settings?.customTemperature || 0.9,
+      modelName: settings?.customModelName || GPT_35_TURBO,
+      maxTokens: settings?.maxTokens || 400,
     },
     {
       basePath: (process.env.OPENAI_API_BASE as string) || undefined,

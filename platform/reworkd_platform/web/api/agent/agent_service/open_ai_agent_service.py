@@ -37,7 +37,7 @@ class OpenAIAgentService(AgentService):
         chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
 
         pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
-
+        print(get_tools_overview(get_user_tools(tool_names)))
         completion = await chain.arun(
             {
                 "goal": goal,

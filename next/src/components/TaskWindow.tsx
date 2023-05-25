@@ -11,7 +11,6 @@ import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
 import { AnimatePresence } from "framer-motion";
-import FadeOut from "./motions/FadeOut";
 
 export interface TaskWindowProps {
   visibleOnMobile?: boolean;
@@ -89,29 +88,27 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
   };
 
   return (
-    <FadeOut delay={index * 0.25}>
-      <FadeIn>
-        <div
-          className={clsx(
-            "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
-            isAgentStopped && "opacity-50",
-            getMessageContainerStyle(task)
-          )}
-        >
-          {getTaskStatusIcon(task, { isAgentStopped })}
-          <span>{task.value}</span>
-          <div className="flex justify-end">
-            <FaTimesCircle
-              onClick={handleDeleteTask}
-              className={clsx(
-                isTaskDeletable && "cursor-pointer hover:text-red-500",
-                !isTaskDeletable && "cursor-not-allowed opacity-30"
-              )}
-              size={12}
-            />
-          </div>
+    <FadeIn>
+      <div
+        className={clsx(
+          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+          isAgentStopped && "opacity-50",
+          getMessageContainerStyle(task)
+        )}
+      >
+        {getTaskStatusIcon(task, { isAgentStopped })}
+        <span>{task.value}</span>
+        <div className="flex justify-end">
+          <FaTimesCircle
+            onClick={handleDeleteTask}
+            className={clsx(
+              isTaskDeletable && "cursor-pointer hover:text-red-500",
+              !isTaskDeletable && "cursor-not-allowed opacity-30"
+            )}
+            size={12}
+          />
         </div>
-      </FadeIn>
-    </FadeOut>
+      </div>
+    </FadeIn>
   );
 };

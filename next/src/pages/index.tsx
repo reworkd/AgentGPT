@@ -226,7 +226,7 @@ const Home: NextPage = () => {
                 </span>
                 <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
                 <PopIn delay={0.5}>
-                  <Badge>
+                  <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
                     {`${i18n?.t("BETA", {
                       ns: "indexPage",
                     })}`}{" "}

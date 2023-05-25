@@ -105,13 +105,6 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
-        <div className="mx-4 rounded-full border border-red-500 bg-red-900/30 p-2 px-4 text-red-100">
-          🚨{" "}
-          <a className="link" href="https://status.openai.com/">
-            OpenAI
-          </a>{" "}
-          is currently experiencing issues. As a result, AgentGPT may not be available. 🚨
-        </div>
         {agent !== null && agentMode === PAUSE_MODE && isAgentPaused && (
           <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
         )}

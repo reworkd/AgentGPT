@@ -7,7 +7,7 @@ import ChatWindow from "../components/ChatWindow";
 import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { FaPlay, FaRobot, FaStar } from "react-icons/fa";
+import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
@@ -28,6 +28,7 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SorryDialog } from "../components/SorryDialog";
 import { SignInDialog } from "../components/SignInDialog";
 import { env } from "../env/client.mjs";
+import { ToolsDialog } from "../components/ToolsDialog";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -54,6 +55,7 @@ const Home: NextPage = () => {
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [showSorryDialog, setShowSorryDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
+  const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
@@ -196,6 +198,7 @@ const Home: NextPage = () => {
   return (
     <DefaultLayout>
       <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
+      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
       <SettingsDialog
         customSettings={settingsModel}
         show={showSettingsDialog}
@@ -281,8 +284,8 @@ const Home: NextPage = () => {
               <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
             </Expand>
 
-            <div className="flex w-full flex-col gap-2 md:m-4 ">
-              <Expand delay={1.2}>
+            <div className="flex w-full flex-col gap-2 md:m-4">
+              <Expand delay={1.2} className="flex flex-row items-end gap-2 md:items-center">
                 <Input
                   inputRef={nameInputRef}
                   left={
@@ -300,6 +303,10 @@ const Home: NextPage = () => {
                   placeholder="AgentGPT"
                   type="text"
                 />
+                <Button ping onClick={() => setShowToolsDialog(true)} className="h-fit">
+                  <p className="mr-3">Tools</p>
+                  <FaCog />
+                </Button>
               </Expand>
               <Expand delay={1.3}>
                 <Input

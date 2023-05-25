@@ -3,7 +3,7 @@ import pytest
 from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
     create_model,
 )
-from reworkd_platform.web.api.agent.model_settings import ModelSettings, GPT_35_TURBO
+from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
 
 @pytest.mark.parametrize(
@@ -11,7 +11,6 @@ from reworkd_platform.web.api.agent.model_settings import ModelSettings, GPT_35_
     [
         (
             ModelSettings(
-                customApiKey="test_api_key",
                 customTemperature=0.222,
                 customModelName="Custom_Model",
                 maxTokens=1234,
@@ -19,16 +18,6 @@ from reworkd_platform.web.api.agent.model_settings import ModelSettings, GPT_35_
             0.222,
             "Custom_Model",
             1234,
-        ),
-        (
-            ModelSettings(
-                customTemperature=0.222,
-                customModelName="Custom_Model",
-                maxTokens=1234,
-            ),
-            0.9,
-            GPT_35_TURBO,
-            400,
         ),
     ],
 )

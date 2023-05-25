@@ -11,7 +11,7 @@ class AgentService(Protocol):
         pass
 
     async def analyze_task_agent(
-        self, model_settings: ModelSettings, goal: str, task: str
+        self, model_settings: ModelSettings, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
         pass
 

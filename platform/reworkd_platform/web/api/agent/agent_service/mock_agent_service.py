@@ -24,9 +24,13 @@ class MockAgentService(AgentService):
         return ["Task 4"]
 
     async def analyze_task_agent(
-        self, model_settings: ModelSettings, goal: str, task: str
+        self, model_settings: ModelSettings, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        return Analysis(action="reason", arg="Mock analysis")
+        return Analysis(
+            action="reason",
+            arg="Mock analysis",
+            reasoning="Mock to avoid wasting money calling the OpenAI API.",
+        )
 
     async def execute_task_agent(
         self,

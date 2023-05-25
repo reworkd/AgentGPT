@@ -22,10 +22,11 @@ analyze_task_prompt = PromptTemplate(
     problem, extracting variables, and being smart and efficient. You provide concrete
     reasoning for your actions detailing your overall plan and any concerns you may
     have. You evaluate the best action to take strictly from the list of actions
-    below:\n\n
+    below:\n
 
     {tools_overview}\n\n
 
+    Actions are the one word actions above.
     You cannot pick an action outside of this list.
     Return your response in an object of the form\n\n
 
@@ -39,10 +40,33 @@ analyze_task_prompt = PromptTemplate(
     input_variables=["goal", "task", "tools_overview"],
 )
 
+code_prompt = PromptTemplate(
+    template="""
+    You are a world-class software engineer and an expert in all programing languages,
+    software systems, and architecture.
+
+    For reference, your high level goal is
+    {goal}
+
+    Answer in the "{language}" language but write code in English.
+    Provide no information about who you are and focus on writing code.
+    Ensure code is bug and error free and explain complex concepts through comments
+    Respond in well-formatted markdown. Ensure code blocks are used for code sections.
+
+    Write code to accomplish the following:
+    {task}
+    """,
+    input_variables=["goal", "language", "task"],
+)
+
 execute_task_prompt = PromptTemplate(
     template="""Answer in the "{language}" language. Given
     the following overall objective `{goal}` and the following sub-task, `{task}`.
-    Perform the task and return an adequate response.""",
+
+    Perform the task by understanding the problem, extracting variables, and being smart
+    and efficient. Provide a descriptive response, make decisions yourself when
+    confronted with choices and provide reasoning for ideas / decisions.
+    """,
     input_variables=["goal", "language", "task"],
 )
 

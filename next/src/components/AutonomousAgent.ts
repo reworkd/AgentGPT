@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
 import type { Analysis } from "../services/agent-service";
-import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
+import { DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
@@ -223,9 +223,7 @@ class AutonomousAgent {
   }
 
   private maxLoops() {
-    return !!this.modelSettings.customApiKey
-      ? this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_CUSTOM_API_KEY
-      : DEFAULT_MAX_LOOPS_FREE;
+    return this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_FREE;
   }
 
   updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
@@ -256,10 +254,7 @@ class AutonomousAgent {
   sendLoopMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
-      value: translate(
-        !!this.modelSettings.customApiKey ? "AGENT_MAXED_OUT_LOOPS" : "DEMO_LOOPS_REACHED",
-        "errors"
-      ),
+      value: translate("DEMO_LOOPS_REACHED", "errors"),
     });
   }
 
@@ -288,6 +283,9 @@ class AutonomousAgent {
     }
     if (analysis.action == "image") {
       message = `🎨 Generating an image with prompt: "${analysis.arg}"...`;
+    }
+    if (analysis.action == "code") {
+      message = `💻 Writing code...`;
     }
 
     this.sendMessage({

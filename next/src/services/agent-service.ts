@@ -47,7 +47,7 @@ async function analyzeTaskAgent(modelSettings: ModelSettings, goal: string, task
 
 export type Analysis = {
   reasoning: string;
-  action: "reason" | "search" | "wikipedia" | "image";
+  action: "reason" | "search" | "wikipedia" | "image" | "code";
   arg: string;
 };
 

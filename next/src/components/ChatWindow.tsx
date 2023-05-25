@@ -30,7 +30,6 @@ import { AnimatePresence } from "framer-motion";
 import { CgExport } from "react-icons/cg";
 import MarkdownRenderer from "./MarkdownRenderer";
 import { Switch } from "./Switch";
-import { env } from "../env/client.mjs";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -66,8 +65,6 @@ const ChatWindow = ({
   const agentMode = useAgentStore.use.agentMode();
   const agent = useAgentStore.use.agent();
   const updateAgentMode = useAgentStore.use.updateAgentMode();
-  const isWebSearchEnabled = useAgentStore.use.isWebSearchEnabled();
-  const setIsWebSearchEnabled = useAgentStore.use.setIsWebSearchEnabled();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -85,18 +82,6 @@ const ChatWindow = ({
       }
     }
   });
-
-  const handleChangeWebSearch = (value: boolean) => {
-    // Change this value when we can no longer support web search
-    const WEB_SEARCH_ALLOWED = env.NEXT_PUBLIC_WEB_SEARCH_ENABLED;
-
-    if (WEB_SEARCH_ALLOWED) {
-      setIsWebSearchEnabled(value);
-    } else {
-      openSorryDialog?.();
-      setIsWebSearchEnabled(false);
-    }
-  };
 
   const handleUpdateAgentMode = (value: boolean) => {
     updateAgentMode(value ? PAUSE_MODE : AUTOMATIC_MODE);
@@ -167,13 +152,6 @@ const ChatWindow = ({
       </div>
       {displaySettings && (
         <div className="flex flex-row items-center justify-center">
-          <SwitchContainer label="Web Search">
-            <Switch
-              disabled={agent !== null}
-              value={isWebSearchEnabled}
-              onChange={handleChangeWebSearch}
-            />
-          </SwitchContainer>
           <SwitchContainer label={PAUSE_MODE}>
             <Switch
               disabled={agent !== null}
@@ -215,8 +193,8 @@ const ExampleAgentButton = ({
     <div
       className={clsx(
         `w-full p-2 sm:w-[33%]`,
-        `cursor-pointer rounded-lg bg-sky-600 font-mono text-sm hover:bg-sky-700 sm:text-base`,
-        `border-[2px] border-white/20 hover:border-[#1E88E5]/40`
+        `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
+        `border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
       )}
       onClick={handleClick}
     >

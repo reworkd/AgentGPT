@@ -169,7 +169,9 @@ const Input = (props: InputProps) => {
     >
       {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}
       {inputElement}
-      {isTypeRange() && <p className="m-auto w-1/6 px-0 text-center text-sm md:text-lg">{value}</p>}
+      {isTypeRange() && (
+        <p className="m-auto mx-4 w-1/6 px-0 text-center text-sm md:text-lg">{value}</p>
+      )}
     </div>
   );
 };

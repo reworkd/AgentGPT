@@ -193,8 +193,8 @@ const ExampleAgentButton = ({
     <div
       className={clsx(
         `w-full p-2 sm:w-[33%]`,
-        `cursor-pointer rounded-lg bg-sky-600 font-mono text-sm hover:bg-sky-700 sm:text-base`,
-        `border-[2px] border-white/20 hover:border-[#1E88E5]/40`
+        `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
+        `border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
       )}
       onClick={handleClick}
     >

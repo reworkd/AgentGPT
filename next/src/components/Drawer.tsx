@@ -11,6 +11,7 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaTwitter,
+  FaUser,
 } from "react-icons/fa";
 import clsx from "clsx";
 import { useAuth } from "../hooks/useAuth";
@@ -113,6 +114,15 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
         </div>
 
         <div className="flex flex-col gap-1">
+          {session?.user && (
+            <>
+              <FadingHr className="my-2" />
+              <div className="flex flex-row items-center justify-center gap-2">
+                <FaUser />
+                {session?.user?.name}
+              </div>
+            </>
+          )}
           <FadingHr className="my-2" />
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
           <DrawerItem icon={<FaQuestionCircle />} text={t("HELP_BUTTON")} onClick={showHelp} />

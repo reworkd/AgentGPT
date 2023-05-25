@@ -10,46 +10,6 @@ Below is a list of the most frequently asked questions about AgentGPT. If you ha
 reach out to the moderation or dev team on [Discord](https://discord.gg/jdSBAnmdnY)
 or [GitHub](https://github.com/reworkd/AgentGPT).
 
-### API key issues
-
-<details>
-<summary>Where can I get an API key?</summary>
-You should first sign up for an OpenAI account. You can do so <a href="https://openai.com/blog/openai-api">here</a>.
-For new accounts, you will be placed under a free tier with $18 of free credits.
-All you need to do now is visit the <a href="https://platform.openai.com/account/api-keys">API keys page</a>, create a new key, and place the key within the AgentGPT settings menu.
-<br></br>
-<br></br>
-<strong>NOTE:</strong> This key should be private and should not be shared publicly. AgentGPT does not save this key in a database, it is simply stored in your browser.
-</details>
-
-<details>
-<summary>I have free API credits, why is my API key not working?</summary>
-OpenAI API accounts start with $18 of free tier credits. Unfortunately, an individual server can only run the free tier API a few times a second before being stopped. Our server has to run all of the API calls from hundreds of users itself so unfortunately this won't work.
-<br/>
-<br/>
-Paid APIs do not face this issue. Because of this, you will need to add billing information into your API
-key: <a href="https://platform.openai.com/account/billing/overview">OpenAI API Overview</a>.
-<br/><strong>Note:</strong> that a few runs of AgentGPT will only cost a few cents.
-</details>
-
-<details>
-<summary>I have ChatGPT Plus, why is my API key not working?</summary>
-ChatGPT Plus is independent of your OpenAI API key.
-Although you have ChatGPT Plus, it doesn't mean that you will be able to use the API.
-All accounts start with $18 of free credits but this can be used of or expired. Given this, you will need to add your billing information into your API key account.
-You can do so by visiting the following link and adding a payment method: <a href="https://platform.openai.com/account/billing/overview">OpenAI API Overview</a>.
-</details>
-
-<details>
-<summary>How much will AgentGPT cost me?</summary>
-Using AgentGPT is free as we handle the API costs. If you provide your own API key however, the cost per agent deployment will depend on the model that you use.
-<ul>
-    <li>gpt-3.5-turbo will cost only a few cents per run at most</li>
-    <li>gpt-4 is a lot more expensive. Be sure to limit its loops and watch over costs carefully</li>
-    <li>NOTE: You can limit the number of loops and number of tokens within the advanced settings</li>
-</ul>
-</details>
-
 ### Agent issues
 
 <details>
@@ -79,12 +39,7 @@ Keep an eye on our <a href="/roadmap">roadmap</a> to get an idea for when this m
 
 <details>
 <summary>Can AgentGPT use GPT-4?</summary>
-AgentGPT currently uses GPT-3.5 due to costs and availability. If you have API access to GPT-4, you can input your own API key in the settings menu and select GPT-4 as the model.
-</details>
-
-<details>
-<summary>I have ChatGPT Plus, why can't I use GPT-4?</summary>
-ChatGPT Plus is independent of your OpenAI API account having access to GPT-4. Unfortunately, our API key account will have to be accepted through the waitlist. Enroll your account here: <a href="https://openai.com/waitlist/gpt-4-api">GPT-4 API waitlist</a>
+AgentGPT currently uses GPT-3.5 for free tier users with GPT-4 access for PRO users. If you have API access to GPT-4, you can run AgentGPT locally using the key and access GPT-4 in settings.
 </details>
 
 <details>

@@ -87,7 +87,17 @@ class CompletionResponse(BaseModel):
 
 @router.post("/execute")
 async def execute_tasks(
-    req_body: AgentRequestBody,
+    req_body: AgentRequestBody = Body(
+        example={
+            "goal": "Perform tasks accurately",
+            "task": "Write code to make a platformer",
+            "analysis": {
+                "reasoning": "I like to write code.",
+                "action": "code",
+                "arg": ""
+            },
+        }
+    ),
 ) -> CompletionResponse:
     try:
         response = await get_agent_service().execute_task_agent(

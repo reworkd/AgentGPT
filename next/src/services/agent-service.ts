@@ -3,7 +3,7 @@ import {
   createModel,
   createTasksPrompt,
   executeTaskPrompt,
-  startGoalPrompt
+  startGoalPrompt,
 } from "../utils/prompts";
 import type { ModelSettings } from "../utils/types";
 import { env } from "../env/client.mjs";
@@ -47,7 +47,7 @@ async function analyzeTaskAgent(modelSettings: ModelSettings, goal: string, task
 
 export type Analysis = {
   reasoning: string;
-  action: "reason" | "search" | "wikipedia" | "image";
+  action: "reason" | "search" | "wikipedia" | "image" | "code";
   arg: string;
 };
 

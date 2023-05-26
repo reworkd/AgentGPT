@@ -43,6 +43,43 @@ But you have to rebuild image every time you modify `poetry.lock` or `pyproject.
 docker-compose -f deploy/docker-compose.yml --project-directory . build
 ```
 
+## langchain-serve
+
+You can deploy the `reworkd_platform` using [langchain-serve](https://github.com/jina-ai/langchain-serve) on Jina AI Cloud.
+
+To build, push & deploy the app on Jina AI Cloud, run the following command:
+
+```bash
+lc-serve deploy jcloud --app serve:app --app-dir . --name agentgpt
+```
+
+<details>
+<summary>Show sample output</summary>
+╭──────────────┬─────────────────────────────────────────────────────────────────────────────────────╮
+│ App ID       │                                 agentgpt-cd6f71772c                                 │
+├──────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ Phase        │                                       Serving                                       │
+├──────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ Endpoint     │                      https://agentgpt-cd6f71772c.wolf.jina.ai                       │
+├──────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ App logs     │                               https://cloud.jina.ai/                                │
+├──────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ Swagger UI   │                    https://agentgpt-cd6f71772c.wolf.jina.ai/docs                    │
+├──────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ OpenAPI JSON │                https://agentgpt-cd6f71772c.wolf.jina.ai/openapi.json                │
+╰──────────────┴─────────────────────────────────────────────────────────────────────────────────────╯
+</details>
+
+
+After any changes to the API, you can update the app on Jina AI Cloud with the following command:
+
+```bash
+lc-serve deploy jcloud --app serve:app --app-dir . --name agentgpt --app-id <APP-ID>-
+```
+
+Read more about resource customizations, pricing, monitoring and other app management details in the **[langchain-serve](https://github.com/jina-ai/langchain-serve)** repository.
+
+
 ## Project structure
 
 ```bash

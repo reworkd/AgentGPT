@@ -20,7 +20,7 @@ from reworkd_platform.web.api.agent.helpers import remove_task_prefix
         ("1. Research the history and background of Nike company.", "Research the history and background of Nike company."),
     ],
 )
-def test_removes_task_colon(task_input, expected_output) -> None:
+def test_remove_task_prefix(task_input, expected_output) -> None:
     task_input = "Task: This is a sample task"
     output = remove_task_prefix(task_input)
     assert output == "This is a sample task"

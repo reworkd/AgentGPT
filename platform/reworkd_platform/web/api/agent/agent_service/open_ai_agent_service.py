@@ -20,20 +20,22 @@ from reworkd_platform.web.api.agent.tools.tools import (
 
 
 class OpenAIAgentService(AgentService):
-    async def start_goal_agent(
-        self, model_settings: ModelSettings, goal: str, language: str
-    ) -> List[str]:
-        llm = create_model(model_settings)
+    def __init__(self, model_settings: ModelSettings):
+        self.model_settings = model_settings
+        self._language = model_settings.language or "English"
+
+    async def start_goal_agent(self, *, goal: str) -> List[str]:
+        llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=start_goal_prompt)
 
-        completion = await chain.arun({"goal": goal, "language": language})
+        completion = await chain.arun({"goal": goal, "language": self._language})
         print(f"Goal: {goal}, Completion: {completion}")
         return extract_tasks(completion, [])
 
     async def analyze_task_agent(
-        self, model_settings: ModelSettings, goal: str, task: str, tool_names: List[str]
+        self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        llm = create_model(model_settings)
+        llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
 
         pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
@@ -55,34 +57,32 @@ class OpenAIAgentService(AgentService):
 
     async def execute_task_agent(
         self,
-        model_settings: ModelSettings,
+        *,
         goal: str,
-        language: str,
         task: str,
         analysis: Analysis,
     ) -> str:
         print("Execution analysis:", analysis)
 
         tool_class = get_tool_from_name(analysis.action)
-        return await tool_class(model_settings).call(goal, task, analysis.arg)
+        return await tool_class(self.model_settings).call(goal, task, analysis.arg)
 
     async def create_tasks_agent(
         self,
-        model_settings: ModelSettings,
+        *,
         goal: str,
-        language: str,
         tasks: List[str],
         last_task: str,
         result: str,
         completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
-        llm = create_model(model_settings)
+        llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=create_tasks_prompt)
 
         completion = await chain.arun(
             {
                 "goal": goal,
-                "language": language,
+                "language": self._language,
                 "tasks": tasks,
                 "lastTask": last_task,
                 "result": result,

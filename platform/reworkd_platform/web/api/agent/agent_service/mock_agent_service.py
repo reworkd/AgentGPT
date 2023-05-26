@@ -1,43 +1,22 @@
-from typing import List, Optional
+from typing import List
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.agent_service.agent_service import Analysis
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
 
 class MockAgentService(AgentService):
-    async def start_goal_agent(
-        self, model_settings: ModelSettings, goal: str, language: str
-    ) -> List[str]:
+    async def start_goal_agent(self, **kwargs) -> List[str]:
         return ["Task 1"]
 
-    async def create_tasks_agent(
-        self,
-        model_settings: ModelSettings,
-        goal: str,
-        language: str,
-        tasks: List[str],
-        last_task: str,
-        result: str,
-        completed_tasks: Optional[List[str]] = None,
-    ) -> List[str]:
+    async def create_tasks_agent(self, **kwargs) -> List[str]:
         return ["Task 4"]
 
-    async def analyze_task_agent(
-        self, model_settings: ModelSettings, goal: str, task: str, tool_names: List[str]
-    ) -> Analysis:
+    async def analyze_task_agent(self, **kwargs) -> Analysis:
         return Analysis(
             action="reason",
             arg="Mock analysis",
             reasoning="Mock to avoid wasting money calling the OpenAI API.",
         )
 
-    async def execute_task_agent(
-        self,
-        model_settings: ModelSettings,
-        goal: str,
-        language: str,
-        task: str,
-        analysis: Analysis,
-    ) -> str:
-        return "Result: " + task
+    async def execute_task_agent(self, **kwargs) -> str:
+        return "Result: " + kwargs.get("task", "task")

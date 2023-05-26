@@ -36,3 +36,6 @@ class AgentService(Protocol):
         completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
         pass
+
+    async def get_name(self, model_settings: ModelSettings, goal: str, language: str) -> str:
+        pass

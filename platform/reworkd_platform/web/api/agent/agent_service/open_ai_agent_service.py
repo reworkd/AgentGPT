@@ -11,6 +11,7 @@ from reworkd_platform.web.api.agent.prompts import (
     start_goal_prompt,
     analyze_task_prompt,
     create_tasks_prompt,
+    name_prompt,
 )
 from reworkd_platform.web.api.agent.tools.tools import (
     get_tools_overview,
@@ -90,3 +91,19 @@ class OpenAIAgentService(AgentService):
         )
 
         return extract_tasks(completion, completed_tasks or [])
+
+    async def get_name(self, model_settings: ModelSettings, goal: str, language: str) -> str:
+        llm = create_model(model_settings)
+        chain = LLMChain(llm=llm, prompt=name_prompt)
+
+        completion = await chain.arun(
+            {
+                "goal": goal,
+                "language": language,
+            }
+        )
+
+        return completion
+
+
+

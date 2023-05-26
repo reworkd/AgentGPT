@@ -72,6 +72,7 @@ class AutonomousAgent {
         goal,
         language,
         modelSettings,
+        session,
       },
       this.onApiError
     );

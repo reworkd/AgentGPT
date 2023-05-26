@@ -88,3 +88,16 @@ summarize_prompt = PromptTemplate(
     longer responses.""",
     input_variables=["goal", "query", "snippets"],
 )
+
+name_prompt = PromptTemplate(
+    template="""You are an AI naming agent. You must answer in the "{language}" language.
+    You must provide a SINGLE WORD name for the following goal "{goal}". The name must
+    also be suffixed with "GPT" and a related emoji.
+
+    For example, if the goal is to create a task list, the name could be "TaskGPT 📝".
+    For example, if the goal is to create a platformer game, the name could be "PlatformerGPT 🎮".
+
+    Return the response a string.
+    """,
+    input_variables=["goal", "language"],
+)

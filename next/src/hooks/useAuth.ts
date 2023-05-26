@@ -24,13 +24,13 @@ export function useAuth(): Auth {
     z.string()
       .uuid()
       .parseAsync(user.email)
-      .then(uuid => window.localStorage.setItem(UUID_KEY, uuid))
+      .then((uuid) => window.localStorage.setItem(UUID_KEY, uuid))
       .catch(() => undefined);
   }, [session, status]);
 
   const handleSignIn = async () => {
     await signIn();
-  }
+  };
 
   const handleSignOut = async () => {
     await signOut({

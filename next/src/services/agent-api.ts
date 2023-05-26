@@ -1,14 +1,17 @@
 import type { RequestBody } from "../utils/interfaces";
-import axios from "axios";
 import type { Analysis } from "./agent-service";
 import { env } from "../env/client.mjs";
 import { useAgentStore } from "../stores";
+import * as apiUtils from "./api-utils";
+import { Session } from "next-auth";
 
-type ApiProps = Pick<RequestBody, "modelSettings" | "language" | "goal">;
-
+type ApiProps = Pick<RequestBody, "modelSettings" | "language" | "goal"> & {
+  session?: Session;
+};
 export class AgentApi {
   readonly props: ApiProps;
   readonly onError: (e: unknown) => never;
+  _runId: string | null = null;
 
   constructor(apiProps: ApiProps, onError: (e: unknown) => never) {
     this.props = apiProps;
@@ -16,7 +19,9 @@ export class AgentApi {
   }
 
   async getInitialTasks(): Promise<string[]> {
-    return (await this.post<{ newTasks: string[] }>("/api/agent/start", {})).newTasks;
+    const response = await this.post<{ runId: string; newTasks: string[] }>("/api/agent/start", {});
+    this._runId = response.runId;
+    return response.newTasks;
   }
 
   async getAdditionalTasks(
@@ -61,11 +66,12 @@ export class AgentApi {
       modelSettings: this.props.modelSettings,
       language: this.props.language,
       goal: this.props.goal,
+      ...(this._runId && { runId: this._runId }),
       ...data,
     };
 
     try {
-      return (await axios.post(env.NEXT_PUBLIC_BACKEND_URL + url, requestBody)).data as T;
+      return apiUtils.post<T>(env.NEXT_PUBLIC_BACKEND_URL + url, requestBody, this.props.session);
     } catch (e) {
       this.onError(e);
     }

@@ -1,5 +1,6 @@
 from typing import AsyncGenerator
 
+from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.requests import Request
 
@@ -13,8 +14,11 @@ async def get_db_session(request: Request) -> AsyncGenerator[AsyncSession, None]
     """
     session: AsyncSession = request.app.state.db_session_factory()
 
-    try:  # noqa: WPS501
+    try:
         yield session
-    finally:
         await session.commit()
+    except Exception as e:
+        logger.exception(e)
+        await session.rollback()
+    finally:
         await session.close()

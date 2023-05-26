@@ -1,3 +1,4 @@
+import uuid
 from typing import List, Optional
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
@@ -41,3 +42,6 @@ class MockAgentService(AgentService):
         analysis: Analysis,
     ) -> str:
         return "Result: " + task
+
+    async def get_name(self, model_settings: ModelSettings, goal: str, language: str) -> str:
+        return str(uuid.uuid1())[:6] + "-GPT 🤖"

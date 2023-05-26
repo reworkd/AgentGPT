@@ -1,8 +1,13 @@
+import asyncio
 from typing import List, Optional
 
-from fastapi import APIRouter, HTTPException, Body
+from fastapi import APIRouter, HTTPException, Body, Depends
 from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from reworkd_platform.db.agent_store import AgentStore
+from reworkd_platform.db.dependencies import get_db_session
+from reworkd_platform.db.models.agent import AgentRun
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
@@ -10,11 +15,13 @@ from reworkd_platform.web.api.agent.agent_service.agent_service_provider import 
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
+from reworkd_platform.web.api.dependencies import UserBase, get_current_user
 
 router = APIRouter()
 
 
 class AgentRequestBody(BaseModel):
+    runId: Optional[str]
     modelSettings: ModelSettings = ModelSettings()
     goal: str
     language: str = "English"
@@ -28,6 +35,7 @@ class AgentRequestBody(BaseModel):
 
 
 class NewTasksResponse(BaseModel):
+    runId: str
     newTasks: List[str]
 
 
@@ -36,38 +44,43 @@ async def start_tasks(
     req_body: AgentRequestBody = Body(
         example={
             "goal": "Create business plan for a bagel company",
-            "task": "Identify the most common bagel shapes",
+            "language": "English",
         }
     ),
+    session: AsyncSession = Depends(get_db_session),
+    user: UserBase = Depends(get_current_user),
 ) -> NewTasksResponse:
-    try:
-        new_tasks = await get_agent_service().start_goal_agent(
+    store = AgentStore(session, user.id)
+
+    agent_service = get_agent_service()
+    new_tasks, name = await asyncio.gather(
+        agent_service.start_goal_agent(
             req_body.modelSettings, req_body.goal, req_body.language
-        )
-        return NewTasksResponse(newTasks=new_tasks)
-    except Exception as error:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while processing the request. {error}",
-        )
+        ),
+        agent_service.get_name(
+            req_body.modelSettings, req_body.goal, req_body.language
+        ),
+    )
+
+    run = await store.create_agent_run(goal=req_body.goal, name=name)
+    return NewTasksResponse(runId=run.id, newTasks=new_tasks)
 
 
 @router.post("/analyze")
 async def analyze_tasks(
     req_body: AgentRequestBody,
+    session: AsyncSession = Depends(get_db_session),
+    user: UserBase = Depends(get_current_user),
 ) -> Analysis:
-    try:
-        return await get_agent_service().analyze_task_agent(
-            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
-            req_body.goal,
-            req_body.task if req_body.task else "",
-            req_body.toolNames if req_body.toolNames else [],
-        )
-    except Exception as error:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while processing the request. {error}",
-        )
+    store = AgentStore(session, user.id)
+    await get_run_or_throw(req_body, store)
+
+    return await get_agent_service().analyze_task_agent(
+        req_body.modelSettings if req_body.modelSettings else ModelSettings(),
+        req_body.goal,
+        req_body.task if req_body.task else "",
+        req_body.toolNames if req_body.toolNames else [],
+    )
 
 
 class Wiki(BaseModel):
@@ -94,47 +107,63 @@ async def execute_tasks(
             "analysis": {
                 "reasoning": "I like to write code.",
                 "action": "code",
-                "arg": ""
+                "arg": "",
             },
         }
     ),
+    session: AsyncSession = Depends(get_db_session),
+    user: UserBase = Depends(get_current_user),
 ) -> CompletionResponse:
-    try:
-        response = await get_agent_service().execute_task_agent(
-            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
-            req_body.goal if req_body.goal else "",
-            req_body.language,
-            req_body.task if req_body.task else "",
-            req_body.analysis if req_body.analysis else get_default_analysis(),
-        )
-        return CompletionResponse(response=response)
-    except Exception as error:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while processing the request. {error}",
-        )
+    store = AgentStore(session, user.id)
+    await get_run_or_throw(req_body, store)
+
+    response = await get_agent_service().execute_task_agent(
+        req_body.modelSettings if req_body.modelSettings else ModelSettings(),
+        req_body.goal if req_body.goal else "",
+        req_body.language,
+        req_body.task if req_body.task else "",
+        req_body.analysis if req_body.analysis else get_default_analysis(),
+    )
+
+    await store.create_agent_task(
+        run_id=req_body.runId,
+        info=req_body.task,
+        value=response,
+    )
+
+    return CompletionResponse(response=response)
+
+
+async def get_run_or_throw(req_body, store) -> AgentRun:
+    if run := await store.get_agent_run(req_body.runId):
+        return run
+
+    raise HTTPException(
+        status_code=404,
+        detail=f"Run with id {req_body.runId} not found.",
+    )
 
 
 @router.post("/create")
 async def create_tasks(
     req_body: AgentRequestBody,
+    session: AsyncSession = Depends(get_db_session),
+    user: UserBase = Depends(get_current_user),
 ) -> NewTasksResponse:
-    try:
-        new_tasks = await get_agent_service().create_tasks_agent(
-            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
-            req_body.goal,
-            req_body.language,
-            req_body.tasks if req_body.tasks else [],
-            req_body.lastTask if req_body.lastTask else "",
-            req_body.result if req_body.result else "",
-            req_body.completedTasks if req_body.completedTasks else [],
-        )
-        return NewTasksResponse(newTasks=new_tasks)
-    except Exception as error:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while processing the request. {error}",
-        )
+    store = AgentStore(session, user.id)
+    run = await get_run_or_throw(req_body, store)
+
+    new_tasks = await get_agent_service().create_tasks_agent(
+        req_body.modelSettings if req_body.modelSettings else ModelSettings(),
+        req_body.goal,
+        req_body.language,
+        req_body.tasks if req_body.tasks else [],
+        req_body.lastTask if req_body.lastTask else "",
+        req_body.result if req_body.result else "",
+        req_body.completedTasks if req_body.completedTasks else [],
+    )
+
+    return NewTasksResponse(runId=run.id, newTasks=new_tasks)
 
 
 class ToolModel(BaseModel):

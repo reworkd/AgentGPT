@@ -7,7 +7,6 @@ interface MenuProps {
   icon?: ReactNode;
   chevron?: boolean;
   name?: string;
-  variant?: "minimal" | "default";
   items: JSX.Element[];
 }
 
@@ -27,17 +26,18 @@ function Menu({ icon, name, items, chevron }: MenuProps) {
           leave="transition duration-75 ease-out"
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
-        />
-        <MenuPrimitive.Items className="absolute right-0 top-full z-20 mt-1 max-h-48 w-fit overflow-hidden rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] shadow-xl">
-          {items.map((item) => {
-            const itemName = (item.props as { name: string }).name;
-            return (
-              <MenuPrimitive.Item key={itemName} as={Fragment}>
-                <div className="w-full py-[1px] md:py-0.5">{item}</div>
-              </MenuPrimitive.Item>
-            );
-          })}
-        </MenuPrimitive.Items>
+        >
+          <MenuPrimitive.Items className="absolute right-0 top-full z-20 mt-1 max-h-48 w-fit overflow-hidden rounded-xl border-[2px] border-white/10 bg-[#3a3a3a] shadow-xl">
+            {items.map((item) => {
+              const itemName = (item.props as { name: string }).name;
+              return (
+                <MenuPrimitive.Item key={itemName} as={Fragment}>
+                  <div className="w-full py-[1px] md:py-0.5">{item}</div>
+                </MenuPrimitive.Item>
+              );
+            })}
+          </MenuPrimitive.Items>
+        </Transition>
       </div>
     </MenuPrimitive>
   );

@@ -4,6 +4,7 @@ import { printTitle } from "./helpers.js";
 import { doesEnvFileExist, generateEnv, testEnvFile } from "./envGenerator.js";
 import { newEnvQuestions } from "./questions/newEnvQuestions.js";
 import { existingEnvQuestions } from "./questions/existingEnvQuestions.js";
+import { spawn } from 'child_process';
 
 const handleExistingEnv = () => {
   console.log("Existing ./next/env file found. Validating...");
@@ -24,16 +25,11 @@ const handleNewEnv = () => {
 
 const handleRunOption = (runOption) => {
   if (runOption === "docker-compose") {
-    console.log("Please run `docker-compose up --build` in the terminal.");
+    const dockerComposeUp = spawn('docker-compose', ['up', '--build'], { stdio: 'inherit' });
   }
 
   if (runOption === "docker") {
-    console.log(
-      "Please go into the ./next and ./platform folders and run the dockerfiles."
-    );
-    console.log(
-      "Please use or update the MySQL database configuration in the env file."
-    );
+    console.log('Please manually run the docker files in `./next` and `./platform`');
   }
 
   if (runOption === 'manual') {

@@ -41,8 +41,8 @@ async def start_tasks(
     ),
 ) -> NewTasksResponse:
     try:
-        new_tasks = await get_agent_service().start_goal_agent(
-            req_body.modelSettings, req_body.goal, req_body.language
+        new_tasks = await get_agent_service(req_body.modelSettings).start_goal_agent(
+            goal=req_body.goal
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:
@@ -57,11 +57,10 @@ async def analyze_tasks(
     req_body: AgentRequestBody,
 ) -> Analysis:
     try:
-        return await get_agent_service().analyze_task_agent(
-            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
-            req_body.goal,
-            req_body.task if req_body.task else "",
-            req_body.toolNames if req_body.toolNames else [],
+        return await get_agent_service(req_body.modelSettings).analyze_task_agent(
+            goal=req_body.goal,
+            task=req_body.task or "",
+            tool_names=req_body.toolNames or [],
         )
     except Exception as error:
         raise HTTPException(
@@ -94,18 +93,16 @@ async def execute_tasks(
             "analysis": {
                 "reasoning": "I like to write code.",
                 "action": "code",
-                "arg": ""
+                "arg": "",
             },
         }
     ),
 ) -> CompletionResponse:
     try:
-        response = await get_agent_service().execute_task_agent(
-            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
-            req_body.goal if req_body.goal else "",
-            req_body.language,
-            req_body.task if req_body.task else "",
-            req_body.analysis if req_body.analysis else get_default_analysis(),
+        response = await get_agent_service(req_body.modelSettings).execute_task_agent(
+            goal=req_body.goal or "",
+            task=req_body.task or "",
+            analysis=req_body.analysis or get_default_analysis(),
         )
         return CompletionResponse(response=response)
     except Exception as error:
@@ -120,14 +117,12 @@ async def create_tasks(
     req_body: AgentRequestBody,
 ) -> NewTasksResponse:
     try:
-        new_tasks = await get_agent_service().create_tasks_agent(
-            req_body.modelSettings if req_body.modelSettings else ModelSettings(),
-            req_body.goal,
-            req_body.language,
-            req_body.tasks if req_body.tasks else [],
-            req_body.lastTask if req_body.lastTask else "",
-            req_body.result if req_body.result else "",
-            req_body.completedTasks if req_body.completedTasks else [],
+        new_tasks = await get_agent_service(req_body.modelSettings).create_tasks_agent(
+            goal=req_body.goal,
+            tasks=req_body.tasks or [],
+            last_task=req_body.lastTask or "",
+            result=req_body.result or "",
+            completed_tasks=req_body.completedTasks or [],
         )
         return NewTasksResponse(newTasks=new_tasks)
     except Exception as error:

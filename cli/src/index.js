@@ -9,8 +9,8 @@ const questions = [
   {
     type: 'list',
     name: 'runOption',
-    choices: ["docker-compose", "manually", "docker"],
-    message: 'How will you be running AgentGPT',
+    choices: ["docker-compose", "docker", "manual"],
+    message: 'How will you be running AgentGPT?',
     default: "docker-compose",
   },
   {
@@ -56,7 +56,7 @@ if (doesEnvFileExist()) {
       console.log("Please use or update the MySQL database configuration in the env file.");
     }
 
-    if (answers.runOption === 'manually') {
+    if (answers.runOption === 'manual') {
       console.log("Please go into the ./next folder and run `npm install && npm run dev`.");
       console.log("Please also go into the ./platform folder and run `poetry install && poetry run python -m reworkd_platform`.");
       console.log("Please use or update the MySQL database configuration in the env file(s).");

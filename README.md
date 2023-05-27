@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/next/public/banner.png" height="300"/>
+  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/next/public/banner.png" height="300" alt="AgentGPT Logo"/>
 </p>
 <p align="center">
   <em>🤖 Assemble, configure, and deploy autonomous AI Agent(s) in your browser. 🤖 </em>
@@ -23,101 +23,52 @@
 <a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
-
 AgentGPT allows you to configure and deploy Autonomous AI agents.
 Name your own custom AI and have it embark on any goal imaginable.
 It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
 
+---
+
 ## ✨ Demo
 For the best demo experience, try [our site](https://agentgpt.reworkd.ai) directly :)
 
-https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e
+[Demo Video](https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e)
 
+
+## 👨‍🚀 Getting Started
+
+The easiest way to get started with AgentGPT is automatic setup CLI bundled with the project.
+The cli sets up the following for AgentGPT:
+- 🔐 [Environment variables](https://github.com/reworkd/AgentGPT/blob/main/.env.example) (and API Keys)
+- 🗂️ [Database](https://github.com/reworkd/AgentGPT/tree/main/db) (Mysql)
+- 🤖 [Backend](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
+- 🎨 [Frontend](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
+
+To get started follow run the commands below.
+```bash
+git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
+./setup.sh
+```
+
+> 🐳 The recommend way to set up AgentGPT locally is to [docker-compose](https://www.docker.com/), please make sure you have docker installed.
 
 ## 🎉 Roadmap
 
 This platform is currently in beta, a full list of completed and planed features can be found on
 our [public roadmap](https://docs.reworkd.ai/roadmap).
 
+
 ## 🚀 Tech Stack
 
-- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg).
-- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/).
+- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template).
+- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
 - ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
-- ✅ **ORM**: [Prisma](https://prisma.io).
+- ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/).
 - ✅ **Database**: [Planetscale](https://planetscale.com/).
 - ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
-- ✅ **Typescript Schema Validation**: [Zod](https://github.com/colinhacks/zod).
-- ✅ **End-to-end typesafe API**: [tRPC](https://trpc.io/).
+- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://sqlmodel.tiangolo.com/).
+- ✅ **LLM Tooling**: [Langchain](https://github.com/hwchase17/langchain).
 
-## 👨‍🚀 Getting Started
-
-✨ For the latest guide, visit our [Setup documentation](https://docs.reworkd.ai/development/setup)
-
-Run the existing `./setup.sh` file at the root of the project for an interactive setup of your ENV.
-After this, run the commands below according to your setup.
-
-#### 🐳 Docker-compose
-
-The easiest way to run AgentGPT locally is by using docker
-
-```bash
-// At the root of the project
-docker-compose up
-```
-
-#### 👷 Local Development Setup
-
-If you wish to develop AgentGPT locally, the easiest way is to
-use the provided setup script.
-
-```bash
-./setup.sh --local
-```
-
-### 🛠️ Manual Setup
-
-> 🚧 You will need [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) installed.
-
-1. Fork this project:
-
-- [Click here](https://github.com/reworkd/AgentGPT/fork).
-
-2. Clone the repository:
-
-```bash
-git clone git@github.com:YOU_USER/AgentGPT.git
-```
-
-3. Install dependencies:
-
-```bash
-cd AgentGPT/next
-npm install
-```
-
-### 🚀 GitHub Codespaces
-
-(Warning: This may be out of date given we use a separate backend now) Set up AgentGPT in the cloud immediately by
-using [GitHub Codespaces](https://github.com/features/codespaces).
-
-1. From the GitHub repo, click the green "Code" button and select "Codespaces".
-2. Create a new Codespace or select a previous one you've already created.
-3. Codespaces opens in a separate tab in your browser.
-4. In terminal, run `bash ./setup.sh --local`
-5. When prompted in terminal, add your OpenAI API key.
-6. Click "Open in browser" when the build process completes.
-
-- To shut AgentGPT down, enter Ctrl+C in Terminal.
-- To restart AgentGPT, run `npm run dev` in Terminal.
-
-Run the project 🥳
-
-```
-npm run dev
-```
-
----
 
 <h2 align="center">
 💝 Our GitHub sponsors 💝

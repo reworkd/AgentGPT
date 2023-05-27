@@ -1,4 +1,6 @@
 import crypto from "crypto";
+import path from "path";
+import fs from "fs";
 
 export const generateEnv = (envValues) => {
   let isDockerCompose = envValues.runOption === "docker-compose";
@@ -80,4 +82,10 @@ const generateAuthSecret = () => {
   const length = 32;
   const buffer = crypto.randomBytes(length);
   return buffer.toString('base64');
+}
+
+export const checkEnvFile = () => {
+  const folderPath = '../next'
+  const envFilePath = path.join(folderPath, '.env');
+  return fs.existsSync(envFilePath);
 }

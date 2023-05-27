@@ -1,6 +1,7 @@
 import inquirer from "inquirer";
+import dotenv from 'dotenv';
 import { isValidSkKey, printTitle } from "./helpers.js";
-import { generateEnv } from "./envGenerator.js";
+import { checkEnvFile, generateEnv } from "./envGenerator.js";
 
 printTitle();
 
@@ -36,6 +37,13 @@ const questions = [
   },
 ];
 
-inquirer.prompt(questions).then((answers) => {
-  generateEnv(answers);
-});
+
+if (checkEnvFile()) {
+  console.log("Env file already exists :) Shutting down")
+} else {
+  inquirer.prompt(questions).then((answers) => {
+    dotenv.config({ path: './.env' });
+    generateEnv(answers);
+  });
+}
+

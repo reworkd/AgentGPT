@@ -60,7 +60,7 @@ our [public roadmap](https://docs.reworkd.ai/roadmap).
 
 ## 🚀 Tech Stack
 
-- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg) } [FastAPI-template](https://github.com/s3rius/FastAPI-template).
+- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template).
 - ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
 - ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
 - ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/).

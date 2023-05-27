@@ -1,0 +1,12 @@
+{
+	"ACCOUNT": "アカウント",
+	"HELP_BUTTON": "ヘルプ",
+	"MY_AGENTS": "私のエージェント",
+	"NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "ここに何か表示される前に、最初にエージェントを作成して保存する必要があります！",
+	"SETTINGS_BUTTON": "設定",
+	"SIGN_IN": "ログイン",
+	"SIGN_IN_NOTICE": "アカウントを保存し、エージェントを管理するにはログインしてください！",
+	"SIGN_OUT": "ログアウト",
+	"SUPPORT_BUTTON": "サポート",
+	"USER_IMAGE": "ユーザー画像"
+}

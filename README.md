@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ" height="300"/>
+  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/next/public/banner.png" height="300"/>
 </p>
 <p align="center">
-  <em>🤖 Assemble, configure, and deploy autonomous AI Agents in your browser. 🤖 </em>
+  <em>🤖 Assemble, configure, and deploy autonomous AI Agent(s) in your browser. 🤖 </em>
 </p>
 <p align="center">
-    <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
+    <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=18&logo=node.js&color=2334D058" />
       <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.hu-Cs4K1Sr4C.md"><img src="https://img.shields.io/badge/lang-Hungarian-red.svg" alt="Hungarian"></a>
@@ -14,9 +14,11 @@
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="#-getting-started">🤝 Contribute</a>
+<a href="https://docs.reworkd.ai/">📚 Docs</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 Twitter</a>
+<a href="https://docs.reworkd.ai/contributing">🤝 Contribute</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://twitter.com/reworkdai">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
@@ -43,96 +45,9 @@ By sponsoring this free, open-source project, you not only have the opportunity 
 🙌🏻 Our Sponsers 🙌🏻
 </h3>
 
-<div align="center" dir="auto">
-  <a href="https://github.com/Faitltd" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Faitltd.png" width="50px" alt="faithltd" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/mojosolo" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/mojosolo.png" width="50px" alt="mojosolo" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/0xmatchmaker" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/0xmatchmaker.png" width="50px" alt="0xmatchmaker" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/arthurbnhm" style="display: inline-block;">
-    <img src="https://github.com/arthurbnhm.png" width="50px" alt="arthurbnhm" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/durairajasivam" style="display: inline-block;">
-    <img src="https://github.com/durairajasivam.png" width="50px" alt="durairajasivam" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/zoelidity" style="display: inline-block;">
-    <img src="https://github.com/zoelidity.png" width="50px" alt="zoelidity" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/jd3655" style="display: inline-block;">
-    <img src="https://github.com/jd3655.png" width="50px" alt="jd3655" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/busseyl" style="display: inline-block;">
-    <img src="https://github.com/busseyl.png" width="50px" alt="busseyl" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/lisa-ee" style="display: inline-block;">
-    <img src="https://github.com/lisa-ee.png" width="50px" alt="lisa-ee" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/VulcanT" style="display: inline-block;">
-    <img src="https://github.com/VulcanT.png" width="50px" alt="VulcanT" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/kman62" style="display: inline-block;">
-    <img src="https://github.com/kman62.png" width="50px" alt="kman62" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Haithamhaj" style="display: inline-block;">
-    <img src="https://github.com/Haithamhaj.png" width="50px" alt="Haithamhaj" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/SwftCoins" style="display: inline-block;">
-    <img src="https://github.com/SwftCoins.png" width="50px" alt="SwftCoins" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/ChevalierzA" style="display: inline-block;">
-    <img src="https://github.com/ChevalierzA.png" width="50px" alt="ChevalierzA" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/research-developer" style="display: inline-block;">
-    <img src="https://github.com/research-developer.png" width="50px" alt="research-developer" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/FelixAI2023" style="display: inline-block;">
-    <img src="https://github.com/FelixAI2023.png" width="50px" alt="FelixAI2023" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Mitchell-Coder-New" style="display: inline-block;">
-    <img src="https://github.com/Mitchell-Coder-New.png" width="50px" alt="Mitchell-Coder-New" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/nnkostov" style="display: inline-block;">
-    <img src="https://github.com/nnkostov.png" width="50px" alt="nnkostov" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/cmtadvogados" style="display: inline-block;">
-    <img src="https://github.com/cmtadvogados.png" width="50px" alt="cmtadvogados" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Sphilly05" style="display: inline-block;">
-    <img src="https://github.com/Sphilly05.png" width="50px" alt="Sphilly05" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Tweezamiza" style="display: inline-block;">
-    <img src="https://github.com/Tweezamiza.png" width="50px" alt="Tweezamiza" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/mrayonnaise" style="display: inline-block;">
-    <img src="https://github.com/mrayonnaise.png" width="50px" alt="mrayonnaise" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/floriank" style="display: inline-block;">
-    <img src="https://github.com/floriank.png" width="50px" alt="floriank" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/localecho" style="display: inline-block;">
-    <img src="https://github.com/localecho.png" width="50px" alt="localecho" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/hnishi3" style="display: inline-block;">
-    <img src="https://github.com/hnishi3.png" width="50px" alt="hnishi3" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/fireheat135" style="display: inline-block;">
-    <img src="https://github.com/fireheat135.png" width="50px" alt="fireheat135" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/DuanChaori" style="display: inline-block;">
-    <img src="https://github.com/DuanChaori.png" width="50px" alt="DuanChaori" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/jukwaphil1" style="display: inline-block;">
-    <img src="https://github.com/jukwaphil1.png" width="50px" alt="jukwaphil1" style="max-width:100%;">
-  </a>
-   <a href="https://github.com/sorrynothing" style="display: inline-block;">
-    <img src="https://github.com/sorrynothing.png" width="50px" alt="sorrynothing" style="max-width:100%;">
-  </a>
-
-</div>
+<p align="center">
+<!-- sponsors --><a href="https://github.com/arthurbnhm"><img src="https://github.com/arthurbnhm.png" width="60px" alt="Arthur" /></a><a href="https://github.com/mrayonnaise"><img src="https://github.com/mrayonnaise.png" width="60px" alt="Matt Ray" /></a><a href="https://github.com/jd3655"><img src="https://github.com/jd3655.png" width="60px" alt="Vector Ventures" /></a><a href="https://github.com/durairajasivam"><img src="https://github.com/durairajasivam.png" width="60px" alt="" /></a><a href="https://github.com/floriank"><img src="https://github.com/floriank.png" width="60px" alt="Florian Kraft" /></a><a href="https://github.com/localecho"><img src="https://github.com/localecho.png" width="60px" alt="" /></a><a href="https://github.com/fireheat135"><img src="https://github.com/fireheat135.png" width="60px" alt="" /></a><a href="https://github.com/zoelidity"><img src="https://github.com/zoelidity.png" width="60px" alt="Zoe" /></a><a href="https://github.com/busseyl"><img src="https://github.com/busseyl.png" width="60px" alt="Lucas Bussey" /></a><a href="https://github.com/DuanChaori"><img src="https://github.com/DuanChaori.png" width="60px" alt="" /></a><a href="https://github.com/jukwaphil1"><img src="https://github.com/jukwaphil1.png" width="60px" alt="" /></a><a href="https://github.com/lisa-ee"><img src="https://github.com/lisa-ee.png" width="60px" alt="Lisa" /></a><a href="https://github.com/VulcanT"><img src="https://github.com/VulcanT.png" width="60px" alt="" /></a><a href="https://github.com/kman62"><img src="https://github.com/kman62.png" width="60px" alt="kmotte" /></a><a href="https://github.com/Haithamhaj"><img src="https://github.com/Haithamhaj.png" width="60px" alt="" /></a><a href="https://github.com/SwftCoins"><img src="https://github.com/SwftCoins.png" width="60px" alt="SWFT Blockchain" /></a><a href="https://github.com/ChevalierzA"><img src="https://github.com/ChevalierzA.png" width="60px" alt="" /></a><a href="https://github.com/research-developer"><img src="https://github.com/research-developer.png" width="60px" alt="" /></a><a href="https://github.com/FelixAI2023"><img src="https://github.com/FelixAI2023.png" width="60px" alt="" /></a><a href="https://github.com/Mitchell-Coder-New"><img src="https://github.com/Mitchell-Coder-New.png" width="60px" alt="" /></a><a href="https://github.com/Trecares"><img src="https://github.com/Trecares.png" width="60px" alt="" /></a><a href="https://github.com/nnkostov"><img src="https://github.com/nnkostov.png" width="60px" alt="Nikolay Kostov" /></a><a href="https://github.com/oryanmoshe"><img src="https://github.com/oryanmoshe.png" width="60px" alt="Oryan Moshe" /></a><a href="https://github.com/ClayNelson"><img src="https://github.com/ClayNelson.png" width="60px" alt="Clay Nelson" /></a><a href="https://github.com/destro225"><img src="https://github.com/destro225.png" width="60px" alt="" /></a><a href="https://github.com/0xmatchmaker"><img src="https://github.com/0xmatchmaker.png" width="60px" alt="0xmatchmaker" /></a><a href="https://github.com/carlosbartolomeu"><img src="https://github.com/carlosbartolomeu.png" width="60px" alt="" /></a><a href="https://github.com/Agronobeetles"><img src="https://github.com/Agronobeetles.png" width="60px" alt="" /></a><a href="https://github.com/CloudyGuyThompson"><img src="https://github.com/CloudyGuyThompson.png" width="60px" alt="Guy Thompson" /></a><a href="https://github.com/Jhonvolt17"><img src="https://github.com/Jhonvolt17.png" width="60px" alt="" /></a><a href="https://github.com/koltziver"><img src="https://github.com/koltziver.png" width="60px" alt="" /></a><a href="https://github.com/sirswali"><img src="https://github.com/sirswali.png" width="60px" alt="Vusi Dube" /></a><a href="https://github.com/Tweezamiza"><img src="https://github.com/Tweezamiza.png" width="60px" alt="" /></a><a href="https://github.com/DixonFyre"><img src="https://github.com/DixonFyre.png" width="60px" alt="" /></a><a href="https://github.com/jenius-eagle"><img src="https://github.com/jenius-eagle.png" width="60px" alt="" /></a><a href="https://github.com/CubanCongaMan"><img src="https://github.com/CubanCongaMan.png" width="60px" alt="Roberto Luis Sanchez, P.E., P.G.; D,GE; F.ASCE" /></a><a href="https://github.com/cskrobec"><img src="https://github.com/cskrobec.png" width="60px" alt="" /></a><a href="https://github.com/Jahmazon"><img src="https://github.com/Jahmazon.png" width="60px" alt="" /></a><a href="https://github.com/ISDAworld"><img src="https://github.com/ISDAworld.png" width="60px" alt="David Gammond" /></a><a href="https://github.com/lazzacapital"><img src="https://github.com/lazzacapital.png" width="60px" alt="Lazza Capital" /></a><a href="https://github.com/OptionalJoystick"><img src="https://github.com/OptionalJoystick.png" width="60px" alt="" /></a><a href="https://github.com/rodolfoguzzi"><img src="https://github.com/rodolfoguzzi.png" width="60px" alt="" /></a><a href="https://github.com/bluecat2210"><img src="https://github.com/bluecat2210.png" width="60px" alt="" /></a><a href="https://github.com/dactylogram9"><img src="https://github.com/dactylogram9.png" width="60px" alt="" /></a><a href="https://github.com/RUFreeJAC63"><img src="https://github.com/RUFreeJAC63.png" width="60px" alt="" /></a><a href="https://github.com/cecilmiles"><img src="https://github.com/cecilmiles.png" width="60px" alt="" /></a><a href="https://github.com/Djarielm007"><img src="https://github.com/Djarielm007.png" width="60px" alt="" /></a><a href="https://github.com/mikenj07"><img src="https://github.com/mikenj07.png" width="60px" alt="" /></a><a href="https://github.com/SvetaMolusk"><img src="https://github.com/SvetaMolusk.png" width="60px" alt="" /></a><a href="https://github.com/wuminkung"><img src="https://github.com/wuminkung.png" width="60px" alt="" /></a><a href="https://github.com/zhoumo1221"><img src="https://github.com/zhoumo1221.png" width="60px" alt="" /></a><a href="https://github.com/Stefan6666XXX"><img src="https://github.com/Stefan6666XXX.png" width="60px" alt="Stephane DeGuire" /></a><a href="https://github.com/lyska"><img src="https://github.com/lyska.png" width="60px" alt="Lyska" /></a><a href="https://github.com/KurganKolde"><img src="https://github.com/KurganKolde.png" width="60px" alt="" /></a><a href="https://github.com/sclappccsu"><img src="https://github.com/sclappccsu.png" width="60px" alt="Sharon Clapp at CCSU" /></a><a href="https://github.com/Rooba-Finance"><img src="https://github.com/Rooba-Finance.png" width="60px" alt="Rooba.Finance" /></a><a href="https://github.com/ferienhausmiete"><img src="https://github.com/ferienhausmiete.png" width="60px" alt="" /></a><a href="https://github.com/benjaminbales"><img src="https://github.com/benjaminbales.png" width="60px" alt="Benjamin Bales" /></a><a href="https://github.com/pimentel233"><img src="https://github.com/pimentel233.png" width="60px" alt="" /></a><a href="https://github.com/Smbfl"><img src="https://github.com/Smbfl.png" width="60px" alt="" /></a><a href="https://github.com/PinkyWobbles"><img src="https://github.com/PinkyWobbles.png" width="60px" alt="" /></a><a href="https://github.com/Larry6999"><img src="https://github.com/Larry6999.png" width="60px" alt="" /></a><!-- sponsors -->
+</p>
 
 ---
 
@@ -141,18 +56,7 @@ Name your own custom AI and have it embark on any goal imaginable.
 It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
 
 ## 🎉 Roadmap
-
-This platform is currently in beta, we are currently working on:
-
-- Long term memory via a vector DB 🧠
-- Web browsing capabilities via LangChain 🌐
-- Interaction with websites and people 👨‍👩‍👦
-- Writing capabilities via a document API 📄
-- Saving agent runs 💾
-- Users and authentication 🔐
-- Stripe integration for a lower limit paid version (So we can stop worrying about infra costs) 💵
-
-More Coming soon...
+This platform is currently in beta, a full list of completed and planed features can be found on our [public roadmap](https://docs.reworkd.ai/roadmap).
 
 ## 🚀 Tech Stack
 
@@ -160,21 +64,23 @@ More Coming soon...
 - ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/).
 - ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
 - ✅ **ORM**: [Prisma](https://prisma.io).
-- ✅ **Database**: [Supabase](https://supabase.com/).
+- ✅ **Database**: [Planetscale](https://planetscale.com/).
 - ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
 - ✅ **Typescript Schema Validation**: [Zod](https://github.com/colinhacks/zod).
 - ✅ **End-to-end typesafe API**: [tRPC](https://trpc.io/).
 
 ## 👨‍🚀 Getting Started
+✨ For the latest guide, visit our [Setup documentation](https://docs.reworkd.ai/development/setup)
 
 ### 🐳 Docker Setup
 
-The easiest way to run AgentGPT locally is by using Docker. A convenient setup script is provided to help you get started.
+The easiest way to run AgentGPT locally is by using docker.
+A convenient setup script is provided to help you get started.
 
 ```bash
-./init.sh
+./setup.sh --docker
+```
 
-<<<<<<< HEAD
 ### Docker-compose
 
 Using `docker-compose` deploy
@@ -184,123 +90,82 @@ Using `docker-compose` deploy
 ```
 
 ### 👷 Local Development Setup
-=======
-Then, when prompted, select "docker-compose (recommended)" or "docker" as the run option.
-👷 Local Development Setup
->>>>>>> efd8ccd (Updated readme to reflect changes)
 
-If you wish to develop AgentGPT locally, the easiest way is to use the provided setup script.
+If you wish to develop AgentGPT locally, the easiest way is to
+use the provided setup script.
 
-bash
+```bash
+./setup.sh --local
+```
 
-./init.sh
+### 🛠️ Manual Setup
 
-Then, when prompted, select "node" as the run option.
-🛠 Manual Setup
+> 🚧 You will need [Nodejs +18 (LTS recommended)](https://nodejs.org/en/) installed.
+1. Fork this project:
 
-    🚧 You will need Nodejs +18 (LTS recommended) installed.
+- [Click here](https://github.com/reworkd/AgentGPT/fork).
 
-    Fork this project:
+2. Clone the repository:
 
-    Click here.
+```bash
+git clone git@github.com:YOU_USER/AgentGPT.git
+```
 
-    Clone the repository:
+3. Install dependencies:
 
-bash
-
-git clone git@github.com:YOUR_USERNAME/AgentGPT.git
-
-    Install dependencies:
-
-bash
-
-cd AgentGPT
+```bash
+cd AgentGPT/next
 npm install
+```
 
-    Set up your environment:
+4. Create a **.env** file with the following content:
 
-bash
+> 🚧 The environment variables must match the following [schema](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
+```bash
+# Deployment Environment:
+NODE_ENV=development
+# Next Auth config:
+# Generate a secret with `openssl rand -base64 32`
+NEXTAUTH_SECRET=changeme
+NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
+DATABASE_URL=file:./db.sqlite
+# Your open api key
+OPENAI_API_KEY=changeme
+```
 
-./init.sh
+5. Modify prisma schema to use sqlite:
 
-Then, when prompted, enter your configuration details.
+```bash
+./prisma/useSqlite.sh
+```
 
-    Ready 🥳, now run:
+**Note:** This only needs to be done if you wish to use sqlite.
 
-bash
+6. Ready 🥳, now run:
 
+```bash
 # Create database migrations
 npx prisma db push
 npm run dev
+```
 
-🚀 GitHub Codespaces
+### 🚀 GitHub Codespaces
 
-Set up AgentGPT in the cloud immediately by using GitHub Codespaces.
+Set up AgentGPT in the cloud immediately by using [GitHub Codespaces](https://github.com/features/codespaces).
 
-    From the GitHub repo, click the green "Code" button and select "Codespaces".
-    Create a new Codespace or select a previous one you've already created.
-    Codespaces opens in a separate tab in your browser.
-    In the terminal, run bash ./init.sh
-    When prompted in the terminal, add your OpenAI API key.
-    Click "Open in browser" when the setup is complete.
+1. From the GitHub repo, click the green "Code" button and select "Codespaces".
+2. Create a new Codespace or select a previous one you've already created.
+3. Codespaces opens in a separate tab in your browser.
+4. In terminal, run `bash ./setup.sh --local`
+5. When prompted in terminal, add your OpenAI API key.
+6. Click "Open in browser" when the build process completes.
 
----
+- To shut AgentGPT down, enter Ctrl+C in Terminal.
+- To restart AgentGPT, run `npm run dev` in Terminal.
 
-<h3 align="center">
-🙌🏻 Our Sponsers Continued 🙌🏻
-</h3>
+Run the project 🥳
 
-<div align="center" dir="auto">
-  <a href="https://github.com/Trecares" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Trecares.png" width="50px" alt="Trecares" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/oryanmoshe" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/oryanmoshe.png" width="50px" alt="oryanmoshe" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/rekimcn" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/rekimcn.png" width="50px" alt="rekimcn" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/qwe777897" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/qwe777897.png" width="50px" alt="qwe777897" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/ClayNelson" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/ClayNelson.png" width="50px" alt="ClayNelson" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/xuxizhen" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/xuxizhen.png" width="50px" alt="xuxizhen" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/destro225" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/destro225.png" width="50px" alt="destro225" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/mouhaxp" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/mouhaxp.png" width="50px" alt="mouhaxp" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/carlosbartolomeu" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/carlosbartolomeu.png" width="50px" alt="carlosbartolomeu" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Agronobeetles" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Agronobeetles.png" width="50px" alt="Agronobeetles " style="max-width:100%;">
-  </a>
-  <a href="https://github.com/CloudyGuyThompson" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/CloudyGuyThompson.png" width="50px" alt="CloudyGuyThompson" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/xinghz" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/xinghz.png" width="50px" alt="xinghz" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Jaimbart" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Jaimbart.png" width="50px" alt="Jaimbart" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Jhonvolt17" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Jhonvolt17.png" width="50px" alt="Jhonvolt17" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/koltziver" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/koltziver.png" width="50px" alt="koltziver" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/sirswali" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/sirswali.png" width="50px" alt="sirswali" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/DixonFyre" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/DixonFyre.png" width="50px" alt="DixonFyre" style="max-width:100%;">
-  </a>
-
-</div>
+```
+npm run dev
+```

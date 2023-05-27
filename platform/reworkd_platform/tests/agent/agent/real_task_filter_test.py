@@ -12,7 +12,7 @@ from reworkd_platform.web.api.agent.helpers import real_tasks_filter
         ("Do nothing", False),
         ("", False),  # empty_string
         ("no new task needed", False),  # case_insensitive
-    ]
+    ],
 )
-def test_real_tasks_filter_no_task(input_text, expected_result) -> None:
+def test_real_tasks_filter_no_task(input_text: str, expected_result: bool) -> None:
     assert real_tasks_filter(input_text) == expected_result

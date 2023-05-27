@@ -1,6 +1,5 @@
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
-import type { Analysis } from "../services/agent-service";
 import { DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
@@ -21,6 +20,7 @@ import {
 } from "../types/agentTypes";
 import { useAgentStore, useMessageStore } from "../stores";
 import { translate } from "../utils/translations";
+import type { Analysis } from "../services/agent-api";
 import { AgentApi } from "../services/agent-api";
 
 const TIMEOUT_LONG = 1000;

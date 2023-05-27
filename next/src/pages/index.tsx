@@ -122,11 +122,13 @@ const Home: NextPage = () => {
     const newAgent = new AutonomousAgent(
       name.trim(),
       goal.trim(),
-      findLanguage(i18n.language).name,
       handleAddMessage,
       handlePause,
       () => setAgent(null),
-      settingsModel.settings,
+      {
+        language: findLanguage(i18n.language).name,
+        ...settingsModel.settings,
+      },
       agentMode,
       session ?? undefined
     );

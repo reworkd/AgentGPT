@@ -1,9 +1,9 @@
 {
   "name": "agent-gpt",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "private": true,
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.0.0 <19.0.0"
   },
   "scripts": {
     "build": "next build --no-lint",

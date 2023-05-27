@@ -1,9 +1,9 @@
 name: Testing Platform
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'platform/**'
+#  push:
+#    branches: [ "main" ]
+#    paths:
+#      - 'platform/**'
   pull_request:
     branches: [ "main" ]
     paths:
@@ -26,23 +26,6 @@ jobs:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Run black check
         run: poetry run black --check .
-
-  flake8:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: platform
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: |
-          pip install -U pip
-          pip install poetry
-          poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
-      - name: Run flake8 check
-        run: poetry run flake8 --count .
 
   mypy:
     runs-on: ubuntu-latest

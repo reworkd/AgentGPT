@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "Completing:",
+	"CONSIDER_SPONSORING_ON_GITHUB": "Please consider sponsoring the project on GitHub.",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Text copied to clipboard",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Unable to copy text to clipboard",
+	"CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy!",
+	"EMBARKING_ON_NEW_GOAL": "新たな目標への着手：",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 We are experiencing exceptional traffic, expect delays and failures if you do not use your own API key🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Help support the advancement of AgentGPT. 💝️",
+	"NO_MORE_TASKS": "No more subtasks for:",
+	"RESTART_IF_IT_TAKES_X_SEC": "(Restart if this takes more than 30 seconds)",
+	"SUPPORT_NOW": "Support now 🚀",
+	"TASK_ADDED": "追加されたタスク:",
+	"THINKING": "考え...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 名前/ターゲットを追加し、デプロイを押してエージェントを作成してください!"
+}

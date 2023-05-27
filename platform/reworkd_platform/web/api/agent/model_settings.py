@@ -13,6 +13,7 @@ class ModelSettings(BaseModel):
     customTemperature: Optional[float] = None
     customMaxLoops: Optional[int] = None
     maxTokens: Optional[int] = None
+    language: Optional[str] = "English"
 
 
 def get_server_side_key() -> str:

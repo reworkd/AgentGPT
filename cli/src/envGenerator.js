@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import path from "path";
 import fs from "fs";
 
 export const generateEnv = (envValues) => {
@@ -8,9 +7,13 @@ export const generateEnv = (envValues) => {
   let platformUrl = isDockerCompose ? "http://host.docker.internal:8000" : "http://localhost:8000";
   const websearchEnabled = envValues.serpApiKey !== null && envValues.serpApiKey !== "";
 
-  console.log(envValues)
-  console.log(platformUrl, websearchEnabled);
-  const envDefinition = {
+  const envDefinition = getEnvDefinition(isDockerCompose, dbPort, platformUrl, websearchEnabled);
+
+  console.log(generateEnvText(envDefinition));
+}
+
+const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl, websearchEnabled) => {
+  return {
     "Deployment Environment": {
       NODE_ENV: "development"
     },
@@ -59,12 +62,10 @@ export const generateEnv = (envValues) => {
       DATABASE_NAME: "reworkd_platform",
       DATABASE_URL: "mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}"
     },
-  };
-
-  console.log(generateEnvText(envDefinition));
+  }
 }
 
-function generateEnvText(config) {
+const generateEnvText = (config) => {
   let configFile = '';
 
   Object.entries(config).forEach(([section, variables]) => {
@@ -84,8 +85,46 @@ const generateAuthSecret = () => {
   return buffer.toString('base64');
 }
 
-export const checkEnvFile = () => {
-  const folderPath = '../next'
-  const envFilePath = path.join(folderPath, '.env');
-  return fs.existsSync(envFilePath);
+const ENV_PATH = '../next/.env'
+const BACKEND_ENV_PATH = '../platform/.env'
+
+export const doesEnvFileExist = () => {
+  return fs.existsSync(ENV_PATH);
 }
+
+
+// Read the existing env file, test if it is missing any keys or contains any extra keys
+export const testEnvFile = () => {
+  const data = fs.readFileSync(ENV_PATH, 'utf8');
+
+  // Make a fake definition to compare the keys of
+  const envDefinition = getEnvDefinition({}, "", "", "", "")
+
+  const lines = data.split('\n').filter(line => !line.startsWith('#') && line.trim() !== '');
+  const envKeysFromFile = lines.map(line => line.split('=')[0]);
+
+  const envKeysFromDef = Object.entries(envDefinition).flatMap(([section, entries]) => Object.keys(entries));
+
+  const missingFromFile = envKeysFromDef.filter(key => !envKeysFromFile.includes(key));
+  const missingFromDef = envKeysFromFile.filter(key => !envKeysFromDef.includes(key));
+
+  if (missingFromFile.length === 0 && missingFromDef.length === 0) {
+    console.log('Environment is synced. Shutting down :)');
+  } else {
+    if (missingFromFile.length > 0) {
+      console.log('Your ./next/.env is missing the following keys:', missingFromFile);
+    }
+    if (missingFromDef.length > 0) {
+      console.log('Your ./next/.env contains the following extra keys:', missingFromDef);
+    }
+
+    console.log("We recommend deleting your env and restarting this script.")
+  }
+}
+
+
+
+
+
+
+

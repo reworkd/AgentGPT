@@ -1,6 +1,5 @@
-import type { TFunction } from "i18next";
-
 export type ModelSettings = {
+  language?: string;
   customModelName?: string;
   customTemperature?: number;
   customMaxLoops?: number;
@@ -12,5 +11,3 @@ export type SettingModel = {
   saveSettings: (settings: ModelSettings) => void;
   resetSettings: () => void;
 };
-
-export type Translation = TFunction<"translation", undefined>;

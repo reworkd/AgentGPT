@@ -6,10 +6,11 @@ from reworkd_platform.web.api.agent.agent_service.mock_agent_service import (
 from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
     OpenAIAgentService,
 )
+from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
 
-def get_agent_service() -> AgentService:
+def get_agent_service(model_settings: ModelSettings) -> AgentService:
     if settings.ff_mock_mode_enabled:
         return MockAgentService()
     else:
-        return OpenAIAgentService()
+        return OpenAIAgentService(model_settings)

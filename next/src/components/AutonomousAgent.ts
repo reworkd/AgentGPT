@@ -1,6 +1,5 @@
 import axios from "axios";
 import type { ModelSettings } from "../utils/types";
-import type { Analysis } from "../services/agent-service";
 import { DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
@@ -21,6 +20,7 @@ import {
 } from "../types/agentTypes";
 import { useAgentStore, useMessageStore } from "../stores";
 import { translate } from "../utils/translations";
+import type { Analysis } from "../services/agent-api";
 import { AgentApi } from "../services/agent-api";
 
 const TIMEOUT_LONG = 1000;
@@ -29,7 +29,6 @@ const TIMOUT_SHORT = 800;
 class AutonomousAgent {
   name: string;
   goal: string;
-  language: string;
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = false;
@@ -46,7 +45,6 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
-    language: string,
     renderMessage: (message: Message) => void,
     handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
     shutdown: () => void,
@@ -57,7 +55,6 @@ class AutonomousAgent {
   ) {
     this.name = name;
     this.goal = goal;
-    this.language = language;
     this.renderMessage = renderMessage;
     this.handlePause = handlePause;
     this.shutdown = shutdown;
@@ -70,7 +67,6 @@ class AutonomousAgent {
     this.$api = new AgentApi(
       {
         goal,
-        language,
         modelSettings,
       },
       this.onApiError

@@ -28,6 +28,12 @@ AgentGPT allows you to configure and deploy Autonomous AI agents.
 Name your own custom AI and have it embark on any goal imaginable.
 It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
 
+## ✨ Demo
+For the best demo experience, try [our site](https://agentgpt.reworkd.ai) directly :)
+
+https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e
+
+
 ## 🎉 Roadmap
 
 This platform is currently in beta, a full list of completed and planed features can be found on

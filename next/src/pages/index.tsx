@@ -10,7 +10,7 @@ import Button from "../components/Button";
 import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
 import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
-import AutonomousAgent from "../components/AutonomousAgent";
+import AutonomousAgent from "../services/agent/autonomous-agent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import { SettingsDialog } from "../components/SettingsDialog";

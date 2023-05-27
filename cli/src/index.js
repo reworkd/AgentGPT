@@ -48,7 +48,7 @@ if (doesEnvFileExist()) {
 
     console.log("\nEnv files successfully created!")
     if (answers.runOption === 'docker-compose') {
-      console.log("Please run `docker-compose` in the terminal.");
+      console.log("Please run `docker-compose up --build` in the terminal.");
     }
 
     if (answers.runOption === 'docker') {

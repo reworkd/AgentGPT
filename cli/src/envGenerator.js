@@ -7,7 +7,7 @@ export const generateEnv = (envValues) => {
   let platformUrl = isDockerCompose ? "http://host.docker.internal:8000" : "http://localhost:8000";
   const websearchEnabled = envValues.serpApiKey !== null && envValues.serpApiKey !== "";
 
-  const envDefinition = getEnvDefinition(isDockerCompose, dbPort, platformUrl, websearchEnabled);
+  const envDefinition = getEnvDefinition(envValues, isDockerCompose, dbPort, platformUrl, websearchEnabled);
 
   const envFileContent = generateEnvFileContent(envDefinition);
   saveEnvFile(envFileContent);
@@ -72,7 +72,7 @@ const generateEnvFileContent = (config) => {
   Object.entries(config).forEach(([section, variables]) => {
     configFile += `# ${ section }:\n`;
     Object.entries(variables).forEach(([key, value]) => {
-      configFile += `${ key }=${ value }\n`;
+      configFile += `${ key }="${ value }"\n`;
     });
     configFile += '\n';
   });

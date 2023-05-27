@@ -45,6 +45,22 @@ if (doesEnvFileExist()) {
   inquirer.prompt(questions).then((answers) => {
     dotenv.config({ path: './.env' });
     generateEnv(answers);
+
+    console.log("\nEnv files successfully created!")
+    if (answers.runOption === 'docker-compose') {
+      console.log("Please run `docker-compose` in the terminal.");
+    }
+
+    if (answers.runOption === 'docker') {
+      console.log("Please go into the ./next and ./platform folders and run the dockerfiles.");
+      console.log("Please use or update the MySQL database configuration in the env file.");
+    }
+
+    if (answers.runOption === 'manually') {
+      console.log("Please go into the ./next folder and run `npm install && npm run dev`.");
+      console.log("Please also go into the ./platform folder and run `poetry install && poetry run python -m reworkd_platform`.");
+      console.log("Please use or update the MySQL database configuration in the env file(s).");
+    }
   });
 }
 

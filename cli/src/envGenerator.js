@@ -9,7 +9,8 @@ export const generateEnv = (envValues) => {
 
   const envDefinition = getEnvDefinition(isDockerCompose, dbPort, platformUrl, websearchEnabled);
 
-  console.log(generateEnvText(envDefinition));
+  const envFileContent = generateEnvFileContent(envDefinition);
+  saveEnvFile(envFileContent);
 }
 
 const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl, websearchEnabled) => {
@@ -65,7 +66,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl, webse
   }
 }
 
-const generateEnvText = (config) => {
+const generateEnvFileContent = (config) => {
   let configFile = '';
 
   Object.entries(config).forEach(([section, variables]) => {
@@ -122,7 +123,10 @@ export const testEnvFile = () => {
   }
 }
 
-
+export const saveEnvFile = (envFileContent) => {
+  fs.writeFileSync(ENV_PATH, envFileContent);
+  fs.writeFileSync(BACKEND_ENV_PATH, envFileContent);
+}
 
 
 

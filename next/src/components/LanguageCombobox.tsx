@@ -8,15 +8,13 @@ import { FaGlobe } from "react-icons/fa";
 const LanguageCombobox = () => {
   const { i18n } = useTranslation();
   const router = useRouter();
-  const [actualLanguage, setActualLanguage] = useState(
-    findLanguage(i18n.language)
-  );
+  const [language, setLanguage] = useState(findLanguage(i18n.language));
 
   const handleInputChange = async (languageName: string) => {
-    const selectedLanguage = findLanguage(languageName);
-    await i18n.changeLanguage(selectedLanguage.code).then(() => {
-      setActualLanguage(selectedLanguage);
-      handleLanguageChange(selectedLanguage.code);
+    const selected = findLanguage(languageName);
+    await i18n.changeLanguage(selected.code).then(() => {
+      setLanguage(selected);
+      handleLanguageChange(selected.code);
     });
   };
 
@@ -40,7 +38,7 @@ const LanguageCombobox = () => {
         </>
       }
       type="combobox"
-      value={`${actualLanguage.flag} ${actualLanguage.name}`}
+      value={`${language.flag} ${language.name}`}
       onChange={(e) => void handleInputChange(e.target.value)}
       setValue={(e) => void handleInputChange(e)}
       attributes={{

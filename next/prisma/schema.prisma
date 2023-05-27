@@ -39,11 +39,11 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
 
   createDate DateTime @default(now())
 
@@ -52,6 +52,7 @@ model User {
   Agent    Agent[]
 
   @@index([email])
+  @@index([createDate])
 }
 
 model VerificationToken {
@@ -72,6 +73,7 @@ model Agent {
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   tasks      AgentTask[]
 
+  @@index([createDate])
   @@index([userId, deleteDate, createDate])
 }
 
@@ -89,4 +91,5 @@ model AgentTask {
 
   @@index([agentId])
   @@index([type])
+  @@index([createDate])
 }

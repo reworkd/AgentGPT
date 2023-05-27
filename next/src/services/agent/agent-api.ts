@@ -1,15 +1,10 @@
-import type { RequestBody } from "../utils/interfaces";
+import type { RequestBody } from "../../utils/interfaces";
 import axios from "axios";
-import { env } from "../env/client.mjs";
-import { useAgentStore } from "../stores";
+import { env } from "../../env/client.mjs";
+import { useAgentStore } from "../../stores";
+import type { Analysis } from "./analysis";
 
 type ApiProps = Pick<RequestBody, "modelSettings" | "goal">;
-
-export type Analysis = {
-  reasoning: string;
-  action: "reason" | "search" | "wikipedia" | "image" | "code";
-  arg: string;
-};
 
 export class AgentApi {
   readonly props: ApiProps;

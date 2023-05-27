@@ -2,7 +2,7 @@ import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type AutonomousAgent from "../components/AutonomousAgent";
+import type AutonomousAgent from "../services/agent/autonomous-agent";
 import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
 import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
 import { env } from "../env/client.mjs";

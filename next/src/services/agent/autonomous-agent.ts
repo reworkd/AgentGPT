@@ -1,27 +1,25 @@
 import axios from "axios";
-import type { ModelSettings } from "../utils/types";
-import { DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
+import type { ModelSettings } from "../../utils/types";
+import { DEFAULT_MAX_LOOPS_FREE } from "../../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
-import type { AgentMode, AgentPlaybackControl, Message, Task } from "../types/agentTypes";
+import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
 import {
   AGENT_PAUSE,
   AGENT_PLAY,
   AUTOMATIC_MODE,
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_SYSTEM,
   MESSAGE_TYPE_TASK,
-  MESSAGE_TYPE_THINKING,
   PAUSE_MODE,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
-} from "../types/agentTypes";
-import { useAgentStore, useMessageStore } from "../stores";
-import { translate } from "../utils/translations";
-import type { Analysis } from "../services/agent-api";
-import { AgentApi } from "../services/agent-api";
+} from "../../types/agentTypes";
+import { useAgentStore, useMessageStore } from "../../stores";
+import { translate } from "../../utils/translations";
+import { AgentApi } from "./agent-api";
+import type { Analysis } from "./analysis";
+import MessageService from "./message-service";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -40,6 +38,7 @@ class AutonomousAgent {
   _id: string;
   mode: AgentMode;
   playbackControl: AgentPlaybackControl;
+  messageService: MessageService;
   $api: AgentApi;
 
   constructor(
@@ -64,6 +63,8 @@ class AutonomousAgent {
     this.mode = mode || AUTOMATIC_MODE;
     this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
 
+    this.messageService = new MessageService(renderMessage);
+
     this.$api = new AgentApi(
       {
         goal,
@@ -75,7 +76,7 @@ class AutonomousAgent {
 
   async run() {
     if (!this.isRunning) {
-      this.isRunning = true;
+      this.updateIsRunning(true);
       await this.startGoal();
     }
 
@@ -86,8 +87,8 @@ class AutonomousAgent {
   }
 
   async startGoal() {
-    this.sendGoalMessage();
-    this.sendThinkingMessage();
+    this.messageService.sendGoalMessage(this.goal);
+    this.messageService.sendThinkingMessage();
 
     // Initialize by getting taskValues
     try {
@@ -100,11 +101,11 @@ class AutonomousAgent {
           status: TASK_STATUS_STARTED,
           type: MESSAGE_TYPE_TASK,
         };
-        this.sendMessage(task);
+        this.messageService.sendMessage(task);
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(getMessageFromError(e));
+      this.messageService.sendErrorMessage(getMessageFromError(e));
       this.shutdown();
       return;
     }
@@ -118,7 +119,7 @@ class AutonomousAgent {
     }
 
     if (this.getRemainingTasks().length === 0) {
-      this.sendCompletedMessage();
+      this.messageService.sendCompletedMessage();
       this.shutdown();
       return;
     }
@@ -126,7 +127,7 @@ class AutonomousAgent {
     this.numLoops += 1;
     const maxLoops = this.maxLoops();
     if (this.numLoops > maxLoops) {
-      this.sendLoopMessage();
+      this.messageService.sendLoopMessage();
       this.shutdown();
       return;
     }
@@ -136,9 +137,9 @@ class AutonomousAgent {
 
     // Start with first task
     const currentTask = this.getRemainingTasks()[0] as Task;
-    this.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
+    this.messageService.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
-    this.sendThinkingMessage();
+    this.messageService.sendThinkingMessage();
 
     // Default to reasoning
     let analysis: Analysis = {
@@ -151,11 +152,11 @@ class AutonomousAgent {
     if (useAgentStore.getState().isWebSearchEnabled) {
       // Analyze how to execute a task: Reason, web search, other tools...
       analysis = await this.$api.analyzeTask(currentTask.value);
-      this.sendAnalysisMessage(analysis);
+      this.messageService.sendAnalysisMessage(analysis);
     }
 
     const result = await this.$api.executeTask(currentTask.value, analysis);
-    this.sendMessage({
+    this.messageService.sendMessage({
       ...currentTask,
       info: result,
       status: TASK_STATUS_COMPLETED,
@@ -165,7 +166,7 @@ class AutonomousAgent {
 
     // Wait before adding tasks
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-    this.sendThinkingMessage();
+    this.messageService.sendThinkingMessage();
 
     // Add new tasks
     try {
@@ -185,17 +186,17 @@ class AutonomousAgent {
           status: TASK_STATUS_STARTED,
           type: MESSAGE_TYPE_TASK,
         };
-        this.sendMessage(task);
+        this.messageService.sendMessage(task);
       }
 
       if (newTasks.length == 0) {
-        this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
+        this.messageService.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
       }
     } catch (e) {
       console.log(e);
-      this.sendErrorMessage(translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors"));
+      this.messageService.sendErrorMessage(translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors"));
 
-      this.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
+      this.messageService.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
     }
     await this.loop();
   }
@@ -227,82 +228,22 @@ class AutonomousAgent {
   }
 
   updateIsRunning(isRunning: boolean) {
+    this.messageService.setIsRunning(isRunning);
     this.isRunning = isRunning;
   }
 
   stopAgent() {
-    this.sendManualShutdownMessage();
-    this.isRunning = false;
+    this.messageService.sendManualShutdownMessage();
+    this.updateIsRunning(false);
     this.shutdown();
     return;
-  }
-
-  sendMessage(message: Message) {
-    if (this.isRunning) {
-      this.renderMessage(message);
-    }
-  }
-
-  sendGoalMessage() {
-    this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: this.goal });
-  }
-
-  sendLoopMessage() {
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("DEMO_LOOPS_REACHED", "errors"),
-    });
-  }
-
-  sendManualShutdownMessage() {
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
-    });
-  }
-
-  sendCompletedMessage() {
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("ALL_TASKS_COMPLETETD", "errors"),
-    });
-  }
-
-  sendAnalysisMessage(analysis: Analysis) {
-    // Hack to send message with generic test. Should use a different type in the future
-    let message = "⏰ Generating response...";
-    if (analysis.action == "search") {
-      message = `🔍 Searching the web for "${analysis.arg}"...`;
-    }
-    if (analysis.action == "wikipedia") {
-      message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;
-    }
-    if (analysis.action == "image") {
-      message = `🎨 Generating an image with prompt: "${analysis.arg}"...`;
-    }
-    if (analysis.action == "code") {
-      message = `💻 Writing code...`;
-    }
-
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: message,
-    });
-  }
-
-  sendThinkingMessage() {
-    this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
-  }
-
-  sendErrorMessage(error: string) {
-    this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
   }
 
   private onApiError = (e: unknown) => {
     this.shutdown();
 
     if (axios.isAxiosError(e) && e.response?.status === 429) {
-      this.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
+      this.messageService.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
     }
 
     throw e;

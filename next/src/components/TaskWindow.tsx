@@ -5,7 +5,7 @@ import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/agentType
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useAgentStore, useMessageStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
-import { useTranslation } from "next-i18next";
+import { translate } from "../utils/translate";
 import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
@@ -21,7 +21,6 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const agent = useAgentStore.use.agent();
   const tasks = useMessageStore.use.tasks();
   const addMessage = useMessageStore.use.addMessage();
-  const [t] = useTranslation();
 
   const handleAddTask = () => {
     addMessage({
@@ -41,12 +40,13 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
       )}
     >
       <div className="sticky top-0 my-2 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-100 ">
-        <FaListAlt /> {t("Current tasks")}
+        <FaListAlt /> {translate("CURRENT_TASKS", "taskWindow")}
       </div>
       <div className="flex h-full w-full flex-col gap-2 px-1 py-1">
         <div className="window-heights flex w-full flex-col gap-2 overflow-y-auto overflow-x-hidden pr-1">
           {tasks.length == 0 && (
             <p className="w-full p-2 text-center text-xs text-gray-300">
+              {translate("CURRENT_TASKS_WINDOW_DESCRIPTION", "taskWindow")}
               This window will display agent tasks as they are created.
             </p>
           )}

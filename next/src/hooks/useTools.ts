@@ -31,8 +31,6 @@ const fetchAPI = async <T extends z.ZodTypeAny>(path: string, schema: T): Promis
 };
 
 const loadTools = async (key: string) => {
-  console.log("loadTools");
-
   const allTools = await fetchAPI("/api/agent/tools", ToolsResponseSchema);
 
   const data = localStorage.getItem(key);
@@ -59,7 +57,6 @@ export function useTools() {
   const { data: Session } = useSession();
   const setTools = useAgentStore.use.setTools();
 
-  console.log("test");
   const queryClient = useQueryClient();
   const query = useQuery(["tools"], () => loadTools("tools"), {
     onSuccess: (data) => {
@@ -72,7 +69,7 @@ export function useTools() {
     setTools(data.filter((tool) => tool.active));
   }
 
-  const setTool = () => (toolName: string, active: boolean) => {
+  const setToolActive = (toolName: string, active: boolean) => {
     queryClient.setQueriesData(["tools"], (old) => {
       const data = (old as ActiveTool[]).map((tool) =>
         tool.name === toolName ? { ...tool, active } : tool
@@ -84,8 +81,8 @@ export function useTools() {
   };
 
   return {
-    tools: query.data ?? [],
+    activeTools: query.data ?? [],
+    setToolActive,
     isSuccess: query.isSuccess,
-    setTool: setTool(),
   };
 }

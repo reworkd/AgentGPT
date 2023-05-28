@@ -236,7 +236,7 @@ const AuthItem: React.FC<{
 }> = ({ signIn, signOut, session }) => {
   const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const onClick = session?.user ? signOut : signIn;
-  const text = session?.user ? translate("SIGN_OUT", "drawer");
+  const text = session?.user ? translate("SIGN_OUT", "drawer") : translate("SIGN_IN", "drawer");
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
 };

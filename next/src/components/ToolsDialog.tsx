@@ -5,6 +5,7 @@ import { Switch } from "./Switch";
 import clsx from "clsx";
 import type { ActiveTool } from "../hooks/useTools";
 import { useTools } from "../hooks/useTools";
+import { translate } from "../utils/translate";
 
 export const ToolsDialog: React.FC<{
   show: boolean;
@@ -16,14 +17,14 @@ export const ToolsDialog: React.FC<{
     <Dialog
       header={
         <div className="flex items-center gap-3">
-          <p>Tools</p>
+          <p>{translate("TOOLS", "toolsDialog")}</p>
           <FaCog />
         </div>
       }
       isShown={show}
       close={close}
     >
-      <p>Select what external tools your agents have access to.</p>
+      <p>{translate("SELECT_WHAT_EXTERNAL_TOOL", "toolsDialog")}</p>
       <div className="mt-5 flex flex-col gap-3 ">
         {activeTools.map((tool) => (
           <div
@@ -38,7 +39,7 @@ export const ToolsDialog: React.FC<{
             <Switch value={tool.active} onChange={() => setToolActive(tool.name, !tool.active)} />
           </div>
         ))}
-        {!isSuccess && <p className="text-center text-red-300">Error loading tools.</p>}
+        {!isSuccess && <p className="text-center text-red-300">{translate("ERROR_LOADING_TOOLS", "toolsDialog")}</p>}
       </div>
     </Dialog>
   );

@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "./Button";
-
-import { useTranslation } from "next-i18next";
+import { translate } from "../utils/translate";
 import clsx from "clsx";
 
 const Dialog = ({
@@ -17,7 +16,6 @@ const Dialog = ({
   close: () => void;
   footerButton?: React.ReactNode;
 }) => {
-  const [t] = useTranslation();
 
   return (
     <DialogBackground isShown={isShown} close={close}>
@@ -47,7 +45,7 @@ const Dialog = ({
           {/*footer*/}
           <div className="flex items-center justify-end gap-2 rounded-b border-t-2 border-solid border-white/20 p-2">
             <Button enabledClassName="bg-yellow-600 hover:bg-yellow-500" onClick={close}>
-              {`${t("CLOSE", { ns: "common" })}`}
+              {`${translate("CLOSE", "common")}`}
             </Button>
             {footerButton}
           </div>

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "next-i18next";
+import { translate } from "../utils/translate";
 import { FaClipboard, FaImage, FaPause, FaPlay, FaSave } from "react-icons/fa";
 import PopIn from "./motions/popin";
 import Expand from "./motions/expand";
@@ -57,7 +57,6 @@ const ChatWindow = ({
   setAgentRun,
   visibleOnMobile,
 }: ChatWindowProps) => {
-  const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -130,7 +129,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
+                  value: "👉 " + `${translate("CREATE_AN_AGENT_DESCRIPTION", "chat")}`,
                 }}
               />
             </PopIn>
@@ -211,7 +210,6 @@ interface HeaderProps {
 }
 
 const MacWindowHeader = (props: HeaderProps) => {
-  const [t] = useTranslation();
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const agent = useAgentStore.use.agent();
   const agentMode = useAgentStore.use.agentMode();
@@ -275,13 +273,13 @@ const MacWindowHeader = (props: HeaderProps) => {
       key="Image"
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name={`${t("IMAGE", { ns: "common" })}`}
+      name={`${translate("IMAGE", "common")}`}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
       icon={<FaClipboard size={12} />}
-      name={`${t("COPY", { ns: "common" })}`}
+      name={`${translate("COPY", "common")}`}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
@@ -311,12 +309,12 @@ const MacWindowHeader = (props: HeaderProps) => {
           {isAgentPaused ? (
             <>
               <FaPause />
-              <p className="font-mono">{`${t("PAUSED", { ns: "common" })}`}</p>
+              <p className="font-mono">{`${translate("PAUSED", "common")}`}</p>
             </>
           ) : (
             <>
               <FaPlay />
-              <p className="font-mono">{`${t("RUNNING", { ns: "common" })}`}</p>
+              <p className="font-mono">{`${translate("RUNNING", "common")}`}</p>
             </>
           )}
         </div>
@@ -330,7 +328,7 @@ const MacWindowHeader = (props: HeaderProps) => {
               key="Agent"
               onClick={() => props.onSave?.("db")}
               icon={<FaSave size={12} />}
-              name={`${t("SAVE", { ns: "common" })}`}
+              name={`${translate("SAVE", "common")}`}
               border
             />
           </PopIn>
@@ -342,8 +340,6 @@ const MacWindowHeader = (props: HeaderProps) => {
   );
 };
 const ChatMessage = ({ message }: { message: Message }) => {
-  const [t] = useTranslation();
-
   return (
     <div
       className={clsx(
@@ -356,15 +352,13 @@ const ChatMessage = ({ message }: { message: Message }) => {
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-          <span className="mr-2 font-bold">{t(getMessagePrefix(message), { ns: "chat" })}</span>
+          <span className="mr-2 font-bold">{translate(getMessagePrefix(message), "chat")}</span>
         </>
       )}
 
       {message.type == MESSAGE_TYPE_THINKING && (
         <span className="italic text-zinc-400">
-          {`${t("RESTART_IF_IT_TAKES_X_SEC", {
-            ns: "chat",
-          })}`}
+          {`${translate("RESTART_IF_IT_TAKES_X_SEC", "chat")}`}
         </span>
       )}
 
@@ -377,12 +371,12 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       ) : (
         <>
-          <span>{t(message.value, { ns: "chat" })}</span>
+          <span>{translate(message.value, "chat")}</span>
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&
-              (message.value.toLowerCase().includes("shut") ||
-                message.value.toLowerCase().includes("error")) && <FAQ />
+            (message.value.toLowerCase().includes("shut") ||
+              message.value.toLowerCase().includes("error")) && <FAQ />
           }
         </>
       )}

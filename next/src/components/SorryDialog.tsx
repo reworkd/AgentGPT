@@ -1,37 +1,28 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React from "react";
 import Dialog from "./Dialog";
-import { useTranslation } from "next-i18next";
-
+import { translate } from "../utils/translate";
 export interface SorryDialogProps {
   show: boolean;
   close: () => void;
 }
 
 export const SorryDialog = ({ show, close }: SorryDialogProps) => {
-  const [t] = useTranslation();
-
   return (
-    <Dialog header={`${t("SORRY_TITLE", { ns: "sorryDialog" })}`} isShown={show} close={close}>
-      <p>{`${t("REASON_OF_DISABLE_WEB_SEARCH", "REASON_OF_DISABLE_WEB_SEARCH", {
-        ns: "sorryDialog",
-      })}`}</p>
+    <Dialog header={`${translate("SORRY_TITLE", "sorryDialog")}`} isShown={show} close={close}>
+      <p>{`${translate("REASON_OF_DISABLE_WEB_SEARCH", "sorryDialog")}`}</p>
       <br />
       <p>
-        {`${t("PLEASE_MONITOR", "PLEASE_MONITOR", {
-          ns: "sorryDialog",
-        })}`}
+        {`${translate("PLEASE_MONITOR", "sorryDialog")}`}
         <a
           className="link"
           href="https://docs.reworkd.ai/roadmap"
           target="_blank"
           rel="noreferrer"
         >
-          {`${t("ROADMAP", { ns: "sorryDialog" })}`}
+          {`${translate("ROADMAP", "sorryDialog")}`}
         </a>
-        {`${t("PLEASE_MONITOR_END_TEXT", "PLEASE_MONITOR_END_TEXT", {
-          ns: "sorryDialog",
-        })}`}
+        {`${translate("PLEASE_MONITOR_END_TEXT", "sorryDialog")}`}
       </p>
     </Dialog>
   );

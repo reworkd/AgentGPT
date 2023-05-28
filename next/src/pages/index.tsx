@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
-import { type GetStaticProps, type NextPage } from "next";
+import { translate } from "../utils/translate";
+import { type GetStaticProps, type NextPage, InferGetStaticPropsType } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/ChatWindow";
@@ -30,7 +31,7 @@ import { SignInDialog } from "../components/SignInDialog";
 import { env } from "../env/client.mjs";
 import { ToolsDialog } from "../components/ToolsDialog";
 
-const Home: NextPage = () => {
+const Home: NextPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { i18n } = useTranslation();
   // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
@@ -178,7 +179,7 @@ const Home: NextPage = () => {
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
         <FaPlay size={20} />
-        <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
+        <span className="ml-2">{translate("CONTINUE", "common")}</span>
       </Button>
     ) : (
       <Button
@@ -187,11 +188,11 @@ const Home: NextPage = () => {
         onClick={() => handleNewGoal(nameInput, goalInput)}
       >
         {agent == null ? (
-          i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
+          translate("BUTTON_DEPLOY_AGENT", "indexPage")
         ) : (
           <>
             <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
+            <span className="ml-2">{translate("RUNNING", "common")}</span>
           </>
         )}
       </Button>
@@ -229,18 +230,13 @@ const Home: NextPage = () => {
                 <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
                 <PopIn delay={0.5}>
                   <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
-                    {`${i18n?.t("BETA", {
-                      ns: "indexPage",
-                    })}`}{" "}
-                    🚀
+                    {`${translate("BETA", "indexPage")}`}{" "}🚀
                   </Badge>
                 </PopIn>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
                 <p>
-                  {i18n.t("HEADING_DESCRIPTION", {
-                    ns: "indexPage",
-                  })}
+                  {translate("HEADING_DESCRIPTION", "indexPage")}
                 </p>
               </div>
             </div>
@@ -251,14 +247,14 @@ const Home: NextPage = () => {
                 disabled={mobileVisibleWindow == "Chat"}
                 onClick={() => handleVisibleWindowClick("Chat")}
               >
-                Chat
+                {translate("CHAT", "indexPage")}
               </Button>
               <Button
                 className="rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden"
                 disabled={mobileVisibleWindow == "Tasks"}
                 onClick={() => handleVisibleWindowClick("Tasks")}
               >
-                Tasks
+                {translate("TASKS", "indexPage")}
               </Button>
             </div>
             <Expand className="flex w-full flex-row">
@@ -268,13 +264,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                        setHasSaved(true);
-                        agentUtils.saveAgent({
-                          goal: goalInput.trim(),
-                          name: nameInput.trim(),
-                          tasks: messages,
-                        });
-                      }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: nameInput.trim(),
+                        tasks: messages,
+                      });
+                    }
                     : undefined
                 }
                 scrollToBottom
@@ -293,9 +289,7 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaRobot />
-                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
-                        ns: "indexPage",
-                      })}`}</span>
+                      <span className="ml-2">{`${translate("AGENT_NAME", "indexPage")}`}</span>
                     </>
                   }
                   value={nameInput}
@@ -315,18 +309,14 @@ const Home: NextPage = () => {
                   left={
                     <>
                       <FaStar />
-                      <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
-                        ns: "indexPage",
-                      })}`}</span>
+                      <span className="ml-2">{`${translate("LABEL_AGENT_GOAL", "indexPage")}`}</span>
                     </>
                   }
                   disabled={agent != null}
                   value={goalInput}
                   onChange={(e) => setGoalInput(e.target.value)}
                   onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
-                    ns: "indexPage",
-                  })}`}
+                  placeholder={`${translate("PLACEHOLDER_AGENT_GOAL", "indexPage")}`}
                   type="textarea"
                 />
               </Expand>
@@ -341,14 +331,10 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
-                      ns: "indexPage",
-                    })}`}</span>
+                    <span className="ml-2">{`${translate("BUTTON_STOPPING", "indexPage")}`}</span>
                   </>
                 ) : (
-                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                    ns: "indexPage",
-                  })}`
+                  `${translate("BUTTON_STOP_AGENT", "indexPage")}`
                 )}
               </Button>
             </Expand>

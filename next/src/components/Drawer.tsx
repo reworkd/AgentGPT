@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "next-i18next";
+import React, { useEffect, useState } from "react"
+import { translate } from "../utils/translate";
 import {
   FaBars,
   FaCog,
@@ -22,7 +22,6 @@ import FadingHr from "./FadingHr";
 import { BiPlus } from "react-icons/bi";
 
 const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings: () => void }) => {
-  const [t] = useTranslation("drawer");
   const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
@@ -78,7 +77,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
       >
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="mb-2 flex justify-center gap-2">
-            <p className="font-bold">{t("MY_AGENTS")}</p>
+            <p className="font-bold">{translate("MY_AGENTS", "drawer")}</p>
             <button
               className={clsx(
                 showDrawer ? "-translate-x-2" : "translate-x-12 border-2 border-white/20",
@@ -102,20 +101,20 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
 
             <DrawerItem
               icon={<BiPlus size={17} />}
-              text={"New Agent"}
+              text={translate("NEW_AGENT", "drawer")}
               border
               onClick={() => location.reload()}
             />
             {status === "unauthenticated" && (
               <div className="p-1 text-sm">
                 <a className="link" onClick={() => void signIn()}>
-                  {t("SIGN_IN")}
+                  {translate("SIGN_IN", "common")}
                 </a>{" "}
-                {t("SIGN_IN_NOTICE")}
+                {translate("SIGN_IN_NOTICE", "drawer")}
               </div>
             )}
             {status === "authenticated" && userAgents.length === 0 && (
-              <div className="text-sm">{t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}</div>
+              <div className="text-sm">{translate("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST", "drawer")}</div>
             )}
           </ul>
         </div>
@@ -132,11 +131,11 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
           )}
           <FadingHr className="my-2" />
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
-          <DrawerItem icon={<FaQuestionCircle />} text={t("HELP_BUTTON")} onClick={showHelp} />
-          <DrawerItem icon={<FaHeart />} text={t("SUPPORT_BUTTON")} onClick={handleSupport} />
+          <DrawerItem icon={<FaQuestionCircle />} text={translate("HELP_BUTTON", "drawer")} onClick={showHelp} />
+          <DrawerItem icon={<FaHeart />} text={translate("SUPPORT_BUTTON", "drawer")} onClick={handleSupport} />
           <DrawerItem
             icon={<FaCog className="transition-transform group-hover:rotate-90" />}
-            text={t("SETTINGS_BUTTON")}
+            text={translate("SETTINGS_BUTTON", "drawer")}
             onClick={showSettings}
           />
           <FadingHr className="my-2" />
@@ -235,10 +234,9 @@ const AuthItem: React.FC<{
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
 }> = ({ signIn, signOut, session }) => {
-  const [t] = useTranslation("drawer");
   const icon = session?.user ? <FaSignOutAlt /> : <FaSignInAlt />;
   const onClick = session?.user ? signOut : signIn;
-  const text = session?.user ? t("SIGN_OUT") : t("SIGN_IN");
+  const text = session?.user ? translate("SIGN_OUT", "drawer");
 
   return <DrawerItem icon={icon} text={text} onClick={onClick} />;
 };

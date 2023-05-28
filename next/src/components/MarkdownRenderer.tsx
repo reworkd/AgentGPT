@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/default.css";
+import { translate } from "../utils/translate";
 
 const MarkdownRenderer = ({ children }) => {
   return (
@@ -55,7 +56,7 @@ const CustomPre = ({ children }: { children: ReactNode }) => {
           className="flex items-center gap-2 rounded px-2 py-1 hover:bg-zinc-600 focus:outline-none"
         >
           <FaCopy />
-          {isCopied ? "Copied!" : "Copy Code"}
+          {isCopied ? `${translate("COPIED", "Copied!", "common")}` : `${translate("COPY_CODE", "common")}`}
         </button>
       </div>
       <pre className="rounded-t-[0]">{children}</pre>

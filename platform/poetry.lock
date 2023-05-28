@@ -1257,6 +1257,24 @@ files = [
 crc32c = ["crc32c"]
 
 [[package]]
+name = "lanarky"
+version = "0.6.6"
+description = "Ship production-ready LLM projects with FastAPI"
+optional = false
+python-versions = ">=3.9,<4.0"
+files = [
+    {file = "lanarky-0.6.6-py3-none-any.whl", hash = "sha256:c37e0de75f074ea44f526f97ac986949ec1b388c5499677452b1cef5daf66c51"},
+    {file = "lanarky-0.6.6.tar.gz", hash = "sha256:03f38846eb56ebf90ccf8658205d7ab983bfd58f343557e05f403cd5314ee8e7"},
+]
+
+[package.dependencies]
+fastapi = ">=0.95.2"
+langchain = ">=0.0.178"
+python-dotenv = ">=1.0.0,<2.0.0"
+typing-extensions = "4.5.0"
+urllib3 = "<=1.26.15"
+
+[[package]]
 name = "langchain"
 version = "0.0.178"
 description = "Building applications with LLMs through composability"
@@ -2405,13 +2423,13 @@ telegram = ["requests"]
 
 [[package]]
 name = "typing-extensions"
-version = "4.6.2"
+version = "4.5.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "typing_extensions-4.6.2-py3-none-any.whl", hash = "sha256:3a8b36f13dd5fdc5d1b16fe317f5668545de77fa0b8e02006381fd49d731ab98"},
-    {file = "typing_extensions-4.6.2.tar.gz", hash = "sha256:06006244c70ac8ee83fa8282cb188f697b8db25bc8b4df07be1873c43897060c"},
+    {file = "typing_extensions-4.5.0-py3-none-any.whl", hash = "sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4"},
+    {file = "typing_extensions-4.5.0.tar.gz", hash = "sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb"},
 ]
 
 [[package]]
@@ -2505,13 +2523,13 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "1.26.16"
+version = "1.26.15"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 files = [
-    {file = "urllib3-1.26.16-py2.py3-none-any.whl", hash = "sha256:8d36afa7616d8ab714608411b4a3b13e58f463aee519024578e062e141dce20f"},
-    {file = "urllib3-1.26.16.tar.gz", hash = "sha256:8f135f6502756bde6b2a9b28989df5fbe87c9970cecaa69041edcce7f0589b14"},
+    {file = "urllib3-1.26.15-py2.py3-none-any.whl", hash = "sha256:aa751d169e23c7479ce47a0cb0da579e3ede798f994f5816a74e4f4500dcea42"},
+    {file = "urllib3-1.26.15.tar.gz", hash = "sha256:8a388717b9476f934a21484e8c8e61875ab60644d29b9b39e11e4b9dc1c6b305"},
 ]
 
 [package.extras]
@@ -2926,4 +2944,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "0915da3a5fb740625b5da416b2a432cbaf23d92c301b14872b4dc5007850fa78"
+content-hash = "85adc26d2814b863b23a0025ae2ed30a619a89b10650f8f6066e1c6b9cddf167"

@@ -22,6 +22,7 @@ import { useAgentStore, useMessageStore } from "../stores";
 import { translate } from "../utils/translations";
 import type { Analysis } from "../services/agent-api";
 import { AgentApi } from "../services/agent-api";
+import { steamText } from "../services/stream-utils";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -74,15 +75,23 @@ class AutonomousAgent {
   }
 
   async run() {
-    if (!this.isRunning) {
-      this.isRunning = true;
-      await this.startGoal();
-    }
+    await steamText("/api/agent/chat", (text) => {
+      console.log("text", text);
+      this.renderMessage({
+        type: MESSAGE_TYPE_SYSTEM,
+        value: text,
+      });
+    });
 
-    await this.loop();
-    if (this.mode === PAUSE_MODE && !this.isRunning) {
-      this.handlePause({ agentPlaybackControl: this.playbackControl });
-    }
+    // if (!this.isRunning) {
+    //   this.isRunning = true;
+    //   await this.startGoal();
+    // }
+    //
+    // await this.loop();
+    // if (this.mode === PAUSE_MODE && !this.isRunning) {
+    //   this.handlePause({ agentPlaybackControl: this.playbackControl });
+    // }
   }
 
   async startGoal() {

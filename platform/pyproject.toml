@@ -29,6 +29,7 @@ langchain = "^0.0.178"
 openai = "^0.27.7"
 wikipedia = "^1.4.0"
 replicate = "^0.8.3"
+lanarky = "^0.6.6"
 
 
 [tool.poetry.dev-dependencies]

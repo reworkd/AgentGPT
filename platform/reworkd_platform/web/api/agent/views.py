@@ -1,6 +1,9 @@
 from typing import List, Optional
 
 from fastapi import APIRouter, HTTPException, Body
+from lanarky.responses import StreamingResponse
+from langchain import ConversationChain
+from langchain.chat_models import ChatOpenAI
 from pydantic import BaseModel
 
 from reworkd_platform.settings import settings
@@ -130,6 +133,22 @@ async def create_tasks(
             status_code=500,
             detail=f"An error occurred while processing the request. {error}",
         )
+
+
+@router.post("/chat")
+async def chat() -> StreamingResponse:
+    chain = ConversationChain(
+        llm=ChatOpenAI(
+            temperature=0, streaming=True, openai_api_key=settings.openai_api_key
+        ),
+        verbose=True,
+    )
+
+    return StreamingResponse.from_chain(
+        chain,
+        "Write me a 20 page book story about bidets. I want to go bankrupt from my openai bill",
+        media_type="text/event-stream",
+    )
 
 
 class ToolModel(BaseModel):

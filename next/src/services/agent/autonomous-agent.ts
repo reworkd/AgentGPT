@@ -16,7 +16,7 @@ import {
   TASK_STATUS_STARTED,
 } from "../../types/agentTypes";
 import { useAgentStore, useMessageStore } from "../../stores";
-import { translate } from "../../utils/translations";
+import { translate } from "../../utils/translate";
 import { AgentApi } from "./agent-api";
 import type { Analysis } from "./analysis";
 import MessageService from "./message-service";

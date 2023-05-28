@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
+import { translate } from "../utils/translate";
 import { findLanguage, languages } from "../utils/languages";
 import { useRouter } from "next/router";
 import Input from "./Input";
@@ -32,9 +33,7 @@ const LanguageCombobox = () => {
       left={
         <>
           <FaGlobe />
-          <span className="ml-2">{`${i18n.t("LANG", "LANG", {
-            ns: "settings",
-          })}`}</span>
+          <span className="ml-2">{`${translate("LANG", "settings")}`}</span>
         </>
       }
       type="combobox"

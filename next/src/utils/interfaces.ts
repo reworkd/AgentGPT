@@ -1,5 +1,5 @@
 import type { ModelSettings } from "./types";
-import type { Analysis } from "../services/agent-api";
+import type { Analysis } from "../services/agent/analysis";
 
 export interface RequestBody {
   modelSettings: ModelSettings;

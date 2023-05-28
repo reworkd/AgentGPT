@@ -124,7 +124,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
           {session?.user && (
             <>
               <FadingHr className="my-2" />
-              <div className="flex flex-row items-center justify-center gap-2">
+              <div className="flex flex-row items-center justify-center gap-2 text-sm">
                 <FaUser />
                 {session?.user?.name}
               </div>
@@ -144,7 +144,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             <DrawerItem
               icon={
                 <FaDiscord
-                  size={25}
+                  size={27}
                   className="transition-colors group-hover:fill-current group-hover:text-indigo-400"
                 />
               }
@@ -156,7 +156,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             <DrawerItem
               icon={
                 <FaTwitter
-                  size={25}
+                  size={27}
                   className="transition-colors group-hover:fill-current group-hover:text-sky-500"
                 />
               }
@@ -168,7 +168,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             <DrawerItem
               icon={
                 <FaGithub
-                  size={25}
+                  size={27}
                   className="transition-colors group-hover:fill-current group-hover:text-purple-500"
                 />
               }

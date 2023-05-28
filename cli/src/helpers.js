@@ -7,8 +7,8 @@ export const printTitle = () => {
       figlet.textSync('AgentGPT', { horizontalLayout: 'full', font: 'ANSI Shadow' })
     )
   );
-  console.log('Welcome to the AgentGPT CLI! This CLI will get .env files setup');
-  console.log('A copy of the generated env will be created in `./next/.env` and `./platform/.env` \n');
+  console.log('Welcome to the AgentGPT CLI! This CLI will generate the required .env files.');
+  console.log('Copies of the generated envs will be created in `./next/.env` and `./platform/.env`.\n');
 };
 
 // Function to check if entered api key is in the correct format

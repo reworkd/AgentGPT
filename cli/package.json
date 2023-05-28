@@ -2,13 +2,16 @@
   "name": "agentgpt-cli",
   "version": "1.0.0",
   "description": "A CLI to create your AgentGPT environment",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0 <19.0.0"
+  },
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js"
   },
   "author": "reworkd",
-  "license": "ISC",
   "dependencies": {
     "@octokit/auth-basic": "^1.4.8",
     "@octokit/rest": "^19.0.11",

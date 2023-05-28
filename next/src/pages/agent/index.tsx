@@ -1,4 +1,4 @@
-import type { GetStaticProps } from "next";
+import type { GetStaticProps, InferGetStaticPropsType } from "next";
 import { type NextPage } from "next";
 import DefaultLayout from "../../layout/default";
 import Button from "../../components/Button";
@@ -12,13 +12,12 @@ import Toast from "../../components/toast";
 import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 
-import { useTranslation } from "next-i18next";
+import { translate } from "../../utils/translate";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
 
-const AgentPage: NextPage = () => {
-  const [t] = useTranslation();
+const AgentPage: NextPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [showCopied, setShowCopied] = useState(false);
   const router = useRouter();
 
@@ -54,7 +53,7 @@ const AgentPage: NextPage = () => {
       />
       <div className="flex flex-row gap-2">
         <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
-          Back
+          {translate("BACK_BUTTON", "common")}
         </Button>
         <Button
           icon={<FaTrash />}
@@ -63,7 +62,7 @@ const AgentPage: NextPage = () => {
           }}
           enabledClassName={"bg-red-600 hover:bg-red-400"}
         >
-          Delete
+          {translate("DELETE_BUTTON", "common")}
         </Button>
 
         <Button
@@ -73,12 +72,12 @@ const AgentPage: NextPage = () => {
           }}
           enabledClassName={"bg-green-600 hover:bg-green-400"}
         >
-          Share
+          {translate("SHARE_BUTTON", "common")}
         </Button>
       </div>
       <Toast
         model={[showCopied, setShowCopied]}
-        title={`${t("COPIED_TO_CLIPBOARD", { ns: "common" })}`}
+        title={`${translate("COPIED_TO_CLIPBOARD", "common")}`}
         className="bg-gray-950 text-sm"
       />
     </DefaultLayout>

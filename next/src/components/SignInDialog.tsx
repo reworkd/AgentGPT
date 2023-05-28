@@ -2,6 +2,7 @@ import React from "react";
 import Dialog from "./Dialog";
 import Button from "./Button";
 import { useAuth } from "../hooks/useAuth";
+import { translate } from "../utils/translate";
 
 export interface SignInDialogProps {
   show: boolean;
@@ -13,17 +14,17 @@ export const SignInDialog = ({ show, close }: SignInDialogProps) => {
 
   return (
     <Dialog
-      header="Sign in 🔐"
+      header={`${translate("SIGN_IN", "signInDialog")} 🔐`}
       isShown={show}
       close={close}
-      footerButton={<Button onClick={() => void signIn()}>Sign in</Button>}
+      footerButton={<Button onClick={() => void signIn()}>{`${translate("SIGN_IN", "signInDialog")}`}</Button>}
     >
       <p>
-        Please{" "}
+        {`${translate("PLEASE", "common")}`}{" "}
         <a className="link" onClick={() => void signIn()}>
-          sign in
+          {`${translate("SIGN_IN_LINK", "signInDialog")}`}
         </a>{" "}
-        to deploy an Agent! 🤖
+        {`${translate("TO_DEPLOY_AN_AGENT", "signInDialog")} 🤖`}
       </p>
     </Dialog>
   );

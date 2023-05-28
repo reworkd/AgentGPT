@@ -15,6 +15,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const { i18n } = useTranslation();
 
+  const locale = i18n.language;
+
+  const dir = locale === ('ar' || 'fa' || 'ur' || 'he') ? 'rtl' : 'ltr';
+
   useEffect(() => {
     i18n.on("languageChanged", () => {
       document.documentElement.lang = i18n.language;
@@ -26,7 +30,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <GoogleAnalytics trackPageViews />
       <Analytics />
-      <Component {...pageProps} />
+      <div dir={dir}>
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 };

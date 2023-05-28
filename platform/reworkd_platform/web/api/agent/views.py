@@ -100,14 +100,13 @@ async def execute_tasks(
             },
         }
     ),
-) -> CompletionResponse:
+) -> StreamingResponse:
     try:
-        response = await get_agent_service(req_body.modelSettings).execute_task_agent(
+        return get_agent_service(req_body.modelSettings).execute_task_agent(
             goal=req_body.goal or "",
             task=req_body.task or "",
             analysis=req_body.analysis or get_default_analysis(),
         )
-        return CompletionResponse(response=response)
     except Exception as error:
         raise HTTPException(
             status_code=500,
@@ -133,22 +132,6 @@ async def create_tasks(
             status_code=500,
             detail=f"An error occurred while processing the request. {error}",
         )
-
-
-@router.post("/chat")
-async def chat() -> StreamingResponse:
-    chain = ConversationChain(
-        llm=ChatOpenAI(
-            temperature=0, streaming=True, openai_api_key=settings.openai_api_key
-        ),
-        verbose=True,
-    )
-
-    return StreamingResponse.from_chain(
-        chain,
-        "Write me a 20 page book story about bidets. I want to go bankrupt from my openai bill",
-        media_type="text/event-stream",
-    )
 
 
 class ToolModel(BaseModel):

@@ -22,4 +22,5 @@ class Wikipedia(Tool):
     async def call(self, goal: str, task: str, input_str: str) -> str:
         # TODO: Make the below async
         wikipedia_search = self.wikipedia.run(input_str)
+        summary = await summarize(self.model_settings, goal, task, snippets)
         return await summarize(self.model_settings, goal, task, [wikipedia_search])

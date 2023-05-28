@@ -1,6 +1,7 @@
 from typing import Any, List
 
 import aiohttp
+from lanarky.responses import StreamingResponse
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
@@ -43,7 +44,7 @@ class Search(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    async def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
         results = await _google_serper_search_results(
             input_str,
         )
@@ -64,7 +65,7 @@ class Search(Tool):
                 answer_values.append(", ".join(answer_box.get("snippetHighlighted")))
 
             if len(answer_values) > 0:
-                return "\n".join(answer_values)
+                return await summarize(self.model_settings, goal, task, answer_values)
 
         if results.get("knowledgeGraph"):
             kg = results.get("knowledgeGraph", {})

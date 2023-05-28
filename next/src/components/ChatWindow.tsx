@@ -26,6 +26,7 @@ import {
   AUTOMATIC_MODE,
   getTaskStatus,
   isAction,
+  isTask,
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_SYSTEM,
   MESSAGE_TYPE_THINKING,
@@ -346,12 +347,13 @@ const MacWindowHeader = (props: HeaderProps) => {
               icon={<FaSave size={12} />}
               name={`${t("SAVE", { ns: "common" })}`}
               border
+              styleClass={{ container: "text-sm hover:bg-white/10" }}
             />
           </PopIn>
         )}
       </AnimatePresence>
 
-      <Menu icon={<CgExport size={15} />} items={exportOptions} />
+      <Menu name="Export" icon={<CgExport size={15} />} items={exportOptions} />
     </div>
   );
 };
@@ -570,7 +572,6 @@ const ChatMessage = ({ message }: { message: Message; className?: string }) => {
           name="More"
           variant="minimal"
           icon={<FaEllipsisV />}
-          onChange={() => null}
           items={messageOptions}
           styleClass={{
             container: "absolute right-0 top-0 inline-flex bg-transparent ",

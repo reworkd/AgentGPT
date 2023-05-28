@@ -1,6 +1,6 @@
 import React from "react";
 import Tooltip from "./Tooltip";
-import type { toolTipProperties } from "./types";
+import type { toolTipProperties } from "../types";
 
 type IconButtonProps = {
   onClick?: () => void;
@@ -29,9 +29,7 @@ const IconButton = ({
       toolTipProperties={toolTipProperties}
     >
       <button
-        className={`flex items-center gap-2 text-sm  ${
-          styleClass?.container || ""
-        }`}
+        className={`flex items-center gap-2 text-sm  ${styleClass?.container || ""}`}
         aria-label={name}
         onClick={onClick}
         disabled={disabled}

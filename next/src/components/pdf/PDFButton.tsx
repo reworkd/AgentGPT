@@ -31,6 +31,7 @@ const PDFButton = ({ messages, name }: { messages: Message[]; name: string }) =>
         }}
         icon={<FaFilePdf size={12} />}
         name={name}
+        styleClass={{ container: "text-sm hover:bg-white/10" }}
       />
     </>
   );

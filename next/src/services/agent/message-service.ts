@@ -4,7 +4,7 @@ import {
   MESSAGE_TYPE_SYSTEM,
   MESSAGE_TYPE_THINKING,
 } from "../../types/agentTypes";
-import { translate } from "../../utils/translations";
+import { translate } from "../../utils/translate";
 import type { Analysis } from "./analysis";
 
 class MessageService {
@@ -52,18 +52,18 @@ class MessageService {
   }
 
   sendAnalysisMessage(analysis: Analysis) {
-    let message = "⏰ Generating response...";
+    let message = `⏰ ${translate("GENERATING_RESPONSE", "messageService")}`;
     if (analysis.action == "search") {
-      message = `🔍 Searching the web for "${analysis.arg}"...`;
+      message = `🔍 ${translate("SEARCHING_FOR_THE_WEB", "messageService")} "${analysis.arg}"...}`;
     }
     if (analysis.action == "wikipedia") {
-      message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;
+      message = `🌐 ${translate("SEARCHING_WIKIPEDIA", "messageService")} "${analysis.arg}"...`;
     }
     if (analysis.action == "image") {
-      message = `🎨 Generating an image with prompt: "${analysis.arg}"...`;
+      message = `🎨 ${translate("GENERTING_IMAGE", "messageService")}: "${analysis.arg}"...`;
     }
     if (analysis.action == "code") {
-      message = `💻 Writing code...`;
+      message = `💻 ${translate("WRITING_CODE", "messageService")}`;
     }
 
     this.sendMessage({

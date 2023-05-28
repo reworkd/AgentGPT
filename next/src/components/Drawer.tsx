@@ -19,6 +19,7 @@ import type { Session } from "next-auth";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import FadingHr from "./FadingHr";
+import { BiPlus } from "react-icons/bi";
 
 const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings: () => void }) => {
   const [t] = useTranslation("drawer");
@@ -99,8 +100,14 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
               />
             ))}
 
+            <DrawerItem
+              icon={<BiPlus size={17} />}
+              text={"New Agent"}
+              border
+              onClick={() => location.reload()}
+            />
             {status === "unauthenticated" && (
-              <div className="text-sm">
+              <div className="p-1 text-sm">
                 <a className="link" onClick={() => void signIn()}>
                   {t("SIGN_IN")}
                 </a>{" "}
@@ -137,7 +144,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             <DrawerItem
               icon={
                 <FaDiscord
-                  size={30}
+                  size={25}
                   className="transition-colors group-hover:fill-current group-hover:text-indigo-400"
                 />
               }
@@ -149,7 +156,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             <DrawerItem
               icon={
                 <FaTwitter
-                  size={30}
+                  size={25}
                   className="transition-colors group-hover:fill-current group-hover:text-sky-500"
                 />
               }
@@ -161,7 +168,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             <DrawerItem
               icon={
                 <FaGithub
-                  size={30}
+                  size={25}
                   className="transition-colors group-hover:fill-current group-hover:text-purple-500"
                 />
               }
@@ -218,7 +225,7 @@ const DrawerItem = (props: DrawerItemProps) => {
       onClick={onClick}
     >
       {icon}
-      <span className="text-md ml-4">{text}</span>
+      <span className="ml-4 text-sm">{text}</span>
     </button>
   );
 };

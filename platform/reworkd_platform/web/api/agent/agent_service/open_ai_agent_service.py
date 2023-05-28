@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-from lanarky.responses import StreamingResponse
 from langchain.chains import LLMChain
 from langchain.output_parsers import PydanticOutputParser
 
@@ -56,15 +55,17 @@ class OpenAIAgentService(AgentService):
             print(f"Error parsing analysis: {error}")
             return get_default_analysis()
 
-    def execute_task_agent(
+    async def execute_task_agent(
         self,
         *,
         goal: str,
         task: str,
         analysis: Analysis,
-    ) -> StreamingResponse:
+    ) -> str:
+        print("Execution analysis:", analysis)
+
         tool_class = get_tool_from_name(analysis.action)
-        return tool_class(self.model_settings).call(goal, task, analysis.arg)
+        return await tool_class(self.model_settings).call(goal, task, analysis.arg)
 
     async def create_tasks_agent(
         self,

@@ -1,7 +1,6 @@
 from typing import List, Optional
 
 from fastapi import APIRouter, HTTPException, Body
-from lanarky.responses import StreamingResponse
 from pydantic import BaseModel
 
 from reworkd_platform.settings import settings
@@ -98,13 +97,14 @@ async def execute_tasks(
             },
         }
     ),
-) -> StreamingResponse:
+) -> CompletionResponse:
     try:
-        return get_agent_service(req_body.modelSettings).execute_task_agent(
+        response = await get_agent_service(req_body.modelSettings).execute_task_agent(
             goal=req_body.goal or "",
             task=req_body.task or "",
             analysis=req_body.analysis or get_default_analysis(),
         )
+        return CompletionResponse(response=response)
     except Exception as error:
         raise HTTPException(
             status_code=500,

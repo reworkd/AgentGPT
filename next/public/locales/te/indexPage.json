@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "పేరు",
+  "BETA": "బీటా",
+  "BUTTON_DEPLOY_AGENT": "ఏజెంట్‌ని నియమించు",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "స్టాప్ ఏజెంట్",
+  "CHAT": "చాట్",
+  "HEADING_DESCRIPTION": "మీ బ్రౌజర్‌లో స్వయంప్రతిపత్త AI ఏజెంట్లను సమీకరించండి, కాన్ఫిగర్ చేయండి మరియు అమలు చేయండి.",
+  "LABEL_AGENT_GOAL": "లక్ష్యం",
+  "PLACEHOLDER_AGENT_GOAL": "ప్రపంచాన్ని మంచి ప్రదేశంగా మార్చండి",
+  "TASKS": "పనులు"
+}

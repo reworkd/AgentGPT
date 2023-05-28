@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "שֵׁם",
+  "BETA": "בטא",
+  "BUTTON_DEPLOY_AGENT": "פרוס סוכן",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "עצור את הסוכן",
+  "CHAT": "לְשׂוֹחֵחַ",
+  "HEADING_DESCRIPTION": "הרכיב, הגדר ופרוס סוכני AI אוטונומיים בדפדפן שלך.",
+  "LABEL_AGENT_GOAL": "מטרה",
+  "PLACEHOLDER_AGENT_GOAL": "הפוך את העולם למקום טוב יותר",
+  "TASKS": "משימות"
+}

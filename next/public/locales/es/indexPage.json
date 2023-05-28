@@ -1,9 +1,12 @@
 {
-  "BETA": "Beta",
-  "HEADING_DESCRIPTION": "Ensamble, configure e instale agentes de IA autónomos en su navegador.",
   "AGENT_NAME": "Nombre",
-  "LABEL_AGENT_GOAL": "Objetivo",
-  "PLACEHOLDER_AGENT_GOAL": "Hacer del mundo un lugar mejor",
-  "BUTTON_DEPLOY_AGENT": "Ejecutar agente",
-  "BUTTON_STOP_AGENT": "Detener agente"
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Implementar agente",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Detener agente",
+  "CHAT": "Charlar",
+  "HEADING_DESCRIPTION": "Reúna, configure e implemente agentes de IA autónomos en su navegador.",
+  "LABEL_AGENT_GOAL": "Meta",
+  "PLACEHOLDER_AGENT_GOAL": "Haz del mundo un lugar mejor",
+  "TASKS": "Tareas"
 }

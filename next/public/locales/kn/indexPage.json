@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "ಹೆಸರು",
+  "BETA": "ಬೀಟಾ",
+  "BUTTON_DEPLOY_AGENT": "ಏಜೆಂಟ್ ಅನ್ನು ನಿಯೋಜಿಸಿ",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "ಸ್ಟಾಪ್ ಏಜೆಂಟ್",
+  "CHAT": "ಚಾಟ್ ಮಾಡಿ",
+  "HEADING_DESCRIPTION": "ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಸ್ವಾಯತ್ತ AI ಏಜೆಂಟ್‌ಗಳನ್ನು ಜೋಡಿಸಿ, ಕಾನ್ಫಿಗರ್ ಮಾಡಿ ಮತ್ತು ನಿಯೋಜಿಸಿ.",
+  "LABEL_AGENT_GOAL": "ಗುರಿ",
+  "PLACEHOLDER_AGENT_GOAL": "ಜಗತ್ತನ್ನು ಉತ್ತಮ ಸ್ಥಳವನ್ನಾಗಿ ಮಾಡಿ",
+  "TASKS": "ಕಾರ್ಯಗಳು"
+}

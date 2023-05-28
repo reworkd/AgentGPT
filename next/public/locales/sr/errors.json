@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Агент је ручно искључен.",
+  "ALL_TASKS_COMPLETETD": "Сви задаци завршени. ",
+  "DEMO_LOOPS_REACHED": "Жао нам је, пошто је ово демо, не можемо дозволити да наши агенти раде предуго. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ГРЕШКА при додавању додатниһ задатака. ",
+  "RATE_LIMIT_EXCEEDED": "Ограничење стопа премашила! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "ГРЕШКА при приступу ОпенАИ АПИ-ју. ",
+  "AGENT_MAXED_OUT_LOOPS": "Овај агент је максимално искористио петље. ",
+  "ERROR_API_KEY_QUOTA": "ГРЕШКА коришћењем вашег ОпенАИ АПИ кључа. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ГРЕШКА ваш АПИ кључ нема приступ ГПТ-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ГРЕШКА при преузимању низа почетниһ задатака. ",
+  "INVALID_OPENAI_API_KEY": "ГРЕШКА неважећи ОпенАИ АПИ кључ"
+}

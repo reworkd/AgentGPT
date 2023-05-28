@@ -1,7 +1,7 @@
 {
-  "SORRY_TITLE": "Désolé ! 😭",
-  "REASON_OF_DISABLE_WEB_SEARCH": "En raison de coûts élevés, la recherche sur le web est temporairement désactivée 🌐",
-  "PLEASE_MONITOR": "Veuillez surveiller notre ",
-  "ROADMAP": "feuille de route",
-  "PLEASE_MONITOR_END_TEXT": " pour savoir quand il sera à nouveau disponible."
+  "PLEASE_MONITOR": "Veuillez surveiller notre",
+  "PLEASE_MONITOR_END_TEXT": "pour comprendre quand il peut être de retour.",
+  "REASON_OF_DISABLE_WEB_SEARCH": "En raison des coûts, nous avons dû momentanément désactiver la recherche sur le Web 🌐",
+  "ROADMAP": "Feuille de route",
+  "SORRY_TITLE": "Désolé! "
 }

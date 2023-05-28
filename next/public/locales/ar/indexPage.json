@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "اسم",
+  "BETA": "بيتا",
+  "BUTTON_DEPLOY_AGENT": "نشر الوكيل",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "توقف الوكيل",
+  "CHAT": "محادثة",
+  "HEADING_DESCRIPTION": "قم بتجميع وتكوين ونشر وكلاء AI المستقلين في متصفحك.",
+  "LABEL_AGENT_GOAL": "هدف",
+  "PLACEHOLDER_AGENT_GOAL": "اجعل العالم مكان افضل",
+  "TASKS": "مهام"
+}

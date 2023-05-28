@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Tạo một tác nhân bằng cách thêm tên/mục tiêu và nhấn triển khai! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Khởi động lại nếu mất hơn 30 giây)",
+  "COMPLETING": "hoàn thành:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Vui lòng xem xét tài trợ cho dự án trên GitHub.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Đã sao chép văn bản vào khay nhớ tạm",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Không thể sao chép văn bản vào khay nhớ tạm",
+  "EMBARKING_ON_NEW_GOAL": "Bắt tay vào một mục tiêu mới:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Chúng tôi đang gặp phải lưu lượng truy cập đặc biệt, có thể xảy ra chậm trễ và lỗi nếu bạn không sử dụng khóa API của riêng mình🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Giúp hỗ trợ sự tiến bộ của AgentGPT. ",
+  "NO_MORE_TASKS": "Không còn nhiệm vụ phụ nào cho:",
+  "SUPPORT_NOW": "Ủng hộ ngay 🚀",
+  "TASK_ADDED": "Đã thêm nhiệm vụ:",
+  "THINKING": "Suy nghĩ...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Bạn có thể cung cấp khóa API OpenAI của riêng mình trong tab cài đặt để tăng giới hạn!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Tạo đại lý bằng cách thêm tên/mục tiêu và nhấn triển khai!"
+}

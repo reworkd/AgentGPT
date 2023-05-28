@@ -1,0 +1,12 @@
+{
+  "ADVANCED_SETTINGS": "Advanced settings",
+  "CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION": "Controls the maximum number of tokens used in each API call (higher value will make responses more detailed but cost more).",
+  "CONTROL_THE_MAXIMUM_NUM_OF_LOOPS": "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
+  "HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM": "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
+  "LABEL_MODEL": "Model",
+  "LANG": "Language",
+  "LOOP": "Loop",
+  "SETTINGS_DIALOG_HEADER": "Settings ⚙",
+  "TEMPERATURE": "Temp.",
+  "TOKENS": "Tokens"
+}

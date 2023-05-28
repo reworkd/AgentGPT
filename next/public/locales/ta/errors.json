@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "ஏஜென்ட் கைமுறையாக நிறுத்தப்பட்டது.",
+  "ALL_TASKS_COMPLETETD": "அனைத்து பணிகளும் முடிந்தது. ",
+  "DEMO_LOOPS_REACHED": "மன்னிக்கவும், இது டெமோ என்பதால், எங்களின் ஏஜெண்டுகளை அதிக நேரம் இயக்க முடியாது. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "கூடுதல் பணி(களை) சேர்ப்பதில் பிழை. ",
+  "RATE_LIMIT_EXCEEDED": "கட்டண வரம்பை மீறியது! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI இன் API ஐ அணுகுவதில் பிழை. ",
+  "AGENT_MAXED_OUT_LOOPS": "இந்த ஏஜென்ட் லூப்களை அதிகப்படுத்தியுள்ளது. ",
+  "ERROR_API_KEY_QUOTA": "உங்கள் OpenAI API விசையைப் பயன்படுத்துவதில் பிழை. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "பிழை உங்கள் API விசைக்கு GPT-4 அணுகல் இல்லை. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ஆரம்ப பணிகளின் வரிசையை மீட்டெடுப்பதில் பிழை. ",
+  "INVALID_OPENAI_API_KEY": "பிழை தவறான OpenAI API-விசை"
+}

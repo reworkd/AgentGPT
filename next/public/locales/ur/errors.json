@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "ایجنٹ کو دستی طور پر بند کر دیا گیا ہے۔",
+  "ALL_TASKS_COMPLETETD": "تمام کام مکمل ہو گئے۔ ",
+  "DEMO_LOOPS_REACHED": "ہمیں افسوس ہے، کیونکہ یہ ایک ڈیمو ہے، ہم اپنے ایجنٹوں کو زیادہ دیر تک نہیں چلا سکتے۔ ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "اضافی کام (ٹاسک) شامل کرنے میں خرابی۔ ",
+  "RATE_LIMIT_EXCEEDED": "شرح کی حد سے تجاوز کر گیا! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI کے API تک رسائی میں خرابی۔ ",
+  "AGENT_MAXED_OUT_LOOPS": "اس ایجنٹ نے لوپس کو زیادہ سے زیادہ حاصل کر لیا ہے۔ ",
+  "ERROR_API_KEY_QUOTA": "آپ کی OpenAI API کلید کا استعمال کرتے ہوئے خرابی۔ ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "آپ کی API کلید کو GPT-4 تک رسائی حاصل نہیں ہے۔ ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ابتدائی کاموں کی صف کو بازیافت کرنے میں خرابی۔ ",
+  "INVALID_OPENAI_API_KEY": "غلطی OpenAI API-key غلط ہے۔"
+}

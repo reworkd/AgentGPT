@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Agenten har stängts av manuellt.",
+  "ALL_TASKS_COMPLETETD": "Alla uppgifter genomförda. ",
+  "DEMO_LOOPS_REACHED": "Vi är ledsna, eftersom detta är en demo kan vi inte ha våra agenter igång för länge. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "FEL när ytterligare uppgifter lades till. ",
+  "RATE_LIMIT_EXCEEDED": "Prisgränsen har överskridits! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "FEL vid åtkomst till OpenAI:s API. ",
+  "AGENT_MAXED_OUT_LOOPS": "Denna agent har maxat på loopar. ",
+  "ERROR_API_KEY_QUOTA": "FEL när du använder din OpenAI API-nyckel. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "FEL din API-nyckel har inte GPT-4-åtkomst. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "FEL vid hämtning av initiala uppgifter array. ",
+  "INVALID_OPENAI_API_KEY": "ERROR ogiltig OpenAI API-nyckel"
+}

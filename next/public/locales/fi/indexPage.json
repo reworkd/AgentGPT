@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Nimi",
+  "BETA": "Beeta",
+  "BUTTON_DEPLOY_AGENT": "Ota agentti käyttöön",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Pysäytä agentti",
+  "CHAT": "Chat",
+  "HEADING_DESCRIPTION": "Kokoa, määritä ja ota käyttöön itsenäisiä tekoälyagentteja selaimessasi.",
+  "LABEL_AGENT_GOAL": "Päämäärä",
+  "PLACEHOLDER_AGENT_GOAL": "Tee maailmasta parempi paikka",
+  "TASKS": "Tehtävät"
+}

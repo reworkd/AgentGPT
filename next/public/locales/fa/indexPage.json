@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "نام",
+  "BETA": "بتا",
+  "BUTTON_DEPLOY_AGENT": "استقرار عامل",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "عامل توقف",
+  "CHAT": "چت کنید",
+  "HEADING_DESCRIPTION": "عوامل هوش مصنوعی مستقل را در مرورگر خود مونتاژ، پیکربندی و مستقر کنید.",
+  "LABEL_AGENT_GOAL": "هدف",
+  "PLACEHOLDER_AGENT_GOAL": "دنیا را به جایی بهتر تبدیل کنید",
+  "TASKS": "وظایف"
+}

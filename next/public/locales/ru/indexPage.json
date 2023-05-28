@@ -5,5 +5,7 @@
   "LABEL_AGENT_GOAL": "Цель",
   "PLACEHOLDER_AGENT_GOAL": "Сделать мир лучше",
   "BUTTON_DEPLOY_AGENT": "Запустить агента",
-  "BUTTON_STOP_AGENT": "Остановить агента"
+  "BUTTON_STOP_AGENT": "Остановить агента",
+  "CHAT": "Чат",
+  "TASKS": "Задания"
 }

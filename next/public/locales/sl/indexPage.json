@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Ime",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Namestite agenta",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Stop Agent",
+  "CHAT": "Klepetajte",
+  "HEADING_DESCRIPTION": "Sestavite, konfigurirajte in uvedite avtonomne agente AI v vašem brskalniku.",
+  "LABEL_AGENT_GOAL": "Cilj",
+  "PLACEHOLDER_AGENT_GOAL": "Naredite svet boljši",
+  "TASKS": "Naloge"
+}

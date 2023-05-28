@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "הסוכן נסגר באופן ידני.",
+  "ALL_TASKS_COMPLETETD": "כל המשימות הושלמו. ",
+  "DEMO_LOOPS_REACHED": "אנו מצטערים, מכיוון שזוהי הדגמה, איננו יכולים להפעיל את הסוכנים שלנו זמן רב מדי. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "שגיאה בהוספת משימות נוספות. ",
+  "RATE_LIMIT_EXCEEDED": "חרגת ממגבלת התעריף! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "שגיאה בגישה ל-API של OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "הסוכן הזה הגיע למקסימום לולאות. ",
+  "ERROR_API_KEY_QUOTA": "שגיאה בשימוש במפתח ה-API של OpenAI. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "שגיאה למפתח ה-API שלך אין גישת GPT-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "שגיאה באחזור מערך המשימות הראשוניות. ",
+  "INVALID_OPENAI_API_KEY": "ERROR מפתח API לא חוקי של OpenAI"
+}

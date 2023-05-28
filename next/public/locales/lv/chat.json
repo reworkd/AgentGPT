@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Izveidojiet aģentu, pievienojot vārdu/mērķi un noklikšķinot uz Izvērst! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Restartējiet, ja tas aizņem vairāk nekā 30 sekundes)",
+  "COMPLETING": "Aizpildīšana:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Lūdzu, apsveriet iespēju sponsorēt projektu vietnē GitHub.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Teksts ir kopēts starpliktuvē",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nevar kopēt tekstu starpliktuvē",
+  "EMBARKING_ON_NEW_GOAL": "Uzsākot jaunu mērķi:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Mēs piedzīvojam ārkārtēju trafiku, sagaidām aizkavēšanos un kļūmes, ja neizmantojat savu API atslēgu🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Palīdziet atbalstīt AgentGPT attīstību. ",
+  "NO_MORE_TASKS": "Vairs nav apakšuzdevumu:",
+  "SUPPORT_NOW": "Atbalsti tagad 🚀",
+  "TASK_ADDED": "Pievienots uzdevums:",
+  "THINKING": "Domājot...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Lai palielinātu ierobežojumus, iestatījumu cilnē varat norādīt savu OpenAI API atslēgu!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Izveidojiet aģentu, pievienojot nosaukumu/mērķi un nospiežot izvietot!"
+}

@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Luo agentti lisäämällä nimi/tavoite ja valitsemalla käyttöönotto! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Käynnistä uudelleen, jos tämä kestää yli 30 sekuntia)",
+  "COMPLETING": "Täydennetään:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Harkitse projektin sponsorointia GitHubissa.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Teksti kopioitu leikepöydälle",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Tekstiä ei voi kopioida leikepöydälle",
+  "EMBARKING_ON_NEW_GOAL": "Uutta tavoitetta kohti:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Meillä on poikkeuksellista liikennettä, odotamme viivästyksiä ja vikoja, jos et käytä omaa API-avainta🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Auta tukemaan AgentGPT:n edistymistä. ",
+  "NO_MORE_TASKS": "Ei enää alitehtäviä kohteelle:",
+  "SUPPORT_NOW": "Tue nyt 🚀",
+  "TASK_ADDED": "Lisätty tehtävä:",
+  "THINKING": "Ajattelu...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Voit lisätä oman OpenAI API -avaimesi Asetukset-välilehdellä lisätäksesi rajoja!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Luo agentti lisäämällä nimi/kohde ja painamalla käyttöönottoa!"
+}

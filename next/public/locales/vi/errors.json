@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Tác nhân đã được tắt thủ công.",
+  "ALL_TASKS_COMPLETETD": "Tất cả các nhiệm vụ đã hoàn thành. ",
+  "DEMO_LOOPS_REACHED": "Chúng tôi xin lỗi, vì đây là bản demo, chúng tôi không thể để các đại lý của mình chạy quá lâu. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "LỖI khi thêm (các) nhiệm vụ bổ sung. ",
+  "RATE_LIMIT_EXCEEDED": "Vượt quá giới hạn tốc độ! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "LỖI khi truy cập API của OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "Đặc vụ này đã sử dụng hết số vòng lặp. ",
+  "ERROR_API_KEY_QUOTA": "LỖI khi sử dụng khóa API OpenAI của bạn. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "LỖI khóa API của bạn không có quyền truy cập GPT-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "LỖI truy xuất mảng tác vụ ban đầu. ",
+  "INVALID_OPENAI_API_KEY": "LỖI khóa API OpenAI không hợp lệ"
+}

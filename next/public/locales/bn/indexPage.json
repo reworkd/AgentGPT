@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "নাম",
+  "BETA": "বেটা",
+  "BUTTON_DEPLOY_AGENT": "এজেন্ট স্থাপন",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "স্টপ এজেন্ট",
+  "CHAT": "চ্যাট",
+  "HEADING_DESCRIPTION": "আপনার ব্রাউজারে স্বায়ত্তশাসিত AI এজেন্ট একত্রিত করুন, কনফিগার করুন এবং স্থাপন করুন।",
+  "LABEL_AGENT_GOAL": "গোল",
+  "PLACEHOLDER_AGENT_GOAL": "পৃথিবীকে আরো ভালো করে তুলুন",
+  "TASKS": "কাজ"
+}

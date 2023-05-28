@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Agent je bil ročno zaprt.",
+  "ALL_TASKS_COMPLETETD": "Vse naloge opravljene. ",
+  "DEMO_LOOPS_REACHED": "Žal nam je, ker je to predstavitev, naši agenti ne morejo delovati predolgo. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "NAPAKA pri dodajanju dodatnih opravil. ",
+  "RATE_LIMIT_EXCEEDED": "Omejitev stopnje je presežena! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "NAPAKA pri dostopu do API-ja OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "Ta agent je dosegel največje število zank. ",
+  "ERROR_API_KEY_QUOTA": "NAPAKA pri uporabi ključa OpenAI API. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "NAPAKA vaš ključ API nima dostopa GPT-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "NAPAKA pri pridobivanju začetne matrike opravil. ",
+  "INVALID_OPENAI_API_KEY": "NAPAKA neveljaven ključ API OpenAI"
+}

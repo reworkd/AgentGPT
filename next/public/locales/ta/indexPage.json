@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "பெயர்",
+  "BETA": "பீட்டா",
+  "BUTTON_DEPLOY_AGENT": "முகவரை வரிசைப்படுத்து",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "நிறுத்த முகவர்",
+  "CHAT": "அரட்டை",
+  "HEADING_DESCRIPTION": "உங்கள் உலாவியில் தன்னாட்சி AI முகவர்களை அசெம்பிள் செய்யவும், கட்டமைக்கவும் மற்றும் வரிசைப்படுத்தவும்.",
+  "LABEL_AGENT_GOAL": "இலக்கு",
+  "PLACEHOLDER_AGENT_GOAL": "உலகத்தை சிறந்த இடமாக ஆக்குங்கள்",
+  "TASKS": "பணிகள்"
+}

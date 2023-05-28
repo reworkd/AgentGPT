@@ -1,0 +1,4 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Restart if this takes more than 30 seconds)"
+}

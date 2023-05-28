@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Looge agent, lisades nime/eesmärgi ja vajutades juurutamist! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Taaskäivitage, kui see võtab rohkem kui 30 sekundit)",
+  "COMPLETING": "Lõpetamine:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Kaaluge projekti sponsoreerimist GitHubis.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Tekst kopeeriti lõikelauale",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Teksti ei saa lõikelauale kopeerida",
+  "EMBARKING_ON_NEW_GOAL": "Asume uue eesmärgi poole:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Meil ​​on erakordne liiklus, ootame viivitusi ja tõrkeid, kui te ei kasuta oma API-võtit🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Aidake toetada AgentGPT edendamist. ",
+  "NO_MORE_TASKS": "Rohkem alamülesandeid pole:",
+  "SUPPORT_NOW": "Toetage kohe 🚀",
+  "TASK_ADDED": "Lisatud ülesanne:",
+  "THINKING": "Mõeldes...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢Limiidi suurendamiseks saate seadistuste vahekaardil anda oma OpenAI API võtme!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Looge agent, lisades nime/sihtmärgi ja vajutades juurutamist!"
+}

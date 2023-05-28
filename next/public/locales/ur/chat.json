@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "ایک نام / گول شامل کرکے اور تعیناتی کو مار کر ایک ایجنٹ بنائیں! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(اگر اس میں 30 سیکنڈ سے زیادہ وقت لگے تو دوبارہ شروع کریں)",
+  "COMPLETING": "مکمل کرنا:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "براہ کرم GitHub پر پروجیکٹ کو سپانسر کرنے پر غور کریں۔",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "متن کلپ بورڈ پر کاپی ہو گیا۔",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "کلپ بورڈ میں متن کاپی کرنے سے قاصر",
+  "EMBARKING_ON_NEW_GOAL": "ایک نئے مقصد کا آغاز:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 ہمیں غیر معمولی ٹریفک کا سامنا ہے، اگر آپ اپنی API کلید استعمال نہیں کرتے ہیں تو تاخیر اور ناکامی کی توقع کریں🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ ایجنٹ جی پی ٹی کی ترقی میں مدد کریں۔ ",
+  "NO_MORE_TASKS": "مزید ذیلی کام نہیں ہیں:",
+  "SUPPORT_NOW": "ابھی سپورٹ کریں 🚀",
+  "TASK_ADDED": "شامل کردہ کام:",
+  "THINKING": "سوچنا...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 آپ بڑھتی ہوئی حدوں کے لیے ترتیبات کے ٹیب میں اپنی OpenAI API کلید فراہم کر سکتے ہیں!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 ایک نام/ٹارگٹ شامل کرکے اور تعیناتی دباکر ایک ایجنٹ بنائیں!"
+}

@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "تم إغلاق الوكيل يدويًا.",
+  "ALL_TASKS_COMPLETETD": "اكتملت جميع المهام. ",
+  "DEMO_LOOPS_REACHED": "نحن آسفون ، لأن هذا عرض توضيحي ، لا يمكننا تشغيل وكلائنا لفترة طويلة. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "خطأ أثناء إضافة مهمة (مهام) إضافية. ",
+  "RATE_LIMIT_EXCEEDED": "حد معدل تجاوز! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "خطأ في الوصول إلى واجهة برمجة تطبيقات OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "وصل هذا الوكيل إلى الحد الأقصى في الحلقات. ",
+  "ERROR_API_KEY_QUOTA": "خطأ في استخدام مفتاح OpenAI API الخاص بك. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "خطأ ، لا يمتلك مفتاح API الخاص بك حق الوصول إلى GPT-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "خطأ في استرداد مصفوفة المهام الأولية. ",
+  "INVALID_OPENAI_API_KEY": "خطأ مفتاح OpenAI API غير صالح"
+}

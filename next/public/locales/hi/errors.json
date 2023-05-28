@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "एजेंट को मैन्युअल रूप से बंद कर दिया गया है।",
+  "ALL_TASKS_COMPLETETD": "सभी कार्य पूर्ण। ",
+  "DEMO_LOOPS_REACHED": "हमें खेद है, क्योंकि यह एक प्रदर्शन है, हम अपने एजेंटों को बहुत लंबे समय तक चलने नहीं दे सकते। ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "अतिरिक्त कार्य (कार्यों) को जोड़ने में त्रुटि. ",
+  "RATE_LIMIT_EXCEEDED": "दर सीमा पार हो गई! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI के API तक पहुँचने में त्रुटि। ",
+  "AGENT_MAXED_OUT_LOOPS": "यह एजेंट लूप पर अधिकतम हो गया है। ",
+  "ERROR_API_KEY_QUOTA": "आपकी OpenAI API कुंजी का उपयोग करने में त्रुटि। ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "त्रुटि आपकी API कुंजी के पास GPT-4 पहुंच नहीं है। ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "प्रारंभिक कार्य सरणी पुनर्प्राप्त करने में त्रुटि। ",
+  "INVALID_OPENAI_API_KEY": "त्रुटि अमान्य OpenAI API-कुंजी"
+}

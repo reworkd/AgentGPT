@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "ഏജന്റ് നേരിട്ട് ഷട്ട്ഡൗൺ ചെയ്തു.",
+  "ALL_TASKS_COMPLETETD": "എല്ലാ ജോലികളും പൂർത്തിയായി. ",
+  "DEMO_LOOPS_REACHED": "ഞങ്ങളോട് ക്ഷമിക്കൂ, ഇതൊരു ഡെമോ ആയതിനാൽ, ഞങ്ങളുടെ ഏജന്റുമാരെ അധികകാലം പ്രവർത്തിക്കാൻ ഞങ്ങൾക്ക് കഴിയില്ല. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "അധിക ചുമതല(കൾ) ചേർക്കുന്നതിൽ പിശക്. ",
+  "RATE_LIMIT_EXCEEDED": "നിരക്ക് പരിധി കവിഞ്ഞു! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI-യുടെ API ആക്സസ് ചെയ്യുന്നതിൽ പിശക്. ",
+  "AGENT_MAXED_OUT_LOOPS": "ഈ ഏജന്റ് ലൂപ്പുകളിൽ പരമാവധി വർദ്ധിപ്പിച്ചു. ",
+  "ERROR_API_KEY_QUOTA": "നിങ്ങളുടെ OpenAI API കീ ഉപയോഗിക്കുന്നതിൽ പിശക്. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "പിശക് നിങ്ങളുടെ API കീയ്ക്ക് GPT-4 ആക്‌സസ് ഇല്ല. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "പ്രാരംഭ ടാസ്‌ക്കുകളുടെ അറേ വീണ്ടെടുക്കുന്നതിൽ പിശക്. ",
+  "INVALID_OPENAI_API_KEY": "പിശക് അസാധുവായ OpenAI API-കീ"
+}

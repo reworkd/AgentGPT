@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "नाम",
+  "BETA": "बीटा",
+  "BUTTON_DEPLOY_AGENT": "एजेंट तैनात करें",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "स्टॉप एजेंट",
+  "CHAT": "बात करना",
+  "HEADING_DESCRIPTION": "अपने ब्राउज़र में स्वायत्त एआई एजेंटों को इकट्ठा, कॉन्फ़िगर और तैनात करें।",
+  "LABEL_AGENT_GOAL": "लक्ष्य",
+  "PLACEHOLDER_AGENT_GOAL": "संसार को एक बेहतर स्थान बनाये",
+  "TASKS": "कार्य"
+}

@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Name",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Deploy Agent",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Stop Agent",
+  "CHAT": "Chat",
+  "HEADING_DESCRIPTION": "Assemble, configure, and deploy autonomous AI Agents in your browser.",
+  "LABEL_AGENT_GOAL": "Goal",
+  "PLACEHOLDER_AGENT_GOAL": "Make the world a better place",
+  "TASKS": "Tasks"
+}

@@ -1,0 +1,34 @@
+{
+  "-": "MISSING_TRANSLATION",
+  "./MyDocument": "MISSING_TRANSLATION",
+  "ADDING_TASK": "افزودن وظیفه",
+  "BACK_BUTTON": "بازگشت",
+  "CLOSE": "بستن",
+  "CONTINUE": "ادامه هید",
+  "COPIED": "کپی شده!",
+  "COPIED_TO_CLIPBOARD": "در کلیپ بورد کپی شد! ",
+  "COPY": "کپی 🀄",
+  "COPY_CODE": "کد را کپی کنید",
+  "DELETE_BUTTON": "حذف",
+  "EXECUTING": "در حال اجرا",
+  "IMAGE": "تصویر",
+  "PAUSED": "مکث کرد",
+  "PLEASE": "لطفا",
+  "RESET": "بازنشانی کنید",
+  "RUNNING": "در حال دویدن",
+  "SAVE": "صرفه جویی",
+  "SHARE_BUTTON": "اشتراک گذاری",
+  "SIGN_IN": "MISSING_TRANSLATION",
+  "textarea": "MISSING_TRANSLATION",
+  "AGENTGPT_DOCUMENTATION": "مستندات AgentGPT",
+  "CREATE_AN_AGENT_DESCRIPTION": "با افزودن یک نام / هدف و زدن deploy یک عامل ایجاد کنید!",
+  "CURRENT_TASKS": "وظایف جاری",
+  "EXPORT": "صادرات",
+  "LOOP": "حلقه",
+  "TO_LEARN_MORE_ABOUT_AGENTGPT": "برای دریافت اطلاعات بیشتر در مورد AgentGPT، نقشه راه آن و غیره، از لینک زیر دیدن کنید",
+  "GENERATING_RESPONSE": "در حال ایجاد پاسخ...",
+  "GENERTING_IMAGE": "تولید تصویر با اعلان",
+  "SEARCHING_FOR_THE_WEB": "جستجو در وب برای",
+  "SEARCHING_WIKIPEDIA": "جستجو در ویکی پدیا",
+  "WRITING_CODE": "نوشتن کد ..."
+}

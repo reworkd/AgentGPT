@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Tên",
+  "BETA": "bản thử nghiệm",
+  "BUTTON_DEPLOY_AGENT": "Triển khai đại lý",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Dừng đại lý",
+  "CHAT": "Trò chuyện",
+  "HEADING_DESCRIPTION": "Lắp ráp, định cấu hình và triển khai các Tác nhân AI tự trị trong trình duyệt của bạn.",
+  "LABEL_AGENT_GOAL": "Mục tiêu",
+  "PLACEHOLDER_AGENT_GOAL": "Làm cho thế giới thành một nơi tốt đẹp hơn",
+  "TASKS": "nhiệm vụ"
+}

@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "เอเจนต์ถูกปิดด้วยตนเอง",
+  "ALL_TASKS_COMPLETETD": "งานทั้งหมดเสร็จสิ้น ",
+  "DEMO_LOOPS_REACHED": "ขออภัย เนื่องจากนี่คือการสาธิต เราไม่สามารถให้ตัวแทนของเราทำงานนานเกินไปได้ ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "เกิดข้อผิดพลาดในการเพิ่มงานเพิ่มเติม ",
+  "RATE_LIMIT_EXCEEDED": "เกินขีดจำกัดอัตรา! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "เกิดข้อผิดพลาดในการเข้าถึง API ของ OpenAI ",
+  "AGENT_MAXED_OUT_LOOPS": "เอเจนต์นี้มีลูปสูงสุดแล้ว ",
+  "ERROR_API_KEY_QUOTA": "เกิดข้อผิดพลาดโดยใช้คีย์ OpenAI API ของคุณ ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "เกิดข้อผิดพลาด คีย์ API ของคุณไม่มีการเข้าถึง GPT-4 ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "เกิดข้อผิดพลาดในการดึงอาร์เรย์งานเริ่มต้น ",
+  "INVALID_OPENAI_API_KEY": "ข้อผิดพลาด คีย์ API ของ OpenAI ไม่ถูกต้อง"
+}

@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Nimi",
+  "BETA": "Beeta",
+  "BUTTON_DEPLOY_AGENT": "Agent juurutamine",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Peatage agent",
+  "CHAT": "Vestlus",
+  "HEADING_DESCRIPTION": "Koguge, konfigureerige ja juurutage oma brauseris autonoomseid tehisintellekti agente.",
+  "LABEL_AGENT_GOAL": "Eesmärk",
+  "PLACEHOLDER_AGENT_GOAL": "Muutke maailm paremaks kohaks",
+  "TASKS": "Ülesanded"
+}

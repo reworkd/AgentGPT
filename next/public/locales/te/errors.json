@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "ఏజెంట్ మాన్యువల్‌గా షట్‌డౌన్ చేయబడింది.",
+  "ALL_TASKS_COMPLETETD": "అన్ని పనులు పూర్తయ్యాయి. ",
+  "DEMO_LOOPS_REACHED": "మమ్మల్ని క్షమించండి, ఇది డెమో అయినందున, మా ఏజెంట్లు ఎక్కువ కాలం పని చేయలేరు. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "అదనపు టాస్క్(లు) జోడించడంలో లోపం ",
+  "RATE_LIMIT_EXCEEDED": "ధర పరిమితి మించిపోయింది! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI APIని యాక్సెస్ చేయడంలో లోపం. ",
+  "AGENT_MAXED_OUT_LOOPS": "ఈ ఏజెంట్ లూప్‌లను గరిష్టంగా పెంచారు. ",
+  "ERROR_API_KEY_QUOTA": "మీ OpenAI API కీని ఉపయోగించడంలో లోపం. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR మీ API కీకి GPT-4 యాక్సెస్ లేదు. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ప్రారంభ టాస్క్‌ల శ్రేణిని తిరిగి పొందడంలో లోపం. ",
+  "INVALID_OPENAI_API_KEY": "ERROR చెల్లని OpenAI API-కీ"
+}

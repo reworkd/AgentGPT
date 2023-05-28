@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Buat agen dengan menambahkan nama / tujuan, dan tekan terapkan! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Restart jika butuh lebih dari 30 detik)",
+  "COMPLETING": "Menyelesaikan:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Harap pertimbangkan untuk mensponsori proyek di GitHub.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Teks disalin ke papan klip",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Tidak dapat menyalin teks ke papan klip",
+  "EMBARKING_ON_NEW_GOAL": "Memulai tujuan baru:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Kami mengalami lalu lintas yang luar biasa, kemungkinan akan terjadi penundaan dan kegagalan jika Anda tidak menggunakan kunci API Anda sendiri🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Bantu dukung kemajuan AgentGPT. ",
+  "NO_MORE_TASKS": "Tidak ada lagi subtugas untuk:",
+  "SUPPORT_NOW": "Dukung sekarang 🚀",
+  "TASK_ADDED": "Tugas yang ditambahkan:",
+  "THINKING": "Pemikiran...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Anda dapat memberikan kunci API OpenAI Anda sendiri di tab pengaturan untuk peningkatan batas!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Buat agen dengan menambahkan nama/target dan tekan sebarkan!"
+}

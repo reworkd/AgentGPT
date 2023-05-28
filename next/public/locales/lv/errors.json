@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Aģents ir manuāli izslēgts.",
+  "ALL_TASKS_COMPLETETD": "Visi uzdevumi izpildīti. ",
+  "DEMO_LOOPS_REACHED": "Atvainojiet, jo šī ir demonstrācija, tāpēc mūsu aģenti nevar darboties pārāk ilgi. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "KĻŪDA, pievienojot papildu uzdevumu(-us). ",
+  "RATE_LIMIT_EXCEEDED": "Likmes ierobežojums pārsniegts! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "KĻŪDA, piekļūstot OpenAI API. ",
+  "AGENT_MAXED_OUT_LOOPS": "Šis aģents ir maksimāli izmantojis cilpas. ",
+  "ERROR_API_KEY_QUOTA": "KĻŪDA, izmantojot jūsu OpenAI API atslēgu. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "KĻŪDA jūsu API atslēgai nav GPT-4 piekļuves. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "KĻŪDA, izgūstot sākotnējo uzdevumu masīvu. ",
+  "INVALID_OPENAI_API_KEY": "KĻŪDA nederīga OpenAI API atslēga"
+}

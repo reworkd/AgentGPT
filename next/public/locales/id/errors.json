@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Agen telah dimatikan secara manual.",
+  "ALL_TASKS_COMPLETETD": "Semua tugas selesai. ",
+  "DEMO_LOOPS_REACHED": "Mohon maaf, karena ini adalah demo, agen kami tidak dapat bekerja terlalu lama. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR menambahkan tugas tambahan. ",
+  "RATE_LIMIT_EXCEEDED": "Batas nilai terlampaui! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "KESALAHAN mengakses API OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "Agen ini telah memaksimalkan loop. ",
+  "ERROR_API_KEY_QUOTA": "ERROR menggunakan kunci OpenAI API Anda. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "KESALAHAN kunci API Anda tidak memiliki akses GPT-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ERROR mengambil larik tugas awal. ",
+  "INVALID_OPENAI_API_KEY": "KESALAHAN kunci API OpenAI tidak valid"
+}

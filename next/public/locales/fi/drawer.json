@@ -1,0 +1,13 @@
+{
+  "HELP_BUTTON": "auta",
+  "MY_AGENTS": "Agenttini",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "Sinun on luotava ja tallennettava ensimmäinen agenttisi, ennen kuin täällä näkyy mitään!",
+  "NEW_AGENT": "Uusi agentti",
+  "SETTINGS_BUTTON": "asetukset",
+  "SIGN_IN": "Kirjaudu sisään",
+  "SIGN_IN_NOTICE": "jotta voit säästää agentteja ja hallita tiliäsi!",
+  "SIGN_OUT": "Kirjaudu ulos",
+  "SUPPORT_BUTTON": "Tuki",
+  "ACCOUNT": "Tili",
+  "USER_IMAGE": "Käyttäjän kuva"
+}

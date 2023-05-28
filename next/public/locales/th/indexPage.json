@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "ชื่อ",
+  "BETA": "เบต้า",
+  "BUTTON_DEPLOY_AGENT": "ปรับใช้ตัวแทน",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "หยุดตัวแทน",
+  "CHAT": "แชท",
+  "HEADING_DESCRIPTION": "ประกอบ กำหนดค่า และปรับใช้เอเจนต์ AI อัตโนมัติในเบราว์เซอร์ของคุณ",
+  "LABEL_AGENT_GOAL": "เป้าหมาย",
+  "PLACEHOLDER_AGENT_GOAL": "ทำให้โลกนี้น่าอยู่ขึ้น",
+  "TASKS": "งาน"
+}

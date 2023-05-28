@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Име",
+  "BETA": "Бета",
+  "BUTTON_DEPLOY_AGENT": "Разположете агент",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Спиране на агент",
+  "CHAT": "Чат",
+  "HEADING_DESCRIPTION": "Сглобете, конфигурирайте и разположете автономни AI агенти във вашия браузър.",
+  "LABEL_AGENT_GOAL": "Цел",
+  "PLACEHOLDER_AGENT_GOAL": "Направи света по-добро място",
+  "TASKS": "Задачи"
+}

@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "با افزودن یک نام / هدف و زدن deploy یک عامل ایجاد کنید! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(اگر بیش از 30 ثانیه طول کشید، راه اندازی مجدد کنید)",
+  "COMPLETING": "در حال تکمیل:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "لطفاً حمایت مالی پروژه را در GitHub در نظر بگیرید.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "متن در کلیپ بورد کپی شد",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "امکان کپی کردن متن در کلیپ بورد وجود ندارد",
+  "EMBARKING_ON_NEW_GOAL": "شروع به هدف جدید:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 ما ترافیک استثنایی را تجربه می کنیم، اگر از کلید API خود استفاده نکنید، انتظار تاخیر و خرابی را دارید.",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ به پشتیبانی از پیشرفت AgentGPT کمک کنید. ",
+  "NO_MORE_TASKS": "هیچ کار فرعی دیگری برای:",
+  "SUPPORT_NOW": "همین حالا حمایت کنید🚀",
+  "TASK_ADDED": "وظیفه اضافه شده:",
+  "THINKING": "فكر كردن...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 برای افزایش محدودیت ها می توانید کلید OpenAI API خود را در برگه تنظیمات ارائه دهید!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 با افزودن یک نام/هدف و فشار دادن deploy یک عامل ایجاد کنید!"
+}

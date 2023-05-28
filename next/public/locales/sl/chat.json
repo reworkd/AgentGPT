@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Ustvarite agenta tako, da dodate ime/cilj in pritisnete Deploy! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Znova zaženite, če to traja več kot 30 sekund)",
+  "COMPLETING": "Dokončanje:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Razmislite o sponzoriranju projekta na GitHubu.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Besedilo kopirano v odložišče",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Besedila ni mogoče kopirati v odložišče",
+  "EMBARKING_ON_NEW_GOAL": "Začetek novega cilja:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Imamo izjemen promet, pričakujte zamude in okvare, če ne uporabljate lastnega API ključa🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Pomagajte podpreti napredek AgentGPT. ",
+  "NO_MORE_TASKS": "Nič več podopravil za:",
+  "SUPPORT_NOW": "Podprite zdaj 🚀",
+  "TASK_ADDED": "Dodana naloga:",
+  "THINKING": "Razmišljam ...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Za povečane omejitve lahko na zavihku z nastavitvami zagotovite svoj ključ API OpenAI!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Ustvarite agenta tako, da dodate ime/cilj in pritisnete razmesti!"
+}

@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Agenten er blevet lukket manuelt.",
+  "ALL_TASKS_COMPLETETD": "Alle opgaver udført. ",
+  "DEMO_LOOPS_REACHED": "Vi beklager, fordi dette er en demo, vi kan ikke have vores agenter kørende for længe. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "FEJL ved tilføjelse af yderligere opgave(r). ",
+  "RATE_LIMIT_EXCEEDED": "Satsgrænsen er overskredet! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "FEJL ved adgang til OpenAI's API. ",
+  "AGENT_MAXED_OUT_LOOPS": "Denne agent har maxet ud på loops. ",
+  "ERROR_API_KEY_QUOTA": "FEJL ved brug af din OpenAI API-nøgle. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "FEJL din API-nøgle har ikke GPT-4-adgang. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "FEJL ved hentning af indledende opgavematrix. ",
+  "INVALID_OPENAI_API_KEY": "FEJL ugyldig OpenAI API-nøgle"
+}

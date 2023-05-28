@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Opprett en agent ved å legge til et navn/mål og trykke på distribuer! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Start på nytt hvis dette tar mer enn 30 sekunder)",
+  "COMPLETING": "Fullfører:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Vennligst vurder å sponse prosjektet på GitHub.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Tekst kopiert til utklippstavlen",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Kan ikke kopiere tekst til utklippstavlen",
+  "EMBARKING_ON_NEW_GOAL": "Setter i gang et nytt mål:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Vi opplever eksepsjonell trafikk, forvent forsinkelser og feil hvis du ikke bruker din egen API-nøkkel🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Hjelp til å støtte fremme av AgentGPT. ",
+  "NO_MORE_TASKS": "Ingen flere deloppgaver for:",
+  "SUPPORT_NOW": "Støtt nå 🚀",
+  "TASK_ADDED": "Lagt til oppgave:",
+  "THINKING": "Tenker...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Du kan gi din egen OpenAI API-nøkkel i innstillingsfanen for økte grenser!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Opprett en agent ved å legge til et navn/mål og trykke distribuer!"
+}

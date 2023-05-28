@@ -1,0 +1,7 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "The agent has been manually shutdown.",
+  "ALL_TASKS_COMPLETETD": "All tasks completed. Shutting down.",
+  "DEMO_LOOPS_REACHED": "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
+  "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅"
+}

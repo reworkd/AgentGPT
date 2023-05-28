@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "പേര്",
+  "BETA": "ബീറ്റ",
+  "BUTTON_DEPLOY_AGENT": "ഏജന്റിനെ വിന്യസിക്കുക",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "സ്റ്റോപ്പ് ഏജന്റ്",
+  "CHAT": "ചാറ്റ്",
+  "HEADING_DESCRIPTION": "നിങ്ങളുടെ ബ്രൗസറിൽ സ്വയംഭരണാധികാരമുള്ള AI ഏജന്റുമാരെ കൂട്ടിച്ചേർക്കുക, കോൺഫിഗർ ചെയ്യുക, വിന്യസിക്കുക.",
+  "LABEL_AGENT_GOAL": "ലക്ഷ്യം",
+  "PLACEHOLDER_AGENT_GOAL": "ലോകത്തെ മികച്ച സ്ഥലമാക്കി മാറ്റുക",
+  "TASKS": "ചുമതലകൾ"
+}

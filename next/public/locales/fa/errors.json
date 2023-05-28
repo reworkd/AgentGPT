@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "عامل به صورت دستی خاموش شده است.",
+  "ALL_TASKS_COMPLETETD": "تمام وظایف انجام شد. ",
+  "DEMO_LOOPS_REACHED": "متأسفیم، چون این یک نسخه آزمایشی است، نمی‌توانیم عواملمان را برای مدت طولانی در حال اجرا کنیم. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "خطا در افزودن کار(های) اضافی. ",
+  "RATE_LIMIT_EXCEEDED": "حد نرخ بیش از! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "خطا در دسترسی به API OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "این عامل در حلقه‌ها به حداکثر رسیده است. ",
+  "ERROR_API_KEY_QUOTA": "خطا در استفاده از کلید OpenAI API شما. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "خطا، کلید API شما دسترسی GPT-4 ندارد. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "خطا در بازیابی آرایه وظایف اولیه. ",
+  "INVALID_OPENAI_API_KEY": "ERROR کلید OpenAI API نامعتبر است"
+}

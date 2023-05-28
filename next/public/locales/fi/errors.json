@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Agentti on sammutettu manuaalisesti.",
+  "ALL_TASKS_COMPLETETD": "Kaikki tehtävät suoritettu. ",
+  "DEMO_LOOPS_REACHED": "Olemme pahoillamme, koska tämä on demo, emme voi saada agenttejamme toimimaan liian kauan. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "VIRHE lisätehtävien lisäämisessä. ",
+  "RATE_LIMIT_EXCEEDED": "Hintaraja ylitetty! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "VIRHE OpenAI:n API:n käytössä. ",
+  "AGENT_MAXED_OUT_LOOPS": "Tämä agentti on käyttänyt silmukat maksimissaan. ",
+  "ERROR_API_KEY_QUOTA": "VIRHE OpenAI API-avaimesi käytössä. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "VIRHE API-avaimellasi ei ole GPT-4-käyttöoikeutta. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "VIRHE haettaessa aloitustehtävätaulukkoa. ",
+  "INVALID_OPENAI_API_KEY": "VIRHE virheellinen OpenAI API-avain"
+}

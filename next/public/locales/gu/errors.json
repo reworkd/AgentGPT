@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "એજન્ટ મેન્યુઅલી બંધ કરવામાં આવ્યો છે.",
+  "ALL_TASKS_COMPLETETD": "તમામ કાર્યો પૂર્ણ. ",
+  "DEMO_LOOPS_REACHED": "અમે દિલગીર છીએ, કારણ કે આ એક ડેમો છે, અમે અમારા એજન્ટોને વધુ સમય સુધી ચલાવી શકતા નથી. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "વધારાના કાર્ય(ઓ) ઉમેરવામાં ભૂલ. ",
+  "RATE_LIMIT_EXCEEDED": "દર મર્યાદા ઓળંગાઈ ગઈ! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI ના API ને ઍક્સેસ કરવામાં ભૂલ. ",
+  "AGENT_MAXED_OUT_LOOPS": "આ એજન્ટે આંટીઓ પર મહત્તમ વધારો કર્યો છે. ",
+  "ERROR_API_KEY_QUOTA": "તમારી OpenAI API કીનો ઉપયોગ કરવામાં ભૂલ. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ભૂલ તમારી API કી પાસે GPT-4 ઍક્સેસ નથી. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "પ્રારંભિક કાર્ય એરે પુનઃપ્રાપ્ત કરવામાં ભૂલ. ",
+  "INVALID_OPENAI_API_KEY": "ભૂલ અમાન્ય OpenAI API-કી"
+}

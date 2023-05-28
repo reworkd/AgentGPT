@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Agent on käsitsi välja lülitatud.",
+  "ALL_TASKS_COMPLETETD": "Kõik ülesanded täidetud. ",
+  "DEMO_LOOPS_REACHED": "Vabandame, kuna tegemist on demoga, ei saa me oma agentidel liiga kaua töötada. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "VIGA lisaülesande(te) lisamisel. ",
+  "RATE_LIMIT_EXCEEDED": "Hindade limiit ületatud! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "VIGA OpenAI API-le juurdepääsul. ",
+  "AGENT_MAXED_OUT_LOOPS": "Sellel agentil on silmused maksimaalselt ära kasutatud. ",
+  "ERROR_API_KEY_QUOTA": "VIGA teie OpenAI API võtme kasutamisel. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "VIGA teie API võtmel pole GPT-4 juurdepääsu. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "VIGA algülesannete massiivi toomisel. ",
+  "INVALID_OPENAI_API_KEY": "VIGA kehtetu OpenAI API-võti"
+}

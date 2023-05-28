@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "namn",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Distribuera agent",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Stoppa agent",
+  "CHAT": "Chatt",
+  "HEADING_DESCRIPTION": "Sätt ihop, konfigurera och distribuera autonoma AI-agenter i din webbläsare.",
+  "LABEL_AGENT_GOAL": "Mål",
+  "PLACEHOLDER_AGENT_GOAL": "Göra världen till en bättre plats",
+  "TASKS": "Uppgifter"
+}

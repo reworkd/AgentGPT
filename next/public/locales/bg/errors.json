@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Агентът е изключен ръчно.",
+  "ALL_TASKS_COMPLETETD": "Всички задачи изпълнени. ",
+  "DEMO_LOOPS_REACHED": "Съжаляваме, тъй като това е демонстрация, не можем да оставим нашите агенти да работят твърде дълго. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ГРЕШКА при добавяне на допълнителни задачи. ",
+  "RATE_LIMIT_EXCEEDED": "Лимитът на скоростта е надвишен! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "ГРЕШКА при достъп до API на OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "Този агент е достигнал максималния брой цикли. ",
+  "ERROR_API_KEY_QUOTA": "ГРЕШКА при използване на вашия OpenAI API ключ. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ГРЕШКА вашият API ключ няма GPT-4 достъп. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ГРЕШКА при извличане на масива от първоначални задачи. ",
+  "INVALID_OPENAI_API_KEY": "ГРЕШКА невалиден OpenAI API ключ"
+}

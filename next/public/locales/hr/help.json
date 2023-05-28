@@ -1,11 +1,11 @@
 {
-	"AGENTGPT_DOCUMENTATION": "Dokumentacija AgentGPT-a",
-	"FOLLOW_THE_JOURNEY": "Pratite naše putovanje u nastavku:",
-	"INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interakcija s web stranicama i ljudima 👨‍👩‍👦",
-	"INTRODUCING_AGENTGPT": "omogućuje vam konfiguriranje i pokretanje samostalnih AI agenata u vašem pregledniku. Nazovite svoj prilagođeni AI agent i odredite njegov cilj. AI agent će pokušati postići određeni cilj stvaranjem zadataka, izvršavanjem zadataka, a zatim procjenom rezultata 🚀",
-	"LONG_TERM_MEMORY": "Dugoročna memorija 🧠",
-	"PLATFORM_BETA_DESCRIPTION": "Ova platforma trenutno je u beta verziji, trenutno radimo na sljedećem:",
-	"TO_LEARN_MORE_ABOUT_AGENTGPT": "Da biste saznali više o AgentGPT-u, njegovom planu, često postavljanim pitanjima itd., posjetite",
-	"WEB_BROWSING": "Web pregledavanje 🌐",
-	"WELCOME_TO_AGENT_GPT": "Dobrodošli u AgentGPT"
+  "AGENTGPT_DOCUMENTATION": "Dokumentacija AgentGPT-a",
+  "FOLLOW_THE_JOURNEY": "Pratite putovanje u nastavku:",
+  "INTRODUCING_AGENTGPT": "omogućuje vam da konfigurirate i implementirate autonomne AI agente. ",
+  "TO_LEARN_MORE_ABOUT_AGENTGPT": "Da biste saznali više o AgentGPT-u, njegovom planu, često postavljanim pitanjima itd., posjetite",
+  "WELCOME_TO_AGENT_GPT": "Dobro došli u AgentGPT",
+  "PLATFORM_BETA_DESCRIPTION": "Ova platforma je trenutno u beta fazi, trenutno radimo na:",
+  "LONG_TERM_MEMORY": "Dugoročno pamćenje 🧠",
+  "WEB_BROWSING": "Pregledavanje weba 🌐",
+  "INTERACTION_WITH_WEBSITES_AND_PEOPLE": "Interakcija s web stranicama i ljudima 👨‍👩‍👦"
 }

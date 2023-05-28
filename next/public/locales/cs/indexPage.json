@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "název",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Nasadit agenta",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Zastavit agenta",
+  "CHAT": "Povídat si",
+  "HEADING_DESCRIPTION": "Sestavte, nakonfigurujte a nasaďte autonomní agenty AI ve svém prohlížeči.",
+  "LABEL_AGENT_GOAL": "Fotbalová branka",
+  "PLACEHOLDER_AGENT_GOAL": "Udělejte ze světa lepší místo",
+  "TASKS": "Úkoly"
+}

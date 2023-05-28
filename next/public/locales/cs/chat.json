@@ -1,0 +1,17 @@
+{
+  "CREATE_AN_AGENT_DESCRIPTION": "Vytvořte agenta přidáním jména / cíle a stisknutím tlačítka nasadit! ",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Restartujte, pokud to trvá déle než 30 sekund)",
+  "COMPLETING": "Dokončování:",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Zvažte prosím sponzorování projektu na GitHubu.",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Text zkopírován do schránky",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nelze zkopírovat text do schránky",
+  "EMBARKING_ON_NEW_GOAL": "Vydejte se za novým cílem:",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Zažíváme výjimečný provoz, očekávejte zpoždění a selhání, pokud nepoužijete svůj vlastní klíč API🚨",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Pomozte podpořit rozvoj AgentGPT. ",
+  "NO_MORE_TASKS": "Žádné další dílčí úkoly pro:",
+  "SUPPORT_NOW": "Podpořte nyní 🚀",
+  "TASK_ADDED": "Přidán úkol:",
+  "THINKING": "Myslící...",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Pro zvýšení limitů můžete na kartě nastavení poskytnout svůj vlastní klíč OpenAI API!",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Vytvořte agenta přidáním jména/cíle a stisknutím tlačítka nasadit!"
+}

@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Vārds",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Izvietot aģentu",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Apturiet aģentu",
+  "CHAT": "Tērzēšana",
+  "HEADING_DESCRIPTION": "Savāciet, konfigurējiet un izvietojiet autonomos AI aģentus savā pārlūkprogrammā.",
+  "LABEL_AGENT_GOAL": "Mērķis",
+  "PLACEHOLDER_AGENT_GOAL": "Padariet pasauli labāku",
+  "TASKS": "Uzdevumi"
+}

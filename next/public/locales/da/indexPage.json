@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Navn",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Implementer agent",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Stop agent",
+  "CHAT": "Snak",
+  "HEADING_DESCRIPTION": "Saml, konfigurer og implementer autonome AI-agenter i din browser.",
+  "LABEL_AGENT_GOAL": "Mål",
+  "PLACEHOLDER_AGENT_GOAL": "Gør verden til et bedre sted",
+  "TASKS": "Opgaver"
+}

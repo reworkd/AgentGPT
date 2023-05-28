@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "Ο πράκτορας έχει τερματιστεί χειροκίνητα.",
+  "ALL_TASKS_COMPLETETD": "Ολοκληρώθηκαν όλες οι εργασίες. ",
+  "DEMO_LOOPS_REACHED": "Λυπούμαστε, επειδή αυτή είναι μια επίδειξη, δεν μπορούμε να κάνουμε τους αντιπροσώπους μας να λειτουργούν για πολύ. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ΣΦΑΛΜΑ κατά την προσθήκη πρόσθετων εργασιών. ",
+  "RATE_LIMIT_EXCEEDED": "Υπέρβαση του ορίου τιμών! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "ΣΦΑΛΜΑ πρόσβασης στο API του OpenAI. ",
+  "AGENT_MAXED_OUT_LOOPS": "Αυτός ο πράκτορας έχει μεγιστοποιηθεί σε βρόχους. ",
+  "ERROR_API_KEY_QUOTA": "ΣΦΑΛΜΑ κατά τη χρήση του κλειδιού OpenAI API. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ΣΦΑΛΜΑ το κλειδί API δεν έχει πρόσβαση GPT-4. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ΣΦΑΛΜΑ κατά την ανάκτηση του αρχικού πίνακα εργασιών. ",
+  "INVALID_OPENAI_API_KEY": "ΣΦΑΛΜΑ μη έγκυρο κλειδί API OpenAI"
+}

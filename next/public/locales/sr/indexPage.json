@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Име",
+  "BETA": "Бета",
+  "BUTTON_DEPLOY_AGENT": "Деплои Агент",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Заустави агенте",
+  "CHAT": "Ћаскање",
+  "HEADING_DESCRIPTION": "Саставите, конфигуришите и примените аутономне АИ агенте у свом претраживачу.",
+  "LABEL_AGENT_GOAL": "Гол",
+  "PLACEHOLDER_AGENT_GOAL": "Учините свет бољим местом",
+  "TASKS": "Задаци"
+}

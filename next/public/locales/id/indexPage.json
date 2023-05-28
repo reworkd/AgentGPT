@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Nama",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Terapkan Agen",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Hentikan Agen",
+  "CHAT": "Mengobrol",
+  "HEADING_DESCRIPTION": "Rakit, konfigurasikan, dan terapkan Agen AI otonom di browser Anda.",
+  "LABEL_AGENT_GOAL": "Sasaran",
+  "PLACEHOLDER_AGENT_GOAL": "Membuat dunia menjadi tempat yang lebih baik",
+  "TASKS": "Tugas"
+}

@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Ονομα",
+  "BETA": "Βήτα",
+  "BUTTON_DEPLOY_AGENT": "Deploy Agent",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Stop Agent",
+  "CHAT": "Κουβέντα",
+  "HEADING_DESCRIPTION": "Συγκεντρώστε, διαμορφώστε και αναπτύξτε αυτόνομους πράκτορες AI στο πρόγραμμα περιήγησής σας.",
+  "LABEL_AGENT_GOAL": "Στόχος",
+  "PLACEHOLDER_AGENT_GOAL": "Κάντε τον κόσμο ένα καλύτερο μέρος",
+  "TASKS": "Καθήκοντα"
+}

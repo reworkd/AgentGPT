@@ -1,0 +1,12 @@
+{
+  "AGENT_NAME": "Navn",
+  "BETA": "Beta",
+  "BUTTON_DEPLOY_AGENT": "Distribuer agent",
+  "BUTTON_STOPPING": "MISSING_TRANSLATION",
+  "BUTTON_STOP_AGENT": "Stopp agent",
+  "CHAT": "Chat",
+  "HEADING_DESCRIPTION": "Sett sammen, konfigurer og distribuer autonome AI-agenter i nettleseren din.",
+  "LABEL_AGENT_GOAL": "Mål",
+  "PLACEHOLDER_AGENT_GOAL": "Gjør verden til et bedre sted",
+  "TASKS": "Oppgaver"
+}

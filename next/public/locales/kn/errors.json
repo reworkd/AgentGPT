@@ -1,0 +1,13 @@
+{
+  "AGENT_MANUALLY_SHUT_DOWN": "ಏಜೆಂಟ್ ಅನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ.",
+  "ALL_TASKS_COMPLETETD": "ಎಲ್ಲಾ ಕಾರ್ಯಗಳು ಪೂರ್ಣಗೊಂಡಿವೆ. ",
+  "DEMO_LOOPS_REACHED": "ನಮ್ಮನ್ನು ಕ್ಷಮಿಸಿ, ಇದು ಡೆಮೊ ಆಗಿರುವುದರಿಂದ ನಮ್ಮ ಏಜೆಂಟ್‌ಗಳು ಹೆಚ್ಚು ಕಾಲ ಕಾರ್ಯನಿರ್ವಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ಹೆಚ್ಚುವರಿ ಕಾರ್ಯ(ಗಳನ್ನು) ಸೇರಿಸುವಲ್ಲಿ ದೋಷ ",
+  "RATE_LIMIT_EXCEEDED": "ದರ ಮಿತಿ ಮೀರಿದೆ! ",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "OpenAI ನ API ಅನ್ನು ಪ್ರವೇಶಿಸುವಲ್ಲಿ ದೋಷ. ",
+  "AGENT_MAXED_OUT_LOOPS": "ಈ ಏಜೆಂಟ್ ಲೂಪ್‌ಗಳಲ್ಲಿ ಗರಿಷ್ಠವಾಗಿದೆ. ",
+  "ERROR_API_KEY_QUOTA": "ನಿಮ್ಮ OpenAI API ಕೀಯನ್ನು ಬಳಸುವಲ್ಲಿ ದೋಷ. ",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ದೋಷ ನಿಮ್ಮ API ಕೀ GPT-4 ಪ್ರವೇಶವನ್ನು ಹೊಂದಿಲ್ಲ. ",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ಆರಂಭಿಕ ಕಾರ್ಯಗಳ ರಚನೆಯನ್ನು ಹಿಂಪಡೆಯುವಲ್ಲಿ ದೋಷ. ",
+  "INVALID_OPENAI_API_KEY": "ದೋಷ ಅಮಾನ್ಯ OpenAI API-ಕೀ"
+}

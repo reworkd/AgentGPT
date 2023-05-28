@@ -4,7 +4,7 @@ import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
 import type { Message } from "../../types/agentTypes";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
-import { i18n } from "next-i18next";
+import { translate } from "../../utils/translate";
 
 const PDFButton = ({ messages, name }: { messages: Message[]; name: string }) => {
   const textSections = getTextSections(messages);
@@ -41,13 +41,13 @@ const getTextSections = (messages: Message[]): string[] => {
   return messages
     .map((message) => {
       if (message.type == MESSAGE_TYPE_GOAL) {
-        return `${i18n?.t("LABEL_AGENT_GOAL", { ns: "indexPage" })}: ${message.value}`;
+        return `${translate("LABEL_AGENT_GOAL", "indexPage")}: ${message.value}`;
       }
       if (message.type == MESSAGE_TYPE_TASK) {
         if (message.info) {
-          return `${i18n?.t("EXECUTING", { ns: "common" })}: "${message.value}": ${message.info}`;
+          return `${translate("EXECUTING", "common")}: "${message.value}": ${message.info}`;
         } else {
-          return `${i18n?.t("ADDING_TASK", { ns: "common" })}: ${message.value}`;
+          return `${translate("ADDING_TASK", "common")}: ${message.value}`;
         }
       }
       return message.value;

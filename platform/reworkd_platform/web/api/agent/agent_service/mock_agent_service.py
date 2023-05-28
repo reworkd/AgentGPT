@@ -1,5 +1,7 @@
 from typing import List, Any
 
+from lanarky.responses import StreamingResponse
+
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.agent_service.agent_service import Analysis
 
@@ -18,5 +20,5 @@ class MockAgentService(AgentService):
             reasoning="Mock to avoid wasting money calling the OpenAI API.",
         )
 
-    async def execute_task_agent(self, **kwargs: Any) -> str:
+    def execute_task_agent(self, **kwargs: Any) -> StreamingResponse:
         return "Result: " + kwargs.get("task", "task")

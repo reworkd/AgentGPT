@@ -1,5 +1,7 @@
 from typing import List, Optional, Protocol
 
+from lanarky.responses import StreamingResponse
+
 from reworkd_platform.web.api.agent.analysis import Analysis
 
 
@@ -12,13 +14,13 @@ class AgentService(Protocol):
     ) -> Analysis:
         pass
 
-    async def execute_task_agent(
+    def execute_task_agent(
         self,
         *,
         goal: str,
         task: str,
         analysis: Analysis,
-    ) -> str:
+    ) -> StreamingResponse:
         pass
 
     async def create_tasks_agent(

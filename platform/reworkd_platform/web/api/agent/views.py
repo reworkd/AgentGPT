@@ -128,5 +128,7 @@ async def get_user_tools() -> ToolsResponse:
             color="TODO: Change to image of tool",
         )
         for tool in tools
+        if tool.available()
     ]
+
     return ToolsResponse(tools=formatted_tools)

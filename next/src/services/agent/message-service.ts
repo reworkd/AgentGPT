@@ -6,6 +6,7 @@ import {
 } from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
+import axios from "axios";
 
 class MessageService {
   private isRunning: boolean;
@@ -76,8 +77,18 @@ class MessageService {
     this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
   }
 
-  sendErrorMessage(error: string) {
-    this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
+  sendErrorMessage(e: unknown) {
+    let message = "ERROR_RETRIEVE_INITIAL_TASKS";
+
+    if (axios.isAxiosError(e)) {
+      if (e.response?.status === 429) message = "ERROR_API_KEY_QUOTA";
+      if (e.response?.status === 404) message = "ERROR_OPENAI_API_KEY_NO_GPT4";
+      else message = "ERROR_ACCESSING_OPENAI_API_KEY";
+    } else if (typeof e == "string") {
+      message = e;
+    }
+
+    this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: translate(message, "errors") });
   }
 }
 

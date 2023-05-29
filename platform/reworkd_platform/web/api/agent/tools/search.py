@@ -43,6 +43,10 @@ class Search(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
+    @staticmethod
+    def available() -> bool:
+        return settings.serp_api_key is not None
+
     async def call(self, goal: str, task: str, input_str: str) -> str:
         results = await _google_serper_search_results(
             input_str,

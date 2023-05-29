@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import Button from "./Button";
+import Button from "../Button";
 import { FaCoins, FaMicrochip, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
 import Dialog from "./Dialog";
-import Input from "./Input";
-import { GPT_MODEL_NAMES } from "../utils/constants";
-import Accordion from "./Accordion";
-import type { ModelSettings, SettingModel } from "../utils/types";
-import LanguageCombobox from "./LanguageCombobox";
+import Input from "../Input";
+import { GPT_MODEL_NAMES } from "../../utils/constants";
+import Accordion from "../Accordion";
+import type { ModelSettings, SettingModel } from "../../utils/types";
+import LanguageCombobox from "../LanguageCombobox";
 import { useTranslation } from "next-i18next";
 
 export const SettingsDialog: React.FC<{

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "./Button";
+import Button from "../Button";
 
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";

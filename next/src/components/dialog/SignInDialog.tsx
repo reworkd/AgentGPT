@@ -1,7 +1,7 @@
 import React from "react";
 import Dialog from "./Dialog";
-import Button from "./Button";
-import { useAuth } from "../hooks/useAuth";
+import Button from "../Button";
+import { useAuth } from "../../hooks/useAuth";
 
 export interface SignInDialogProps {
   show: boolean;

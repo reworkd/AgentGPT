@@ -20,8 +20,6 @@ it to `.env` and update values as necessary. Some things to note:
 
 - You will need to update the `OPENAI_API_KEY` with your own value. See the [FAQ](/faq) for details
 - The DB ENV values are taken from definitions in `./docker-compose.yml`
-- To enable web search, set `NEXT_PUBLIC_WEB_SEARCH_ENABLED=true` and use [your own SERP api key](https://serper.dev/)
-  for `SERP_API_KEY`.
 
 ## Using Docker
 

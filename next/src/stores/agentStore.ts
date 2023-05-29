@@ -5,7 +5,6 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../services/agent/autonomous-agent";
 import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
 import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
-import { env } from "../env/client.mjs";
 import type { ActiveTool } from "../hooks/useTools";
 
 const resetters: (() => void)[] = [];
@@ -20,12 +19,10 @@ interface AgentSlice {
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
   isAgentPaused: boolean | undefined;
-  isWebSearchEnabled: boolean;
   agentMode: AgentMode;
   updateAgentMode: (agentMode: AgentMode) => void;
   updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
   updateIsAgentStopped: () => void;
-  setIsWebSearchEnabled: (isWebSearchEnabled: boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
@@ -39,7 +36,6 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   return {
     ...initialAgentState,
     agentMode: AUTOMATIC_MODE,
-    isWebSearchEnabled: env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
     updateAgentMode: (agentMode) => {
       set(() => ({
         agentMode,
@@ -53,11 +49,6 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
     updateIsAgentStopped: () => {
       set((state) => ({
         isAgentStopped: !state.agent?.isRunning,
-      }));
-    },
-    setIsWebSearchEnabled: (isWebSearchEnabled) => {
-      set(() => ({
-        isWebSearchEnabled,
       }));
     },
     setAgent: (newAgent) => {

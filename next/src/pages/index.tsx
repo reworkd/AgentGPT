@@ -4,7 +4,7 @@ import { type GetStaticProps, type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/ChatWindow";
-import Drawer from "../components/Drawer";
+import Drawer from "../components/drawer/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";

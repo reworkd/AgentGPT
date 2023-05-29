@@ -3,7 +3,6 @@ from typing import List, Optional
 from fastapi import APIRouter, Body
 from pydantic import BaseModel
 
-from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
 )
@@ -55,17 +54,6 @@ async def analyze_tasks(
         task=req_body.task or "",
         tool_names=req_body.toolNames or [],
     )
-
-
-class Wiki(BaseModel):
-    goal: str
-    task: str
-    query: str
-
-
-@router.post("/test-wiki-search")
-async def wiki(req: Wiki) -> str:
-    return settings.frontend_url
 
 
 class CompletionResponse(BaseModel):

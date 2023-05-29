@@ -1,8 +1,9 @@
 import uuid
+from typing import Optional
 
 from sqlalchemy import Column, func, String
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import DeclarativeBase, Mapped
+from sqlalchemy.orm import DeclarativeBase
 
 from reworkd_platform.db.meta import meta
 
@@ -11,7 +12,7 @@ class Base(DeclarativeBase):
     """Base for all models."""
 
     metadata = meta
-    id: Mapped[str] = Column(
+    id = Column(
         String,
         primary_key=True,
         default=lambda _: str(uuid.uuid4()),
@@ -31,10 +32,10 @@ class TrackedModel(Base):
     delete_date = Column(String, name="deleteDate")
 
     @classmethod
-    async def get(cls, session: AsyncSession, id_: str):
+    async def get(cls, session: AsyncSession, id_: str) -> Optional["TrackedModel"]:
         return await session.get(cls, id_)
 
-    async def save(self, session: AsyncSession):
+    async def save(self, session: AsyncSession) -> "TrackedModel":
         session.add(self)
         await session.flush()
         return self

@@ -31,9 +31,20 @@ from reworkd_platform.web.api.agent.task_output_parser import (
     ],
 )
 def test_parse_success(input_text: str, expected_output: List[str]) -> None:
-    parser = TaskOutputParser()
+    parser = TaskOutputParser(completed_tasks=[])
     result = parser.parse(input_text)
     assert result == expected_output
+
+
+def test_parse_with_completed_tasks() -> None:
+    input_text = '["One", "Two", "Three"]'
+    completed = ["One"]
+    expected = ["Two", "Three"]
+
+    parser = TaskOutputParser(completed_tasks=completed)
+
+    result = parser.parse(input_text)
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -43,7 +54,7 @@ def test_parse_success(input_text: str, expected_output: List[str]) -> None:
     ],
 )
 def test_parse_failure(input_text: str, exception: Exception) -> None:
-    parser = TaskOutputParser()
+    parser = TaskOutputParser(completed_tasks=[])
     with pytest.raises(exception):
         parser.parse(input_text)
 

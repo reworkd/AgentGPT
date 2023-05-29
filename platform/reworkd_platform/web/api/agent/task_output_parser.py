@@ -3,6 +3,7 @@ import re
 from typing import List
 
 from langchain.schema import BaseOutputParser, OutputParserException
+from loguru import logger
 
 
 class TaskOutputParser(BaseOutputParser[List[str]]):
@@ -10,15 +11,22 @@ class TaskOutputParser(BaseOutputParser[List[str]]):
     Extension of LangChain's BaseOutputParser
     Responsible for parsing task creation output into a list of task strings
     """
+    completed_tasks = []
+
+    def __init__(self, *, completed_tasks):
+        super().__init__()
+        self.completed_tasks = completed_tasks
 
     def parse(self, text: str) -> List[str]:
         try:
             array_str = extract_array(text)
-            return [
+            all_tasks = [
                 remove_prefix(task) for task in array_str if real_tasks_filter(task)
             ]
+            return [task for task in all_tasks if task not in self.completed_tasks]
         except Exception as e:
             msg = f"Failed to parse tasks from completion {text}. Got: {e}"
+            logger.exception(msg)
             raise OutputParserException(msg)
 
     def get_format_instructions(self) -> str:

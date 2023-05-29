@@ -5,7 +5,6 @@ import {
   FaCog,
   FaDiscord,
   FaGithub,
-  FaHeart,
   FaQuestionCircle,
   FaRobot,
   FaSignInAlt,
@@ -14,18 +13,24 @@ import {
   FaUser,
 } from "react-icons/fa";
 import clsx from "clsx";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import type { Session } from "next-auth";
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 import { useRouter } from "next/router";
-import FadingHr from "./FadingHr";
+import FadingHr from "../FadingHr";
 import { BiPlus } from "react-icons/bi";
+import { DrawerItemButton } from "./DrawerItemButton";
+import { DrawerUrlButton } from "./DrawerUrlButton";
 
 const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings: () => void }) => {
   const [t] = useTranslation("drawer");
   const [showDrawer, setShowDrawer] = useState(true);
   const { session, signIn, signOut, status } = useAuth();
   const router = useRouter();
+  const query = api.agent.getAll.useQuery(undefined, {
+    enabled: !!session?.user,
+  });
+  const userAgents = query.data ?? [];
 
   useEffect(() => {
     // Function to check if the screen width is for desktop or tablet
@@ -51,20 +56,9 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
     };
   }, []);
 
-  const query = api.agent.getAll.useQuery(undefined, {
-    enabled: !!session?.user,
-  });
-
   const toggleDrawer = () => {
     setShowDrawer((prevState) => !prevState);
   };
-
-  const handleSupport = () => {
-    const donationUrl = "https://github.com/sponsors/reworkd-admin";
-    window.open(donationUrl, "_blank");
-  };
-
-  const userAgents = query.data ?? [];
 
   return (
     <>
@@ -90,7 +84,7 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             </button>
           </div>
           <ul className="flex flex-col gap-2 overflow-auto">
-            <DrawerItem
+            <DrawerItemButton
               icon={<BiPlus size={17} />}
               text={"New Agent"}
               border
@@ -98,11 +92,10 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
             />
 
             {userAgents.map((agent, index) => (
-              <DrawerItem
+              <DrawerItemButton
                 key={index}
                 icon={<FaRobot />}
                 text={agent.name}
-                className="w-full"
                 onClick={() => void router.push(`/agent?id=${agent.id}`)}
               />
             ))}
@@ -133,101 +126,49 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
           )}
           <FadingHr className="my-2" />
           <AuthItem session={session} signIn={signIn} signOut={signOut} />
-          <DrawerItem icon={<FaQuestionCircle />} text={t("HELP_BUTTON")} onClick={showHelp} />
-          <DrawerItem icon={<FaHeart />} text={t("SUPPORT_BUTTON")} onClick={handleSupport} />
-          <DrawerItem
+          <DrawerItemButton
+            icon={<FaQuestionCircle />}
+            text={t("HELP_BUTTON")}
+            onClick={showHelp}
+          />
+          <DrawerItemButton
             icon={<FaCog className="transition-transform group-hover:rotate-90" />}
             text={t("SETTINGS_BUTTON")}
             onClick={showSettings}
           />
           <FadingHr className="my-2" />
           <div className="flex flex-row items-center justify-center gap-2">
-            <DrawerItem
+            <DrawerUrlButton
               icon={
                 <FaDiscord
                   size={27}
                   className="transition-colors group-hover:fill-current group-hover:text-indigo-400"
                 />
               }
-              text="Discord"
               href="https://discord.gg/jdSBAnmdnY"
-              target="_blank"
-              small
             />
-            <DrawerItem
+            <DrawerUrlButton
               icon={
                 <FaTwitter
                   size={27}
                   className="transition-colors group-hover:fill-current group-hover:text-sky-500"
                 />
               }
-              text="Twitter"
               href="https://twitter.com/reworkdai"
-              target="_blank"
-              small
             />
-            <DrawerItem
+            <DrawerUrlButton
               icon={
                 <FaGithub
                   size={27}
                   className="transition-colors group-hover:fill-current group-hover:text-purple-500"
                 />
               }
-              text="GitHub"
               href="https://github.com/reworkd/AgentGPT"
-              target="_blank"
-              small
             />
           </div>
         </div>
       </div>
     </>
-  );
-};
-
-interface DrawerItemProps
-  extends Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target"> {
-  icon: React.ReactNode;
-  text: string;
-  border?: boolean;
-  onClick?: () => Promise<void> | void;
-  className?: string;
-  small?: boolean;
-}
-
-const DrawerItem = (props: DrawerItemProps) => {
-  const { icon, text, border, href, target, onClick, className } = props;
-
-  if (href) {
-    return (
-      <a
-        className={clsx(
-          "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
-          border && "border-[1px] border-white/20",
-          className
-        )}
-        href={href}
-        target={target ?? "_blank"}
-      >
-        {icon}
-        {!props.small && <span className="text-md ml-4">{text}</span>}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      type="button"
-      className={clsx(
-        "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
-        border && "border-[1px] border-white/20",
-        `${className || ""}`
-      )}
-      onClick={onClick}
-    >
-      {icon}
-      <span className="ml-4 text-sm">{text}</span>
-    </button>
   );
 };
 
@@ -241,7 +182,7 @@ const AuthItem: React.FC<{
   const onClick = session?.user ? signOut : signIn;
   const text = session?.user ? t("SIGN_OUT") : t("SIGN_IN");
 
-  return <DrawerItem icon={icon} text={text} onClick={onClick} />;
+  return <DrawerItemButton icon={icon} text={text} onClick={onClick} />;
 };
 
 export default Drawer;

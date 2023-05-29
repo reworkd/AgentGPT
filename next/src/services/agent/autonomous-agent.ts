@@ -15,7 +15,7 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/agentTypes";
-import { useAgentStore, useMessageStore } from "../../stores";
+import { useMessageStore } from "../../stores";
 import { translate } from "../../utils/translations";
 import { AgentApi } from "./agent-api";
 import type { Analysis } from "./analysis";
@@ -148,12 +148,9 @@ class AutonomousAgent {
       arg: "",
     };
 
-    // If enabled, analyze what tool to use
-    if (useAgentStore.getState().isWebSearchEnabled) {
-      // Analyze how to execute a task: Reason, web search, other tools...
-      analysis = await this.$api.analyzeTask(currentTask.value);
-      this.messageService.sendAnalysisMessage(analysis);
-    }
+    // Analyze how to execute a task: Reason, web search, other tools...
+    analysis = await this.$api.analyzeTask(currentTask.value);
+    this.messageService.sendAnalysisMessage(analysis);
 
     const result = await this.$api.executeTask(currentTask.value, analysis);
     this.messageService.sendMessage({

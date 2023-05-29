@@ -86,7 +86,6 @@ export const useAgentStore = createSelectors(
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           agentMode: state.agentMode,
-          // isWebSearchEnabled: state.isWebSearchEnabled
         }),
       }
     )

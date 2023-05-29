@@ -43,7 +43,10 @@ def extract_array(input_str: str) -> List[str]:
         r"?)+\s*\])"
     )
     match = re.search(regex, input_str)
-    return json.loads(match[0])
+    if match is not None:
+        return json.loads(match[0])
+    else:
+        raise RuntimeError(f"Failed to extract array from {input_str}")
 
 
 def remove_prefix(input_str: str) -> str:

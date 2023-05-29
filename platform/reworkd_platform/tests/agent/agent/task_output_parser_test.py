@@ -83,12 +83,12 @@ def test_extract_array_success(input_str: str, expected: List[str]) -> None:
 @pytest.mark.parametrize(
     "input_json_str, exception",
     [
-        (None, TypeError),
-        ("123", TypeError),
-        ("Some random text", TypeError),
-        ('"single_string"', TypeError),
-        ('{"test": 123}', TypeError),
-        ('["Unclosed array", "other"', TypeError),
+        (None, RuntimeError),
+        ("123", RuntimeError),
+        ("Some random text", RuntimeError),
+        ('"single_string"', RuntimeError),
+        ('{"test": 123}', RuntimeError),
+        ('["Unclosed array", "other"', RuntimeError),
         ("['Single quote']", JSONDecodeError),
     ],
 )

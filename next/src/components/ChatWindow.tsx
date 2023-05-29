@@ -167,7 +167,7 @@ const ChatWindow = ({
 
 const SwitchContainer = ({ label, children }: { label: string; children: React.ReactNode }) => {
   return (
-    <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-[2px] border-white/20 bg-zinc-700 px-2 py-1">
+    <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-2 border-white/20 bg-zinc-700 px-2 py-1">
       <p className="font-mono text-sm">{label}</p>
       {children}
     </div>
@@ -348,7 +348,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     <div
       className={clsx(
         getMessageContainerStyle(message),
-        "mx-2 my-1 rounded-lg border-[1px] bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
+        "mx-2 my-1 rounded-lg border bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
         "sm:my-1.5 sm:text-sm"
       )}
     >
@@ -370,7 +370,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
       {isAction(message) ? (
         <>
-          <hr className="my-2 border-[1px] border-white/20" />
+          <hr className="my-2 border border-white/20" />
           <div className="prose">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>

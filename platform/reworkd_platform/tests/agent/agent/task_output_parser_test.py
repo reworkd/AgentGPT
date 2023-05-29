@@ -81,9 +81,9 @@ def test_extract_array_success(input_str: str, expected: List[str]) -> None:
 
 
 @pytest.mark.parametrize(
-    "input_json_str, exception",
+    "input_str, exception",
     [
-        (None, RuntimeError),
+        (None, TypeError),
         ("123", RuntimeError),
         ("Some random text", RuntimeError),
         ('"single_string"', RuntimeError),
@@ -93,10 +93,10 @@ def test_extract_array_success(input_str: str, expected: List[str]) -> None:
     ],
 )
 def test_extract_array_exception(
-    input_json_str: str, exception: Type[Exception]
+    input_str: str, exception: Type[Exception]
 ) -> None:
     with pytest.raises(exception):
-        extract_array(input_json_str)
+        extract_array(input_str)
 
 
 @pytest.mark.parametrize(

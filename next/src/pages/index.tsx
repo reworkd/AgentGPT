@@ -12,8 +12,8 @@ import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import Expand from "../components/motions/expand";
-import HelpDialog from "../components/HelpDialog";
-import { SettingsDialog } from "../components/SettingsDialog";
+import HelpDialog from "../components/dialog/HelpDialog";
+import { SettingsDialog } from "../components/dialog/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { AgentPlaybackControl, Message } from "../types/agentTypes";
@@ -25,10 +25,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 import { findLanguage, languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
-import { SorryDialog } from "../components/SorryDialog";
-import { SignInDialog } from "../components/SignInDialog";
+import { SorryDialog } from "../components/dialog/SorryDialog";
+import { SignInDialog } from "../components/dialog/SignInDialog";
 import { env } from "../env/client.mjs";
-import { ToolsDialog } from "../components/ToolsDialog";
+import { ToolsDialog } from "../components/dialog/ToolsDialog";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();

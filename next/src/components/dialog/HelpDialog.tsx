@@ -16,10 +16,7 @@ export default function HelpDialog({ show, close }: { show: boolean; close: () =
           {t("TO_LEARN_MORE_ABOUT_AGENTGPT", {
             ns: "help",
           })}
-          <a
-            href="https://docs.reworkd.ai"
-            className="text-sky-500"
-          >
+          <a href="https://docs.reworkd.ai" className="text-sky-500">
             {t("AGENTGPT_DOCUMENTATION", { ns: "help" })}
           </a>
         </div>

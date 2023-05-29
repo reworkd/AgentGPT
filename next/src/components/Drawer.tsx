@@ -107,12 +107,6 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
               />
             ))}
 
-            <DrawerItem
-              icon={<BiPlus size={17} />}
-              text={"New Agent"}
-              border
-              onClick={() => location.reload()}
-            />
             {status === "unauthenticated" && (
               <div className="p-1 text-sm">
                 <a className="link" onClick={() => void signIn()}>

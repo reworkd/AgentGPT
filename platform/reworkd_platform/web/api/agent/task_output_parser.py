@@ -11,6 +11,7 @@ class TaskOutputParser(BaseOutputParser[List[str]]):
     Extension of LangChain's BaseOutputParser
     Responsible for parsing task creation output into a list of task strings
     """
+
     completed_tasks = []
 
     def __init__(self, *, completed_tasks):

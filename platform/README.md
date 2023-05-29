@@ -136,6 +136,7 @@ pytest -vv .
 poetry run black .
 poetry run autoflake --in-place --remove-duplicate-keys --remove-all-unused-imports -r .
 poetry run flake8
+poetry run mypy .
 
 # Pytest
 poetry run pytest -vv --cov="reworkd_platform" .

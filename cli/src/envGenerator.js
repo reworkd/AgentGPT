@@ -23,9 +23,6 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl, webse
       PLATFORM_URL: platformUrl,
       NEXT_PUBLIC_FORCE_AUTH: false
     },
-    "Websearch": {
-      NEXT_PUBLIC_WEB_SEARCH_ENABLED: websearchEnabled,
-    },
     "Next Auth config": {
       NEXTAUTH_SECRET: generateAuthSecret(),
       NEXTAUTH_URL: "http://localhost:3000"

@@ -20,7 +20,7 @@ const Label = ({ type, left, toolTipProperties }: LabelProps) => {
         <div
           className={clsx(
             "center flex min-w-[8em] items-center rounded-xl rounded-r-none",
-            type !== "range" && "border-white/10 md:border-[2px] md:border-r-0",
+            type !== "range" && "border-white/10 md:border-2 md:border-r-0",
             "py-2 text-sm font-semibold tracking-wider transition-all md:py-3 md:pl-3 md:text-lg",
             isTypeTextArea() && "md:h-20"
           )}

@@ -16,7 +16,7 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
       type="button"
       className={clsx(
         "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
-        border && "border-[1px] border-white/20"
+        border && "border border-white/20"
       )}
       onClick={onClick}
     >

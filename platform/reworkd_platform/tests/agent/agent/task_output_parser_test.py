@@ -92,9 +92,7 @@ def test_extract_array_success(input_str: str, expected: List[str]) -> None:
         ("['Single quote']", JSONDecodeError),
     ],
 )
-def test_extract_array_exception(
-    input_str: str, exception: Type[Exception]
-) -> None:
+def test_extract_array_exception(input_str: str, exception: Type[Exception]) -> None:
     with pytest.raises(exception):
         extract_array(input_str)
 

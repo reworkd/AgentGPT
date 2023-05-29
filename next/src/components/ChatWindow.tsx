@@ -37,7 +37,6 @@ interface ChatWindowProps extends HeaderProps {
   fullscreen?: boolean;
   scrollToBottom?: boolean;
   displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
-  openSorryDialog?: () => void;
   setAgentRun?: (name: string, goal: string) => void;
   visibleOnMobile?: boolean;
 }
@@ -53,7 +52,6 @@ const ChatWindow = ({
   fullscreen,
   scrollToBottom,
   displaySettings,
-  openSorryDialog,
   setAgentRun,
   visibleOnMobile,
 }: ChatWindowProps) => {

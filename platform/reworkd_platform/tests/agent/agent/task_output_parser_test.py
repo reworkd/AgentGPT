@@ -1,5 +1,5 @@
 from json import JSONDecodeError
-from typing import List
+from typing import List, Type
 
 import pytest
 from langchain.schema import OutputParserException
@@ -53,7 +53,7 @@ def test_parse_with_completed_tasks() -> None:
         ("This is not an array", OutputParserException),
     ],
 )
-def test_parse_failure(input_text: str, exception: Exception) -> None:
+def test_parse_failure(input_text: str, exception: Type[Exception]) -> None:
     parser = TaskOutputParser(completed_tasks=[])
     with pytest.raises(exception):
         parser.parse(input_text)
@@ -73,7 +73,7 @@ def test_parse_failure(input_text: str, exception: Exception) -> None:
         ('{"array": ["123", "456"]}', ["123", "456"]),
     ],
 )
-def test_extract_array_success(input_str: str, expected: str) -> None:
+def test_extract_array_success(input_str: str, expected: List[str]) -> None:
     print(input_str, expected)
     print(input_str, expected)
     print(extract_array(input_str), expected)
@@ -81,7 +81,7 @@ def test_extract_array_success(input_str: str, expected: str) -> None:
 
 
 @pytest.mark.parametrize(
-    "input_json_str, exception_type",
+    "input_json_str, exception",
     [
         (None, TypeError),
         ("123", TypeError),
@@ -92,8 +92,10 @@ def test_extract_array_success(input_str: str, expected: str) -> None:
         ("['Single quote']", JSONDecodeError),
     ],
 )
-def test_extract_array_exception(input_json_str, exception_type):
-    with pytest.raises(exception_type):
+def test_extract_array_exception(
+    input_json_str: str, exception: Type[Exception]
+) -> None:
+    with pytest.raises(exception):
         extract_array(input_json_str)
 
 

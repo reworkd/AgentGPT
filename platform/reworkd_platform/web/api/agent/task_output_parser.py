@@ -12,9 +12,9 @@ class TaskOutputParser(BaseOutputParser[List[str]]):
     Responsible for parsing task creation output into a list of task strings
     """
 
-    completed_tasks = []
+    completed_tasks: List[str] = []
 
-    def __init__(self, *, completed_tasks):
+    def __init__(self, *, completed_tasks: List[str]):
         super().__init__()
         self.completed_tasks = completed_tasks
 

@@ -4,21 +4,10 @@ import { DEFAULT_MAX_LOOPS_FREE } from "../../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
-import {
-  AGENT_PAUSE,
-  AGENT_PLAY,
-  AUTOMATIC_MODE,
-  MESSAGE_TYPE_TASK,
-  PAUSE_MODE,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_EXECUTING,
-  TASK_STATUS_FINAL,
-  TASK_STATUS_STARTED,
-} from "../../types/agentTypes";
+import { AGENT_PAUSE, AGENT_PLAY, AUTOMATIC_MODE, PAUSE_MODE } from "../../types/agentTypes";
 import { useMessageStore } from "../../stores";
 import { translate } from "../../utils/translations";
 import { AgentApi } from "./agent-api";
-import type { Analysis } from "./analysis";
 import MessageService from "./message-service";
 
 const TIMEOUT_LONG = 1000;
@@ -95,13 +84,12 @@ class AutonomousAgent {
       const taskValues = await this.$api.getInitialTasks();
       for (const value of taskValues) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        const task: Task = {
+        this.messageService.sendMessage({
           taskId: v1().toString(),
           value,
-          status: TASK_STATUS_STARTED,
-          type: MESSAGE_TYPE_TASK,
-        };
-        this.messageService.sendMessage(task);
+          status: "started",
+          type: "task",
+        });
       }
     } catch (e) {
       console.log(e);
@@ -137,26 +125,19 @@ class AutonomousAgent {
 
     // Start with first task
     const currentTask = this.getRemainingTasks()[0] as Task;
-    this.messageService.sendMessage({ ...currentTask, status: TASK_STATUS_EXECUTING });
 
+    this.messageService.sendMessage({ ...currentTask, status: "executing" });
     this.messageService.sendThinkingMessage();
 
-    // Default to reasoning
-    let analysis: Analysis = {
-      reasoning: "I'll just think about it...",
-      action: "reason",
-      arg: "",
-    };
-
     // Analyze how to execute a task: Reason, web search, other tools...
-    analysis = await this.$api.analyzeTask(currentTask.value);
+    const analysis = await this.$api.analyzeTask(currentTask.value);
     this.messageService.sendAnalysisMessage(analysis);
 
     const result = await this.$api.executeTask(currentTask.value, analysis);
     this.messageService.sendMessage({
       ...currentTask,
       info: result,
-      status: TASK_STATUS_COMPLETED,
+      status: "completed",
     });
 
     this.completedTasks.push(currentTask.value || "");
@@ -177,29 +158,27 @@ class AutonomousAgent {
       );
       for (const value of newTasks) {
         await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-        const task: Task = {
+        this.messageService.sendMessage({
           taskId: v1().toString(),
           value,
-          status: TASK_STATUS_STARTED,
-          type: MESSAGE_TYPE_TASK,
-        };
-        this.messageService.sendMessage(task);
+          status: "started",
+          type: "task",
+        });
       }
 
       if (newTasks.length == 0) {
-        this.messageService.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
+        this.messageService.sendMessage({ ...currentTask, status: "final" });
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       this.messageService.sendErrorMessage(translate("ERROR_ADDING_ADDITIONAL_TASKS", "errors"));
-
-      this.messageService.sendMessage({ ...currentTask, status: TASK_STATUS_FINAL });
+      this.messageService.sendMessage({ ...currentTask, status: "final" });
     }
     await this.loop();
   }
 
   getRemainingTasks(): Task[] {
-    return useMessageStore.getState().tasks.filter((t: Task) => t.status === TASK_STATUS_STARTED);
+    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
   }
 
   private conditionalPause() {
@@ -237,12 +216,8 @@ class AutonomousAgent {
   }
 
   private onApiError = (e: unknown) => {
+    // TODO: handle retries here
     this.shutdown();
-
-    if (axios.isAxiosError(e) && e.response?.status === 429) {
-      this.messageService.sendErrorMessage(translate("RATE_LIMIT_EXCEEDED", "errors"));
-    }
-
     throw e;
   };
 }

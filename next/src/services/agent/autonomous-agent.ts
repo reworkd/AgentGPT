@@ -124,9 +124,15 @@ class AutonomousAgent {
     const analysis = await this.$api.analyzeTask(currentTask.value);
     this.messageService.sendAnalysisMessage(analysis);
 
-    const executionMessage: Message = { ...currentTask, info: "", status: "completed" };
+    const executionMessage: Message = {
+      ...currentTask,
+      id: v1(),
+      status: "completed",
+      info: "Loading...",
+    };
     this.messageService.sendMessage({ ...executionMessage, status: "completed" });
 
+    let result = "";
     await streamText(
       "/api/agent/execute",
       {
@@ -136,14 +142,14 @@ class AutonomousAgent {
         modelSettings: this.modelSettings,
       },
       (text) => {
-        executionMessage.info += text;
+        result += text;
+        executionMessage.info += result;
         console.log(executionMessage.info);
         this.messageService.updateMessage(executionMessage);
       },
       () => !this.isRunning
     );
 
-    const result = executionMessage.info || "";
     this.completedTasks.push(currentTask.value || "");
 
     // Wait before adding tasks TODO: think about removing this
@@ -221,7 +227,7 @@ class AutonomousAgent {
     for (const value of tasks) {
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
       this.messageService.sendMessage({
-        id: v1().toString(),
+        taskId: v1().toString(),
         value,
         status: "started",
         type: "task",

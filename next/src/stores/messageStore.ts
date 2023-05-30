@@ -24,8 +24,8 @@ const initialMessageState = {
 interface MessageSlice {
   messages: Message[];
   addMessage: (newMessage: Message) => void;
-  updateLastMessage: (newMessage: Message) => void;
-  deleteTask: (id: string) => void;
+  updateMessage: (newMessage: Message) => void;
+  deleteTask: (taskId: string) => void;
 }
 
 const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], MessageSlice> = (set) => {
@@ -45,7 +45,7 @@ const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], Message
       }));
     },
 
-    updateLastMessage: (newMessage) => {
+    updateMessage: (newMessage) => {
       set((state) => {
         const lastMessage = state.messages.find((message) => message.id === newMessage.id);
         if (lastMessage) {
@@ -64,10 +64,10 @@ const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], Message
       });
     },
 
-    deleteTask: (id) => {
+    deleteTask: (taskId) => {
       set((state) => ({
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== id),
+        tasks: state.tasks.filter((task) => task.taskId !== taskId),
       }));
     },
   };

@@ -25,13 +25,13 @@ class MessageService {
 
   sendMessage(message: Message) {
     if (this.isRunning) {
-      this.renderMessage(message);
+      this.renderMessage({ ...message });
     }
   }
 
   updateMessage(message: Message) {
     if (this.isRunning) {
-      useMessageStore.getState().updateLastMessage(message);
+      useMessageStore.getState().updateMessage(message);
     }
   }
 

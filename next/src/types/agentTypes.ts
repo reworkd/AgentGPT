@@ -42,6 +42,7 @@ export const messageSchemaBase = z.object({
 
 export const taskSchema = z
   .object({
+    taskId: z.string().optional(),
     type: z.literal(MESSAGE_TYPE_TASK),
     status: TaskStatusSchema,
   })

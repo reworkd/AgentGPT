@@ -1,5 +1,7 @@
 from typing import List, Optional, Protocol
 
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
+
 from reworkd_platform.web.api.agent.analysis import Analysis
 
 
@@ -18,7 +20,7 @@ class AgentService(Protocol):
         goal: str,
         task: str,
         analysis: Analysis,
-    ) -> str:
+    ) -> FastAPIStreamingResponse:
         pass
 
     async def create_tasks_agent(

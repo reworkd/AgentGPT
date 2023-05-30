@@ -1,11 +1,13 @@
 import openai
 import replicate
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.model_settings import (
     ModelSettings,
     get_server_side_key,
 )
+from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
@@ -48,11 +50,13 @@ class Image(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    async def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(
+        self, goal: str, task: str, input_str: str
+    ) -> FastAPIStreamingResponse:
         # Use the replicate API if its available, otherwise use DALL-E
         try:
             url = await get_replicate_image(input_str)
         except RuntimeError:
             url = await get_open_ai_image(input_str)
 
-        return f"![{input_str}]({url})"
+        return stream_string(f"![{input_str}]({url})")

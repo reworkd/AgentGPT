@@ -1,4 +1,7 @@
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
+
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
@@ -8,5 +11,7 @@ class Conclude(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    async def call(self, goal: str, task: str, input_str: str) -> str:
-        return "Task execution concluded."
+    async def call(
+        self, goal: str, task: str, input_str: str
+    ) -> FastAPIStreamingResponse:
+        return stream_string("Task execution concluded.", delayed=True)

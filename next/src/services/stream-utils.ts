@@ -1,7 +1,9 @@
 import { env } from "../env/client.mjs";
 import type { RequestBody } from "../utils/interfaces";
 
-const fetchData = async (url: string, body: RequestBody) => {
+type TextStream = ReadableStreamDefaultReader<Uint8Array>;
+
+const fetchData = async (url: string, body: RequestBody): Promise<TextStream | undefined> => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
   const response = await fetch(url, {
     method: "POST",
@@ -17,36 +19,43 @@ const fetchData = async (url: string, body: RequestBody) => {
   return response.body?.getReader();
 };
 
+async function readStream(reader: TextStream): Promise<string | null> {
+  const result = await reader.read();
+  return result.done ? null : new TextDecoder().decode(result.value);
+}
+
 async function processStream(
-  reader: ReadableStreamDefaultReader<Uint8Array> | undefined,
-  callback: (text: string) => void
+  reader: TextStream,
+  onText: (text: string) => void,
+  shouldClose: () => boolean
 ): Promise<void> {
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (reader) {
-        while (true) {
-          const result = await reader.read();
-          if (result.done) {
-            console.log("Stream closed");
-            resolve();
-            break;
-          }
-          const text = new TextDecoder().decode(result.value);
-          callback(text);
-        }
+  try {
+    while (true) {
+      if (shouldClose()) {
+        await reader.cancel();
+        return;
       }
-    } catch (error) {
-      reject(error);
+
+      const text = await readStream(reader);
+      if (text === null) break;
+      onText(text);
     }
-  });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export const streamText = async (
   url: string,
   body: RequestBody,
-  callback: (text: string) => void
+  onText: (text: string) => void,
+  shouldClose: () => boolean
 ) => {
-  console.log("StreamText");
   const reader = await fetchData(url, body);
-  await processStream(reader, callback);
+  if (!reader) {
+    console.error("Reader is undefined!");
+    return;
+  }
+
+  await processStream(reader, onText, shouldClose);
 };

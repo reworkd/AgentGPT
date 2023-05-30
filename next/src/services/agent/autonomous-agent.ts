@@ -179,7 +179,8 @@ class AutonomousAgent {
         executionMessage.info += text;
         console.log(executionMessage.info);
         this.messageService.updateMessage(executionMessage);
-      }
+      },
+      () => !this.isRunning
     );
 
     const result = ""; // TODO: Build result

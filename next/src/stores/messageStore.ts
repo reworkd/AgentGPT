@@ -25,7 +25,7 @@ interface MessageSlice {
   messages: Message[];
   addMessage: (newMessage: Message) => void;
   updateLastMessage: (newMessage: Message) => void;
-  deleteTask: (taskId: string) => void;
+  deleteTask: (id: string) => void;
 }
 
 const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], MessageSlice> = (set) => {
@@ -64,10 +64,10 @@ const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], Message
       });
     },
 
-    deleteTask: (taskId) => {
+    deleteTask: (id) => {
       set((state) => ({
         ...state,
-        tasks: state.tasks.filter((task) => task.taskId !== taskId),
+        tasks: state.tasks.filter((task) => task.id !== id),
       }));
     },
   };
@@ -87,15 +87,15 @@ const createTaskSlice: StateCreator<MessageSlice & TaskSlice, [], [], TaskSlice>
   return {
     ...initialTaskState,
     updateTaskStatus: (updatedTask) => {
-      const { taskId, info, status: newStatus } = updatedTask;
+      const { id, info, status: newStatus } = updatedTask;
 
-      if (!isExistingTask(updatedTask) || taskId === undefined) {
+      if (!isExistingTask(updatedTask) || id === undefined) {
         return;
       }
 
       set((state) => {
         const updatedTasks = state.tasks.map((task) => {
-          if (task.taskId === taskId) {
+          if (task.id === id) {
             return {
               ...task,
               status: newStatus,

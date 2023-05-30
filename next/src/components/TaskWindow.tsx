@@ -25,7 +25,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 
   const handleAddTask = () => {
     addMessage({
-      taskId: v1().toString(),
+      id: v1().toString(),
       value: customTask,
       status: TASK_STATUS_STARTED,
       type: MESSAGE_TYPE_TASK,
@@ -79,11 +79,11 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 const Task = ({ task, index }: { task: Task; index: number }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
   const deleteTask = useMessageStore.use.deleteTask();
-  const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
+  const isTaskDeletable = task.id && !isAgentStopped && task.status === "started";
 
   const handleDeleteTask = () => {
     if (isTaskDeletable) {
-      deleteTask(task.taskId as string);
+      deleteTask(task.id as string);
     }
   };
 

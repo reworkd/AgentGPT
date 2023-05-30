@@ -63,46 +63,6 @@ class AutonomousAgent {
   }
 
   async run() {
-    // console.log("Starting");
-    // this.updateIsRunning(true);
-    // let message = "";
-    // const task: Task = {
-    //   taskId: v1().toString(),
-    //   status: TASK_STATUS_COMPLETED,
-    //   value: "Value",
-    //   info: "info",
-    //   type: MESSAGE_TYPE_TASK,
-    // };
-    //
-    // useMessageStore.getState().addMessage(task);
-    // await streamText(
-    //   "/api/agent/execute",
-    //   {
-    //     goal: this.goal,
-    //     task: "Do something",
-    //     analysis: {
-    //       action: "reason",
-    //       arg: "reason",
-    //       reasoning: "reasoning",
-    //     },
-    //     modelSettings: this.modelSettings,
-    //   },
-    //   (text) => {
-    //     message += text;
-    //     const task: Task = {
-    //       taskId: v1().toString(),
-    //       status: TASK_STATUS_COMPLETED,
-    //       value: "Value",
-    //       info: message,
-    //       type: MESSAGE_TYPE_TASK,
-    //     };
-    //     console.log(message);
-    //     console.log(useMessageStore.getState().messages);
-    //     console.log(useMessageStore.getState().tasks);
-    //     useMessageStore.getState().updateLastMessage(task);
-    //   }
-    // );
-    // console.log("done");
     if (!this.isRunning) {
       this.updateIsRunning(true);
       await this.startGoal();
@@ -261,7 +221,7 @@ class AutonomousAgent {
     for (const value of tasks) {
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
       this.messageService.sendMessage({
-        taskId: v1().toString(),
+        id: v1().toString(),
         value,
         status: "started",
         type: "task",

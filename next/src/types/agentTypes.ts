@@ -35,13 +35,13 @@ const TaskStatusSchema = z.union([
 export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
 export const messageSchemaBase = z.object({
+  id: z.string().optional(),
   value: z.string(),
   info: z.string().optional().nullable(),
 });
 
 export const taskSchema = z
   .object({
-    taskId: z.string().optional(),
     type: z.literal(MESSAGE_TYPE_TASK),
     status: TaskStatusSchema,
   })

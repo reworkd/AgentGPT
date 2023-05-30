@@ -11,8 +11,10 @@ start_goal_prompt = PromptTemplate(
 
     Return the response as a formatted array of strings that can be used in json.loads()
 
-    Example:
-    ["Search the web for NBA news", "Write a report on the state of Nike"].
+    Examples:
+    ["Search the web for NBA news", "Write a report on the state of Nike"]
+    ["Create a function to add a new vertex with a specified weight to the digraph."]
+    ["Search for any additional information on Bertie W.", "Research Chicken"]
     """,
     input_variables=["goal", "language"],
 )
@@ -78,15 +80,19 @@ create_tasks_prompt = PromptTemplate(
     template="""You are an AI task creation agent. You must answer in the "{language}"
     language. You have the following objective `{goal}`. You have the
     following incomplete tasks `{tasks}` and have just executed the following task
-    `{lastTask}` and received the following result `{result}`. Based on this, create a
-    new task to be completed by your AI system ONLY IF NEEDED such that your goal is
-    more closely reached or completely reached.
+    `{lastTask}` and received the following result `{result}`.
+
+    Based on this, at most a SINGLE new task to be completed by your AI system
+    ONLY IF NEEDED such that your goal is more closely reached or completely reached.
 
     Return the response as a formatted array of strings that can be used in json.loads()
-    If no task is needed, return []
+    If no new or further tasks are needed, return [] and nothing else
 
-    Example:
-    ["Search the web for NBA news", "Write a report on the state of Nike"].
+    Examples:
+    ["Search the web for NBA news"]
+    ["Create a function to add a new vertex with a specified weight to the digraph."]
+    ["Search for any additional information on Bertie W."]
+    []
     """,
     input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )

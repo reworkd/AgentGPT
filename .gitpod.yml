@@ -1,0 +1,30 @@
+# List the start up tasks. Learn more: https://www.gitpod.io/docs/configure/workspaces/tasks
+tasks:
+  - name: Script Task
+    init: |
+      echo "You can use the setup.sh to automatically config and start the app, your you can manually setup the app using the following steps:"
+      echo "RUN: cp .env.example .env"
+      echo "fill in the APIs..."
+      echo "cd ./next"
+      echo "./prisma/useSqlite.sh"
+      echo "make sure the DATABASE_URL is set to sqlite in schema.prisma"
+      echo "check the .env"
+      echo "add DATABASE_URL=\"file:./db.sqlite\" to the end of ./next/.env file"
+      echo "you may need to run: poetry install && poetry run python -m reworkd_platform"
+      echo "npm install && npm run dev"
+    command: |
+      echo 'You will be aksed to enter your API key of some serivces, all APIs are optional (except openapi)...'
+      ./setup.sh
+
+# List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
+ports:
+  - name: UI
+    description: Port 3000 for the frontend
+    port: 3000
+    onOpen: open-preview
+  - name: backend
+    description: Port 8000 for the backend
+    port: 8000
+    onOpen: notify
+
+# Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart

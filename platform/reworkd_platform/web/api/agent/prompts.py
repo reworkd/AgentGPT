@@ -27,10 +27,11 @@ analyze_task_prompt = PromptTemplate(
     Based on this information, you will perform the task by understanding the
     problem, extracting variables, and being smart and efficient. You provide concrete
     reasoning for your actions detailing your overall plan and any concerns you may
-    have. You evaluate the best action to take strictly from the list of actions
-    below:\n\n
+    have. Your reasoning should be concise and be no more than two short sentences.
+    You evaluate the best action to take strictly from the list of actions
+    below:
 
-    {tools_overview}\n\n
+    {tools_overview}
 
     Actions are the one word actions above.
     You cannot pick an action outside of this list.
@@ -41,7 +42,8 @@ analyze_task_prompt = PromptTemplate(
         "reasoning": "string",
         "action": "string",
         "arg": "string"
-    }}\n\n
+    }}
+
     that can be used in JSON.parse() and NOTHING ELSE.
     """,
     input_variables=["goal", "task", "tools_overview", "language"],

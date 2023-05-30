@@ -1,6 +1,6 @@
 from typing import TypeVar
 
-from langchain import LLMChain
+from langchain import LLMChain, BasePromptTemplate
 from langchain.schema import OutputParserException, BaseOutputParser
 
 from reworkd_platform.web.api.agent.model_settings import create_model, ModelSettings
@@ -19,7 +19,7 @@ def parse_with_handling(parser: BaseOutputParser[T], completion: str) -> T:
 
 
 async def call_model_with_handling(
-    model_settings: ModelSettings, prompt: str, args: dict
+    model_settings: ModelSettings, prompt: BasePromptTemplate, args: dict[str, str]
 ) -> str:
     try:
         model = create_model(model_settings)

@@ -32,6 +32,7 @@ def create_model(
     model_settings: Optional[ModelSettings], streaming: bool = False
 ) -> ChatOpenAI:
     return ChatOpenAI(
+        client=None,  # Meta private value but mypy will complain its missing
         openai_api_key=get_server_side_key(),
         temperature=model_settings.customTemperature
         if model_settings and model_settings.customTemperature is not None

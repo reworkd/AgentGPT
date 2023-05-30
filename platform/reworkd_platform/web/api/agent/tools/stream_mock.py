@@ -1,4 +1,5 @@
 import asyncio
+from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
@@ -12,7 +13,7 @@ def stream_string(data: str, delayed: bool = False) -> FastAPIStreamingResponse:
     )
 
 
-async def stream_generator(data: str, delayed: bool):
+async def stream_generator(data: str, delayed: bool) -> AsyncGenerator[bytes, None]:
     if delayed:
         for c in data:
             yield c.encode()

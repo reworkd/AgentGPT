@@ -8,15 +8,12 @@ export const generateEnv = (envValues) => {
   let platformUrl = isDockerCompose
     ? "http://host.docker.internal:8000"
     : "http://localhost:8000";
-  const websearchEnabled =
-    envValues.serpApiKey !== null && envValues.serpApiKey !== "";
 
   const envDefinition = getEnvDefinition(
     envValues,
     isDockerCompose,
     dbPort,
     platformUrl,
-    websearchEnabled
   );
 
   const envFileContent = generateEnvFileContent(envDefinition);
@@ -28,7 +25,6 @@ const getEnvDefinition = (
   isDockerCompose,
   dbPort,
   platformUrl,
-  websearchEnabled
 ) => {
   return {
     "Deployment Environment": {
@@ -86,9 +82,9 @@ const generateEnvFileContent = (config) => {
   let configFile = "";
 
   Object.entries(config).forEach(([section, variables]) => {
-    configFile += `# ${section}:\n`;
+    configFile += `# ${ section }:\n`;
     Object.entries(variables).forEach(([key, value]) => {
-      configFile += `${key}="${value}"\n`;
+      configFile += `${ key }="${ value }"\n`;
     });
     configFile += "\n";
   });
@@ -137,7 +133,7 @@ export const testEnvFile = () => {
     if (missingFromFile.length > 0) {
       errorMessage += "\nYour ./next/.env is missing the following keys:\n";
       missingFromFile.forEach((key) => {
-        errorMessage += chalk.whiteBright(`- ❌  ${key}\n`);
+        errorMessage += chalk.whiteBright(`- ❌  ${ key }\n`);
       });
       errorMessage += "\n";
     }
@@ -145,7 +141,7 @@ export const testEnvFile = () => {
     if (missingFromDef.length > 0) {
       errorMessage += "Your ./next/.env is missing the following keys:\n";
       missingFromDef.forEach((key) => {
-        errorMessage += chalk.whiteBright(`- ⚠️  ${key}\n`);
+        errorMessage += chalk.whiteBright(`- ⚠️  ${ key }\n`);
       });
       errorMessage += "\n";
     }

@@ -35,6 +35,7 @@ analyze_task_prompt = PromptTemplate(
     Actions are the one word actions above.
     You cannot pick an action outside of this list.
     Return your response in an object of the form\n\n
+    Ensure "reasoning" and only "reasoning" is in the {language} language.
 
     {{
         "reasoning": "string",
@@ -43,7 +44,7 @@ analyze_task_prompt = PromptTemplate(
     }}\n\n
     that can be used in JSON.parse() and NOTHING ELSE.
     """,
-    input_variables=["goal", "task", "tools_overview"],
+    input_variables=["goal", "task", "tools_overview", "language"],
 )
 
 code_prompt = PromptTemplate(
@@ -54,7 +55,8 @@ code_prompt = PromptTemplate(
     For reference, your high level goal is
     {goal}
 
-    Answer in the "{language}" language but write code in English.
+    All actual code should be English.
+    Explanations and comment should be in the "{language}" language.
     Provide no information about who you are and focus on writing code.
     Ensure code is bug and error free and explain complex concepts through comments
     Respond in well-formatted markdown. Ensure code blocks are used for code sections.

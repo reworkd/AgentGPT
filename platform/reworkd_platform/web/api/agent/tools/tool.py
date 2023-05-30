@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from lanarky.responses import StreamingResponse
-
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
 
 
@@ -13,6 +11,10 @@ class Tool(ABC):
     def __init__(self, model_settings: ModelSettings):
         self.model_settings = model_settings
 
+    @staticmethod
+    def available() -> bool:
+        return True
+
     @abstractmethod
-    def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
+    async def call(self, goal: str, task: str, input_str: str) -> str:
         pass

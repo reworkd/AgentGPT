@@ -1,4 +1,3 @@
-from lanarky.responses import StreamingResponse
 from langchain import LLMChain
 
 from reworkd_platform.web.api.agent.model_settings import ModelSettings, create_model
@@ -14,14 +13,10 @@ class Reason(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
+    async def call(self, goal: str, task: str, input_str: str) -> str:
         from reworkd_platform.web.api.agent.prompts import execute_task_prompt
 
-        llm = create_model(self.model_settings, streaming=True)
+        llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=execute_task_prompt)
 
-        return StreamingResponse.from_chain(
-            chain,
-            {"goal": goal, "language": self.model_settings.language, "task": task},
-            media_type="text/event-stream",
-        )
+        return await chain.arun({"goal": goal, "language": "English", "task": task})

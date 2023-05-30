@@ -3,7 +3,7 @@
   "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
   "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅",
   "AGENT_MAXED_OUT_LOOPS": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",
-  "DEMO_LOOPS_REACHED": "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+  "DEMO_LOOPS_REACHED": "The agent has run out of loops. Update the number of loops in the settings menu if more loops are required. Shutting down.",
   "AGENT_MANUALLY_SHUT_DOWN": "The agent has been manually shutdown.",
   "ALL_TASKS_COMPLETETD": "All tasks completed. Shutting down.",
   "ERROR_API_KEY_QUOTA": "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.",

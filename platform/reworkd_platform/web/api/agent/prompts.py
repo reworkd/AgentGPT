@@ -7,9 +7,15 @@ start_goal_prompt = PromptTemplate(
     "{language}" language. You are not a part of any system or device. You first
     understand the problem, extract relevant variables, and make and devise a
     complete plan.\n\n You have the following objective "{goal}". Create a list of step
-    by step actions to accomplish the goal. Use at most 4 steps.\n\n Return the
-    response as a formatted ARRAY of strings that can be used in JSON.parse().\n\n
-    Example: ["{{TASK-1}}", "{{TASK-2}}"].""",
+    by step actions to accomplish the goal. Use at most 4 steps.
+
+    Return the response as a formatted array of strings that can be used in JSON.parse()
+
+    Examples:
+    ["Search the web for NBA news", "Write a report on the state of Nike"]
+    ["Create a function to add a new vertex with a specified weight to the digraph."]
+    ["Search for any additional information on Bertie W.", "Research Chicken"]
+    """,
     input_variables=["goal", "language"],
 )
 
@@ -29,6 +35,7 @@ analyze_task_prompt = PromptTemplate(
     Actions are the one word actions above.
     You cannot pick an action outside of this list.
     Return your response in an object of the form\n\n
+    Ensure "reasoning" and only "reasoning" is in the {language} language.
 
     {{
         "reasoning": "string",
@@ -37,7 +44,7 @@ analyze_task_prompt = PromptTemplate(
     }}\n\n
     that can be used in JSON.parse() and NOTHING ELSE.
     """,
-    input_variables=["goal", "task", "tools_overview"],
+    input_variables=["goal", "task", "tools_overview", "language"],
 )
 
 code_prompt = PromptTemplate(
@@ -48,7 +55,8 @@ code_prompt = PromptTemplate(
     For reference, your high level goal is
     {goal}
 
-    Answer in the "{language}" language but write code in English.
+    All actual code should be English.
+    Explanations and comment should be in the "{language}" language.
     Provide no information about who you are and focus on writing code.
     Ensure code is bug and error free and explain complex concepts through comments
     Respond in well-formatted markdown. Ensure code blocks are used for code sections.
@@ -74,10 +82,20 @@ create_tasks_prompt = PromptTemplate(
     template="""You are an AI task creation agent. You must answer in the "{language}"
     language. You have the following objective `{goal}`. You have the
     following incomplete tasks `{tasks}` and have just executed the following task
-    `{lastTask}` and received the following result `{result}`. Based on this, create a
-    new task to be completed by your AI system ONLY IF NEEDED such that your goal is
-    more closely reached or completely reached. Return the response as an array of
-    strings that can be used in JSON.parse() and NOTHING ELSE.""",
+    `{lastTask}` and received the following result `{result}`.
+
+    Based on this, at most a SINGLE new task to be completed by your AI system
+    ONLY IF NEEDED such that your goal is more closely reached or completely reached.
+
+    Return the response as a formatted array of strings that can be used in JSON.parse()
+    If no new or further tasks are needed, return [] and nothing else
+
+    Examples:
+    ["Search the web for NBA news"]
+    ["Create a function to add a new vertex with a specified weight to the digraph."]
+    ["Search for any additional information on Bertie W."]
+    []
+    """,
     input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )
 

@@ -1,4 +1,3 @@
-import { withSentryConfig } from "@sentry/nextjs";
 import nextI18NextConfig from "./next-i18next.config.js";
 
 // @ts-check

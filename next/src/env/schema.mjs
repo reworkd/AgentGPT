@@ -49,7 +49,7 @@ export const serverEnv = {
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-  
+
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
@@ -67,7 +67,6 @@ export const serverEnv = {
  */
 export const clientSchema = z.object({
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
-  NEXT_PUBLIC_WEB_SEARCH_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_FORCE_AUTH: stringToBoolean(),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -82,7 +81,6 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  NEXT_PUBLIC_WEB_SEARCH_ENABLED: process.env.NEXT_PUBLIC_WEB_SEARCH_ENABLED,
   NEXT_PUBLIC_FORCE_AUTH: process.env.NEXT_PUBLIC_FORCE_AUTH,
   NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL ?? "http://localhost:3000",
   NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,

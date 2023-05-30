@@ -6,6 +6,8 @@ import {
 } from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
+import axios from "axios";
+import { isPlatformError } from "../../types/errors";
 
 class MessageService {
   private isRunning: boolean;
@@ -76,8 +78,31 @@ class MessageService {
     this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
   }
 
-  sendErrorMessage(error: string) {
-    this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: error });
+  sendErrorMessage(e: unknown) {
+    let message = "ERROR_RETRIEVE_INITIAL_TASKS";
+
+    if (typeof e == "string") message = e;
+    else if (axios.isAxiosError(e)) {
+      switch (e.response?.status) {
+        case 409:
+          const data = (e.response?.data as object) || {};
+          message = isPlatformError(data)
+            ? data.detail
+            : "An Unknown Error Occurred, Please Try Again!";
+          break;
+        case 429:
+          message = "ERROR_API_KEY_QUOTA";
+          break;
+        case 404:
+          message = "ERROR_OPENAI_API_KEY_NO_GPT4";
+          break;
+        default:
+          message = "ERROR_ACCESSING_OPENAI_API_KEY";
+          break;
+      }
+    }
+
+    this.sendMessage({ type: "error", value: translate(message, "errors") });
   }
 }
 

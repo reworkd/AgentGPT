@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
-import ChatWindow from "../components/ChatWindow";
-import Drawer from "../components/Drawer";
+import ChatWindow from "../components/console/ChatWindow";
+import Drawer from "../components/drawer/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
@@ -12,8 +12,8 @@ import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import Expand from "../components/motions/expand";
-import HelpDialog from "../components/HelpDialog";
-import { SettingsDialog } from "../components/SettingsDialog";
+import HelpDialog from "../components/dialog/HelpDialog";
+import { SettingsDialog } from "../components/dialog/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { AgentPlaybackControl, Message } from "../types/agentTypes";
@@ -25,10 +25,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
 import { findLanguage, languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
-import { SorryDialog } from "../components/SorryDialog";
-import { SignInDialog } from "../components/SignInDialog";
+import { SignInDialog } from "../components/dialog/SignInDialog";
 import { env } from "../env/client.mjs";
-import { ToolsDialog } from "../components/ToolsDialog";
+import { ToolsDialog } from "../components/dialog/ToolsDialog";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -53,7 +52,6 @@ const Home: NextPage = () => {
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
-  const [showSorryDialog, setShowSorryDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -206,7 +204,6 @@ const Home: NextPage = () => {
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
-      <SorryDialog show={showSorryDialog} close={() => setShowSorryDialog(false)} />
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
       <main className="flex min-h-screen flex-row">
         <Drawer
@@ -279,7 +276,6 @@ const Home: NextPage = () => {
                 }
                 scrollToBottom
                 displaySettings
-                openSorryDialog={() => setShowSorryDialog(true)}
                 setAgentRun={setAgentRun}
                 visibleOnMobile={mobileVisibleWindow === "Chat"}
               />

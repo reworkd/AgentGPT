@@ -47,8 +47,8 @@ class Settings(BaseSettings):
     openai_api_key: str = "<Should be updated via env>"
     replicate_api_key: Optional[str] = None
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
-    serp_api_key: str = "<Should be updated via env>"
-    helicone_api_key: str = "<Should be updated via env>"
+    serp_api_key: Optional[str] = None
+
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
 

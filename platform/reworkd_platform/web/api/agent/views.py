@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from fastapi import APIRouter, Body
-from lanarky.responses import StreamingResponse
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
@@ -74,7 +74,7 @@ async def execute_tasks(
             },
         }
     ),
-) -> StreamingResponse:
+) -> FastAPIStreamingResponse:
     return get_agent_service(req_body.modelSettings).execute_task_agent(
         goal=req_body.goal or "",
         task=req_body.task or "",

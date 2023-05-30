@@ -1,3 +1,4 @@
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
 from langchain import LLMChain
 
@@ -14,14 +15,11 @@ class Reason(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
+    def call(self, goal: str, task: str, input_str: str) -> FastAPIStreamingResponse:
         from reworkd_platform.web.api.agent.prompts import execute_task_prompt
 
-        print("Reason call")
-        print("Reason call")
-        print("Reason call")
         llm = create_model(self.model_settings, streaming=True)
-        chain = LLMChain(llm=llm, prompt=execute_task_prompt, verbose=True)
+        chain = LLMChain(llm=llm, prompt=execute_task_prompt)
 
         return StreamingResponse.from_chain(
             chain,

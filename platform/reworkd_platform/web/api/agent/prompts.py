@@ -10,7 +10,6 @@ start_goal_prompt = PromptTemplate(
     by step actions to accomplish the goal. Use at most 4 steps.
 
     Return the response as a formatted array of strings that can be used in JSON.parse()
-    Ensure you
 
     Examples:
     ["Search the web for NBA news", "Write a report on the state of Nike"]

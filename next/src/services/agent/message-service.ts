@@ -85,8 +85,7 @@ class MessageService {
     else if (axios.isAxiosError(e)) {
       switch (e.response?.status) {
         case 409:
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          const data = (e.response?.data?.detail as object) || {};
+          const data = (e.response?.data as object) || {};
           message = isPlatformError(data)
             ? data.detail
             : "An Unknown Error Occurred, Please Try Again!";

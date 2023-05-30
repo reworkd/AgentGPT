@@ -9,7 +9,8 @@ start_goal_prompt = PromptTemplate(
     complete plan.\n\n You have the following objective "{goal}". Create a list of step
     by step actions to accomplish the goal. Use at most 4 steps.
 
-    Return the response as a formatted array of strings that can be used in json.loads()
+    Return the response as a formatted array of strings that can be used in JSON.parse()
+    Ensure you
 
     Examples:
     ["Search the web for NBA news", "Write a report on the state of Nike"]
@@ -85,7 +86,7 @@ create_tasks_prompt = PromptTemplate(
     Based on this, at most a SINGLE new task to be completed by your AI system
     ONLY IF NEEDED such that your goal is more closely reached or completely reached.
 
-    Return the response as a formatted array of strings that can be used in json.loads()
+    Return the response as a formatted array of strings that can be used in JSON.parse()
     If no new or further tasks are needed, return [] and nothing else
 
     Examples:

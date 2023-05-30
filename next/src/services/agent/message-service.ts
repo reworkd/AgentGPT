@@ -7,6 +7,7 @@ import {
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
+import { isPlatformError } from "../../types/errors";
 
 class MessageService {
   private isRunning: boolean;
@@ -80,15 +81,29 @@ class MessageService {
   sendErrorMessage(e: unknown) {
     let message = "ERROR_RETRIEVE_INITIAL_TASKS";
 
-    if (axios.isAxiosError(e)) {
-      if (e.response?.status === 429) message = "ERROR_API_KEY_QUOTA";
-      if (e.response?.status === 404) message = "ERROR_OPENAI_API_KEY_NO_GPT4";
-      else message = "ERROR_ACCESSING_OPENAI_API_KEY";
-    } else if (typeof e == "string") {
-      message = e;
+    if (typeof e == "string") message = e;
+    else if (axios.isAxiosError(e)) {
+      switch (e.response?.status) {
+        case 409:
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          const data = (e.response?.data?.detail as object) || {};
+          message = isPlatformError(data)
+            ? data.detail
+            : "An Unknown Error Occurred, Please Try Again!";
+          break;
+        case 429:
+          message = "ERROR_API_KEY_QUOTA";
+          break;
+        case 404:
+          message = "ERROR_OPENAI_API_KEY_NO_GPT4";
+          break;
+        default:
+          message = "ERROR_ACCESSING_OPENAI_API_KEY";
+          break;
+      }
     }
 
-    this.sendMessage({ type: MESSAGE_TYPE_SYSTEM, value: translate(message, "errors") });
+    this.sendMessage({ type: "error", value: translate(message, "errors") });
   }
 }
 

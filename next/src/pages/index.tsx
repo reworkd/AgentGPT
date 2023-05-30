@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Badge from "../components/Badge";
 import DefaultLayout from "../layout/default";
-import ChatWindow from "../components/ChatWindow";
+import ChatWindow from "../components/console/ChatWindow";
 import Drawer from "../components/drawer/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";

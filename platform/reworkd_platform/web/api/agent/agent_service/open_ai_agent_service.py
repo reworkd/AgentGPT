@@ -50,6 +50,7 @@ class OpenAIAgentService(AgentService):
             {
                 "goal": goal,
                 "task": task,
+                "language": self._language,
                 "tools_overview": get_tools_overview(get_user_tools(tool_names)),
             }
         )

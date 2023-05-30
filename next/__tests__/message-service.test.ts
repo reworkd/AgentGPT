@@ -30,11 +30,9 @@ describe("sendErrorMessage", () => {
       response: {
         status: 409,
         data: {
-          detail: {
-            error: "invalid_request",
-            detail: "You have exceeded the maximum number of requests allowed for your API key.",
-            code: 429,
-          },
+          error: "OpenAIError",
+          detail: "You have exceeded the maximum number of requests allowed for your API key.",
+          code: 429,
         },
       },
     };
@@ -42,7 +40,7 @@ describe("sendErrorMessage", () => {
     instance.sendErrorMessage(axiosError);
     expect(renderMessage).toHaveBeenCalledWith({
       type: "error",
-      value: axiosError.response.data.detail.detail,
+      value: axiosError.response.data.detail,
     });
   });
 

@@ -25,7 +25,7 @@ export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {
     switch (message.type) {
       case "error":
-        return "border-red-500";
+        return "border-yellow-400";
       default:
         return "border-white/10 hover:border-white/40";
     }
@@ -58,7 +58,7 @@ export const getTaskStatusIcon = (
     case MESSAGE_TYPE_THINKING:
       return <FaBrain className="mt-[0.1em] text-pink-400" />;
     case MESSAGE_TYPE_ERROR:
-      return <FaExclamationTriangle className="text-red-500" />;
+      return <FaExclamationTriangle className="text-yellow-400" />;
   }
 
   if (getTaskStatus(message) === TASK_STATUS_STARTED) {

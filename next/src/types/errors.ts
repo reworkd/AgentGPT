@@ -1,17 +1,9 @@
 import { z } from "zod";
 
 const platformErrorSchema = z.object({
-  error: z.enum([
-    "invalid_request",
-    "invalid_api_key",
-    "engine_not_found",
-    "permission_denied",
-    "server_error",
-    "timeout",
-    "too_many_requests",
-  ]),
+  error: z.enum(["OpenAIError"]),
   detail: z.string(),
-  code: z.number(),
+  code: z.number().optional(),
 });
 
 export type PlatformError = z.infer<typeof platformErrorSchema>;

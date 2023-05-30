@@ -19,8 +19,43 @@ describe("sendErrorMessage", () => {
 
     instance.sendErrorMessage(axiosError);
     expect(renderMessage).toHaveBeenCalledWith({
-      type: "system",
-      value: "ERROR_ACCESSING_OPENAI_API_KEY",
+      type: "error",
+      value: "ERROR_API_KEY_QUOTA",
+    });
+  });
+
+  it("should handle platform errors", () => {
+    const axiosError = {
+      isAxiosError: true,
+      response: {
+        status: 409,
+        data: {
+          detail: {
+            error: "invalid_request",
+            detail: "You have exceeded the maximum number of requests allowed for your API key.",
+            code: 429,
+          },
+        },
+      },
+    };
+
+    instance.sendErrorMessage(axiosError);
+    expect(renderMessage).toHaveBeenCalledWith({
+      type: "error",
+      value: axiosError.response.data.detail.detail,
+    });
+  });
+
+  it("should handle unknown platform errors", () => {
+    const axiosError = {
+      isAxiosError: true,
+      response: { status: 409 },
+    };
+
+    instance.sendErrorMessage(axiosError);
+    expect(renderMessage).toHaveBeenCalledWith({
+      type: "error",
+      value: "An Unknown Error Occurred, Please Try Again!",
     });
   });
 
@@ -29,7 +64,7 @@ describe("sendErrorMessage", () => {
 
     instance.sendErrorMessage(error);
     expect(renderMessage).toHaveBeenCalledWith({
-      type: "system",
+      type: "error",
       value: error,
     });
   });
@@ -37,7 +72,7 @@ describe("sendErrorMessage", () => {
   it("should handle unknown errors", () => {
     instance.sendErrorMessage({});
     expect(renderMessage).toHaveBeenCalledWith({
-      type: "system",
+      type: "error",
       value: "ERROR_RETRIEVE_INITIAL_TASKS",
     });
   });

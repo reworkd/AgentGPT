@@ -1,4 +1,4 @@
-import json
+import ast
 import re
 from typing import List
 
@@ -41,12 +41,11 @@ class TaskOutputParser(BaseOutputParser[List[str]]):
 def extract_array(input_str: str) -> List[str]:
     regex = (
         r"\[\s*\]|"  # Empty array check`
-        r"(\[(?:\s*(?:\"(?:[^\"\\]|\\.|\\n)*\"|\'(?:[^\'\\]|\\.|\\n)*\')\s*,"
-        r"?)+\s*\])"
+        r"(\[(?:\s*(?:\"(?:[^\"\\]|\\.)*\"|\'(?:[^\'\\]|\\.)*\')\s*,?)*\s*\])"
     )
     match = re.search(regex, input_str)
     if match is not None:
-        return json.loads(match[0])
+        return ast.literal_eval(match[0])
     else:
         raise RuntimeError(f"Failed to extract array from {input_str}")
 

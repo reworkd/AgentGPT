@@ -1,4 +1,3 @@
-from json import JSONDecodeError
 from typing import List, Type
 
 import pytest
@@ -69,6 +68,9 @@ def test_parse_failure(input_text: str, exception: Type[Exception]) -> None:
             ["Research", "Develop", "Integrate"],
         ),
         ('["Search", "Identify"]', ["Search", "Identify"]),
+        ("['Single quote']", ["Single quote"]),
+        ("['Single with \"quote\"']", ['Single with "quote"']),
+        ("Random stuff ['Search', 'Identify']", ["Search", "Identify"]),
         ('["Item 1","Item 2","Item 3"]', ["Item 1", "Item 2", "Item 3"]),
         ('{"array": ["123", "456"]}', ["123", "456"]),
     ],
@@ -89,7 +91,6 @@ def test_extract_array_success(input_str: str, expected: List[str]) -> None:
         ('"single_string"', RuntimeError),
         ('{"test": 123}', RuntimeError),
         ('["Unclosed array", "other"', RuntimeError),
-        ("['Single quote']", JSONDecodeError),
     ],
 )
 def test_extract_array_exception(input_str: str, exception: Type[Exception]) -> None:

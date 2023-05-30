@@ -24,7 +24,7 @@ const initialMessageState = {
 interface MessageSlice {
   messages: Message[];
   addMessage: (newMessage: Message) => void;
-  updateLastMessage: (newTask: Message) => void;
+  updateLastMessage: (newMessage: Message) => void;
   deleteTask: (taskId: string) => void;
 }
 

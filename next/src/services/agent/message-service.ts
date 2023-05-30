@@ -8,6 +8,7 @@ import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
 import { isPlatformError } from "../../types/errors";
+import { useMessageStore } from "../../stores";
 
 class MessageService {
   private isRunning: boolean;
@@ -25,6 +26,12 @@ class MessageService {
   sendMessage(message: Message) {
     if (this.isRunning) {
       this.renderMessage(message);
+    }
+  }
+
+  updateMessage(message: Message) {
+    if (this.isRunning) {
+      useMessageStore.getState().updateLastMessage(message);
     }
   }
 

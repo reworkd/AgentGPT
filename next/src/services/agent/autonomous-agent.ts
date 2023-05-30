@@ -3,14 +3,7 @@ import { DEFAULT_MAX_LOOPS_FREE } from "../../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
-import {
-  AGENT_PAUSE,
-  AGENT_PLAY,
-  AUTOMATIC_MODE,
-  MESSAGE_TYPE_TASK,
-  PAUSE_MODE,
-  TASK_STATUS_COMPLETED,
-} from "../../types/agentTypes";
+import { AGENT_PAUSE, AGENT_PLAY, AUTOMATIC_MODE, PAUSE_MODE } from "../../types/agentTypes";
 import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
 import MessageService from "./message-service";
@@ -70,46 +63,46 @@ class AutonomousAgent {
   }
 
   async run() {
-    console.log("Starting");
-    this.updateIsRunning(true);
-    let message = "";
-    const task: Task = {
-      taskId: v1().toString(),
-      status: TASK_STATUS_COMPLETED,
-      value: "Value",
-      info: "info",
-      type: MESSAGE_TYPE_TASK,
-    };
-
-    useMessageStore.getState().addMessage(task);
-    await streamText(
-      "/api/agent/execute",
-      {
-        goal: this.goal,
-        task: "Do something",
-        analysis: {
-          action: "reason",
-          arg: "reason",
-          reasoning: "reasoning",
-        },
-        modelSettings: this.modelSettings,
-      },
-      (text) => {
-        message += text;
-        const task: Task = {
-          taskId: v1().toString(),
-          status: TASK_STATUS_COMPLETED,
-          value: "Value",
-          info: message,
-          type: MESSAGE_TYPE_TASK,
-        };
-        console.log(message);
-        console.log(useMessageStore.getState().messages);
-        console.log(useMessageStore.getState().tasks);
-        useMessageStore.getState().updateLastMessage(task);
-      }
-    );
-    console.log("done");
+    // console.log("Starting");
+    // this.updateIsRunning(true);
+    // let message = "";
+    // const task: Task = {
+    //   taskId: v1().toString(),
+    //   status: TASK_STATUS_COMPLETED,
+    //   value: "Value",
+    //   info: "info",
+    //   type: MESSAGE_TYPE_TASK,
+    // };
+    //
+    // useMessageStore.getState().addMessage(task);
+    // await streamText(
+    //   "/api/agent/execute",
+    //   {
+    //     goal: this.goal,
+    //     task: "Do something",
+    //     analysis: {
+    //       action: "reason",
+    //       arg: "reason",
+    //       reasoning: "reasoning",
+    //     },
+    //     modelSettings: this.modelSettings,
+    //   },
+    //   (text) => {
+    //     message += text;
+    //     const task: Task = {
+    //       taskId: v1().toString(),
+    //       status: TASK_STATUS_COMPLETED,
+    //       value: "Value",
+    //       info: message,
+    //       type: MESSAGE_TYPE_TASK,
+    //     };
+    //     console.log(message);
+    //     console.log(useMessageStore.getState().messages);
+    //     console.log(useMessageStore.getState().tasks);
+    //     useMessageStore.getState().updateLastMessage(task);
+    //   }
+    // );
+    // console.log("done");
     if (!this.isRunning) {
       this.updateIsRunning(true);
       await this.startGoal();
@@ -171,6 +164,9 @@ class AutonomousAgent {
     const analysis = await this.$api.analyzeTask(currentTask.value);
     this.messageService.sendAnalysisMessage(analysis);
 
+    const executionMessage: Message = { ...currentTask, info: "", status: "completed" };
+    this.messageService.sendMessage({ ...executionMessage, status: "completed" });
+
     await streamText(
       "/api/agent/execute",
       {
@@ -180,12 +176,9 @@ class AutonomousAgent {
         modelSettings: this.modelSettings,
       },
       (text) => {
-        console.log("text", text);
-        this.messageService.sendMessage({
-          ...currentTask,
-          info: result,
-          status: "completed",
-        });
+        executionMessage.info += text;
+        console.log(executionMessage.info);
+        this.messageService.updateMessage(executionMessage);
       }
     );
 

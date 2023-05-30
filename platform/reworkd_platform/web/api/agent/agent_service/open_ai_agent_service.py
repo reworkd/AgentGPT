@@ -5,13 +5,13 @@ from langchain.output_parsers import PydanticOutputParser
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
-from reworkd_platform.web.api.agent.helpers import extract_tasks
 from reworkd_platform.web.api.agent.model_settings import ModelSettings, create_model
 from reworkd_platform.web.api.agent.prompts import (
     start_goal_prompt,
     analyze_task_prompt,
     create_tasks_prompt,
 )
+from reworkd_platform.web.api.agent.task_output_parser import TaskOutputParser
 from reworkd_platform.web.api.agent.tools.tools import (
     get_tools_overview,
     get_tool_from_name,
@@ -29,8 +29,8 @@ class OpenAIAgentService(AgentService):
         chain = LLMChain(llm=llm, prompt=start_goal_prompt)
 
         completion = await chain.arun({"goal": goal, "language": self._language})
-        print(f"Goal: {goal}, Completion: {completion}")
-        return extract_tasks(completion, [])
+        task_output_parser = TaskOutputParser(completed_tasks=[])
+        return task_output_parser.parse(completion)
 
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
@@ -89,4 +89,5 @@ class OpenAIAgentService(AgentService):
             }
         )
 
-        return extract_tasks(completion, completed_tasks or [])
+        task_output_parser = TaskOutputParser(completed_tasks=completed_tasks or [])
+        return task_output_parser.parse(completion)

@@ -1,9 +1,11 @@
 from typing import Any, List
 
 import aiohttp
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import summarize
 
@@ -47,7 +49,9 @@ class Search(Tool):
     def available() -> bool:
         return settings.serp_api_key is not None
 
-    async def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(
+        self, goal: str, task: str, input_str: str
+    ) -> FastAPIStreamingResponse:
         results = await _google_serper_search_results(
             input_str,
         )
@@ -68,7 +72,7 @@ class Search(Tool):
                 answer_values.append(", ".join(answer_box.get("snippetHighlighted")))
 
             if len(answer_values) > 0:
-                return "\n".join(answer_values)
+                return stream_string("\n".join(answer_values), True)
 
         if results.get("knowledgeGraph"):
             kg = results.get("knowledgeGraph", {})
@@ -91,8 +95,9 @@ class Search(Tool):
                 snippets.append(f"{attribute}: {value}.")
 
         if len(snippets) == 0:
-            return "No good Google Search Result was found"
+            return stream_string("No good Google Search Result was found", True)
 
-        summary = await summarize(self.model_settings, goal, task, snippets)
+        return summarize(self.model_settings, goal, task, snippets)
 
-        return f"{summary}\n\nLinks:\n" + "\n".join([f"- {link}" for link in links])
+        # TODO: Stream with formatting
+        # return f"{summary}\n\nLinks:\n" + "\n".join([f"- {link}" for link in links])

@@ -1,7 +1,10 @@
 from typing import List, Any
 
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
+
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.agent_service.agent_service import Analysis
+from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 
 
 class MockAgentService(AgentService):
@@ -18,5 +21,5 @@ class MockAgentService(AgentService):
             reasoning="Mock to avoid wasting money calling the OpenAI API.",
         )
 
-    async def execute_task_agent(self, **kwargs: Any) -> str:
-        return "Result: " + kwargs.get("task", "task")
+    async def execute_task_agent(self, **kwargs: Any) -> FastAPIStreamingResponse:
+        return stream_string("Result: " + kwargs.get("task", "task"))

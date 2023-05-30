@@ -18,7 +18,7 @@ def get_available_tools() -> List[Type[Tool]]:
 
 def get_external_tools() -> List[Type[Tool]]:
     return [
-        # Wikipedia, # Requires an async version
+        # Wikipedia,  # TODO: Remove if async doesn't work
         Image,
         Search,
         Code,

@@ -7,7 +7,7 @@ from reworkd_platform.web.api.errors import PlatformaticError
 async def platformatic_exception_handler(
     _: Request,
     platform_exception: PlatformaticError,
-):
+) -> JSONResponse:
     return JSONResponse(
         status_code=409,
         content={

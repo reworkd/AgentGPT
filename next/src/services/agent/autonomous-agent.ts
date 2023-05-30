@@ -7,6 +7,7 @@ import { AGENT_PAUSE, AGENT_PLAY, AUTOMATIC_MODE, PAUSE_MODE } from "../../types
 import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
 import MessageService from "./message-service";
+import { streamText } from "../stream-utils";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -123,12 +124,32 @@ class AutonomousAgent {
     const analysis = await this.$api.analyzeTask(currentTask.value);
     this.messageService.sendAnalysisMessage(analysis);
 
-    const result = await this.$api.executeTask(currentTask.value, analysis);
-    this.messageService.sendMessage({
+    const executionMessage: Message = {
       ...currentTask,
-      info: result,
+      id: v1(),
       status: "completed",
-    });
+      info: "Loading...",
+    };
+    this.messageService.sendMessage({ ...executionMessage, status: "completed" });
+
+    const result = "";
+    await streamText(
+      "/api/agent/execute",
+      {
+        goal: this.goal,
+        task: currentTask.value,
+        analysis: analysis,
+        modelSettings: this.modelSettings,
+      },
+      () => {
+        executionMessage.info = "";
+      },
+      (text) => {
+        executionMessage.info += text;
+        this.messageService.updateMessage(executionMessage);
+      },
+      () => !this.isRunning
+    );
 
     this.completedTasks.push(currentTask.value || "");
 

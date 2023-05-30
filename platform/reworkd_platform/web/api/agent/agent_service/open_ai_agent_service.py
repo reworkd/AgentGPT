@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from lanarky.responses import StreamingResponse
 from langchain.chains import LLMChain
 from langchain.output_parsers import PydanticOutputParser
 
@@ -68,7 +69,7 @@ class OpenAIAgentService(AgentService):
         goal: str,
         task: str,
         analysis: Analysis,
-    ) -> str:
+    ) -> StreamingResponse:
         print("Execution analysis:", analysis)
 
         tool_class = get_tool_from_name(analysis.action)

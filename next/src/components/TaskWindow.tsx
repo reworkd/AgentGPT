@@ -25,6 +25,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 
   const handleAddTask = () => {
     addMessage({
+      id: v1().toString(),
       taskId: v1().toString(),
       value: customTask,
       status: TASK_STATUS_STARTED,

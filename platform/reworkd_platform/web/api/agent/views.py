@@ -4,11 +4,11 @@ from fastapi import APIRouter, Body
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
+from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
 )
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 
 router = APIRouter()
@@ -29,6 +29,22 @@ class AgentRequestBody(BaseModel):
 
 class NewTasksResponse(BaseModel):
     newTasks: List[str]
+
+
+def agent_validator(example: Dict[str, str] = None, **kwargs):
+    async def func(
+        body: AgentRequestBody = Body(example=example, **kwargs),
+    ) -> ValidatedAgentRequestBody:
+
+        settings = ModelSettings(
+            **body.modelSettings.dict(exclude_none=True, exclude_unset=True)
+        )
+
+        return ValidatedAgentRequestBody(
+            **body.dict(exclude="modelSettings"), modelSettings=settings
+        )
+
+    return func
 
 
 @router.post("/start")

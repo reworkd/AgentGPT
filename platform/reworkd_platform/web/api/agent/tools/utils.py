@@ -13,7 +13,8 @@ async def summarize(
 
     chain = LLMChain(llm=create_model(model_settings), prompt=summarize_prompt)
 
-    return StreamingResponse.from_chain(chain, {"goal": goal, "query": query,
-                                                "snippets": snippets},
-                                        media_type="text/event-stream",
-                                        )
+    return StreamingResponse.from_chain(
+        chain,
+        {"goal": goal, "query": query, "snippets": snippets},
+        media_type="text/event-stream",
+    )

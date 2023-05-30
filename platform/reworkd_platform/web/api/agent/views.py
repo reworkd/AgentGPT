@@ -1,9 +1,7 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, HTTPException, Body
+from fastapi import APIRouter, Body
 from lanarky.responses import StreamingResponse
-from langchain import ConversationChain
-from langchain.chat_models import ChatOpenAI
 from pydantic import BaseModel
 
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
@@ -76,13 +74,12 @@ async def execute_tasks(
             },
         }
     ),
-) -> CompletionResponse:
-    response = await get_agent_service(req_body.modelSettings).execute_task_agent(
+) -> StreamingResponse:
+    return get_agent_service(req_body.modelSettings).execute_task_agent(
         goal=req_body.goal or "",
         task=req_body.task or "",
         analysis=req_body.analysis or get_default_analysis(),
     )
-    return CompletionResponse(response=response)
 
 
 @router.post("/create")

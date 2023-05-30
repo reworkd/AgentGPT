@@ -16,7 +16,7 @@ class Code(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
+    def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
         llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=code_prompt)
 

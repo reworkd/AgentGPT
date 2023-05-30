@@ -9,7 +9,7 @@ from reworkd_platform.web.api.agent.model_settings import (
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
-async def get_replicate_image(input_str: str) -> str:
+def get_replicate_image(input_str: str) -> str:
     if settings.replicate_api_key is None:
         raise RuntimeError("Replicate API key not set")
 
@@ -24,7 +24,7 @@ async def get_replicate_image(input_str: str) -> str:
 
 
 # Use AI to generate an Image based on a prompt
-async def get_open_ai_image(input_str: str) -> str:
+def get_open_ai_image(input_str: str) -> str:
     api_key = get_server_side_key()
 
     response = openai.Image.create(
@@ -48,11 +48,11 @@ class Image(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    async def call(self, goal: str, task: str, input_str: str) -> str:
+    def call(self, goal: str, task: str, input_str: str) -> str:
         # Use the replicate API if its available, otherwise use DALL-E
         try:
-            url = await get_replicate_image(input_str)
+            url = get_replicate_image(input_str)
         except RuntimeError:
-            url = await get_open_ai_image(input_str)
+            url = get_open_ai_image(input_str)
 
         return f"![{input_str}]({url})"

@@ -1,6 +1,7 @@
 import { env } from "../env/client.mjs";
+import type { RequestBody } from "../utils/interfaces";
 
-const fetchData = async (url: string) => {
+const fetchData = async (url: string, body: RequestBody) => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
   const response = await fetch(url, {
     method: "POST",
@@ -10,6 +11,7 @@ const fetchData = async (url: string) => {
       "Content-Type": "application/json",
       Accept: "text/event-stream",
     },
+    body: JSON.stringify(body),
   });
 
   return response.body?.getReader();
@@ -18,24 +20,33 @@ const fetchData = async (url: string) => {
 async function processStream(
   reader: ReadableStreamDefaultReader<Uint8Array> | undefined,
   callback: (text: string) => void
-) {
-  if (reader) {
-    while (true) {
-      const result = await reader.read();
-      if (result.done) {
-        console.log("Stream closed");
-        break;
+): Promise<void> {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (reader) {
+        while (true) {
+          const result = await reader.read();
+          if (result.done) {
+            console.log("Stream closed");
+            resolve();
+            break;
+          }
+          const text = new TextDecoder().decode(result.value);
+          callback(text);
+        }
       }
-      const text = new TextDecoder().decode(result.value);
-      callback(text);
+    } catch (error) {
+      reject(error);
     }
-  }
+  });
 }
 
-export const steamText = async (url: string, callback: (text: string) => void) => {
-  const reader = await fetchData(url);
-  const promise = processStream(reader, callback);
-  promise.catch((error) => {
-    console.error("Error reading stream:", error);
-  });
+export const streamText = async (
+  url: string,
+  body: RequestBody,
+  callback: (text: string) => void
+) => {
+  console.log("StreamText");
+  const reader = await fetchData(url, body);
+  await processStream(reader, callback);
 };

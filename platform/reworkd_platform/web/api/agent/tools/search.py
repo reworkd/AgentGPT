@@ -72,8 +72,6 @@ class Search(Tool):
                 answer_values.append(", ".join(answer_box.get("snippetHighlighted")))
 
             if len(answer_values) > 0:
-                print("ANSWERING")
-                print("\n".join(answer_values))
                 return stream_string("\n".join(answer_values), True)
 
         if results.get("knowledgeGraph"):

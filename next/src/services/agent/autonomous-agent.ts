@@ -132,7 +132,7 @@ class AutonomousAgent {
     };
     this.messageService.sendMessage({ ...executionMessage, status: "completed" });
 
-    let result = "";
+    const result = "";
     await streamText(
       "/api/agent/execute",
       {
@@ -141,10 +141,11 @@ class AutonomousAgent {
         analysis: analysis,
         modelSettings: this.modelSettings,
       },
+      () => {
+        executionMessage.info = "";
+      },
       (text) => {
-        result += text;
-        executionMessage.info += result;
-        console.log(executionMessage.info);
+        executionMessage.info += text;
         this.messageService.updateMessage(executionMessage);
       },
       () => !this.isRunning

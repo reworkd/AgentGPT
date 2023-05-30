@@ -26,10 +26,12 @@ async function readStream(reader: TextStream): Promise<string | null> {
 
 async function processStream(
   reader: TextStream,
+  onStart: () => void,
   onText: (text: string) => void,
   shouldClose: () => boolean
 ): Promise<void> {
   try {
+    onStart();
     while (true) {
       if (shouldClose()) {
         await reader.cancel();
@@ -48,6 +50,7 @@ async function processStream(
 export const streamText = async (
   url: string,
   body: RequestBody,
+  onStart: () => void,
   onText: (text: string) => void,
   shouldClose: () => boolean
 ) => {
@@ -57,5 +60,5 @@ export const streamText = async (
     return;
   }
 
-  await processStream(reader, onText, shouldClose);
+  await processStream(reader, onStart, onText, shouldClose);
 };

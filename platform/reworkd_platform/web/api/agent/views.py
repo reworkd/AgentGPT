@@ -75,7 +75,7 @@ async def execute_tasks(
         }
     ),
 ) -> FastAPIStreamingResponse:
-    return get_agent_service(req_body.modelSettings).execute_task_agent(
+    return await get_agent_service(req_body.modelSettings).execute_task_agent(
         goal=req_body.goal or "",
         task=req_body.task or "",
         analysis=req_body.analysis or get_default_analysis(),

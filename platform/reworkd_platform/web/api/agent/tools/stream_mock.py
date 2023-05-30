@@ -6,7 +6,7 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 app = FastAPI()
 
 
-def stream_string(data: str, delayed: bool) -> FastAPIStreamingResponse:
+def stream_string(data: str, delayed: bool = False) -> FastAPIStreamingResponse:
     return FastAPIStreamingResponse(
         stream_generator(data, delayed),
     )

@@ -18,5 +18,5 @@ class Tool(ABC):
         return True
 
     @abstractmethod
-    def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
+    async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
         pass

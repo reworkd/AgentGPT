@@ -12,7 +12,9 @@ def summarize(
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_prompt
 
-    chain = LLMChain(llm=create_model(model_settings), prompt=summarize_prompt)
+    chain = LLMChain(
+        llm=create_model(model_settings, streaming=True), prompt=summarize_prompt
+    )
 
     return StreamingResponse.from_chain(
         chain,

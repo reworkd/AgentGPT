@@ -7,9 +7,13 @@ start_goal_prompt = PromptTemplate(
     "{language}" language. You are not a part of any system or device. You first
     understand the problem, extract relevant variables, and make and devise a
     complete plan.\n\n You have the following objective "{goal}". Create a list of step
-    by step actions to accomplish the goal. Use at most 4 steps.\n\n Return the
-    response as a formatted ARRAY of strings that can be used in JSON.parse().\n\n
-    Example: ["{{TASK-1}}", "{{TASK-2}}"].""",
+    by step actions to accomplish the goal. Use at most 4 steps.
+
+    Return the response as a formatted array of strings that can be used in json.loads()
+
+    Example:
+    ["Search the web for NBA news", "Write a report on the state of Nike"].
+    """,
     input_variables=["goal", "language"],
 )
 
@@ -76,8 +80,14 @@ create_tasks_prompt = PromptTemplate(
     following incomplete tasks `{tasks}` and have just executed the following task
     `{lastTask}` and received the following result `{result}`. Based on this, create a
     new task to be completed by your AI system ONLY IF NEEDED such that your goal is
-    more closely reached or completely reached. Return the response as an array of
-    strings that can be used in JSON.parse() and NOTHING ELSE.""",
+    more closely reached or completely reached.
+
+    Return the response as a formatted array of strings that can be used in json.loads()
+    If no task is needed, return []
+
+    Example:
+    ["Search the web for NBA news", "Write a report on the state of Nike"].
+    """,
     input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )
 

@@ -7,12 +7,11 @@ from reworkd_platform.web.api.agent.model_settings import (
     ModelSettings,
     get_server_side_key,
 )
-from reworkd_platform.web.api.agent.tools.stream_mock import \
-    (stream_string)
+from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
-def get_replicate_image(input_str: str) -> str:
+async def get_replicate_image(input_str: str) -> str:
     if settings.replicate_api_key is None:
         raise RuntimeError("Replicate API key not set")
 
@@ -27,7 +26,7 @@ def get_replicate_image(input_str: str) -> str:
 
 
 # Use AI to generate an Image based on a prompt
-def get_open_ai_image(input_str: str) -> str:
+async def get_open_ai_image(input_str: str) -> str:
     api_key = get_server_side_key()
 
     response = openai.Image.create(
@@ -51,11 +50,13 @@ class Image(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    def call(self, goal: str, task: str, input_str: str) -> FastAPIStreamingResponse:
+    async def call(
+        self, goal: str, task: str, input_str: str
+    ) -> FastAPIStreamingResponse:
         # Use the replicate API if its available, otherwise use DALL-E
         try:
-            url = get_replicate_image(input_str)
+            url = await get_replicate_image(input_str)
         except RuntimeError:
-            url = get_open_ai_image(input_str)
+            url = await get_open_ai_image(input_str)
 
         return stream_string(f"![{input_str}]({url})")

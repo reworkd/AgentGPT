@@ -15,7 +15,9 @@ class Reason(Tool):
     def __init__(self, model_settings: ModelSettings):
         super().__init__(model_settings)
 
-    def call(self, goal: str, task: str, input_str: str) -> FastAPIStreamingResponse:
+    async def call(
+        self, goal: str, task: str, input_str: str
+    ) -> FastAPIStreamingResponse:
         from reworkd_platform.web.api.agent.prompts import execute_task_prompt
 
         llm = create_model(self.model_settings, streaming=True)

@@ -14,7 +14,7 @@ class AgentService(Protocol):
     ) -> Analysis:
         pass
 
-    def execute_task_agent(
+    async def execute_task_agent(
         self,
         *,
         goal: str,

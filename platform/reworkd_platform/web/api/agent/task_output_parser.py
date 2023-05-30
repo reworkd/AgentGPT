@@ -3,7 +3,6 @@ import re
 from typing import List
 
 from langchain.schema import BaseOutputParser, OutputParserException
-from loguru import logger
 
 
 class TaskOutputParser(BaseOutputParser[List[str]]):
@@ -27,13 +26,16 @@ class TaskOutputParser(BaseOutputParser[List[str]]):
             return [task for task in all_tasks if task not in self.completed_tasks]
         except Exception as e:
             msg = f"Failed to parse tasks from completion {text}. Got: {e}"
-            logger.exception(msg)
             raise OutputParserException(msg)
 
     def get_format_instructions(self) -> str:
-        raise NotImplementedError(
-            "TaskOutputParser does not support format instructions"
-        )
+        return """
+        The response should be a JSON array of strings. Example:
+
+        ["Search the web for NBA news", "Write some code to build a web scraper"]
+
+        This should be parsable by json.loads()
+        """
 
 
 def extract_array(input_str: str) -> List[str]:

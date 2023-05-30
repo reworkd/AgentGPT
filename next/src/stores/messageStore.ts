@@ -47,13 +47,10 @@ const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], Message
 
     updateMessage: (newMessage) => {
       set((state) => {
-        const lastMessage = state.messages.find((message) => message.id === newMessage.id);
-        if (lastMessage) {
+        const oldMessage = state.messages.find((message) => message.id === newMessage.id);
+        if (oldMessage) {
           const updatedMessages = state.messages.map((message) => {
-            if (message.id === lastMessage.id) {
-              return newMessage;
-            }
-            return message;
+            return message.id === oldMessage.id ? newMessage : message;
           });
           return {
             ...state,
@@ -87,15 +84,15 @@ const createTaskSlice: StateCreator<MessageSlice & TaskSlice, [], [], TaskSlice>
   return {
     ...initialTaskState,
     updateTaskStatus: (updatedTask) => {
-      const { id, info, status: newStatus } = updatedTask;
+      const { taskId, info, status: newStatus } = updatedTask;
 
-      if (!isExistingTask(updatedTask) || id === undefined) {
+      if (!isExistingTask(updatedTask) || taskId === undefined) {
         return;
       }
 
       set((state) => {
         const updatedTasks = state.tasks.map((task) => {
-          if (task.id === id) {
+          if (task.taskId === taskId) {
             return {
               ...task,
               status: newStatus,

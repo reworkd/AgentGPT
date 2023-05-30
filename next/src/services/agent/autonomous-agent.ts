@@ -143,7 +143,7 @@ class AutonomousAgent {
       () => !this.isRunning
     );
 
-    const result = ""; // TODO: Build result
+    const result = executionMessage.info || "";
     this.completedTasks.push(currentTask.value || "");
 
     // Wait before adding tasks TODO: think about removing this

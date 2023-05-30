@@ -47,10 +47,10 @@ const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], Message
 
     updateLastMessage: (newMessage) => {
       set((state) => {
-        const lastMessage = state.messages[state.messages.length - 1];
+        const lastMessage = state.messages.find((message) => message.id === newMessage.id);
         if (lastMessage) {
           const updatedMessages = state.messages.map((message) => {
-            if (message === lastMessage) {
+            if (message.id === lastMessage.id) {
               return newMessage;
             }
             return message;

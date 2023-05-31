@@ -62,17 +62,19 @@ class MessageService {
 
   sendAnalysisMessage(analysis: Analysis) {
     let message = "⏰ Generating response...";
-    if (analysis.action == "search") {
-      message = `🔍 Searching the web for "${analysis.arg}"...`;
-    }
-    if (analysis.action == "wikipedia") {
-      message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;
-    }
-    if (analysis.action == "image") {
-      message = `🎨 Generating an image with prompt: "${analysis.arg}"...`;
-    }
-    if (analysis.action == "code") {
-      message = `💻 Writing code...`;
+    switch (analysis.action) {
+      case "search":
+        message = `🔍 Searching the web for "${analysis.arg}"...`;
+        break;
+      case "wikipedia":
+        message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;
+        break;
+      case "image":
+        message = `🎨 Generating an image with prompt: "${analysis.arg}"...`;
+        break;
+      case "code":
+        message = `💻 Writing code...`;
+        break;
     }
 
     this.sendMessage({

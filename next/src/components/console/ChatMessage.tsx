@@ -1,11 +1,8 @@
 import React from "react";
 import {
   getTaskStatus,
-  isAction,
   Message,
   MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_SYSTEM,
-  MESSAGE_TYPE_THINKING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
@@ -14,52 +11,53 @@ import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
 import MarkdownRenderer from "./MarkdownRenderer";
+import Loader from "../loader";
+import FadingHr from "../FadingHr";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
+
+  const icon = getTaskStatusIcon(message, {});
+  const messagePrefix = getMessagePrefix(message);
 
   return (
     <div
       className={clsx(
         getMessageContainerStyle(message),
-        "mx-2 my-1 rounded-lg border bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
+        "mx-2 my-1 rounded-lg border p-1 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-2",
+        "bg-gradient-to-t transition-all hover:from-neutral-800",
         "sm:my-1.5 sm:text-sm"
       )}
     >
-      {message.type != MESSAGE_TYPE_SYSTEM && (
-        // Avoid for system messages as they do not have an icon and will cause a weird space
-        <>
-          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-          <span className="mr-2 font-bold">{t(getMessagePrefix(message), { ns: "chat" })}</span>
-        </>
-      )}
-
-      {message.type == MESSAGE_TYPE_THINKING && (
-        <span className="italic text-zinc-400">
-          {`${t("RESTART_IF_IT_TAKES_X_SEC", {
-            ns: "chat",
-          })}`}
+      <div className="flex flex-row">
+        {message.type !== "system" && (
+          <span className={clsx("text-gray-200", message.type == "goal" && "pr-2")}>{icon}</span>
+        )}
+        <span className={clsx("text-left", message.type === "thinking" && "flex-grow")}>
+          {t(messagePrefix, { ns: "chat" })}
         </span>
-      )}
+        {message.type === "system" && (
+          <span className="flex-grow pl-1">{t(message.value, { ns: "chat" })}</span>
+        )}
+        {message.type == "goal" && (
+          <span className="flex-grow pl-1 text-gray-400">{t(message.value, { ns: "chat" })}</span>
+        )}
+        {message.type == "task" && !messagePrefix.includes(message.value) && (
+          <span className="pl-1 text-gray-400">{t(message.value, { ns: "chat" })}</span>
+        )}
+        {message.type === "thinking" && <Loader />}
+      </div>
 
-      {isAction(message) ? (
+      {message.info && (
         <>
-          <hr className="my-2 border border-white/20" />
-          <div className="prose">
+          <FadingHr className="my-2" />
+          <div className="prose px-1 pt-2">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>
         </>
-      ) : (
-        <>
-          <span>{t(message.value, { ns: "chat" })}</span>
-          {
-            // Link to the FAQ if it is a shutdown message
-            message.type == MESSAGE_TYPE_SYSTEM &&
-              (message.value.toLowerCase().includes("shut") ||
-                message.value.toLowerCase().includes("error")) && <FAQ />
-          }
-        </>
       )}
+
+      {message.type === "error" && <FAQ />}
     </div>
   );
 };
@@ -67,7 +65,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
     return "EMBARKING_ON_NEW_GOAL";
-  } else if (message.type === MESSAGE_TYPE_THINKING) {
+  } else if (message.type === "thinking") {
     return "THINKING";
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
     return "TASK_ADDED";

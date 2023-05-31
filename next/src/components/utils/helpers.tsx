@@ -56,7 +56,7 @@ export const getTaskStatusIcon = (
     case MESSAGE_TYPE_GOAL:
       return <FaStar className="text-yellow-300" />;
     case MESSAGE_TYPE_THINKING:
-      return <FaBrain className="mt-[0.1em] text-pink-400" />;
+      return <FaBrain className="mr-2 mt-[0.1em] text-pink-400" />;
     case MESSAGE_TYPE_ERROR:
       return <FaExclamationTriangle className="text-yellow-400" />;
   }

@@ -76,12 +76,7 @@ export type AgentPlaybackControl = typeof AGENT_PLAY | typeof AGENT_PAUSE;
 
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {
-  try {
-    taskSchema.parse(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
+  return taskSchema.safeParse(value).success;
 };
 
 /* Helper Functions */
@@ -91,8 +86,4 @@ export const getTaskStatus = (value: unknown): string | undefined => {
   }
 
   return value.status;
-};
-
-export const isAction = (value: unknown): boolean => {
-  return isTask(value) && value.status === TASK_STATUS_COMPLETED;
 };

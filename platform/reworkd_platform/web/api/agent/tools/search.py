@@ -3,8 +3,8 @@ from typing import Any, List
 import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
+from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
 from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import summarize

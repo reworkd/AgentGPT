@@ -48,6 +48,7 @@ const getEnvDefinition = (
       DISCORD_CLIENT_ID: "***",
     },
     Backend: {
+      REWORKD_PLATFORM_ENVIRONMENT: "development",
       REWORKD_PLATFORM_FF_MOCK_MODE_ENABLED: false,
       REWORKD_PLATFORM_OPENAI_API_KEY: envValues.OpenAIApiKey || "<change me>",
       REWORKD_PLATFORM_FRONTEND_URL: "http://localhost:3000",

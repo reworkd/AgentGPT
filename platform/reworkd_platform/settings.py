@@ -45,6 +45,8 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_base: str = "https://api.openai.com/v1"
     openai_api_key: str = "<Should be updated via env>"
+    secondary_openai_api_key: Optional[str] = None
+
     replicate_api_key: Optional[str] = None
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     serp_api_key: Optional[str] = None

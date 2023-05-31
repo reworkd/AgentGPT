@@ -3,7 +3,11 @@ import type { RequestBody } from "../utils/interfaces";
 
 type TextStream = ReadableStreamDefaultReader<Uint8Array>;
 
-const fetchData = async (url: string, body: RequestBody): Promise<TextStream | undefined> => {
+const fetchData = async (
+  url: string,
+  body: RequestBody,
+  onError: (message: unknown) => void
+): Promise<TextStream | undefined> => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
   const response = await fetch(url, {
     method: "POST",
@@ -15,6 +19,12 @@ const fetchData = async (url: string, body: RequestBody): Promise<TextStream | u
     },
     body: JSON.stringify(body),
   });
+
+  if (response.status === 409) {
+    // TODO: Return the entire object
+    const error = (await response.json()) as { error: string; detail: string };
+    onError(error.detail);
+  }
 
   return response.body?.getReader();
 };
@@ -28,6 +38,7 @@ async function processStream(
   reader: TextStream,
   onStart: () => void,
   onText: (text: string) => void,
+  onError: (error: unknown) => void,
   shouldClose: () => boolean
 ): Promise<void> {
   try {
@@ -43,7 +54,7 @@ async function processStream(
       onText(text);
     }
   } catch (error) {
-    console.error(error);
+    onError(error);
   }
 }
 
@@ -52,13 +63,14 @@ export const streamText = async (
   body: RequestBody,
   onStart: () => void,
   onText: (text: string) => void,
+  onError: (error: unknown) => void,
   shouldClose: () => boolean
 ) => {
-  const reader = await fetchData(url, body);
+  const reader = await fetchData(url, body, onError);
   if (!reader) {
     console.error("Reader is undefined!");
     return;
   }
 
-  await processStream(reader, onStart, onText, shouldClose);
+  await processStream(reader, onStart, onText, onError, shouldClose);
 };

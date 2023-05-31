@@ -10,8 +10,11 @@ class PlatformaticError(Exception):
 
 
 class OpenAIError(PlatformaticError):
-    def __init__(self, exception: Exception, detail: str = ""):
-        super().__init__(exception, detail)
+    pass
+
+
+class ReplicateError(PlatformaticError):
+    pass
 
 
 # (Replicate) ModelError: NSFW content detected. Try running it again, or try a different prompt.

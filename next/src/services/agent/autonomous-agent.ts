@@ -148,6 +148,10 @@ class AutonomousAgent {
         executionMessage.info += text;
         this.messageService.updateMessage(executionMessage);
       },
+      (error) => {
+        this.messageService.sendErrorMessage(error);
+        this.shutdown();
+      },
       () => !this.isRunning
     );
 

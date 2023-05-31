@@ -27,7 +27,7 @@ analyze_task_prompt = PromptTemplate(
     Based on this information, you will perform the task by understanding the
     problem, extracting variables, and being smart and efficient. You provide concrete
     reasoning for your actions detailing your overall plan and any concerns you may
-    have. Your reasoning should be concise and be no more than two short sentences.
+    have. Your reasoning should be no more than three sentences.
     You evaluate the best action to take strictly from the list of actions
     below:
 

@@ -1,6 +1,7 @@
 import openai
 import replicate
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
+from replicate.exceptions import ModelError, ReplicateError as ReplicateAPIError
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
@@ -9,6 +10,7 @@ from reworkd_platform.web.api.agent.model_settings import (
 )
 from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
+from reworkd_platform.web.api.errors import ReplicateError
 
 
 async def get_replicate_image(input_str: str) -> str:
@@ -16,12 +18,18 @@ async def get_replicate_image(input_str: str) -> str:
         raise RuntimeError("Replicate API key not set")
 
     client = replicate.Client(settings.replicate_api_key)
-    output = client.run(
-        "stability-ai/stable-diffusion"
-        ":db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
-        input={"prompt": input_str},
-        image_dimensions="512x512",
-    )
+    try:
+        output = client.run(
+            "stability-ai/stable-diffusion"
+            ":db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+            input={"prompt": input_str},
+            image_dimensions="512x512",
+        )
+    except ModelError as e:
+        raise ReplicateError(e, "Image generation failed due to NSFW image.")
+    except ReplicateAPIError as e:
+        raise ReplicateError(e, "Failed to generate an image.")
+
     return output[0]
 
 

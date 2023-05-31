@@ -7,7 +7,7 @@ from reworkd_platform.web.api.agent.api_utils import rotate_keys
 ITERATIONS = 10000
 
 
-def test_rotate_keys():
+def test_rotate_keys() -> None:
     pk = "primary_key"
     sk = "secondary_key"
 
@@ -29,7 +29,7 @@ def test_rotate_keys():
         "gpt-4-turbo",
     ],
 )
-def test_rotate_keys_gpt_4(model):
+def test_rotate_keys_gpt_4(model: str) -> None:
     pk = "gpt-3-primary_key"
     sk = "gpt-4-primary_key"
 
@@ -43,6 +43,6 @@ def test_rotate_keys_gpt_4(model):
     assert 0.65 < counter[sk] / ITERATIONS < 0.75
 
 
-def test_rotate_keys_no_secondary():
+def test_rotate_keys_no_secondary() -> None:
     pk = "primary_key"
     assert rotate_keys(pk, None) == pk

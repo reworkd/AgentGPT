@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from reworkd_platform.web.api.agent.analysis import get_default_analysis, Analysis
+from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.tools.tools import get_default_tool, get_tool_name
 
 
@@ -19,7 +19,7 @@ def test_analysis_model_invalid_tool() -> None:
 
 
 def test_get_default_analysis() -> None:
-    default_analysis = get_default_analysis()
+    default_analysis = Analysis.get_default_analysis()
     assert isinstance(default_analysis, Analysis)
     assert default_analysis.action == "reason"
     assert default_analysis.arg == "Analyze errored out"

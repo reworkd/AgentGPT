@@ -6,7 +6,7 @@ from langchain.output_parsers import PydanticOutputParser
 
 from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
-from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
+from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.helpers import (
     call_model_with_handling,
     parse_with_handling,
@@ -62,7 +62,7 @@ class OpenAIAgentService(AgentService):
             return pydantic_parser.parse(completion)
         except Exception as error:
             print(f"Error parsing analysis: {error}")
-            return get_default_analysis()
+            return Analysis.get_default_analysis()
 
     async def execute_task_agent(
         self,

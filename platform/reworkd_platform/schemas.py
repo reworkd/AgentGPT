@@ -9,7 +9,7 @@ GPT_35_TURBO = "gpt-3.5-turbo"
 
 class ModelSettings(BaseModel):
     model: str = Field(default=GPT_35_TURBO, alias="customModelName")
-    temperature: float = Field(default=0.9, alias="customTemperature")
+    temperature: float = Field(default=0.9, alias="customTemperature", ge=0.0, le=1.0)
     max_tokens: int = Field(default=500, alias="maxTokens")
     language: str = Field(default="english")
 

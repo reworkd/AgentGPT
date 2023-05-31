@@ -1,3 +1,4 @@
+from lanarky.responses import StreamingResponse
 from langchain import WikipediaAPIWrapper
 
 from reworkd_platform.web.api.agent.model_settings import ModelSettings
@@ -19,7 +20,7 @@ class Wikipedia(Tool):
             wiki_client=None,  # Meta private value but mypy will complain its missing
         )
 
-    async def call(self, goal: str, task: str, input_str: str) -> str:
+    async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
         # TODO: Make the below async
         wikipedia_search = self.wikipedia.run(input_str)
-        return await summarize(self.model_settings, goal, task, [wikipedia_search])
+        return summarize(self.model_settings, goal, task, [wikipedia_search])

@@ -7,12 +7,14 @@ export const [
   MESSAGE_TYPE_TASK,
   MESSAGE_TYPE_ACTION,
   MESSAGE_TYPE_SYSTEM,
+  MESSAGE_TYPE_ERROR,
 ] = [
   "goal" as const,
   "thinking" as const,
   "task" as const,
   "action" as const,
   "system" as const,
+  "error" as const,
 ];
 
 export const [
@@ -20,12 +22,7 @@ export const [
   TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
-] = [
-  "started" as const,
-  "executing" as const,
-  "completed" as const,
-  "final" as const,
-];
+] = ["started" as const, "executing" as const, "completed" as const, "final" as const];
 
 const TaskStatusSchema = z.union([
   z.literal(TASK_STATUS_STARTED),
@@ -38,6 +35,7 @@ const TaskStatusSchema = z.union([
 export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
 export const messageSchemaBase = z.object({
+  id: z.string().optional(),
   value: z.string(),
   info: z.string().optional().nullable(),
 });
@@ -57,6 +55,7 @@ export const nonTaskScehma = z
       z.literal(MESSAGE_TYPE_THINKING),
       z.literal(MESSAGE_TYPE_ACTION),
       z.literal(MESSAGE_TYPE_SYSTEM),
+      z.literal(MESSAGE_TYPE_ERROR),
     ]),
   })
   .merge(messageSchemaBase);
@@ -68,10 +67,7 @@ export type Message = z.infer<typeof messageSchema>;
 
 /* Agent Type */
 // Agent Mode
-export const [AUTOMATIC_MODE, PAUSE_MODE] = [
-  "Automatic Mode" as const,
-  "Pause Mode" as const,
-];
+export const [AUTOMATIC_MODE, PAUSE_MODE] = ["Automatic Mode" as const, "Pause Mode" as const];
 export type AgentMode = typeof AUTOMATIC_MODE | typeof PAUSE_MODE;
 
 // Agent Playback Control

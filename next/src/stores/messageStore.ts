@@ -4,8 +4,8 @@ import { create } from "zustand";
 import type { Message, Task } from "../types/agentTypes";
 import {
   isTask,
-  TASK_STATUS_EXECUTING,
   TASK_STATUS_COMPLETED,
+  TASK_STATUS_EXECUTING,
   TASK_STATUS_FINAL,
 } from "../types/agentTypes";
 
@@ -24,15 +24,11 @@ const initialMessageState = {
 interface MessageSlice {
   messages: Message[];
   addMessage: (newMessage: Message) => void;
+  updateMessage: (newMessage: Message) => void;
   deleteTask: (taskId: string) => void;
 }
 
-const createMessageSlice: StateCreator<
-  MessageSlice & TaskSlice,
-  [],
-  [],
-  MessageSlice
-> = (set) => {
+const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], MessageSlice> = (set) => {
   resetters.push(() => set(initialMessageState));
   return {
     ...initialMessageState,
@@ -47,6 +43,22 @@ const createMessageSlice: StateCreator<
             ? [...state.tasks, newTask]
             : [...state.tasks],
       }));
+    },
+
+    updateMessage: (newMessage) => {
+      set((state) => {
+        const oldMessage = state.messages.find((message) => message.id === newMessage.id);
+        if (oldMessage) {
+          const updatedMessages = state.messages.map((message) =>
+            message.id === oldMessage.id ? newMessage : message
+          );
+          return {
+            ...state,
+            messages: updatedMessages,
+          };
+        }
+        return state;
+      });
     },
 
     deleteTask: (taskId) => {
@@ -67,12 +79,7 @@ interface TaskSlice {
   updateTaskStatus: (updatedTask: Task) => void;
 }
 
-const createTaskSlice: StateCreator<
-  MessageSlice & TaskSlice,
-  [],
-  [],
-  TaskSlice
-> = (set) => {
+const createTaskSlice: StateCreator<MessageSlice & TaskSlice, [], [], TaskSlice> = (set) => {
   resetters.push(() => set(initialTaskState));
   return {
     ...initialTaskState,
@@ -111,5 +118,4 @@ export const useMessageStore = createSelectors(
   }))
 );
 
-export const resetAllMessageSlices = () =>
-  resetters.forEach((resetter) => resetter());
+export const resetAllMessageSlices = () => resetters.forEach((resetter) => resetter());

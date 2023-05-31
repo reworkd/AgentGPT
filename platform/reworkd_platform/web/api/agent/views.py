@@ -1,14 +1,14 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Depends
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
+from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
 )
 from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 
 router = APIRouter()
@@ -31,13 +31,30 @@ class NewTasksResponse(BaseModel):
     newTasks: List[str]
 
 
+def agent_validator(example: Dict[str, str] = None, **kwargs):
+    async def func(
+        body: AgentRequestBody = Body(example=example, **kwargs),
+    ) -> AgentRequestBody:
+        if body.modelSettings.model not in ["gpt-3.5-turbo", "gpt-4"]:
+            raise ValueError(f"Model {body.modelSettings.model} is not supported")
+
+        return body
+
+    return func
+
+
 @router.post("/start")
 async def start_tasks(
-    req_body: AgentRequestBody = Body(
-        example={
-            "goal": "Create business plan for a bagel company",
-            "task": "Identify the most common bagel shapes",
-        }
+    req_body: AgentRequestBody = Depends(
+        agent_validator(
+            example={
+                "goal": "Create business plan for a bagel company",
+                "task": "Identify the most common bagel shapes",
+                "modelSettings": {
+                    "customModelName": "gpt-3.5-turbo",
+                },
+            }
+        )
     ),
 ) -> NewTasksResponse:
     new_tasks = await get_agent_service(req_body.modelSettings).start_goal_agent(

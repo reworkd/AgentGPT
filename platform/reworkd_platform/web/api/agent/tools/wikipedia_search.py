@@ -1,7 +1,7 @@
 from lanarky.responses import StreamingResponse
 from langchain import WikipediaAPIWrapper
 
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import summarize
 

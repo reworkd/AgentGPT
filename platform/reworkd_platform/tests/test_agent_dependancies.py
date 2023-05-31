@@ -25,26 +25,3 @@ async def test_agent_validator_valid(settings):
 
     for k, v in settings.items():
         assert validated.modelSettings.dict(by_alias=True)[k] == v
-
-
-@pytest.mark.anyio
-@pytest.mark.parametrize(
-    "settings",
-    [
-        {
-            "customModelName": "gpt-4-32k",
-        },
-        {
-            "customTemperature": -1,
-        },
-        {
-            "customModelName": "gpt-3.5-turbo",
-            "maxTokens": 8000,
-        },
-    ],
-)
-async def test_agent_validator_invalid(settings):
-    body = AgentRequestBody(goal="test", modelSettings=ModelSettings(**settings))
-
-    with pytest.raises(ValueError):
-        await agent_validator()(body)

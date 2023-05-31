@@ -10,9 +10,11 @@ class PlatformaticError(Exception):
 
 
 class OpenAIError(PlatformaticError):
-    def __init__(self, exception: Exception, detail: str = ""):
-        super().__init__(exception, detail)
+    pass
 
+
+class ReplicateError(PlatformaticError):
+    pass
 
 # (Replicate) ModelError: NSFW content detected. Try running it again, or try a different prompt.
 # ReplicateError: You've hit your monthly spend limit. You can change or remove your limit at https://replicate.com/account/billing#limits.

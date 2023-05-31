@@ -1,30 +1,18 @@
-from typing import List, Optional
+from typing import List
 
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
+from reworkd_platform.schemas import AgentRequestBody
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
     get_agent_service,
 )
-from reworkd_platform.web.api.agent.analysis import Analysis, get_default_analysis
-from reworkd_platform.web.api.agent.model_settings import ModelSettings
+from reworkd_platform.web.api.agent.analysis import Analysis
+from reworkd_platform.web.api.agent.dependancies import agent_validator
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 
 router = APIRouter()
-
-
-class AgentRequestBody(BaseModel):
-    modelSettings: ModelSettings = ModelSettings()
-    goal: str
-    language: str = "English"
-    task: Optional[str]
-    analysis: Optional[Analysis]
-    toolNames: Optional[List[str]]
-    tasks: Optional[List[str]]
-    lastTask: Optional[str]
-    result: Optional[str]
-    completedTasks: Optional[List[str]]
 
 
 class NewTasksResponse(BaseModel):
@@ -33,11 +21,16 @@ class NewTasksResponse(BaseModel):
 
 @router.post("/start")
 async def start_tasks(
-    req_body: AgentRequestBody = Body(
-        example={
-            "goal": "Create business plan for a bagel company",
-            "task": "Identify the most common bagel shapes",
-        }
+    req_body: AgentRequestBody = Depends(
+        agent_validator(
+            example={
+                "goal": "Create business plan for a bagel company",
+                "task": "Identify the most common bagel shapes",
+                "modelSettings": {
+                    "customModelName": "gpt-3.5-turbo",
+                },
+            }
+        )
     ),
 ) -> NewTasksResponse:
     new_tasks = await get_agent_service(req_body.modelSettings).start_goal_agent(
@@ -48,7 +41,7 @@ async def start_tasks(
 
 @router.post("/analyze")
 async def analyze_tasks(
-    req_body: AgentRequestBody,
+    req_body: AgentRequestBody = Depends(agent_validator()),
 ) -> Analysis:
     return await get_agent_service(req_body.modelSettings).analyze_task_agent(
         goal=req_body.goal,
@@ -63,28 +56,30 @@ class CompletionResponse(BaseModel):
 
 @router.post("/execute")
 async def execute_tasks(
-    req_body: AgentRequestBody = Body(
-        example={
-            "goal": "Perform tasks accurately",
-            "task": "Write code to make a platformer",
-            "analysis": {
-                "reasoning": "I like to write code.",
-                "action": "code",
-                "arg": "",
-            },
-        }
+    req_body: AgentRequestBody = Depends(
+        agent_validator(
+            example={
+                "goal": "Perform tasks accurately",
+                "task": "Write code to make a platformer",
+                "analysis": {
+                    "reasoning": "I like to write code.",
+                    "action": "code",
+                    "arg": "",
+                },
+            }
+        )
     ),
 ) -> FastAPIStreamingResponse:
     return await get_agent_service(req_body.modelSettings).execute_task_agent(
         goal=req_body.goal or "",
         task=req_body.task or "",
-        analysis=req_body.analysis or get_default_analysis(),
+        analysis=req_body.analysis or Analysis.get_default_analysis(),
     )
 
 
 @router.post("/create")
 async def create_tasks(
-    req_body: AgentRequestBody,
+    req_body: AgentRequestBody = Depends(agent_validator()),
 ) -> NewTasksResponse:
     new_tasks = await get_agent_service(req_body.modelSettings).create_tasks_agent(
         goal=req_body.goal,

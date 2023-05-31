@@ -3,11 +3,9 @@ import replicate
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from replicate.exceptions import ModelError, ReplicateError as ReplicateAPIError
 
+from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
-from reworkd_platform.web.api.agent.model_settings import (
-    ModelSettings,
-)
 from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.errors import ReplicateError

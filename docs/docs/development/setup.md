@@ -12,6 +12,26 @@ The following document will help you set up a local installation of AgentGPT.
 - 🐍 Backend: FastAPI + Python
 - 📚 DB: MySQL through docker with the option of running SQLite locally
 
+## Interactive Setup
+
+We've recently launched an interactive setup tool that will guide you through creating an ENV and running AgentGPT.
+Simply run the following:
+
+```
+git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
+./setup.sh
+```
+
+If you are on windows, you can do the following after downloading the repo
+
+```
+cd cli
+npm install
+npm run start
+```
+
+Going this route, you can ignore the below text.
+
 ## ENV
 
 Before you can get started, you need to ensure your ENV is correctly configured. To do this, copy over

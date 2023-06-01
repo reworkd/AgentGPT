@@ -98,5 +98,6 @@ class OpenAIAgentService(AgentService):
             }
         )
 
-        task_output_parser = TaskOutputParser(completed_tasks=completed_tasks or [])
+        previous_tasks = (completed_tasks or []) + tasks
+        task_output_parser = TaskOutputParser(completed_tasks=previous_tasks)
         return task_output_parser.parse(completion)

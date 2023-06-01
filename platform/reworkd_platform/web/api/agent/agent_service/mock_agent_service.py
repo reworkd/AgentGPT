@@ -22,4 +22,4 @@ class MockAgentService(AgentService):
         )
 
     async def execute_task_agent(self, **kwargs: Any) -> FastAPIStreamingResponse:
-        return stream_string("Result: " + kwargs.get("task", "task"))
+        return stream_string("The task result is: " + kwargs.get("task", "task"), True)

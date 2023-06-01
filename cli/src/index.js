@@ -38,12 +38,6 @@ const handleRunOption = (runOption) => {
     });
   }
 
-  if (runOption === "docker") {
-    console.log(
-      "Please manually run the docker files in `./next` and `./platform`"
-    );
-  }
-
   if (runOption === "manual") {
     console.log(
       "Please go into the ./next folder and run `npm install && npm run dev`."

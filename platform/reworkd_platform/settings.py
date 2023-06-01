@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     reload: bool = True
 
     # Current environment
-    environment: str = "dev"
+    environment: str = "development"
 
     log_level: LogLevel = LogLevel.INFO
 
@@ -62,6 +62,10 @@ class Settings(BaseSettings):
     db_base: str = "reworkd_platform"
     db_echo: bool = False
     db_ca_path: str = "/etc/ssl/cert.pem"
+
+    # Variables for the vector db
+    db_url: str = "<Should be updated via env>"
+    db_api_ket: str = "<Should be updated via env>"
 
     # Sentry's configuration.
     sentry_dsn: Optional[str] = None

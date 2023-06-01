@@ -57,8 +57,7 @@ code_prompt = PromptTemplate(
     For reference, your high level goal is
     {goal}
 
-    All actual code should be English.
-    Explanations and comment should be in the "{language}" language.
+    Write code in English but explanations/comments in the "{language}" language.
     Provide no information about who you are and focus on writing code.
     Ensure code is bug and error free and explain complex concepts through comments
     Respond in well-formatted markdown. Ensure code blocks are used for code sections.

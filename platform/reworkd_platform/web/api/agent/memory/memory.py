@@ -48,6 +48,9 @@ class WeaviateMemory(AgentMemory):
         )
         return self
 
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.client.__del__()
+
     def add_task(self, task: str, result: str) -> None:
         self.db.add_texts([task], [{"result": result}])
 
@@ -66,6 +69,3 @@ class WeaviateMemory(AgentMemory):
             for [text, score] in results
             if score > similarity_threshold
         ]
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.client.__del__()

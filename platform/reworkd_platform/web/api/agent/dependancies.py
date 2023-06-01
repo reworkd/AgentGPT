@@ -11,7 +11,6 @@ def agent_validator(
     async def func(
         body: AgentRequestBody = Body(example=example, **kwargs),
     ) -> AgentRequestBody:
-
         return body
 
     return func

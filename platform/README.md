@@ -140,4 +140,8 @@ poetry run mypy .
 
 # Pytest
 poetry run pytest -vv --cov="reworkd_platform" .
+
+# Bump packages
+poetry self add poetry-plugin-up
+poetry up --latest
 ```

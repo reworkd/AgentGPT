@@ -69,6 +69,15 @@ npm install
 npm run dev
 ```
 
+In a different window, you can run the following to start the backend:
+
+```bash
+// Backend. Make sure you are at the root of the project
+cd ./platform
+poetry install
+poetry run python -m reworkd_platform
+```
+
 ## Running the site
 
 After you have locally built AgentGPT, you can travel to http://localhost:3000/ in your web browser.

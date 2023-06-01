@@ -40,12 +40,21 @@ class TaskOutputParser(BaseOutputParser[List[str]]):
 
 def extract_array(input_str: str) -> List[str]:
     regex = (
-        r"\[\s*\]|"  # Empty array check`
+        r"\[\s*\]|"  # Empty array check
         r"(\[(?:\s*(?:\"(?:[^\"\\]|\\.)*\"|\'(?:[^\'\\]|\\.)*\')\s*,?)*\s*\])"
     )
     match = re.search(regex, input_str)
     if match is not None:
         return ast.literal_eval(match[0])
+    else:
+        return handle_multiline_string(input_str)
+
+
+def handle_multiline_string(input_str: str) -> List[str]:
+    # Handle multiline string as a list
+    if re.match(r"\d+\..+", input_str):
+        # Split the input_str by newline, strip whitespace, and remove any empty lines
+        return [line.strip() for line in input_str.split("\n") if line.strip() != ""]
     else:
         raise RuntimeError(f"Failed to extract array from {input_str}")
 

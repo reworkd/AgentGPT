@@ -73,11 +73,32 @@ def test_parse_failure(input_text: str, exception: Type[Exception]) -> None:
         ("Random stuff ['Search', 'Identify']", ["Search", "Identify"]),
         ('["Item 1","Item 2","Item 3"]', ["Item 1", "Item 2", "Item 3"]),
         ('{"array": ["123", "456"]}', ["123", "456"]),
+        # Multiline string cases
+        (
+            "1. Identify the target\n2. Conduct research\n3. Implement the methods",
+            [
+                "1. Identify the target",
+                "2. Conduct research",
+                "3. Implement the methods",
+            ],
+        ),
+        ("1. Step one.\n2. Step two.", ["1. Step one.", "2. Step two."]),
+        (
+            """1. Review and understand the code to be debugged
+2. Identify and address any errors or issues found during the review process
+3. Print out debug information and setup initial variables
+4. Start necessary threads and execute program logic.""",
+            [
+                "1. Review and understand the code to be debugged",
+                "2. Identify and address any errors or issues found during the review "
+                "process",
+                "3. Print out debug information and setup initial variables",
+                "4. Start necessary threads and execute program logic.",
+            ],
+        ),
     ],
 )
 def test_extract_array_success(input_str: str, expected: List[str]) -> None:
-    print(input_str, expected)
-    print(input_str, expected)
     print(extract_array(input_str), expected)
     assert extract_array(input_str) == expected
 

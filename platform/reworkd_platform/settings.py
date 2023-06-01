@@ -63,9 +63,9 @@ class Settings(BaseSettings):
     db_echo: bool = False
     db_ca_path: str = "/etc/ssl/cert.pem"
 
-    # Variables for the vector db
-    db_url: str = "<Should be updated via env>"
-    db_api_ket: str = "<Should be updated via env>"
+    # Variables for the vector db. We're currently using Weaviate
+    vector_db_url: str = "<Should be updated via env>"
+    vector_db_api_ket: str = "<Should be updated via env>"
 
     # Sentry's configuration.
     sentry_dsn: Optional[str] = None

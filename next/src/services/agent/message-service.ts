@@ -89,7 +89,9 @@ class MessageService {
     let message = "ERROR_RETRIEVE_INITIAL_TASKS";
 
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e)) {
+    else if (axios.isAxiosError(e) && !e.response) {
+      message = "Unable to connect to th Python backend. Please make sure its running.";
+    } else if (axios.isAxiosError(e)) {
       switch (e.response?.status) {
         case 409:
           const data = (e.response?.data as object) || {};

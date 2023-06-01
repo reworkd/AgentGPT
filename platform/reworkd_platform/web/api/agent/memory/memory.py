@@ -34,8 +34,6 @@ class WeaviateMemory(AgentMemory):
     def __init__(self, index_name: str):
         self.index_name = index_name
         self.text_key = "agentGPT_Tasks"
-        print(settings.vector_db_url)
-        print(settings.vector_db_url)
         self.client = weaviate.Client(settings.vector_db_url)
 
     def __enter__(self):

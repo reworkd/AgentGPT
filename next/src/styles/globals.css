@@ -74,27 +74,27 @@ tr:nth-child(even) {
 /* Customize website's scrollbar like Mac OS
 Not supports in Firefox and IE */
 /* total width */
-div::-webkit-scrollbar {
-  border-radius: 16px;
+*::-webkit-scrollbar {
+  border-radius: 10px;
   background-color: #464649;
-  width: 16px;
+  width: 0.75em;
 }
 
 /* background of the scrollbar except button or resizer */
-div::-webkit-scrollbar-track {
-  border-radius: 16px;
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
   background-color: #464649;
 }
 
 /* scrollbar itself */
-div::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #babac0;
-  border-radius: 16px;
+  border-radius: 10px;
   border: 2px solid #464649;
 }
 
 /* set button(top and bottom of the scrollbar) */
-div::-webkit-scrollbar-button {
+*::-webkit-scrollbar-button {
   display: none;
 }
 

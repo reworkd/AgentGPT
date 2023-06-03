@@ -27,7 +27,10 @@ When this does work, we'll be sure to validate that an action like "sending an e
 <details>
 <summary>My agent keeps running out of loops!</summary>
 We must limit how much the Agent runs in some capacity due to API and infrastructure costs 😢.
-If you provide your own API key you can increase the number of loops your Agent goes through within the advanced settings of the settings menu.
+
+To circumvent this, you can visit our <a href="/roadmap">setup documentation</a> and host AgentGPT locally using your
+own API key.
+Alternatively, you can subscribe to our pro plan to increase limits.
 </details>
 
 <details>

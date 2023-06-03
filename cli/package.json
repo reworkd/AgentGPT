@@ -21,7 +21,7 @@
     "configstore": "^6.0.0",
     "dotenv": "^16.0.3",
     "figlet": "^1.6.0",
-    "inquirer": "^9.2.6",
+    "inquirer": "^9.2.7",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "simple-git": "^3.19.0",

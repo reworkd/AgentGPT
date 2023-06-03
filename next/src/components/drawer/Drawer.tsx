@@ -83,14 +83,13 @@ const Drawer = ({ showHelp, showSettings }: { showHelp: () => void; showSettings
               <FaBars />
             </button>
           </div>
+          <DrawerItemButton
+            icon={<BiPlus size={17} />}
+            text={"New Agent"}
+            border
+            onClick={() => location.reload()}
+          />
           <ul className="flex flex-col gap-2 overflow-auto">
-            <DrawerItemButton
-              icon={<BiPlus size={17} />}
-              text={"New Agent"}
-              border
-              onClick={() => location.reload()}
-            />
-
             {userAgents.map((agent, index) => (
               <DrawerItemButton
                 key={index}

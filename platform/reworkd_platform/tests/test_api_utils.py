@@ -6,19 +6,33 @@ from reworkd_platform.web.api.agent.api_utils import rotate_keys
 
 ITERATIONS = 10000
 
+PK = "gpt-3-primary_key"
+SK = "gpt-4-primary_key"
+
 
 def test_rotate_keys() -> None:
-    pk = "primary_key"
-    sk = "secondary_key"
-
     results = []
     for _ in range(ITERATIONS):
-        key = rotate_keys(pk, sk)
-        assert key in [pk, sk]
+        key = rotate_keys(PK, SK)
+        assert key in [PK, SK]
         results.append(key)
 
     counter = Counter(results)
-    assert 0.65 < counter[pk] / ITERATIONS < 0.75
+    assert 0.65 < counter[PK] / ITERATIONS < 0.75
+
+
+@pytest.mark.parametrize(
+    "model", ["gpt-3.5-turbo", "gpt-3.5", "dall-e", "gpt-3.5-0314"]
+)
+def test_rotate_keys_gpt_3_5(model: str) -> None:
+    results = []
+    for _ in range(ITERATIONS):
+        key = rotate_keys(PK, SK, model=model)
+        assert key in [PK, SK]
+        results.append(key)
+
+    counter = Counter(results)
+    assert 0.65 < counter[PK] / ITERATIONS < 0.75
 
 
 @pytest.mark.parametrize(
@@ -30,19 +44,15 @@ def test_rotate_keys() -> None:
     ],
 )
 def test_rotate_keys_gpt_4(model: str) -> None:
-    pk = "gpt-3-primary_key"
-    sk = "gpt-4-primary_key"
-
     results = []
     for _ in range(ITERATIONS):
-        key = rotate_keys(pk, sk, model=model)
-        assert key in [pk, sk]
+        key = rotate_keys(PK, SK, model=model)
+        assert key in [PK, SK]
         results.append(key)
 
     counter = Counter(results)
-    assert 0.65 < counter[sk] / ITERATIONS < 0.75
+    assert 0.65 < counter[SK] / ITERATIONS < 0.75
 
 
 def test_rotate_keys_no_secondary() -> None:
-    pk = "primary_key"
-    assert rotate_keys(pk, None) == pk
+    assert rotate_keys(PK, None) == PK

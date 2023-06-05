@@ -10,9 +10,11 @@ import type { Analysis } from "./analysis";
 class MessageService {
   private isRunning: boolean;
   private readonly renderMessage: (message: Message) => void;
+  private numLoops: number;
 
   constructor(renderMessage: (message: Message) => void) {
     this.isRunning = false;
+    this.numLoops = 0;
     this.renderMessage = renderMessage;
   }
 
@@ -20,9 +22,13 @@ class MessageService {
     this.isRunning = isRunning;
   }
 
+  setNumLoops(numLoops: number) {
+    this.numLoops = numLoops;
+  }
+
   sendMessage(message: Message) {
     if (this.isRunning) {
-      this.renderMessage(message);
+      this.renderMessage({ ...message, iteration: this.numLoops });
     }
   }
 

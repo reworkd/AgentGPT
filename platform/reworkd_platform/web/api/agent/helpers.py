@@ -3,7 +3,7 @@ from typing import TypeVar
 from langchain import LLMChain, BasePromptTemplate
 from langchain.schema import OutputParserException, BaseOutputParser
 from openai import InvalidRequestError
-from openai.error import ServiceUnavailableError
+from openai.error import ServiceUnavailableError, AuthenticationError
 
 from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.model_settings import create_model
@@ -36,5 +36,11 @@ async def call_model_with_handling(
         )
     except InvalidRequestError as e:
         raise OpenAIError(e, e.user_message)
+    except AuthenticationError as e:
+        raise OpenAIError(
+            e,
+            "Authentication error: Ensure the correct API key and "
+            "requesting organization are being used.",
+        )
     except Exception as e:
         raise OpenAIError(e, "There was an issue getting a response from the AI model.")

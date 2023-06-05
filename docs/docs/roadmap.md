@@ -12,13 +12,8 @@ AgentGPT is currently in beta and we have a lot of features planned. Here's a gl
 AgentGPT developers are actively working on the following. Expect these to take anywhere from a few days to 2 weeks.
 :::
 
-- 🧠 **Long term memory via a vector DB**
-  - Providing Agents with more memory will allow them to perform tasks with a lot more context. This will also stop
-    Agents from trying to perform the same or similar tasks multiple times.
-- 🤖 **Agent steer-ability**
-  - Users should be able to guide the Agent through a goal. This involves adding or removing tasks and providing
-    additional context for the agent
-- 🌎 Agent gmail support
+For the most up-to-date information on the current
+roadmap, [visit our roadmap board on GitHub](https://github.com/orgs/reworkd/projects/3).
 
 ## Finished features ✔
 

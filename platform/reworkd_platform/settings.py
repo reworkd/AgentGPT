@@ -74,7 +74,7 @@ class Settings(BaseSettings):
 
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
-    max_loops: int = 3  # Maximum number of loops to run
+    max_loops: int = 25  # Maximum number of loops to run
 
     @property
     def db_url(self) -> URL:

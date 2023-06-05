@@ -29,7 +29,7 @@ langchain = "^0.0.189"
 openai = "^0.27.7"
 wikipedia = "^1.4.0"
 replicate = "^0.8.3"
-lanarky = "^0.7.6"
+lanarky = "^0.7.8"
 weaviate-client = "^3.19.2"
 tiktoken = "^0.4.0"
 

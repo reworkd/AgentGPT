@@ -47,7 +47,7 @@ class Search(Tool):
 
     @staticmethod
     def available() -> bool:
-        return settings.serp_api_key is not None
+        return settings.serp_api_key is not None and settings.serp_api_key != ""
 
     async def call(
         self, goal: str, task: str, input_str: str

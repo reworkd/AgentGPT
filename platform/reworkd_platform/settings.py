@@ -65,7 +65,7 @@ class Settings(BaseSettings):
 
     # Variables for the vector db. We're currently using Weaviate
     vector_db_url: str = "<Should be updated via env>"
-    vector_db_api_ket: str = "<Should be updated via env>"
+    vector_db_api_key: Optional[str] = None
 
     # Sentry's configuration.
     sentry_dsn: Optional[str] = None

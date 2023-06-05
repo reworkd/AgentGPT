@@ -50,13 +50,13 @@ const getEnvDefinition = (
     Backend: {
       REWORKD_PLATFORM_ENVIRONMENT: "development",
       REWORKD_PLATFORM_FF_MOCK_MODE_ENABLED: false,
-      REWORKD_PLATFORM_OPENAI_API_KEY: envValues.OpenAIApiKey || "<change me>",
+      REWORKD_PLATFORM_OPENAI_API_KEY: envValues.OpenAIApiKey || '"<change me>"',
       REWORKD_PLATFORM_FRONTEND_URL: "http://localhost:3000",
       REWORKD_PLATFORM_RELOAD: true,
       REWORKD_PLATFORM_OPENAI_API_BASE: "https://api.openai.com/v1",
-      REWORKD_PLATFORM_SERP_API_KEY: envValues.serpApiKey || "<change me>",
+      REWORKD_PLATFORM_SERP_API_KEY: envValues.serpApiKey || '""',
       REWORKD_PLATFORM_REPLICATE_API_KEY:
-        envValues.replicateApiKey || "<change me>",
+        envValues.replicateApiKey || '""',
     },
     "Database (Backend)": {
       REWORKD_PLATFORM_DATABASE_USER: "reworkd_platform",
@@ -85,7 +85,7 @@ const generateEnvFileContent = (config) => {
   Object.entries(config).forEach(([section, variables]) => {
     configFile += `# ${ section }:\n`;
     Object.entries(variables).forEach(([key, value]) => {
-      configFile += `${ key }="${ value }"\n`;
+      configFile += `${ key }=${ value }\n`;
     });
     configFile += "\n";
   });

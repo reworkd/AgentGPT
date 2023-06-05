@@ -6,14 +6,14 @@ updates:
   - package-ecosystem: npm
     directory: /cli
     schedule:
-      interval: weekly
+      interval: daily
 
   - package-ecosystem: npm
     directory: /next
     schedule:
-      interval: weekly
+      interval: daily
 
   - package-ecosystem: pip
     directory: /platform
     schedule:
-      interval: weekly
+      interval: daily

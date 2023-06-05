@@ -41,6 +41,17 @@ it to `.env` and update values as necessary. Some things to note:
 - You will need to update the `OPENAI_API_KEY` with your own value. See the [FAQ](/faq) for details
 - The DB ENV values are taken from definitions in `./docker-compose.yml`
 
+:::note Increasing Max Loops
+
+If you want to increase the max loops you agent has locally this can be done by modifying `REWORKD_PLATFORM_MAX_LOOPS`
+variable in your `platform/.env` file. It can also be done by directly modifying the platform's source
+code in `settings.py` (not recommended).
+
+**Note**: Running a large number of loops locally can be result in a higher OpenAI bill.
+
+:::
+
+
 ## Using Docker
 
 The docker build is very straightforward and should work out of the box.

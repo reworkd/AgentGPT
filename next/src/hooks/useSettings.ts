@@ -1,11 +1,7 @@
 import { useState } from "react";
 import type { ModelSettings, SettingModel } from "../utils/types";
 
-import {
-  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-  DEFAULT_MAX_LOOPS_FREE,
-  GPT_35_TURBO,
-} from "../utils/constants";
+import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, GPT_35_TURBO } from "../utils/constants";
 
 const SETTINGS_KEY = "AGENTGPT_SETTINGS";
 const DEFAULT_SETTINGS: ModelSettings = {
@@ -36,14 +32,6 @@ const loadSettings = () => {
       }
     });
   } catch (error) {}
-
-  if (settings.customMaxLoops === DEFAULT_MAX_LOOPS_FREE) {
-    settings.customMaxLoops = DEFAULT_MAX_LOOPS_CUSTOM_API_KEY;
-  }
-
-  if (settings.customMaxLoops && settings.customMaxLoops > 25) {
-    settings.customMaxLoops = 25;
-  }
 
   return settings;
 };

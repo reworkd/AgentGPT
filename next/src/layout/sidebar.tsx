@@ -10,10 +10,13 @@ import {
   HiUsers,
   HiXMark,
 } from "react-icons/hi2";
+import { useAuth } from "../hooks/useAuth";
+import type { User } from "next-auth";
+import { useRouter } from "next/router";
 
 const navigation = [
-  { name: "Home", href: "#", icon: HiHome, current: true },
-  { name: "Agents", href: "#", icon: HiUsers, current: false },
+  { name: "Home", href: "/", icon: HiHome, current: true },
+  { name: "Agents", href: "agents", icon: HiUsers, current: false },
   { name: "Settings", href: "#", icon: HiFolder, current: false },
   { name: "Calendar", href: "#", icon: HiCalendar, current: false },
   { name: "Documents", href: "#", icon: HiDocument, current: false },
@@ -30,8 +33,8 @@ function classNames(...classes) {
 }
 
 const MobileTopBar: FC<{ onClick: () => void }> = ({ onClick }) => (
-  <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-    <button type="button" className="-m-2.5 p-2.5 text-gray-400 lg:hidden" onClick={onClick}>
+  <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-neutral-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+    <button type="button" className="-m-2.5 p-2.5 text-neutral-400 lg:hidden" onClick={onClick}>
       <span className="sr-only">Open sidebar</span>
       <HiBars3 className="h-6 w-6" aria-hidden="true" />
     </button>
@@ -39,7 +42,7 @@ const MobileTopBar: FC<{ onClick: () => void }> = ({ onClick }) => (
     <a href="#">
       <span className="sr-only">Your profile</span>
       <img
-        className="h-8 w-8 rounded-full bg-gray-800"
+        className="h-8 w-8 rounded-full bg-neutral-800"
         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
         alt=""
       />
@@ -48,6 +51,8 @@ const MobileTopBar: FC<{ onClick: () => void }> = ({ onClick }) => (
 );
 
 const SidebarLayout = (props: PropsWithChildren) => {
+  const router = useRouter();
+  const { session } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -72,7 +77,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-gray-900/80" />
+              <div className="fixed inset-0 bg-neutral-900/80" />
             </Transition.Child>
             <div className="fixed inset-0 flex">
               <Transition.Child
@@ -105,8 +110,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
                       </button>
                     </div>
                   </Transition.Child>
+
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-neutral-900 px-6 pb-2 ring-1 ring-white/10">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
@@ -124,8 +130,8 @@ const SidebarLayout = (props: PropsWithChildren) => {
                                   href={item.href}
                                   className={classNames(
                                     item.current
-                                      ? "bg-gray-800 text-white"
-                                      : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                                      ? "bg-neutral-800 text-white"
+                                      : "text-neutral-400 hover:bg-neutral-800 hover:text-white",
                                     "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                                   )}
                                 >
@@ -137,7 +143,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                           </ul>
                         </li>
                         <li>
-                          <div className="text-xs font-semibold leading-6 text-gray-400">
+                          <div className="text-xs font-semibold leading-6 text-neutral-400">
                             Your teams
                           </div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -147,12 +153,12 @@ const SidebarLayout = (props: PropsWithChildren) => {
                                   href={team.href}
                                   className={classNames(
                                     team.current
-                                      ? "bg-gray-800 text-white"
-                                      : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                                      ? "bg-neutral-800 text-white"
+                                      : "text-neutral-400 hover:bg-neutral-800 hover:text-white",
                                     "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                                   )}
                                 >
-                                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
                                     {team.initial}
                                   </span>
                                   <span className="truncate">{team.name}</span>
@@ -173,7 +179,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-neutral-900 px-6">
             <div className="flex h-16 shrink-0 items-center">
               <img
                 className="h-8 w-auto"
@@ -188,13 +194,13 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     {navigation.map((item) => (
                       <li key={item.name}>
                         <a
-                          href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-gray-800 text-white"
-                              : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                              ? "bg-neutral-800 text-white"
+                              : "text-neutral-400 hover:bg-neutral-800 hover:text-white",
                             "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                           )}
+                          onClick={() => void router.push(item.href)}
                         >
                           <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                           {item.name}
@@ -204,20 +210,20 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   </ul>
                 </li>
                 <li>
-                  <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                  <div className="text-xs font-semibold leading-6 text-neutral-400">Your teams</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
                         <a
-                          href={team.href}
                           className={classNames(
                             team.current
-                              ? "bg-gray-800 text-white"
-                              : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                              ? "bg-neutral-800 text-white"
+                              : "text-neutral-400 hover:bg-neutral-800 hover:text-white",
                             "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                           )}
+                          onClick={() => void router.push(team.href)}
                         >
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
                             {team.initial}
                           </span>
                           <span className="truncate">{team.name}</span>
@@ -227,18 +233,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   </ul>
                 </li>
                 <li className="-mx-6 mt-auto">
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
-                  >
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-800"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
-                  </a>
+                  <DesktopProfile user={session?.user} />
                 </li>
               </ul>
             </nav>
@@ -252,6 +247,26 @@ const SidebarLayout = (props: PropsWithChildren) => {
         </main>
       </div>
     </>
+  );
+};
+
+const DesktopProfile: FC<{ user?: User }> = ({ user }) => {
+  const img =
+    user?.image ||
+    "https://avatar.vercel.sh/" +
+      (user?.email || "") +
+      ".svg?text=" +
+      (user?.name?.substr(0, 2).toUpperCase() || ""); //TODO: Fix shortname bug
+
+  return (
+    <a
+      href="#"
+      className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-neutral-800"
+    >
+      {user && <img className="h-8 w-8 rounded-full bg-neutral-800" src={img} alt="" />}
+      <span className="sr-only">Your profile</span>
+      <span aria-hidden="true">{user?.name}</span>
+    </a>
   );
 };
 

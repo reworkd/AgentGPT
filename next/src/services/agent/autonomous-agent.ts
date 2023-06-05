@@ -1,5 +1,4 @@
 import type { ModelSettings } from "../../utils/types";
-import { DEFAULT_MAX_LOOPS_FREE } from "../../utils/constants";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
@@ -8,6 +7,7 @@ import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
 import MessageService from "./message-service";
 import { streamText } from "../stream-utils";
+import type { Analysis } from "./analysis";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -21,7 +21,6 @@ class AutonomousAgent {
   renderMessage: (message: Message) => void;
   handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
   shutdown: () => void;
-  numLoops = 0;
   session?: Session;
   _id: string;
   mode: AgentMode;
@@ -57,6 +56,7 @@ class AutonomousAgent {
       {
         goal,
         modelSettings,
+        session,
       },
       this.onApiError
     );
@@ -103,14 +103,6 @@ class AutonomousAgent {
       return;
     }
 
-    this.numLoops += 1;
-    const maxLoops = this.maxLoops();
-    if (this.numLoops > maxLoops) {
-      this.messageService.sendLoopMessage();
-      this.shutdown();
-      return;
-    }
-
     // Wait before starting TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
@@ -121,7 +113,17 @@ class AutonomousAgent {
     this.messageService.sendThinkingMessage();
 
     // Analyze how to execute a task: Reason, web search, other tools...
-    const analysis = await this.$api.analyzeTask(currentTask.value);
+
+    let analysis: Analysis;
+    try {
+      analysis = await this.$api.analyzeTask(currentTask.value);
+    } catch (e) {
+      console.error(e);
+      this.messageService.sendErrorMessage(e);
+      this.shutdown();
+      return;
+    }
+
     this.messageService.sendAnalysisMessage(analysis);
 
     const executionMessage: Message = {
@@ -132,15 +134,17 @@ class AutonomousAgent {
     };
     this.messageService.sendMessage({ ...executionMessage, status: "completed" });
 
-    const result = "";
+    // TODO: this should be moved to the api layer
     await streamText(
       "/api/agent/execute",
       {
+        run_id: this.$api.runId,
         goal: this.goal,
         task: currentTask.value,
         analysis: analysis,
         modelSettings: this.modelSettings,
       },
+      this.$api.props.session?.accessToken || "",
       () => {
         executionMessage.info = "";
       },
@@ -169,7 +173,7 @@ class AutonomousAgent {
           remaining: this.getRemainingTasks().map((task) => task.value),
           completed: this.completedTasks,
         },
-        result
+        executionMessage.info || ""
       );
       await this.createTasks(newTasks);
       if (newTasks.length == 0) {
@@ -200,10 +204,6 @@ class AutonomousAgent {
     if (this.playbackControl === AGENT_PLAY) {
       this.playbackControl = AGENT_PAUSE;
     }
-  }
-
-  private maxLoops() {
-    return this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_FREE;
   }
 
   updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {

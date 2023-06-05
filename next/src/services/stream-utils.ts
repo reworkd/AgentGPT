@@ -6,6 +6,7 @@ type TextStream = ReadableStreamDefaultReader<Uint8Array>;
 const fetchData = async (
   url: string,
   body: RequestBody,
+  accessToken: string,
   onError: (message: unknown) => void
 ): Promise<TextStream | undefined> => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
@@ -16,6 +17,7 @@ const fetchData = async (
     headers: {
       "Content-Type": "application/json",
       Accept: "text/event-stream",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(body),
   });
@@ -61,12 +63,13 @@ async function processStream(
 export const streamText = async (
   url: string,
   body: RequestBody,
+  accessToken: string,
   onStart: () => void,
   onText: (text: string) => void,
   onError: (error: unknown) => void,
   shouldClose: () => boolean
 ) => {
-  const reader = await fetchData(url, body, onError);
+  const reader = await fetchData(url, body, accessToken, onError);
   if (!reader) {
     console.error("Reader is undefined!");
     return;

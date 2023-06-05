@@ -48,7 +48,6 @@ class Settings(BaseSettings):
     secondary_openai_api_key: Optional[str] = None
 
     replicate_api_key: Optional[str] = None
-    ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     serp_api_key: Optional[str] = None
 
     # Frontend URL for CORS
@@ -72,6 +71,10 @@ class Settings(BaseSettings):
     sentry_sample_rate: float = 1.0
 
     kafka_bootstrap_servers: List[str] = ["reworkd_platform-kafka:9092"]
+
+    # Application Settings
+    ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
+    max_loops: int = 3  # Maximum number of loops to run
 
     @property
     def db_url(self) -> URL:

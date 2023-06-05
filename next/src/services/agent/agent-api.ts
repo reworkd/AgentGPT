@@ -1,14 +1,17 @@
 import type { RequestBody } from "../../utils/interfaces";
-import axios from "axios";
-import { env } from "../../env/client.mjs";
-import { useAgentStore } from "../../stores";
 import type { Analysis } from "./analysis";
+import type { Session } from "next-auth";
+import { useAgentStore } from "../../stores";
+import * as apiUtils from "../api-utils";
 
-type ApiProps = Pick<RequestBody, "modelSettings" | "goal">;
+type ApiProps = Pick<RequestBody, "modelSettings" | "goal"> & {
+  session?: Session;
+};
 
 export class AgentApi {
   readonly props: ApiProps;
   readonly onError: (e: unknown) => never;
+  runId: string | undefined;
 
   constructor(apiProps: ApiProps, onError: (e: unknown) => never) {
     this.props = apiProps;
@@ -43,25 +46,23 @@ export class AgentApi {
       toolNames: useAgentStore.getState().tools.map((tool) => tool.name),
     });
   }
-
-  async executeTask(task: string, analysis: Analysis): Promise<string> {
-    return (
-      await this.post<{ response: string }>("/api/agent/execute", {
-        task: task,
-        analysis: analysis,
-      })
-    ).response;
-  }
-
-  private async post<T>(url: string, data: Omit<RequestBody, "goal" | "modelSettings">) {
+  private async post<T>(url: string, data: Omit<RequestBody, "goal" | "modelSettings" | "run_id">) {
     const requestBody: RequestBody = {
       modelSettings: this.props.modelSettings,
       goal: this.props.goal,
+      run_id: this.runId,
       ...data,
     };
 
     try {
-      return (await axios.post(env.NEXT_PUBLIC_BACKEND_URL + url, requestBody)).data as T;
+      const { run_id, ...data } = await apiUtils.post<T & { run_id: string }>(
+        url,
+        requestBody,
+        this.props.session
+      );
+
+      if (this.runId === undefined) this.runId = run_id;
+      return data;
     } catch (e) {
       this.onError(e);
     }

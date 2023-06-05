@@ -39,13 +39,6 @@ class MessageService {
     this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: goal });
   }
 
-  sendLoopMessage() {
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("DEMO_LOOPS_REACHED", "errors"),
-    });
-  }
-
   sendManualShutdownMessage() {
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
@@ -101,6 +94,9 @@ class MessageService {
           break;
         case 429:
           message = "ERROR_API_KEY_QUOTA";
+          break;
+        case 403:
+          message = "Authentication Error. Please make sure you are logged in.";
           break;
         case 404:
           message = "ERROR_OPENAI_API_KEY_NO_GPT4";

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, List, Literal
 
 from pydantic import BaseModel, Field
@@ -9,6 +10,13 @@ LLM_Model = Literal[
     "gpt-4",
 ]
 
+Loop_Step = Literal[
+    "start",
+    "analyze",
+    "execute",
+    "create",
+]
+
 
 class ModelSettings(BaseModel):
     model: LLM_Model = Field(default="gpt-3.5-turbo", alias="customModelName")
@@ -17,14 +25,47 @@ class ModelSettings(BaseModel):
     language: str = Field(default="English")
 
 
-class AgentRequestBody(BaseModel):
-    modelSettings: ModelSettings
+class AgentRunCreate(BaseModel):
     goal: str
-    language: str = "English"
-    task: Optional[str]
-    analysis: Optional[Analysis]
-    toolNames: Optional[List[str]]
-    tasks: Optional[List[str]]
-    lastTask: Optional[str]
-    result: Optional[str]
-    completedTasks: Optional[List[str]]
+    model_settings: ModelSettings = Field(
+        default=ModelSettings(), alias="modelSettings"
+    )
+
+
+class AgentRun(AgentRunCreate):
+    run_id: str
+
+
+class AgentTaskAnalyze(AgentRun):
+    task: str
+    tool_names: List[str] = Field(default=[], alias="toolNames")
+    model_settings: ModelSettings = Field(default=ModelSettings())
+
+
+class AgentTaskExecute(AgentRun):
+    task: str
+    analysis: Optional[Analysis] = None  # TODO Why is this optional?
+
+
+class AgentTaskCreate(AgentRun):
+    tasks: List[str] = Field(default=[])
+    last_task: Optional[str] = Field(default=None, alias="lastTask")
+    result: Optional[str] = Field(default=None)
+    completed_tasks: List[str] = Field(default=[], alias="completedTasks")
+
+
+class NewTasksResponse(BaseModel):
+    run_id: str
+    new_tasks: List[str] = Field(alias="newTasks")
+
+
+class RunCount(BaseModel):
+    count: int
+    first_run: Optional[datetime]
+    last_run: Optional[datetime]
+
+
+class UserBase(BaseModel):
+    id: str
+    name: Optional[str]
+    email: Optional[str]

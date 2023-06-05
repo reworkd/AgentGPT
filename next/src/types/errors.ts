@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const platformErrorSchema = z.object({
-  error: z.enum(["OpenAIError"]),
+  error: z.string(),
   detail: z.string(),
   code: z.number().optional(),
 });

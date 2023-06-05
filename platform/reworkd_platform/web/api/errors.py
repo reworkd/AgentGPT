@@ -3,10 +3,12 @@
 # Shoutout https://platformatic.dev/
 class PlatformaticError(Exception):
     detail: str
+    code: int
 
-    def __init__(self, base_exception: Exception, detail: str = ""):
+    def __init__(self, base_exception: Exception, detail: str = "", code: int = 409):
         super().__init__(base_exception)
         self.detail = detail
+        self.code = code
 
 
 class OpenAIError(PlatformaticError):

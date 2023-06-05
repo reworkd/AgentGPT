@@ -15,5 +15,6 @@ async def platformatic_exception_handler(
         content={
             "error": platform_exception.__class__.__name__,
             "detail": platform_exception.detail,
+            "code": platform_exception.code,
         },
     )

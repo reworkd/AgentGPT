@@ -27,9 +27,8 @@ class TrackedModel(Base):
     __abstract__ = True
 
     create_date = Column(
-        String, name="createDate", server_default=func.now(), nullable=False
+        String, name="create_date", server_default=func.now(), nullable=False
     )
-    delete_date = Column(String, name="deleteDate")
 
     @classmethod
     async def get(cls, session: AsyncSession, id_: str) -> Optional["TrackedModel"]:

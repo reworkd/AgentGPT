@@ -29,7 +29,7 @@
     "@trpc/react-query": "^10.21.1",
     "@trpc/server": "^10.9.0",
     "@types/lodash": "^4.14.194",
-    "@uiball/loaders": "^1.2.6",
+    "@uiball/loaders": "^1.3.0",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge": "^0.3.4",
     "axios": "^0.26.0",

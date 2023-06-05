@@ -12,7 +12,7 @@ from reworkd_platform.web.api.errors import ReplicateError
 
 
 async def get_replicate_image(input_str: str) -> str:
-    if settings.replicate_api_key is None:
+    if settings.replicate_api_key is None or settings.replicate_api_key == "":
         raise RuntimeError("Replicate API key not set")
 
     client = replicate.Client(settings.replicate_api_key)

@@ -9,7 +9,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
   },
   "author": "reworkd",
   "dependencies": {

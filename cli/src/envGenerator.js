@@ -140,7 +140,7 @@ export const testEnvFile = () => {
     }
 
     if (missingFromDef.length > 0) {
-      errorMessage += "Your ./next/.env is missing the following keys:\n";
+      errorMessage += "Your ./next/.env contains the following extra keys:\n";
       missingFromDef.forEach((key) => {
         errorMessage += chalk.whiteBright(`- ⚠️  ${ key }\n`);
       });

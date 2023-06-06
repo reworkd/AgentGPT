@@ -9,14 +9,17 @@ class NullAgentMemory(AgentMemory):
     Used when database connections cannot be established
     """
 
-    def __enter__(self):
-        pass
+    def __enter__(self) -> AgentMemory:
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
         pass
 
-    def add_tasks(self, task: List[str]) -> None:
+    def add_tasks(self, tasks: List[str]) -> None:
         pass
 
     def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
         return []
+
+    def reset_class(self) -> None:
+        pass

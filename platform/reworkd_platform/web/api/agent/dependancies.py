@@ -14,7 +14,10 @@ from reworkd_platform.schemas import (
     AgentRun,
     UserBase,
 )
+from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
+from reworkd_platform.web.api.memory.null import NullAgentMemory
+from reworkd_platform.web.api.memory.weaviate import WeaviateMemory
 
 T = TypeVar("T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate)
 
@@ -24,6 +27,15 @@ def agent_crud(
     session: AsyncSession = Depends(get_db_session),
 ):
     return AgentCRUD(session, user)
+
+
+def get_agent_memory(
+    user: UserBase = Depends(get_current_user),
+):
+    if settings.vector_db_url and settings.vector_db_url != "":
+        return WeaviateMemory(user.id)
+    else:
+        return NullAgentMemory()
 
 
 def agent_start_validator(

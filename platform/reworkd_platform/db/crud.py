@@ -48,7 +48,7 @@ class AgentCRUD(BaseCrud):
 
         if task_count >= max_:
             raise PlatformaticError(
-                StopIteration, f"Max loops of {max_} exceeded, shutting down.", 429
+                StopIteration(), f"Max loops of {max_} exceeded, shutting down.", 429
             )
 
 

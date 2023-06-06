@@ -8,6 +8,7 @@ import Accordion from "../Accordion";
 import type { ModelSettings, SettingModel } from "../../utils/types";
 import LanguageCombobox from "../LanguageCombobox";
 import { useTranslation } from "next-i18next";
+import { env } from "../../env/client.mjs";
 
 export const SettingsDialog: React.FC<{
   show: boolean;
@@ -82,7 +83,7 @@ export const SettingsDialog: React.FC<{
         }}
         attributes={{
           min: 1,
-          max: 25,
+          max: env.NEXT_PUBLIC_MAX_LOOPS,
           step: 1,
         }}
       />

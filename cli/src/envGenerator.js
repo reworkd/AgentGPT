@@ -27,8 +27,8 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
     },
     NextJS: {
       NEXT_PUBLIC_BACKEND_URL: "http://localhost:8000",
-      PLATFORM_URL: platformUrl,
       NEXT_PUBLIC_FORCE_AUTH: false,
+      NEXT_PUBLIC_MAX_LOOPS: 25,
     },
     "Next Auth config": {
       NEXTAUTH_SECRET: generateAuthSecret(),
@@ -45,7 +45,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
     Backend: {
       REWORKD_PLATFORM_ENVIRONMENT: "development",
       REWORKD_PLATFORM_FF_MOCK_MODE_ENABLED: false,
-      REWORKD_PLATFORM_MAX_LOOPS: 25,
+      REWORKD_PLATFORM_MAX_LOOPS: "${NEXT_PUBLIC_MAX_LOOPS}",
       REWORKD_PLATFORM_OPENAI_API_KEY:
         envValues.OpenAIApiKey || '"<change me>"',
       REWORKD_PLATFORM_FRONTEND_URL: "http://localhost:3000",

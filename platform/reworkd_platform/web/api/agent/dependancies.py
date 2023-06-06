@@ -32,7 +32,7 @@ def agent_crud(
 def get_agent_memory(
     user: UserBase = Depends(get_current_user),
 ):
-    if settings.vector_db_url:
+    if settings.vector_db_url and settings.vector_db_url != "":
         return WeaviateMemory(user.id)
     else:
         return NullAgentMemory()

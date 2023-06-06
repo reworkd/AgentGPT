@@ -32,6 +32,7 @@ replicate = "^0.8.3"
 lanarky = "^0.7.6"
 weaviate-client = "^3.19.2"
 tiktoken = "^0.4.0"
+numpy = "^1.24.3"
 
 
 [tool.poetry.dev-dependencies]

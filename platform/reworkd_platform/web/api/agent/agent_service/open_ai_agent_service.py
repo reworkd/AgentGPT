@@ -28,10 +28,17 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 class OpenAIAgentService(AgentService):
+    model_settings: ModelSettings
+    _language: str
+
     def __init__(self, model_settings: ModelSettings, agent_memory: AgentMemory):
-        self.model_settings = model_settings
+        self.with_settings(model_settings)
         self.agent_memory = agent_memory
+
+    def with_settings(self, model_settings: ModelSettings) -> "OpenAIAgentService":
+        self.model_settings = model_settings
         self._language = model_settings.language or "English"
+        return self
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         completion = await call_model_with_handling(

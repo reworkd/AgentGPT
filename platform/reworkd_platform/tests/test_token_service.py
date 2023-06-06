@@ -1,6 +1,6 @@
 import tiktoken
 
-from reworkd_platform.services.tokenizer.service import TokenService
+from reworkd_platform.services.tiktoken.service import TokenService
 
 encoding = tiktoken.get_encoding("cl100k_base")
 
@@ -20,12 +20,12 @@ def test_nothing():
 
 
 def test_context_space():
-    prompt = "You're a wizard, Harry. Write a book based on the context below:"
+    prompt = "Write a book based on the context below:"
     max_tokens = 800
 
     service = TokenService(encoding)
     get_context_space = service.get_context_space(prompt, max_tokens, 500)
-    assert 0 < get_context_space < 800 - 500
+    assert 0 < get_context_space < (800 - 500)
 
 
 def validate_tokenize_and_detokenize(service, text, expected_token_count):

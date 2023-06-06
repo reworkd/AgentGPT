@@ -21,8 +21,8 @@ the [Weaviate docs](https://weaviate.io/developers/weaviate).
 Essentially, vector databases allow us to save task and task execution history externally, allowing agents to access
 memory from many loops prior. This is done through similarity search over text.
 
-Intuitively, when we as humans want to remember something, we try to think of something related. Eventually,
-we find a collection of information related that topic in our head and act upon it.
+Intuitively, when we as humans want to remember something, we try to think of related words or phrases. Eventually,
+we find a collection of information related to that topic in our head and act upon it.
 This framework is similar to how a Vector DB operates.
 
 ## Weaviate

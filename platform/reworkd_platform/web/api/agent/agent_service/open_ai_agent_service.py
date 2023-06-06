@@ -3,6 +3,7 @@ from typing import List, Optional
 from lanarky.responses import StreamingResponse
 from langchain.chains import LLMChain
 from langchain.output_parsers import PydanticOutputParser
+from loguru import logger
 
 from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
@@ -33,7 +34,6 @@ class OpenAIAgentService(AgentService):
         self._language = model_settings.language or "English"
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
-
         completion = await call_model_with_handling(
             self.model_settings,
             start_goal_prompt,
@@ -109,4 +109,24 @@ class OpenAIAgentService(AgentService):
 
         previous_tasks = (completed_tasks or []) + tasks
         task_output_parser = TaskOutputParser(completed_tasks=previous_tasks)
-        return task_output_parser.parse(completion)
+        tasks = task_output_parser.parse(completion)
+
+        if not tasks:
+            logger.info(f"No additional tasks created: '{completion}'")
+            return tasks
+
+        unique_tasks = []
+        with self.agent_memory as memory:
+            for task in tasks:
+                similar_tasks = memory.get_similar_tasks(
+                    task, score_threshold=0.95  # TODO: Once we use ReAct, revisit
+                )
+
+                # Check if similar tasks are found
+                if len(similar_tasks) == 0:
+                    unique_tasks.append(task)
+                else:
+                    logger.info(f"Similar tasks to '{task}' found: {similar_tasks}")
+            memory.add_tasks(unique_tasks)
+
+        return unique_tasks

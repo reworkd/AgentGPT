@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Dict, cast
+from typing import List, Dict, cast, Tuple
 
 import numpy as np
 import weaviate
@@ -44,7 +44,7 @@ class WeaviateMemory(AgentMemory):
         auth = (
             weaviate.auth.AuthApiKey(api_key=settings.vector_db_api_key)
             if settings.vector_db_api_key is not None
-               and settings.vector_db_api_key != ""
+            and settings.vector_db_api_key != ""
             else None
         )
         self.client = weaviate.Client(settings.vector_db_url, auth_client_secret=auth)
@@ -78,25 +78,26 @@ class WeaviateMemory(AgentMemory):
         # Get similar tasks
         results = self._similarity_search_with_score(query)
 
-        # Sort by score
-        results.sort(key=lambda x: x[1], reverse=True)
+        def get_score(result: Tuple[str, float]) -> float:
+            return result[1]
+
+        results.sort(key=get_score, reverse=True)
 
         # Return formatted response
-        return [
-            (text, score) for [text, score] in results if
-            score >= score_threshold
-        ]
+        return [(text, score) for [text, score] in results if score >= score_threshold]
 
-    def delete_class(self):
+    def reset_class(self):
         try:
             self.client.schema.delete_class(self.index_name)
         except UnexpectedStatusCodeException as error:
             logger.error(error)
 
-    # Recreate _similarity_search_with_score from langchain to use a near vector
     def _similarity_search_with_score(
         self, query: str, k: int = 4
-    ) -> SimilarTasks:
+    ) -> List[Tuple[str, float]]:
+        """
+        A remake of _similarity_search_with_score from langchain to use a near vector
+        """
         # Build query
         query_obj = self.client.query.get(self.index_name, [self.text_key])
         embedding = self.embeddings.embed_query(query)
@@ -112,11 +113,9 @@ class WeaviateMemory(AgentMemory):
         if "errors" in result:
             raise ValueError(f"Error during query: {result['errors']}")
 
-        docs_and_scores = []
+        docs_and_scores: list[tuple[str, float]] = []
         for res in result["data"]["Get"][self.index_name]:
             text = cast(str, res.pop(self.text_key))
-            score = np.dot(
-                res["_additional"]["vector"], embedding
-            )
+            score = float(np.dot(res["_additional"]["vector"], embedding))
             docs_and_scores.append((text, score))
         return docs_and_scores

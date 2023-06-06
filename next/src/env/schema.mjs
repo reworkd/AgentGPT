@@ -1,5 +1,5 @@
 // @ts-check
-import {z} from "zod";
+import { z } from "zod";
 
 const requiredForProduction = () =>
   process.env.NODE_ENV === "production"
@@ -9,6 +9,7 @@ const requiredForProduction = () =>
 function stringToBoolean() {
   return z.preprocess((str) => str === "true", z.boolean());
 }
+
 /**
  * Specify your server-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.
@@ -58,7 +59,6 @@ export const serverEnv = {
  */
 export const clientSchema = z.object({
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]).default("development"),
-  NEXT_PUBLIC_FORCE_AUTH: stringToBoolean(),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_VERCEL_URL: z.string().default("http://localhost:3000"),
   NEXT_PUBLIC_BACKEND_URL: z.string().url(),
@@ -73,7 +73,6 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
-  NEXT_PUBLIC_FORCE_AUTH: process.env.NEXT_PUBLIC_FORCE_AUTH,
   NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
   NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED,

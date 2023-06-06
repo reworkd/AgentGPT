@@ -21,3 +21,6 @@ class AgentMemory(ABC):
 
     def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
         pass
+
+    def reset_class(self):
+        pass

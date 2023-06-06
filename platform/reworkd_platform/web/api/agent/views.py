@@ -66,7 +66,6 @@ class CompletionResponse(BaseModel):
 async def execute_tasks(
     req_body: AgentTaskExecute = Depends(
         agent_execute_validator(
-            loop_step="execute",
             example={
                 "goal": "Perform tasks accurately",
                 "task": "Write code to make a platformer",
@@ -88,7 +87,7 @@ async def execute_tasks(
 
 @router.post("/create")
 async def create_tasks(
-    req_body: AgentTaskCreate = Depends(agent_create_validator(loop_step="create")),
+    req_body: AgentTaskCreate = Depends(agent_create_validator()),
 ) -> NewTasksResponse:
     new_tasks = await get_agent_service(req_body.model_settings).create_tasks_agent(
         goal=req_body.goal,

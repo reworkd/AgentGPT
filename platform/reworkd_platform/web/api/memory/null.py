@@ -20,3 +20,6 @@ class NullAgentMemory(AgentMemory):
 
     def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
         return []
+
+    def reset_class(self):
+        pass

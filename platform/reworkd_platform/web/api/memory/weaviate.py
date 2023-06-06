@@ -44,15 +44,12 @@ class WeaviateMemory(AgentMemory):
         auth = (
             weaviate.auth.AuthApiKey(api_key=settings.vector_db_api_key)
             if settings.vector_db_api_key is not None
-            and settings.vector_db_api_key != ""
+               and settings.vector_db_api_key != ""
             else None
         )
         self.client = weaviate.Client(settings.vector_db_url, auth_client_secret=auth)
 
-        # Create the schema if it doesn't already exist
-        schema = _default_schema(self.index_name, self.text_key)
-        if not self.client.schema.contains(schema):
-            self.client.schema.create_class(schema)
+        self._create_class()
 
         # Instantiate client with embedding provider
         self.embeddings = OpenAIEmbeddings(openai_api_key=settings.openai_api_key)
@@ -65,6 +62,12 @@ class WeaviateMemory(AgentMemory):
         )
 
         return self
+
+    def _create_class(self):
+        # Create the schema if it doesn't already exist
+        schema = _default_schema(self.index_name, self.text_key)
+        if not self.client.schema.contains(schema):
+            self.client.schema.create_class(schema)
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.client.__del__()
@@ -89,6 +92,7 @@ class WeaviateMemory(AgentMemory):
     def reset_class(self):
         try:
             self.client.schema.delete_class(self.index_name)
+            self._create_class()
         except UnexpectedStatusCodeException as error:
             logger.error(error)
 

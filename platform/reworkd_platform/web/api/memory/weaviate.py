@@ -39,12 +39,12 @@ class WeaviateMemory(AgentMemory):
         self.index_name = CLASS_PREFIX + index_name
         self.text_key = "agent_memory"
 
-    def __enter__(self):
+    def __enter__(self) -> AgentMemory:
         # If the database requires authentication, retrieve the API key
         auth = (
             weaviate.auth.AuthApiKey(api_key=settings.vector_db_api_key)
             if settings.vector_db_api_key is not None
-               and settings.vector_db_api_key != ""
+            and settings.vector_db_api_key != ""
             else None
         )
         self.client = weaviate.Client(settings.vector_db_url, auth_client_secret=auth)
@@ -69,7 +69,7 @@ class WeaviateMemory(AgentMemory):
         if not self.client.schema.contains(schema):
             self.client.schema.create_class(schema)
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         self.client.__del__()
 
     def add_tasks(self, tasks: List[str]) -> List[str]:
@@ -89,7 +89,7 @@ class WeaviateMemory(AgentMemory):
         # Return formatted response
         return [(text, score) for [text, score] in results if score >= score_threshold]
 
-    def reset_class(self):
+    def reset_class(self) -> None:
         try:
             self.client.schema.delete_class(self.index_name)
             self._create_class()

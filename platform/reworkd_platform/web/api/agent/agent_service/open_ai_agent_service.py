@@ -23,14 +23,17 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_from_name,
     get_user_tools,
 )
+from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 class OpenAIAgentService(AgentService):
-    def __init__(self, model_settings: ModelSettings):
+    def __init__(self, model_settings: ModelSettings, agent_memory: AgentMemory):
         self.model_settings = model_settings
+        self.agent_memory = agent_memory
         self._language = model_settings.language or "English"
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
+
         completion = await call_model_with_handling(
             self.model_settings,
             start_goal_prompt,
@@ -38,7 +41,13 @@ class OpenAIAgentService(AgentService):
         )
 
         task_output_parser = TaskOutputParser(completed_tasks=[])
-        return parse_with_handling(task_output_parser, completion)
+        tasks = parse_with_handling(task_output_parser, completion)
+
+        with self.agent_memory as memory:
+            memory.reset_class()
+            memory.add_tasks(tasks)
+
+        return tasks
 
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]

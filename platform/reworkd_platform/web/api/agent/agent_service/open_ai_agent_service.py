@@ -34,7 +34,6 @@ class OpenAIAgentService(AgentService):
         self._language = model_settings.language or "English"
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
-
         completion = await call_model_with_handling(
             self.model_settings,
             start_goal_prompt,

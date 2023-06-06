@@ -32,7 +32,8 @@ def agent_crud(
 def get_agent_memory(
     user: UserBase = Depends(get_current_user),
 ):
-    if settings.vector_db_url and settings.vector_db_url != "":
+    vector_db_exists = settings.vector_db_url and settings.vector_db_url != ""
+    if vector_db_exists and not settings.ff_mock_mode_enabled:
         return WeaviateMemory(user.id)
     else:
         return NullAgentMemory()

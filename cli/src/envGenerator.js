@@ -27,7 +27,6 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
     },
     NextJS: {
       NEXT_PUBLIC_BACKEND_URL: "http://localhost:8000",
-      NEXT_PUBLIC_FORCE_AUTH: false,
       NEXT_PUBLIC_MAX_LOOPS: 25,
     },
     "Next Auth config": {

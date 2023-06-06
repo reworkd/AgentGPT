@@ -26,7 +26,6 @@ import { useSettings } from "../hooks/useSettings";
 import { findLanguage, languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
-import { env } from "../env/client.mjs";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 
 const Home: NextPage = () => {
@@ -62,7 +61,7 @@ const Home: NextPage = () => {
     const savedModalData = localStorage.getItem(key);
 
     setTimeout(() => {
-      if (savedModalData == null) {
+      if(savedModalData == null) {
         setShowHelpDialog(true);
       }
     }, 1800);
@@ -80,7 +79,7 @@ const Home: NextPage = () => {
   }, [agent, updateIsAgentStopped]);
 
   const setAgentRun = (newName: string, newGoal: string) => {
-    if (agent != null) {
+    if(agent != null) {
       return;
     }
 
@@ -90,7 +89,7 @@ const Home: NextPage = () => {
   };
 
   const handleAddMessage = (message: Message) => {
-    if (isTask(message)) {
+    if(isTask(message)) {
       updateTaskStatus(message);
     }
 
@@ -98,7 +97,7 @@ const Home: NextPage = () => {
   };
 
   const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
-    if (opts.agentPlaybackControl !== undefined) {
+    if(opts.agentPlaybackControl !== undefined) {
       updateIsAgentPaused(opts.agentPlaybackControl);
     }
   };
@@ -107,12 +106,12 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = (name: string, goal: string) => {
-    if (name.trim() === "" || goal.trim() === "") {
+    if(name.trim() === "" || goal.trim() === "") {
       return;
     }
 
     // Do not force login locally for people that don't have auth setup
-    if (session === null && env.NEXT_PUBLIC_FORCE_AUTH) {
+    if(session === null) {
       setShowSignInDialog(true);
       return;
     }
@@ -137,7 +136,7 @@ const Home: NextPage = () => {
   };
 
   const handleContinue = () => {
-    if (!agent) {
+    if(!agent) {
       return;
     }
 
@@ -151,8 +150,8 @@ const Home: NextPage = () => {
     e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     // Only Enter is pressed, execute the function
-    if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      if (isAgentPaused) {
+    if(e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
+      if(isAgentPaused) {
         handleContinue();
       }
       handleNewGoal(nameInput, goalInput);
@@ -175,7 +174,7 @@ const Home: NextPage = () => {
   const firstButton =
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
-        <FaPlay size={20} />
+        <FaPlay size={20}/>
         <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
       </Button>
     ) : (
@@ -188,7 +187,7 @@ const Home: NextPage = () => {
           i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
         ) : (
           <>
-            <VscLoading className="animate-spin" size={20} />
+            <VscLoading className="animate-spin" size={20}/>
             <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
           </>
         )}
@@ -197,14 +196,14 @@ const Home: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
-      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
+      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)}/>
+      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)}/>
       <SettingsDialog
         customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
-      <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
+      <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)}/>
       <main className="flex min-h-screen flex-row">
         <Drawer
           showHelp={() => setShowHelpDialog(true)}
@@ -265,13 +264,13 @@ const Home: NextPage = () => {
                 onSave={
                   shouldShowSave
                     ? (format) => {
-                        setHasSaved(true);
-                        agentUtils.saveAgent({
-                          goal: goalInput.trim(),
-                          name: nameInput.trim(),
-                          tasks: messages,
-                        });
-                      }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: nameInput.trim(),
+                        tasks: messages,
+                      });
+                    }
                     : undefined
                 }
                 scrollToBottom
@@ -279,7 +278,7 @@ const Home: NextPage = () => {
                 setAgentRun={setAgentRun}
                 visibleOnMobile={mobileVisibleWindow === "Chat"}
               />
-              <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
+              <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"}/>
             </Expand>
 
             <div className="flex w-full flex-col gap-2 md:m-4">
@@ -288,7 +287,7 @@ const Home: NextPage = () => {
                   inputRef={nameInputRef}
                   left={
                     <>
-                      <FaRobot />
+                      <FaRobot/>
                       <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
                         ns: "indexPage",
                       })}`}</span>
@@ -303,14 +302,14 @@ const Home: NextPage = () => {
                 />
                 <Button ping onClick={() => setShowToolsDialog(true)} className="h-fit">
                   <p className="mr-3">Tools</p>
-                  <FaCog />
+                  <FaCog/>
                 </Button>
               </Expand>
               <Expand delay={1.3}>
                 <Input
                   left={
                     <>
-                      <FaStar />
+                      <FaStar/>
                       <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
                         ns: "indexPage",
                       })}`}</span>
@@ -336,7 +335,7 @@ const Home: NextPage = () => {
               >
                 {!isAgentStopped && agent === null ? (
                   <>
-                    <VscLoading className="animate-spin" size={20} />
+                    <VscLoading className="animate-spin" size={20}/>
                     <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
                       ns: "indexPage",
                     })}`}</span>
@@ -357,7 +356,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

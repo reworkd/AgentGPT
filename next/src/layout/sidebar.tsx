@@ -5,6 +5,7 @@ import type { User } from "next-auth";
 import { useRouter } from "next/router";
 import {
   FaBars,
+  FaCog,
   FaDiscord,
   FaGithub,
   FaLaptop,
@@ -26,9 +27,10 @@ const navigation = [
 ];
 
 const links = [
-  { id: 1, name: "Github", href: "#", initial: <FaGithub /> },
-  { id: 2, name: "Twitter", href: "#", initial: <FaTwitter /> },
-  { id: 3, name: "Discord", href: "#", initial: <FaDiscord /> },
+  { name: "Settings", href: "/settings", icon: <FaCog /> },
+  { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
+  { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
+  { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },
 ];
 const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
@@ -65,10 +67,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative mr-16 flex h-screen max-h-screen w-72 max-w-xs flex-1">
+              <div className="relative mr-16 flex h-screen max-h-screen w-60 max-w-xs flex-1">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col bg-neutral-900 px-6 pb-2 ring-1 ring-white/10">
-                  {/* TODO: align left */}
                   <div className="mt-2 flex h-10 flex-row items-center">
                     <Image
                       className="h-6 -translate-x-2"
@@ -77,12 +78,11 @@ const SidebarLayout = (props: PropsWithChildren) => {
                       height="40"
                       alt="Reworkd AI"
                     />
-                    {/*<h1 className="ml-4 flex-grow font-mono text-xl font-extrabold text-gray-200">*/}
-                    {/*  Agent<span className="font-extrabold text-white">GPT</span>*/}
-                    {/*</h1>*/}
-
+                    <h1 className="ml-2 flex-grow font-mono font-extrabold text-gray-200">
+                      My Agents
+                    </h1>
                     <button
-                      className="ml-auto translate-x-4 rounded-md border-2 border-white/20 text-white transition-all"
+                      className="ml-auto translate-x-4 rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                       <FaBars size="20" className="z-20 m-2" />
@@ -91,13 +91,16 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   <FadingHr className="my-3" />
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col">
-                      <li className="flex-grow">
+                      <li className="flex-auto">
                         {/* TODO: fix should fill whole screen */}
-                        <ul role="list" className="-mx-2 max-h-[60vh] space-y-1 overflow-y-auto ">
+                        <ul
+                          role="list"
+                          className="-ml-2 -mr-6 max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
+                        >
                           {userAgents.map((agent, index) => (
                             <DrawerItemButton
                               key={index}
-                              className="flex rounded-md p-2 text-sm font-semibold"
+                              className="flex w-full rounded-md p-2 text-sm font-semibold"
                               icon={<FaRobot />}
                               text={agent.name}
                               onClick={() => void router.push(`/agent?id=${agent.id}`)}
@@ -110,19 +113,23 @@ const SidebarLayout = (props: PropsWithChildren) => {
                           Important Links
                         </div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
-                          {links.map((team) => (
-                            <li key={team.name}>
+                          {links.map((link) => (
+                            <li key={link.name}>
                               <a
-                                href={team.href}
+                                href={link.href}
                                 className={clsx(
                                   "text-neutral-400 hover:bg-neutral-800 hover:text-white",
                                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                                 )}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  void router.push(link.href);
+                                }}
                               >
                                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
-                                  {team.initial}
+                                  {link.icon}
                                 </span>
-                                <span className="truncate">{team.name}</span>
+                                <span className="truncate">{link.name}</span>
                               </a>
                             </li>
                           ))}
@@ -142,14 +149,14 @@ const SidebarLayout = (props: PropsWithChildren) => {
       </Transition.Root>
 
       <button
-        className="absolute z-20 m-2 rounded-md border-2 border-white/20 text-white transition-all"
+        className="absolute z-20 m-2 rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         <FaBars size="20" className="z-20 m-2" />
       </button>
 
       <main
-        className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-72")}
+        className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
       >
         <DottedGridBackground className="min-h-screen">
           <div className="px-4 sm:px-6 lg:px-8">{props.children}</div>

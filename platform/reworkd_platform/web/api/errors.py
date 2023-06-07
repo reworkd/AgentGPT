@@ -4,6 +4,7 @@
 class PlatformaticError(Exception):
     detail: str
     code: int
+    should_log: bool = True
 
     def __init__(self, base_exception: Exception, detail: str = "", code: int = 409):
         super().__init__(base_exception)
@@ -17,6 +18,10 @@ class OpenAIError(PlatformaticError):
 
 class ReplicateError(PlatformaticError):
     pass
+
+
+class MaxLoopsError(PlatformaticError):
+    should_log = False
 
 
 # (Replicate) ModelError: NSFW content detected. Try running it again, or try a different prompt.

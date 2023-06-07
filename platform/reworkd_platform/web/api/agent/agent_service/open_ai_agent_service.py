@@ -6,6 +6,7 @@ from langchain.output_parsers import PydanticOutputParser
 from loguru import logger
 
 from reworkd_platform.schemas import ModelSettings
+from reworkd_platform.services.tiktoken.service import TokenService
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.helpers import (
@@ -31,9 +32,15 @@ class OpenAIAgentService(AgentService):
     model_settings: ModelSettings
     _language: str
 
-    def __init__(self, model_settings: ModelSettings, agent_memory: AgentMemory):
+    def __init__(
+        self,
+        model_settings: ModelSettings,
+        agent_memory: AgentMemory,
+        token_service: TokenService,
+    ):
         self.with_settings(model_settings)
         self.agent_memory = agent_memory
+        self.token_service = token_service
 
     def with_settings(self, model_settings: ModelSettings) -> "OpenAIAgentService":
         self.model_settings = model_settings
@@ -62,14 +69,22 @@ class OpenAIAgentService(AgentService):
         llm = create_model(self.model_settings)
         chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
 
+        tools_overview = get_tools_overview(get_user_tools(tool_names))
+        self.token_service.prompt_token_count(
+            analyze_task_prompt,
+            goal=goal,
+            task=task,
+            language=self._language,
+            tools_overview=tools_overview,
+        )
+
         pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
-        print(get_tools_overview(get_user_tools(tool_names)))
         completion = await chain.arun(
             {
                 "goal": goal,
                 "task": task,
                 "language": self._language,
-                "tools_overview": get_tools_overview(get_user_tools(tool_names)),
+                "tools_overview": tools_overview,
             }
         )
 
@@ -77,6 +92,7 @@ class OpenAIAgentService(AgentService):
         try:
             return pydantic_parser.parse(completion)
         except Exception as error:
+            # TODO: log exception error here
             print(f"Error parsing analysis: {error}")
             return Analysis.get_default_analysis()
 

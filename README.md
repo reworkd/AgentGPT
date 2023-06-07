@@ -44,12 +44,17 @@ The cli sets up the following for AgentGPT:
 - 🤖 [Backend](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
 - 🎨 [Frontend](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
 
-To get started follow run the commands below.
+- You will need node intalled, you can check by running 'node -v' or install [node](https://nodejs.org/en/download)
+
+To get started on Mac/Linux, run the commands below.
 ```bash
 git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
 ./setup.sh
 ```
-
+If you are on windows, you can do the following after downloading the repo.
+```
+setup.bat
+```
 > 🐳 The recommend way to set up AgentGPT locally is to [docker-compose](https://www.docker.com/), please make sure you have docker installed.
 
 ## 🎉 Roadmap

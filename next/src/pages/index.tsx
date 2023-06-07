@@ -2,9 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Badge from "../components/Badge";
-import DefaultLayout from "../layout/default";
 import ChatWindow from "../components/console/ChatWindow";
-import Drawer from "../components/drawer/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
@@ -27,6 +25,7 @@ import { findLanguage, languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
+import SidebarLayout from "../layout/sidebar";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -61,7 +60,7 @@ const Home: NextPage = () => {
     const savedModalData = localStorage.getItem(key);
 
     setTimeout(() => {
-      if(savedModalData == null) {
+      if (savedModalData == null) {
         setShowHelpDialog(true);
       }
     }, 1800);
@@ -79,7 +78,7 @@ const Home: NextPage = () => {
   }, [agent, updateIsAgentStopped]);
 
   const setAgentRun = (newName: string, newGoal: string) => {
-    if(agent != null) {
+    if (agent != null) {
       return;
     }
 
@@ -89,7 +88,7 @@ const Home: NextPage = () => {
   };
 
   const handleAddMessage = (message: Message) => {
-    if(isTask(message)) {
+    if (isTask(message)) {
       updateTaskStatus(message);
     }
 
@@ -97,7 +96,7 @@ const Home: NextPage = () => {
   };
 
   const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
-    if(opts.agentPlaybackControl !== undefined) {
+    if (opts.agentPlaybackControl !== undefined) {
       updateIsAgentPaused(opts.agentPlaybackControl);
     }
   };
@@ -106,12 +105,12 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = (name: string, goal: string) => {
-    if(name.trim() === "" || goal.trim() === "") {
+    if (name.trim() === "" || goal.trim() === "") {
       return;
     }
 
     // Do not force login locally for people that don't have auth setup
-    if(session === null) {
+    if (session === null) {
       setShowSignInDialog(true);
       return;
     }
@@ -136,7 +135,7 @@ const Home: NextPage = () => {
   };
 
   const handleContinue = () => {
-    if(!agent) {
+    if (!agent) {
       return;
     }
 
@@ -150,8 +149,8 @@ const Home: NextPage = () => {
     e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     // Only Enter is pressed, execute the function
-    if(e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      if(isAgentPaused) {
+    if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
+      if (isAgentPaused) {
         handleContinue();
       }
       handleNewGoal(nameInput, goalInput);
@@ -174,7 +173,7 @@ const Home: NextPage = () => {
   const firstButton =
     isAgentPaused && !isAgentStopped ? (
       <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
-        <FaPlay size={20}/>
+        <FaPlay size={20} />
         <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
       </Button>
     ) : (
@@ -187,7 +186,7 @@ const Home: NextPage = () => {
           i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
         ) : (
           <>
-            <VscLoading className="animate-spin" size={20}/>
+            <VscLoading className="animate-spin" size={20} />
             <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
           </>
         )}
@@ -195,75 +194,71 @@ const Home: NextPage = () => {
     );
 
   return (
-    <DefaultLayout>
-      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)}/>
-      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)}/>
+    <SidebarLayout>
+      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
+      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
       <SettingsDialog
         customSettings={settingsModel}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
       />
-      <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)}/>
-      <main className="flex min-h-screen flex-row">
-        <Drawer
-          showHelp={() => setShowHelpDialog(true)}
-          showSettings={() => setShowSettingsDialog(true)}
-        />
+      <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
+      {/*<Drawer*/}
+      {/*  showHelp={() => setShowHelpDialog(true)}*/}
+      {/*  showSettings={() => setShowSettingsDialog(true)}*/}
+      {/*/>*/}
+      <div id="content" className="flex min-h-screen w-full items-center justify-center p-2">
         <div
-          id="content"
-          className="z-10 flex min-h-screen w-full items-center justify-center p-2 sm:px-4 md:px-10"
+          id="layout"
+          className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
         >
-          <div
-            id="layout"
-            className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
-          >
-            <div id="title" className="relative flex flex-col items-center font-mono">
-              <div className="flex flex-row items-start shadow-2xl">
-                <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">
-                  Agent
-                </span>
-                <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
-                <PopIn delay={0.5}>
-                  <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
-                    {`${i18n?.t("BETA", {
-                      ns: "indexPage",
-                    })}`}{" "}
-                    🚀
-                  </Badge>
-                </PopIn>
-              </div>
-              <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
-                <p>
-                  {i18n.t("HEADING_DESCRIPTION", {
+          <div id="title" className="relative flex flex-col items-center font-mono">
+            <div className="flex flex-row items-start shadow-2xl">
+              <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">
+                Agent
+              </span>
+              <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
+              <PopIn delay={0.5}>
+                <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
+                  {i18n?.t("BETA", {
                     ns: "indexPage",
                   })}
-                </p>
-              </div>
+                  &nbsp;🚀
+                </Badge>
+              </PopIn>
             </div>
+            <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
+              <p>
+                {i18n.t("HEADING_DESCRIPTION", {
+                  ns: "indexPage",
+                })}
+              </p>
+            </div>
+          </div>
 
-            <div>
-              <Button
-                className="rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden"
-                disabled={mobileVisibleWindow == "Chat"}
-                onClick={() => handleVisibleWindowClick("Chat")}
-              >
-                Chat
-              </Button>
-              <Button
-                className="rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden"
-                disabled={mobileVisibleWindow == "Tasks"}
-                onClick={() => handleVisibleWindowClick("Tasks")}
-              >
-                Tasks
-              </Button>
-            </div>
-            <Expand className="flex w-full flex-row">
-              <ChatWindow
-                messages={messages}
-                title="AgentGPT"
-                onSave={
-                  shouldShowSave
-                    ? (format) => {
+          <div>
+            <Button
+              className="rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden"
+              disabled={mobileVisibleWindow == "Chat"}
+              onClick={() => handleVisibleWindowClick("Chat")}
+            >
+              Chat
+            </Button>
+            <Button
+              className="rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden"
+              disabled={mobileVisibleWindow == "Tasks"}
+              onClick={() => handleVisibleWindowClick("Tasks")}
+            >
+              Tasks
+            </Button>
+          </div>
+          <Expand className="flex w-full flex-row">
+            <ChatWindow
+              messages={messages}
+              title="AgentGPT"
+              onSave={
+                shouldShowSave
+                  ? (format) => {
                       setHasSaved(true);
                       agentUtils.saveAgent({
                         goal: goalInput.trim(),
@@ -271,92 +266,91 @@ const Home: NextPage = () => {
                         tasks: messages,
                       });
                     }
-                    : undefined
-                }
-                scrollToBottom
-                displaySettings
-                setAgentRun={setAgentRun}
-                visibleOnMobile={mobileVisibleWindow === "Chat"}
-              />
-              <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"}/>
-            </Expand>
+                  : undefined
+              }
+              scrollToBottom
+              displaySettings
+              setAgentRun={setAgentRun}
+              visibleOnMobile={mobileVisibleWindow === "Chat"}
+            />
+            <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
+          </Expand>
 
-            <div className="flex w-full flex-col gap-2 md:m-4">
-              <Expand delay={1.2} className="flex flex-row items-end gap-2 md:items-center">
-                <Input
-                  inputRef={nameInputRef}
-                  left={
-                    <>
-                      <FaRobot/>
-                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
-                        ns: "indexPage",
-                      })}`}</span>
-                    </>
-                  }
-                  value={nameInput}
-                  disabled={agent != null}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="AgentGPT"
-                  type="text"
-                />
-                <Button ping onClick={() => setShowToolsDialog(true)} className="h-fit">
-                  <p className="mr-3">Tools</p>
-                  <FaCog/>
-                </Button>
-              </Expand>
-              <Expand delay={1.3}>
-                <Input
-                  left={
-                    <>
-                      <FaStar/>
-                      <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
-                        ns: "indexPage",
-                      })}`}</span>
-                    </>
-                  }
-                  disabled={agent != null}
-                  value={goalInput}
-                  onChange={(e) => setGoalInput(e.target.value)}
-                  onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
-                    ns: "indexPage",
-                  })}`}
-                  type="textarea"
-                />
-              </Expand>
-            </div>
-            <Expand delay={1.4} className="flex gap-2">
-              {firstButton}
-              <Button
-                disabled={agent === null}
-                onClick={handleStopAgent}
-                enabledClassName={"bg-red-600 hover:bg-red-400"}
-              >
-                {!isAgentStopped && agent === null ? (
+          <div className="flex w-full flex-col gap-2 md:m-4">
+            <Expand delay={1.2} className="flex flex-row items-end gap-2 md:items-center">
+              <Input
+                inputRef={nameInputRef}
+                left={
                   <>
-                    <VscLoading className="animate-spin" size={20}/>
-                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                    <FaRobot />
+                    <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
                       ns: "indexPage",
                     })}`}</span>
                   </>
-                ) : (
-                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                    ns: "indexPage",
-                  })}`
-                )}
+                }
+                value={nameInput}
+                disabled={agent != null}
+                onChange={(e) => setNameInput(e.target.value)}
+                onKeyDown={(e) => handleKeyPress(e)}
+                placeholder="AgentGPT"
+                type="text"
+              />
+              <Button ping onClick={() => setShowToolsDialog(true)} className="h-fit">
+                <p className="mr-3">Tools</p>
+                <FaCog />
               </Button>
             </Expand>
+            <Expand delay={1.3}>
+              <Input
+                left={
+                  <>
+                    <FaStar />
+                    <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                      ns: "indexPage",
+                    })}`}</span>
+                  </>
+                }
+                disabled={agent != null}
+                value={goalInput}
+                onChange={(e) => setGoalInput(e.target.value)}
+                onKeyDown={(e) => handleKeyPress(e)}
+                placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                  ns: "indexPage",
+                })}`}
+                type="textarea"
+              />
+            </Expand>
           </div>
+          <Expand delay={1.4} className="flex gap-2">
+            {firstButton}
+            <Button
+              disabled={agent === null}
+              onClick={handleStopAgent}
+              enabledClassName={"bg-red-600 hover:bg-red-400"}
+            >
+              {!isAgentStopped && agent === null ? (
+                <>
+                  <VscLoading className="animate-spin" size={20} />
+                  <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                    ns: "indexPage",
+                  })}`}</span>
+                </>
+              ) : (
+                `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                  ns: "indexPage",
+                })}`
+              )}
+            </Button>
+          </Expand>
         </div>
-      </main>
-    </DefaultLayout>
+      </div>
+    </SidebarLayout>
   );
 };
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

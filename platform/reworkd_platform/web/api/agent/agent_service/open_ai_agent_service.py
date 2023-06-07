@@ -119,7 +119,7 @@ class OpenAIAgentService(AgentService):
         with self.agent_memory as memory:
             for task in tasks:
                 similar_tasks = memory.get_similar_tasks(
-                    task, score_threshold=0.97  # TODO: Once we use ReAct, revisit
+                    task, score_threshold=0.98  # TODO: Once we use ReAct, revisit
                 )
 
                 # Check if similar tasks are found

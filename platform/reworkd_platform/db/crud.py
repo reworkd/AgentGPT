@@ -6,7 +6,7 @@ from reworkd_platform.db.models.agent import AgentRun, AgentTask
 from reworkd_platform.db.models.user import UserSession
 from reworkd_platform.schemas import Loop_Step, UserBase
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.errors import PlatformaticError
+from reworkd_platform.web.api.errors import MaxLoopsError
 
 
 class BaseCrud:
@@ -47,8 +47,10 @@ class AgentCRUD(BaseCrud):
         max_ = settings.max_loops
 
         if task_count >= max_:
-            raise PlatformaticError(
-                StopIteration(), f"Max loops of {max_} exceeded, shutting down.", 429
+            raise MaxLoopsError(
+                StopIteration(),
+                f"Max loops of {max_} exceeded, shutting down.",
+                429,
             )
 
 

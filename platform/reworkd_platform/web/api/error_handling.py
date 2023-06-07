@@ -9,7 +9,9 @@ async def platformatic_exception_handler(
     _: Request,
     platform_exception: PlatformaticError,
 ) -> JSONResponse:
-    logger.exception(platform_exception)
+    if platform_exception.should_log:
+        logger.exception(platform_exception)
+
     return JSONResponse(
         status_code=409,
         content={

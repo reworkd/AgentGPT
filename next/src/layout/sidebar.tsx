@@ -1,17 +1,17 @@
-import React, { FC, Fragment, PropsWithChildren, useState } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
+import { Fragment, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
-import type { User } from "next-auth";
+import type { Session } from "next-auth";
 import { useRouter } from "next/router";
 import {
   FaBars,
   FaCog,
   FaDiscord,
   FaGithub,
-  FaLaptop,
   FaRobot,
+  FaSignInAlt,
   FaTwitter,
-  FaWrench,
 } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
@@ -20,22 +20,55 @@ import FadingHr from "../components/FadingHr";
 import { DrawerItemButton } from "../components/drawer/DrawerItemButton";
 import { api } from "../utils/api";
 
-const navigation = [
-  { name: "Console", href: "/", icon: FaLaptop, current: true },
-  { name: "Agents", href: "agents", icon: FaRobot, current: false },
-  { name: "Settings", href: "#", icon: FaWrench, current: false },
-];
+import { get_avatar } from "../utils/user";
+import Dialog from "../ui/dialog";
+import { useTranslation } from "next-i18next";
+import type { SettingModel } from "../utils/types";
+import { SettingsDialog } from "../components/dialog/SettingsDialog";
 
 const links = [
-  { name: "Settings", href: "/settings", icon: <FaCog /> },
   { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
   { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
   { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },
 ];
-const SidebarLayout = (props: PropsWithChildren) => {
+
+interface Props extends PropsWithChildren {
+  settings: SettingModel;
+}
+
+const LinkItem = (props: {
+  title: string;
+  icon: ReactNode;
+  href?: string;
+  onClick: () => void;
+}) => (
+  <li>
+    <a
+      href={props.href}
+      className={clsx(
+        "text-neutral-400 hover:bg-neutral-800 hover:text-white",
+        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
+      )}
+      onClick={(e) => {
+        e.preventDefault();
+        props.onClick();
+      }}
+    >
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
+        {props.icon}
+      </span>
+      <span className="truncate">{props.title}</span>
+    </a>
+  </li>
+);
+
+const SidebarLayout = (props: Props) => {
   const router = useRouter();
-  const { session } = useAuth();
+  const { session, signIn, signOut, status } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [t] = useTranslation("drawer");
+
+  const [showSettings, setShowSettings] = useState(false);
 
   const query = api.agent.getAll.useQuery(undefined, {
     enabled: !!session?.user,
@@ -45,7 +78,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
   return (
     <div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        <div className="relative z-50">
+        <div className="relative z-20">
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -92,11 +125,24 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col">
                       <li className="flex-auto">
-                        {/* TODO: fix should fill whole screen */}
+                        {/* TODO: we shouldn't use 50vh here but instead fill full space */}
                         <ul
                           role="list"
                           className="-ml-2 -mr-6 max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
                         >
+                          {status === "unauthenticated" && (
+                            <div className="p-1 font-mono text-sm text-white">
+                              <a className="link" onClick={() => void signIn()}>
+                                {t("SIGN_IN")}
+                              </a>{" "}
+                              {t("SIGN_IN_NOTICE")}
+                            </div>
+                          )}
+                          {status === "authenticated" && userAgents.length === 0 && (
+                            <div className="p-1 font-mono text-sm text-white">
+                              {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
+                            </div>
+                          )}
                           {userAgents.map((agent, index) => (
                             <DrawerItemButton
                               key={index}
@@ -113,31 +159,29 @@ const SidebarLayout = (props: PropsWithChildren) => {
                           Important Links
                         </div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
+                          <LinkItem
+                            title="Settings"
+                            icon={<FaCog />}
+                            onClick={() => {
+                              setShowSettings(true);
+                            }}
+                          />
                           {links.map((link) => (
-                            <li key={link.name}>
-                              <a
-                                href={link.href}
-                                className={clsx(
-                                  "text-neutral-400 hover:bg-neutral-800 hover:text-white",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                                )}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  void router.push(link.href);
-                                }}
-                              >
-                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
-                                  {link.icon}
-                                </span>
-                                <span className="truncate">{link.name}</span>
-                              </a>
-                            </li>
+                            <LinkItem
+                              key={link.name}
+                              title={link.name}
+                              icon={link.icon}
+                              href={link.href}
+                              onClick={() => {
+                                void router.push(link.href);
+                              }}
+                            />
                           ))}
                         </ul>
                       </li>
                       <li>
                         <FadingHr className="mx-4 mb-2" />
-                        <DesktopProfile user={session?.user} />
+                        <AuthItem session={session} signOut={signOut} signIn={signIn} />
                       </li>
                     </ul>
                   </nav>
@@ -149,43 +193,95 @@ const SidebarLayout = (props: PropsWithChildren) => {
       </Transition.Root>
 
       <button
-        className="absolute z-20 m-2 rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+        className="absolute z-10 m-2 rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         <FaBars size="20" className="z-20 m-2" />
       </button>
 
+      <SettingsDialog
+        customSettings={props.settings}
+        show={showSettings}
+        close={() => setShowSettings(false)}
+      />
+
       <main
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
       >
-        <DottedGridBackground className="min-h-screen">
-          <div className="px-4 sm:px-6 lg:px-8">{props.children}</div>
+        <DottedGridBackground className="min-w-screenx">
+          <div className="px-4 sm:p-6 lg:p-8">{props.children}</div>
         </DottedGridBackground>
       </main>
     </div>
   );
 };
 
-const DesktopProfile: FC<{ user?: User; classname?: string }> = ({ user, classname }) => {
-  const img =
-    user?.image ||
-    "https://avatar.vercel.sh/" +
-      (user?.email || "") +
-      ".svg?text=" +
-      (user?.name?.substr(0, 2).toUpperCase() || ""); //TODO: Fix shortname bug
+const AuthItem: FC<{
+  session: Session | null;
+  classname?: string;
+  signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
+}> = ({ session, classname, signOut, signIn }) => {
+  const [t] = useTranslation("drawer");
+  const [showDialog, setShowDialog] = useState(false);
+  const user = session?.user;
 
   return (
-    <a
-      href="#"
+    <div
       className={clsx(
         "flex -translate-x-3 items-center justify-start gap-3 rounded-md px-2 py-4 text-sm font-semibold text-white hover:bg-neutral-800",
         classname
       )}
+      onClick={(e) => {
+        user ? setShowDialog(true) : void signIn();
+      }}
     >
-      {user && <img className="h-8 w-8 rounded-full bg-neutral-800" src={img} alt="" />}
+      {user && (
+        <img className="h-8 w-8 rounded-full bg-neutral-800" src={get_avatar(user)} alt="" />
+      )}
+      {!user && (
+        <h1 className="ml-2 flex flex-grow items-center gap-2 text-center">
+          <FaSignInAlt />
+          {t("SIGN_IN")}
+        </h1>
+      )}
+
       <span className="sr-only">Your profile</span>
       <span aria-hidden="true">{user?.name}</span>
-    </a>
+      <Dialog
+        inline
+        open={showDialog}
+        setOpen={setShowDialog}
+        title="My Account"
+        icon={<img className="rounded-full bg-neutral-800" src={get_avatar(user)} alt="" />}
+        actions={
+          <>
+            <button
+              type="button"
+              className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
+              onClick={() => {
+                signOut()
+                  .then(() => setShowDialog(false))
+                  .catch(console.error)
+                  .finally(console.log);
+              }}
+            >
+              Sign out
+            </button>
+            <button
+              type="button"
+              className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              onClick={() => setShowDialog(false)}
+            >
+              Cancel
+            </button>
+          </>
+        }
+      >
+        <p className="text-sm text-gray-500">Name: {user?.name}</p>
+        <p className="text-sm text-gray-500">Email: {user?.email}</p>
+      </Dialog>
+    </div>
   );
 };
 

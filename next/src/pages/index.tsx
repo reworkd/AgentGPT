@@ -1,17 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
-import Badge from "../components/Badge";
 import ChatWindow from "../components/console/ChatWindow";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
-import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/dialog/HelpDialog";
-import { SettingsDialog } from "../components/dialog/SettingsDialog";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { AgentPlaybackControl, Message } from "../types/agentTypes";
@@ -26,6 +23,8 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
+import Badge from "../components/Badge";
+import PopIn from "../components/motions/popin";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -49,7 +48,6 @@ const Home: NextPage = () => {
   const settingsModel = useSettings();
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
-  const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
@@ -194,14 +192,10 @@ const Home: NextPage = () => {
     );
 
   return (
-    <SidebarLayout>
+    <SidebarLayout settings={settingsModel}>
       <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
-      <SettingsDialog
-        customSettings={settingsModel}
-        show={showSettingsDialog}
-        close={() => setShowSettingsDialog(false)}
-      />
+
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
       {/*<Drawer*/}
       {/*  showHelp={() => setShowHelpDialog(true)}*/}

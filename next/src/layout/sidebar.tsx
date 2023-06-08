@@ -11,7 +11,6 @@ import DottedGridBackground from "../components/DottedGridBackground";
 import FadingHr from "../components/FadingHr";
 import { DrawerItemButton } from "../components/drawer/DrawerItemButton";
 import { api } from "../utils/api";
-
 import { get_avatar } from "../utils/user";
 import Dialog from "../ui/dialog";
 import { useTranslation } from "next-i18next";
@@ -201,7 +200,7 @@ const SidebarLayout = (props: Props) => {
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
       >
         <DottedGridBackground className="min-w-screenx">
-          <div className="px-4 sm:p-6 lg:p-8">{props.children}</div>
+          <div>{props.children}</div>
         </DottedGridBackground>
       </main>
     </div>

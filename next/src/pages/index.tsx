@@ -25,6 +25,7 @@ import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
 import Badge from "../components/Badge";
 import PopIn from "../components/motions/popin";
+import clsx from "clsx";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -232,14 +233,21 @@ const Home: NextPage = () => {
 
           <div>
             <Button
-              className="rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden"
-              disabled={mobileVisibleWindow == "Chat"}
+              className={clsx(
+                  "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
+              mobileVisibleWindow == "Chat" ||
+                    "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                )}disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
             >
               Chat
             </Button>
             <Button
-              className="rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden"
+              className={clsx(
+                  "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
+                  mobileVisibleWindow == "Tasks" ||
+                    "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
             >
@@ -289,7 +297,11 @@ const Home: NextPage = () => {
                 placeholder="AgentGPT"
                 type="text"
               />
-              <Button ping onClick={() => setShowToolsDialog(true)} className="h-fit">
+              <Button
+                  ping
+                  onClick={() => setShowToolsDialog(true)}
+                  className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                >
                 <p className="mr-3">Tools</p>
                 <FaCog />
               </Button>

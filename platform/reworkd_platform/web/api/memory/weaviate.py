@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-from typing import List, Dict, cast, Tuple
+from typing import List, Dict, cast, Tuple, Optional
 
 import numpy as np
-import weaviate
+import weaviate  # type: ignore
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Weaviate
 from loguru import logger
 from weaviate import UnexpectedStatusCodeException
 
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.memory.memory import SimilarTasks, AgentMemory
+from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 def _default_schema(index_name: str, text_key: str) -> Dict:
@@ -33,7 +33,7 @@ class WeaviateMemory(AgentMemory):
     Wrapper around the Weaviate vector database
     """
 
-    db: Weaviate = None
+    db: Optional[Weaviate] = None
 
     def __init__(self, index_name: str):
         self.index_name = CLASS_PREFIX + index_name
@@ -52,7 +52,11 @@ class WeaviateMemory(AgentMemory):
         self._create_class()
 
         # Instantiate client with embedding provider
-        self.embeddings = OpenAIEmbeddings(openai_api_key=settings.openai_api_key)
+        self.embeddings = OpenAIEmbeddings(
+            client=None,  # Meta private value but mypy will complain its missing
+            openai_api_key=settings.openai_api_key,
+        )
+
         self.db = Weaviate(
             self.client,
             self.index_name,
@@ -73,11 +77,11 @@ class WeaviateMemory(AgentMemory):
         self.client.__del__()
 
     def add_tasks(self, tasks: List[str]) -> List[str]:
+        if self.db is None:
+            raise Exception("WeaviateMemory not initialized")
         return self.db.add_texts(tasks)
 
-    def get_similar_tasks(
-        self, query: str, score_threshold: float = 0.7
-    ) -> SimilarTasks:
+    def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
         # Get similar tasks
         results = self._similarity_search_with_score(query)
 
@@ -87,7 +91,7 @@ class WeaviateMemory(AgentMemory):
         results.sort(key=get_score, reverse=True)
 
         # Return formatted response
-        return [(text, score) for [text, score] in results if score >= score_threshold]
+        return [text for [text, score] in results if score >= score_threshold]
 
     def reset_class(self) -> None:
         try:

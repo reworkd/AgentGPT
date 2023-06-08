@@ -46,7 +46,9 @@ const LinkItem = (props: {
         props.onClick();
       }}
     >
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
+      <span
+        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white"
+      >
         {props.icon}
       </span>
       <span className="truncate">{props.title}</span>
@@ -94,26 +96,25 @@ const SidebarLayout = (props: Props) => {
             >
               <div className="relative flex h-screen max-h-screen w-60 max-w-xs flex-1">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col bg-neutral-900 px-2 pb-2 ring-1 ring-white/10">
-                  <div className="mt-2 flex h-10 flex-row items-center">
+                <div className="flex grow flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
+                  <div className="flex flex-row items-center justify-between">
                     <Image
-                      className="h-6"
                       src="logo-white.svg"
-                      width="40"
-                      height="40"
+                      width="25"
+                      height="25"
                       alt="Reworkd AI"
                     />
-                    <h1 className="ml-2 flex-grow font-mono font-extrabold text-gray-200">
+                    <h1 className="font-mono font-extrabold text-gray-200">
                       My Agents
                     </h1>
                     <button
-                      className="ml-auto rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                      className="rounded-md border border-transparent hover:border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
-                      <FaBars size="20" className="z-20 m-2" />
+                      <FaBars size="15" className="z-20 m-2" />
                     </button>
                   </div>
-                  <FadingHr className="m-4" />
+                  <FadingHr className="my-2" />
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col">
                       <li className="flex-auto">
@@ -138,7 +139,7 @@ const SidebarLayout = (props: Props) => {
                           {userAgents.map((agent, index) => (
                             <DrawerItemButton
                               key={index}
-                              className="flex w-full rounded-md p-2 text-sm font-semibold"
+                              className="flex w-full rounded-md p-2 text-sm font-mono font-semibold"
                               text={agent.name}
                               onClick={() => void router.push(`/agent?id=${agent.id}`)}
                             />
@@ -171,7 +172,7 @@ const SidebarLayout = (props: Props) => {
                         </ul>
                       </li>
                       <li>
-                        <FadingHr className="mx-4 mb-2" />
+                        <FadingHr />
                         <AuthItem session={session} signOut={signOut} signIn={signIn} />
                       </li>
                     </ul>
@@ -184,10 +185,10 @@ const SidebarLayout = (props: Props) => {
       </Transition.Root>
 
       <button
-        className="absolute z-10 m-2 rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+        className="absolute z-10 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
-        <FaBars size="20" className="z-20 m-2" />
+        <FaBars size="15" className="z-20 m-2" />
       </button>
 
       <SettingsDialog
@@ -220,7 +221,7 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "flex items-center justify-start gap-3 rounded-md px-2 py-4 text-sm font-semibold text-white hover:bg-neutral-800",
+        "flex items-center justify-start gap-3 rounded-md px-2 py-3 text-sm font-semibold text-white hover:bg-neutral-800",
         classname
       )}
       onClick={(e) => {

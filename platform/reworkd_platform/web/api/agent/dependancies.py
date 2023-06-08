@@ -16,6 +16,7 @@ from reworkd_platform.schemas import (
 )
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
+from reworkd_platform.web.api.memory.memory import AgentMemory
 from reworkd_platform.web.api.memory.memory_with_fallback import MemoryWithFallback
 from reworkd_platform.web.api.memory.null import NullAgentMemory
 from reworkd_platform.web.api.memory.weaviate import WeaviateMemory
@@ -26,13 +27,13 @@ T = TypeVar("T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate)
 def agent_crud(
     user: UserBase = Depends(get_current_user),
     session: AsyncSession = Depends(get_db_session),
-):
+) -> AgentCRUD:
     return AgentCRUD(session, user)
 
 
 def get_agent_memory(
     user: UserBase = Depends(get_current_user),
-):
+) -> AgentMemory:
     vector_db_exists = settings.vector_db_url and settings.vector_db_url != ""
     if vector_db_exists and not settings.ff_mock_mode_enabled:
         return MemoryWithFallback(WeaviateMemory(user.id), NullAgentMemory())
@@ -48,13 +49,14 @@ def agent_start_validator(
         crud: AgentCRUD = Depends(agent_crud),
     ) -> AgentRun:
         id_ = (await crud.create_run(body.goal)).id
-        return AgentRun(**body.dict(), run_id=id_)
+        return AgentRun(**body.dict(), run_id=str(id_))
 
     return func
 
 
 async def validate(body: T, crud: AgentCRUD, type_: Loop_Step):
-    body.run_id = (await crud.create_task(body.run_id, type_)).id
+    _id = (await crud.create_task(body.run_id, type_)).id
+    body.run_id = str(_id)
     return body
 
 

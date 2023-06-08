@@ -1,5 +1,5 @@
 import React from "react";
-interface Props<T> {
+interface Props {
   label: string;
   value: string | number | readonly string[] | undefined;
   name: string;
@@ -12,7 +12,7 @@ interface Props<T> {
   placeholder?: string;
 }
 
-const Input = <T,>({ ...props }: Props<T>) => {
+const Input = ({ ...props }: Props) => {
   return (
     <div>
       <label htmlFor={props.name} className="block text-sm font-medium leading-6 text-gray-900">

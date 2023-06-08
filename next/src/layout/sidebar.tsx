@@ -93,9 +93,9 @@ const SidebarLayout = (props: Props) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative flex h-screen max-h-screen w-60 max-w-xs flex-1">
+              <div className="flex h-screen max-h-screen w-60 max-w-xs flex-1">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
+                <nav className="flex flex-1 flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
                     <Image
                       src="logo-white.svg"
@@ -114,69 +114,61 @@ const SidebarLayout = (props: Props) => {
                     </button>
                   </div>
                   <FadingHr className="my-2" />
-                  <nav className="flex flex-1 flex-col">
-                    <ul role="list" className="flex flex-1 flex-col">
-                      <li className="flex-auto">
-                        {/* TODO: we shouldn't use 50vh here but instead fill full space */}
-                        <ul
-                          role="list"
-                          className="max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
-                        >
-                          {status === "unauthenticated" && (
-                            <div className="p-1 font-mono text-sm text-white">
-                              <a className="link" onClick={() => void signIn()}>
-                                {t("SIGN_IN")}
-                              </a>{" "}
-                              {t("SIGN_IN_NOTICE")}
-                            </div>
-                          )}
-                          {status === "authenticated" && userAgents.length === 0 && (
-                            <div className="p-1 font-mono text-sm text-white">
-                              {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
-                            </div>
-                          )}
-                          {userAgents.map((agent, index) => (
-                            <DrawerItemButton
-                              key={index}
-                              className="flex w-full rounded-md p-2 text-sm font-mono font-semibold"
-                              text={agent.name}
-                              onClick={() => void router.push(`/agent?id=${agent.id}`)}
-                            />
-                          ))}
-                        </ul>
-                      </li>
-                      <li className="mb-2">
-                        <div className="ml-2 text-xs font-semibold text-neutral-400">
-                          Important Links
-                        </div>
-                        <ul role="list" className="mt-2 space-y-1">
+                  <div className="flex-1 overflow-y-auto mb-2">
+                    {status === "unauthenticated" && (
+                      <div className="p-1 font-mono text-sm text-white">
+                        <a className="link" onClick={() => void signIn()}>
+                          {t("SIGN_IN")}
+                        </a>{" "}
+                        {t("SIGN_IN_NOTICE")}
+                      </div>
+                    )}
+                    {status === "authenticated" && userAgents.length === 0 && (
+                      <div className="p-1 font-mono text-sm text-white">
+                        {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
+                      </div>
+                    )}
+                    {userAgents.map((agent, index) => (
+                      <DrawerItemButton
+                        key={index}
+                        className="flex w-full rounded-md p-2 text-sm font-mono font-semibold"
+                        text={agent.name}
+                        onClick={() => void router.push(`/agent?id=${agent.id}`)}
+                      />
+                    ))}
+                  </div>
+                  <ul role="list" className="flex flex-col">
+                    <li className="mb-2">
+                      <div className="ml-2 text-xs font-semibold text-neutral-400">
+                        Important Links
+                      </div>
+                      <ul role="list" className="mt-2 space-y-1">
+                        <LinkItem
+                          title="Settings"
+                          icon={<FaCog />}
+                          onClick={() => {
+                            setShowSettings(true);
+                          }}
+                        />
+                        {links.map((link) => (
                           <LinkItem
-                            title="Settings"
-                            icon={<FaCog />}
+                            key={link.name}
+                            title={link.name}
+                            icon={link.icon}
+                            href={link.href}
                             onClick={() => {
-                              setShowSettings(true);
+                              void router.push(link.href);
                             }}
                           />
-                          {links.map((link) => (
-                            <LinkItem
-                              key={link.name}
-                              title={link.name}
-                              icon={link.icon}
-                              href={link.href}
-                              onClick={() => {
-                                void router.push(link.href);
-                              }}
-                            />
-                          ))}
-                        </ul>
-                      </li>
-                      <li>
-                        <FadingHr />
-                        <AuthItem session={session} signOut={signOut} signIn={signIn} />
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+                        ))}
+                      </ul>
+                    </li>
+                    <li>
+                      <FadingHr />
+                      <AuthItem session={session} signOut={signOut} signIn={signIn} />
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </Transition.Child>
           </div>
@@ -220,7 +212,7 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "flex items-center justify-start gap-3 rounded-md px-2 py-3 text-sm font-semibold text-white hover:bg-neutral-800",
+        "flex items-center justify-start gap-3 rounded-md px-2 py-1 mt-1.5 text-sm font-semibold text-white hover:bg-neutral-800",
         classname
       )}
       onClick={(e) => {

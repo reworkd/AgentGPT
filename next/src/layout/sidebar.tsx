@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren, ReactNode } from "react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
@@ -59,7 +59,7 @@ const LinkItem = (props: {
 const SidebarLayout = (props: Props) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [t] = useTranslation("drawer");
 
   const [showSettings, setShowSettings] = useState(false);
@@ -68,6 +68,20 @@ const SidebarLayout = (props: Props) => {
     enabled: !!session?.user,
   });
   const userAgents = query.data ?? [];
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isDesktop = window.innerWidth >= 1280
+      setSidebarOpen(isDesktop);
+    };
+    handleResize(); // Initial check on open
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
 
   return (
     <div>
@@ -192,7 +206,7 @@ const SidebarLayout = (props: Props) => {
       <main
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
       >
-        <DottedGridBackground className="min-w-screenx">
+        <DottedGridBackground className="min-w-screen min-h-screen">
           <div>{props.children}</div>
         </DottedGridBackground>
       </main>

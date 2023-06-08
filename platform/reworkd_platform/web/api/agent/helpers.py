@@ -1,9 +1,9 @@
 from typing import TypeVar
 
-from langchain import LLMChain, BasePromptTemplate
-from langchain.schema import OutputParserException, BaseOutputParser
+from langchain import BasePromptTemplate, LLMChain
+from langchain.schema import BaseOutputParser, OutputParserException
 from openai import InvalidRequestError
-from openai.error import ServiceUnavailableError, AuthenticationError
+from openai.error import AuthenticationError, ServiceUnavailableError
 
 from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.model_settings import create_model

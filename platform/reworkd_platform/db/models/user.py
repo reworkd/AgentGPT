@@ -1,8 +1,8 @@
 import uuid
 from typing import List
 
-from sqlalchemy import Column, String, DateTime, ForeignKey, Index, text
-from sqlalchemy.orm import relationship, Mapped
+from sqlalchemy import Column, DateTime, ForeignKey, Index, String, text
+from sqlalchemy.orm import Mapped, relationship
 
 from reworkd_platform.db.base import Base
 

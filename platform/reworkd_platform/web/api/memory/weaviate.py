@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Dict, cast, Tuple, Optional, Any
+from typing import Any, Dict, List, Optional, Tuple, cast
 
 import numpy as np
 import weaviate  # type: ignore

@@ -56,9 +56,6 @@ class AgentCRUD(BaseCrud):
 
 
 class UserCrud(BaseCrud):
-    def __init__(self, session: AsyncSession):
-        super().__init__(session)
-
     async def get_user_session(self, token: str) -> UserSession:
         query = (
             select(UserSession)

@@ -41,9 +41,6 @@ class Search(Tool):
     )
     public_description = "Search google for information about current events."
 
-    def __init__(self, model_settings: ModelSettings):
-        super().__init__(model_settings)
-
     @staticmethod
     def available() -> bool:
         return settings.serp_api_key is not None and settings.serp_api_key != ""

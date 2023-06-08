@@ -2,7 +2,6 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
 from langchain import LLMChain
 
-from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.model_settings import create_model
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
@@ -13,9 +12,6 @@ class Code(Tool):
         "and explain programming concepts."
     )
     public_description = "Write and review code."
-
-    def __init__(self, model_settings: ModelSettings):
-        super().__init__(model_settings)
 
     async def call(
         self, goal: str, task: str, input_str: str

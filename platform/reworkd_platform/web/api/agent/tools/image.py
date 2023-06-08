@@ -4,7 +4,6 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from replicate.exceptions import ModelError
 from replicate.exceptions import ReplicateError as ReplicateAPIError
 
-from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
 from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
@@ -57,9 +56,6 @@ class Image(Tool):
         "style, image focus, color, etc"
     )
     public_description = "Generate AI images."
-
-    def __init__(self, model_settings: ModelSettings):
-        super().__init__(model_settings)
 
     async def call(
         self, goal: str, task: str, input_str: str

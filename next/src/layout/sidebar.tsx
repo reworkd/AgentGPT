@@ -4,7 +4,7 @@ import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
 import { useRouter } from "next/router";
-import { FaBars, FaCog, FaDiscord, FaGithub, FaSignInAlt, FaTwitter } from "react-icons/fa";
+import { FaBars, FaCog, FaDiscord, FaGithub, FaQuestion, FaSignInAlt, FaTwitter } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -18,6 +18,7 @@ import type { SettingModel } from "../utils/types";
 import { SettingsDialog } from "../components/dialog/SettingsDialog";
 
 const links = [
+  { name: "Help", href: "https://docs.reworkd.ai/", icon: <FaQuestion /> },
   { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
   { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
   { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },

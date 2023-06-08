@@ -59,7 +59,7 @@ const Home: NextPage = () => {
     const savedModalData = localStorage.getItem(key);
 
     setTimeout(() => {
-      if (savedModalData == null) {
+      if(savedModalData == null) {
         setShowHelpDialog(true);
       }
     }, 1800);
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
   }, [agent, updateIsAgentStopped]);
 
   const setAgentRun = (newName: string, newGoal: string) => {
-    if (agent != null) {
+    if(agent != null) {
       return;
     }
 
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
   };
 
   const handleAddMessage = (message: Message) => {
-    if (isTask(message)) {
+    if(isTask(message)) {
       updateTaskStatus(message);
     }
 
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
   };
 
   const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
-    if (opts.agentPlaybackControl !== undefined) {
+    if(opts.agentPlaybackControl !== undefined) {
       updateIsAgentPaused(opts.agentPlaybackControl);
     }
   };
@@ -104,12 +104,12 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = (name: string, goal: string) => {
-    if (name.trim() === "" || goal.trim() === "") {
+    if(name.trim() === "" || goal.trim() === "") {
       return;
     }
 
     // Do not force login locally for people that don't have auth setup
-    if (session === null) {
+    if(session === null) {
       setShowSignInDialog(true);
       return;
     }
@@ -134,7 +134,7 @@ const Home: NextPage = () => {
   };
 
   const handleContinue = () => {
-    if (!agent) {
+    if(!agent) {
       return;
     }
 
@@ -148,8 +148,8 @@ const Home: NextPage = () => {
     e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     // Only Enter is pressed, execute the function
-    if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      if (isAgentPaused) {
+    if(e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
+      if(isAgentPaused) {
         handleContinue();
       }
       handleNewGoal(nameInput, goalInput);
@@ -198,10 +198,6 @@ const Home: NextPage = () => {
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
-      {/*<Drawer*/}
-      {/*  showHelp={() => setShowHelpDialog(true)}*/}
-      {/*  showSettings={() => setShowSettingsDialog(true)}*/}
-      {/*/>*/}
       <div id="content" className="flex min-h-screen w-full items-center justify-center p-2">
         <div
           id="layout"
@@ -234,20 +230,20 @@ const Home: NextPage = () => {
           <div>
             <Button
               className={clsx(
-                  "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
-              mobileVisibleWindow == "Chat" ||
-                    "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-                )}disabled={mobileVisibleWindow == "Chat"}
+                "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
+                mobileVisibleWindow == "Chat" ||
+                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+              )} disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
             >
               Chat
             </Button>
             <Button
               className={clsx(
-                  "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
-                  mobileVisibleWindow == "Tasks" ||
-                    "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-                )}
+                "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
+                mobileVisibleWindow == "Tasks" ||
+                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+              )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
             >
@@ -261,13 +257,13 @@ const Home: NextPage = () => {
               onSave={
                 shouldShowSave
                   ? (format) => {
-                      setHasSaved(true);
-                      agentUtils.saveAgent({
-                        goal: goalInput.trim(),
-                        name: nameInput.trim(),
-                        tasks: messages,
-                      });
-                    }
+                    setHasSaved(true);
+                    agentUtils.saveAgent({
+                      goal: goalInput.trim(),
+                      name: nameInput.trim(),
+                      tasks: messages,
+                    });
+                  }
                   : undefined
               }
               scrollToBottom
@@ -298,10 +294,10 @@ const Home: NextPage = () => {
                 type="text"
               />
               <Button
-                  ping
-                  onClick={() => setShowToolsDialog(true)}
-                  className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-                >
+                ping
+                onClick={() => setShowToolsDialog(true)}
+                className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+              >
                 <p className="mr-3">Tools</p>
                 <FaCog />
               </Button>
@@ -356,7 +352,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

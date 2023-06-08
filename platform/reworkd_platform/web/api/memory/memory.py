@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List, Tuple, Any
+from typing import Any, List, Tuple
 
 SimilarTasks = List[Tuple[str, float]]
 

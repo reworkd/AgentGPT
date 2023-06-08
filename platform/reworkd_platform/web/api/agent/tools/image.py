@@ -1,7 +1,8 @@
 import openai
 import replicate
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
-from replicate.exceptions import ModelError, ReplicateError as ReplicateAPIError
+from replicate.exceptions import ModelError
+from replicate.exceptions import ReplicateError as ReplicateAPIError
 
 from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.settings import settings

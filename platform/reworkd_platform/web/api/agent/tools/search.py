@@ -9,7 +9,6 @@ from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import summarize
 
-
 # Search google via serper.dev. Adapted from LangChain
 # https://github.com/hwchase17/langchain/blob/master/langchain/utilities
 

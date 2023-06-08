@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from sqlalchemy import func, and_, select
+from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 

@@ -1,7 +1,7 @@
 import uuid
-from typing import Optional, TypeVar, Type
+from typing import Optional, Type, TypeVar
 
-from sqlalchemy import Column, func, String
+from sqlalchemy import Column, String, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 

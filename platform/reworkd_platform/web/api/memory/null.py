@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Any, List
 
 from reworkd_platform.web.api.memory.memory import AgentMemory
 

@@ -6,12 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from reworkd_platform.db.crud import AgentCRUD
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.schemas import (
+    AgentRun,
     AgentRunCreate,
     AgentTaskAnalyze,
-    AgentTaskExecute,
     AgentTaskCreate,
+    AgentTaskExecute,
     Loop_Step,
-    AgentRun,
     UserBase,
 )
 from reworkd_platform.settings import settings

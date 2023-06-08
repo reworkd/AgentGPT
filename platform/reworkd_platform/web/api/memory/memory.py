@@ -11,16 +11,16 @@ class AgentMemory(ABC):
     """
 
     def __enter__(self) -> "AgentMemory":
-        pass
+        raise NotImplementedError()
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
-        pass
+        raise NotImplementedError()
 
-    def add_tasks(self, tasks: List[str]) -> None:
-        pass
+    def add_tasks(self, tasks: List[str]) -> List[str]:
+        raise NotImplementedError()
 
     def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
-        pass
+        raise NotImplementedError()
 
     def reset_class(self):
         pass

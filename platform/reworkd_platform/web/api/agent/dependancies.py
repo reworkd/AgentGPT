@@ -16,6 +16,7 @@ from reworkd_platform.schemas import (
 )
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
+from reworkd_platform.web.api.memory.memory_with_fallback import MemoryWithFallback
 from reworkd_platform.web.api.memory.null import NullAgentMemory
 from reworkd_platform.web.api.memory.weaviate import WeaviateMemory
 
@@ -34,7 +35,7 @@ def get_agent_memory(
 ):
     vector_db_exists = settings.vector_db_url and settings.vector_db_url != ""
     if vector_db_exists and not settings.ff_mock_mode_enabled:
-        return WeaviateMemory(user.id)
+        return MemoryWithFallback(WeaviateMemory(user.id), NullAgentMemory())
     else:
         return NullAgentMemory()
 

@@ -24,14 +24,12 @@ analyze_task_prompt = PromptTemplate(
     High level objective: "{goal}"
     Current task: "{task}"
 
-    Guided by the information presented, your mandate is to execute the task proficiently.
-    This involves comprehending the underlying problem, identifying key variables,
-    and applying intelligence and efficiency.
-    It is essential to articulate the rationale behind your strategic approach,
-    outlining your comprehensive plan and flagging any potential issues.
-    Please encapsulate your reasoning within three concise sentences.
-    Subsequently, your task is to assess and select the most appropriate course of action,
-    limiting your choices to the specific actions listed below:
+    Based on this information, you will perform the task by understanding the
+    problem, extracting variables, and being smart and efficient. You provide concrete
+    reasoning for your actions detailing your overall plan and any concerns you may
+    have. Your reasoning should be no more than three sentences.
+    You evaluate the best action to take strictly from the list of actions
+    below:
 
     {tools_overview}
 

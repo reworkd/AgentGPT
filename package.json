@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "locate": "^0.0.8"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "pinst": "^3.0.0"
+  }
+}

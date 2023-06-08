@@ -1,5 +1,4 @@
 import React from "react";
-import {useTranslation} from "next-i18next";
 interface Props<T> {
   label: string;
   value: string | number | readonly string[] | undefined;
@@ -8,12 +7,12 @@ interface Props<T> {
   onChange: (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
-  attributes?: { [key: string]: string | number | string[] }
-  helpText?: string;
+  attributes?: { [key: string]: string | number | string[] };
+  helpText?: string | null;
   placeholder?: string;
 }
 
-const Input = <T, > ({ ...props }: Props<T>) => {
+const Input = <T,>({ ...props }: Props<T>) => {
   return (
     <div>
       <label htmlFor={props.name} className="block text-sm font-medium leading-6 text-gray-900">
@@ -28,15 +27,17 @@ const Input = <T, > ({ ...props }: Props<T>) => {
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}
-          {...(props.helpText ? {'aria-describedby': `${props.name}-description`} : {})}
+          {...(props.helpText ? { "aria-describedby": `${props.name}-description` } : {})}
           {...props.attributes}
         />
       </div>
-      {props.helpText && (<p className="mt-2 text-sm text-gray-500" id={`${props.name}-description`}>
-        {props.helpText}
-      </p>)}
+      {props.helpText && (
+        <p className="mt-2 text-sm text-gray-500" id={`${props.name}-description`}>
+          {props.helpText}
+        </p>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default Input;

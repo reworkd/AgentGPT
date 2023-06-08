@@ -1,7 +1,7 @@
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
-import {Language, languages} from "../utils/languages";
+import { Language, languages } from "../utils/languages";
 import {
   GPT_MODEL_NAMES,
   GPTModelNames,
@@ -9,14 +9,14 @@ import {
   SETTINGS_MAX_LOOPS,
   SETTINGS_MAX_TOKEN,
   SETTINGS_MODEL_NAME,
-  SETTINGS_TEMPERATURE
+  SETTINGS_TEMPERATURE,
 } from "../types";
 import React from "react";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
-import {GetStaticProps} from "next";
-import {useModelSettingsStore} from "../stores";
+import { GetStaticProps } from "next";
+import { useModelSettingsStore } from "../stores";
 
 const SettingsPage = () => {
   const [t] = useTranslation();
@@ -48,7 +48,7 @@ const SettingsPage = () => {
 
       <h1 className="mt-6">Advanced Settings</h1>
       <Input
-        label={`${t("TEMPERATURE", { ns: "settings" })}`}
+        label={t("TEMPERATURE", { ns: "settings" })}
         value={temperature}
         name="temperature"
         type="range"
@@ -56,14 +56,12 @@ const SettingsPage = () => {
         attributes={{
           min: 0,
           max: 1,
-          step: 0.01
+          step: 0.01,
         }}
-        helpText={`${t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM", {
-          ns: "settings",
-        })}`}
+        helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM", { ns: "settings" })}
       />
       <Input
-        label={`${t("LOOP", { ns: "settings" })}`}
+        label={t("LOOP", { ns: "settings" })}
         value={maxLoops}
         name="loop"
         type="range"
@@ -71,14 +69,12 @@ const SettingsPage = () => {
         attributes={{
           min: 1,
           max: 25,
-          step: 1
+          step: 1,
         }}
-        helpText={`${t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS", {
-          ns: "settings",
-        })}`}
+        helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS", { ns: "settings" })}
       />
       <Input
-        label={`${t("TOKENS", { ns: "settings" })}`}
+        label={t("TOKENS", { ns: "settings" })}
         value={maxTokens}
         name="tokens"
         type="range"
@@ -86,13 +82,10 @@ const SettingsPage = () => {
         attributes={{
           min: 200,
           max: 2000,
-          step: 100
+          step: 100,
         }}
-        helpText={`${t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION", {
-          ns: "settings",
-        })}`}
+        helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION", { ns: "settings" })}
       />
-
     </SidebarLayout>
   );
 };

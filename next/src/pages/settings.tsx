@@ -1,22 +1,32 @@
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
-import { ENGLISH, Language, languages } from "../utils/languages";
-import { GPT_35_TURBO, GPTModelNames, GPT_MODEL_NAMES } from "../types";
-import React, { useState } from "react";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {Language, languages} from "../utils/languages";
+import {
+  GPT_MODEL_NAMES,
+  GPTModelNames,
+  SETTINGS_LANGUAGE,
+  SETTINGS_MAX_LOOPS,
+  SETTINGS_MAX_TOKEN,
+  SETTINGS_MODEL_NAME,
+  SETTINGS_TEMPERATURE
+} from "../types";
+import React from "react";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import {GetStaticProps} from "next";
+import {useModelSettingsStore} from "../stores";
 
 const SettingsPage = () => {
   const [t] = useTranslation();
 
-  const [language, setLanguage] = useState<Language>(ENGLISH);
-  const [model, setModel] = useState<GPTModelNames>(GPT_35_TURBO)
-  const [temperature, setTemperature] = useState<number>(0.9);
-  const [loop, setLoop] = useState<number>(10);
-  const [token, setToken] = useState<number>(400);
+  const updateSettings = useModelSettingsStore.use.updateSettings();
+  const language = useModelSettingsStore.use[SETTINGS_LANGUAGE]();
+  const modelName = useModelSettingsStore.use[SETTINGS_MODEL_NAME]();
+  const temperature = useModelSettingsStore.use[SETTINGS_TEMPERATURE]();
+  const maxLoops = useModelSettingsStore.use[SETTINGS_MAX_LOOPS]();
+  const maxTokens = useModelSettingsStore.use[SETTINGS_MAX_TOKEN]();
 
   return (
     <SidebarLayout>
@@ -25,14 +35,14 @@ const SettingsPage = () => {
         label="Languages"
         value={language}
         valueMapper={(e) => e.name}
-        onChange={setLanguage}
+        onChange={(e) => updateSettings(SETTINGS_LANGUAGE, e)}
         items={languages}
       />
       <Combo<GPTModelNames>
         label="Models"
-        value={model}
+        value={modelName}
         valueMapper={(e) => e}
-        onChange={setModel}
+        onChange={(e) => updateSettings(SETTINGS_MODEL_NAME, e)}
         items={GPT_MODEL_NAMES}
       />
 
@@ -42,7 +52,7 @@ const SettingsPage = () => {
         value={temperature}
         name="temperature"
         type="range"
-        onChange={(e) => setTemperature(parseFloat(e.target.value))}
+        onChange={(e) => updateSettings(SETTINGS_TEMPERATURE, parseFloat(e.target.value))}
         attributes={{
           min: 0,
           max: 1,
@@ -54,10 +64,10 @@ const SettingsPage = () => {
       />
       <Input
         label={`${t("LOOP", { ns: "settings" })}`}
-        value={loop}
+        value={maxLoops}
         name="loop"
         type="range"
-        onChange={(e) => setLoop(parseFloat(e.target.value))}
+        onChange={(e) => updateSettings(SETTINGS_MAX_LOOPS, parseFloat(e.target.value))}
         attributes={{
           min: 1,
           max: 25,
@@ -69,10 +79,10 @@ const SettingsPage = () => {
       />
       <Input
         label={`${t("TOKENS", { ns: "settings" })}`}
-        value={token}
+        value={maxTokens}
         name="tokens"
         type="range"
-        onChange={(e) => setToken(parseFloat(e.target.value))}
+        onChange={(e) => updateSettings(SETTINGS_MAX_TOKEN, parseFloat(e.target.value))}
         attributes={{
           min: 200,
           max: 2000,

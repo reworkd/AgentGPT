@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy import func, and_, select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from reworkd_platform.db.models.agent import AgentRun, AgentTask
@@ -10,12 +11,12 @@ from reworkd_platform.web.api.errors import MaxLoopsError
 
 
 class BaseCrud:
-    def __init__(self, session):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
 
 class AgentCRUD(BaseCrud):
-    def __init__(self, session, user: UserBase):
+    def __init__(self, session: AsyncSession, user: UserBase):
         super().__init__(session)
         self.user = user
 
@@ -55,14 +56,13 @@ class AgentCRUD(BaseCrud):
 
 
 class UserCrud(BaseCrud):
-    def __init__(self, session):
+    def __init__(self, session: AsyncSession):
         super().__init__(session)
 
-    async def get_user_session(self, token) -> UserSession:
+    async def get_user_session(self, token: str) -> UserSession:
         query = (
             select(UserSession)
             .filter(UserSession.session_token == token)
             .options(selectinload(UserSession.user))
         )
-
         return (await self.session.execute(query)).scalar_one()

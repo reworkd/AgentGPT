@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List, Tuple
+from typing import List, Tuple, Any
 
 SimilarTasks = List[Tuple[str, float]]
 
@@ -13,7 +13,7 @@ class AgentMemory(ABC):
     def __enter__(self) -> "AgentMemory":
         raise NotImplementedError()
 
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
+    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
         raise NotImplementedError()
 
     def add_tasks(self, tasks: List[str]) -> List[str]:
@@ -22,5 +22,5 @@ class AgentMemory(ABC):
     def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
         raise NotImplementedError()
 
-    def reset_class(self):
+    def reset_class(self) -> None:
         pass

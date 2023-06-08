@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+from typing import List, Any
 
 from loguru import logger
 
@@ -24,7 +24,7 @@ class MemoryWithFallback(AgentMemory):
             logger.exception(e)
             return self.secondary.__enter__()
 
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
+    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
         try:
             self.primary.__exit__(exc_type, exc_value, traceback)
         except Exception as e:
@@ -38,7 +38,7 @@ class MemoryWithFallback(AgentMemory):
             logger.exception(e)
             return self.secondary.add_tasks(tasks)
 
-    def get_similar_tasks(self, query: str, score_threshold) -> List[str]:
+    def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
         try:
             return self.primary.get_similar_tasks(query, score_threshold)
         except Exception as e:

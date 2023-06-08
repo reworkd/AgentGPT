@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Dict, cast, Tuple, Optional
+from typing import List, Dict, cast, Tuple, Optional, Any
 
 import numpy as np
 import weaviate  # type: ignore
@@ -13,7 +13,7 @@ from reworkd_platform.settings import settings
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
-def _default_schema(index_name: str, text_key: str) -> Dict:
+def _default_schema(index_name: str, text_key: str) -> Dict[str, Any]:
     return {
         "class": index_name,
         "properties": [
@@ -67,13 +67,13 @@ class WeaviateMemory(AgentMemory):
 
         return self
 
-    def _create_class(self):
+    def _create_class(self) -> None:
         # Create the schema if it doesn't already exist
         schema = _default_schema(self.index_name, self.text_key)
         if not self.client.schema.contains(schema):
             self.client.schema.create_class(schema)
 
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
+    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
         self.client.__del__()
 
     def add_tasks(self, tasks: List[str]) -> List[str]:

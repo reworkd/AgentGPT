@@ -6,9 +6,9 @@ from pydantic import BaseModel
 
 from reworkd_platform.schemas import (
     AgentRun,
-    AgentTaskExecute,
-    AgentTaskCreate,
     AgentTaskAnalyze,
+    AgentTaskCreate,
+    AgentTaskExecute,
     NewTasksResponse,
 )
 from reworkd_platform.web.api.agent.agent_service.agent_service_provider import (
@@ -16,11 +16,11 @@ from reworkd_platform.web.api.agent.agent_service.agent_service_provider import 
 )
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.dependancies import (
-    get_agent_memory,
-    agent_start_validator,
-    agent_execute_validator,
     agent_analyze_validator,
     agent_create_validator,
+    agent_execute_validator,
+    agent_start_validator,
+    get_agent_memory,
 )
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 from reworkd_platform.web.api.memory.memory import AgentMemory

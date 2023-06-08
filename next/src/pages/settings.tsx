@@ -2,15 +2,7 @@ import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
 import { Language, languages } from "../utils/languages";
-import {
-  GPT_MODEL_NAMES,
-  GPTModelNames,
-  SETTINGS_LANGUAGE,
-  SETTINGS_MAX_LOOPS,
-  SETTINGS_MAX_TOKEN,
-  SETTINGS_MODEL_NAME,
-  SETTINGS_TEMPERATURE,
-} from "../types";
+import { GPT_MODEL_NAMES, GPTModelNames } from "../types";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -19,72 +11,68 @@ import { GetStaticProps } from "next";
 import { useModelSettingsStore } from "../stores";
 
 const SettingsPage = () => {
-  const [t] = useTranslation();
+  const [t] = useTranslation("settings");
 
   const updateSettings = useModelSettingsStore.use.updateSettings();
-  const language = useModelSettingsStore.use[SETTINGS_LANGUAGE]();
-  const modelName = useModelSettingsStore.use[SETTINGS_MODEL_NAME]();
-  const temperature = useModelSettingsStore.use[SETTINGS_TEMPERATURE]();
-  const maxLoops = useModelSettingsStore.use[SETTINGS_MAX_LOOPS]();
-  const maxTokens = useModelSettingsStore.use[SETTINGS_MAX_TOKEN]();
+  const modelSettings = useModelSettingsStore.use.modelSettings();
 
   return (
     <SidebarLayout>
       <h1>Settings</h1>
       <Combo<Language>
         label="Languages"
-        value={language}
+        value={modelSettings.language}
         valueMapper={(e) => e.name}
-        onChange={(e) => updateSettings(SETTINGS_LANGUAGE, e)}
+        onChange={(e) => updateSettings("language", e)}
         items={languages}
       />
       <Combo<GPTModelNames>
         label="Models"
-        value={modelName}
+        value={modelSettings.customModelName}
         valueMapper={(e) => e}
-        onChange={(e) => updateSettings(SETTINGS_MODEL_NAME, e)}
+        onChange={(e) => updateSettings("customModelName", e)}
         items={GPT_MODEL_NAMES}
       />
 
       <h1 className="mt-6">Advanced Settings</h1>
       <Input
-        label={t("TEMPERATURE", { ns: "settings" })}
-        value={temperature}
+        label={t("TEMPERATURE")}
+        value={modelSettings.customTemperature}
         name="temperature"
         type="range"
-        onChange={(e) => updateSettings(SETTINGS_TEMPERATURE, parseFloat(e.target.value))}
+        onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
         attributes={{
           min: 0,
           max: 1,
           step: 0.01,
         }}
-        helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM", { ns: "settings" })}
+        helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
       />
       <Input
-        label={t("LOOP", { ns: "settings" })}
-        value={maxLoops}
+        label={t("LOOP")}
+        value={modelSettings.customMaxLoops}
         name="loop"
         type="range"
-        onChange={(e) => updateSettings(SETTINGS_MAX_LOOPS, parseFloat(e.target.value))}
+        onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
         attributes={{
           min: 1,
           max: 25,
           step: 1,
         }}
-        helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS", { ns: "settings" })}
+        helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
       />
       <Input
-        label={t("TOKENS", { ns: "settings" })}
-        value={maxTokens}
+        label={t("TOKENS")}
+        value={modelSettings.maxTokens}
         name="tokens"
         type="range"
-        onChange={(e) => updateSettings(SETTINGS_MAX_TOKEN, parseFloat(e.target.value))}
+        onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
         attributes={{
           min: 200,
           max: 2000,
           step: 100,
         }}
-        helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION", { ns: "settings" })}
+        helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
       />
     </SidebarLayout>
   );

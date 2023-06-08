@@ -120,7 +120,7 @@ const SidebarLayout = (props: Props) => {
                         {/* TODO: we shouldn't use 50vh here but instead fill full space */}
                         <ul
                           role="list"
-                          className="-mr-2 max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
+                          className="max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
                         >
                           {status === "unauthenticated" && (
                             <div className="p-1 font-mono text-sm text-white">

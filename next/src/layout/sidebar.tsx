@@ -4,15 +4,7 @@ import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
 import { useRouter } from "next/router";
-import {
-  FaBars,
-  FaCog,
-  FaDiscord,
-  FaGithub,
-  FaRobot,
-  FaSignInAlt,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaBars, FaCog, FaDiscord, FaGithub, FaSignInAlt, FaTwitter } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -47,7 +39,7 @@ const LinkItem = (props: {
       href={props.href}
       className={clsx(
         "text-neutral-400 hover:bg-neutral-800 hover:text-white",
-        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
+        "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-semibold leading-6"
       )}
       onClick={(e) => {
         e.preventDefault();
@@ -100,12 +92,12 @@ const SidebarLayout = (props: Props) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative mr-16 flex h-screen max-h-screen w-60 max-w-xs flex-1">
+              <div className="relative flex h-screen max-h-screen w-60 max-w-xs flex-1">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col bg-neutral-900 px-6 pb-2 ring-1 ring-white/10">
+                <div className="flex grow flex-col bg-neutral-900 px-2 pb-2 ring-1 ring-white/10">
                   <div className="mt-2 flex h-10 flex-row items-center">
                     <Image
-                      className="h-6 -translate-x-2"
+                      className="h-6"
                       src="logo-white.svg"
                       width="40"
                       height="40"
@@ -115,20 +107,20 @@ const SidebarLayout = (props: Props) => {
                       My Agents
                     </h1>
                     <button
-                      className="ml-auto translate-x-4 rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                      className="ml-auto rounded-md border-2 border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                       <FaBars size="20" className="z-20 m-2" />
                     </button>
                   </div>
-                  <FadingHr className="my-3" />
+                  <FadingHr className="m-4" />
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col">
                       <li className="flex-auto">
                         {/* TODO: we shouldn't use 50vh here but instead fill full space */}
                         <ul
                           role="list"
-                          className="-ml-2 -mr-6 max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
+                          className="-mr-2 max-h-[50vh] overflow-y-auto lg:max-h-[60vh]"
                         >
                           {status === "unauthenticated" && (
                             <div className="p-1 font-mono text-sm text-white">
@@ -147,7 +139,6 @@ const SidebarLayout = (props: Props) => {
                             <DrawerItemButton
                               key={index}
                               className="flex w-full rounded-md p-2 text-sm font-semibold"
-                              icon={<FaRobot />}
                               text={agent.name}
                               onClick={() => void router.push(`/agent?id=${agent.id}`)}
                             />
@@ -155,10 +146,10 @@ const SidebarLayout = (props: Props) => {
                         </ul>
                       </li>
                       <li className="mb-2">
-                        <div className="text-xs font-semibold leading-6 text-neutral-400">
+                        <div className="ml-2 text-xs font-semibold text-neutral-400">
                           Important Links
                         </div>
-                        <ul role="list" className="-mx-2 mt-2 space-y-1">
+                        <ul role="list" className="mt-2 space-y-1">
                           <LinkItem
                             title="Settings"
                             icon={<FaCog />}
@@ -229,7 +220,7 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "flex -translate-x-3 items-center justify-start gap-3 rounded-md px-2 py-4 text-sm font-semibold text-white hover:bg-neutral-800",
+        "flex items-center justify-start gap-3 rounded-md px-2 py-4 text-sm font-semibold text-white hover:bg-neutral-800",
         classname
       )}
       onClick={(e) => {

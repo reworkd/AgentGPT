@@ -196,14 +196,15 @@ const SidebarLayout = (props: Props) => {
         />
       )}
 
-      {!sidebarOpen && (
-        <button
-          className="fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          <FaBars size="15" className="z-20 m-2" />
-        </button>
-      )}
+      <button
+        className={clsx(
+          sidebarOpen && "hidden",
+          "fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+        )}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <FaBars size="15" className="z-20 m-2" />
+      </button>
 
       <main
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}

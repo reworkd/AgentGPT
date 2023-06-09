@@ -4,7 +4,16 @@ import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
 import { useRouter } from "next/router";
-import { FaBars, FaCog, FaDiscord, FaGithub, FaHome, FaQuestion, FaSignInAlt, FaTwitter, } from "react-icons/fa";
+import {
+  FaBars,
+  FaCog,
+  FaDiscord,
+  FaGithub,
+  FaHome,
+  FaQuestion,
+  FaSignInAlt,
+  FaTwitter,
+} from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -32,7 +41,7 @@ const LinkItem = (props: {
     <a
       href={props.href}
       className={clsx(
-        "text-neutral-400 hover:bg-neutral-800 hover:text-white cursor-pointer",
+        "cursor-pointer text-neutral-400 hover:bg-neutral-800 hover:text-white cursor-pointer",
         "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-semibold leading-6"
       )}
       onClick={(e) => {
@@ -40,9 +49,7 @@ const LinkItem = (props: {
         props.onClick();
       }}
     >
-      <span
-        className=" group-hover:scale-110 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.7rem] font-medium text-neutral-400 group-hover:text-white"
-      >
+      <span className=" group-hover:scale-110 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.7rem] font-medium text-neutral-400 group-hover:scale-110 group-hover:text-white">
         {props.icon}
       </span>
       <span className="truncate">{props.title}</span>
@@ -58,9 +65,8 @@ const SidebarLayout = (props: Props) => {
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const isSignedIn = status === "authenticated";
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
-    enabled: isSignedIn,
+    enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
 
@@ -107,7 +113,13 @@ const SidebarLayout = (props: Props) => {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <nav className="flex flex-1 flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
-                    <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" className="ml-2" />
+                    <Image
+                      src="logo-white.svg"
+                      width="25"
+                      height="25"
+                      alt="Reworkd AI"
+                      className="ml-2"
+                    />
                     <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
                     <button
                       className="rounded-md border border-transparent text-white transition-all hover:border-white/20 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
@@ -149,7 +161,7 @@ const SidebarLayout = (props: Props) => {
                         {props.settings ? (
                           <LinkItem
                             title="Settings"
-                            icon={<FaCog className="group-hover:rotate-90 transition-transform" />}
+                            icon={<FaCog className="transition-transform group-hover:rotate-90" />}
                             onClick={() => {
                               setShowSettings(true);
                             }}
@@ -207,7 +219,10 @@ const SidebarLayout = (props: Props) => {
       </button>
 
       <main
-        className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
+        className={clsx(
+          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] transition-all duration-300 ease-in-out",
+          sidebarOpen && "lg:pl-60"
+        )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">
           <div>{props.children}</div>
@@ -290,22 +305,22 @@ const links = [
   {
     name: "Help",
     href: "https://docs.reworkd.ai/",
-    icon: <FaQuestion className="group-hover:text-red-500" />
+    icon: <FaQuestion className="group-hover:text-red-500" />,
   },
   {
     name: "Github",
     href: "https://github.com/reworkd/AgentGPT",
-    icon: <FaGithub className="group-hover:text-violet-600" />
+    icon: <FaGithub className="group-hover:text-violet-600" />,
   },
   {
     name: "Twitter",
     href: "https://twitter.com/ReworkdAI",
-    icon: <FaTwitter className="group-hover:text-sky-500" />
+    icon: <FaTwitter className="group-hover:text-sky-500" />,
   },
   {
     name: "Discord",
     href: "https://discord.gg/gcmNyAAFfV",
-    icon: <FaDiscord className="group-hover:text-blue-400" />
+    icon: <FaDiscord className="group-hover:text-blue-400" />,
   },
 ];
 

@@ -32,7 +32,7 @@ const LinkItem = (props: {
     <a
       href={props.href}
       className={clsx(
-        "text-neutral-400 hover:bg-neutral-800 hover:text-white",
+        "text-neutral-400 hover:bg-neutral-800 hover:text-white cursor-pointer",
         "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-semibold leading-6"
       )}
       onClick={(e) => {

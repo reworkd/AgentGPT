@@ -16,16 +16,7 @@ import Dialog from "../ui/dialog";
 import { useTranslation } from "next-i18next";
 import type { SettingModel } from "../utils/types";
 import { SettingsDialog } from "../components/dialog/SettingsDialog";
-import Head from "next/head";
-
-const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
-
-const links = [
-  { name: "Help", href: "https://docs.reworkd.ai/", icon: <FaQuestion /> },
-  { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
-  { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
-  { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },
-];
+import AppHead from "../components/AppHead";
 
 interface Props extends PropsWithChildren {
   settings?: SettingModel;
@@ -41,7 +32,7 @@ const LinkItem = (props: {
     <a
       href={props.href}
       className={clsx(
-        "text-neutral-400 hover:bg-neutral-800 hover:text-white",
+        "text-neutral-400 hover:bg-neutral-800 hover:text-white cursor-pointer",
         "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-semibold leading-6"
       )}
       onClick={(e) => {
@@ -50,7 +41,7 @@ const LinkItem = (props: {
       }}
     >
       <span
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white"
+        className=" group-hover:scale-110 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.7rem] font-medium text-neutral-400 group-hover:text-white"
       >
         {props.icon}
       </span>
@@ -62,15 +53,16 @@ const LinkItem = (props: {
 const SidebarLayout = (props: Props) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [t] = useTranslation("drawer");
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const query = api.agent.getAll.useQuery(undefined, {
-    enabled: !!session?.user,
+  const isSignedIn = status === "authenticated";
+  const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
+    enabled: isSignedIn,
   });
-  const userAgents = query.data ?? [];
+  const userAgents = data ?? [];
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,30 +79,7 @@ const SidebarLayout = (props: Props) => {
 
   return (
     <div>
-      <Head>
-        <title>AgentGPT</title>
-        <meta name="description" content={description} />
-        <meta name="twitter:site" content="@AgentGPT" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="AgentGPT 🤖" />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content="https://agentgpt.reworkd.ai/banner.png" />
-        <meta name="twitter:image:width" content="1280" />
-        <meta name="twitter:image:height" content="640" />
-        <meta property="og:title" content="AgentGPT: Autonomous AI in your browser 🤖" />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content="https://agentgpt.reworkd.ai/" />
-        <meta property="og:image" content="https://agentgpt.reworkd.ai/banner.png" />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="640" />
-        <meta property="og:type" content="website" />
-        <meta
-          name="google-site-verification"
-          content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <AppHead />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <div className="relative z-30">
           <Transition.Child
@@ -138,7 +107,7 @@ const SidebarLayout = (props: Props) => {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <nav className="flex flex-1 flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
-                    <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" />
+                    <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" className="ml-2" />
                     <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
                     <button
                       className="rounded-md border border-transparent text-white transition-all hover:border-white/20 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
@@ -157,7 +126,7 @@ const SidebarLayout = (props: Props) => {
                         {t("SIGN_IN_NOTICE")}
                       </div>
                     )}
-                    {status === "authenticated" && userAgents.length === 0 && (
+                    {status === "authenticated" && !isLoading && userAgents.length === 0 && (
                       <div className="p-1 font-mono text-sm text-white">
                         {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
                       </div>
@@ -180,7 +149,7 @@ const SidebarLayout = (props: Props) => {
                         {props.settings ? (
                           <LinkItem
                             title="Settings"
-                            icon={<FaCog />}
+                            icon={<FaCog className="group-hover:rotate-90 transition-transform" />}
                             onClick={() => {
                               setShowSettings(true);
                             }}
@@ -227,14 +196,15 @@ const SidebarLayout = (props: Props) => {
         />
       )}
 
-      {!sidebarOpen && (
-        <button
-          className="fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          <FaBars size="15" className="z-20 m-2" />
-        </button>
-      )}
+      <button
+        className={clsx(
+          sidebarOpen && "hidden",
+          "fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+        )}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <FaBars size="15" className="z-20 m-2" />
+      </button>
 
       <main
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
@@ -315,5 +285,28 @@ const AuthItem: FC<{
     </div>
   );
 };
+
+const links = [
+  {
+    name: "Help",
+    href: "https://docs.reworkd.ai/",
+    icon: <FaQuestion className="group-hover:text-red-500" />
+  },
+  {
+    name: "Github",
+    href: "https://github.com/reworkd/AgentGPT",
+    icon: <FaGithub className="group-hover:text-violet-600" />
+  },
+  {
+    name: "Twitter",
+    href: "https://twitter.com/ReworkdAI",
+    icon: <FaTwitter className="group-hover:text-sky-500" />
+  },
+  {
+    name: "Discord",
+    href: "https://discord.gg/gcmNyAAFfV",
+    icon: <FaDiscord className="group-hover:text-blue-400" />
+  },
+];
 
 export default SidebarLayout;

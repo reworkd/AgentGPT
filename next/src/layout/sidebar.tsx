@@ -41,7 +41,7 @@ const LinkItem = (props: {
       }}
     >
       <span
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white"
+        className=" group-hover:scale-110 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.7rem] font-medium text-neutral-400 group-hover:text-white"
       >
         {props.icon}
       </span>
@@ -149,7 +149,7 @@ const SidebarLayout = (props: Props) => {
                         {props.settings ? (
                           <LinkItem
                             title="Settings"
-                            icon={<FaCog />}
+                            icon={<FaCog className="group-hover:rotate-90 transition-transform" />}
                             onClick={() => {
                               setShowSettings(true);
                             }}
@@ -286,10 +286,26 @@ const AuthItem: FC<{
 };
 
 const links = [
-  { name: "Help", href: "https://docs.reworkd.ai/", icon: <FaQuestion /> },
-  { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
-  { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
-  { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },
+  {
+    name: "Help",
+    href: "https://docs.reworkd.ai/",
+    icon: <FaQuestion className="group-hover:text-red-500" />
+  },
+  {
+    name: "Github",
+    href: "https://github.com/reworkd/AgentGPT",
+    icon: <FaGithub className="group-hover:text-violet-600" />
+  },
+  {
+    name: "Twitter",
+    href: "https://twitter.com/ReworkdAI",
+    icon: <FaTwitter className="group-hover:text-sky-500" />
+  },
+  {
+    name: "Discord",
+    href: "https://discord.gg/gcmNyAAFfV",
+    icon: <FaDiscord className="group-hover:text-blue-400" />
+  },
 ];
 
 export default SidebarLayout;

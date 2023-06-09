@@ -1,7 +1,7 @@
 import uuid
-from typing import Optional
+from typing import Optional, Type, TypeVar
 
-from sqlalchemy import Column, func, String
+from sqlalchemy import Column, String, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
@@ -21,6 +21,9 @@ class Base(DeclarativeBase):
     )
 
 
+T = TypeVar("T")
+
+
 class TrackedModel(Base):
     """Base for all tracked models."""
 
@@ -31,10 +34,10 @@ class TrackedModel(Base):
     )
 
     @classmethod
-    async def get(cls, session: AsyncSession, id_: str) -> Optional["TrackedModel"]:
+    async def get(cls: Type[T], session: AsyncSession, id_: str) -> Optional[T]:
         return await session.get(cls, id_)
 
-    async def save(self, session: AsyncSession) -> "TrackedModel":
+    async def save(self: T, session: AsyncSession) -> T:
         session.add(self)
         await session.flush()
         return self

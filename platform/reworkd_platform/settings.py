@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     db_ca_path: str = "/etc/ssl/cert.pem"
 
     # Variables for the vector db. We're currently using Weaviate
-    vector_db_url: str = "<Should be updated via env>"
+    vector_db_url: Optional[str] = None
     vector_db_api_key: Optional[str] = None
 
     # Sentry's configuration.

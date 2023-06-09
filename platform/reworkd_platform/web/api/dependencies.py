@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -13,7 +13,7 @@ from reworkd_platform.schemas import UserBase
 
 def user_crud(
     session: AsyncSession = Depends(get_db_session),
-):
+) -> UserCrud:
     return UserCrud(session)
 
 
@@ -31,9 +31,9 @@ async def get_current_user(
 
     if session.expires > datetime.utcnow():
         return UserBase(
-            id=user.id,
-            name=user.name,
-            email=user.email,
+            id=str(user.id),
+            name=str(user.name),
+            email=str(user.email),
         )
 
     raise _forbidden("Session token expired")

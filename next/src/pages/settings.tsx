@@ -18,7 +18,7 @@ const SettingsPage = () => {
 
   return (
     <SidebarLayout>
-      <h1>Settings</h1>
+      <h1 className="dark:text-white">Settings</h1>
       <Combo<Language>
         label="Languages"
         value={modelSettings.language}
@@ -34,7 +34,7 @@ const SettingsPage = () => {
         items={GPT_MODEL_NAMES}
       />
 
-      <h1 className="mt-6">Advanced Settings</h1>
+      <h1 className="mt-6 dark:text-white">Advanced Settings</h1>
       <Input
         label={t("TEMPERATURE")}
         value={modelSettings.customTemperature}

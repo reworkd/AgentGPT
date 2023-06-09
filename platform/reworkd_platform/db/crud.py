@@ -1,21 +1,22 @@
 from fastapi import HTTPException
-from sqlalchemy import func, and_, select
+from sqlalchemy import and_, func, select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from reworkd_platform.db.models.agent import AgentRun, AgentTask
 from reworkd_platform.db.models.user import UserSession
 from reworkd_platform.schemas import Loop_Step, UserBase
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.errors import PlatformaticError
+from reworkd_platform.web.api.errors import MaxLoopsError
 
 
 class BaseCrud:
-    def __init__(self, session):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
 
 class AgentCRUD(BaseCrud):
-    def __init__(self, session, user: UserBase):
+    def __init__(self, session: AsyncSession, user: UserBase):
         super().__init__(session)
         self.user = user
 
@@ -47,20 +48,18 @@ class AgentCRUD(BaseCrud):
         max_ = settings.max_loops
 
         if task_count >= max_:
-            raise PlatformaticError(
-                StopIteration, f"Max loops of {max_} exceeded, shutting down.", 429
+            raise MaxLoopsError(
+                StopIteration(),
+                f"Max loops of {max_} exceeded, shutting down.",
+                429,
             )
 
 
 class UserCrud(BaseCrud):
-    def __init__(self, session):
-        super().__init__(session)
-
-    async def get_user_session(self, token) -> UserSession:
+    async def get_user_session(self, token: str) -> UserSession:
         query = (
             select(UserSession)
             .filter(UserSession.session_token == token)
             .options(selectinload(UserSession.user))
         )
-
         return (await self.session.execute(query)).scalar_one()

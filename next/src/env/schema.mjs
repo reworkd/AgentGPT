@@ -10,10 +10,6 @@ function stringToBoolean() {
   return z.preprocess((str) => str === "true", z.boolean());
 }
 
-function stringToNumber() {
-  return z.preprocess((str) => Number(str), z.number());
-}
-
 /**
  * Specify your server-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.
@@ -35,8 +31,6 @@ export const serverSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().min(1).trim().optional(),
   DISCORD_CLIENT_ID: z.string().min(1).trim().optional(),
   DISCORD_CLIENT_SECRET: z.string().min(1).trim().optional(),
-
-  PLATFORM_URL: z.string().url().optional(),
 });
 
 /**
@@ -56,8 +50,6 @@ export const serverEnv = {
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
-
-  PLATFORM_URL: process.env.PLATFORM_URL,
 };
 
 /**
@@ -66,11 +58,11 @@ export const serverEnv = {
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]),
-  NEXT_PUBLIC_FORCE_AUTH: stringToBoolean(),
+  NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]).default("development"),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
-  NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
-  NEXT_PUBLIC_BACKEND_URL: z.string().url()
+  NEXT_PUBLIC_VERCEL_URL: z.string().default("http://localhost:3000"),
+  NEXT_PUBLIC_BACKEND_URL: z.string().url(),
+  NEXT_PUBLIC_MAX_LOOPS: z.coerce.number().default(25),
 });
 
 /**
@@ -80,9 +72,9 @@ export const clientSchema = z.object({
  * @type {{ [k in keyof z.input<typeof clientSchema>]: string | undefined }}
  */
 export const clientEnv = {
-  NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  NEXT_PUBLIC_FORCE_AUTH: process.env.NEXT_PUBLIC_FORCE_AUTH,
-  NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL ?? "http://localhost:3000",
+  NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
+  NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
   NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED
+  NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED,
+  NEXT_PUBLIC_MAX_LOOPS: process.env.NEXT_PUBLIC_MAX_LOOPS,
 };

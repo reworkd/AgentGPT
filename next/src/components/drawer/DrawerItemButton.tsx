@@ -2,26 +2,24 @@ import React from "react";
 import clsx from "clsx";
 
 interface DrawerItemProps {
-  icon: React.ReactNode;
   text: string;
-  border?: boolean;
+  className?: string;
   onClick?: () => Promise<void> | void;
 }
 
 export const DrawerItemButton = (props: DrawerItemProps) => {
-  const { icon, text, border, onClick } = props;
+  const { text, onClick } = props;
 
   return (
     <button
       type="button"
       className={clsx(
-        "group flex cursor-pointer flex-row items-center rounded-md p-2 hover:bg-white/5",
-        border && "border border-white/20"
+        "cursor-pointer items-center rounded-md text-gray-200 hover:bg-white/5",
+        props.className
       )}
       onClick={onClick}
     >
-      {icon}
-      <span className="ml-4 text-sm">{text}</span>
+      <span className="text-sm">{text}</span>
     </button>
   );
 };

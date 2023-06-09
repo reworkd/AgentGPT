@@ -1,3 +1,4 @@
+import logging
 from importlib import metadata
 
 import sentry_sdk
@@ -8,7 +9,6 @@ from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
-import logging
 from reworkd_platform.logging import configure_logging
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.error_handling import platformatic_exception_handler

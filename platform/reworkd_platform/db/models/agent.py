@@ -1,4 +1,4 @@
-from sqlalchemy import String, Column, Text
+from sqlalchemy import Column, String, Text
 
 from reworkd_platform.db.base import TrackedModel
 

@@ -1,9 +1,9 @@
 import openai
 import replicate
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
-from replicate.exceptions import ModelError, ReplicateError as ReplicateAPIError
+from replicate.exceptions import ModelError
+from replicate.exceptions import ReplicateError as ReplicateAPIError
 
-from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
 from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
@@ -34,8 +34,9 @@ async def get_replicate_image(input_str: str) -> str:
 # Use AI to generate an Image based on a prompt
 async def get_open_ai_image(input_str: str) -> str:
     api_key = rotate_keys(
-        primary_key=settings.openai_api_key,
-        secondary_key=settings.secondary_openai_api_key,
+        gpt_3_key=settings.openai_api_key,
+        gpt_4_key=settings.secondary_openai_api_key,
+        model="gpt-3.5-turbo",
     )
 
     response = openai.Image.create(
@@ -55,9 +56,6 @@ class Image(Tool):
         "style, image focus, color, etc"
     )
     public_description = "Generate AI images."
-
-    def __init__(self, model_settings: ModelSettings):
-        super().__init__(model_settings)
 
     async def call(
         self, goal: str, task: str, input_str: str

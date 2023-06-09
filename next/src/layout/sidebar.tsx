@@ -107,7 +107,7 @@ const SidebarLayout = (props: Props) => {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <nav className="flex flex-1 flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
-                    <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" />
+                    <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" className="ml-2" />
                     <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
                     <button
                       className="rounded-md border border-transparent text-white transition-all hover:border-white/20 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"

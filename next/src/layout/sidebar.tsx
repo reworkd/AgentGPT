@@ -126,7 +126,7 @@ const SidebarLayout = (props: Props) => {
                         {t("SIGN_IN_NOTICE")}
                       </div>
                     )}
-                    {status === "authenticated" && userAgents.length === 0 && (
+                    {status === "authenticated" && !isLoading && userAgents.length === 0 && (
                       <div className="p-1 font-mono text-sm text-white">
                         {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
                       </div>

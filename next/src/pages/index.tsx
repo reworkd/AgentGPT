@@ -23,8 +23,8 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
-import Badge from "../components/Badge";
-import PopIn from "../components/motions/popin";
+import { GPT_4 } from "../utils/constants";
+import AppTitle from "../components/AppTitle";
 import clsx from "clsx";
 
 const Home: NextPage = () => {
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
     const savedModalData = localStorage.getItem(key);
 
     setTimeout(() => {
-      if(savedModalData == null) {
+      if (savedModalData == null) {
         setShowHelpDialog(true);
       }
     }, 1800);
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
   }, [agent, updateIsAgentStopped]);
 
   const setAgentRun = (newName: string, newGoal: string) => {
-    if(agent != null) {
+    if (agent != null) {
       return;
     }
 
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
   };
 
   const handleAddMessage = (message: Message) => {
-    if(isTask(message)) {
+    if (isTask(message)) {
       updateTaskStatus(message);
     }
 
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
   };
 
   const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
-    if(opts.agentPlaybackControl !== undefined) {
+    if (opts.agentPlaybackControl !== undefined) {
       updateIsAgentPaused(opts.agentPlaybackControl);
     }
   };
@@ -104,12 +104,12 @@ const Home: NextPage = () => {
     agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
 
   const handleNewGoal = (name: string, goal: string) => {
-    if(name.trim() === "" || goal.trim() === "") {
+    if (name.trim() === "" || goal.trim() === "") {
       return;
     }
 
     // Do not force login locally for people that don't have auth setup
-    if(session === null) {
+    if (session === null) {
       setShowSignInDialog(true);
       return;
     }
@@ -134,7 +134,7 @@ const Home: NextPage = () => {
   };
 
   const handleContinue = () => {
-    if(!agent) {
+    if (!agent) {
       return;
     }
 
@@ -148,8 +148,8 @@ const Home: NextPage = () => {
     e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     // Only Enter is pressed, execute the function
-    if(e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      if(isAgentPaused) {
+    if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
+      if (isAgentPaused) {
         handleContinue();
       }
       handleNewGoal(nameInput, goalInput);
@@ -203,37 +203,15 @@ const Home: NextPage = () => {
           id="layout"
           className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
         >
-          <div id="title" className="relative flex flex-col items-center font-mono">
-            <div className="flex flex-row items-start shadow-2xl">
-              <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">
-                Agent
-              </span>
-              <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
-              <PopIn delay={0.5}>
-                <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
-                  {i18n?.t("BETA", {
-                    ns: "indexPage",
-                  })}
-                  &nbsp;🚀
-                </Badge>
-              </PopIn>
-            </div>
-            <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
-              <p>
-                {i18n.t("HEADING_DESCRIPTION", {
-                  ns: "indexPage",
-                })}
-              </p>
-            </div>
-          </div>
-
+          <AppTitle />
           <div>
             <Button
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
                 "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-              )} disabled={mobileVisibleWindow == "Chat"}
+              )}
+              disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
             >
               Chat
@@ -253,7 +231,17 @@ const Home: NextPage = () => {
           <Expand className="flex w-full flex-row">
             <ChatWindow
               messages={messages}
-              title="AgentGPT"
+              title={
+                settingsModel.settings.customModelName === GPT_4 ? (
+                  <>
+                    Agent<span className="text-amber-500">GPT-4</span>
+                  </>
+                ) : (
+                  <>
+                    Agent<span className="text-neutral-400">GPT-3.5</span>
+                  </>
+                )
+              }
               onSave={
                 shouldShowSave
                   ? (format) => {

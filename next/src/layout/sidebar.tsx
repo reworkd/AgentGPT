@@ -58,9 +58,8 @@ const SidebarLayout = (props: Props) => {
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const isSignedIn = status === "authenticated";
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
-    enabled: isSignedIn,
+    enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
 

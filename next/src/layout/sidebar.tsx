@@ -16,16 +16,7 @@ import Dialog from "../ui/dialog";
 import { useTranslation } from "next-i18next";
 import type { SettingModel } from "../utils/types";
 import { SettingsDialog } from "../components/dialog/SettingsDialog";
-import Head from "next/head";
-
-const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
-
-const links = [
-  { name: "Help", href: "https://docs.reworkd.ai/", icon: <FaQuestion /> },
-  { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
-  { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
-  { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },
-];
+import AppHead from "../components/AppHead";
 
 interface Props extends PropsWithChildren {
   settings?: SettingModel;
@@ -62,15 +53,16 @@ const LinkItem = (props: {
 const SidebarLayout = (props: Props) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [t] = useTranslation("drawer");
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const query = api.agent.getAll.useQuery(undefined, {
-    enabled: !!session?.user,
+  const isSignedIn = status === "authenticated";
+  const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
+    enabled: isSignedIn,
   });
-  const userAgents = query.data ?? [];
+  const userAgents = data ?? [];
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,30 +79,7 @@ const SidebarLayout = (props: Props) => {
 
   return (
     <div>
-      <Head>
-        <title>AgentGPT</title>
-        <meta name="description" content={description} />
-        <meta name="twitter:site" content="@AgentGPT" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="AgentGPT 🤖" />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content="https://agentgpt.reworkd.ai/banner.png" />
-        <meta name="twitter:image:width" content="1280" />
-        <meta name="twitter:image:height" content="640" />
-        <meta property="og:title" content="AgentGPT: Autonomous AI in your browser 🤖" />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content="https://agentgpt.reworkd.ai/" />
-        <meta property="og:image" content="https://agentgpt.reworkd.ai/banner.png" />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="640" />
-        <meta property="og:type" content="website" />
-        <meta
-          name="google-site-verification"
-          content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <AppHead />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <div className="relative z-30">
           <Transition.Child
@@ -315,5 +284,12 @@ const AuthItem: FC<{
     </div>
   );
 };
+
+const links = [
+  { name: "Help", href: "https://docs.reworkd.ai/", icon: <FaQuestion /> },
+  { name: "Github", href: "https://github.com/reworkd/AgentGPT", icon: <FaGithub /> },
+  { name: "Twitter", href: "https://twitter.com/ReworkdAI", icon: <FaTwitter /> },
+  { name: "Discord", href: "https://discord.gg/gcmNyAAFfV", icon: <FaDiscord /> },
+];
 
 export default SidebarLayout;

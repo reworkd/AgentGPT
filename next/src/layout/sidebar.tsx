@@ -4,15 +4,7 @@ import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
 import { useRouter } from "next/router";
-import {
-  FaBars,
-  FaCog,
-  FaDiscord,
-  FaGithub,
-  FaQuestion,
-  FaSignInAlt,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaBars, FaCog, FaDiscord, FaGithub, FaHome, FaQuestion, FaSignInAlt, FaTwitter, } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -24,6 +16,9 @@ import Dialog from "../ui/dialog";
 import { useTranslation } from "next-i18next";
 import type { SettingModel } from "../utils/types";
 import { SettingsDialog } from "../components/dialog/SettingsDialog";
+import Head from "next/head";
+
+const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
 
 const links = [
   { name: "Help", href: "https://docs.reworkd.ai/", icon: <FaQuestion /> },
@@ -54,7 +49,9 @@ const LinkItem = (props: {
         props.onClick();
       }}
     >
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
+      <span
+        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white"
+      >
         {props.icon}
       </span>
       <span className="truncate">{props.title}</span>
@@ -90,8 +87,32 @@ const SidebarLayout = (props: Props) => {
 
   return (
     <div>
+      <Head>
+        <title>AgentGPT</title>
+        <meta name="description" content={description} />
+        <meta name="twitter:site" content="@AgentGPT" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AgentGPT 🤖" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="https://agentgpt.reworkd.ai/banner.png" />
+        <meta name="twitter:image:width" content="1280" />
+        <meta name="twitter:image:height" content="640" />
+        <meta property="og:title" content="AgentGPT: Autonomous AI in your browser 🤖" />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content="https://agentgpt.reworkd.ai/" />
+        <meta property="og:image" content="https://agentgpt.reworkd.ai/banner.png" />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="640" />
+        <meta property="og:type" content="website" />
+        <meta
+          name="google-site-verification"
+          content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        <div className="relative z-20">
+        <div className="relative z-30">
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -156,13 +177,23 @@ const SidebarLayout = (props: Props) => {
                         Important Links
                       </div>
                       <ul role="list" className="mt-2 space-y-1">
-                        <LinkItem
-                          title="Settings"
-                          icon={<FaCog />}
-                          onClick={() => {
-                            setShowSettings(true);
-                          }}
-                        />
+                        {props.settings ? (
+                          <LinkItem
+                            title="Settings"
+                            icon={<FaCog />}
+                            onClick={() => {
+                              setShowSettings(true);
+                            }}
+                          />
+                        ) : (
+                          <LinkItem
+                            title="Home"
+                            icon={<FaHome />}
+                            onClick={() => {
+                              void router.push("/");
+                            }}
+                          />
+                        )}
                         {links.map((link) => (
                           <LinkItem
                             key={link.name}
@@ -187,12 +218,6 @@ const SidebarLayout = (props: Props) => {
           </div>
         </div>
       </Transition.Root>
-      <button
-        className="absolute z-10 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-      >
-        <FaBars size="15" className="z-20 m-2" />
-      </button>
 
       {props.settings && (
         <SettingsDialog
@@ -202,10 +227,19 @@ const SidebarLayout = (props: Props) => {
         />
       )}
 
+      {!sidebarOpen && (
+        <button
+          className="fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          <FaBars size="15" className="z-20 m-2" />
+        </button>
+      )}
+
       <main
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
       >
-        <DottedGridBackground className="min-w-screen min-h-screen px-3 py-2">
+        <DottedGridBackground className="min-w-screen min-h-screen">
           <div>{props.children}</div>
         </DottedGridBackground>
       </main>
@@ -226,7 +260,7 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "mt-1.5 flex items-center justify-start gap-3 rounded-md px-2 py-1 text-sm font-semibold text-white hover:bg-neutral-800",
+        "mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold text-white hover:bg-neutral-800",
         classname
       )}
       onClick={(e) => {
@@ -267,10 +301,10 @@ const AuthItem: FC<{
             </button>
             <button
               type="button"
-              className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
               onClick={() => setShowDialog(false)}
             >
-              Cancel
+              Close
             </button>
           </>
         }

@@ -4,3 +4,5 @@ export const GPT_MODEL_NAMES = [GPT_35_TURBO, GPT_4];
 
 export const DEFAULT_MAX_LOOPS_FREE = 4 as const;
 export const DEFAULT_MAX_LOOPS_CUSTOM_API_KEY = 10 as const;
+export const DEFAULT_MAX_TOKENS = 400;
+export const DEFAULT_MODEL_TEMPERATURE = 0.9;

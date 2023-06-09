@@ -4,7 +4,15 @@ import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import type { Session } from "next-auth";
 import { useRouter } from "next/router";
-import { FaBars, FaCog, FaDiscord, FaGithub, FaQuestion, FaSignInAlt, FaTwitter } from "react-icons/fa";
+import {
+  FaBars,
+  FaCog,
+  FaDiscord,
+  FaGithub,
+  FaQuestion,
+  FaSignInAlt,
+  FaTwitter,
+} from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -25,7 +33,7 @@ const links = [
 ];
 
 interface Props extends PropsWithChildren {
-  settings: SettingModel;
+  settings?: SettingModel;
 }
 
 const LinkItem = (props: {
@@ -46,9 +54,7 @@ const LinkItem = (props: {
         props.onClick();
       }}
     >
-      <span
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white"
-      >
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.625rem] font-medium text-neutral-400 group-hover:text-white">
         {props.icon}
       </span>
       <span className="truncate">{props.title}</span>
@@ -71,17 +77,16 @@ const SidebarLayout = (props: Props) => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isDesktop = window.innerWidth >= 1280
+      const isDesktop = window.innerWidth >= 1280;
       setSidebarOpen(isDesktop);
     };
     handleResize(); // Initial check on open
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   return (
     <div>
@@ -112,24 +117,17 @@ const SidebarLayout = (props: Props) => {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <nav className="flex flex-1 flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
-                    <Image
-                      src="logo-white.svg"
-                      width="25"
-                      height="25"
-                      alt="Reworkd AI"
-                    />
-                    <h1 className="font-mono font-extrabold text-gray-200">
-                      My Agents
-                    </h1>
+                    <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" />
+                    <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
                     <button
-                      className="rounded-md border border-transparent hover:border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                      className="rounded-md border border-transparent text-white transition-all hover:border-white/20 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                       <FaBars size="15" className="z-20 m-2" />
                     </button>
                   </div>
                   <FadingHr className="my-2" />
-                  <div className="flex-1 overflow-y-auto mb-2">
+                  <div className="mb-2 flex-1 overflow-y-auto">
                     {status === "unauthenticated" && (
                       <div className="p-1 font-mono text-sm text-white">
                         <a className="link" onClick={() => void signIn()}>
@@ -146,7 +144,7 @@ const SidebarLayout = (props: Props) => {
                     {userAgents.map((agent, index) => (
                       <DrawerItemButton
                         key={index}
-                        className="flex w-full rounded-md p-2 text-sm font-mono font-semibold"
+                        className="flex w-full rounded-md p-2 font-mono text-sm font-semibold"
                         text={agent.name}
                         onClick={() => void router.push(`/agent?id=${agent.id}`)}
                       />
@@ -189,7 +187,6 @@ const SidebarLayout = (props: Props) => {
           </div>
         </div>
       </Transition.Root>
-
       <button
         className="absolute z-10 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -197,16 +194,18 @@ const SidebarLayout = (props: Props) => {
         <FaBars size="15" className="z-20 m-2" />
       </button>
 
-      <SettingsDialog
-        customSettings={props.settings}
-        show={showSettings}
-        close={() => setShowSettings(false)}
-      />
+      {props.settings && (
+        <SettingsDialog
+          customSettings={props.settings}
+          show={showSettings}
+          close={() => setShowSettings(false)}
+        />
+      )}
 
       <main
         className={clsx("bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]", sidebarOpen && "lg:pl-60")}
       >
-        <DottedGridBackground className="min-w-screen min-h-screen">
+        <DottedGridBackground className="min-w-screen min-h-screen px-3 py-2">
           <div>{props.children}</div>
         </DottedGridBackground>
       </main>
@@ -227,7 +226,7 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "flex items-center justify-start gap-3 rounded-md px-2 py-1 mt-1.5 text-sm font-semibold text-white hover:bg-neutral-800",
+        "mt-1.5 flex items-center justify-start gap-3 rounded-md px-2 py-1 text-sm font-semibold text-white hover:bg-neutral-800",
         classname
       )}
       onClick={(e) => {

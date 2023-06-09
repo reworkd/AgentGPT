@@ -1,9 +1,6 @@
-import { GPT_35_TURBO, ModelSettings } from "../types";
-import {
-  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-  DEFAULT_MAX_TOKENS,
-  DEFAULT_MODEL_TEMPERATURE,
-} from "../utils/constants";
+import type { ModelSettings } from "../types";
+import { GPT_35_TURBO } from "../types";
+import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_TOKENS, DEFAULT_MODEL_TEMPERATURE, } from "../utils/constants";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createSelectors } from "./helpers";

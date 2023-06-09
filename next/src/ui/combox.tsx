@@ -1,4 +1,3 @@
-import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { HiCheck, HiChevronDown } from "react-icons/hi2";
@@ -12,7 +11,7 @@ interface Props<T> {
   items: T[];
   value: T | undefined;
   valueMapper: (e: T) => string;
-  onChange: Dispatch<SetStateAction<T>>;
+  onChange: (value: T) => void;
 }
 
 const Combo = <T,>({ items, ...props }: Props<T>) => {
@@ -25,7 +24,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
 
   return (
     <Combobox as="div" value={props.value} onChange={props.onChange}>
-      <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">
+      <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
         {props.label}
       </Combobox.Label>
       <div className="relative mt-2">

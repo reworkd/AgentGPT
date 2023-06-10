@@ -1,23 +1,29 @@
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
-import { Language, languages } from "../utils/languages";
-import { GPT_MODEL_NAMES, GPTModelNames } from "../types";
+import type { Language } from "../utils/languages";
+import { languages } from "../utils/languages";
+import type { GPTModelNames } from "../types";
+import { GPT_MODEL_NAMES } from "../types";
 import React from "react";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../next-i18next.config.js";
-import { GetStaticProps } from "next";
 import { useModelSettingsStore } from "../stores";
+import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import type { DeviceType } from "../utils/ssr";
+import { getDeviceType, getTranslations } from "../utils/ssr";
 
-const SettingsPage = () => {
+type SettingsPageProps = {
+  deviceType: DeviceType;
+};
+
+const SettingsPage = (props: SettingsPageProps) => {
   const [t] = useTranslation("settings");
 
   const updateSettings = useModelSettingsStore.use.updateSettings();
   const modelSettings = useModelSettingsStore.use.modelSettings();
 
   return (
-    <SidebarLayout>
+    <SidebarLayout deviceType={props.deviceType}>
       <h1 className="dark:text-white">Settings</h1>
       <Combo<Language>
         label="Languages"
@@ -80,13 +86,13 @@ const SettingsPage = () => {
 
 export default SettingsPage;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = languages.map((language) => language.code);
-  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
-
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<SettingsPageProps>> => {
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+      ...(await getTranslations(context)),
+      deviceType: getDeviceType(context),
     },
   };
 };

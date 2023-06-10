@@ -45,20 +45,18 @@ const HomePage = () => {
             initialY={30}
             duration={1.5}
             delay={0.6}
-            className="flex w-full flex-row items-center"
+            className="flex w-full flex-col items-center gap-2 sm:flex-row"
           >
             <div className="flex-1 cursor-text rounded-full border border-white/30 p-3 px-4 font-thin text-neutral-400 transition-colors hover:border-white/60">
               Research the latest trends in AI...
             </div>
-            <div className="ml-2">
-              <PrimaryButton
-                onClick={() => {
-                  router.push("/").catch(console.error);
-                }}
-              >
-                Get started
-              </PrimaryButton>
-            </div>
+            <PrimaryButton
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              Get started
+            </PrimaryButton>
           </FadeIn>
         </div>
       </div>

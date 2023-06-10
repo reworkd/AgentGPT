@@ -19,7 +19,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
       <div className="h-screen w-screen bg-black">
         <Disclosure
           as="nav"
-          className="fixed top-0 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-2xl"
+          className="fixed top-0 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-xl"
         >
           {({ open }) => (
             <>
@@ -49,7 +49,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                   </div>
                   <div className="-mr-2 flex items-center sm:hidden">
                     {/* Mobile menu button */}
-                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <FaQuestion className="block h-6 w-6" aria-hidden="true" />

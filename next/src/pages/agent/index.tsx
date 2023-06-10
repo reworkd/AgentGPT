@@ -1,4 +1,4 @@
-import type { GetServerSidePropsContext, GetServerSidePropsResult} from "next";
+import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Button from "../../components/Button";
 import React, { useState } from "react";
@@ -10,14 +10,12 @@ import Toast from "../../components/toast";
 import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 import { useTranslation } from "next-i18next";
+import { languages } from "../../utils/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../../next-i18next.config";
 import SidebarLayout from "../../layout/sidebar";
-import type { DeviceType} from "../../utils/ssr";
-import { getDeviceType, getTranslations } from "../../utils/ssr";
 
-type AgentPageProps = {
-  deviceType: DeviceType;
-};
-const AgentPage: NextPage<AgentPageProps> = (props: AgentPageProps) => {
+const AgentPage: NextPage = () => {
   const [t] = useTranslation();
   const [showCopied, setShowCopied] = useState(false);
   const router = useRouter();
@@ -41,7 +39,7 @@ const AgentPage: NextPage<AgentPageProps> = (props: AgentPageProps) => {
   };
 
   return (
-    <SidebarLayout deviceType={props.deviceType}>
+    <SidebarLayout>
       <div
         id="content"
         className="flex min-h-screen w-full flex-col items-center justify-center gap-4"
@@ -91,13 +89,13 @@ const AgentPage: NextPage<AgentPageProps> = (props: AgentPageProps) => {
 
 export default AgentPage;
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-): Promise<GetServerSidePropsResult<AgentPageProps>> => {
+export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+  const supportedLocales = languages.map((language) => language.code);
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
   return {
     props: {
-      ...(await getTranslations(context)),
-      deviceType: getDeviceType(context),
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
     },
   };
 };

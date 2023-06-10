@@ -24,4 +24,7 @@ class MockAgentService(AgentService):
         )
 
     async def execute_task_agent(self, **kwargs: Any) -> FastAPIStreamingResponse:
-        return stream_string("The task result is: " + kwargs.get("task", "task"), True)
+        return stream_string("""```
+        This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long This is really long
+
+        ```""", True)

@@ -1,4 +1,4 @@
-import type { GetStaticProps } from "next";
+import type { GetServerSidePropsContext, GetServerSidePropsResult} from "next";
 import { type NextPage } from "next";
 import Button from "../../components/Button";
 import React, { useState } from "react";
@@ -10,12 +10,14 @@ import Toast from "../../components/toast";
 import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
 import { useTranslation } from "next-i18next";
-import { languages } from "../../utils/languages";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../../next-i18next.config";
 import SidebarLayout from "../../layout/sidebar";
+import type { DeviceType} from "../../utils/ssr";
+import { getDeviceType, getTranslations } from "../../utils/ssr";
 
-const AgentPage: NextPage = () => {
+type AgentPageProps = {
+  deviceType: DeviceType;
+};
+const AgentPage: NextPage<AgentPageProps> = (props: AgentPageProps) => {
   const [t] = useTranslation();
   const [showCopied, setShowCopied] = useState(false);
   const router = useRouter();
@@ -39,7 +41,7 @@ const AgentPage: NextPage = () => {
   };
 
   return (
-    <SidebarLayout>
+    <SidebarLayout deviceType={props.deviceType}>
       <div
         id="content"
         className="flex min-h-screen w-full flex-col items-center justify-center gap-4"
@@ -89,13 +91,13 @@ const AgentPage: NextPage = () => {
 
 export default AgentPage;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
-  const supportedLocales = languages.map((language) => language.code);
-  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
-
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<AgentPageProps>> => {
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+      ...(await getTranslations(context)),
+      deviceType: getDeviceType(context),
     },
   };
 };

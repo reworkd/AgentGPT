@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
-import { type GetStaticProps, type NextPage } from "next";
+import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { type NextPage } from "next";
 import ChatWindow from "../components/console/ChatWindow";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -16,18 +17,21 @@ import { AGENT_PLAY, isTask } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSettings } from "../hooks/useSettings";
-import { findLanguage, languages } from "../utils/languages";
-import nextI18NextConfig from "../../next-i18next.config.js";
+import { findLanguage } from "../utils/languages";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
 import { GPT_4 } from "../utils/constants";
 import AppTitle from "../components/AppTitle";
 import clsx from "clsx";
+import type { DeviceType } from "../utils/ssr";
+import { getDeviceType, getTranslations } from "../utils/ssr";
 
-const Home: NextPage = () => {
+type HomeProps = {
+  deviceType: DeviceType;
+};
+const Home: NextPage<HomeProps> = (props: HomeProps) => {
   const { i18n } = useTranslation();
   // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
@@ -193,7 +197,7 @@ const Home: NextPage = () => {
     );
 
   return (
-    <SidebarLayout settings={settingsModel}>
+    <SidebarLayout settings={settingsModel} deviceType={props.deviceType}>
       <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
@@ -209,7 +213,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
-                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
@@ -220,7 +224,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Tasks" ||
-                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
@@ -245,13 +249,13 @@ const Home: NextPage = () => {
               onSave={
                 shouldShowSave
                   ? (format) => {
-                    setHasSaved(true);
-                    agentUtils.saveAgent({
-                      goal: goalInput.trim(),
-                      name: nameInput.trim(),
-                      tasks: messages,
-                    });
-                  }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: nameInput.trim(),
+                        tasks: messages,
+                      });
+                    }
                   : undefined
               }
               scrollToBottom
@@ -340,13 +344,13 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
-  const supportedLocales = languages.map((language) => language.code);
-  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
-
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<HomeProps>> => {
   return {
     props: {
-      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+      ...(await getTranslations(context)),
+      deviceType: getDeviceType(context),
     },
   };
 };

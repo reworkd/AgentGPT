@@ -26,10 +26,8 @@ import { useTranslation } from "next-i18next";
 import type { SettingModel } from "../utils/types";
 import { SettingsDialog } from "../components/dialog/SettingsDialog";
 import AppHead from "../components/AppHead";
-import type { DeviceType } from "../utils/ssr";
 
 interface Props extends PropsWithChildren {
-  deviceType: DeviceType;
   settings?: SettingModel;
 }
 
@@ -62,7 +60,7 @@ const LinkItem = (props: {
 const SidebarLayout = (props: Props) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(props.deviceType !== "mobile");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [t] = useTranslation("drawer");
 
   const [showSettings, setShowSettings] = useState(false);

@@ -27,7 +27,7 @@ const HomePage = () => {
             </div>
             <h1
               className={clsx(
-                "bg-gradient-to-br from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent",
+                "bg-gradient-to-br from-white via-slate-200 to-slate-700 bg-clip-text text-transparent",
                 "text-center text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]"
               )}
             >

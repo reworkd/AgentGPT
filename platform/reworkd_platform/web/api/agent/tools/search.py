@@ -3,11 +3,10 @@ from typing import Any, List
 import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
-from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
-from reworkd_platform.web.api.agent.tools.utils import summarize
+from reworkd_platform.web.api.agent.tools.utils import CitedSnippet, summarize
 
 # Search google via serper.dev. Adapted from LangChain
 # https://github.com/hwchase17/langchain/blob/master/langchain/utilities
@@ -52,10 +51,8 @@ class Search(Tool):
             input_str,
         )
 
-        k = 6  # Number of results to return
-        max_links = 3  # Number of links to return
-        snippets: List[str] = []
-        links: List[str] = []
+        k = 8  # Number of results to return
+        snippets: List[CitedSnippet] = []
 
         if results.get("answerBox"):
             answer_values = []
@@ -70,25 +67,16 @@ class Search(Tool):
             if len(answer_values) > 0:
                 return stream_string("\n".join(answer_values), True)
 
-        if results.get("knowledgeGraph"):
-            kg = results.get("knowledgeGraph", {})
-            title = kg.get("title")
-            entity_type = kg.get("type")
-            if entity_type:
-                snippets.append(f"{title}: {entity_type}.")
-            description = kg.get("description")
-            if description:
-                snippets.append(description)
-            for attribute, value in kg.get("attributes", {}).items():
-                snippets.append(f"{title} {attribute}: {value}.")
-
-        for result in results["organic"][:k]:
+        for i, result in enumerate(results["organic"][:k]):
+            texts = []
+            link = ""
             if "snippet" in result:
-                snippets.append(result["snippet"])
-            if "link" in result and len(links) < max_links:
-                links.append(result["link"])
+                texts.append(result["snippet"])
+            if "link" in result:
+                link = result["link"]
             for attribute, value in result.get("attributes", {}).items():
-                snippets.append(f"{attribute}: {value}.")
+                texts.append(f"{attribute}: {value}.")
+            snippets.append(CitedSnippet(i + 1, "\n".join(texts), link))
 
         if len(snippets) == 0:
             return stream_string("No good Google Search Result was found", True)

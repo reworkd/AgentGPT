@@ -102,9 +102,14 @@ create_tasks_prompt = PromptTemplate(
 )
 
 summarize_prompt = PromptTemplate(
-    template="""Summarize the following text "{snippets}" Write in a style expected
-    of the goal "{goal}", be as concise or as descriptive as necessary and attempt to
-    answer the query: "{query}" as best as possible. Use markdown formatting for
-    longer responses.""",
+    template="""Parse and summarize the following text "{snippets}" Write in a style expected
+    of the goal "{goal}", be as clear, informative, and descriptive as necessary and attempt to
+    answer the query: "{query}" as best as possible. Use markdown formatting for responses.
+    
+    Cite sources used via the source link. Use the index as the citation text and site the source at the
+    end of the sentence that the source is used in.
+    
+    Example: "So this is a cited sentence [[1]](https://test.com)." 
+    """,
     input_variables=["goal", "query", "snippets"],
 )

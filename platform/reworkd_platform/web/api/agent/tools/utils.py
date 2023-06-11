@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import List
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
@@ -8,8 +9,15 @@ from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.model_settings import create_model
 
 
+@dataclass
+class CitedSnippet:
+    index: int
+    text: str
+    url: str
+
+
 def summarize(
-    model_settings: ModelSettings, goal: str, query: str, snippets: List[str]
+    model_settings: ModelSettings, goal: str, query: str, snippets: List[CitedSnippet]
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_prompt
 

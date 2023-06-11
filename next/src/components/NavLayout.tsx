@@ -82,7 +82,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
           )}
         </Disclosure>
 
-        <main className="h-full w-full px-6">{children}</main>
+        <main className="h-full w-full px-3 md:px-6">{children}</main>
       </div>
     </>
   );

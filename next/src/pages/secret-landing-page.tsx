@@ -5,13 +5,15 @@ import BannerBadge from "../components/BannerBadge";
 import PrimaryButton from "../components/PrimaryButton";
 import { useRouter } from "next/router";
 import FadeIn from "../components/motions/FadeIn";
+import Backing from "../components/landing/Backing";
+import PopIn from "../components/motions/popin";
 
 const HomePage = () => {
   const router = useRouter();
   return (
     <NavLayout>
       <div className="flex h-full w-full justify-center bg-black">
-        <div className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center  text-white">
+        <div className="flex max-w-screen-lg flex-1 flex-col items-center justify-center text-white">
           <FadeIn duration={1.5} delay={0}>
             <div className="mb-2 flex w-full justify-center">
               <BannerBadge
@@ -27,7 +29,7 @@ const HomePage = () => {
             </div>
             <h1
               className={clsx(
-                "bg-gradient-to-br from-white via-slate-200 to-slate-700 bg-clip-text text-transparent",
+                "bg-gradient-to-br from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent",
                 "text-center text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]"
               )}
             >
@@ -37,7 +39,7 @@ const HomePage = () => {
                 at Your Fingertips
               </div>
             </h1>
-            <p className="my-2 mb-9 inline-block w-full text-center align-top font-light font-thin text-neutral-300">
+            <p className="my-2 mb-9 inline-block w-full text-center align-top font-thin text-neutral-300">
               The leading web based autonomous agent platform. Automate business processes at scale.
             </p>
           </FadeIn>
@@ -47,7 +49,7 @@ const HomePage = () => {
             delay={0.6}
             className="flex w-full flex-col items-center gap-2 sm:flex-row"
           >
-            <div className="flex-1 cursor-text rounded-full border border-white/30 p-3 px-4 font-thin text-neutral-400 transition-colors hover:border-white/60">
+            <div className="w-full cursor-text rounded-full border border-white/30 p-2 px-4 font-thin text-neutral-400 transition-colors hover:border-white/60 sm:flex-1">
               Research the latest trends in AI...
             </div>
             <PrimaryButton
@@ -58,6 +60,9 @@ const HomePage = () => {
               Get started
             </PrimaryButton>
           </FadeIn>
+          <PopIn delay={1.4} duration={0.75} className="absolute bottom-10">
+            <Backing />
+          </PopIn>
         </div>
       </div>
     </NavLayout>

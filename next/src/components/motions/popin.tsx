@@ -4,6 +4,7 @@ import type { PropsWithChildren } from "react";
 interface MotionProps extends PropsWithChildren {
   className?: string;
   delay?: number;
+  duration?: number;
 }
 
 const PopIn = (props: MotionProps) => (
@@ -11,7 +12,7 @@ const PopIn = (props: MotionProps) => (
     exit={{ scale: 0 }}
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
-    transition={{ duration: 0.5, type: "spring", delay: props.delay ?? 0 }}
+    transition={{ duration: props.duration ?? 0.3, type: "spring", delay: props.delay ?? 0 }}
     {...props}
   >
     {props.children}

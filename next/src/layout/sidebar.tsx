@@ -84,7 +84,7 @@ const SidebarLayout = (props: Props) => {
   }, []);
 
   return (
-    <div>
+    <>
       <AppHead />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <div className="relative z-30">
@@ -225,10 +225,10 @@ const SidebarLayout = (props: Props) => {
         )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">
-          <div>{props.children}</div>
+          {props.children}
         </DottedGridBackground>
       </main>
-    </div>
+    </>
   );
 };
 
@@ -245,7 +245,8 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold text-white hover:bg-neutral-800",
+        "mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold text-white",
+        "cursor-pointer hover:bg-neutral-800",
         classname
       )}
       onClick={(e) => {

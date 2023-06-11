@@ -1,4 +1,5 @@
 import React from "react";
+
 interface Props {
   label: string;
   value: string | number | readonly string[] | undefined;
@@ -10,6 +11,7 @@ interface Props {
   attributes?: { [key: string]: string | number | string[] };
   helpText?: string | null;
   placeholder?: string;
+  icon?: React.ReactNode;
 }
 
 const Input = ({ ...props }: Props) => {
@@ -17,11 +19,23 @@ const Input = ({ ...props }: Props) => {
     <div>
       <label
         htmlFor={props.name}
-        className="mt-2 block text-sm font-medium leading-6 text-gray-900 dark:text-white"
+        className="mt-2 flex items-center gap-2 text-sm font-bold leading-6 text-gray-900 dark:text-white"
       >
-        {props.label}
+        <span>{props.label}</span>
+        {props.icon}
+        {props.type == "range" && (
+          <span className="text-xs font-thin text-gray-300 lg:text-sm">({props.value})</span>
+        )}
       </label>
       <div className="relative rounded-md shadow-sm">
+        {props.helpText && (
+          <p
+            className="text-xs font-thin text-gray-500 dark:text-gray-400 lg:text-sm"
+            id={`${props.name}-description`}
+          >
+            {props.helpText}
+          </p>
+        )}
         <input
           type={props.type}
           name={props.name}
@@ -34,11 +48,6 @@ const Input = ({ ...props }: Props) => {
           {...props.attributes}
         />
       </div>
-      {props.helpText && (
-        <p className="text-sm text-gray-500 dark:text-gray-400" id={`${props.name}-description`}>
-          {props.helpText}
-        </p>
-      )}
     </div>
   );
 };

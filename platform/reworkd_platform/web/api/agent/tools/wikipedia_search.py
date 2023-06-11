@@ -2,8 +2,8 @@ from lanarky.responses import StreamingResponse
 from langchain import WikipediaAPIWrapper
 
 from reworkd_platform.schemas import ModelSettings
+from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
-from reworkd_platform.web.api.agent.tools.utils import summarize
 
 
 class Wikipedia(Tool):
@@ -23,4 +23,5 @@ class Wikipedia(Tool):
     async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
         # TODO: Make the below async
         wikipedia_search = self.wikipedia.run(input_str)
-        return summarize(self.model_settings, goal, task, [wikipedia_search])
+        # return summarize(self.model_settings, goal, task, [wikipedia_search])
+        return stream_string("Wikipedia is currently not working")

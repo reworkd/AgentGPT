@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { HiCheck, HiChevronDown } from "react-icons/hi2";
@@ -12,6 +13,7 @@ interface Props<T> {
   value: T | undefined;
   valueMapper: (e: T) => string;
   onChange: (value: T) => void;
+  icon?: ReactNode;
 }
 
 const Combo = <T,>({ items, ...props }: Props<T>) => {
@@ -24,10 +26,11 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
 
   return (
     <Combobox as="div" value={props.value} onChange={props.onChange}>
-      <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+      <Combobox.Label className="flex items-center gap-1 text-sm font-bold leading-6 text-gray-900 dark:text-white">
         {props.label}
+        {props.icon}
       </Combobox.Label>
-      <div className="relative mt-2">
+      <div className="relative mt-1">
         <Combobox.Input
           className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-neutral-900 dark:text-white dark:ring-gray-400 sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}

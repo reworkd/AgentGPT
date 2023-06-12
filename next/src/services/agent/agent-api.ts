@@ -4,7 +4,7 @@ import type { Session } from "next-auth";
 import { useAgentStore } from "../../stores";
 import * as apiUtils from "../api-utils";
 
-type ApiProps = Pick<RequestBody, "modelSettings" | "goal"> & {
+type ApiProps = Pick<RequestBody, "model_settings" | "goal"> & {
   session?: Session;
 };
 
@@ -33,9 +33,9 @@ export class AgentApi {
     return (
       await this.post<{ newTasks: string[] }>("/api/agent/create", {
         result: result,
-        lastTask: tasks.current,
+        last_task: tasks.current,
         tasks: tasks.remaining,
-        completedTasks: tasks.completed,
+        completed_tasks: tasks.completed,
       })
     ).newTasks;
   }
@@ -43,12 +43,16 @@ export class AgentApi {
   async analyzeTask(task: string): Promise<Analysis> {
     return await this.post<Analysis>("/api/agent/analyze", {
       task: task,
-      toolNames: useAgentStore.getState().tools.map((tool) => tool.name),
+      tool_names: useAgentStore.getState().tools.map((tool) => tool.name),
     });
   }
-  private async post<T>(url: string, data: Omit<RequestBody, "goal" | "modelSettings" | "run_id">) {
+
+  private async post<T>(
+    url: string,
+    data: Omit<RequestBody, "goal" | "model_settings" | "run_id">
+  ) {
     const requestBody: RequestBody = {
-      modelSettings: this.props.modelSettings,
+      model_settings: this.props.model_settings,
       goal: this.props.goal,
       run_id: this.runId,
       ...data,

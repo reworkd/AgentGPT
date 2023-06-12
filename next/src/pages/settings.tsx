@@ -12,10 +12,14 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
 import { FaCoins, FaGlobe, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
+import { useAuth } from "../hooks/useAuth";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings } = useSettings();
+  const { session } = useAuth();
+
+  const showAdvancedSettings = session?.user;
 
   return (
     <SidebarLayout>
@@ -35,59 +39,61 @@ const SettingsPage = () => {
                 icon={<FaGlobe />}
               />
             </div>
-            <div className="flex flex-col gap-3">
-              <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
-              <Combo<GPTModelNames>
-                label="Model"
-                value={settings.customModelName}
-                valueMapper={(e) => e}
-                onChange={(e) => updateSettings("customModelName", e)}
-                items={GPT_MODEL_NAMES}
-                icon={<FaRobot />}
-              />
-              <Input
-                label={t("TEMPERATURE")}
-                value={settings.customTemperature}
-                name="temperature"
-                type="range"
-                onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
-                attributes={{
-                  min: 0,
-                  max: 1,
-                  step: 0.01,
-                }}
-                helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
-                icon={<FaThermometerFull />}
-              />
-              <Input
-                label={t("LOOP")}
-                value={settings.customMaxLoops}
-                name="loop"
-                type="range"
-                onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
-                attributes={{
-                  min: 1,
-                  max: 25,
-                  step: 1,
-                }}
-                helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
-                icon={<FaSyncAlt />}
-              />
-              <Input
-                label={t("TOKENS")}
-                value={settings.maxTokens}
-                name="tokens"
-                type="range"
-                onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
-                attributes={{
-                  min: 200,
-                  max: 2000,
-                  step: 100,
-                }}
-                helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
-                icon={<FaCoins />}
-              />
-            </div>
+            {showAdvancedSettings && (
+              <div className="flex flex-col gap-3">
+                <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
+                <Combo<GPTModelNames>
+                  label="Model"
+                  value={settings.customModelName}
+                  valueMapper={(e) => e}
+                  onChange={(e) => updateSettings("customModelName", e)}
+                  items={GPT_MODEL_NAMES}
+                  icon={<FaRobot />}
+                />
+                <Input
+                  label={t("TEMPERATURE")}
+                  value={settings.customTemperature}
+                  name="temperature"
+                  type="range"
+                  onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
+                  attributes={{
+                    min: 0,
+                    max: 1,
+                    step: 0.01,
+                  }}
+                  helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
+                  icon={<FaThermometerFull />}
+                />
+                <Input
+                  label={t("LOOP")}
+                  value={settings.customMaxLoops}
+                  name="loop"
+                  type="range"
+                  onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
+                  attributes={{
+                    min: 1,
+                    max: 25,
+                    step: 1,
+                  }}
+                  helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
+                  icon={<FaSyncAlt />}
+                />
+                <Input
+                  label={t("TOKENS")}
+                  value={settings.maxTokens}
+                  name="tokens"
+                  type="range"
+                  onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
+                  attributes={{
+                    min: 200,
+                    max: 2000,
+                    step: 100,
+                  }}
+                  helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
+                  icon={<FaCoins />}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

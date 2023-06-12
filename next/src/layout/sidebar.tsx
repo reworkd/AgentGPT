@@ -1,61 +1,26 @@
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
-import type { Session } from "next-auth";
 import { useRouter } from "next/router";
-import {
-  FaBars,
-  FaCog,
-  FaDiscord,
-  FaGithub,
-  FaHome,
-  FaQuestion,
-  FaSignInAlt,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaBars, FaCog, FaHome } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
 import FadingHr from "../components/FadingHr";
 import { DrawerItemButton } from "../components/drawer/DrawerItemButton";
 import { api } from "../utils/api";
-import { get_avatar } from "../utils/user";
-import Dialog from "../ui/dialog";
 import { useTranslation } from "next-i18next";
 import type { SettingModel } from "../utils/types";
 import { SettingsDialog } from "../components/dialog/SettingsDialog";
 import AppHead from "../components/AppHead";
+import LinkItem from "../components/sidebar/LinkItem";
+import AuthItem from "../components/sidebar/AuthItem";
+import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
 
 interface Props extends PropsWithChildren {
   settings?: SettingModel;
 }
-
-const LinkItem = (props: {
-  title: string;
-  icon: ReactNode;
-  href?: string;
-  onClick: () => void;
-}) => (
-  <li>
-    <a
-      href={props.href}
-      className={clsx(
-        "cursor-pointer text-neutral-400 hover:bg-neutral-800 hover:text-white",
-        "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-semibold leading-6"
-      )}
-      onClick={(e) => {
-        e.preventDefault();
-        props.onClick();
-      }}
-    >
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[0.7rem] font-medium text-neutral-400 group-hover:scale-110 group-hover:text-white">
-        {props.icon}
-      </span>
-      <span className="truncate">{props.title}</span>
-    </a>
-  </li>
-);
 
 const SidebarLayout = (props: Props) => {
   const router = useRouter();
@@ -174,7 +139,7 @@ const SidebarLayout = (props: Props) => {
                           />
                         )}
                       </ul>
-                      {pages.map((link) => (
+                      {PAGE_LINKS.map((link) => (
                         <LinkItem
                           key={link.name}
                           title={link.name}
@@ -189,7 +154,7 @@ const SidebarLayout = (props: Props) => {
                     <li className="mb-2">
                       <div className="ml-2 text-xs font-semibold text-neutral-400">Socials</div>
                       <ul role="list" className="mt-2 space-y-1">
-                        {socials.map((link) => (
+                        {SOCIAL_LINKS.map((link) => (
                           <LinkItem
                             key={link.name}
                             title={link.name}
@@ -245,101 +210,5 @@ const SidebarLayout = (props: Props) => {
     </>
   );
 };
-
-const AuthItem: FC<{
-  session: Session | null;
-  classname?: string;
-  signIn: () => Promise<void>;
-  signOut: () => Promise<void>;
-}> = ({ session, classname, signOut, signIn }) => {
-  const [t] = useTranslation("drawer");
-  const [showDialog, setShowDialog] = useState(false);
-  const user = session?.user;
-
-  return (
-    <div
-      className={clsx(
-        "mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold text-white",
-        "cursor-pointer hover:bg-neutral-800",
-        classname
-      )}
-      onClick={(e) => {
-        user ? setShowDialog(true) : void signIn();
-      }}
-    >
-      {user && (
-        <img className="h-8 w-8 rounded-full bg-neutral-800" src={get_avatar(user)} alt="" />
-      )}
-      {!user && (
-        <h1 className="ml-2 flex flex-grow items-center gap-2 text-center">
-          <FaSignInAlt />
-          {t("SIGN_IN")}
-        </h1>
-      )}
-
-      <span className="sr-only">Your profile</span>
-      <span aria-hidden="true">{user?.name}</span>
-      <Dialog
-        inline
-        open={showDialog}
-        setOpen={setShowDialog}
-        title="My Account"
-        icon={<img className="rounded-full bg-neutral-800" src={get_avatar(user)} alt="" />}
-        actions={
-          <>
-            <button
-              type="button"
-              className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
-              onClick={() => {
-                signOut()
-                  .then(() => setShowDialog(false))
-                  .catch(console.error)
-                  .finally(console.log);
-              }}
-            >
-              Sign out
-            </button>
-            <button
-              type="button"
-              className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              onClick={() => setShowDialog(false)}
-            >
-              Close
-            </button>
-          </>
-        }
-      >
-        <p className="text-sm text-gray-500">Name: {user?.name}</p>
-        <p className="text-sm text-gray-500">Email: {user?.email}</p>
-      </Dialog>
-    </div>
-  );
-};
-
-const pages = [
-  {
-    name: "Help",
-    href: "https://docs.reworkd.ai/",
-    icon: <FaQuestion className="group-hover:text-red-500" />,
-  },
-];
-
-const socials = [
-  {
-    name: "Github",
-    href: "https://github.com/reworkd/AgentGPT",
-    icon: <FaGithub className="group-hover:text-violet-600" />,
-  },
-  {
-    name: "Twitter",
-    href: "https://twitter.com/ReworkdAI",
-    icon: <FaTwitter className="group-hover:text-sky-500" />,
-  },
-  {
-    name: "Discord",
-    href: "https://discord.gg/gcmNyAAFfV",
-    icon: <FaDiscord className="group-hover:text-blue-400" />,
-  },
-];
 
 export default SidebarLayout;

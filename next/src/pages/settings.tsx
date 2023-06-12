@@ -35,7 +35,7 @@ const SettingsPage = () => {
           <div className="p-3 sm:p-5">
             <div className="flex flex-col gap-4">
               <Combo<Language>
-                label="Languages"
+                label="Language"
                 value={_modelSettings.language}
                 valueMapper={(e) => e.name}
                 onChange={(e) => updateSettings("language", e)}
@@ -43,7 +43,7 @@ const SettingsPage = () => {
                 icon={<FaGlobe />}
               />
               <Combo<GPTModelNames>
-                label="Models"
+                label="Model"
                 value={_modelSettings.customModelName}
                 valueMapper={(e) => e}
                 onChange={(e) => updateSettings("customModelName", e)}

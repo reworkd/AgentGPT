@@ -43,7 +43,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
             DISCORD_CLIENT_ID: "***",
         },
         Backend: {
-            REWORKD_PLATFORM_ENVIRONMENT: "development",
+            REWORKD_PLATFORM_ENVIRONMENT: "${NODE_ENV}",
             REWORKD_PLATFORM_FF_MOCK_MODE_ENABLED: false,
             REWORKD_PLATFORM_MAX_LOOPS: "${NEXT_PUBLIC_MAX_LOOPS}",
             REWORKD_PLATFORM_OPENAI_API_KEY:

@@ -19,17 +19,15 @@ Loop_Step = Literal[
 
 
 class ModelSettings(BaseModel):
-    model: LLM_Model = Field(default="gpt-3.5-turbo", alias="customModelName")
-    temperature: float = Field(default=0.9, alias="customTemperature", ge=0.0, le=1.0)
-    max_tokens: int = Field(default=500, alias="maxTokens", ge=0, le=2000)
+    model: LLM_Model = Field(default="gpt-3.5-turbo")
+    temperature: float = Field(default=0.9, ge=0.0, le=1.0)
+    max_tokens: int = Field(default=500, ge=0, le=2000)
     language: str = Field(default="English")
 
 
 class AgentRunCreate(BaseModel):
     goal: str
-    model_settings: ModelSettings = Field(
-        default=ModelSettings(), alias="modelSettings"
-    )
+    model_settings: ModelSettings = Field(default=ModelSettings())
 
 
 class AgentRun(AgentRunCreate):
@@ -38,7 +36,7 @@ class AgentRun(AgentRunCreate):
 
 class AgentTaskAnalyze(AgentRun):
     task: str
-    tool_names: List[str] = Field(default=[], alias="toolNames")
+    tool_names: List[str] = Field(default=[])
     model_settings: ModelSettings = Field(default=ModelSettings())
 
 
@@ -49,9 +47,9 @@ class AgentTaskExecute(AgentRun):
 
 class AgentTaskCreate(AgentRun):
     tasks: List[str] = Field(default=[])
-    last_task: Optional[str] = Field(default=None, alias="lastTask")
+    last_task: Optional[str] = Field(default=None)
     result: Optional[str] = Field(default=None)
-    completed_tasks: List[str] = Field(default=[], alias="completedTasks")
+    completed_tasks: List[str] = Field(default=[])
 
 
 class NewTasksResponse(BaseModel):

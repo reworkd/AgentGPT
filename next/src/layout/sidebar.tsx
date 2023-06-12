@@ -11,24 +11,16 @@ import FadingHr from "../components/FadingHr";
 import { DrawerItemButton } from "../components/drawer/DrawerItemButton";
 import { api } from "../utils/api";
 import { useTranslation } from "next-i18next";
-import type { SettingModel } from "../utils/types";
-import { SettingsDialog } from "../components/dialog/SettingsDialog";
 import AppHead from "../components/AppHead";
 import LinkItem from "../components/sidebar/LinkItem";
 import AuthItem from "../components/sidebar/AuthItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
 
-interface Props extends PropsWithChildren {
-  settings?: SettingModel;
-}
-
-const SidebarLayout = (props: Props) => {
+const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [t] = useTranslation("drawer");
-
-  const [showSettings, setShowSettings] = useState(false);
 
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
     enabled: status === "authenticated",
@@ -121,12 +113,12 @@ const SidebarLayout = (props: Props) => {
                     <li className="mb-2">
                       <div className="ml-2 text-xs font-semibold text-neutral-400">Pages</div>
                       <ul role="list" className="mt-2 space-y-1">
-                        {props.settings ? (
+                        {router.route !== "/settings" ? (
                           <LinkItem
                             title="Settings"
                             icon={<FaCog className="transition-transform group-hover:rotate-90" />}
                             onClick={() => {
-                              setShowSettings(true);
+                              router.push("/settings").catch(console.error);
                             }}
                           />
                         ) : (
@@ -178,14 +170,6 @@ const SidebarLayout = (props: Props) => {
           </div>
         </div>
       </Transition.Root>
-
-      {props.settings && (
-        <SettingsDialog
-          customSettings={props.settings}
-          show={showSettings}
-          close={() => setShowSettings(false)}
-        />
-      )}
 
       <button
         className={clsx(

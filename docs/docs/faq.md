@@ -74,7 +74,7 @@ AgentGPT can do a lot, but we're also working on giving it a lot more capabiliti
 
 <details>
 <summary>Does AgentGPT have access to the internet?</summary>
-Not yet but this is coming very soon! Keep an eye on our <a href="/roadmap">roadmap</a>.
+Yes it can 🌐!
 </details>
 
 ### Local contribution issues

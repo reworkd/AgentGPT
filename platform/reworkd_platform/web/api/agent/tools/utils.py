@@ -27,6 +27,11 @@ def summarize(
 
     return StreamingResponse.from_chain(
         chain,
-        {"goal": goal, "query": query, "snippets": snippets},
+        {
+            "goal": goal,
+            "query": query,
+            "language": model_settings.language,
+            "snippets": snippets,
+        },
         media_type="text/event-stream",
     )

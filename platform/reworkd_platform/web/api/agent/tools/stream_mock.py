@@ -19,8 +19,8 @@ async def stream_generator(data: str, delayed: bool) -> AsyncGenerator[bytes, No
         encoding = tiktoken.get_encoding("cl100k_base")
         token_data = encoding.encode(data)
 
-        for c in token_data:
-            yield encoding.decode([c])
+        for token in token_data:
+            yield encoding.decode([token]).encode("utf-8")
             await asyncio.sleep(0.075)  # simulate slow processing
     else:
         yield data.encode()

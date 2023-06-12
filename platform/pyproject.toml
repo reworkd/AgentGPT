@@ -33,6 +33,7 @@ lanarky = "^0.7.8"
 weaviate-client = "^3.19.2"
 tiktoken = "^0.4.0"
 numpy = "^1.24.3"
+vecs = "^0.2.6"
 
 
 [tool.poetry.dev-dependencies]
@@ -48,7 +49,6 @@ autoflake = "^2.1.1"
 pytest-cov = "^4.1.0"
 anyio = "^3.7.0"
 pytest-env = "^0.8.1"
-httpx = "^0.24.1"
 taskiq = { version = "^0.6.0", extras = ["reload"] }
 
 [tool.isort]
@@ -106,3 +106,4 @@ otlp_enabled = "None"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+

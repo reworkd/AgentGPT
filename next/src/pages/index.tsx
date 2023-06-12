@@ -26,6 +26,7 @@ import { GPT_4 } from "../utils/constants";
 import AppTitle from "../components/AppTitle";
 import clsx from "clsx";
 import { useSettings } from "../hooks/useSettings";
+import FadeIn from "../components/motions/FadeIn";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -259,8 +260,13 @@ const Home: NextPage = () => {
             <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
           </Expand>
 
-          <div className="flex w-full flex-col gap-2 md:m-4">
-            <Expand delay={1.2} className="flex flex-row items-end gap-2 md:items-center">
+          <FadeIn
+            delay={0}
+            initialY={30}
+            duration={1}
+            className="flex w-full flex-col items-center gap-2"
+          >
+            <div className="flex w-full flex-row items-end gap-2 md:items-center">
               <Input
                 inputRef={nameInputRef}
                 left={
@@ -286,49 +292,47 @@ const Home: NextPage = () => {
                 <p className="mr-3">Tools</p>
                 <FaCog />
               </Button>
-            </Expand>
-            <Expand delay={1.3}>
-              <Input
-                left={
-                  <>
-                    <FaStar />
-                    <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
-                      ns: "indexPage",
-                    })}`}</span>
-                  </>
-                }
-                disabled={agent != null}
-                value={goalInput}
-                onChange={(e) => setGoalInput(e.target.value)}
-                onKeyDown={(e) => handleKeyPress(e)}
-                placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
-                  ns: "indexPage",
-                })}`}
-                type="textarea"
-              />
-            </Expand>
-          </div>
-          <Expand delay={1.4} className="flex gap-2">
-            {firstButton}
-            <Button
-              disabled={agent === null}
-              onClick={handleStopAgent}
-              enabledClassName={"bg-red-600 hover:bg-red-400"}
-            >
-              {!isAgentStopped && agent === null ? (
+            </div>
+            <Input
+              left={
                 <>
-                  <VscLoading className="animate-spin" size={20} />
-                  <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                  <FaStar />
+                  <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
                     ns: "indexPage",
                   })}`}</span>
                 </>
-              ) : (
-                `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                  ns: "indexPage",
-                })}`
-              )}
-            </Button>
-          </Expand>
+              }
+              disabled={agent != null}
+              value={goalInput}
+              onChange={(e) => setGoalInput(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e)}
+              placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                ns: "indexPage",
+              })}`}
+              type="textarea"
+            />
+            <div className="flex gap-2">
+              {firstButton}
+              <Button
+                disabled={agent === null}
+                onClick={handleStopAgent}
+                enabledClassName={"bg-red-600 hover:bg-red-400"}
+              >
+                {!isAgentStopped && agent === null ? (
+                  <>
+                    <VscLoading className="animate-spin" size={20} />
+                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                      ns: "indexPage",
+                    })}`}</span>
+                  </>
+                ) : (
+                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                    ns: "indexPage",
+                  })}`
+                )}
+              </Button>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </SidebarLayout>

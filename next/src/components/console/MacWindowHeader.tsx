@@ -6,11 +6,13 @@ import { FaClipboard, FaImage, FaPause, FaPlay, FaSave } from "react-icons/fa";
 import PDFButton from "../pdf/PDFButton";
 import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
-import { Message, PAUSE_MODE } from "../../types/agentTypes";
+import type { Message } from "../../types/agentTypes";
+import { PAUSE_MODE } from "../../types/agentTypes";
 import { AnimatePresence } from "framer-motion";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 
 export const messageListId = "chat-window-message-list";
 
@@ -108,7 +110,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
       <Expand
-        delay={1}
+        delay={0.75}
         className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
       >
         {props.title}

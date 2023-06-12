@@ -1,4 +1,3 @@
-import type { ModelSettings } from "../../utils/types";
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
@@ -8,6 +7,7 @@ import { AgentApi } from "./agent-api";
 import MessageService from "./message-service";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
+import type { ModelSettings } from "../../types";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;

@@ -38,12 +38,12 @@ class MemoryWithFallback(AgentMemory):
             logger.exception(e)
             return self.secondary.add_tasks(tasks)
 
-    def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
+    def get_similar_tasks(self, query: str, score_threshold: float = 0) -> List[str]:
         try:
-            return self.primary.get_similar_tasks(query, score_threshold)
+            return self.primary.get_similar_tasks(query)
         except Exception as e:
             logger.exception(e)
-            return self.secondary.get_similar_tasks(query, score_threshold)
+            return self.secondary.get_similar_tasks(query)
 
     def reset_class(self) -> None:
         try:

@@ -81,7 +81,7 @@ class WeaviateMemory(AgentMemory):
             raise Exception("WeaviateMemory not initialized")
         return self.db.add_texts(tasks)
 
-    def get_similar_tasks(self, query: str, score_threshold: float) -> List[str]:
+    def get_similar_tasks(self, query: str, score_threshold: float = 0.98) -> List[str]:
         # Get similar tasks
         results = self._similarity_search_with_score(query)
 

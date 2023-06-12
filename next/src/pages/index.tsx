@@ -209,7 +209,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
-                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
@@ -220,7 +220,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Tasks" ||
-                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
@@ -245,13 +245,13 @@ const Home: NextPage = () => {
               onSave={
                 shouldShowSave
                   ? (format) => {
-                    setHasSaved(true);
-                    agentUtils.saveAgent({
-                      goal: goalInput.trim(),
-                      name: nameInput.trim(),
-                      tasks: messages,
-                    });
-                  }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: nameInput.trim(),
+                        tasks: messages,
+                      });
+                    }
                   : undefined
               }
               scrollToBottom
@@ -340,7 +340,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

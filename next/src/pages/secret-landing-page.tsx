@@ -11,8 +11,14 @@ import PopIn from "../components/motions/popin";
 const HomePage = () => {
   const router = useRouter();
   return (
-    <NavLayout>
-      <div className="flex h-full w-full justify-center bg-black">
+    <NavLayout
+      style={{
+        backgroundColor: "rgb(0, 0, 0)",
+        backgroundImage:
+          "radial-gradient(at 100% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% 0%, rgb(21, 94, 117) 0, transparent 50%)",
+      }}
+    >
+      <div className="flex h-full w-full justify-center">
         <div className="flex max-w-screen-lg flex-1 flex-col items-center justify-center text-white">
           <FadeIn duration={1.5} delay={0}>
             <div className="mb-2 flex w-full justify-center">

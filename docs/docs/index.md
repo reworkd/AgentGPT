@@ -18,7 +18,7 @@ This is why we are proudly open source. We'd love to hear your feedback at every
 - [AgentGPT website](https://agentgpt.reworkd.ai/)
 - [Github](https://github.com/reworkd/AgentGPT)
 - [Discord](https://discord.gg/jdSBAnmdnY)
-- [Google Survey](https://forms.gle/fjCo72hiYWZydJa1A)
+- [Google Survey](https://forms.gle/QH5rngkvDMMFgLFf6)
 
 ## What's next?
 The entire AgentGPT team is incredibly excited for the road to follow.

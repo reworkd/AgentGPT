@@ -54,13 +54,14 @@ code_prompt = PromptTemplate(
     You are a world-class software engineer and an expert in all programing languages,
     software systems, and architecture.
 
-    For reference, your high level goal is
-    {goal}
+    For reference, your high level goal is {goal}
 
     Write code in English but explanations/comments in the "{language}" language.
+    
     Provide no information about who you are and focus on writing code.
     Ensure code is bug and error free and explain complex concepts through comments
     Respond in well-formatted markdown. Ensure code blocks are used for code sections.
+    Approach problems step by step and file by file, for each section, use a heading to describe the section.
 
     Write code to accomplish the following:
     {task}
@@ -103,14 +104,17 @@ create_tasks_prompt = PromptTemplate(
 
 summarize_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language. 
-    Parse and summarize the following text "{snippets}" Write in a style expected
-    of the goal "{goal}", be as clear, informative, and descriptive as necessary and attempt to
-    answer the query: "{query}" as best as possible. Use markdown formatting for responses.
     
-    Cite sources used via the source link. Use the index as the citation text and site the source at the
-    end of the sentence that the source is used in. Do not list sources at the end.
+    Parse and summarize the following text snippets "{snippets}".
+    Write using clear markdown formatting in a style expected of the goal "{goal}".
+    Be as clear, informative, and descriptive as necessary and attempt to
+    answer the query: "{query}" as best as possible.
     
-    Example: "So this is a cited sentence [[1]](https://test.com)." 
+    Cite sources for as many sentences as possible via the source link. Use the index as the citation text.
+    Site the source using a markdown link directly at the end of the sentence that the source is used in. 
+    Do not list sources at the end of the writing. 
+    
+    Example: "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence." 
     """,
     input_variables=["goal", "language", "query", "snippets"],
 )

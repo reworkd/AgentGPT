@@ -1,5 +1,5 @@
 {
-  "ERROR_ACCESSING_OPENAI_API_KEY": "ERROR accessing OpenAI's API. Please check your API key or try again later",
+  "ERROR_ACCESSING_OPENAI_API_KEY": "ERROR accessing the backend. Please email support@reworkd.ai or try again later",
   "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
   "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅",
   "AGENT_MAXED_OUT_LOOPS": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",

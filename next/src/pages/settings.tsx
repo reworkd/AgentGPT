@@ -3,27 +3,19 @@ import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
-import type { GPTModelNames, ModelSettings } from "../types";
+import type { GPTModelNames } from "../types";
 import { GPT_MODEL_NAMES } from "../types";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { useModelSettingsStore } from "../stores";
 import { FaCoins, FaGlobe, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
-import { getDefaultModelSettings } from "../utils/constants";
+import { useSettings } from "../hooks/useSettings";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
-  const [_modelSettings, set_ModelSettings] = useState<ModelSettings>(getDefaultModelSettings());
-  const modelSettings = useModelSettingsStore.use.modelSettings();
-  const updateSettings = useModelSettingsStore.use.updateSettings();
-
-  // The server doesn't have access to local storage so rendering Zustand directly  will lead to a hydration error
-  useEffect(() => {
-    set_ModelSettings(modelSettings);
-  }, [modelSettings]);
+  const { settings, updateSettings } = useSettings();
 
   return (
     <SidebarLayout>
@@ -36,7 +28,7 @@ const SettingsPage = () => {
             <div className="flex flex-col gap-4">
               <Combo<Language>
                 label="Language"
-                value={_modelSettings.language}
+                value={settings.language}
                 valueMapper={(e) => e.name}
                 onChange={(e) => updateSettings("language", e)}
                 items={languages}
@@ -44,7 +36,7 @@ const SettingsPage = () => {
               />
               <Combo<GPTModelNames>
                 label="Model"
-                value={_modelSettings.customModelName}
+                value={settings.customModelName}
                 valueMapper={(e) => e}
                 onChange={(e) => updateSettings("customModelName", e)}
                 items={GPT_MODEL_NAMES}
@@ -54,7 +46,7 @@ const SettingsPage = () => {
             <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
             <Input
               label={t("TEMPERATURE")}
-              value={_modelSettings.customTemperature}
+              value={settings.customTemperature}
               name="temperature"
               type="range"
               onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
@@ -68,7 +60,7 @@ const SettingsPage = () => {
             />
             <Input
               label={t("LOOP")}
-              value={_modelSettings.customMaxLoops}
+              value={settings.customMaxLoops}
               name="loop"
               type="range"
               onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
@@ -82,7 +74,7 @@ const SettingsPage = () => {
             />
             <Input
               label={t("TOKENS")}
-              value={_modelSettings.maxTokens}
+              value={settings.maxTokens}
               name="tokens"
               type="range"
               onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}

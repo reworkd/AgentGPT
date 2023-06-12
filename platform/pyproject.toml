@@ -51,6 +51,10 @@ anyio = "^3.7.0"
 pytest-env = "^0.8.1"
 taskiq = { version = "^0.6.0", extras = ["reload"] }
 
+[tool.poetry.group.dev.dependencies]
+pytest-mock = "^3.10.0"
+httpx = "^0.24.1"
+
 [tool.isort]
 profile = "black"
 multi_line_output = 3

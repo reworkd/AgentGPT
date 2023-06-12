@@ -8,6 +8,7 @@ import MessageService from "./message-service";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
+import { toApiModelSettings } from "../../utils/interfaces";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -54,7 +55,7 @@ class AutonomousAgent {
 
     this.$api = new AgentApi(
       {
-        modelSettings: { ...modelSettings, language: modelSettings.language.name },
+        model_settings: toApiModelSettings(modelSettings),
         goal,
         session,
       },
@@ -142,7 +143,7 @@ class AutonomousAgent {
         goal: this.goal,
         task: currentTask.value,
         analysis: analysis,
-        modelSettings: { ...this.modelSettings, language: this.modelSettings.language.name },
+        model_settings: toApiModelSettings(this.modelSettings),
       },
       this.$api.props.session?.accessToken || "",
       () => {

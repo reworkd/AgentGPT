@@ -1,0 +1,104 @@
+from __future__ import annotations
+
+import uuid
+from typing import Any, Dict, List, Tuple, Optional
+
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.embeddings.base import Embeddings
+from pydantic import BaseModel, Field
+from vecs import Client, Collection
+from vecs.exc import CollectionNotFound
+
+from reworkd_platform.settings import settings
+from reworkd_platform.timer import timed_function
+from reworkd_platform.web.api.memory.memory import AgentMemory
+
+OPENAI_EMBEDDING_DIM = 1536
+
+
+class Row(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4)
+    vector: List[float]
+    metadata: Dict[str, Any] = {}
+
+    def to_tuple(self) -> Tuple[Optional[str], List[float], Dict[str, Any]]:
+        return self.id, self.vector, self.metadata
+
+
+class VecsMemory(AgentMemory):
+    """
+    Wrapper around the supabase vecs package
+    """
+
+    client: Client
+    _collection: Optional[Collection]
+
+    def __init__(self, client: Client, index_name: str):
+        self.client = client
+        self.index_name = index_name
+        self._collection = None
+
+    @timed_function(level="ERROR")
+    def __enter__(self) -> AgentMemory:
+        self.embeddings: Embeddings = OpenAIEmbeddings(
+            client=None,  # Meta private value but mypy will complain its missing
+            openai_api_key=settings.openai_api_key,
+        )
+
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        pass
+
+    @timed_function(level="DEBUG")
+    def reset_class(self) -> None:
+        try:
+            self.client.delete_collection(self.index_name)
+        except CollectionNotFound:
+            pass
+
+    @timed_function(level="DEBUG")
+    def add_tasks(self, tasks: List[str]) -> List[str]:
+        embeds = self.embeddings.embed_documents(tasks)
+
+        if len(tasks) != len(embeds):
+            raise ValueError("Embeddings and tasks are not the same length")
+
+        rows = [
+            Row(vector=vector, metadata={"text": tasks[i]}).to_tuple()
+            for i, vector in enumerate(embeds)
+        ]
+
+        self.collection.upsert(rows)
+        # self.collection.create_index()
+
+        return tasks
+        # return embeds
+
+    @timed_function(level="DEBUG")
+    def get_similar_tasks(self, query: str, score_threshold: float = 0.95):
+        score_threshold = 1 - score_threshold
+
+        # Get similar tasks
+        vector = self.embeddings.embed_query(query)
+        results = self.collection.query(
+            query_vector=vector, include_value=True, include_metadata=True, limit=5
+        )
+
+        # return list(filter(lambda x: x[1] < score_threshold, results))
+
+        return [(x[0], 1 - x[1], x[2]) for x in results if x[1] < score_threshold]
+
+    @property
+    def collection(self) -> Collection:
+        if self._collection:
+            return self._collection
+
+        try:
+            self._collection = self.client.get_collection(self.index_name)
+        except CollectionNotFound:
+            self._collection = self.client.create_collection(
+                self.index_name, OPENAI_EMBEDDING_DIM
+            )
+
+        return self._collection

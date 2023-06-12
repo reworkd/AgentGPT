@@ -1,6 +1,6 @@
 from typing import Any, Callable, Coroutine, TypeVar
 
-from fastapi import Body, Depends
+from fastapi import Body, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud import AgentCRUD
@@ -14,6 +14,8 @@ from reworkd_platform.schemas import (
     Loop_Step,
     UserBase,
 )
+from reworkd_platform.services.vecs.dependencies import get_supabase_vecs
+from reworkd_platform.services.vecs.vecs import VecsMemory
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.web.api.memory.memory import AgentMemory
@@ -32,10 +34,16 @@ def agent_crud(
 
 
 def get_agent_memory(
+    request: Request,
     user: UserBase = Depends(get_current_user),
 ) -> AgentMemory:
-    vector_db_exists = settings.vector_db_url and settings.vector_db_url != ""
-    if vector_db_exists and not settings.ff_mock_mode_enabled:
+    if settings.ff_mock_mode_enabled:
+        return NullAgentMemory()
+
+    if settings.supabase_vecs_url:
+        vecs = get_supabase_vecs(request)
+        return MemoryWithFallback(VecsMemory(vecs, user.id), NullAgentMemory())
+    elif settings.vector_db_url:
         return MemoryWithFallback(WeaviateMemory(user.id), NullAgentMemory())
     else:
         return NullAgentMemory()

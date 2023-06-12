@@ -62,9 +62,12 @@ class Settings(BaseSettings):
     db_echo: bool = False
     db_ca_path: str = "/etc/ssl/cert.pem"
 
-    # Variables for the vector db. We're currently using Weaviate
+    # Variables for Weaviate db.
     vector_db_url: Optional[str] = None
     vector_db_api_key: Optional[str] = None
+
+    # Variables for Supabase PG_Vector DB
+    supabase_vecs_url: Optional[str] = None
 
     # Sentry's configuration.
     sentry_dsn: Optional[str] = None

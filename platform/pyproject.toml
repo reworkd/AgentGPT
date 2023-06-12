@@ -34,6 +34,7 @@ weaviate-client = "^3.19.2"
 tiktoken = "^0.4.0"
 numpy = "^1.24.3"
 vecs = "^0.2.6"
+grpcio = "^1.54.2"
 
 
 [tool.poetry.dev-dependencies]
@@ -50,6 +51,10 @@ pytest-cov = "^4.1.0"
 anyio = "^3.7.0"
 pytest-env = "^0.8.1"
 taskiq = { version = "^0.6.0", extras = ["reload"] }
+
+[tool.poetry.group.dev.dependencies]
+pytest-mock = "^3.10.0"
+httpx = "^0.24.1"
 
 [tool.isort]
 profile = "black"

@@ -83,8 +83,6 @@ class VecsMemory(AgentMemory):
     def get_similar_tasks(
         self, query: str, score_threshold: float = 0.95
     ) -> List[QueryResult]:
-        score_threshold = 1 - score_threshold
-
         # Get similar tasks
         vector = self.embeddings.embed_query(query)
         results = [

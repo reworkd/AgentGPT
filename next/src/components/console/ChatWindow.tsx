@@ -30,17 +30,17 @@ interface ChatWindowProps extends HeaderProps {
 }
 
 const ChatWindow = ({
-                      messages,
-                      children,
-                      className,
-                      title,
-                      onSave,
-                      fullscreen,
-                      scrollToBottom,
-                      displaySettings,
-                      setAgentRun,
-                      visibleOnMobile,
-                    }: ChatWindowProps) => {
+  messages,
+  children,
+  className,
+  title,
+  onSave,
+  fullscreen,
+  scrollToBottom,
+  displaySettings,
+  setAgentRun,
+  visibleOnMobile,
+}: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
 
@@ -151,9 +151,7 @@ const ChatWindow = ({
 
 const SwitchContainer = ({ label, children }: { label: string; children: React.ReactNode }) => {
   return (
-    <div
-      className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-2 border-white/20 bg-zinc-700 px-2 py-1"
-    >
+    <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-2 border-white/20 bg-zinc-700 px-2 py-1">
       <p className="font-mono text-sm">{label}</p>
       {children}
     </div>

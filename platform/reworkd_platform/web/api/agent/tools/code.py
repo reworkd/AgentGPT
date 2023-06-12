@@ -23,6 +23,6 @@ class Code(Tool):
 
         return StreamingResponse.from_chain(
             chain,
-            {"goal": goal, "language": "English", "task": task},
+            {"goal": goal, "language": self.model_settings.language, "task": task},
             media_type="text/event-stream",
         )

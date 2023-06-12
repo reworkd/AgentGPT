@@ -33,7 +33,7 @@ lanarky = "^0.7.8"
 weaviate-client = "^3.19.2"
 tiktoken = "^0.4.0"
 numpy = "^1.24.3"
-supabase = "^1.0.3"
+vecs = "^0.2.6"
 
 
 [tool.poetry.dev-dependencies]

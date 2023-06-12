@@ -54,7 +54,9 @@ def register_startup_event(
     @app.on_event("startup")
     async def _startup() -> None:  # noqa: WPS430
         _setup_db(app)
-        init_supabase_vecs(app)
+        init_supabase_vecs(
+            app
+        )  # create pg_connection connection pool at startup as its expensive
         # await _create_tables()
         # await init_kafka(app)
 

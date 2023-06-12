@@ -25,6 +25,12 @@ class Row(BaseModel):
         return self.id, self.vector, self.metadata
 
 
+class QueryResult(BaseModel):
+    id: str
+    score: float
+    metadata: Dict[str, Any] = {}
+
+
 class VecsMemory(AgentMemory):
     """
     Wrapper around the supabase vecs package
@@ -65,15 +71,13 @@ class VecsMemory(AgentMemory):
             raise ValueError("Embeddings and tasks are not the same length")
 
         rows = [
-            Row(vector=vector, metadata={"text": tasks[i]}).to_tuple()
+            Row(vector=vector, metadata={"text": tasks[i]})
             for i, vector in enumerate(embeds)
         ]
 
-        self.collection.upsert(rows)
-        # self.collection.create_index()
+        self.collection.upsert([row.to_tuple() for row in rows])
 
-        return tasks
-        # return embeds
+        return [row.id for row in rows]
 
     @timed_function(level="DEBUG")
     def get_similar_tasks(self, query: str, score_threshold: float = 0.95):
@@ -81,13 +85,14 @@ class VecsMemory(AgentMemory):
 
         # Get similar tasks
         vector = self.embeddings.embed_query(query)
-        results = self.collection.query(
-            query_vector=vector, include_value=True, include_metadata=True, limit=5
-        )
+        results = [
+            QueryResult(id=row[0], score=1 - row[1], metadata=row[2])
+            for row in self.collection.query(
+                query_vector=vector, include_value=True, include_metadata=True, limit=5
+            )
+        ]
 
-        # return list(filter(lambda x: x[1] < score_threshold, results))
-
-        return [(x[0], 1 - x[1], x[2]) for x in results if x[1] < score_threshold]
+        return [result for result in results if result.score > score_threshold]
 
     @property
     def collection(self) -> Collection:

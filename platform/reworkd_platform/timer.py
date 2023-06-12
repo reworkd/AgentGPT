@@ -1,5 +1,6 @@
 from functools import wraps
 from time import time
+from typing import Any, Callable
 from typing import Literal
 
 from loguru import logger
@@ -15,10 +16,10 @@ Log_Level = Literal[
 ]
 
 
-def timed_function(level: Log_Level = "INFO"):
-    def decorator(func):
+def timed_function(level: Log_Level = "INFO") -> Callable[..., Any]:
+    def decorator(func: Any) -> Callable[..., Any]:
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             start_time = time()
             result = func(*args, **kwargs)
             execution_time = time() - start_time

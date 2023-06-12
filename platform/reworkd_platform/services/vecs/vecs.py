@@ -53,7 +53,7 @@ class VecsMemory(AgentMemory):
 
         return self
 
-    def __exit__(self, *args, **kwargs):
+    def __exit__(self, *args: Any, **kwargs: Any) -> None:
         pass
 
     @timed_function(level="DEBUG")
@@ -80,7 +80,9 @@ class VecsMemory(AgentMemory):
         return [row.id for row in rows]
 
     @timed_function(level="DEBUG")
-    def get_similar_tasks(self, query: str, score_threshold: float = 0.95):
+    def get_similar_tasks(
+        self, query: str, score_threshold: float = 0.95
+    ) -> List[QueryResult]:
         score_threshold = 1 - score_threshold
 
         # Get similar tasks

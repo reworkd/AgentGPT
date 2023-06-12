@@ -154,9 +154,7 @@ const SidebarLayout = (props: Props) => {
                   </div>
                   <ul role="list" className="flex flex-col">
                     <li className="mb-2">
-                      <div className="ml-2 text-xs font-semibold text-neutral-400">
-                        Important Links
-                      </div>
+                      <div className="ml-2 text-xs font-semibold text-neutral-400">Pages</div>
                       <ul role="list" className="mt-2 space-y-1">
                         {props.settings ? (
                           <LinkItem
@@ -175,7 +173,23 @@ const SidebarLayout = (props: Props) => {
                             }}
                           />
                         )}
-                        {links.map((link) => (
+                      </ul>
+                      {pages.map((link) => (
+                        <LinkItem
+                          key={link.name}
+                          title={link.name}
+                          icon={link.icon}
+                          href={link.href}
+                          onClick={() => {
+                            void router.push(link.href);
+                          }}
+                        />
+                      ))}
+                    </li>
+                    <li className="mb-2">
+                      <div className="ml-2 text-xs font-semibold text-neutral-400">Socials</div>
+                      <ul role="list" className="mt-2 space-y-1">
+                        {socials.map((link) => (
                           <LinkItem
                             key={link.name}
                             title={link.name}
@@ -302,12 +316,15 @@ const AuthItem: FC<{
   );
 };
 
-const links = [
+const pages = [
   {
     name: "Help",
     href: "https://docs.reworkd.ai/",
     icon: <FaQuestion className="group-hover:text-red-500" />,
   },
+];
+
+const socials = [
   {
     name: "Github",
     href: "https://github.com/reworkd/AgentGPT",

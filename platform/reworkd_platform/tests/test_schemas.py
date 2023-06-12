@@ -8,13 +8,13 @@ from reworkd_platform.schemas import ModelSettings
     "settings",
     [
         {
-            "customModelName": "gpt-4-32k",
+            "model": "gpt-4-32k",
         },
         {
-            "customTemperature": -1,
+            "temperature": -1,
         },
         {
-            "maxTokens": 8000,
+            "max_tokens": 8000,
         },
     ],
 )

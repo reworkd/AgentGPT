@@ -54,8 +54,8 @@ class AutonomousAgent {
 
     this.$api = new AgentApi(
       {
+        modelSettings: { ...modelSettings, language: modelSettings.language.name },
         goal,
-        modelSettings,
         session,
       },
       this.onApiError
@@ -142,7 +142,7 @@ class AutonomousAgent {
         goal: this.goal,
         task: currentTask.value,
         analysis: analysis,
-        modelSettings: this.modelSettings,
+        modelSettings: { ...this.modelSettings, language: this.modelSettings.language.name },
       },
       this.$api.props.session?.accessToken || "",
       () => {

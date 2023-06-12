@@ -44,7 +44,7 @@ class VecsMemory(AgentMemory):
         self.index_name = index_name
         self._collection = None
 
-    @timed_function(level="ERROR")
+    @timed_function(level="DEBUG")
     def __enter__(self) -> AgentMemory:
         self.embeddings: Embeddings = OpenAIEmbeddings(
             client=None,  # Meta private value but mypy will complain its missing

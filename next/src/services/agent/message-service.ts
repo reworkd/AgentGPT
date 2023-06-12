@@ -40,7 +40,7 @@ class MessageService {
   }
 
   sendManualShutdownMessage() {
-    this.sendMessage({
+    this.renderMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
     });

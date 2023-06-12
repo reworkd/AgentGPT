@@ -35,6 +35,11 @@ async def call_model_with_handling(
             "https://status.openai.com/ for more info.",
         )
     except InvalidRequestError as e:
+        if e.user_message.startswith("The model:"):
+            raise OpenAIError(
+                e,
+                f"Your API key does not have access to '{model_settings.model}'. Please use a different model.",
+            )
         raise OpenAIError(e, e.user_message)
     except AuthenticationError as e:
         raise OpenAIError(

@@ -17,8 +17,7 @@ import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useSettings } from "../hooks/useSettings";
-import { findLanguage, languages } from "../utils/languages";
+import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
@@ -26,6 +25,7 @@ import SidebarLayout from "../layout/sidebar";
 import { GPT_4 } from "../utils/constants";
 import AppTitle from "../components/AppTitle";
 import clsx from "clsx";
+import { useSettings } from "../hooks/useSettings";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
   const [nameInput, setNameInput] = React.useState<string>("");
   const [goalInput, setGoalInput] = React.useState<string>("");
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
-  const settingsModel = useSettings();
+  const { settings } = useSettings();
 
   const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
@@ -120,10 +120,7 @@ const Home: NextPage = () => {
       handleAddMessage,
       handlePause,
       () => setAgent(null),
-      {
-        language: findLanguage(i18n.language).name,
-        ...settingsModel.settings,
-      },
+      settings,
       agentMode,
       session ?? undefined
     );
@@ -193,7 +190,7 @@ const Home: NextPage = () => {
     );
 
   return (
-    <SidebarLayout settings={settingsModel}>
+    <SidebarLayout>
       <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
@@ -209,7 +206,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
-                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
@@ -220,7 +217,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Tasks" ||
-                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
@@ -232,7 +229,7 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={
-                settingsModel.settings.customModelName === GPT_4 ? (
+                settings.customModelName === GPT_4 ? (
                   <>
                     Agent<span className="text-amber-500">GPT-4</span>
                   </>
@@ -245,13 +242,13 @@ const Home: NextPage = () => {
               onSave={
                 shouldShowSave
                   ? (format) => {
-                    setHasSaved(true);
-                    agentUtils.saveAgent({
-                      goal: goalInput.trim(),
-                      name: nameInput.trim(),
-                      tasks: messages,
-                    });
-                  }
+                      setHasSaved(true);
+                      agentUtils.saveAgent({
+                        goal: goalInput.trim(),
+                        name: nameInput.trim(),
+                        tasks: messages,
+                      });
+                    }
                   : undefined
               }
               scrollToBottom
@@ -340,7 +337,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

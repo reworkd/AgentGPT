@@ -1,27 +1,19 @@
 import type { ModelSettings } from "../types";
-import { GPT_35_TURBO } from "../types";
-import { DEFAULT_MAX_LOOPS_CUSTOM_API_KEY, DEFAULT_MAX_TOKENS, DEFAULT_MODEL_TEMPERATURE, } from "../utils/constants";
+import { getDefaultModelSettings } from "../utils/constants";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createSelectors } from "./helpers";
-import { ENGLISH } from "../utils/languages";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 const resetters: (() => void)[] = [];
 
 interface ModelSettingsSlice {
-  modelSettings: Required<ModelSettings>;
+  modelSettings: ModelSettings;
   updateSettings: <Key extends keyof ModelSettings>(key: Key, value: ModelSettings[Key]) => void;
 }
 
 const initialModelSettingsState = {
-  modelSettings: {
-    language: ENGLISH,
-    customModelName: GPT_35_TURBO,
-    customTemperature: DEFAULT_MODEL_TEMPERATURE,
-    customMaxLoops: DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-    maxTokens: DEFAULT_MAX_TOKENS,
-  },
+  modelSettings: getDefaultModelSettings(),
 };
 
 const createModelSettingsSlice: StateCreator<ModelSettingsSlice> = (set) => {

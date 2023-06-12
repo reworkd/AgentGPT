@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/default.css";
+import clsx from "clsx";
 
 const MarkdownRenderer = ({ children }) => {
   return (
@@ -14,9 +15,11 @@ const MarkdownRenderer = ({ children }) => {
       components={{
         pre: CustomPre,
         code: CustomCodeBlock,
+        h1: (props) => <h1 className="mb-2 text-xl font-black">{props.children}</h1>,
+        h2: (props) => <h1 className="text-md mb-2 font-bold">{props.children}</h1>,
         a: (props) => CustomLink({ children: props.children, href: props.href }),
         p: (props) => <p className="mb-4">{props.children}</p>,
-        ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
+        ul: (props) => <ul className="ml-8 list-decimal">{props.children}</ul>,
         ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
       }}
     >
@@ -83,7 +86,10 @@ const CustomCodeBlock = ({ inline, className, children }: CustomCodeBlockProps) 
 const CustomLink = ({ children, href }) => {
   return (
     <a
-      className="link overflow-hidden"
+      className={clsx(
+        "link rounded-full bg-zinc-800 px-2 py-0.5 align-top text-[0.6rem]",
+        "transition-colors duration-300 hover:bg-sky-500 hover:text-white"
+      )}
       href={href as string}
       target="_blank"
       rel="noopener noreferrer"

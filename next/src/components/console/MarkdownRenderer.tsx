@@ -19,8 +19,13 @@ const MarkdownRenderer = ({ children }) => {
         h2: (props) => <h1 className="text-md mb-2 font-bold">{props.children}</h1>,
         a: (props) => CustomLink({ children: props.children, href: props.href }),
         p: (props) => <p className="mb-4">{props.children}</p>,
-        ul: (props) => <ul className="ml-8 list-decimal">{props.children}</ul>,
-        ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
+        ul: (props) => (
+          <ul className="mb-4 ml-8 list-disc marker:text-neutral-400">{props.children}</ul>
+        ),
+        ol: (props) => (
+          <ol className="mb-4 ml-8 list-decimal marker:text-neutral-400">{props.children}</ol>
+        ),
+        li: (props) => <li className="mb-1">{props.children}</li>,
       }}
     >
       {children}

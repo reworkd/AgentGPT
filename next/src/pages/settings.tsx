@@ -25,7 +25,7 @@ const SettingsPage = () => {
             <h1 className="text-3xl font-bold dark:text-white md:text-4xl">Settings ⚙</h1>
           </div>
           <div className="p-3 sm:p-5">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <Combo<Language>
                 label="Language"
                 value={settings.language}
@@ -34,6 +34,9 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
+            </div>
+            <div className="flex flex-col gap-3">
+              <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
               <Combo<GPTModelNames>
                 label="Model"
                 value={settings.customModelName}
@@ -42,50 +45,49 @@ const SettingsPage = () => {
                 items={GPT_MODEL_NAMES}
                 icon={<FaRobot />}
               />
+              <Input
+                label={t("TEMPERATURE")}
+                value={settings.customTemperature}
+                name="temperature"
+                type="range"
+                onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
+                attributes={{
+                  min: 0,
+                  max: 1,
+                  step: 0.01,
+                }}
+                helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
+                icon={<FaThermometerFull />}
+              />
+              <Input
+                label={t("LOOP")}
+                value={settings.customMaxLoops}
+                name="loop"
+                type="range"
+                onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
+                attributes={{
+                  min: 1,
+                  max: 25,
+                  step: 1,
+                }}
+                helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
+                icon={<FaSyncAlt />}
+              />
+              <Input
+                label={t("TOKENS")}
+                value={settings.maxTokens}
+                name="tokens"
+                type="range"
+                onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
+                attributes={{
+                  min: 200,
+                  max: 2000,
+                  step: 100,
+                }}
+                helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
+                icon={<FaCoins />}
+              />
             </div>
-            <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
-            <Input
-              label={t("TEMPERATURE")}
-              value={settings.customTemperature}
-              name="temperature"
-              type="range"
-              onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
-              attributes={{
-                min: 0,
-                max: 1,
-                step: 0.01,
-              }}
-              helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
-              icon={<FaThermometerFull />}
-            />
-            <Input
-              label={t("LOOP")}
-              value={settings.customMaxLoops}
-              name="loop"
-              type="range"
-              onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
-              attributes={{
-                min: 1,
-                max: 25,
-                step: 1,
-              }}
-              helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
-              icon={<FaSyncAlt />}
-            />
-            <Input
-              label={t("TOKENS")}
-              value={settings.maxTokens}
-              name="tokens"
-              type="range"
-              onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
-              attributes={{
-                min: 200,
-                max: 2000,
-                step: 100,
-              }}
-              helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
-              icon={<FaCoins />}
-            />
           </div>
         </div>
       </div>

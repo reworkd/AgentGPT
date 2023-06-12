@@ -19,7 +19,7 @@ const Input = ({ ...props }: Props) => {
     <div>
       <label
         htmlFor={props.name}
-        className="mt-2 flex items-center gap-2 text-sm font-bold leading-6 text-gray-900 dark:text-white"
+        className="flex items-center gap-2 text-sm font-bold leading-6 text-gray-900 dark:text-white"
       >
         <span>{props.label}</span>
         {props.icon}

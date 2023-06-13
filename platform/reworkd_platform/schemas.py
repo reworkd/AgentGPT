@@ -22,7 +22,7 @@ Loop_Step = Literal[
 class ModelSettings(BaseModel):
     model: LLM_Model = Field(default="gpt-3.5-turbo")
     temperature: float = Field(default=0.9, ge=0.0, le=1.0)
-    max_tokens: int = Field(default=500, ge=0, le=2000)
+    max_tokens: int = Field(default=500, ge=0)
     language: str = Field(default="English")
 
 

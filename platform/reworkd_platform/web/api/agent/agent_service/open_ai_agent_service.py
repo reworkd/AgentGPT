@@ -3,6 +3,7 @@ from typing import List, Optional
 from lanarky.responses import StreamingResponse
 from langchain.chains import LLMChain
 from langchain.output_parsers import PydanticOutputParser
+from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
 
 from reworkd_platform.schemas import ModelSettings
@@ -36,7 +37,9 @@ class OpenAIAgentService(AgentService):
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         completion = await call_model_with_handling(
             self.model_settings,
-            start_goal_prompt,
+            ChatPromptTemplate.from_messages(
+                [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
+            ),
             {"goal": goal, "language": self._language},
         )
 

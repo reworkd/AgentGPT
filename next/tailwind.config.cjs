@@ -16,8 +16,62 @@ module.exports = {
     extend: {
       boxShadow: {
         "3xl": "0 40px 70px -15px rgba(0, 0, 0, 0.40)" // Customize the shadow value according to your preferences.
+      },
+      colors: {
+        primary: {
+          main: {
+            dark: "#409CFF",
+          },
+          active: {
+            dark: "#267BD5",
+          },
+          focusVisible: {
+            dark: "#6BB3FF",
+          },
+          hover: {
+            dark: "#5c95D1",
+          },
+        },
+        secondary: {
+          main: {
+            dark: "#ff9f0a",
+          },
+        },
+        gray: {
+          100: {
+            dark: "#AEAEB2",
+          },
+          200: {
+            dark: "#7C7C80",
+          },
+          300: {
+            dark: "#545456",
+          },
+          400: {
+            dark: "#444446",
+          },
+          500: {
+            dark: "#363638",
+          },
+          600: {
+            dark: "#242426",
+          },
+          700: {
+            dark: "#18181B",
+          }
+        }
+      },
+      display: {
+        100: {
+          dark: "#C0C0C0",
+        },
+      },
+      body: {
+        100: {
+          dark: "#FFFFFF"
+        }
       }
-    }
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

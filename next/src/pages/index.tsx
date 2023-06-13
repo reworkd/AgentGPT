@@ -26,6 +26,8 @@ import { GPT_4 } from "../utils/constants";
 import AppTitle from "../components/AppTitle";
 import clsx from "clsx";
 import { useSettings } from "../hooks/useSettings";
+import type { GPTModelNames } from "../types";
+import { GPT_35_TURBO_16K } from "../types";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -228,17 +230,7 @@ const Home: NextPage = () => {
           <Expand className="flex w-full flex-row">
             <ChatWindow
               messages={messages}
-              title={
-                settings.customModelName === GPT_4 ? (
-                  <>
-                    Agent<span className="text-amber-500">GPT-4</span>
-                  </>
-                ) : (
-                  <>
-                    Agent<span className="text-neutral-400">GPT-3.5</span>
-                  </>
-                )
-              }
+              title={<ChatWindowTitle model={settings.customModelName} />}
               onSave={
                 shouldShowSave
                   ? (format) => {
@@ -332,6 +324,35 @@ const Home: NextPage = () => {
         </div>
       </div>
     </SidebarLayout>
+  );
+};
+
+export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
+  console.log(model);
+
+  if (model === GPT_4) {
+    return (
+      <>
+        Agent<span className="text-amber-500">GPT-4</span>
+      </>
+    );
+  }
+
+  if (model === GPT_35_TURBO_16K) {
+    return (
+      <>
+        Agent
+        <span className="text-neutral-400">
+          GPT-3.5<span className="text-amber-500">-16K</span>
+        </span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      Agent<span className="text-neutral-400">GPT-3.5</span>
+    </>
   );
 };
 

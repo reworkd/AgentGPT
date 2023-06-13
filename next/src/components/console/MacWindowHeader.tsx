@@ -6,11 +6,13 @@ import { FaClipboard, FaImage, FaPause, FaPlay, FaSave } from "react-icons/fa";
 import PDFButton from "../pdf/PDFButton";
 import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
-import { Message, PAUSE_MODE } from "../../types/agentTypes";
+import type { Message } from "../../types/agentTypes";
+import { PAUSE_MODE } from "../../types/agentTypes";
 import { AnimatePresence } from "framer-motion";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 
 export const messageListId = "chat-window-message-list";
 
@@ -25,6 +27,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const agent = useAgentStore.use.agent();
   const agentMode = useAgentStore.use.agentMode();
+
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {

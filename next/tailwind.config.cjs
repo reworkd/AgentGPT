@@ -37,26 +37,29 @@ module.exports = {
             dark: "#ff9f0a",
           },
         },
-        neutral: {
+        shade: {
           100: {
-            dark: "#AEAEB2",
+            dark: "#FFFFFF",
           },
           200: {
-            dark: "#7C7C80",
+            dark: "#AEAEB2",
           },
           300: {
-            dark: "#545456",
+            dark: "#7C7C80",
           },
           400: {
-            dark: "#444446",
+            dark: "#545456",
           },
           500: {
-            dark: "#363638",
+            dark: "#444446",
           },
           600: {
-            dark: "#242426",
+            dark: "#363638",
           },
           700: {
+            dark: "#242426",
+          },
+          800: {
             dark: "#18181B",
           }
         }

@@ -37,7 +37,7 @@ module.exports = {
             dark: "#ff9f0a",
           },
         },
-        gray: {
+        neutral: {
           100: {
             dark: "#AEAEB2",
           },

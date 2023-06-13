@@ -64,16 +64,6 @@ module.exports = {
           }
         }
       },
-      display: {
-        100: {
-          dark: "#C0C0C0",
-        },
-      },
-      body: {
-        100: {
-          dark: "#FFFFFF"
-        }
-      }
     },
   },
   plugins: [

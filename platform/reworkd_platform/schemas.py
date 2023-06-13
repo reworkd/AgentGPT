@@ -7,8 +7,10 @@ from reworkd_platform.web.api.agent.analysis import Analysis
 
 LLM_Model = Literal[
     "gpt-3.5-turbo",
+    "gpt-3.5-turbo-0613",
     "gpt-3.5-turbo-16k",
     "gpt-4",
+    "gpt-4-0613",
 ]
 
 Loop_Step = Literal[

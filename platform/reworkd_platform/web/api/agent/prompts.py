@@ -12,9 +12,9 @@ start_goal_prompt = PromptTemplate(
     Return the response as a formatted array of strings that can be used in JSON.parse()
 
     Examples:
-    ["Search the web for NBA news", "Write a report on the state of Nike"]
+    ["Search the web for NBA news relating to Stephen Curry", "Write a report on the financial state of Nike"]
     ["Create a function to add a new vertex with a specified weight to the digraph."]
-    ["Search for any additional information on Bertie W.", "Research Chicken"]
+    ["Search for any additional information on Bertie W.", "Research the best kentucky fried Chicken recipe"]
     """,
     input_variables=["goal", "language"],
 )

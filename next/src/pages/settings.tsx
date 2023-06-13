@@ -4,7 +4,7 @@ import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
 import type { GPTModelNames } from "../types";
-import { GPT_MODEL_NAMES } from "../types";
+import { GPT_MODEL_NAMES, MAX_TOKENS } from "../types";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -20,6 +20,14 @@ const SettingsPage = () => {
   const { session } = useAuth();
 
   const showAdvancedSettings = session?.user;
+
+  const updateModel = (model: GPTModelNames) => {
+    if (settings.maxTokens > MAX_TOKENS[model]) {
+      updateSettings("maxTokens", MAX_TOKENS[model]);
+    }
+
+    updateSettings("customModelName", model);
+  };
 
   return (
     <SidebarLayout>
@@ -46,7 +54,7 @@ const SettingsPage = () => {
                   label="Model"
                   value={settings.customModelName}
                   valueMapper={(e) => e}
-                  onChange={(e) => updateSettings("customModelName", e)}
+                  onChange={updateModel}
                   items={GPT_MODEL_NAMES}
                   icon={<FaRobot />}
                 />
@@ -86,7 +94,7 @@ const SettingsPage = () => {
                   onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
                   attributes={{
                     min: 200,
-                    max: 2000,
+                    max: MAX_TOKENS[settings.customModelName],
                     step: 100,
                   }}
                   helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}

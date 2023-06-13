@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from reworkd_platform.db.meta import meta
 from reworkd_platform.db.models import load_all_models
 from reworkd_platform.db.utils import create_engine
+from reworkd_platform.services.pinecone.lifetime import init_pinecone
 from reworkd_platform.services.vecs.lifetime import (
     init_supabase_vecs,
     shutdown_supabase_vecs,
@@ -57,6 +58,7 @@ def register_startup_event(
     @app.on_event("startup")
     async def _startup() -> None:  # noqa: WPS430
         _setup_db(app)
+        init_pinecone()
         init_supabase_vecs(
             app
         )  # create pg_connection connection pool at startup as its expensive

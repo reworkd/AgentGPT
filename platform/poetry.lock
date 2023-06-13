@@ -765,13 +765,13 @@ test = ["anyio[trio] (>=3.2.1,<4.0.0)", "black (==23.1.0)", "coverage[toml] (>=6
 
 [[package]]
 name = "filelock"
-version = "3.12.1"
+version = "3.12.2"
 description = "A platform independent file lock."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "filelock-3.12.1-py3-none-any.whl", hash = "sha256:42f1e4ff2b497311213d61ad7aac5fed9050608e5309573f101eefa94143134a"},
-    {file = "filelock-3.12.1.tar.gz", hash = "sha256:82b1f7da46f0ae42abf1bc78e548667f484ac59d2bcec38c713cee7e2eb51e83"},
+    {file = "filelock-3.12.2-py3-none-any.whl", hash = "sha256:cbb791cdea2a72f23da6ac5b5269ab0a0d161e9ef0100e653b69049a7706d1ec"},
+    {file = "filelock-3.12.2.tar.gz", hash = "sha256:002740518d8aa59a26b0c76e10fb8c6e15eae825d34b6fdf670333fd7b938d81"},
 ]
 
 [package.extras]
@@ -1473,13 +1473,13 @@ crc32c = ["crc32c"]
 
 [[package]]
 name = "lanarky"
-version = "0.7.9"
+version = "0.7.10"
 description = "Ship production-ready LLM projects with FastAPI"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "lanarky-0.7.9-py3-none-any.whl", hash = "sha256:f10c6da37dc90174ec3f3a22d5daa6fbd3f80cc284607cdc7dd99cedc1f2c52c"},
-    {file = "lanarky-0.7.9.tar.gz", hash = "sha256:d2b56ccff88190727ee169e6fc2b5ae35686e0cda52f4653b60ed5feda12574a"},
+    {file = "lanarky-0.7.10-py3-none-any.whl", hash = "sha256:903f043c7e4b8bcd7a5b048cce50d6508eaa583872ae4ab417ff627e363988ac"},
+    {file = "lanarky-0.7.10.tar.gz", hash = "sha256:b34b5eee2f4d86b62cf9fd531bb3bf495b3b05ff7ee86fdac300aeecbb88a880"},
 ]
 
 [package.dependencies]

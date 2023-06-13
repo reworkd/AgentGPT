@@ -69,6 +69,11 @@ class Settings(BaseSettings):
     # Variables for Supabase PG_Vector DB
     supabase_vecs_url: Optional[str] = None
 
+    # Variables for Pinecone DB
+    pinecone_api_key: Optional[str] = None
+    pinecone_index_name: Optional[str] = None
+    pinecone_environment: Optional[str] = None
+
     # Sentry's configuration.
     sentry_dsn: Optional[str] = None
     sentry_sample_rate: float = 1.0

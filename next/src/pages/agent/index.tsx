@@ -47,8 +47,6 @@ const AgentPage: NextPage = () => {
         <ChatWindow
           messages={messages.filter((m) => m.type !== "thinking")}
           title={getAgent?.data?.name}
-          className="my-5 flex w-[90%] flex-1"
-          fullscreen
           visibleOnMobile
         />
         <div className="flex flex-row gap-2">
@@ -89,7 +87,7 @@ const AgentPage: NextPage = () => {
 
 export default AgentPage;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

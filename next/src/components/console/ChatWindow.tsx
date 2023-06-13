@@ -21,7 +21,6 @@ import { ExampleAgentButton } from "./ExampleAgentButton";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
-  className?: string;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
   displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
@@ -32,10 +31,8 @@ interface ChatWindowProps extends HeaderProps {
 const ChatWindow = ({
   messages,
   children,
-  className,
   title,
   onSave,
-  fullscreen,
   scrollToBottom,
   displaySettings,
   setAgentRun,
@@ -74,17 +71,13 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
-        className,
-        visibleOnMobile ? "flex" : "hidden"
+        "border-translucent h-full flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
+        visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
-        className={clsx(
-          "mb-2 mr-2 ",
-          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") || "window-heights"
-        )}
+        className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}

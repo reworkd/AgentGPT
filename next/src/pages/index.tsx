@@ -1,15 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
-import ChatWindow from "../components/console/ChatWindow";
-import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
-import Expand from "../components/motions/expand";
 import HelpDialog from "../components/dialog/HelpDialog";
-import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { AgentPlaybackControl, Message } from "../types/agentTypes";
 import { AGENT_PLAY, isTask } from "../types/agentTypes";
@@ -22,11 +18,17 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
-import { GPT_4 } from "../utils/constants";
-import AppTitle from "../components/AppTitle";
-import clsx from "clsx";
 import { useSettings } from "../hooks/useSettings";
+import AppTitle from "../components/AppTitle";
 import FadeIn from "../components/motions/FadeIn";
+import Input from "../components/Input";
+import clsx from "clsx";
+import Expand from "../components/motions/expand";
+import ChatWindow from "../components/console/ChatWindow";
+import { GPT_4 } from "../types";
+import { TaskWindow } from "../components/TaskWindow";
+import { AnimatePresence } from "framer-motion";
+import FadeOut from "../components/motions/FadeOut";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -196,12 +198,24 @@ const Home: NextPage = () => {
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
-      <div id="content" className="flex min-h-screen w-full items-center justify-center p-2">
+      <div id="content" className="flex min-h-screen w-full items-center justify-center">
         <div
           id="layout"
-          className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
+          className="flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 sm:gap-3 sm:p-4"
         >
-          <AppTitle />
+          {
+            <AnimatePresence>
+              <div
+                className={`transition-all duration-500 ${
+                  agent !== null ? "h-0 max-h-0 opacity-0" : "h-[3em] max-h-[3em]"
+                }`}
+              >
+                {/* SectionA content */}
+                <AppTitle />
+              </div>
+              {agent == null && <FadeOut></FadeOut>}
+            </AnimatePresence>
+          }
           <div>
             <Button
               className={clsx(
@@ -226,7 +240,7 @@ const Home: NextPage = () => {
               Tasks
             </Button>
           </div>
-          <Expand className="flex w-full flex-row">
+          <Expand className="flex w-full flex-grow overflow-hidden transition-all duration-500 ease-in-out">
             <ChatWindow
               messages={messages}
               title={
@@ -266,71 +280,78 @@ const Home: NextPage = () => {
             duration={1}
             className="flex w-full flex-col items-center gap-2"
           >
-            <div className="flex w-full flex-row items-end gap-2 md:items-center">
+            <div
+              className={`flex w-full flex-col gap-2 transition-all duration-500 ${
+                agent !== null ? "h-0 max-h-0 opacity-0" : "h-[9em] max-h-[9em]"
+              }`}
+            >
+              <div className="flex w-full flex-row items-end gap-2 md:items-center">
+                <Input
+                  inputRef={nameInputRef}
+                  left={
+                    <>
+                      <FaRobot />
+                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                        ns: "indexPage",
+                      })}`}</span>
+                    </>
+                  }
+                  value={nameInput}
+                  disabled={agent != null}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
+                  placeholder="AgentGPT"
+                  type="text"
+                />
+                <Button
+                  ping
+                  onClick={() => setShowToolsDialog(true)}
+                  className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                >
+                  <p className="mr-3">Tools</p>
+                  <FaCog />
+                </Button>
+              </div>
               <Input
-                inputRef={nameInputRef}
                 left={
                   <>
-                    <FaRobot />
-                    <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                    <FaStar />
+                    <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
                       ns: "indexPage",
                     })}`}</span>
                   </>
                 }
-                value={nameInput}
                 disabled={agent != null}
-                onChange={(e) => setNameInput(e.target.value)}
+                value={goalInput}
+                onChange={(e) => setGoalInput(e.target.value)}
                 onKeyDown={(e) => handleKeyPress(e)}
-                placeholder="AgentGPT"
-                type="text"
+                placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                  ns: "indexPage",
+                })}`}
+                type="textarea"
               />
-              <Button
-                ping
-                onClick={() => setShowToolsDialog(true)}
-                className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-              >
-                <p className="mr-3">Tools</p>
-                <FaCog />
-              </Button>
-            </div>
-            <Input
-              left={
-                <>
-                  <FaStar />
-                  <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
-                    ns: "indexPage",
-                  })}`}</span>
-                </>
-              }
-              disabled={agent != null}
-              value={goalInput}
-              onChange={(e) => setGoalInput(e.target.value)}
-              onKeyDown={(e) => handleKeyPress(e)}
-              placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
-                ns: "indexPage",
-              })}`}
-              type="textarea"
-            />
-            <div className="flex gap-2">
-              {firstButton}
-              <Button
-                disabled={agent === null}
-                onClick={handleStopAgent}
-                enabledClassName={"bg-red-600 hover:bg-red-400"}
-              >
-                {!isAgentStopped && agent === null ? (
-                  <>
-                    <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+
+              <div className="flex gap-2">
+                {firstButton}
+                <Button
+                  disabled={agent === null}
+                  onClick={handleStopAgent}
+                  enabledClassName={"bg-red-600 hover:bg-red-400"}
+                >
+                  {!isAgentStopped && agent === null ? (
+                    <>
+                      <VscLoading className="animate-spin" size={20} />
+                      <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                        ns: "indexPage",
+                      })}`}</span>
+                    </>
+                  ) : (
+                    `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
                       ns: "indexPage",
-                    })}`}</span>
-                  </>
-                ) : (
-                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                    ns: "indexPage",
-                  })}`
-                )}
-              </Button>
+                    })}`
+                  )}
+                </Button>
+              </div>
             </div>
           </FadeIn>
         </div>

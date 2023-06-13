@@ -22,7 +22,9 @@ def parse_with_handling(parser: BaseOutputParser[T], completion: str) -> T:
 
 
 async def call_model_with_handling(
-    model_settings: ModelSettings, prompt: BasePromptTemplate, args: dict[str, str]
+    model_settings: ModelSettings,
+    prompt: BasePromptTemplate,
+    args: dict[str, str],
 ) -> str:
     try:
         model = create_model(model_settings)

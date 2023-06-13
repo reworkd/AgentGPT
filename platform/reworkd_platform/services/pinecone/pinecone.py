@@ -33,10 +33,6 @@ class PineconeMemory(AgentMemory):
     """
 
     def __init__(self, index_name: str):
-        pinecone.init(
-            api_key="fe6ec0a4-7dff-4b94-9ebb-4b2ac2fd0c61",
-            environment="us-west4-gcp-free",
-        )
         self.index = pinecone.Index(settings.pinecone_index_name)
         self.namespace = index_name
 

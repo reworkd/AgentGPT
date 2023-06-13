@@ -125,6 +125,8 @@ class OpenAIAgentService(AgentService):
                     unique_tasks.append(task)
                 else:
                     logger.info(f"Similar tasks to '{task}' found: {similar_tasks}")
-            memory.add_tasks(unique_tasks)
+
+            if unique_tasks:
+                memory.add_tasks(unique_tasks)
 
         return unique_tasks

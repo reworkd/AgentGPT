@@ -1,19 +1,10 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { FaPause, FaPlay } from "react-icons/fa";
 import PopIn from "../motions/popin";
 import FadeIn from "../motions/FadeIn";
-import {
-  AUTOMATIC_MODE,
-  getTaskStatus,
-  MESSAGE_TYPE_SYSTEM,
-  PAUSE_MODE,
-  TASK_STATUS_EXECUTING,
-} from "../../types/agentTypes";
+import { getTaskStatus, MESSAGE_TYPE_SYSTEM, TASK_STATUS_EXECUTING } from "../../types/agentTypes";
 import clsx from "clsx";
-import { useAgentStore } from "../../stores";
-import { Switch } from "../Switch";
 import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
@@ -24,7 +15,6 @@ interface ChatWindowProps extends HeaderProps {
   className?: string;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
-  displaySettings?: boolean; // Controls if settings are displayed at the bottom of the ChatWindow
   setAgentRun?: (name: string, goal: string) => void;
   visibleOnMobile?: boolean;
 }
@@ -37,7 +27,6 @@ const ChatWindow = ({
   onSave,
   fullscreen,
   scrollToBottom,
-  displaySettings,
   setAgentRun,
   visibleOnMobile,
 }: ChatWindowProps) => {
@@ -45,10 +34,6 @@ const ChatWindow = ({
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isAgentPaused = useAgentStore.use.isAgentPaused();
-  const agentMode = useAgentStore.use.agentMode();
-  const agent = useAgentStore.use.agent();
-  const updateAgentMode = useAgentStore.use.updateAgentMode();
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -67,14 +52,10 @@ const ChatWindow = ({
     }
   });
 
-  const handleUpdateAgentMode = (value: boolean) => {
-    updateAgentMode(value ? PAUSE_MODE : AUTOMATIC_MODE);
-  };
-
   return (
     <div
       className={clsx(
-        "overflow-auto border-translucent flex-1 flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
+        "border-translucent flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
         className,
         visibleOnMobile ? "flex" : "hidden"
       )}
@@ -89,12 +70,6 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
-        {agent !== null && agentMode === PAUSE_MODE && isAgentPaused && (
-          <FaPause className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
-        )}
-        {agent !== null && agentMode === PAUSE_MODE && !isAgentPaused && (
-          <FaPlay className="animation-hide absolute left-1/2 top-1/2 text-lg md:text-3xl" />
-        )}
         {messages.map((message, index) => {
           if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
             return null;
@@ -134,26 +109,6 @@ const ChatWindow = ({
           </>
         )}
       </div>
-      {displaySettings && (
-        <div className="flex flex-row items-center justify-center">
-          <SwitchContainer label={PAUSE_MODE}>
-            <Switch
-              disabled={agent !== null}
-              value={agentMode === PAUSE_MODE}
-              onChange={handleUpdateAgentMode}
-            />
-          </SwitchContainer>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const SwitchContainer = ({ label, children }: { label: string; children: React.ReactNode }) => {
-  return (
-    <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-2 border-white/20 bg-zinc-700 px-2 py-1">
-      <p className="font-mono text-sm">{label}</p>
-      {children}
     </div>
   );
 };

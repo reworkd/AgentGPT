@@ -1,13 +1,13 @@
-import SidebarLayout from "../layout/sidebar";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
-import type { GetStaticProps } from "next";
-import { TEMPLATE_DATA } from "../components/templates/TemplateData";
 import TemplateCard from "../components/templates/TemplateCard";
 import FadeIn from "../components/motions/FadeIn";
 import SearchBar from "../components/templates/TemplateSearch";
+import SidebarLayout from "../layout/sidebar";
+import { TEMPLATE_DATA } from "../components/templates/TemplateData";
 
 const Templates = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,7 +22,7 @@ const Templates = () => {
 
   return (
     <SidebarLayout>
-      <div className="flex h-full w-full flex-col p-10">
+      <div className="flex flex-col h-full w-full p-10">
         <FadeIn initialX={-45} initialY={0}>
           <div>
             <h1 className="text-4xl font-bold text-white">Templates</h1>
@@ -33,7 +33,7 @@ const Templates = () => {
         </FadeIn>
         <FadeIn initialY={45}>
           <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center">
             {filteredData.map((model) => (
               <TemplateCard key={model.name + model.description} model={model} />
             ))}

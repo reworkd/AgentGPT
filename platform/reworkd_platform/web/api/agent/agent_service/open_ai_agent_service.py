@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from lanarky.responses import StreamingResponse
+from lanarky.responses import StreamingResponse  # type: ignore
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
@@ -25,6 +25,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_from_name,
     get_user_tools,
 )
+from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
@@ -70,8 +71,11 @@ class OpenAIAgentService(AgentService):
         function_call = message.additional_kwargs["function_call"]
         completion = function_call["arguments"]
 
-        pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
-        return parse_with_handling(pydantic_parser, completion)
+        try:
+            pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
+            return parse_with_handling(pydantic_parser, completion)
+        except OpenAIError:
+            return Analysis.get_default_analysis()
 
     async def execute_task_agent(
         self,

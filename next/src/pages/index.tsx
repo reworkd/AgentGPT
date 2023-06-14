@@ -332,8 +332,6 @@ const Home: NextPage = () => {
 };
 
 export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
-  console.log(model);
-
   if (model === GPT_4) {
     return (
       <>

@@ -31,5 +31,5 @@ class AgentMemory(ABC):
         raise NotImplementedError()
 
     @staticmethod
-    def should_use():
+    def should_use() -> bool:
         return True

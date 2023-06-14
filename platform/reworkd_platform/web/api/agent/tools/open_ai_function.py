@@ -11,7 +11,7 @@ class FunctionDescription(TypedDict):
     """The name of the function."""
     description: str
     """A description of the function."""
-    parameters: dict
+    parameters: dict[str, object]
     """The parameters of the function."""
 
 

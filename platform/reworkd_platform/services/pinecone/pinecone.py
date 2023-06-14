@@ -91,7 +91,7 @@ class PineconeMemory(AgentMemory):
         ]
 
     @staticmethod
-    def should_use():
+    def should_use() -> bool:
         return (
             settings.pinecone_index_name
             and settings.pinecone_api_key

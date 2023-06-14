@@ -99,7 +99,7 @@ export const useAgentStore = createSelectors(
         ...createToolsSlice(...a),
       }),
       {
-        name: "agent-storage",
+        name: "agent-storage-v2",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           agentMode: state.agentMode,

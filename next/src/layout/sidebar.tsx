@@ -113,10 +113,12 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     <li className="mb-2">
                       <div className="ml-2 text-xs font-semibold text-neutral-400">Pages</div>
                       <ul role="list" className="mt-2 space-y-1">
-                      {router.route !== "/templates" ? (
+                        {router.route !== "/templates" ? (
                           <LinkItem
                             title="Templates"
-                            icon={<FaFileCode className="transition-transform group-hover:scale-110" />}
+                            icon={
+                              <FaFileCode className="transition-transform group-hover:scale-110" />
+                            }
                             onClick={() => {
                               router.push("/templates").catch(console.error);
                             }}

@@ -109,20 +109,7 @@ class OpenAIAgentService(AgentService):
         )
 
         previous_tasks = (completed_tasks or []) + tasks
-        task_output_parser = TaskOutputParser(completed_tasks=previous_tasks)
-
-        # Manually create array for parser
-        completion = completion.replace("'", '"')
-        # Removing outer quotes if they exist
-        if completion.startswith('"') and completion.endswith('"'):
-            completion = completion[1:-1]
-        completion = f"['{completion}']"
-
-        tasks = task_output_parser.parse(completion)
-
-        if not tasks:
-            logger.info(f"No additional tasks created: '{completion}'")
-            return tasks
+        tasks = [completion] if completion not in previous_tasks else []
 
         unique_tasks = []
         with self.agent_memory as memory:

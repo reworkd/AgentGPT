@@ -28,6 +28,7 @@ import clsx from "clsx";
 import { useSettings } from "../hooks/useSettings";
 import type { GPTModelNames } from "../types";
 import { GPT_35_TURBO_16K } from "../types";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -35,6 +36,7 @@ const Home: NextPage = () => {
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+  const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
@@ -45,8 +47,10 @@ const Home: NextPage = () => {
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
-  const [nameInput, setNameInput] = React.useState<string>("");
-  const [goalInput, setGoalInput] = React.useState<string>("");
+  const nameInput = useAgentStore.use.nameInput();
+  const setNameInput = useAgentStore.use.setNameInput();
+  const goalInput = useAgentStore.use.goalInput();
+  const setGoalInput = useAgentStore.use.setGoalInput();
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 

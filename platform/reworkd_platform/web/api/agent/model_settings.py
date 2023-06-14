@@ -14,10 +14,10 @@ def create_model(model_settings: ModelSettings, streaming: bool = False) -> Chat
         openai_api_key=rotate_keys(
             gpt_3_key=settings.openai_api_key,
             gpt_4_key=settings.secondary_openai_api_key,
-            model=get_model_name(model_settings.model),
+            model=model_settings.model,
         ),
         temperature=model_settings.temperature,
-        model=model_settings.model,
+        model=get_model_name(model_settings.model),
         max_tokens=model_settings.max_tokens,
         streaming=streaming,
     )

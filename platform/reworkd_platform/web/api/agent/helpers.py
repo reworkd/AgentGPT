@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import Any, Callable, TypeVar
 
 from langchain import BasePromptTemplate, LLMChain
 from langchain.schema import BaseOutputParser, OutputParserException
@@ -21,13 +21,11 @@ def parse_with_handling(parser: BaseOutputParser[T], completion: str) -> T:
         )
 
 
-async def call_model_with_handling(
-    model_settings: ModelSettings, prompt: BasePromptTemplate, args: dict[str, str]
-) -> str:
+async def openai_error_handler(
+    model_settings: ModelSettings, func: Callable[..., Any], *args: Any, **kwargs: Any
+) -> Any:
     try:
-        model = create_model(model_settings)
-        chain = LLMChain(llm=model, prompt=prompt)
-        return await chain.arun(args)
+        return await func(*args, **kwargs)
     except ServiceUnavailableError as e:
         raise OpenAIError(
             e,
@@ -49,3 +47,13 @@ async def call_model_with_handling(
         )
     except Exception as e:
         raise OpenAIError(e, "There was an issue getting a response from the AI model.")
+
+
+async def call_model_with_handling(
+    model_settings: ModelSettings,
+    prompt: BasePromptTemplate,
+    args: dict[str, str],
+) -> str:
+    model = create_model(model_settings)
+    chain = LLMChain(llm=model, prompt=prompt)
+    return await openai_error_handler(model_settings, chain.arun, args)

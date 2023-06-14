@@ -83,7 +83,7 @@ class MessageService {
 
     if (typeof e == "string") message = e;
     else if (axios.isAxiosError(e) && !e.response) {
-      message = "Unable to connect to th Python backend. Please make sure its running.";
+      message = "Unable to connect to the Python backend. Please make sure its running.";
     } else if (axios.isAxiosError(e)) {
       switch (e.response?.status) {
         case 409:

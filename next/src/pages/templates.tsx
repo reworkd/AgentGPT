@@ -15,13 +15,14 @@ const Templates = () => {
 
   const filteredData = TEMPLATE_DATA.filter((model) => {
     const matchQuery = model.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchCategory = category === "" || model.category.toLowerCase() === category.toLowerCase();
+    const matchCategory =
+      category === "" || model.category.toLowerCase() === category.toLowerCase();
     return matchQuery && matchCategory;
   });
 
   return (
     <SidebarLayout>
-      <div className="flex flex-col p-10 h-full w-full">
+      <div className="flex h-full w-full flex-col p-10">
         <FadeIn initialX={-45} initialY={0}>
           <div>
             <h1 className="text-4xl font-bold text-white">Templates</h1>

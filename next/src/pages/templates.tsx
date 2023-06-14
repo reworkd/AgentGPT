@@ -15,15 +15,15 @@ const Templates = () => {
 
   const filteredData = TEMPLATE_DATA.filter((model) => {
     const matchQuery = model.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchCategory = category === "" || model.category === category;
+    const matchCategory = category === "" || model.category.toLowerCase() === category.toLowerCase();
     return matchQuery && matchCategory;
   });
 
   return (
     <SidebarLayout>
-      <div className="flex flex-col p-10 h-full w-full ">
+      <div className="flex flex-col p-10 h-full w-full">
         <FadeIn initialX={-45} initialY={0}>
-          <div className="ml-12">
+          <div>
             <h1 className="text-4xl font-bold text-white">Templates</h1>
             <h2 className="mb-4 text-xl font-thin text-white">
               Customizable and ready to deploy agents
@@ -31,6 +31,7 @@ const Templates = () => {
           </div>
         </FadeIn>
         <FadeIn initialY={45}>
+          <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
           <div className="flex flex-wrap gap-4 justify-center">
             {filteredData.map((model) => (
               <TemplateCard key={model.name + model.description} model={model} />

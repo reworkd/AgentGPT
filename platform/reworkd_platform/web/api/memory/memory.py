@@ -29,3 +29,7 @@ class AgentMemory(ABC):
     @abstractmethod
     def reset_class(self) -> None:
         raise NotImplementedError()
+
+    @staticmethod
+    def should_use() -> bool:
+        return True

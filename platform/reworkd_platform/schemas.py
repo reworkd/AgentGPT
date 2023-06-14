@@ -7,7 +7,10 @@ from reworkd_platform.web.api.agent.analysis import Analysis
 
 LLM_Model = Literal[
     "gpt-3.5-turbo",
+    "gpt-3.5-turbo-0613",
+    "gpt-3.5-turbo-16k",
     "gpt-4",
+    "gpt-4-0613",
 ]
 
 Loop_Step = Literal[
@@ -21,7 +24,7 @@ Loop_Step = Literal[
 class ModelSettings(BaseModel):
     model: LLM_Model = Field(default="gpt-3.5-turbo")
     temperature: float = Field(default=0.9, ge=0.0, le=1.0)
-    max_tokens: int = Field(default=500, ge=0, le=2000)
+    max_tokens: int = Field(default=500, ge=0)
     language: str = Field(default="English")
 
 

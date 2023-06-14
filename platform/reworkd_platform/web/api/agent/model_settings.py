@@ -23,7 +23,7 @@ def create_model(model_settings: ModelSettings, streaming: bool = False) -> Chat
     )
 
 
-def get_model_name(model_str: LLM_Model) -> LLM_Model:
+def get_model_name(model_str: LLM_Model) -> str:
     if model_str == "gpt-4":
         return "gpt-4-0613"
     if model_str == "gpt-3.5-turbo":

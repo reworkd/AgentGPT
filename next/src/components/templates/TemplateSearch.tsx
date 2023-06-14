@@ -26,9 +26,7 @@ const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory }) => {
           aria-describedby="button-addon2"
           onChange={handleSearchChange}
         />
-        <button className="hidden items-center rounded-md border border-transparent bg-white px-3 py-1 text-sm font-medium text-black hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 sm:inline-flex">
-          Enter
-        </button>
+        
       </div>
       <div className="w-full sm:w-auto">
         <select

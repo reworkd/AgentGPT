@@ -69,18 +69,16 @@ create_tasks_prompt = PromptTemplate(
     following incomplete tasks `{tasks}` and have just executed the following task
     `{lastTask}` and received the following result `{result}`.
 
-    Based on this, create at most a SINGLE new task to be completed by your AI system
-    ONLY IF NEEDED such that your goal is more closely reached or completely reached.
-    Ensure the task is simple and can be completed in a single step.
-
-    Return the response as a formatted array of strings that can be used in JSON.parse()
-    If no new or further tasks are needed, return [] and nothing else
+    Based on this, create a single new task to be completed by your AI system
+    such that your goal is more closely reached or completely reached.
+    Make the task as specific as possible and ensure it is a single task. 
+    If there are no more tasks to be done, return nothing. Do not add quotes to the task.
 
     Examples:
-    ["Search the web for NBA news"]
-    ["Create a function to add a new vertex with a specified weight to the digraph."]
-    ["Search for any additional information on Bertie W."]
-    []
+    "Search the web for NBA news"
+    "Create a function to add a new vertex with a specified weight to the digraph."
+    "Search for any additional information on Bertie W."
+    ""
     """,
     input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )

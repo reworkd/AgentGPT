@@ -1,12 +1,14 @@
 import SidebarLayout from "../layout/sidebar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
+import React, { useState } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
 import type { GetStaticProps } from "next";
 import { TEMPLATE_DATA } from "../components/templates/TemplateData";
 import TemplateCard from "../components/templates/TemplateCard";
 import FadeIn from "../components/motions/FadeIn";
+import SearchBar from "../components/templates/TemplateSearch";
 import SearchBar from "../components/templates/TemplateSearch";
 
 const Templates = () => {
@@ -20,10 +22,27 @@ const Templates = () => {
     return matchQuery && matchCategory;
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [category, setCategory] = useState("");
+
+  const filteredData = TEMPLATE_DATA.filter((model) => {
+    const matchQuery = model.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchCategory =
+      category === "" || model.category.toLowerCase() === category.toLowerCase();
+    return matchQuery && matchCategory;
+  });
+
   return (
     <SidebarLayout>
       <div className="flex h-full w-full flex-col p-10">
+      <div className="flex h-full w-full flex-col p-10">
         <FadeIn initialX={-45} initialY={0}>
+          <div>
+            <h1 className="text-4xl font-bold text-white">Templates</h1>
+            <h2 className="mb-4 text-xl font-thin text-white">
+              Customizable and ready to deploy agents
+            </h2>
+          </div>
           <div>
             <h1 className="text-4xl font-bold text-white">Templates</h1>
             <h2 className="mb-4 text-xl font-thin text-white">

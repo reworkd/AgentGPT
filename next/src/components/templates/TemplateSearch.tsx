@@ -16,7 +16,7 @@ const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory }) => {
   };
 
   return (
-    <div className="mb-4 flex flex-col items-start justify-center space-y-2 rounded-lg border-2 border-white/20 bg-zinc-900 p-2 text-white shadow-md transition-colors hover:bg-zinc-800 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+    <div className="flex flex-row items-center gap-2 py-2">
       <div className="flex w-full flex-grow space-x-2">
         <input
           type="search"

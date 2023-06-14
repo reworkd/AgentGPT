@@ -19,7 +19,14 @@ const TemplateCard = ({ model }: TemplateCardProps) => {
       </div>
       <div className={clsx(`mb-2 inline-block rounded-full px-0 text-xs text-gray-400`)}>
         {model.category}
+      <div className="flex items-center">
+        <div className="mr-2 text-xl text-white">{model.icon}</div>
+        <div className={`text-md mb-0 font-bold text-white`}>{model.name}</div>
       </div>
+      <div className={clsx(`mb-2 inline-block rounded-full px-0 text-xs text-gray-400`)}>
+        {model.category}
+      </div>
+      <div className={`text-sm text-gray-200 `}>{model.description}</div>
       <div className={`text-sm text-gray-200 `}>{model.description}</div>
     </div>
   );

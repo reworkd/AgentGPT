@@ -32,7 +32,7 @@ const Templates = () => {
         </FadeIn>
         <FadeIn initialY={45}>
           <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center">
             {filteredData.map((model) => (
               <TemplateCard key={model.name + model.description} model={model} />
             ))}

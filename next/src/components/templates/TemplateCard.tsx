@@ -11,7 +11,7 @@ const TemplateCard = ({ model }: TemplateCardProps) => {
   return (
     <div
       className={clsx(
-        "h-34 w-72 space-y-2 whitespace-normal rounded-2xl border max-w-sm border-white/20 p-4 text-left transition-all duration-100 ",
+        "h-34 w-full space-y-2 whitespace-normal rounded-2xl border max-w-lg border-white/20 p-4 text-left transition-all duration-100 ",
         "bg-zinc-900 transition-colors hover:bg-zinc-800"
       )}
     >

@@ -24,29 +24,12 @@ analyze_task_prompt = PromptTemplate(
     High level objective: "{goal}"
     Current task: "{task}"
 
-    Based on this information, you will perform the task by understanding the
-    problem, extracting variables, and being smart and efficient. You provide concrete
-    reasoning for your actions detailing your overall plan and any concerns you may
-    have. Your reasoning should be no more than three sentences.
-    You evaluate the best action to take strictly from the list of actions
-    below:
-
-    {tools_overview}
-
-    Actions are the one word actions above.
-    You cannot pick an action outside of this list.
-    Return your response in an object of the form\n\n
+    Based on this information, use the "analyze" function to return an object for what specific 'tool' to use.
+    Select the correct tool by being smart and efficient. Provide concrete reasoning for the tool choice detailing 
+    your overall plan and any concerns you may have. Your reasoning should be no more than three sentences.
     Ensure "reasoning" and only "reasoning" is in the {language} language.
-
-    {{
-        "reasoning": "string",
-        "action": "string",
-        "arg": "string"
-    }}
-
-    that can be used in JSON.parse() and NOTHING ELSE.
     """,
-    input_variables=["goal", "task", "tools_overview", "language"],
+    input_variables=["goal", "task", "language"],
 )
 
 code_prompt = PromptTemplate(

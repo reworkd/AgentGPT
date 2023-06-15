@@ -45,6 +45,11 @@ async def openai_error_handler(
             "Authentication error: Ensure a valid API key is being used.",
         )
     except RateLimitError as e:
+        if e.user_message.startswith("You exceeded your current quota"):
+            raise OpenAIError(
+                e,
+                f"Your API key has exceeded its quota. Please double check your OpenAI billing.",
+            )
         raise OpenAIError(e, e.user_message)
     except Exception as e:
         raise OpenAIError(e, "There was an issue getting a response from the AI model.")

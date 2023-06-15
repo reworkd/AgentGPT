@@ -24,13 +24,11 @@ import Input from "../components/Input";
 import clsx from "clsx";
 import Expand from "../components/motions/expand";
 import ChatWindow from "../components/console/ChatWindow";
-import { GPT_4 } from "../types";
-import { TaskWindow } from "../components/TaskWindow";
-import { AnimatePresence } from "framer-motion";
-import FadeOut from "../components/motions/FadeOut";
-import { useSettings } from "../hooks/useSettings";
 import type { GPTModelNames } from "../types";
-import { GPT_35_TURBO_16K } from "../types";
+import { GPT_35_TURBO_16K, GPT_4 } from "../types";
+import { TaskWindow } from "../components/TaskWindow";
+import { AnimatePresence, motion } from "framer-motion";
+import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
@@ -49,6 +47,7 @@ const Home: NextPage = () => {
   const agentMode = useAgentStore.use.agentMode();
   const agent = useAgentStore.use.agent();
 
+  const fullscreen = agent !== null;
   const { session, status } = useAuth();
   const nameInput = useAgentStore.use.nameInput();
   const setNameInput = useAgentStore.use.setNameInput();
@@ -211,15 +210,16 @@ const Home: NextPage = () => {
         >
           {
             <AnimatePresence>
-              <div
-                className={`transition-all duration-500 ${
-                  agent !== null ? "h-0 max-h-0 opacity-0" : "h-[3em] max-h-[3em]"
-                }`}
-              >
-                {/* SectionA content */}
-                <AppTitle />
-              </div>
-              {agent == null && <FadeOut></FadeOut>}
+              {!fullscreen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "fit-content" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <AppTitle />
+                </motion.div>
+              )}
             </AnimatePresence>
           }
           <div>
@@ -227,7 +227,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
@@ -238,7 +238,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Tasks" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
@@ -246,7 +246,7 @@ const Home: NextPage = () => {
               Tasks
             </Button>
           </div>
-          <Expand className="flex w-full flex-grow overflow-hidden transition-all duration-500 ease-in-out">
+          <Expand className="flex w-full flex-grow overflow-hidden">
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
@@ -276,78 +276,84 @@ const Home: NextPage = () => {
             duration={1}
             className="flex w-full flex-col items-center gap-2"
           >
-            <div
-              className={`flex w-full flex-col gap-2 transition-all duration-500 ${
-                agent !== null ? "h-0 max-h-0 opacity-0" : "h-[9em] max-h-[9em]"
-              }`}
-            >
-              <div className="flex w-full flex-row items-end gap-2 md:items-center">
-                <Input
-                  inputRef={nameInputRef}
-                  left={
-                    <>
-                      <FaRobot />
-                      <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
-                        ns: "indexPage",
-                      })}`}</span>
-                    </>
-                  }
-                  value={nameInput}
-                  disabled={agent != null}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  onKeyDown={(e) => handleKeyPress(e)}
-                  placeholder="AgentGPT"
-                  type="text"
-                />
-                <Button
-                  ping
-                  onClick={() => setShowToolsDialog(true)}
-                  className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+            <AnimatePresence>
+              {!fullscreen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "fit-content" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 1, type: "spring" }}
+                  className="flex w-full flex-col gap-2"
                 >
-                  <p className="mr-3">Tools</p>
-                  <FaCog />
-                </Button>
-              </div>
-              <Input
-                left={
+                  <div className="flex w-full flex-row items-end gap-2 md:items-center">
+                    <Input
+                      inputRef={nameInputRef}
+                      left={
+                        <>
+                          <FaRobot />
+                          <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                            ns: "indexPage",
+                          })}`}</span>
+                        </>
+                      }
+                      value={nameInput}
+                      disabled={agent != null}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      onKeyDown={(e) => handleKeyPress(e)}
+                      placeholder="AgentGPT"
+                      type="text"
+                    />
+                    <Button
+                      ping
+                      onClick={() => setShowToolsDialog(true)}
+                      className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                    >
+                      <p className="mr-3">Tools</p>
+                      <FaCog />
+                    </Button>
+                  </div>
+                  <Input
+                    left={
+                      <>
+                        <FaStar />
+                        <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                          ns: "indexPage",
+                        })}`}</span>
+                      </>
+                    }
+                    disabled={agent != null}
+                    value={goalInput}
+                    onChange={(e) => setGoalInput(e.target.value)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                      ns: "indexPage",
+                    })}`}
+                    type="textarea"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="flex gap-2">
+              {firstButton}
+              <Button
+                disabled={agent === null}
+                onClick={handleStopAgent}
+                enabledClassName={"bg-red-600 hover:bg-red-400"}
+              >
+                {!isAgentStopped && agent === null ? (
                   <>
-                    <FaStar />
-                    <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                    <VscLoading className="animate-spin" size={20} />
+                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
                       ns: "indexPage",
                     })}`}</span>
                   </>
-                }
-                disabled={agent != null}
-                value={goalInput}
-                onChange={(e) => setGoalInput(e.target.value)}
-                onKeyDown={(e) => handleKeyPress(e)}
-                placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
-                  ns: "indexPage",
-                })}`}
-                type="textarea"
-              />
-
-              <div className="flex gap-2">
-                {firstButton}
-                <Button
-                  disabled={agent === null}
-                  onClick={handleStopAgent}
-                  enabledClassName={"bg-red-600 hover:bg-red-400"}
-                >
-                  {!isAgentStopped && agent === null ? (
-                    <>
-                      <VscLoading className="animate-spin" size={20} />
-                      <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
-                        ns: "indexPage",
-                      })}`}</span>
-                    </>
-                  ) : (
-                    `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                      ns: "indexPage",
-                    })}`
-                  )}
-                </Button>
-              </div>
+                ) : (
+                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                    ns: "indexPage",
+                  })}`
+                )}
+              </Button>
             </div>
           </FadeIn>
         </div>

@@ -215,7 +215,7 @@ const Home: NextPage = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "fit-content" }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.5, type: "easeInOut" }}
                 >
                   <AppTitle />
                 </motion.div>
@@ -282,7 +282,7 @@ const Home: NextPage = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "fit-content" }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 1, type: "spring" }}
+                  transition={{ duration: 0.5, type: "easeInOut" }}
                   className="flex w-full flex-col gap-2"
                 >
                   <div className="flex w-full flex-row items-end gap-2 md:items-center">

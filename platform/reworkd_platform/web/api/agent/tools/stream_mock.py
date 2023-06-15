@@ -21,6 +21,6 @@ async def stream_generator(data: str, delayed: bool) -> AsyncGenerator[bytes, No
 
         for token in token_data:
             yield encoding.decode([token]).encode("utf-8")
-            await asyncio.sleep(0.075)  # simulate slow processing
+            await asyncio.sleep(0.025)  # simulate slow processing
     else:
         yield data.encode()

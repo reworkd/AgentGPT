@@ -102,7 +102,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     )}
                     {userAgents.map((agent, index) => (
                       <DrawerItemButton
-                        key={index}
+                        key={`${index}-${agent.name}`}
                         className="flex w-full rounded-md p-2 font-mono text-sm font-semibold"
                         text={agent.name}
                         onClick={() => void router.push(`/agent?id=${agent.id}`)}
@@ -114,8 +114,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
                       <div className="mb-2 ml-2 text-xs font-semibold text-neutral-400">Pages</div>
                       {PAGE_LINKS.map((link) => {
                         if (router.route == link.href) {
-                          return <></>;
+                          return null;
                         }
+                        
                         return (
                           <LinkItem
                             key={link.name}

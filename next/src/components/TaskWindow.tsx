@@ -46,7 +46,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
         <FaListAlt /> {t("Current tasks")}
       </div>
       <div className="flex h-full w-full flex-col gap-1 overflow-auto p-1">
-        <div className="flex w-full flex-col gap-2 overflow-auto pr-1">
+        <div className="flex h-full w-full flex-col gap-2 overflow-auto pr-1">
           {tasks.length == 0 && (
             <p className="w-full p-2 text-center text-xs text-gray-300">
               This window will display agent tasks as they are created.

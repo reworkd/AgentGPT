@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "next/router";
-import { FaBars, FaCog, FaFileCode, FaHome } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -111,57 +111,23 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   </div>
                   <ul role="list" className="flex flex-col">
                     <li className="mb-2">
-                      <div className="ml-2 text-xs font-semibold text-neutral-400">Pages</div>
-                      <ul role="list" className="mt-2 space-y-1">
-                        {router.route !== "/templates" ? (
+                      <div className="mb-2 ml-2 text-xs font-semibold text-neutral-400">Pages</div>
+                      {PAGE_LINKS.map((link) => {
+                        if (router.route == link.href) {
+                          return <></>;
+                        }
+                        return (
                           <LinkItem
-                            title="Templates"
-                            icon={
-                              <FaFileCode className="transition-transform group-hover:scale-110" />
-                            }
+                            key={link.name}
+                            title={link.name}
+                            icon={link.icon}
+                            href={link.href}
                             onClick={() => {
-                              router.push("/templates").catch(console.error);
+                              void router.push(link.href);
                             }}
                           />
-                        ) : (
-                          <LinkItem
-                            title="Home"
-                            icon={<FaHome />}
-                            onClick={() => {
-                              void router.push("/");
-                            }}
-                          />
-                        )}
-
-                        {router.route !== "/settings" ? (
-                          <LinkItem
-                            title="Settings"
-                            icon={<FaCog className="transition-transform group-hover:rotate-90" />}
-                            onClick={() => {
-                              router.push("/settings").catch(console.error);
-                            }}
-                          />
-                        ) : (
-                          <LinkItem
-                            title="Home"
-                            icon={<FaHome />}
-                            onClick={() => {
-                              void router.push("/");
-                            }}
-                          />
-                        )}
-                      </ul>
-                      {PAGE_LINKS.map((link) => (
-                        <LinkItem
-                          key={link.name}
-                          title={link.name}
-                          icon={link.icon}
-                          href={link.href}
-                          onClick={() => {
-                            void router.push(link.href);
-                          }}
-                        />
-                      ))}
+                        );
+                      })}
                     </li>
                     <li className="mb-2">
                       <div className="ml-2 text-xs font-semibold text-neutral-400">Socials</div>

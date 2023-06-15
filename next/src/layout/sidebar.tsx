@@ -11,16 +11,17 @@ import FadingHr from "../components/FadingHr";
 import { DrawerItemButton } from "../components/drawer/DrawerItemButton";
 import { api } from "../utils/api";
 import { useTranslation } from "next-i18next";
-import AppHead from "../components/AppHead";
 import LinkItem from "../components/sidebar/LinkItem";
 import AuthItem from "../components/sidebar/AuthItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
+import { useConfigStore } from "../stores";
 
 const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [t] = useTranslation("drawer");
+  const { config, toggleSidebar } = useConfigStore();
 
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
     enabled: status === "authenticated",
@@ -28,21 +29,11 @@ const SidebarLayout = (props: PropsWithChildren) => {
   const userAgents = data ?? [];
 
   useEffect(() => {
-    const handleResize = () => {
-      const isDesktop = window.innerWidth >= 1280;
-      setSidebarOpen(isDesktop);
-    };
-    handleResize(); // Initial check on open
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    setSidebarOpen(config.sidebarOpen);
+  }, [config.sidebarOpen, sidebarOpen]);
 
   return (
     <>
-      <AppHead />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <div className="relative z-30">
           <Transition.Child
@@ -80,7 +71,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
                     <button
                       className="rounded-md border border-transparent text-white transition-all hover:border-white/20 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-                      onClick={() => setSidebarOpen(!sidebarOpen)}
+                      onClick={toggleSidebar}
                     >
                       <FaBars size="15" className="z-20 m-2" />
                     </button>
@@ -196,7 +187,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
           sidebarOpen && "hidden",
           "fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
         )}
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        onClick={toggleSidebar}
       >
         <FaBars size="15" className="z-20 m-2" />
       </button>

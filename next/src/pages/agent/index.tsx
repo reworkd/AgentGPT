@@ -13,7 +13,6 @@ import { useTranslation } from "next-i18next";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
-import SidebarLayout from "../../layout/sidebar";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();
@@ -39,57 +38,53 @@ const AgentPage: NextPage = () => {
   };
 
   return (
-    <SidebarLayout>
-      <div
-        id="content"
-        className="flex min-h-screen w-full flex-col items-center justify-center gap-4"
-      >
-        <ChatWindow
-          messages={messages.filter((m) => m.type !== "thinking")}
-          title={getAgent?.data?.name}
-          className="my-5 flex w-[90%] flex-1"
-          fullscreen
-          visibleOnMobile
-        />
-        <div className="flex flex-row gap-2">
-          <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
-            Back
-          </Button>
-          <Button
-            icon={<FaTrash />}
-            onClick={() => {
-              deleteAgent.mutate(agentId);
-            }}
-            enabledClassName={"bg-red-600 hover:bg-red-400"}
-          >
-            Delete
-          </Button>
+    <div
+      id="content"
+      className="flex min-h-screen w-full flex-col items-center justify-center gap-4"
+    >
+      <ChatWindow
+        messages={messages.filter((m) => m.type !== "thinking")}
+        title={getAgent?.data?.name}
+        className="my-5 flex w-[90%] flex-1"
+        fullscreen
+        visibleOnMobile
+      />
+      <div className="flex flex-row gap-2">
+        <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          Back
+        </Button>
+        <Button
+          icon={<FaTrash />}
+          onClick={() => {
+            deleteAgent.mutate(agentId);
+          }}
+          enabledClassName={"bg-red-600 hover:bg-red-400"}
+        >
+          Delete
+        </Button>
 
-          <Button
-            icon={<FaShare />}
-            onClick={() => {
-              void window.navigator.clipboard
-                .writeText(shareLink())
-                .then(() => setShowCopied(true));
-            }}
-            enabledClassName={"bg-green-600 hover:bg-green-400"}
-          >
-            Share
-          </Button>
-        </div>
-        <Toast
-          model={[showCopied, setShowCopied]}
-          title={`${t("COPIED_TO_CLIPBOARD", { ns: "common" })}`}
-          className="bg-gray-950 text-sm"
-        />
+        <Button
+          icon={<FaShare />}
+          onClick={() => {
+            void window.navigator.clipboard.writeText(shareLink()).then(() => setShowCopied(true));
+          }}
+          enabledClassName={"bg-green-600 hover:bg-green-400"}
+        >
+          Share
+        </Button>
       </div>
-    </SidebarLayout>
+      <Toast
+        model={[showCopied, setShowCopied]}
+        title={`${t("COPIED_TO_CLIPBOARD", { ns: "common" })}`}
+        className="bg-gray-950 text-sm"
+      />
+    </div>
   );
 };
 
 export default AgentPage;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

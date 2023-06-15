@@ -21,7 +21,6 @@ import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
-import SidebarLayout from "../layout/sidebar";
 import { GPT_4 } from "../utils/constants";
 import AppTitle from "../components/AppTitle";
 import clsx from "clsx";
@@ -196,7 +195,7 @@ const Home: NextPage = () => {
     );
 
   return (
-    <SidebarLayout>
+    <>
       <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
@@ -327,7 +326,7 @@ const Home: NextPage = () => {
           </Expand>
         </div>
       </div>
-    </SidebarLayout>
+    </>
   );
 };
 

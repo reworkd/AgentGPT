@@ -8,6 +8,8 @@ import { appWithTranslation, useTranslation } from "next-i18next";
 import { useEffect } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import SidebarLayout from "../layout/sidebar";
+import AppHead from "../components/AppHead";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -26,7 +28,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <GoogleAnalytics trackPageViews />
       <Analytics />
-      <Component {...pageProps} />
+      <AppHead />
+      <SidebarLayout>
+        <Component {...pageProps} />
+      </SidebarLayout>
     </SessionProvider>
   );
 };

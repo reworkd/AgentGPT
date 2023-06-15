@@ -112,7 +112,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
       </PopIn>
       <Expand
         delay={0.75}
-        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
+        className="flex flex-grow font-mono text-xs font-bold text-gray-500 sm:ml-2 sm:text-sm"
       >
         {props.title}
       </Expand>

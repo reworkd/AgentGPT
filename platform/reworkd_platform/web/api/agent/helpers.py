@@ -48,7 +48,7 @@ async def openai_error_handler(
         if e.user_message.startswith("You exceeded your current quota"):
             raise OpenAIError(
                 e,
-                f"Your API key has exceeded its quota. Please double check your OpenAI billing.",
+                f"Your API key exceeded your current quota, please check your plan and billing details.",
             )
         raise OpenAIError(e, e.user_message)
     except Exception as e:

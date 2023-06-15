@@ -13,13 +13,42 @@ import {
   FaHashtag,
   FaLaptopCode,
   FaMoneyBillWave,
+  FaPalette,
   FaPlaneDeparture,
   FaRegEnvelope,
   FaRegNewspaper,
   FaShoppingCart,
+  FaStarAndCrescent,
 } from "react-icons/fa";
 
 export const TEMPLATE_DATA: TemplateModel[] = [
+  {
+    name: "ResearchGPT",
+    icon: <FaBookReader />,
+    category: "Academics and Professional",
+    description: "Generate a thorough report on a specific subject",
+    promptTemplate:
+      "Compile a comprehensive report on Global Warming, touching on its causes, effects, and mitigation strategies. Include recent research findings and statistics.",
+    placeholder: "Global Warming",
+  },
+  {
+    name: "BrandGPT",
+    icon: <FaShoppingCart />,
+    category: "Academics and Professional",
+    description: "Evaluate a brand's performance, market position, and future prospects",
+    promptTemplate:
+      "Provide an in-depth analysis of the Coca-Cola brand, assessing its current market status, consumer perception, competitive positioning, and future outlook. Include potential strategies for growth.",
+    placeholder: "Coca-Cola",
+  },
+  {
+    name: "TravelGPT",
+    icon: <FaPlaneDeparture />,
+    category: "Other",
+    description: "Plan a detailed journey to a selected destination",
+    promptTemplate:
+      "Outline a detailed itinerary for a 7-day trip to Paris, including sightseeing recommendations, accommodation options, and local dining experiences.",
+    placeholder: "Paris",
+  },
   {
     name: "PlatformerGPT",
     icon: <FaGamepad />,
@@ -38,33 +67,6 @@ export const TEMPLATE_DATA: TemplateModel[] = [
     promptTemplate:
       "Conduct an in-depth examination of the ClimateTech industry, detailing its current market status, emerging trends, significant challenges, and opportunities. Make sure to include data and statistics, a list of major players, a forecast for the industry, and how current events or developments could influence it.",
     placeholder: "ClimateTech",
-  },
-  {
-    name: "BrandGPT",
-    icon: <FaShoppingCart />,
-    category: "Academics and Professional",
-    description: "Evaluate a brand's performance, market position, and future prospects",
-    promptTemplate:
-      "Provide an in-depth analysis of the Coca-Cola brand, assessing its current market status, consumer perception, competitive positioning, and future outlook. Include potential strategies for growth.",
-    placeholder: "Coca-Cola",
-  },
-  {
-    name: "ResearchGPT",
-    icon: <FaBookReader />,
-    category: "Academics and Professional",
-    description: "Generate a thorough report on a specific subject",
-    promptTemplate:
-      "Compile a comprehensive report on Global Warming, touching on its causes, effects, and mitigation strategies. Include recent research findings and statistics.",
-    placeholder: "Global Warming",
-  },
-  {
-    name: "TravelGPT",
-    icon: <FaPlaneDeparture />,
-    category: "Other",
-    description: "Plan a detailed journey to a selected destination",
-    promptTemplate:
-      "Outline a detailed itinerary for a 7-day trip to Paris, including sightseeing recommendations, accommodation options, and local dining experiences.",
-    placeholder: "Paris",
   },
   {
     name: "ScraperGPT",
@@ -182,6 +184,24 @@ export const TEMPLATE_DATA: TemplateModel[] = [
     promptTemplate:
       "Write an engaging blog post about Healthy Living, discussing nutrition, exercise, mental health, and practical tips for maintaining a healthy lifestyle.",
     placeholder: "Healthy Living",
+  },
+  {
+    name: "AstroGPT",
+    icon: <FaStarAndCrescent />,
+    category: "Science and Technology",
+    description: "Discuss astronomical phenomena, discoveries, and related technology",
+    promptTemplate:
+      "Delve into the latest discoveries about Black Holes. Cover their characteristics, theoretical underpinnings, related astronomical observations, and potential technological advancements driven by the research.",
+    placeholder: "Black Holes",
+  },
+  {
+    name: "ArtReviewGPT",
+    icon: <FaPalette />,
+    category: "Creative and Social",
+    description: "Critique a piece of art, discussing its style, context, and influence",
+    promptTemplate:
+      "Provide a thoughtful critique of Vincent van Gogh's 'Starry Night'. Discuss its artistic style, historical context, symbolism, and influence on later art movements.",
+    placeholder: "Starry Night",
   },
 ];
 

@@ -1,10 +1,33 @@
-import { FaDiscord, FaGithub, FaQuestion, FaTwitter } from "react-icons/fa";
+import {
+  FaCog,
+  FaDiscord,
+  FaFileCode,
+  FaGithub,
+  FaHome,
+  FaQuestion,
+  FaTwitter,
+} from "react-icons/fa";
 
 export const PAGE_LINKS = [
+  {
+    name: "Home",
+    href: "/",
+    icon: <FaHome className="group-hover:text-white" />,
+  },
   {
     name: "Help",
     href: "https://docs.reworkd.ai/",
     icon: <FaQuestion className="group-hover:text-red-500" />,
+  },
+  {
+    name: "Templates",
+    href: "/templates",
+    icon: <FaFileCode className="transition-transform group-hover:scale-110" />,
+  },
+  {
+    name: "Settings",
+    href: "/settings",
+    icon: <FaCog className="transition-transform group-hover:rotate-90" />,
   },
 ];
 

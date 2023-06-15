@@ -65,15 +65,6 @@ export const messageSchema = z.union([taskSchema, nonTaskScehma]);
 export type Task = z.infer<typeof taskSchema>;
 export type Message = z.infer<typeof messageSchema>;
 
-/* Agent Type */
-// Agent Mode
-export const [AUTOMATIC_MODE, PAUSE_MODE] = ["Automatic Mode" as const, "Pause Mode" as const];
-export type AgentMode = typeof AUTOMATIC_MODE | typeof PAUSE_MODE;
-
-// Agent Playback Control
-export const [AGENT_PLAY, AGENT_PAUSE] = ["Play" as const, "Pause" as const];
-export type AgentPlaybackControl = typeof AGENT_PLAY | typeof AGENT_PAUSE;
-
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {
   try {

@@ -3,8 +3,6 @@ import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../services/agent/autonomous-agent";
-import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
-import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
 import type { ActiveTool } from "../hooks/useTools";
 
 const resetters: (() => void)[] = [];
@@ -16,17 +14,8 @@ const initialAgentState = {
 };
 
 interface AgentSlice {
-  nameInput: string;
-  goalInput: string;
-  setNameInput: (string) => void;
-  setGoalInput: (string) => void;
-
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
-  isAgentPaused: boolean | undefined;
-  agentMode: AgentMode;
-  updateAgentMode: (agentMode: AgentMode) => void;
-  updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
   updateIsAgentStopped: () => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
@@ -40,29 +29,6 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
-    nameInput: "",
-    goalInput: "",
-    setNameInput: (nameInput: string) => {
-      set(() => ({
-        nameInput: nameInput,
-      }));
-    },
-    setGoalInput: (goalInput: string) => {
-      set(() => ({
-        goalInput: goalInput,
-      }));
-    },
-    agentMode: AUTOMATIC_MODE,
-    updateAgentMode: (agentMode) => {
-      set(() => ({
-        agentMode,
-      }));
-    },
-    updateIsAgentPaused: (agentPlaybackControl) => {
-      set(() => ({
-        isAgentPaused: agentPlaybackControl === AGENT_PAUSE,
-      }));
-    },
     updateIsAgentStopped: () => {
       set((state) => ({
         isAgentStopped: !state.agent?.isRunning,
@@ -101,9 +67,6 @@ export const useAgentStore = createSelectors(
       {
         name: "agent-storage-v2",
         storage: createJSONStorage(() => localStorage),
-        partialize: (state) => ({
-          agentMode: state.agentMode,
-        }),
       }
     )
   )

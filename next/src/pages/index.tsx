@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Button from "../components/Button";
-import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
+import { FaCog, FaRobot, FaStar } from "react-icons/fa";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
-import type { AgentPlaybackControl, Message } from "../types/agentTypes";
-import { AGENT_PLAY, isTask } from "../types/agentTypes";
+import type { Message } from "../types/agentTypes";
+import { isTask } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
@@ -30,6 +30,7 @@ import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
+import { useAgentInputStore } from "../stores/agentInputStore";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -41,18 +42,16 @@ const Home: NextPage = () => {
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const isAgentPaused = useAgentStore.use.isAgentPaused();
-  const updateIsAgentPaused = useAgentStore.use.updateIsAgentPaused();
   const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
-  const agentMode = useAgentStore.use.agentMode();
+
   const agent = useAgentStore.use.agent();
 
   const fullscreen = agent !== null;
   const { session, status } = useAuth();
-  const nameInput = useAgentStore.use.nameInput();
-  const setNameInput = useAgentStore.use.setNameInput();
-  const goalInput = useAgentStore.use.goalInput();
-  const setGoalInput = useAgentStore.use.setGoalInput();
+  const nameInput = useAgentInputStore.use.nameInput();
+  const setNameInput = useAgentInputStore.use.setNameInput();
+  const goalInput = useAgentInputStore.use.goalInput();
+  const setGoalInput = useAgentInputStore.use.setGoalInput();
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
@@ -102,12 +101,6 @@ const Home: NextPage = () => {
     addMessage(message);
   };
 
-  const handlePause = (opts: { agentPlaybackControl?: AgentPlaybackControl }) => {
-    if (opts.agentPlaybackControl !== undefined) {
-      updateIsAgentPaused(opts.agentPlaybackControl);
-    }
-  };
-
   const disableDeployAgent =
     agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
 
@@ -126,10 +119,8 @@ const Home: NextPage = () => {
       name.trim(),
       goal.trim(),
       handleAddMessage,
-      handlePause,
       () => setAgent(null),
       settings,
-      agentMode,
       session ?? undefined
     );
     setAgent(newAgent);
@@ -143,8 +134,6 @@ const Home: NextPage = () => {
       return;
     }
 
-    agent.updatePlayBackControl(AGENT_PLAY);
-    updateIsAgentPaused(agent.playbackControl);
     agent.updateIsRunning(true);
     agent.run().then(console.log).catch(console.error);
   };
@@ -154,9 +143,6 @@ const Home: NextPage = () => {
   ) => {
     // Only Enter is pressed, execute the function
     if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      if (isAgentPaused) {
-        handleContinue();
-      }
       handleNewGoal(nameInput, goalInput);
     }
   };
@@ -174,28 +160,22 @@ const Home: NextPage = () => {
   const shouldShowSave =
     status === "authenticated" && isAgentStopped && messages.length && !hasSaved;
 
-  const firstButton =
-    isAgentPaused && !isAgentStopped ? (
-      <Button ping disabled={!isAgentPaused} onClick={handleContinue}>
-        <FaPlay size={20} />
-        <span className="ml-2">{i18n.t("CONTINUE", { ns: "common" })}</span>
-      </Button>
-    ) : (
-      <Button
-        ping={!disableDeployAgent}
-        disabled={disableDeployAgent}
-        onClick={() => handleNewGoal(nameInput, goalInput)}
-      >
-        {agent == null ? (
-          i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
-        ) : (
-          <>
-            <VscLoading className="animate-spin" size={20} />
-            <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
-          </>
-        )}
-      </Button>
-    );
+  const firstButton = (
+    <Button
+      ping={!disableDeployAgent}
+      disabled={disableDeployAgent}
+      onClick={() => handleNewGoal(nameInput, goalInput)}
+    >
+      {agent == null ? (
+        i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
+      ) : (
+        <>
+          <VscLoading className="animate-spin" size={20} />
+          <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
+        </>
+      )}
+    </Button>
+  );
 
   return (
     <SidebarLayout>
@@ -263,7 +243,6 @@ const Home: NextPage = () => {
                   : undefined
               }
               scrollToBottom
-              displaySettings
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
             />

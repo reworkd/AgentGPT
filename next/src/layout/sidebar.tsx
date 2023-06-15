@@ -203,7 +203,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
 
       <main
         className={clsx(
-          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] transition-all duration-300 ease-in-out",
+          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
           sidebarOpen && "lg:pl-60"
         )}
       >

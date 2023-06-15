@@ -54,6 +54,9 @@ class PineconeMemory(AgentMemory):
 
     @timed_function(level="DEBUG")
     def add_tasks(self, tasks: List[str]) -> List[str]:
+        if len(tasks) == 0:
+            return []
+
         embeds = self.embeddings.embed_documents(tasks)
 
         if len(tasks) != len(embeds):

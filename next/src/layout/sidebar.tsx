@@ -110,13 +110,13 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     ))}
                   </div>
                   <ul role="list" className="flex flex-col">
-                    <li className="mb-2">
+                    <ul className="mb-2">
                       <div className="mb-2 ml-2 text-xs font-semibold text-neutral-400">Pages</div>
                       {PAGE_LINKS.map((link) => {
                         if (router.route == link.href) {
                           return null;
                         }
-                        
+
                         return (
                           <LinkItem
                             key={link.name}
@@ -129,7 +129,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                           />
                         );
                       })}
-                    </li>
+                    </ul>
                     <li className="mb-2">
                       <div className="ml-2 text-xs font-semibold text-neutral-400">Socials</div>
                       <ul role="list" className="mt-2 space-y-1">

@@ -30,6 +30,7 @@ import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
+import { useAgentInputStore } from "../stores/agentInputStore";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -47,10 +48,10 @@ const Home: NextPage = () => {
 
   const fullscreen = agent !== null;
   const { session, status } = useAuth();
-  const nameInput = useAgentStore.use.nameInput();
-  const setNameInput = useAgentStore.use.setNameInput();
-  const goalInput = useAgentStore.use.goalInput();
-  const setGoalInput = useAgentStore.use.setGoalInput();
+  const nameInput = useAgentInputStore.use.nameInput();
+  const setNameInput = useAgentInputStore.use.setNameInput();
+  const goalInput = useAgentInputStore.use.goalInput();
+  const setGoalInput = useAgentInputStore.use.setGoalInput();
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 

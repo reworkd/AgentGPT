@@ -59,7 +59,7 @@ const SettingsPage = () => {
                 placeholder="sk..."
                 helpText={
                   <span>
-                    You can find your API key in your{" "}
+                    You can optionally use your own API key here. You can find your API key in your{" "}
                     <a className="link" href="https://platform.openai.com/account/api-keys">
                       OpenAI dashboard.
                     </a>

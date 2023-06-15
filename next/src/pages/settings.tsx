@@ -8,12 +8,12 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { FaCoins, FaGlobe, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
+import { FaCoins, FaGlobe, FaKey, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
 import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
-import { GPTModelNames } from "../types";
+import type { GPTModelNames } from "../types";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
@@ -52,6 +52,23 @@ const SettingsPage = () => {
                 onChange={(e) => updateSettings("language", e)}
                 items={languages}
                 icon={<FaGlobe />}
+              />
+              <Input
+                label="API Key"
+                name="api-key"
+                placeholder="sk..."
+                helpText={
+                  <span>
+                    You can find your API key in your{" "}
+                    <a className="link" href="https://platform.openai.com/account/api-keys">
+                      OpenAI dashboard.
+                    </a>
+                  </span>
+                }
+                type="text"
+                value={settings.customApiKey}
+                onChange={(e) => updateSettings("customApiKey", e.target.value)}
+                icon={<FaKey />}
               />
             </div>
             {showAdvancedSettings && (

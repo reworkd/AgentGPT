@@ -25,6 +25,7 @@ def create_model(model_settings: ModelSettings, streaming: bool = False) -> Chat
         model=get_model_name(model_settings.model),
         max_tokens=model_settings.max_tokens,
         streaming=streaming,
+        max_retries=5,
     )
 
 

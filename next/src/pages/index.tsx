@@ -1,15 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
-import ChatWindow from "../components/console/ChatWindow";
-import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaCog, FaRobot, FaStar } from "react-icons/fa";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
-import Expand from "../components/motions/expand";
 import HelpDialog from "../components/dialog/HelpDialog";
-import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import type { Message } from "../types/agentTypes";
 import { isTask } from "../types/agentTypes";
@@ -22,10 +18,18 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
-import { GPT_4 } from "../utils/constants";
 import AppTitle from "../components/AppTitle";
+import FadeIn from "../components/motions/FadeIn";
+import Input from "../components/Input";
 import clsx from "clsx";
+import Expand from "../components/motions/expand";
+import ChatWindow from "../components/console/ChatWindow";
+import type { GPTModelNames } from "../types";
+import { GPT_35_TURBO_16K, GPT_4 } from "../types";
+import { TaskWindow } from "../components/TaskWindow";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -33,6 +37,7 @@ const Home: NextPage = () => {
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+  const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
@@ -40,9 +45,12 @@ const Home: NextPage = () => {
 
   const agent = useAgentStore.use.agent();
 
+  const fullscreen = agent !== null;
   const { session, status } = useAuth();
-  const [nameInput, setNameInput] = React.useState<string>("");
-  const [goalInput, setGoalInput] = React.useState<string>("");
+  const nameInput = useAgentStore.use.nameInput();
+  const setNameInput = useAgentStore.use.setNameInput();
+  const goalInput = useAgentStore.use.goalInput();
+  const setGoalInput = useAgentStore.use.setGoalInput();
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
@@ -174,18 +182,31 @@ const Home: NextPage = () => {
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
-      <div id="content" className="flex min-h-screen w-full items-center justify-center p-2">
+      <div id="content" className="flex min-h-screen w-full items-center justify-center">
         <div
           id="layout"
-          className="flex h-full w-full max-w-screen-xl flex-col items-center justify-between gap-1 py-2 sm:gap-3 sm:py-5 md:justify-center"
+          className="flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 sm:gap-3 sm:p-4"
         >
-          <AppTitle />
+          {
+            <AnimatePresence>
+              {!fullscreen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "fit-content" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.5, type: "easeInOut" }}
+                >
+                  <AppTitle />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          }
           <div>
             <Button
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
@@ -196,7 +217,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Tasks" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}
@@ -204,20 +225,10 @@ const Home: NextPage = () => {
               Tasks
             </Button>
           </div>
-          <Expand className="flex w-full flex-row">
+          <Expand className="flex w-full flex-grow overflow-hidden">
             <ChatWindow
               messages={messages}
-              title={
-                settings.customModelName === GPT_4 ? (
-                  <>
-                    Agent<span className="text-amber-500">GPT-4</span>
-                  </>
-                ) : (
-                  <>
-                    Agent<span className="text-neutral-400">GPT-3.5</span>
-                  </>
-                )
-              }
+              title={<ChatWindowTitle model={settings.customModelName} />}
               onSave={
                 shouldShowSave
                   ? (format) => {
@@ -237,79 +248,122 @@ const Home: NextPage = () => {
             <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
           </Expand>
 
-          <div className="flex w-full flex-col gap-2 md:m-4">
-            <Expand delay={1.2} className="flex flex-row items-end gap-2 md:items-center">
-              <Input
-                inputRef={nameInputRef}
-                left={
-                  <>
-                    <FaRobot />
-                    <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+          <FadeIn
+            delay={0}
+            initialY={30}
+            duration={1}
+            className="flex w-full flex-col items-center gap-2"
+          >
+            <AnimatePresence>
+              {!fullscreen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "fit-content" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.5, type: "easeInOut" }}
+                  className="flex w-full flex-col gap-2"
+                >
+                  <div className="flex w-full flex-row items-end gap-2 md:items-center">
+                    <Input
+                      inputRef={nameInputRef}
+                      left={
+                        <>
+                          <FaRobot />
+                          <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                            ns: "indexPage",
+                          })}`}</span>
+                        </>
+                      }
+                      value={nameInput}
+                      disabled={agent != null}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      onKeyDown={(e) => handleKeyPress(e)}
+                      placeholder="AgentGPT"
+                      type="text"
+                    />
+                    <Button
+                      ping
+                      onClick={() => setShowToolsDialog(true)}
+                      className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                    >
+                      <p className="mr-3">Tools</p>
+                      <FaCog />
+                    </Button>
+                  </div>
+                  <Input
+                    left={
+                      <>
+                        <FaStar />
+                        <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                          ns: "indexPage",
+                        })}`}</span>
+                      </>
+                    }
+                    disabled={agent != null}
+                    value={goalInput}
+                    onChange={(e) => setGoalInput(e.target.value)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
                       ns: "indexPage",
-                    })}`}</span>
-                  </>
-                }
-                value={nameInput}
-                disabled={agent != null}
-                onChange={(e) => setNameInput(e.target.value)}
-                onKeyDown={(e) => handleKeyPress(e)}
-                placeholder="AgentGPT"
-                type="text"
-              />
-              <Button
-                ping
-                onClick={() => setShowToolsDialog(true)}
-                className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-              >
-                <p className="mr-3">Tools</p>
-                <FaCog />
-              </Button>
-            </Expand>
-            <Expand delay={1.3}>
-              <Input
-                left={
-                  <>
-                    <FaStar />
-                    <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
-                      ns: "indexPage",
-                    })}`}</span>
-                  </>
-                }
-                disabled={agent != null}
-                value={goalInput}
-                onChange={(e) => setGoalInput(e.target.value)}
-                onKeyDown={(e) => handleKeyPress(e)}
-                placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
-                  ns: "indexPage",
-                })}`}
-                type="textarea"
-              />
-            </Expand>
-          </div>
-          <Expand delay={1.4} className="flex gap-2">
-            {firstButton}
-            <Button
-              disabled={agent === null}
-              onClick={handleStopAgent}
-              enabledClassName={"bg-red-600 hover:bg-red-400"}
-            >
-              {!isAgentStopped && agent === null ? (
-                <>
-                  <VscLoading className="animate-spin" size={20} />
-                  <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
-                    ns: "indexPage",
-                  })}`}</span>
-                </>
-              ) : (
-                `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                  ns: "indexPage",
-                })}`
+                    })}`}
+                    type="textarea"
+                  />
+                </motion.div>
               )}
-            </Button>
-          </Expand>
+            </AnimatePresence>
+
+            <div className="flex gap-2">
+              {firstButton}
+              <Button
+                disabled={agent === null}
+                onClick={handleStopAgent}
+                enabledClassName={"bg-red-600 hover:bg-red-400"}
+              >
+                {!isAgentStopped && agent === null ? (
+                  <>
+                    <VscLoading className="animate-spin" size={20} />
+                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                      ns: "indexPage",
+                    })}`}</span>
+                  </>
+                ) : (
+                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                    ns: "indexPage",
+                  })}`
+                )}
+              </Button>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </SidebarLayout>
+  );
+};
+
+export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
+  if (model === GPT_4) {
+    return (
+      <>
+        Agent<span className="text-amber-500">GPT-4</span>
+      </>
+    );
+  }
+
+  if (model === GPT_35_TURBO_16K) {
+    return (
+      <>
+        Agent
+        <span className="text-neutral-400">
+          GPT-3.5<span className="text-amber-500">-16K</span>
+        </span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      Agent<span className="text-neutral-400">GPT-3.5</span>
+    </>
   );
 };
 

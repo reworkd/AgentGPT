@@ -12,9 +12,9 @@ start_goal_prompt = PromptTemplate(
     Return the response as a formatted array of strings that can be used in JSON.parse()
 
     Examples:
-    ["Search the web for NBA news", "Write a report on the state of Nike"]
+    ["Search the web for NBA news relating to Stephen Curry", "Write a report on the financial state of Nike"]
     ["Create a function to add a new vertex with a specified weight to the digraph."]
-    ["Search for any additional information on Bertie W.", "Research Chicken"]
+    ["Search for any additional information on Bertie W.", "Research the best kentucky fried Chicken recipe"]
     """,
     input_variables=["goal", "language"],
 )
@@ -24,29 +24,12 @@ analyze_task_prompt = PromptTemplate(
     High level objective: "{goal}"
     Current task: "{task}"
 
-    Based on this information, you will perform the task by understanding the
-    problem, extracting variables, and being smart and efficient. You provide concrete
-    reasoning for your actions detailing your overall plan and any concerns you may
-    have. Your reasoning should be no more than three sentences.
-    You evaluate the best action to take strictly from the list of actions
-    below:
-
-    {tools_overview}
-
-    Actions are the one word actions above.
-    You cannot pick an action outside of this list.
-    Return your response in an object of the form\n\n
+    Based on this information, use the "analyze" function to return an object for what specific 'tool' to use.
+    Select the correct tool by being smart and efficient. Provide concrete reasoning for the tool choice detailing 
+    your overall plan and any concerns you may have. Your reasoning should be no more than three sentences.
     Ensure "reasoning" and only "reasoning" is in the {language} language.
-
-    {{
-        "reasoning": "string",
-        "action": "string",
-        "arg": "string"
-    }}
-
-    that can be used in JSON.parse() and NOTHING ELSE.
     """,
-    input_variables=["goal", "task", "tools_overview", "language"],
+    input_variables=["goal", "task", "language"],
 )
 
 code_prompt = PromptTemplate(
@@ -86,18 +69,16 @@ create_tasks_prompt = PromptTemplate(
     following incomplete tasks `{tasks}` and have just executed the following task
     `{lastTask}` and received the following result `{result}`.
 
-    Based on this, create at most a SINGLE new task to be completed by your AI system
-    ONLY IF NEEDED such that your goal is more closely reached or completely reached.
-    Ensure the task is simple and can be completed in a single step.
-
-    Return the response as a formatted array of strings that can be used in JSON.parse()
-    If no new or further tasks are needed, return [] and nothing else
+    Based on this, create a single new task to be completed by your AI system
+    such that your goal is more closely reached or completely reached.
+    Make the task as specific as possible and ensure it is a single task. 
+    If there are no more tasks to be done, return nothing. Do not add quotes to the task.
 
     Examples:
-    ["Search the web for NBA news"]
-    ["Create a function to add a new vertex with a specified weight to the digraph."]
-    ["Search for any additional information on Bertie W."]
-    []
+    "Search the web for NBA news"
+    "Create a function to add a new vertex with a specified weight to the digraph."
+    "Search for any additional information on Bertie W."
+    ""
     """,
     input_variables=["goal", "language", "tasks", "lastTask", "result"],
 )

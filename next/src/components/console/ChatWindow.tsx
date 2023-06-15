@@ -12,7 +12,6 @@ import { ExampleAgentButton } from "./ExampleAgentButton";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
-  className?: string;
   fullscreen?: boolean;
   scrollToBottom?: boolean;
   setAgentRun?: (name: string, goal: string) => void;
@@ -22,10 +21,8 @@ interface ChatWindowProps extends HeaderProps {
 const ChatWindow = ({
   messages,
   children,
-  className,
   title,
   onSave,
-  fullscreen,
   scrollToBottom,
   setAgentRun,
   visibleOnMobile,
@@ -55,17 +52,13 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
-        className,
-        visibleOnMobile ? "flex" : "hidden"
+        "border-translucent h-full flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
+        visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
-        className={clsx(
-          "mb-2 mr-2 ",
-          (fullscreen && "max-h-[75vh] flex-grow overflow-auto") || "window-heights"
-        )}
+        className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
@@ -85,15 +78,13 @@ const ChatWindow = ({
 
         {messages.length === 0 && (
           <>
-            <PopIn delay={0.8}>
+            <PopIn delay={0.8} duration={0.5}>
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
                   value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
                 }}
               />
-            </PopIn>
-            <PopIn delay={1.5}>
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
                 <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
                   Write some code to make a platformer game.

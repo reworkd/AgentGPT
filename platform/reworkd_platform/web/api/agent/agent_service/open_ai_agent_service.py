@@ -1,8 +1,8 @@
 from typing import List, Optional
 
-from lanarky.responses import StreamingResponse
-from langchain.chains import LLMChain
+from lanarky.responses import StreamingResponse  # type: ignore
 from langchain.output_parsers import PydanticOutputParser
+from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
 
 from reworkd_platform.schemas import ModelSettings
@@ -10,6 +10,7 @@ from reworkd_platform.web.api.agent.agent_service.agent_service import AgentServ
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.helpers import (
     call_model_with_handling,
+    openai_error_handler,
     parse_with_handling,
 )
 from reworkd_platform.web.api.agent.model_settings import create_model
@@ -19,11 +20,12 @@ from reworkd_platform.web.api.agent.prompts import (
     start_goal_prompt,
 )
 from reworkd_platform.web.api.agent.task_output_parser import TaskOutputParser
+from reworkd_platform.web.api.agent.tools.open_ai_function import analysis_function
 from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_from_name,
-    get_tools_overview,
     get_user_tools,
 )
+from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
@@ -36,7 +38,9 @@ class OpenAIAgentService(AgentService):
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         completion = await call_model_with_handling(
             self.model_settings,
-            start_goal_prompt,
+            ChatPromptTemplate.from_messages(
+                [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
+            ),
             {"goal": goal, "language": self._language},
         )
 
@@ -52,25 +56,25 @@ class OpenAIAgentService(AgentService):
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        llm = create_model(self.model_settings)
-        chain = LLMChain(llm=llm, prompt=analyze_task_prompt)
-
-        pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
-        print(get_tools_overview(get_user_tools(tool_names)))
-        completion = await chain.arun(
-            {
-                "goal": goal,
-                "task": task,
-                "language": self._language,
-                "tools_overview": get_tools_overview(get_user_tools(tool_names)),
-            }
+        model = create_model(self.model_settings)
+        message = await openai_error_handler(
+            model_settings=self.model_settings,
+            func=model.apredict_messages,
+            messages=analyze_task_prompt.format_prompt(
+                goal=goal,
+                task=task,
+                language=self._language,
+            ).to_messages(),
+            functions=[analysis_function(get_user_tools(tool_names))],
         )
 
-        print("Analysis completion:\n", completion)
+        function_call = message.additional_kwargs["function_call"]
+        completion = function_call["arguments"]
+
         try:
-            return pydantic_parser.parse(completion)
-        except Exception as error:
-            print(f"Error parsing analysis: {error}")
+            pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
+            return parse_with_handling(pydantic_parser, completion)
+        except OpenAIError:
             return Analysis.get_default_analysis()
 
     async def execute_task_agent(
@@ -94,26 +98,22 @@ class OpenAIAgentService(AgentService):
         result: str,
         completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
-        llm = create_model(self.model_settings)
-        chain = LLMChain(llm=llm, prompt=create_tasks_prompt)
-
-        completion = await chain.arun(
+        completion = await call_model_with_handling(
+            self.model_settings,
+            ChatPromptTemplate.from_messages(
+                [SystemMessagePromptTemplate(prompt=create_tasks_prompt)]
+            ),
             {
                 "goal": goal,
                 "language": self._language,
-                "tasks": tasks,
+                "tasks": "\n".join(tasks),
                 "lastTask": last_task,
                 "result": result,
-            }
+            },
         )
 
         previous_tasks = (completed_tasks or []) + tasks
-        task_output_parser = TaskOutputParser(completed_tasks=previous_tasks)
-        tasks = task_output_parser.parse(completion)
-
-        if not tasks:
-            logger.info(f"No additional tasks created: '{completion}'")
-            return tasks
+        tasks = [completion] if completion not in previous_tasks else []
 
         unique_tasks = []
         with self.agent_memory as memory:
@@ -125,6 +125,8 @@ class OpenAIAgentService(AgentService):
                     unique_tasks.append(task)
                 else:
                     logger.info(f"Similar tasks to '{task}' found: {similar_tasks}")
-            memory.add_tasks(unique_tasks)
+
+            if unique_tasks:
+                memory.add_tasks(unique_tasks)
 
         return unique_tasks

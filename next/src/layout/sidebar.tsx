@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "next/router";
-import { FaBars, FaCog, FaHome } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import clsx from "clsx";
 import Image from "next/image";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -111,37 +111,23 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   </div>
                   <ul role="list" className="flex flex-col">
                     <li className="mb-2">
-                      <div className="ml-2 text-xs font-semibold text-neutral-400">Pages</div>
-                      <ul role="list" className="mt-2 space-y-1">
-                        {router.route !== "/settings" ? (
+                      <div className="mb-2 ml-2 text-xs font-semibold text-neutral-400">Pages</div>
+                      {PAGE_LINKS.map((link) => {
+                        if (router.route == link.href) {
+                          return <></>;
+                        }
+                        return (
                           <LinkItem
-                            title="Settings"
-                            icon={<FaCog className="transition-transform group-hover:rotate-90" />}
+                            key={link.name}
+                            title={link.name}
+                            icon={link.icon}
+                            href={link.href}
                             onClick={() => {
-                              router.push("/settings").catch(console.error);
+                              void router.push(link.href);
                             }}
                           />
-                        ) : (
-                          <LinkItem
-                            title="Home"
-                            icon={<FaHome />}
-                            onClick={() => {
-                              void router.push("/");
-                            }}
-                          />
-                        )}
-                      </ul>
-                      {PAGE_LINKS.map((link) => (
-                        <LinkItem
-                          key={link.name}
-                          title={link.name}
-                          icon={link.icon}
-                          href={link.href}
-                          onClick={() => {
-                            void router.push(link.href);
-                          }}
-                        />
-                      ))}
+                        );
+                      })}
                     </li>
                     <li className="mb-2">
                       <div className="ml-2 text-xs font-semibold text-neutral-400">Socials</div>
@@ -183,7 +169,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
 
       <main
         className={clsx(
-          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] transition-all duration-300 ease-in-out",
+          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
           sidebarOpen && "lg:pl-60"
         )}
       >

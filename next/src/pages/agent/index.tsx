@@ -42,7 +42,7 @@ const AgentPage: NextPage = () => {
     <SidebarLayout>
       <div
         id="content"
-        className="flex min-h-screen w-full flex-col items-center justify-center gap-4"
+        className="flex h-screen w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
         <ChatWindow
           messages={messages.filter((m) => m.type !== "thinking")}

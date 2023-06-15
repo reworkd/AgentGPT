@@ -30,7 +30,7 @@ export const TEMPLATE_DATA: TemplateModel[] = [
     placeholder: "Mario",
   },
   {
-    name: "Industry Analysis",
+    name: "IndustryGPT",
     icon: <FaBook />,
     category: "Academics and Professional",
     description:
@@ -40,7 +40,7 @@ export const TEMPLATE_DATA: TemplateModel[] = [
     placeholder: "ClimateTech",
   },
   {
-    name: "Brand Analysis",
+    name: "BrandGPT",
     icon: <FaShoppingCart />,
     category: "Academics and Professional",
     description: "Evaluate a brand's performance, market position, and future prospects",

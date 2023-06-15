@@ -1,7 +1,6 @@
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
-import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
-import { AGENT_PAUSE, AGENT_PLAY, AUTOMATIC_MODE, PAUSE_MODE } from "../../types/agentTypes";
+import type { Message, Task } from "../../types/agentTypes";
 import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
 import MessageService from "./message-service";
@@ -20,12 +19,9 @@ class AutonomousAgent {
   modelSettings: ModelSettings;
   isRunning = false;
   renderMessage: (message: Message) => void;
-  handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
   shutdown: () => void;
   session?: Session;
   _id: string;
-  mode: AgentMode;
-  playbackControl: AgentPlaybackControl;
   messageService: MessageService;
   $api: AgentApi;
 
@@ -33,23 +29,17 @@ class AutonomousAgent {
     name: string,
     goal: string,
     renderMessage: (message: Message) => void,
-    handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
     shutdown: () => void,
     modelSettings: ModelSettings,
-    mode: AgentMode,
-    session?: Session,
-    playbackControl?: AgentPlaybackControl
+    session?: Session
   ) {
     this.name = name;
     this.goal = goal;
     this.renderMessage = renderMessage;
-    this.handlePause = handlePause;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
     this._id = v4();
-    this.mode = mode || AUTOMATIC_MODE;
-    this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
 
     this.messageService = new MessageService(renderMessage);
 
@@ -70,9 +60,6 @@ class AutonomousAgent {
     }
 
     await this.loop();
-    if (this.mode === PAUSE_MODE && !this.isRunning) {
-      this.handlePause({ agentPlaybackControl: this.playbackControl });
-    }
   }
 
   async startGoal() {
@@ -92,8 +79,6 @@ class AutonomousAgent {
   }
 
   async loop() {
-    this.conditionalPause();
-
     if (!this.isRunning) {
       return;
     }
@@ -192,25 +177,6 @@ class AutonomousAgent {
   getRemainingTasks(): Task[] {
     return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
   }
-
-  private conditionalPause() {
-    if (this.mode != PAUSE_MODE) {
-      return;
-    }
-
-    // decide whether to pause agent when pause mode is enabled
-    this.isRunning = !(this.playbackControl === AGENT_PAUSE);
-
-    // reset playbackControl to pause so agent pauses on next set of task(s)
-    if (this.playbackControl === AGENT_PLAY) {
-      this.playbackControl = AGENT_PAUSE;
-    }
-  }
-
-  updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
-    this.playbackControl = newPlaybackControl;
-  }
-
   updateIsRunning(isRunning: boolean) {
     this.messageService.setIsRunning(isRunning);
     this.isRunning = isRunning;

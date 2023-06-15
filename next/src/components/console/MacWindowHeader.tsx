@@ -27,6 +27,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
   const isAgentPaused = useAgentStore.use.isAgentPaused();
   const agent = useAgentStore.use.agent();
   const agentMode = useAgentStore.use.agentMode();
+
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {

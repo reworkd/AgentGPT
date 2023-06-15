@@ -18,7 +18,6 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import SidebarLayout from "../layout/sidebar";
-import { useSettings } from "../hooks/useSettings";
 import AppTitle from "../components/AppTitle";
 import FadeIn from "../components/motions/FadeIn";
 import Input from "../components/Input";
@@ -29,6 +28,10 @@ import { GPT_4 } from "../types";
 import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence } from "framer-motion";
 import FadeOut from "../components/motions/FadeOut";
+import { useSettings } from "../hooks/useSettings";
+import type { GPTModelNames } from "../types";
+import { GPT_35_TURBO_16K } from "../types";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -36,6 +39,7 @@ const Home: NextPage = () => {
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const updateTaskStatus = useMessageStore.use.updateTaskStatus();
+  const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
@@ -46,8 +50,10 @@ const Home: NextPage = () => {
   const agent = useAgentStore.use.agent();
 
   const { session, status } = useAuth();
-  const [nameInput, setNameInput] = React.useState<string>("");
-  const [goalInput, setGoalInput] = React.useState<string>("");
+  const nameInput = useAgentStore.use.nameInput();
+  const setNameInput = useAgentStore.use.setNameInput();
+  const goalInput = useAgentStore.use.goalInput();
+  const setGoalInput = useAgentStore.use.setGoalInput();
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
@@ -243,17 +249,7 @@ const Home: NextPage = () => {
           <Expand className="flex w-full flex-grow overflow-hidden transition-all duration-500 ease-in-out">
             <ChatWindow
               messages={messages}
-              title={
-                settings.customModelName === GPT_4 ? (
-                  <>
-                    Agent<span className="text-amber-500">GPT-4</span>
-                  </>
-                ) : (
-                  <>
-                    Agent<span className="text-neutral-400">GPT-3.5</span>
-                  </>
-                )
-              }
+              title={<ChatWindowTitle model={settings.customModelName} />}
               onSave={
                 shouldShowSave
                   ? (format) => {
@@ -357,6 +353,33 @@ const Home: NextPage = () => {
         </div>
       </div>
     </SidebarLayout>
+  );
+};
+
+export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
+  if (model === GPT_4) {
+    return (
+      <>
+        Agent<span className="text-amber-500">GPT-4</span>
+      </>
+    );
+  }
+
+  if (model === GPT_35_TURBO_16K) {
+    return (
+      <>
+        Agent
+        <span className="text-neutral-400">
+          GPT-3.5<span className="text-amber-500">-16K</span>
+        </span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      Agent<span className="text-neutral-400">GPT-3.5</span>
+    </>
   );
 };
 

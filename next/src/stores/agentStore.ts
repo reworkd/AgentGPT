@@ -16,6 +16,11 @@ const initialAgentState = {
 };
 
 interface AgentSlice {
+  nameInput: string;
+  goalInput: string;
+  setNameInput: (string) => void;
+  setGoalInput: (string) => void;
+
   agent: AutonomousAgent | null;
   isAgentStopped: boolean;
   isAgentPaused: boolean | undefined;
@@ -35,6 +40,18 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
+    nameInput: "",
+    goalInput: "",
+    setNameInput: (nameInput: string) => {
+      set(() => ({
+        nameInput: nameInput,
+      }));
+    },
+    setGoalInput: (goalInput: string) => {
+      set(() => ({
+        goalInput: goalInput,
+      }));
+    },
     agentMode: AUTOMATIC_MODE,
     updateAgentMode: (agentMode) => {
       set(() => ({
@@ -82,7 +99,7 @@ export const useAgentStore = createSelectors(
         ...createToolsSlice(...a),
       }),
       {
-        name: "agent-storage",
+        name: "agent-storage-v2",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           agentMode: state.agentMode,

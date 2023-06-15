@@ -18,7 +18,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
     <>
       <Disclosure
         as="nav"
-        className="fixed top-0 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-xl"
+        className="fixed top-0 z-50 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-xl"
       >
         {({ open }) => (
           <>

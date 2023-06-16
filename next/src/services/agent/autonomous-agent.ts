@@ -73,19 +73,21 @@ class AutonomousAgent {
     } catch (e) {
       console.error(e);
       this.messageService.sendErrorMessage(e);
-      this.shutdown();
+      this.messageService.sendErrorMessage("ERROR_RETRIEVE_INITIAL_TASKS");
+      this.stopAgent();
       return;
     }
   }
 
   async loop() {
     if (!this.isRunning) {
+      this.stopAgent();
       return;
     }
 
     if (this.getRemainingTasks().length === 0) {
       this.messageService.sendCompletedMessage();
-      this.shutdown();
+      this.stopAgent();
       return;
     }
 
@@ -106,7 +108,7 @@ class AutonomousAgent {
     } catch (e) {
       console.error(e);
       this.messageService.sendErrorMessage(e);
-      this.shutdown();
+      this.stopAgent();
       return;
     }
 
@@ -140,7 +142,7 @@ class AutonomousAgent {
       },
       (error) => {
         this.messageService.sendErrorMessage(error);
-        this.shutdown();
+        this.stopAgent();
       },
       () => !this.isRunning
     );
@@ -177,13 +179,18 @@ class AutonomousAgent {
   getRemainingTasks(): Task[] {
     return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
   }
+
   updateIsRunning(isRunning: boolean) {
     this.messageService.setIsRunning(isRunning);
     this.isRunning = isRunning;
   }
 
-  stopAgent() {
+  manuallyStopAgent() {
     this.messageService.sendManualShutdownMessage();
+    this.stopAgent();
+  }
+
+  stopAgent() {
     this.updateIsRunning(false);
     this.shutdown();
     return;

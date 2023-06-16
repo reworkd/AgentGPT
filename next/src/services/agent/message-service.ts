@@ -79,7 +79,7 @@ class MessageService {
   }
 
   sendErrorMessage(e: unknown) {
-    let message = "ERROR_RETRIEVE_INITIAL_TASKS";
+    let message = "An unknown error occurred. Please try again later.";
 
     if (typeof e == "string") message = e;
     else if (axios.isAxiosError(e) && !e.response) {

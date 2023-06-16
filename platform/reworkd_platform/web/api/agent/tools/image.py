@@ -6,7 +6,7 @@ from replicate.exceptions import ReplicateError as ReplicateAPIError
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
-from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
+from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.errors import ReplicateError
 

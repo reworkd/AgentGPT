@@ -70,8 +70,8 @@ class OpenAIAgentService(AgentService):
             functions=[analysis_function(get_user_tools(tool_names))],
         )
 
-        function_call = message.additional_kwargs["function_call"]
-        completion = function_call["arguments"]
+        function_call = message.additional_kwargs.get("function_call", {})
+        completion = function_call.get("arguments", "")
 
         try:
             pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)

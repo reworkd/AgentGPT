@@ -1,12 +1,11 @@
 from typing import Any, Callable, TypeVar
 
 from langchain import BasePromptTemplate, LLMChain
+from langchain.chat_models.base import BaseChatModel
 from langchain.schema import BaseOutputParser, OutputParserException
 from openai import InvalidRequestError
 from openai.error import AuthenticationError, RateLimitError, ServiceUnavailableError
 
-from reworkd_platform.schemas import ModelSettings
-from reworkd_platform.web.api.agent.model_settings import create_model
 from reworkd_platform.web.api.errors import OpenAIError
 
 T = TypeVar("T")
@@ -22,7 +21,7 @@ def parse_with_handling(parser: BaseOutputParser[T], completion: str) -> T:
 
 
 async def openai_error_handler(
-    model_settings: ModelSettings, func: Callable[..., Any], *args: Any, **kwargs: Any
+    func: Callable[..., Any], *args: Any, **kwargs: Any
 ) -> Any:
     try:
         return await func(*args, **kwargs)
@@ -36,7 +35,7 @@ async def openai_error_handler(
         if e.user_message.startswith("The model:"):
             raise OpenAIError(
                 e,
-                f"Your API key does not have access to '{model_settings.model}'. Please use a different model.",
+                f"Your API key does not have access to your current model. Please use a different model.",
             )
         raise OpenAIError(e, e.user_message)
     except AuthenticationError as e:
@@ -56,10 +55,9 @@ async def openai_error_handler(
 
 
 async def call_model_with_handling(
-    model_settings: ModelSettings,
+    model: BaseChatModel,
     prompt: BasePromptTemplate,
     args: dict[str, str],
 ) -> str:
-    model = create_model(model_settings)
     chain = LLMChain(llm=model, prompt=prompt)
-    return await openai_error_handler(model_settings, chain.arun, args)
+    return await openai_error_handler(chain.arun, args)

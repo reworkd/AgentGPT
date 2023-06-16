@@ -73,7 +73,7 @@ const Section = ({ title, subtitle, className }: ResourceProps) => {
       onMouseMove={onMouseMove}
       className={clsx(
         className,
-        "group relative flex h-full rounded-xl border border-white/20 bg-black p-10 transition duration-300 hover:border-white/30"
+        "group relative flex h-full rounded-xl border border-white/20 bg-black p-10 transition duration-300 hover:border-sky-500/60"
       )}
     >
       <Highlight mouseX={mouseX} mouseY={mouseY} />
@@ -97,7 +97,7 @@ function Highlight({ mouseX, mouseY }: HighlightProps) {
   return (
     <div className="pointer-events-none">
       <motion.div
-        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-neutral-100/30 to-zinc-400/20 opacity-0 transition duration-300 group-hover:opacity-100"
+        className="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-500/30 to-sky-500/20 opacity-0 transition duration-300 group-hover:opacity-100"
         style={style}
       />
     </div>

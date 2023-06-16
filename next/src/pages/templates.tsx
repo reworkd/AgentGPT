@@ -3,7 +3,7 @@ import type { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
-import TemplateCard from "../components/templates/TemplateCard";
+import DialogManager from "../components/templates/DialogManager";
 import FadeIn from "../components/motions/FadeIn";
 import SearchBar from "../components/templates/TemplateSearch";
 import SidebarLayout from "../layout/sidebar";
@@ -35,7 +35,7 @@ const Templates = () => {
           <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
           <div className="grid grid-cols-1 justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredData.map((model) => (
-              <TemplateCard key={model.name + model.description} model={model} />
+              <DialogManager key={model.name + model.description} model={model} />
             ))}
           </div>
         </FadeIn>

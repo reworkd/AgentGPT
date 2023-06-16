@@ -11,10 +11,8 @@ const DialogManager = ({ model }: DialogManagerProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const openDialog = () => {
-    console.log("Opening dialog");
     setIsDialogOpen(true);
   };
-  
 
   const closeDialog = () => {
     setIsDialogOpen(false);
@@ -25,6 +23,7 @@ const DialogManager = ({ model }: DialogManagerProps) => {
       {isDialogOpen && (
         <DialogBox
           name={model.name}
+          icon={model.icon}
           promptTemplate={model.promptTemplate}
           category={model.category}
           onClose={closeDialog}

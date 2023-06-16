@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse  # type: ignore
-from langchain.chat_models.base import BaseChatModel
+from langchain.chat_models import ChatOpenAI
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
@@ -32,7 +32,7 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 class OpenAIAgentService(AgentService):
     def __init__(
         self,
-        model: BaseChatModel,
+        model: ChatOpenAI,
         model_settings: ModelSettings,
         agent_memory: AgentMemory,
     ):

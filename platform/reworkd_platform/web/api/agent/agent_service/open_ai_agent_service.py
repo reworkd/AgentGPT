@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse  # type: ignore
+from langchain.chat_models.base import BaseChatModel
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
@@ -13,7 +14,6 @@ from reworkd_platform.web.api.agent.helpers import (
     openai_error_handler,
     parse_with_handling,
 )
-from reworkd_platform.web.api.agent.model_settings import create_model
 from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
     create_tasks_prompt,
@@ -30,14 +30,19 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 class OpenAIAgentService(AgentService):
-    def __init__(self, model_settings: ModelSettings, agent_memory: AgentMemory):
-        self.model_settings = model_settings
+    def __init__(
+        self,
+        model: BaseChatModel,
+        model_settings: ModelSettings,
+        agent_memory: AgentMemory,
+    ):
+        self.model = model
         self.agent_memory = agent_memory
         self._language = model_settings.language or "English"
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         completion = await call_model_with_handling(
-            self.model_settings,
+            self.model,
             ChatPromptTemplate.from_messages(
                 [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
             ),
@@ -56,10 +61,8 @@ class OpenAIAgentService(AgentService):
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        model = create_model(self.model_settings)
         message = await openai_error_handler(
-            model_settings=self.model_settings,
-            func=model.apredict_messages,
+            func=self.model.apredict_messages,
             messages=analyze_task_prompt.format_prompt(
                 goal=goal,
                 task=task,
@@ -87,7 +90,7 @@ class OpenAIAgentService(AgentService):
         print("Execution analysis:", analysis)
 
         tool_class = get_tool_from_name(analysis.action)
-        return await tool_class(self.model_settings).call(goal, task, analysis.arg)
+        return await tool_class(self.model).call(goal, task, analysis.arg)
 
     async def create_tasks_agent(
         self,
@@ -99,7 +102,7 @@ class OpenAIAgentService(AgentService):
         completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
         completion = await call_model_with_handling(
-            self.model_settings,
+            self.model,
             ChatPromptTemplate.from_messages(
                 [SystemMessagePromptTemplate(prompt=create_tasks_prompt)]
             ),

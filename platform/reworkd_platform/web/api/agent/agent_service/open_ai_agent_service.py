@@ -1,12 +1,11 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse  # type: ignore
-from langchain.chat_models import ChatOpenAI
+from langchain.chat_models.base import BaseChatModel
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
 
-from reworkd_platform.schemas import ModelSettings
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.helpers import (
@@ -32,13 +31,13 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 class OpenAIAgentService(AgentService):
     def __init__(
         self,
-        model: ChatOpenAI,
-        model_settings: ModelSettings,
+        model: BaseChatModel,
+        language: str,
         agent_memory: AgentMemory,
     ):
         self.model = model
         self.agent_memory = agent_memory
-        self._language = model_settings.language or "English"
+        self.language = language
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         completion = await call_model_with_handling(
@@ -46,7 +45,7 @@ class OpenAIAgentService(AgentService):
             ChatPromptTemplate.from_messages(
                 [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
             ),
-            {"goal": goal, "language": self._language},
+            {"goal": goal, "language": self.language},
         )
 
         task_output_parser = TaskOutputParser(completed_tasks=[])
@@ -66,7 +65,7 @@ class OpenAIAgentService(AgentService):
             messages=analyze_task_prompt.format_prompt(
                 goal=goal,
                 task=task,
-                language=self._language,
+                language=self.language,
             ).to_messages(),
             functions=[analysis_function(get_user_tools(tool_names))],
         )
@@ -90,7 +89,7 @@ class OpenAIAgentService(AgentService):
         print("Execution analysis:", analysis)
 
         tool_class = get_tool_from_name(analysis.action)
-        return await tool_class(self.model, self._language).call(
+        return await tool_class(self.model, self.language).call(
             goal, task, analysis.arg
         )
 
@@ -110,7 +109,7 @@ class OpenAIAgentService(AgentService):
             ),
             {
                 "goal": goal,
-                "language": self._language,
+                "language": self.language,
                 "tasks": "\n".join(tasks),
                 "lastTask": last_task,
                 "result": result,

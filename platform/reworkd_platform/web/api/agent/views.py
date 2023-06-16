@@ -50,7 +50,7 @@ async def start_tasks(
 ) -> NewTasksResponse:
     model = create_model(req_body.model_settings, user, streaming=False)
     new_tasks = await get_agent_service(
-        model, req_body.model_settings, agent_memory
+        model, req_body.model_settings.language, agent_memory
     ).start_goal_agent(goal=req_body.goal)
     return NewTasksResponse(newTasks=new_tasks, run_id=req_body.run_id)
 
@@ -63,7 +63,7 @@ async def analyze_tasks(
 ) -> Analysis:
     model = create_model(req_body.model_settings, user, streaming=False)
     return await get_agent_service(
-        model, req_body.model_settings, agent_memory
+        model, req_body.model_settings.language, agent_memory
     ).analyze_task_agent(
         goal=req_body.goal,
         task=req_body.task or "",
@@ -95,7 +95,7 @@ async def execute_tasks(
 ) -> FastAPIStreamingResponse:
     model = create_model(req_body.model_settings, user, streaming=True)
     return await get_agent_service(
-        model, req_body.model_settings, agent_memory
+        model, req_body.model_settings.language, agent_memory
     ).execute_task_agent(
         goal=req_body.goal or "",
         task=req_body.task or "",
@@ -111,7 +111,7 @@ async def create_tasks(
 ) -> NewTasksResponse:
     model = create_model(req_body.model_settings, user, streaming=False)
     new_tasks = await get_agent_service(
-        model, req_body.model_settings, agent_memory
+        model, req_body.model_settings.language, agent_memory
     ).create_tasks_agent(
         goal=req_body.goal,
         tasks=req_body.tasks or [],

@@ -36,7 +36,7 @@ class Search(Tool):
     description = (
         "Search Google for short up to date searches for simple questions "
         "news and people.\n"
-        "The argument should be the search query."
+        "The input arg should be the search query. Ensure this value is NOT empty."
     )
     public_description = "Search google for information about current events."
 

@@ -90,7 +90,9 @@ class OpenAIAgentService(AgentService):
         print("Execution analysis:", analysis)
 
         tool_class = get_tool_from_name(analysis.action)
-        return await tool_class(self.model).call(goal, task, analysis.arg)
+        return await tool_class(self.model, self._language).call(
+            goal, task, analysis.arg
+        )
 
     async def create_tasks_agent(
         self,

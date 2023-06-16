@@ -1,6 +1,6 @@
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
-from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
+from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
 

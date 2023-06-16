@@ -93,7 +93,7 @@ async def execute_tasks(
     user: UserBase = Depends(get_current_user),
     agent_memory: AgentMemory = Depends(get_agent_memory),
 ) -> FastAPIStreamingResponse:
-    model = create_model(req_body.model_settings, user, streaming=False)
+    model = create_model(req_body.model_settings, user, streaming=True)
     return await get_agent_service(
         model, req_body.model_settings, agent_memory
     ).execute_task_agent(

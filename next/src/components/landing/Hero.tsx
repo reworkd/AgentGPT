@@ -2,10 +2,10 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
-import PopIn from "../motions/popin";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
+import { TypeAnimation } from "react-type-animation";
 
 const Hero = () => {
   const router = useRouter();
@@ -47,8 +47,25 @@ const Hero = () => {
         delay={0.6}
         className="flex w-full flex-col items-center gap-2 sm:flex-row"
       >
-        <div className="w-full cursor-text rounded-full border border-white/30 p-2 px-4 font-thin text-neutral-400 transition-colors hover:border-white/60 sm:flex-1">
-          Research the latest trends in AI...
+        <div className="w-full cursor-text rounded-full border border-white/30 p-2 px-4 font-thin text-neutral-100 transition-colors hover:border-white/60 sm:flex-1">
+          <TypeAnimation
+            sequence={[
+              1750,
+              "Research the latest trends in AI and ML 🔍",
+              1500,
+              "Plan me a destination wedding in Hawaii 🌴",
+              1500,
+              "Write me a NextJS Todo App using server components 🗒️",
+              1500,
+              "Create infinite paper clips 📎",
+              1500,
+              "Create infinite paper clips 📎... 😈",
+              3000,
+            ]}
+            wrapper="span"
+            speed={75}
+            repeat={Infinity}
+          />
         </div>
         <PrimaryButton
           onClick={() => {
@@ -58,9 +75,9 @@ const Hero = () => {
           Get started
         </PrimaryButton>
       </FadeIn>
-      <PopIn delay={1.4} duration={0.75} className="absolute bottom-10">
+      <FadeIn initialY={30} duration={1.5} delay={0.6} className="absolute bottom-10">
         <Backing />
-      </PopIn>
+      </FadeIn>
     </>
   );
 };

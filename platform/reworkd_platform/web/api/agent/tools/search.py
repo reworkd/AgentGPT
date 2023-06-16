@@ -82,6 +82,3 @@ class Search(Tool):
             return stream_string("No good Google Search Result was found", True)
 
         return summarize(self.model, self.language, goal, task, snippets)
-
-        # TODO: Stream with formatting
-        # return f"{summary}\n\nLinks:\n" + "\n".join([f"- {link}" for link in links])

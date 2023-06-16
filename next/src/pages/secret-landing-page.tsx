@@ -20,8 +20,8 @@ const HomePage = () => {
           <div className="flex h-screen max-w-screen-lg flex-col items-center justify-center overflow-x-hidden text-white">
             <Hero />
           </div>
-          <div id="section" className="flex h-screen w-full items-center">
-            <div className="grid w-full grid-cols-4 grid-rows-2 items-center justify-center gap-4">
+          <div id="section" className="flex min-h-screen w-full items-center">
+            <div className="flex w-full grid-cols-4 grid-rows-2 flex-col items-center justify-center gap-4 sm:grid">
               <Sections />
             </div>
           </div>

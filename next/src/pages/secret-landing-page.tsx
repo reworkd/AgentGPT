@@ -1,6 +1,7 @@
 import React from "react";
 import NavLayout from "../components/NavLayout";
 import Hero from "../components/landing/Hero";
+import Sections from "../components/landing/Section";
 
 const HomePage = () => {
   return (
@@ -15,9 +16,14 @@ const HomePage = () => {
         }}
       />
       <div className="flex w-full justify-center">
-        <div className="flex max-w-screen-lg flex-col items-center justify-center overflow-x-hidden text-white">
+        <div className="flex w-full max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-10 text-white">
           <div className="flex h-screen max-w-screen-lg flex-col items-center justify-center overflow-x-hidden text-white">
             <Hero />
+          </div>
+          <div id="section" className="flex h-screen w-full items-center">
+            <div className="grid w-full grid-cols-4 grid-rows-2 items-center justify-center gap-4">
+              <Sections />
+            </div>
           </div>
         </div>
       </div>

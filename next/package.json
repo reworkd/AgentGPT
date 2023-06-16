@@ -45,7 +45,7 @@
     "nextjs-google-analytics": "^2.3.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-i18next": "^12.2.1",
+    "react-i18next": "^12.3.1",
     "react-icons": "^4.8.0",
     "react-markdown": "^8.0.7",
     "react-type-animation": "^3.1.0",

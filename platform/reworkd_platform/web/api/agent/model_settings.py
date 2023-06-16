@@ -1,14 +1,16 @@
 import openai
 from langchain.chat_models import ChatOpenAI
 
-from reworkd_platform.schemas import LLM_Model, ModelSettings
+from reworkd_platform.schemas import LLM_Model, ModelSettings, UserBase
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
 
 openai.api_base = settings.openai_api_base
 
 
-def create_model(model_settings: ModelSettings, streaming: bool = False) -> ChatOpenAI:
+def create_model(
+    model_settings: ModelSettings, user: UserBase, streaming: bool = False
+) -> ChatOpenAI:
     if model_settings.custom_api_key != "":
         api_key = model_settings.custom_api_key
     else:
@@ -26,6 +28,7 @@ def create_model(model_settings: ModelSettings, streaming: bool = False) -> Chat
         max_tokens=model_settings.max_tokens,
         streaming=streaming,
         max_retries=5,
+        user=user.email,
     )
 
 

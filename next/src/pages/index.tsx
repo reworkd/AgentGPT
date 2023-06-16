@@ -148,7 +148,7 @@ const Home: NextPage = () => {
   };
 
   const handleStopAgent = () => {
-    agent?.stopAgent();
+    agent?.manuallyStopAgent();
     updateIsAgentStopped();
   };
 

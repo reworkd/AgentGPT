@@ -58,8 +58,8 @@ execute_task_prompt = PromptTemplate(
     the following overall objective `{goal}` and the following sub-task, `{task}`.
 
     Perform the task by understanding the problem, extracting variables, and being smart
-    and efficient. Provide a descriptive response, make decisions yourself when
-    confronted with choices and provide reasoning for ideas / decisions.
+    and efficient. Write a detailed response that address the task.
+    When confronted with choices, make a decision yourself with reasoning.
     """,
     input_variables=["goal", "language", "task"],
 )

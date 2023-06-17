@@ -25,9 +25,8 @@ analyze_task_prompt = PromptTemplate(
     Current task: "{task}"
 
     Based on this information, use the best function to make progress or accomplish the task entirely.
-    Select the correct function by being smart and efficient. Provide concrete reasoning for the tool choice detailing 
-    your overall plan and any concerns you may have. Your reasoning should be no more than three sentences.
-    Ensure "reasoning" and only "reasoning" is in the {language} language.
+    Select the correct function by being smart and efficient. Ensure "reasoning" and only "reasoning" is in the 
+    {language} language.
     
     Note you MUST select a function.
     """,

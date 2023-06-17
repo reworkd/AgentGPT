@@ -9,10 +9,12 @@ const AppTitle = () => {
   return (
     <div id="title" className="relative flex flex-col items-center font-mono">
       <div className="flex flex-row items-start shadow-2xl">
-        <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">Agent</span>
-        <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
+        <span className="text-color-secondary text-4xl font-bold xs:text-5xl sm:text-6xl">
+          Agent
+        </span>
+        <span className="text-color-primary text-4xl font-bold xs:text-5xl sm:text-6xl">GPT</span>
         <PopIn delay={0.5}>
-          <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
+          <Badge colorClass="bg-blue-base-light dark:bg-blue-base-dark border-2 border-white/20">
             {i18n?.t("BETA", {
               ns: "indexPage",
             })}
@@ -20,7 +22,7 @@ const AppTitle = () => {
           </Badge>
         </PopIn>
       </div>
-      <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
+      <div className="text-color-primary mt-1 text-center font-mono text-[0.7em] font-bold">
         <p>
           {i18n.t("HEADING_DESCRIPTION", {
             ns: "indexPage",

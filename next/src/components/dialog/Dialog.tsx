@@ -24,7 +24,7 @@ const Dialog = ({
       <div className="relative mx-auto my-6 w-auto max-w-4xl rounded-lg border-2 border-zinc-600">
         {/*content*/}
         <div
-          className="relative z-50 flex w-full flex-col rounded-lg border-0 bg-[#3a3a3a] shadow-lg outline-none focus:outline-none"
+          className="background-color-2 relative z-50 flex w-full flex-col rounded-lg border-0 shadow-lg outline-none focus:outline-none"
           onClick={(e) => e.stopPropagation()} // Avoid closing the modal
         >
           {/*header*/}
@@ -46,9 +46,7 @@ const Dialog = ({
           </div>
           {/*footer*/}
           <div className="flex items-center justify-end gap-2 rounded-b border-t-2 border-solid border-white/20 p-2">
-            <Button enabledClassName="bg-yellow-600 hover:bg-yellow-500" onClick={close}>
-              {`${t("CLOSE", { ns: "common" })}`}
-            </Button>
+            <Button onClick={close}>{`${t("CLOSE", { ns: "common" })}`}</Button>
             {footerButton}
           </div>
         </div>

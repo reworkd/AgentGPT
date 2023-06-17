@@ -273,7 +273,7 @@ const Home: NextPage = () => {
               <Button
                 ping
                 onClick={() => setShowToolsDialog(true)}
-                className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                className="blue-button-primary border-white/20"
               >
                 <p className="mr-3">Tools</p>
                 <FaCog />
@@ -333,7 +333,7 @@ export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
   if (model === GPT_4) {
     return (
       <>
-        Agent<span className="text-amber-500">GPT-4</span>
+        Agent<span className="text-secondary-base-light dark:text-secondary-base-dark">GPT-4</span>
       </>
     );
   }
@@ -343,7 +343,8 @@ export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
       <>
         Agent
         <span className="text-neutral-400">
-          GPT-3.5<span className="text-amber-500">-16K</span>
+          GPT-3.5
+          <span className="text-secondary-base-light dark:text-secondary-base-dark">-16K</span>
         </span>
       </>
     );
@@ -351,7 +352,7 @@ export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
 
   return (
     <>
-      Agent<span className="text-neutral-400">GPT-3.5</span>
+      Agent<span className="text-color-primary">GPT-3.5</span>
     </>
   );
 };

@@ -74,7 +74,7 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "overflow-auto border-translucent flex-1 flex-col rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg xl:flex",
+        "border-translucent background-color-1 flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 text-white shadow-2xl drop-shadow-lg xl:flex",
         className,
         visibleOnMobile ? "flex" : "hidden"
       )}
@@ -151,8 +151,8 @@ const ChatWindow = ({
 
 const SwitchContainer = ({ label, children }: { label: string; children: React.ReactNode }) => {
   return (
-    <div className="m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-2 border-white/20 bg-zinc-700 px-2 py-1">
-      <p className="font-mono text-sm">{label}</p>
+    <div className="background-color-4 m-1 flex w-36 items-center justify-center gap-2 rounded-lg border-2 border-white/20 px-2 py-1">
+      <p className="text-color-primary font-mono text-sm">{label}</p>
       {children}
     </div>
   );

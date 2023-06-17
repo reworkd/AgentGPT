@@ -20,8 +20,8 @@ const AuthItem: FC<{
   return (
     <div
       className={clsx(
-        "mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold text-white",
-        "cursor-pointer hover:bg-neutral-800",
+        "text-color-primary mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold",
+        "hover-bg-shade-700-light cursor-pointer dark:hover:bg-shade-700-dark",
         classname
       )}
       onClick={(e) => {
@@ -50,7 +50,7 @@ const AuthItem: FC<{
           <>
             <button
               type="button"
-              className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
+              className="red-button-primary inline-flex w-full justify-center rounded-md  px-3 py-2 text-sm font-semibold shadow-sm"
               onClick={() => {
                 signOut()
                   .then(() => setShowDialog(false))
@@ -62,7 +62,7 @@ const AuthItem: FC<{
             </button>
             <button
               type="button"
-              className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              className="blue-button-secondary inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300"
               onClick={() => setShowDialog(false)}
             >
               Close
@@ -70,8 +70,8 @@ const AuthItem: FC<{
           </>
         }
       >
-        <p className="text-sm text-gray-500">Name: {user?.name}</p>
-        <p className="text-sm text-gray-500">Email: {user?.email}</p>
+        <p className="text-color-secondary text-sm">Name: {user?.name}</p>
+        <p className="text-color-secondary text-sm">Email: {user?.email}</p>
       </Dialog>
     </div>
   );

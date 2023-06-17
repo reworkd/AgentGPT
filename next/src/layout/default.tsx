@@ -15,7 +15,7 @@ const DefaultLayout = (props: LayoutProps) => {
   return (
     <div
       className={clsx(
-        "flex flex-col bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F]",
+        "background-color-1 flex flex-col",
         props.centered && "items-center justify-center"
       )}
     >

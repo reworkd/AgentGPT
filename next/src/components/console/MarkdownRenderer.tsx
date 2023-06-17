@@ -56,7 +56,7 @@ const CustomPre = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="mb-4 flex flex-col ">
-      <div className="flex w-full items-center justify-between rounded-t-lg bg-zinc-800 p-1 px-4 text-white">
+      <div className="background-color-1 flex w-full items-center justify-between rounded-t-lg p-1 px-4 text-white">
         <div>{language.charAt(0).toUpperCase() + language.slice(1)}</div>
         <button
           onClick={handleCopyClick}

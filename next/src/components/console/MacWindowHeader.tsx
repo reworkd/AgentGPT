@@ -89,6 +89,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
       name={`${t("IMAGE", { ns: "common" })}`}
+      border={false}
     />,
     <WindowButton
       key="Copy"
@@ -112,7 +113,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
       </PopIn>
       <Expand
         delay={1}
-        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
+        className="text-color-secondary invisible flex flex-grow font-mono text-sm font-bold sm:ml-2 md:visible"
       >
         {props.title}
       </Expand>

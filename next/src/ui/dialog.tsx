@@ -31,7 +31,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-neutral-900/80 transition-opacity" />
+          <div className="background-color-1 fixed inset-0 opacity-80 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -52,11 +52,16 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
             >
               <HeadlessDialog.Panel
                 className={clsx(
-                  "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all",
+                  "background-color-1 relative transform overflow-hidden rounded-lg border-2 text-left shadow-xl transition-all dark:border-shade-300-dark",
                   props.inline || "sm:my-8 sm:w-full sm:max-w-lg"
                 )}
               >
-                <div className={clsx("bg-white px-4 pb-4 pt-5", props.inline || "sm:p-6 sm:pb-4")}>
+                <div
+                  className={clsx(
+                    "background-color-1 px-4 pb-4 pt-5",
+                    props.inline || "sm:p-6 sm:pb-4"
+                  )}
+                >
                   <div className={clsx(props.inline || "sm:flex sm:items-start")}>
                     <div
                       className={clsx(
@@ -74,7 +79,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                     >
                       <HeadlessDialog.Title
                         as="h3"
-                        className="text-base font-semibold leading-6 text-gray-900"
+                        className="text-color-primary text-base font-semibold leading-6"
                       >
                         {props.title}
                       </HeadlessDialog.Title>
@@ -84,7 +89,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                 </div>
                 <div
                   className={clsx(
-                    "bg-gray-50 px-4 py-3",
+                    "background-color-1 px-4 py-3",
                     props.inline || "sm:flex sm:flex-row-reverse sm:px-6"
                   )}
                 >

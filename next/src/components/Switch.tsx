@@ -24,7 +24,7 @@ const Switch = ({ value, disabled = false, onChange }: SwitchProps) => {
     <SwitchPrimitive.Root
       className={clsx(
         "group",
-        "radix-state-checked:bg-sky-600 radix-state-unchecked:bg-zinc-500 dark:radix-state-unchecked:bg-zinc-500",
+        "radix-state-checked:bg-blue-base-light radix-state-unchecked:bg-shade-200-light dark:radix-state-checked:bg-blue-base-dark dark:radix-state-unchecked:bg-shade-200-dark",
         "relative inline-flex h-4 w-7 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out",
         "focus:outline-none focus-visible:ring focus-visible:ring-sky-500 focus-visible:ring-opacity-75",
         disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer "

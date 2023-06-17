@@ -13,6 +13,12 @@ class CitedSnippet:
     text: str
     url: str
 
+    def __repr__(self):
+        """
+        The string representation the AI model will see
+        """
+        return f"{{i: {self.index}, text: {self.text}, url: {self.url}}}"
+
 
 def summarize(
     model: BaseChatModel,
@@ -25,6 +31,11 @@ def summarize(
 
     chain = LLMChain(llm=model, prompt=summarize_prompt)
 
+    print(
+        summarize_prompt.format_prompt(
+            goal=goal, query=query, snippets=snippets, language=language
+        )
+    )
     return StreamingResponse.from_chain(
         chain,
         {

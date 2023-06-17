@@ -36,9 +36,9 @@ class Search(Tool):
     description = (
         "Search Google for short up to date searches for simple questions "
         "news and people.\n"
-        "The input arg should be the search query. Ensure this value is NOT empty."
     )
     public_description = "Search google for information about current events."
+    arg_description = "The search query. Ensure this value is NOT empty."
 
     @staticmethod
     def available() -> bool:

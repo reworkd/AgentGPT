@@ -67,6 +67,9 @@ export const useAgentStore = createSelectors(
       {
         name: "agent-storage-v2",
         storage: createJSONStorage(() => localStorage),
+        partialize: (state) => ({
+          tools: state.tools,
+        }),
       }
     )
   )

@@ -28,7 +28,7 @@ def create_model(
         max_tokens=model_settings.max_tokens,
         streaming=streaming,
         max_retries=5,
-        user=user.email,
+        model_kwargs={"user": user.email},
     )
 
 

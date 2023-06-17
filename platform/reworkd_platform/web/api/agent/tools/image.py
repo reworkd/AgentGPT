@@ -50,12 +50,13 @@ async def get_open_ai_image(input_str: str) -> str:
 
 
 class Image(Tool):
-    description = (
-        "Used to sketch, draw, or generate an image. The input string "
-        "should be a detailed description of the image touching on image "
-        "style, image focus, color, etc"
-    )
+    description = "Used to sketch, draw, or generate an image."
     public_description = "Generate AI images."
+    arg_description = (
+        "The input prompt to the image generator. "
+        "This should be a detailed description of the image touching on image "
+        "style, image focus, color, etc."
+    )
 
     async def call(
         self, goal: str, task: str, input_str: str

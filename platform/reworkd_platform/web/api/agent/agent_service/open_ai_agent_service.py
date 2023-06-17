@@ -7,7 +7,7 @@ from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
-from reworkd_platform.web.api.agent.analysis import Analysis
+from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
 from reworkd_platform.web.api.agent.helpers import (
     call_model_with_handling,
     openai_error_handler,
@@ -19,9 +19,11 @@ from reworkd_platform.web.api.agent.prompts import (
     start_goal_prompt,
 )
 from reworkd_platform.web.api.agent.task_output_parser import TaskOutputParser
-from reworkd_platform.web.api.agent.tools.open_ai_function import analysis_function
+from reworkd_platform.web.api.agent.tools.open_ai_function import get_tool_function
 from reworkd_platform.web.api.agent.tools.tools import (
+    get_default_tool,
     get_tool_from_name,
+    get_tool_name,
     get_user_tools,
 )
 from reworkd_platform.web.api.errors import OpenAIError
@@ -67,15 +69,19 @@ class OpenAIAgentService(AgentService):
                 task=task,
                 language=self.language,
             ).to_messages(),
-            functions=[analysis_function(get_user_tools(tool_names))],
+            functions=list(map(get_tool_function, get_user_tools(tool_names))),
         )
 
         function_call = message.additional_kwargs.get("function_call", {})
         completion = function_call.get("arguments", "")
 
         try:
-            pydantic_parser = PydanticOutputParser(pydantic_object=Analysis)
-            return parse_with_handling(pydantic_parser, completion)
+            pydantic_parser = PydanticOutputParser(pydantic_object=AnalysisArguments)
+            analysis_arguments = parse_with_handling(pydantic_parser, completion)
+            return Analysis(
+                action=function_call.get("name", get_tool_name(get_default_tool())),
+                **analysis_arguments.dict(),
+            )
         except OpenAIError:
             return Analysis.get_default_analysis()
 

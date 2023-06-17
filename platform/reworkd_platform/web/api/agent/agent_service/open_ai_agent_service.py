@@ -5,6 +5,7 @@ from langchain.chat_models.base import BaseChatModel
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
+from pydantic import ValidationError
 
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
@@ -82,7 +83,7 @@ class OpenAIAgentService(AgentService):
                 action=function_call.get("name", get_tool_name(get_default_tool())),
                 **analysis_arguments.dict(),
             )
-        except OpenAIError:
+        except (OpenAIError, ValidationError):
             return Analysis.get_default_analysis()
 
     async def execute_task_agent(

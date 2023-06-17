@@ -12,7 +12,7 @@ class Analysis(BaseModel):
         from reworkd_platform.web.api.agent.tools.tools import get_available_tools_names
 
         if v not in get_available_tools_names():
-            raise ValueError("Analysis action is not a valid tool")
+            raise ValueError(f"Analysis action '{v}' is not a valid tool")
         return v
 
     @classmethod

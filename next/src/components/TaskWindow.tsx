@@ -37,16 +37,16 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   return (
     <Expand
       className={clsx(
-        "background-color-1 flex flex-col items-center rounded-2xl border-2 border-white/20 font-mono shadow-2xl",
-        "w-full xl:mx-2 xl:flex xl:w-64 xl:px-1",
+        "h-full flex-col items-center rounded-2xl border-2 border-white/20 background-color-1 font-mono shadow-2xl",
+        "w-full xl:ml-2 xl:flex xl:w-64 xl:px-1",
         !visibleOnMobile && "hidden"
       )}
     >
       <div className="background-color-1 text-color-primary sticky top-0 my-1 flex items-center justify-center gap-2 p-2">
         <FaListAlt /> {t("Current tasks")}
       </div>
-      <div className="flex flex-col gap-2 px-1 py-1">
-        <div className="window-heights flex flex-col gap-2 overflow-y-auto pr-1">
+      <div className="flex h-full w-full flex-col gap-1 overflow-auto p-1">
+        <div className="flex h-full w-full flex-col gap-2 overflow-auto pr-1">
           {tasks.length == 0 && (
             <p className="text-color-secondary w-full p-2 text-center text-xs">
               This window will display agent tasks as they are created.
@@ -58,7 +58,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
             ))}
           </AnimatePresence>
         </div>
-        <div className="flex flex-row gap-1">
+        <div className="mt-auto flex flex-row gap-1">
           <Input
             value={customTask}
             onChange={(e) => setCustomTask(e.target.value)}

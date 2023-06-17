@@ -3,30 +3,37 @@ import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
-import type { GPTModelNames } from "../types";
-import { GPT_MODEL_NAMES, MAX_TOKENS } from "../types";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { FaCoins, FaGlobe, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
+import { FaCoins, FaGlobe, FaKey, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
 import { useAuth } from "../hooks/useAuth";
+import type { LLMModel } from "../hooks/useModels";
+import { useModels } from "../hooks/useModels";
+import type { GPTModelNames } from "../types";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings } = useSettings();
   const { session } = useAuth();
+  const { models, getModel } = useModels();
 
   const showAdvancedSettings = session?.user;
+  const model = getModel(settings.customModelName) || {
+    name: settings.customModelName,
+    max_tokens: 2000,
+    has_access: true,
+  };
 
-  const updateModel = (model: GPTModelNames) => {
-    if (settings.maxTokens > MAX_TOKENS[model]) {
-      updateSettings("maxTokens", MAX_TOKENS[model]);
+  const updateModel = (model: LLMModel) => {
+    if (settings.maxTokens > model.max_tokens) {
+      updateSettings("maxTokens", model.max_tokens);
     }
 
-    updateSettings("customModelName", model);
+    updateSettings("customModelName", model.name as GPTModelNames);
   };
 
   return (
@@ -46,16 +53,33 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
+              <Input
+                label="API Key"
+                name="api-key"
+                placeholder="sk..."
+                helpText={
+                  <span>
+                    You can optionally use your own API key here. You can find your API key in your{" "}
+                    <a className="link" href="https://platform.openai.com/account/api-keys">
+                      OpenAI dashboard.
+                    </a>
+                  </span>
+                }
+                type="text"
+                value={settings.customApiKey}
+                onChange={(e) => updateSettings("customApiKey", e.target.value)}
+                icon={<FaKey />}
+              />
             </div>
             {showAdvancedSettings && (
               <div className="flex flex-col gap-3">
                 <h1 className="text-color-primary mt-6 text-xl font-bold">Advanced Settings</h1>
-                <Combo<GPTModelNames>
+                <Combo<LLMModel>
                   label="Model"
-                  value={settings.customModelName}
-                  valueMapper={(e) => e}
+                  value={model}
+                  valueMapper={(e) => e.name}
                   onChange={updateModel}
-                  items={GPT_MODEL_NAMES}
+                  items={models}
                   icon={<FaRobot />}
                 />
                 <Input
@@ -94,7 +118,7 @@ const SettingsPage = () => {
                   onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
                   attributes={{
                     min: 200,
-                    max: MAX_TOKENS[settings.customModelName],
+                    max: model.max_tokens,
                     step: 100,
                   }}
                   helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}

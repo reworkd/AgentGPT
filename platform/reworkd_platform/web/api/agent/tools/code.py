@@ -6,10 +6,7 @@ from reworkd_platform.web.api.agent.tools.tool import Tool
 
 
 class Code(Tool):
-    description = (
-        "Useful for writing, reviewing, and refactoring code. Can also fix bugs, "
-        "and explain programming concepts."
-    )
+    description = "Should only be used to write code, refactor code, fix code bugs, and explain programming concepts."
     public_description = "Write and review code."
 
     async def call(

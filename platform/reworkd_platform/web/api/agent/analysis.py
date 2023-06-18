@@ -22,6 +22,15 @@ class Analysis(AnalysisArguments):
             raise ValueError(f"Analysis action '{v}' is not a valid tool")
         return v
 
+    @validator("action")
+    def search_action_must_have_arg(cls, v: str, values: dict) -> str:
+        from reworkd_platform.web.api.agent.tools.search import Search
+        from reworkd_platform.web.api.agent.tools.tools import get_tool_name
+
+        if v == get_tool_name(Search) and not values["arg"]:
+            raise ValueError("Analysis arg cannot be empty if action is 'search'")
+        return v
+
     @classmethod
     def get_default_analysis(cls) -> "Analysis":
         # TODO: Remove circular import

@@ -8,8 +8,21 @@ from reworkd_platform.web.api.agent.tools.tools import get_default_tool, get_too
 def test_analysis_model() -> None:
     valid_tool_name = get_tool_name(get_default_tool())
     analysis = Analysis(action=valid_tool_name, arg="arg", reasoning="reasoning")
+
     assert analysis.action == valid_tool_name
     assert analysis.arg == "arg"
+    assert analysis.reasoning == "reasoning"
+
+
+def test_analysis_model_search_empty_arg() -> None:
+    with pytest.raises(ValidationError):
+        Analysis(action="search", arg="", reasoning="reasoning")
+
+
+def test_analysis_model_search_non_empty_arg() -> None:
+    analysis = Analysis(action="search", arg="non-empty arg", reasoning="reasoning")
+    assert analysis.action == "search"
+    assert analysis.arg == "non-empty arg"
     assert analysis.reasoning == "reasoning"
 
 

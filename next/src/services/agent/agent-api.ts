@@ -51,6 +51,7 @@ export class AgentApi {
     url: string,
     data: Omit<RequestBody, "goal" | "model_settings" | "run_id">
   ) {
+    useAgentStore.getState().setIsAgentThinking(true);
     const requestBody: RequestBody = {
       model_settings: this.props.model_settings,
       goal: this.props.goal,
@@ -69,6 +70,8 @@ export class AgentApi {
       return data;
     } catch (e) {
       this.onError(e);
+    } finally {
+      useAgentStore.getState().setIsAgentThinking(false);
     }
   }
 }

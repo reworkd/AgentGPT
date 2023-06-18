@@ -64,7 +64,6 @@ class AutonomousAgent {
 
   async startGoal() {
     this.messageService.sendGoalMessage(this.goal);
-    this.messageService.sendThinkingMessage();
 
     // Initialize by getting taskValues
     try {
@@ -98,7 +97,6 @@ class AutonomousAgent {
     const currentTask = this.getRemainingTasks()[0] as Task;
 
     this.messageService.sendMessage({ ...currentTask, status: "executing" });
-    this.messageService.sendThinkingMessage();
 
     // Analyze how to execute a task: Reason, web search, other tools...
 
@@ -151,7 +149,6 @@ class AutonomousAgent {
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-    this.messageService.sendThinkingMessage();
 
     // Add new tasks
     try {
@@ -204,13 +201,13 @@ class AutonomousAgent {
 
   private async createTasks(tasks: string[]) {
     for (const value of tasks) {
-      await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
       this.messageService.sendMessage({
         taskId: v1().toString(),
         value,
         status: "started",
         type: "task",
       });
+      await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
   }
 }

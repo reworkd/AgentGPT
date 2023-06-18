@@ -44,11 +44,7 @@ const AgentPage: NextPage = () => {
         id="content"
         className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
-        <ChatWindow
-          messages={messages.filter((m) => m.type !== "thinking")}
-          title={getAgent?.data?.name}
-          visibleOnMobile
-        />
+        <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile />
         <div className="flex flex-row gap-2">
           <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
             Back

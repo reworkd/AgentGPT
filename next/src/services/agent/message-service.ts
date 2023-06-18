@@ -1,9 +1,5 @@
 import type { Message } from "../../types/agentTypes";
-import {
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_SYSTEM,
-  MESSAGE_TYPE_THINKING,
-} from "../../types/agentTypes";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
@@ -72,10 +68,6 @@ class MessageService {
       type: MESSAGE_TYPE_SYSTEM,
       value: message,
     });
-  }
-
-  sendThinkingMessage() {
-    this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
   }
 
   sendErrorMessage(e: unknown) {

@@ -71,7 +71,7 @@ describe("sendErrorMessage", () => {
     instance.sendErrorMessage({});
     expect(renderMessage).toHaveBeenCalledWith({
       type: "error",
-      value: "ERROR_RETRIEVE_INITIAL_TASKS",
+      value: "An unknown error occurred. Please try again later.",
     });
   });
 });

@@ -38,7 +38,7 @@ class Search(Tool):
         "news and people.\n"
     )
     public_description = "Search google for information about current events."
-    arg_description = "The search query. Ensure this value is NOT empty."
+    arg_description = "The query argument to search for. This value is always populated and cannot be an empty string."
 
     @staticmethod
     def available() -> bool:

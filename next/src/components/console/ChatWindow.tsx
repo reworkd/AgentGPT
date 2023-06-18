@@ -32,6 +32,7 @@ const ChatWindow = ({
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
+  const isStopped = useAgentStore.use.isAgentStopped();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -103,8 +104,8 @@ const ChatWindow = ({
         )}
         <div
           className={clsx(
-            isThinking ? "opacity-100" : "opacity-0",
-            "mx-4 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300"
+            isThinking && !isStopped ? "opacity-100" : "opacity-0",
+            "mx-2 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300 sm:mx-4"
           )}
         >
           <p>🧠 Thinking</p>

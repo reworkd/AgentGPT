@@ -24,10 +24,11 @@ analyze_task_prompt = PromptTemplate(
     High level objective: "{goal}"
     Current task: "{task}"
 
-    Based on this information, use the "analyze" function to return an object for what specific 'tool' to use.
-    Select the correct tool by being smart and efficient. Provide concrete reasoning for the tool choice detailing 
-    your overall plan and any concerns you may have. Your reasoning should be no more than three sentences.
-    Ensure "reasoning" and only "reasoning" is in the {language} language.
+    Based on this information, use the best function to make progress or accomplish the task entirely.
+    Select the correct function by being smart and efficient. Ensure "reasoning" and only "reasoning" is in the 
+    {language} language.
+    
+    Note you MUST select a function.
     """,
     input_variables=["goal", "task", "language"],
 )
@@ -57,8 +58,8 @@ execute_task_prompt = PromptTemplate(
     the following overall objective `{goal}` and the following sub-task, `{task}`.
 
     Perform the task by understanding the problem, extracting variables, and being smart
-    and efficient. Provide a descriptive response, make decisions yourself when
-    confronted with choices and provide reasoning for ideas / decisions.
+    and efficient. Write a detailed response that address the task.
+    When confronted with choices, make a decision yourself with reasoning.
     """,
     input_variables=["goal", "language", "task"],
 )

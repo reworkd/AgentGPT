@@ -1,4 +1,4 @@
-from typing import List, Type, TypedDict
+from typing import Type, TypedDict
 
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.tools import get_tool_name
@@ -15,37 +15,29 @@ class FunctionDescription(TypedDict):
     """The parameters of the function."""
 
 
-def analysis_function(tools: List[Type[Tool]]) -> FunctionDescription:
-    """A function that will return the tool specifications from OpenAI"""
-    tool_names = [get_tool_name(tool) for tool in tools]
-    tool_name_to_description = [
-        f"{get_tool_name(tool)}: {tool.description}" for tool in tools
-    ]
+def get_tool_function(tool: Type[Tool]) -> FunctionDescription:
+    """A function that will return the tool's function specification"""
+    name = get_tool_name(tool)
 
     return {
-        "name": "analysis",
-        "description": (
-            "Return an object for what specific 'action'/'tool' to call based on their descriptions:\n"
-            f"{tool_name_to_description}"
-        ),
+        "name": name,
+        "description": tool.description,
         "parameters": {
             "type": "object",
             "properties": {
                 "reasoning": {
                     "type": "string",
                     "description": (
-                        f"You must use one of the tools available to you: {tool_names}"
-                        "This reasoning should be how you will accomplish the task with the provided action."
+                        f"Reasoning is how the task will be accomplished with the current function. "
                         "Detail your overall plan along with any concerns you have."
                         "Ensure this reasoning value is in the user defined langauge "
                     ),
                 },
-                "action": {"type": "string", "enum": tool_names},
                 "arg": {
                     "type": "string",
-                    "description": "The appropriate action argument based on the action type",
+                    "description": tool.arg_description,
                 },
             },
-            "required": ["reasoning", "action", "arg"],
+            "required": ["reasoning", "arg"],
         },
     }

@@ -7,6 +7,8 @@ from langchain.chat_models.base import BaseChatModel
 class Tool(ABC):
     description: str = ""
     public_description: str = ""
+    arg_description: str = "The argument to the function."
+
     model: BaseChatModel
     language: str
 

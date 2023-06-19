@@ -9,6 +9,8 @@ import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
+import { FaSpinner } from "react-icons/fa";
+import { useAgentStore } from "../../stores";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -29,7 +31,8 @@ const ChatWindow = ({
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
-
+  const isThinking = useAgentStore.use.isAgentThinking();
+  const isStopped = useAgentStore.use.isAgentStopped();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -99,6 +102,15 @@ const ChatWindow = ({
             </PopIn>
           </>
         )}
+        <div
+          className={clsx(
+            isThinking && !isStopped ? "opacity-100" : "opacity-0",
+            "mx-2 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300 sm:mx-4"
+          )}
+        >
+          <p>🧠 Thinking</p>
+          <FaSpinner className="animate-spin" />
+        </div>
       </div>
     </div>
   );

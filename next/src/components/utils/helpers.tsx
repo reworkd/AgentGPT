@@ -1,5 +1,4 @@
 import {
-  FaBrain,
   FaCheckCircle,
   FaCircleNotch,
   FaExclamationTriangle,
@@ -14,7 +13,6 @@ import {
   isTask,
   MESSAGE_TYPE_ERROR,
   MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_THINKING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_FINAL,
@@ -55,8 +53,6 @@ export const getTaskStatusIcon = (
   switch (message.type) {
     case MESSAGE_TYPE_GOAL:
       return <FaStar className="text-yellow-300" />;
-    case MESSAGE_TYPE_THINKING:
-      return <FaBrain className="mt-[0.1em] text-pink-400" />;
     case MESSAGE_TYPE_ERROR:
       return <FaExclamationTriangle className="text-yellow-400" />;
   }

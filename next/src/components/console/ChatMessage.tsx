@@ -1,11 +1,10 @@
 import React from "react";
+import type { Message } from "../../types/agentTypes";
 import {
   getTaskStatus,
   isAction,
-  Message,
   MESSAGE_TYPE_GOAL,
   MESSAGE_TYPE_SYSTEM,
-  MESSAGE_TYPE_THINKING,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
@@ -34,14 +33,6 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       )}
 
-      {message.type == MESSAGE_TYPE_THINKING && (
-        <span className="italic text-zinc-400">
-          {`${t("RESTART_IF_IT_TAKES_X_SEC", {
-            ns: "chat",
-          })}`}
-        </span>
-      )}
-
       {isAction(message) ? (
         <>
           <hr className="my-2 border border-white/20" />
@@ -67,8 +58,6 @@ const ChatMessage = ({ message }: { message: Message }) => {
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
     return "EMBARKING_ON_NEW_GOAL";
-  } else if (message.type === MESSAGE_TYPE_THINKING) {
-    return "THINKING";
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
     return "TASK_ADDED";
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {

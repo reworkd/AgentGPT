@@ -12,7 +12,7 @@ export const PAGE_LINKS = [
   {
     name: "Home",
     href: "/",
-    icon: <FaHome className="group-hover:text-white" />,
+    icon: <FaHome className="group-hover:text-color-primary" />,
   },
   {
     name: "Help",

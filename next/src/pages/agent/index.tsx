@@ -50,7 +50,11 @@ const AgentPage: NextPage = () => {
           visibleOnMobile
         />
         <div className="flex flex-row gap-2">
-          <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          <Button
+            icon={<FaBackspace />}
+            onClick={() => void router.push("/")}
+            enabledClassName={"blue-button-secondary"}
+          >
             Back
           </Button>
           <Button
@@ -58,7 +62,7 @@ const AgentPage: NextPage = () => {
             onClick={() => {
               deleteAgent.mutate(agentId);
             }}
-            enabledClassName={"bg-red-600 hover:bg-red-400"}
+            enabledClassName={"red-button-primary"}
           >
             Delete
           </Button>
@@ -70,7 +74,6 @@ const AgentPage: NextPage = () => {
                 .writeText(shareLink())
                 .then(() => setShowCopied(true));
             }}
-            enabledClassName={"bg-green-600 hover:bg-green-400"}
           >
             Share
           </Button>

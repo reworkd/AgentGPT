@@ -26,13 +26,13 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
 
   return (
     <Combobox as="div" value={props.value} onChange={props.onChange}>
-      <Combobox.Label className="text-color-primary flex items-center gap-1 text-sm font-bold leading-6">
-        {props.label}
+      <Combobox.Label className="text-color-primary flex items-center gap-2 text-sm font-bold leading-6">
         {props.icon}
+        {props.label}
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
-          className="background-color-4 text-color-primary w-full rounded-md border-0 py-1.5 pl-3 pr-10 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:ring-gray-400 sm:text-sm sm:leading-6"
+          className="background-color-4 text-color-primary border-style-1 border-focusVisible-1 w-full rounded-md py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(e) => props.valueMapper(e as T)}
         />
@@ -48,8 +48,10 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
                 value={e}
                 className={({ active }) =>
                   classNames(
-                    "text-color-primary relative cursor-default select-none py-2 pl-3 pr-9",
-                    active ? "bg-indigo-600" : ""
+                    "relative cursor-default select-none py-2 pl-3 pr-9 ",
+                    active
+                      ? "bg-blue-hover-light text-white dark:bg-blue-hover-dark"
+                      : "text-color-primary"
                   )
                 }
               >

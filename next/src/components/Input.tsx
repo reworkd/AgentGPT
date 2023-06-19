@@ -82,7 +82,7 @@ const Input = (props: InputProps) => {
           container: "relative w-full",
           options:
             "absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-auto border-style-1 background-color-5 tracking-wider shadow-xl outline-0 transition-all",
-          input: `border:black delay-50 sm: flex w-full items-center justify-between border-style-1 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all border-interaction-1 sm:py-3 text-color-primary md:text-lg ${
+          input: `border:black delay-50 sm: flex w-full items-center justify-between border-style-1 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all border-focusVisible-1 sm:py-3 text-color-primary md:text-lg ${
             disabled ? "cursor-not-allowed hover:border-style-1" : ""
           } ${left ? "md:rounded-l-none" : ""}`,
           option:
@@ -94,7 +94,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "border:black delay-50 h-15 background-color-5 placeholder:text-color-primary text-color-primary border-style-1 border-interaction-1 w-full resize-none rounded-xl border-2 p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
+          "border:black delay-50 h-15 background-color-5 placeholder:text-color-tertiary text-color-primary border-style-1 border-focusVisible-1 w-full resize-none rounded-xl p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
           disabled && " hover:border-style-1 cursor-not-allowed",
           left && "md:rounded-l-none"
         )}
@@ -110,7 +110,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <div
         className={clsx(
-          "border-interaction-1 flex w-full flex-row items-center overflow-clip",
+          "border-focusVisible-1 flex w-full flex-row items-center overflow-clip",
           disabled && " hover:border-style-1 cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"
@@ -118,7 +118,7 @@ const Input = (props: InputProps) => {
       >
         <input
           className={clsx(
-            "delay-50 placeholder:text-color-primary text-color-primary border-style-1 w-full flex-grow  overflow-ellipsis bg-transparent py-1 text-sm tracking-wider outline-0  transition-all sm:py-3 md:text-lg"
+            "delay-50 placeholder:text-color-tertiary text-color-primary border-style-1 w-full flex-grow  overflow-ellipsis bg-transparent py-1 text-sm tracking-wider outline-0  transition-all sm:py-3 md:text-lg"
           )}
           ref={inputRef}
           placeholder={placeholder}
@@ -141,7 +141,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <input
         className={clsx(
-          "delay-50 background-color-5 placeholder:text-color-primary text-color-primary border-interaction-1 w-full py-1 text-sm tracking-wider outline-0 transition-all sm:py-3 md:text-lg",
+          "delay-50 background-color-5 placeholder:text-color-tertiary text-color-primary border-style-1 border-focusVisible-1 w-full py-1 text-sm tracking-wider outline-0 transition-all sm:py-3 md:text-lg",
           !isTypeRange() && "border-style-1 px-2",
           disabled && " hover:border-style-1 cursor-not-allowed",
           left && "md:rounded-l-none",
@@ -162,9 +162,9 @@ const Input = (props: InputProps) => {
   return (
     <div
       className={clsx(
-        `items-left z-5 text-color-primary flex h-fit w-full flex-col rounded-xl font-mono text-lg shadow-xl md:flex-row md:items-center`,
+        `items-left z-5 text-color-primary flex h-fit w-full flex-col rounded-xl font-mono text-lg md:flex-row md:items-center`,
         isTypeRange() && "md:border-style-1 md:border-2",
-        `shadow-xl md:flex-row md:items-center`
+        `md:flex-row md:items-center`
       )}
     >
       {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}

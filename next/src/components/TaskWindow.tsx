@@ -37,7 +37,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   return (
     <Expand
       className={clsx(
-        "h-full flex-col items-center rounded-2xl border-2 border-white/20 background-color-1 font-mono shadow-2xl",
+        "background-color-1 border-style-1 h-full flex-col items-center rounded-2xl font-mono",
         "w-full xl:ml-2 xl:flex xl:w-64 xl:px-1",
         !visibleOnMobile && "hidden"
       )}

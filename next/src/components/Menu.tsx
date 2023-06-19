@@ -32,7 +32,7 @@ function Menu({ icon, name, items, chevron }: MenuProps) {
               const itemName = (item.props as { name: string }).name;
               return (
                 <MenuPrimitive.Item key={itemName} as={Fragment}>
-                  <div className="w-full py-[1px] md:py-0.5">{item}</div>
+                  <div className="w-full">{item}</div>
                 </MenuPrimitive.Item>
               );
             })}

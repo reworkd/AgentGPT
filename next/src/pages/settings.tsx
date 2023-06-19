@@ -8,18 +8,31 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { FaCoins, FaGlobe, FaKey, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
+import {
+  FaCoins,
+  FaGlobe,
+  FaKey,
+  FaRobot,
+  FaSyncAlt,
+  FaThermometerFull,
+  FaPaintRoller,
+} from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
 import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
+import { useThemeStore } from "../stores";
+import { type Theme, THEMES } from "../types";
+import { titleCase } from "../utils/helpers";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings } = useSettings();
   const { session } = useAuth();
   const { models, getModel } = useModels();
+  const theme = useThemeStore.use.theme();
+  const setTheme = useThemeStore.use.setTheme();
 
   const showAdvancedSettings = session?.user;
   const model = getModel(settings.customModelName) || {
@@ -39,12 +52,20 @@ const SettingsPage = () => {
   return (
     <SidebarLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-10 lg:p-16">
-        <div className="background-color-1 rounded-xl border-2 border-white/20">
-          <div className="border-b-2 border-white/20 p-3 sm:p-5">
-            <h1 className="text-color-primary text-3xl font-bold md:text-4xl">Settings ⚙</h1>
+        <div className="background-color-1 border-color-1 rounded-xl border-2">
+          <div className="border-color-1 align flex justify-between border-b-2 p-3 sm:p-5">
+            <h1 className="text-color-primary text-3xl font-bold md:text-4xl">⚙ Settings</h1>
           </div>
           <div className="p-3 sm:p-5">
             <div className="flex flex-col gap-3">
+              <Combo<Theme>
+                label="Theme"
+                value={theme}
+                valueMapper={(e) => titleCase(e)}
+                onChange={(e) => setTheme(e)}
+                items={THEMES}
+                icon={<FaPaintRoller />}
+              />
               <Combo<Language>
                 label="Language"
                 value={settings.language}

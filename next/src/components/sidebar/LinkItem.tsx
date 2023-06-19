@@ -19,7 +19,7 @@ const LinkItem = (props: {
         props.onClick();
       }}
     >
-      <span className="background-color-1 text-color-secondary group-hover:text-color-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-neutral-700 text-[0.7rem] font-medium group-hover:scale-110">
+      <span className="background-color-1 text-color-secondary group-hover:text-color-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-shade-300-light text-[0.7rem] font-medium group-hover:scale-110 dark:border-shade-200-dark">
         {props.icon}
       </span>
       <span className="truncate">{props.title}</span>

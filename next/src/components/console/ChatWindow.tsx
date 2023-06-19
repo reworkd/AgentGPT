@@ -52,7 +52,7 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent h-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 background-color-1 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
+        "border-translucent background-color-1 border-style-1 h-full max-w-[inherit] flex-1 flex-col overflow-auto text-white transition-all duration-500",
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >

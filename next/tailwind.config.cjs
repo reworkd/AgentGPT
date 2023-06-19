@@ -3,6 +3,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     screens: {
       "xs": "300px",
@@ -21,15 +22,15 @@ module.exports = {
         blue: {
           base: {
             dark: "hsl(210, 100%, 52%)",
-            light: "hsl(211, 100%, 50%)",
+            light: "hsl(210, 100%, 50%)",
           },
           hover: {
             dark: "hsl(210, 70%, 45%)",
-            light: "hsl(211, 100%, 38%)",
+            light: "hsl(210, 100%, 38%)",
           },
           focusVisible: {
-            dark: "hsl(210, 100%, 70%)",
-            light: "hsl(211, 100%, 65%)",
+            dark: "hsl(210, 70%, 40%)",
+            light: "hsl(210, 70%, 38%)",
           },
         },
         amber: {
@@ -42,8 +43,8 @@ module.exports = {
             light: "hsl(45, 100%, 45%)",
           },
           focusVisible: {
-            dark: "hsl(39, 100%, 60%)",
-            light: "hsl(45, 100%, 60%)",
+            dark: "hsl(39, 85%, 30%)",
+            light: "hsl(45, 85%, 35%)",
           }
         },
         red: {
@@ -56,8 +57,8 @@ module.exports = {
             light: "hsl(3, 100%, 40%)",
           },
           focusVisible: {
-            dark: "hsl(3, 100%, 70%)",
-            light: "hsl(3, 100%, 65%)",
+            dark: "hsl(3, 85%, 40%)",
+            light: "hsl(3, 85%, 35%)",
           }
         },
         shade: {

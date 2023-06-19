@@ -46,4 +46,4 @@ export const useModelSettingsStore = createSelectors(
   )
 );
 
-export const resetSettings = () => resetters.forEach((resetter) => resetter());
+export const resetModelSettings = () => resetters.forEach((resetter) => resetter());

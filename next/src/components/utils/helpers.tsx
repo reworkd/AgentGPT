@@ -25,9 +25,9 @@ export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {
     switch (message.type) {
       case "error":
-        return "border-yellow-400 hover:border-yellow-300 transition-colors";
+        return "border-color-warn border-hover-warn border-2 transition-colors";
       default:
-        return "border-white/10 hover:border-white/40";
+        return "border-style-1 hover:border-shade-400-light dark:hover:border-shade-200-dark";
     }
   }
 

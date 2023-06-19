@@ -15,6 +15,8 @@ import AppHead from "../components/AppHead";
 import LinkItem from "../components/sidebar/LinkItem";
 import AuthItem from "../components/sidebar/AuthItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
+import { useThemeStore } from "../stores";
+import { useTheme } from "../hooks/useTheme";
 
 const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
@@ -26,6 +28,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
     enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
+
+  const theme = useThemeStore.use.theme();
+  useTheme(theme);
 
   useEffect(() => {
     const handleResize = () => {
@@ -111,7 +116,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   </div>
                   <ul role="list" className="flex flex-col">
                     <ul className="mb-2">
-                      <div className="mb-2 ml-2 text-xs font-semibold text-color-secondary">Pages</div>
+                      <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">
+                        Pages
+                      </div>
                       {PAGE_LINKS.map((link) => {
                         if (router.route == link.href) {
                           return null;
@@ -168,12 +175,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
         <FaBars size="15" className="z-20 m-2" />
       </button>
 
-      <main
-        className={clsx(
-          "background-color-2",
-          sidebarOpen && "lg:pl-60"
-        )}
-      >
+      <main className={clsx("background-color-2", sidebarOpen && "lg:pl-60")}>
         <DottedGridBackground className="min-w-screen min-h-screen">
           {props.children}
         </DottedGridBackground>

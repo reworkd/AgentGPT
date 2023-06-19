@@ -6,27 +6,6 @@ body {
     background: black;
 }
 
-/* Used for the background effect in the landing page */
-.background {
-  background-image: radial-gradient(
-    circle,
-    rgba(229, 229, 234, 0.75) 2px,
-    transparent 0px
-  );
-  background-size: 30px 30px;
-  background-position: 0 0, 15px 15px;
-}
-
-.background-dark {
-  background-image: radial-gradient(
-    circle,
-    rgba(58, 58, 58, 0.75) 2px,
-    transparent 0px
-  );
-  background-size: 30px 30px;
-  background-position: 0 0, 15px 15px;
-}
-
 .lower-gradient {
     background-image: linear-gradient(
             to top,
@@ -46,12 +25,26 @@ body {
     background: linear-gradient(
             to right,
             transparent,
-            rgba(255, 255, 255, 0.1),
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.1),
+            hsla(240, 2%, 57%, 0.1),
+            hsla(240, 2%, 57%, 0.2),
+            hsla(240, 2%, 57%, 0.2),
+            hsla(240, 2%, 57%, 0.1),
             transparent
     );
+}
+
+.fading-hr-dark {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
 }
 
 /* Used for code / table formatting within messages */
@@ -87,12 +80,33 @@ tr:nth-child(even) {
 
 @layer base{
   /* background styles */
+  /* Used for the background effect in the landing page */
+  .background {
+    background-image: radial-gradient(
+      circle,
+      hsla(240, 11%, 85%, 0.75) 2px,
+      transparent 0px
+    );
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+  }
+
+  .background-dark {
+    background-image: radial-gradient(
+      circle,
+      rgba(58, 58, 58, 0.75) 2px,
+      transparent 0px
+    );
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+  }
+
   .background-color-1 {
     @apply dark:bg-shade-800-dark bg-shade-800-light;
   }
 
   .background-color-2 {
-    @apply dark:bg-shade-700-dark bg-shade-500-light;
+    @apply dark:bg-shade-700-dark bg-shade-700-light;
   }
 
   .background-color-3 {
@@ -100,20 +114,48 @@ tr:nth-child(even) {
   }
 
   .background-color-4 {
-    @apply dark:bg-shade-500-dark bg-shade-600-light;
+    @apply dark:bg-shade-500-dark bg-shade-700-light;
   }
 
   .background-color-5 {
     @apply dark:bg-shade-500-dark bg-shade-800-light;
   }
 
-  /* border styles */
-  .border-style-1 {
-    @apply dark:border-shade-200-dark border-shade-400-light rounded-xl border-2;
+  .background-color-6 {
+    @apply dark:bg-shade-800-dark bg-blue-base-light
   }
 
-  .border-interaction-1 {
-    @apply border hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus:border-blue-focusVisible-light dark:focus:border-blue-focusVisible-dark;
+  /* border styles */
+  .border-color-1 {
+    @apply dark:border-shade-400-dark border-shade-600-light
+  }
+
+  .border-color-2 {
+    @apply dark:border-shade-400-dark border-blue-base-light
+  }
+
+  .border-color-warn {
+    @apply dark:border-amber-base-dark border-amber-base-light
+  }
+
+  .border-style-1 {
+    @apply border-color-1 rounded-xl border-2;
+  }
+
+  .border-hover-1 {
+    @apply hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus:ring-0 border-2;
+  }
+
+  .border-hover-warn {
+    @apply dark:hover:border-amber-hover-dark hover:border-amber-hover-light
+  }
+
+  .border-focusVisible-1 {
+    @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2;
+  }
+
+  .border-focusVisible-1[type=range] {
+    @apply border;
   }
 
   /* text colors */
@@ -138,11 +180,11 @@ tr:nth-child(even) {
   }
 
   .blue-button-secondary {
-    @apply bg-white hover:bg-gray-300 border border-blue-base-light dark:border-blue-base-dark text-blue-base-light dark:text-blue-base-dark hover:text-blue-hover-light dark:hover:text-blue-hover-dark hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
+    @apply bg-white dark:bg-white hover:bg-shade-500-light dark:hover:bg-shade-200-dark border-2 border-blue-base-light dark:border-blue-base-dark text-blue-base-light dark:text-blue-base-dark hover:text-blue-hover-light dark:hover:text-blue-hover-dark hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
   }
 
   .red-button-primary {
-    @apply bg-red-base-light dark:bg-red-base-dark text-color-primary hover:bg-red-hover-light focus-visible:outline-red-focusVisible-light dark:hover:bg-red-hover-dark dark:focus-visible:outline-red-focusVisible-dark;
+    @apply bg-red-base-light dark:bg-red-base-dark text-shade-100-dark hover:bg-red-hover-light focus-visible:outline-red-focusVisible-light dark:hover:bg-red-hover-dark dark:focus-visible:outline-red-focusVisible-dark;
   }
 
   .red-button-secondary {
@@ -150,13 +192,14 @@ tr:nth-child(even) {
   }
 
   .neutral-button-primary {
-    @apply border border-shade-300-light dark:border-shade-300-dark text-color-primary background-color-3 hover:bg-shade-600-light dark:hover:bg-shade-300-dark;
+    @apply border border-shade-300-light dark:border-shade-300-dark text-color-primary background-color-2 hover:bg-shade-600-light dark:hover:bg-shade-300-dark;
   }
 
   .button-disabled {
-    @apply opacity-90 dark:opacity-50 dark:bg-shade-800-dark bg-shade-300-light cursor-not-allowed text-color-primary text-white border-2 border-shade-700-light dark:border-shade-200-dark;
+    @apply dark:bg-shade-800-dark bg-shade-400-light cursor-not-allowed text-color-tertiary text-white border-style-1;
   }
 }
+
 
 /* range input track style */
 input[type=range] {
@@ -185,15 +228,6 @@ input[type=range] {
   height: 0.5rem;
 }
 
-/* placeholder styles */
-input::placeholder {
-  opacity: 0.6;
-}
-
-textarea::placeholder {
-  opacity: 0.6;
-}
-
 /* Customize website's scrollbar like Mac OS
 Not supports in Firefox and IE */
 /* total width */
@@ -205,15 +239,16 @@ Not supports in Firefox and IE */
 
 /* background of the scrollbar except button or resizer */
 *::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: #464649;
+  @apply bg-shade-300-light dark:bg-shade-500-dark;
+}
+
+#layout *::-webkit-scrollbar-track {
+  @apply rounded-xl
 }
 
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
-    background-color: #babac0;
-    border-radius: 10px;
-    border: 2px solid #464649;
+    @apply rounded-lg bg-shade-600-light dark:bg-shade-200-dark;
 }
 
 /* set button(top and bottom of the scrollbar) */

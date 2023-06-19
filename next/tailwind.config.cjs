@@ -61,6 +61,20 @@ module.exports = {
             light: "hsl(3, 85%, 35%)",
           }
         },
+        green: {
+          base: {
+            dark: "hsl(143, 71%, 45%)",
+            light: "hsl(143, 71%, 40%)",
+          },
+          hover: {
+            dark: "hsl(143, 65%, 40%)",
+            light: "hsl(143, 71%, 33%)",
+          },
+          focusVisible: {
+            dark: "hsl(143, 65%, 35%)",
+            light: "hsl(143, 71%, 30%)",
+          }
+        },
         shade: {
           100: {
             dark: "hsl(0, 0%, 100%)",

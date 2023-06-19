@@ -29,13 +29,15 @@ const ChatMessage = ({ message }: { message: Message }) => {
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-          <span className="mr-2 font-bold">{t(getMessagePrefix(message), { ns: "chat" })}</span>
+          <span className="text-color-primary mr-2 font-bold">
+            {t(getMessagePrefix(message), { ns: "chat" })}
+          </span>
         </>
       )}
 
       {isAction(message) ? (
         <>
-          <hr className="my-2 border border-white/20" />
+          <hr className="border-style-1 my-2" />
           <div className="prose">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>

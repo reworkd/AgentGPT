@@ -134,6 +134,10 @@ tr:nth-child(even) {
     @apply dark:border-shade-400-dark border-blue-base-light
   }
 
+  .border-color-success {
+    @apply dark:border-green-base-dark border-green-base-light
+  }
+
   .border-color-warn {
     @apply dark:border-amber-base-dark border-amber-base-light
   }
@@ -146,8 +150,12 @@ tr:nth-child(even) {
     @apply hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus:ring-0 border-2;
   }
 
+  .border-hover-success {
+    @apply dark:hover:border-green-hover-dark hover:border-green-hover-light;
+  }
+
   .border-hover-warn {
-    @apply dark:hover:border-amber-hover-dark hover:border-amber-hover-light
+    @apply dark:hover:border-amber-hover-dark hover:border-amber-hover-light;
   }
 
   .border-focusVisible-1 {
@@ -169,6 +177,14 @@ tr:nth-child(even) {
 
   .text-color-tertiary {
     @apply dark:text-shade-300-dark text-shade-300-light;
+  }
+
+  .text-color-green {
+    @apply dark:text-green-base-dark text-green-base-light
+  }
+
+  .text-hover-green {
+    @apply dark:hover:text-green-hover-dark hover:text-green-hover-light
   }
 
   .text-color-error {

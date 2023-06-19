@@ -93,7 +93,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
     <FadeIn>
       <div
         className={clsx(
-          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+          "text-color-primary w-full animate-[rotate] rounded-md border-2 p-2 text-xs",
           isAgentStopped && "opacity-50",
           getMessageContainerStyle(task)
         )}

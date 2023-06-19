@@ -36,7 +36,7 @@ class ModelSettings(BaseModel):
     def validate_max_tokens(cls, v: float, values: dict) -> float:
         if v > (model := LLM_MODEL_MAX_TOKENS[values["model"]]):
             raise ValueError(
-                f"Model {values['model']} only supports {LLM_MODEL_MAX_TOKENS[model]} tokens"
+                f"{values['model']} only supports {LLM_MODEL_MAX_TOKENS[model]} tokens"
             )
 
         return v

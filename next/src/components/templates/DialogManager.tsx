@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import DialogBox from "./TemplateDialogBox";
-import TemplateCard from "./TemplateCard";
+import clsx from "clsx";
 import type { TemplateModel } from "./TemplateData";
+import TemplateCard from "./TemplateCard";
+import DialogBox from "./TemplateDialogBox";
 
 type DialogManagerProps = {
   model: TemplateModel;
+  isOpen: boolean;
+  onClick: (modelName: string) => void;
+  onClose: () => void;
 };
 
-const DialogManager = ({ model }: DialogManagerProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const openDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const closeDialog = () => {
-    setIsDialogOpen(false);
+const DialogManager = ({ model, isOpen, onClick, onClose }: DialogManagerProps) => {
+  const handleCardClick = () => {
+    onClick(model.name);
   };
 
   return (
     <>
-      {isDialogOpen && (
+      {isOpen ? (
         <DialogBox
           name={model.name}
           icon={model.icon}
           promptTemplate={model.promptTemplate}
           category={model.category}
-          onClose={closeDialog}
+          placeholder={model.placeholder}
+          onClose={onClose}
         />
+      ) : (
+        <TemplateCard model={model} onClick={handleCardClick} />
       )}
-      <TemplateCard model={model} onClick={openDialog} />
     </>
   );
 };

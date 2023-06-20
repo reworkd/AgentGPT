@@ -3,11 +3,11 @@ import { v1, v4 } from "uuid";
 import type { Message, Task } from "../../types/agentTypes";
 import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
-import MessageService from "./message-service";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
+import type { MessageService } from "./message-service";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -18,7 +18,6 @@ class AutonomousAgent {
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = false;
-  renderMessage: (message: Message) => void;
   shutdown: () => void;
   session?: Session;
   _id: string;
@@ -28,20 +27,18 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
-    renderMessage: (message: Message) => void,
+    messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
     session?: Session
   ) {
     this.name = name;
     this.goal = goal;
-    this.renderMessage = renderMessage;
+    this.messageService = messageService;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
     this._id = v4();
-
-    this.messageService = new MessageService(renderMessage);
 
     this.$api = new AgentApi(
       {

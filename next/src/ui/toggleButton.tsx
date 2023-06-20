@@ -10,8 +10,6 @@ type ToggleButtonProps = {
 
 const ToggleButton = ({ ...props }: ToggleButtonProps) => {
   const handleClick = () => {
-    console.log("here");
-    console.log(props.checked);
     props.setChecked(!props.checked);
   };
 

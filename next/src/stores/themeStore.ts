@@ -44,7 +44,7 @@ export const useThemeStore = createSelectors(
         onRehydrateStorage: () => {
           return (state, error) => {
             if (error) {
-              console.log("an error happened during hydration. ", error);
+              console.error("an error happened during hydration. ", error);
             } else {
               handleTheme(state ? state.theme : SYSTEM_THEME);
             }

@@ -8,13 +8,13 @@ import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
+import type { AgentRunModel } from "./agent-run-model";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
 
 class AutonomousAgent {
-  name: string;
-  goal: string;
+  model: AgentRunModel;
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = false;
@@ -25,15 +25,13 @@ class AutonomousAgent {
   $api: AgentApi;
 
   constructor(
-    name: string,
-    goal: string,
+    model: AgentRunModel,
     messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
     session?: Session
   ) {
-    this.name = name;
-    this.goal = goal;
+    this.model = model;
     this.messageService = messageService;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
@@ -43,7 +41,7 @@ class AutonomousAgent {
     this.$api = new AgentApi(
       {
         model_settings: toApiModelSettings(modelSettings),
-        goal,
+        goal: this.model.getGoal(),
         session,
       },
       this.onApiError
@@ -60,7 +58,7 @@ class AutonomousAgent {
   }
 
   async startGoal() {
-    this.messageService.sendGoalMessage(this.goal);
+    this.messageService.sendGoalMessage(this.model.getGoal());
 
     // Initialize by getting taskValues
     try {
@@ -122,7 +120,7 @@ class AutonomousAgent {
       "/api/agent/execute",
       {
         run_id: this.$api.runId,
-        goal: this.goal,
+        goal: this.model.getGoal(),
         task: currentTask.value,
         analysis: analysis,
         model_settings: toApiModelSettings(this.modelSettings),

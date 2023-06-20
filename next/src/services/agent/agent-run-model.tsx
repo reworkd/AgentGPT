@@ -1,4 +1,6 @@
 import { v4 } from "uuid";
+import type { Task } from "../../types/agentTypes";
+import { useMessageStore } from "../../stores";
 
 export interface AgentRunModel {
   getName(): string;
@@ -6,6 +8,8 @@ export interface AgentRunModel {
   getGoal(): string;
 
   getId(): string;
+
+  getRemainingTasks(): Task[];
 }
 
 export class DefaultAgentRunModel implements AgentRunModel {
@@ -23,4 +27,8 @@ export class DefaultAgentRunModel implements AgentRunModel {
   getGoal = () => this.goal;
 
   getId = () => this.id;
+
+  getRemainingTasks = (): Task[] => {
+    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
+  };
 }

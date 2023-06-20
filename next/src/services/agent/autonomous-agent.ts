@@ -1,7 +1,6 @@
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { Message, Task } from "../../types/agentTypes";
-import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
@@ -79,7 +78,7 @@ class AutonomousAgent {
       return;
     }
 
-    if (this.getRemainingTasks().length === 0) {
+    if (this.model.getRemainingTasks().length === 0) {
       this.messageService.sendCompletedMessage();
       this.stopAgent();
       return;
@@ -89,7 +88,7 @@ class AutonomousAgent {
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
     // Start with first task
-    const currentTask = this.getRemainingTasks()[0] as Task;
+    const currentTask = this.model.getRemainingTasks()[0] as Task;
 
     this.messageService.sendMessage({ ...currentTask, status: "executing" });
 
@@ -149,7 +148,7 @@ class AutonomousAgent {
       const newTasks = await this.$api.getAdditionalTasks(
         {
           current: currentTask.value,
-          remaining: this.getRemainingTasks().map((task) => task.value),
+          remaining: this.model.getRemainingTasks().map((task) => task.value),
           completed: this.completedTasks,
         },
         executionMessage.info || ""
@@ -165,10 +164,6 @@ class AutonomousAgent {
     }
 
     await this.loop();
-  }
-
-  getRemainingTasks(): Task[] {
-    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
   }
 
   updateIsRunning(isRunning: boolean) {

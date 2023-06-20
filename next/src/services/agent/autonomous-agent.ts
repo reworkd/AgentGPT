@@ -184,7 +184,6 @@ class AutonomousAgent {
 
   private onApiError = (e: unknown) => {
     // TODO: handle retries here
-    this.shutdown();
     throw e;
   };
 

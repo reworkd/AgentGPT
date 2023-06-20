@@ -3,11 +3,11 @@ import { v1, v4 } from "uuid";
 import type { Message, Task } from "../../types/agentTypes";
 import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
-import MessageService from "./message-service";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
+import type { MessageService } from "./message-service";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -18,7 +18,6 @@ class AutonomousAgent {
   completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = false;
-  renderMessage: (message: Message) => void;
   shutdown: () => void;
   session?: Session;
   _id: string;
@@ -28,20 +27,18 @@ class AutonomousAgent {
   constructor(
     name: string,
     goal: string,
-    renderMessage: (message: Message) => void,
+    messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
     session?: Session
   ) {
     this.name = name;
     this.goal = goal;
-    this.renderMessage = renderMessage;
+    this.messageService = messageService;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
     this._id = v4();
-
-    this.messageService = new MessageService(renderMessage);
 
     this.$api = new AgentApi(
       {
@@ -64,7 +61,6 @@ class AutonomousAgent {
 
   async startGoal() {
     this.messageService.sendGoalMessage(this.goal);
-    this.messageService.sendThinkingMessage();
 
     // Initialize by getting taskValues
     try {
@@ -98,7 +94,6 @@ class AutonomousAgent {
     const currentTask = this.getRemainingTasks()[0] as Task;
 
     this.messageService.sendMessage({ ...currentTask, status: "executing" });
-    this.messageService.sendThinkingMessage();
 
     // Analyze how to execute a task: Reason, web search, other tools...
 
@@ -142,7 +137,6 @@ class AutonomousAgent {
       },
       (error) => {
         this.messageService.sendErrorMessage(error);
-        this.stopAgent();
       },
       () => !this.isRunning
     );
@@ -151,7 +145,6 @@ class AutonomousAgent {
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-    this.messageService.sendThinkingMessage();
 
     // Add new tasks
     try {
@@ -204,13 +197,13 @@ class AutonomousAgent {
 
   private async createTasks(tasks: string[]) {
     for (const value of tasks) {
-      await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
       this.messageService.sendMessage({
         taskId: v1().toString(),
         value,
         status: "started",
         type: "task",
       });
+      await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
   }
 }

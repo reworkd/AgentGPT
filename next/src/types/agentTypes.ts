@@ -3,19 +3,11 @@ import { z } from "zod";
 /* Message & Task Type */
 export const [
   MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_THINKING,
   MESSAGE_TYPE_TASK,
   MESSAGE_TYPE_ACTION,
   MESSAGE_TYPE_SYSTEM,
   MESSAGE_TYPE_ERROR,
-] = [
-  "goal" as const,
-  "thinking" as const,
-  "task" as const,
-  "action" as const,
-  "system" as const,
-  "error" as const,
-];
+] = ["goal" as const, "task" as const, "action" as const, "system" as const, "error" as const];
 
 export const [
   TASK_STATUS_STARTED,
@@ -52,7 +44,6 @@ export const nonTaskScehma = z
   .object({
     type: z.union([
       z.literal(MESSAGE_TYPE_GOAL),
-      z.literal(MESSAGE_TYPE_THINKING),
       z.literal(MESSAGE_TYPE_ACTION),
       z.literal(MESSAGE_TYPE_SYSTEM),
       z.literal(MESSAGE_TYPE_ERROR),

@@ -31,6 +31,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
+import { MessageService } from "../services/agent/message-service";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -115,10 +116,12 @@ const Home: NextPage = () => {
       return;
     }
 
+    const messageService = new MessageService(handleAddMessage);
+
     const newAgent = new AutonomousAgent(
       name.trim(),
       goal.trim(),
-      handleAddMessage,
+      messageService,
       () => setAgent(null),
       settings,
       session ?? undefined
@@ -127,15 +130,6 @@ const Home: NextPage = () => {
     setHasSaved(false);
     resetAllMessageSlices();
     newAgent?.run().then(console.log).catch(console.error);
-  };
-
-  const handleContinue = () => {
-    if (!agent) {
-      return;
-    }
-
-    agent.updateIsRunning(true);
-    agent.run().then(console.log).catch(console.error);
   };
 
   const handleKeyPress = (

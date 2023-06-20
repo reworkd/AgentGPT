@@ -51,7 +51,9 @@ async def openai_error_handler(
             )
         raise OpenAIError(e, e.user_message)
     except Exception as e:
-        raise OpenAIError(e, "There was an issue getting a response from the AI model.")
+        raise OpenAIError(
+            e, "There was an unexpected issue getting a response from the AI model."
+        )
 
 
 async def call_model_with_handling(

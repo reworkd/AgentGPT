@@ -6,7 +6,7 @@ import axios from "axios";
 import { isPlatformError, isValueError } from "../../types/errors";
 import { useMessageStore } from "../../stores";
 
-class MessageService {
+export class MessageService {
   private isRunning: boolean;
   private readonly renderMessage: (message: Message) => void;
 
@@ -108,5 +108,3 @@ class MessageService {
     this.sendMessage({ type: "error", value: translate(message, "errors") });
   }
 }
-
-export default MessageService;

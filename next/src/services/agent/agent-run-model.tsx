@@ -10,17 +10,23 @@ export interface AgentRunModel {
   getId(): string;
 
   getRemainingTasks(): Task[];
+
+  getCompletedTasks(): string[];
+
+  addCompletedTask(taskValue: string): void;
 }
 
 export class DefaultAgentRunModel implements AgentRunModel {
   id: string;
   name: string;
   goal: string;
+  completedTasks: string[];
 
   constructor(name: string, goal: string) {
     this.id = v4().toString();
     this.name = name;
     this.goal = goal;
+    this.completedTasks = [];
   }
 
   getName = () => this.name;
@@ -31,4 +37,8 @@ export class DefaultAgentRunModel implements AgentRunModel {
   getRemainingTasks = (): Task[] => {
     return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
   };
+
+  getCompletedTasks = (): string[] => this.completedTasks;
+
+  addCompletedTask = (taskValue: string) => this.completedTasks.push(taskValue);
 }

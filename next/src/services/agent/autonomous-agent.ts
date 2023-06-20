@@ -14,12 +14,10 @@ const TIMOUT_SHORT = 800;
 
 class AutonomousAgent {
   model: AgentRunModel;
-  completedTasks: string[] = [];
   modelSettings: ModelSettings;
   isRunning = false;
   shutdown: () => void;
   session?: Session;
-  _id: string;
   messageService: MessageService;
   $api: AgentApi;
 
@@ -35,7 +33,6 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-    this._id = v4();
 
     this.$api = new AgentApi(
       {
@@ -138,7 +135,7 @@ class AutonomousAgent {
       () => !this.isRunning
     );
 
-    this.completedTasks.push(currentTask.value || "");
+    this.model.addCompletedTask(currentTask.value || "");
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -149,7 +146,7 @@ class AutonomousAgent {
         {
           current: currentTask.value,
           remaining: this.model.getRemainingTasks().map((task) => task.value),
-          completed: this.completedTasks,
+          completed: this.model.getCompletedTasks(),
         },
         executionMessage.info || ""
       );

@@ -137,7 +137,6 @@ class AutonomousAgent {
       },
       (error) => {
         this.messageService.sendErrorMessage(error);
-        this.stopAgent();
       },
       () => !this.isRunning
     );

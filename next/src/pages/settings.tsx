@@ -17,7 +17,7 @@ import type { GPTModelNames } from "../types";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
-  const { settings, updateSettings } = useSettings();
+  const { settings, updateSettings, updateLangauge } = useSettings();
   const { session } = useAuth();
   const { models, getModel } = useModels();
 
@@ -49,7 +49,9 @@ const SettingsPage = () => {
                 label="Language"
                 value={settings.language}
                 valueMapper={(e) => e.name}
-                onChange={(e) => updateSettings("language", e)}
+                onChange={(e) => {
+                  updateLangauge(e).catch(console.error);
+                }}
                 items={languages}
                 icon={<FaGlobe />}
               />

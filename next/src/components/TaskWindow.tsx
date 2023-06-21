@@ -1,7 +1,6 @@
 import React from "react";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
-import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/agentTypes";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useAgentStore, useMessageStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
@@ -11,6 +10,7 @@ import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
 import { AnimatePresence } from "framer-motion";
+import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/task";
 
 export interface TaskWindowProps {
   visibleOnMobile?: boolean;

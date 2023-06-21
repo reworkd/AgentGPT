@@ -7,17 +7,16 @@ import {
   FaStopCircle,
   FaThumbtack,
 } from "react-icons/fa";
-import type { Message } from "../../types/agentTypes";
 import {
   getTaskStatus,
   isTask,
-  MESSAGE_TYPE_ERROR,
-  MESSAGE_TYPE_GOAL,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
-} from "../../types/agentTypes";
+} from "../../types/task";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_ERROR, MESSAGE_TYPE_GOAL } from "../../types/message";
 
 export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {

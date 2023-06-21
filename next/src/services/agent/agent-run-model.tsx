@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
-import type { Task } from "../../types/agentTypes";
 import { useMessageStore } from "../../stores";
+import type { Task } from "../../types/task";
 
 export interface AgentRunModel {
   getName(): string;

@@ -7,8 +7,7 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
-import type { Message } from "../types/agentTypes";
-import { isTask } from "../types/agentTypes";
+import type { Message } from "../types/message";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
@@ -33,9 +32,10 @@ import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
+import { isTask } from "../types/task";
 
 const Home: NextPage = () => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
@@ -161,11 +161,11 @@ const Home: NextPage = () => {
       onClick={() => handleNewGoal(nameInput, goalInput)}
     >
       {agent == null ? (
-        i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
+        t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
       ) : (
         <>
           <VscLoading className="animate-spin" size={20} />
-          <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
+          <span className="ml-2">{t("RUNNING", { ns: "common" })}</span>
         </>
       )}
     </Button>
@@ -264,7 +264,7 @@ const Home: NextPage = () => {
                       left={
                         <>
                           <FaRobot />
-                          <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                          <span className="ml-2">{`${t("AGENT_NAME", {
                             ns: "indexPage",
                           })}`}</span>
                         </>
@@ -289,7 +289,7 @@ const Home: NextPage = () => {
                     left={
                       <>
                         <FaStar />
-                        <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                        <span className="ml-2">{`${t("LABEL_AGENT_GOAL", {
                           ns: "indexPage",
                         })}`}</span>
                       </>
@@ -298,7 +298,7 @@ const Home: NextPage = () => {
                     value={goalInput}
                     onChange={(e) => setGoalInput(e.target.value)}
                     onKeyDown={(e) => handleKeyPress(e)}
-                    placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                    placeholder={`${t("PLACEHOLDER_AGENT_GOAL", {
                       ns: "indexPage",
                     })}`}
                     type="textarea"
@@ -317,12 +317,12 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                    <span className="ml-2">{`${t("BUTTON_STOPPING", {
                       ns: "indexPage",
                     })}`}</span>
                   </>
                 ) : (
-                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                  `${t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
                     ns: "indexPage",
                   })}`
                 )}

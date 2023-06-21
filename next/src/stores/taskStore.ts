@@ -26,6 +26,7 @@ export interface TaskSlice {
   tasks: Task[];
   addTask: (newTask: Task) => void;
   updateTaskStatus: (updatedTask: Task) => void;
+  deleteTask: (taskId: string) => void;
 }
 
 export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set) => {
@@ -63,6 +64,12 @@ export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set)
           tasks: updatedTasks,
         };
       });
+    },
+    deleteTask: (taskId) => {
+      set((state) => ({
+        ...state,
+        tasks: state.tasks.filter((task) => task.taskId !== taskId),
+      }));
     },
   };
 };

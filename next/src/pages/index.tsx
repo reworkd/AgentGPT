@@ -35,7 +35,6 @@ import { resetAllTaskSlices } from "../stores/taskStore";
 
 const Home: NextPage = () => {
   const { t } = useTranslation();
-  // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const { query } = useRouter();
@@ -55,33 +54,15 @@ const Home: NextPage = () => {
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
-  const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
-  useEffect(() => {
-    const key = "agentgpt-modal-opened-v0.2";
-    const savedModalData = localStorage.getItem(key);
-
-    setTimeout(() => {
-      if (savedModalData == null) {
-        setShowHelpDialog(true);
-      }
-    }, 1800);
-
-    localStorage.setItem(key, JSON.stringify(true));
-  }, []);
-
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     nameInputRef?.current?.focus();
   }, []);
-
-  useEffect(() => {
-    updateIsAgentStopped();
-  }, [agent, updateIsAgentStopped]);
 
   const setAgentRun = (newName: string, newGoal: string) => {
     setNameInput(newName);
@@ -159,7 +140,7 @@ const Home: NextPage = () => {
 
   return (
     <SidebarLayout>
-      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
+      <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />

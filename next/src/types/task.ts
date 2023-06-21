@@ -1,13 +1,11 @@
 import { z } from "zod";
 
-/* Message & Task Type */
-export const [
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_TASK,
-  MESSAGE_TYPE_ACTION,
-  MESSAGE_TYPE_SYSTEM,
-  MESSAGE_TYPE_ERROR,
-] = ["goal" as const, "task" as const, "action" as const, "system" as const, "error" as const];
+export const MESSAGE_TYPE_TASK = "task";
+const messageSchemaBase = z.object({
+  id: z.string().optional(),
+  value: z.string(),
+  info: z.string().optional().nullable(),
+});
 
 export const [
   TASK_STATUS_STARTED,
@@ -16,7 +14,7 @@ export const [
   TASK_STATUS_FINAL,
 ] = ["started" as const, "executing" as const, "completed" as const, "final" as const];
 
-const TaskStatusSchema = z.union([
+export const TaskStatusSchema = z.union([
   z.literal(TASK_STATUS_STARTED),
   z.literal(TASK_STATUS_EXECUTING),
   z.literal(TASK_STATUS_COMPLETED),
@@ -26,12 +24,6 @@ const TaskStatusSchema = z.union([
 
 export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
-export const messageSchemaBase = z.object({
-  id: z.string().optional(),
-  value: z.string(),
-  info: z.string().optional().nullable(),
-});
-
 export const taskSchema = z
   .object({
     taskId: z.string().optional(),
@@ -40,21 +32,7 @@ export const taskSchema = z
   })
   .merge(messageSchemaBase);
 
-export const nonTaskScehma = z
-  .object({
-    type: z.union([
-      z.literal(MESSAGE_TYPE_GOAL),
-      z.literal(MESSAGE_TYPE_ACTION),
-      z.literal(MESSAGE_TYPE_SYSTEM),
-      z.literal(MESSAGE_TYPE_ERROR),
-    ]),
-  })
-  .merge(messageSchemaBase);
-
-export const messageSchema = z.union([taskSchema, nonTaskScehma]);
-
 export type Task = z.infer<typeof taskSchema>;
-export type Message = z.infer<typeof messageSchema>;
 
 /* Type Predicates */
 export const isTask = (value: unknown): value is Task => {

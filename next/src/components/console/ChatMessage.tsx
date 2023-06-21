@@ -1,18 +1,17 @@
 import React from "react";
-import type { Message } from "../../types/agentTypes";
-import {
-  getTaskStatus,
-  isAction,
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_SYSTEM,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_FINAL,
-  TASK_STATUS_STARTED,
-} from "../../types/agentTypes";
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
 import MarkdownRenderer from "./MarkdownRenderer";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import {
+  getTaskStatus,
+  isAction,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
+  TASK_STATUS_STARTED,
+} from "../../types/task";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -42,7 +41,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       ) : (
         <>
-          <span>message.value</span>
+          <span>{message.value}</span>
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import PopIn from "../motions/popin";
 import FadeIn from "../motions/FadeIn";
-import { getTaskStatus, MESSAGE_TYPE_SYSTEM, TASK_STATUS_EXECUTING } from "../../types/agentTypes";
 import clsx from "clsx";
 import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
@@ -11,6 +10,8 @@ import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
 import { FaSpinner } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
+import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
+import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -85,7 +86,8 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "CREATE_AN_AGENT_DESCRIPTION",
+                  value:
+                    "👉 Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
                 }}
               />
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">

@@ -1,10 +1,10 @@
-import type { Message } from "../../types/agentTypes";
-import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
 import { isPlatformError, isValueError } from "../../types/errors";
 import { useMessageStore } from "../../stores";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
 
 export class MessageService {
   private isRunning: boolean;

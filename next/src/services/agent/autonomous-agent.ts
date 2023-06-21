@@ -1,6 +1,6 @@
 import type { Session } from "next-auth";
-import { v1, v4 } from "uuid";
-import type { Message, Task } from "../../types/agentTypes";
+import { v1 } from "uuid";
+import type { Message } from "../../types/message";
 import { AgentApi } from "./agent-api";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
@@ -8,6 +8,7 @@ import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
+import type { Task } from "../../types/task";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;

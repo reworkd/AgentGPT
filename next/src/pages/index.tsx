@@ -96,6 +96,7 @@ const Home: NextPage = () => {
     resetAllMessageSlices();
     resetAllTaskSlices();
     newAgent?.run().then(console.log).catch(console.error);
+    updateIsAgentStopped();
   };
 
   const handleKeyPress = (

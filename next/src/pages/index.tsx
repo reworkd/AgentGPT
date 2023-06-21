@@ -7,7 +7,6 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
-import type { Message } from "../types/message";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
@@ -23,8 +22,6 @@ import Input from "../components/Input";
 import clsx from "clsx";
 import Expand from "../components/motions/expand";
 import ChatWindow from "../components/console/ChatWindow";
-import type { GPTModelNames } from "../types";
-import { GPT_35_TURBO_16K, GPT_4 } from "../types";
 import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
@@ -32,14 +29,13 @@ import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
-import { isTask } from "../types/task";
+import { resetAllTaskSlices } from "../stores/taskStore";
+import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 
 const Home: NextPage = () => {
   const { t } = useTranslation();
-  // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
-  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
   const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
@@ -57,50 +53,20 @@ const Home: NextPage = () => {
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
-  const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
-
-  useEffect(() => {
-    const key = "agentgpt-modal-opened-v0.2";
-    const savedModalData = localStorage.getItem(key);
-
-    setTimeout(() => {
-      if (savedModalData == null) {
-        setShowHelpDialog(true);
-      }
-    }, 1800);
-
-    localStorage.setItem(key, JSON.stringify(true));
-  }, []);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     nameInputRef?.current?.focus();
   }, []);
 
-  useEffect(() => {
-    updateIsAgentStopped();
-  }, [agent, updateIsAgentStopped]);
-
   const setAgentRun = (newName: string, newGoal: string) => {
-    if (agent != null) {
-      return;
-    }
-
     setNameInput(newName);
     setGoalInput(newGoal);
     handleNewGoal(newName, newGoal);
-  };
-
-  const handleAddMessage = (message: Message) => {
-    if (isTask(message)) {
-      updateTaskStatus(message);
-    }
-
-    addMessage(message);
   };
 
   const disableDeployAgent =
@@ -111,14 +77,13 @@ const Home: NextPage = () => {
       return;
     }
 
-    // Do not force login locally for people that don't have auth setup
     if (session === null) {
       setShowSignInDialog(true);
       return;
     }
 
     const model = new DefaultAgentRunModel(name.trim(), goal.trim());
-    const messageService = new MessageService(handleAddMessage);
+    const messageService = new MessageService(addMessage);
     const newAgent = new AutonomousAgent(
       model,
       messageService,
@@ -129,7 +94,9 @@ const Home: NextPage = () => {
     setAgent(newAgent);
     setHasSaved(false);
     resetAllMessageSlices();
+    resetAllTaskSlices();
     newAgent?.run().then(console.log).catch(console.error);
+    updateIsAgentStopped();
   };
 
   const handleKeyPress = (
@@ -173,7 +140,7 @@ const Home: NextPage = () => {
 
   return (
     <SidebarLayout>
-      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
+      <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
@@ -332,33 +299,6 @@ const Home: NextPage = () => {
         </div>
       </div>
     </SidebarLayout>
-  );
-};
-
-export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
-  if (model === GPT_4) {
-    return (
-      <>
-        Agent<span className="text-amber-500">GPT-4</span>
-      </>
-    );
-  }
-
-  if (model === GPT_35_TURBO_16K) {
-    return (
-      <>
-        Agent
-        <span className="text-neutral-400">
-          GPT-3.5<span className="text-amber-500">-16K</span>
-        </span>
-      </>
-    );
-  }
-
-  return (
-    <>
-      Agent<span className="text-neutral-400">GPT-3.5</span>
-    </>
   );
 };
 

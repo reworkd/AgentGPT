@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
-import { useMessageStore } from "../../stores";
-import type { Task } from "../../types/task";
+import type { Task, TaskStatus } from "../../types/task";
+import { useTaskStore } from "../../stores/taskStore";
 
 export interface AgentRunModel {
   getName(): string;
@@ -11,21 +11,27 @@ export interface AgentRunModel {
 
   getRemainingTasks(): Task[];
 
+  getCurrentTask(): Task | undefined;
+
+  updateTaskStatus(task: Task, status: TaskStatus): Task;
+
   getCompletedTasks(): string[];
 
-  addCompletedTask(taskValue: string): void;
+  addTask(taskValue: string): void;
 }
 
 export class DefaultAgentRunModel implements AgentRunModel {
   id: string;
   name: string;
   goal: string;
+  tasks: string[];
   completedTasks: string[];
 
   constructor(name: string, goal: string) {
     this.id = v4().toString();
     this.name = name;
     this.goal = goal;
+    this.tasks = [];
     this.completedTasks = [];
   }
 
@@ -35,10 +41,31 @@ export class DefaultAgentRunModel implements AgentRunModel {
   getId = () => this.id;
 
   getRemainingTasks = (): Task[] => {
-    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
+    return useTaskStore.getState().tasks.filter((t: Task) => t.status === "started");
   };
 
-  getCompletedTasks = (): string[] => this.completedTasks;
+  getCurrentTask = (): Task | undefined => this.getRemainingTasks()[0];
 
-  addCompletedTask = (taskValue: string) => this.completedTasks.push(taskValue);
+  getCompletedTasks = (): string[] =>
+    useTaskStore
+      .getState()
+      .tasks.filter((t: Task) => t.status === "completed")
+      .map((t: Task) => t.value);
+
+  addTask = (taskValue: string) =>
+    useTaskStore.getState().addTask({
+      taskId: v4().toString(),
+      type: "task",
+      value: taskValue,
+      status: "started",
+    });
+
+  updateTaskStatus(task: Task, status: TaskStatus): Task {
+    const updatedTask = {
+      ...task,
+      status,
+    };
+    useTaskStore.getState().updateTask(updatedTask);
+    return updatedTask;
+  }
 }

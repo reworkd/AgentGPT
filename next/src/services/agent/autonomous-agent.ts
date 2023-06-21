@@ -8,7 +8,6 @@ import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
-import type { Task } from "../../types/task";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
@@ -76,7 +75,8 @@ class AutonomousAgent {
       return;
     }
 
-    if (this.model.getRemainingTasks().length === 0) {
+    let currentTask = this.model.getCurrentTask();
+    if (currentTask === undefined) {
       this.messageService.sendCompletedMessage();
       this.stopAgent();
       return;
@@ -84,11 +84,7 @@ class AutonomousAgent {
 
     // Wait before starting TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-
-    // Start with first task
-    const currentTask = this.model.getRemainingTasks()[0] as Task;
-
-    this.messageService.sendMessage({ ...currentTask, status: "executing" });
+    currentTask = this.model.updateTaskStatus(currentTask, "executing");
 
     // Analyze how to execute a task: Reason, web search, other tools...
 
@@ -136,7 +132,7 @@ class AutonomousAgent {
       () => !this.isRunning
     );
 
-    this.model.addCompletedTask(currentTask.value || "");
+    this.model.updateTaskStatus(currentTask, "completed");
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -187,12 +183,8 @@ class AutonomousAgent {
 
   private async createTasks(tasks: string[]) {
     for (const value of tasks) {
-      this.messageService.sendMessage({
-        taskId: v1().toString(),
-        value,
-        status: "started",
-        type: "task",
-      });
+      this.messageService.startTask(value);
+      this.model.addTask(value);
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
   }

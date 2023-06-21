@@ -1,4 +1,5 @@
 import type { StateCreator } from "zustand";
+import { create } from "zustand";
 import type { Message } from "../types/message";
 import type { Task } from "../types/task";
 import {
@@ -7,6 +8,7 @@ import {
   TASK_STATUS_EXECUTING,
   TASK_STATUS_FINAL,
 } from "../types/task";
+import { createSelectors } from "./helpers";
 
 export const isExistingTask = (message: Message): boolean =>
   isTask(message) &&
@@ -22,14 +24,23 @@ const initialTaskState = {
 
 export interface TaskSlice {
   tasks: Task[];
-  updateTaskStatus: (updatedTask: Task) => void;
+  addTask: (newTask: Task) => void;
+  updateTask: (updatedTask: Task) => void;
+  deleteTask: (taskId: string) => void;
 }
 
 export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set) => {
   resetters.push(() => set(initialTaskState));
+
   return {
     ...initialTaskState,
-    updateTaskStatus: (updatedTask) => {
+    addTask: (newTask) => {
+      set((state) => ({
+        ...state,
+        tasks: [...state.tasks, { ...newTask }],
+      }));
+    },
+    updateTask: (updatedTask) => {
       const { taskId, info, status: newStatus } = updatedTask;
 
       if (!isExistingTask(updatedTask) || taskId === undefined) {
@@ -54,5 +65,19 @@ export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set)
         };
       });
     },
+    deleteTask: (taskId) => {
+      set((state) => ({
+        ...state,
+        tasks: state.tasks.filter((task) => task.taskId !== taskId),
+      }));
+    },
   };
 };
+
+export const useTaskStore = createSelectors(
+  create<TaskSlice>()((...a) => ({
+    ...createTaskSlice(...a),
+  }))
+);
+
+export const resetAllTaskSlices = () => resetters.forEach((resetter) => resetter());

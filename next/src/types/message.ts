@@ -29,3 +29,14 @@ export const nonTaskScehma = z
 export const messageSchema = z.union([taskSchema, nonTaskScehma]);
 
 export type Message = z.infer<typeof messageSchema>;
+
+/*
+ * Ideal message type
+ * {
+ *  icon: IconType,
+ *  title: string,
+ *  subtitle: string, // Optional
+ *  value: string, // Markdown formatted value
+ *  color: string, // Classname used for the border
+ * }
+ */

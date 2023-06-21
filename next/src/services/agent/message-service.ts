@@ -5,6 +5,7 @@ import { isPlatformError, isValueError } from "../../types/errors";
 import { useMessageStore } from "../../stores";
 import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import { v1 } from "uuid";
 
 export class MessageService {
   private isRunning: boolean;
@@ -29,6 +30,15 @@ export class MessageService {
     if (this.isRunning) {
       useMessageStore.getState().updateMessage(message);
     }
+  }
+
+  startTask(task: string) {
+    this.renderMessage({
+      taskId: v1().toString(),
+      value: task,
+      status: "started",
+      type: "task",
+    });
   }
 
   sendGoalMessage(goal: string) {
@@ -74,9 +84,7 @@ export class MessageService {
     let message = "An unknown error occurred. Please try again later.";
 
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e) && !e.response) {
-      message = "Unable to connect to the Python backend. Please make sure its running.";
-    } else if (axios.isAxiosError(e)) {
+    else if (axios.isAxiosError(e)) {
       const data = (e.response?.data as object) || {};
       switch (e.response?.status) {
         case 409:

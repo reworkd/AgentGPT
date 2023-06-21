@@ -84,9 +84,7 @@ export class MessageService {
     let message = "An unknown error occurred. Please try again later.";
 
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e) && !e.response) {
-      message = "Unable to connect to the Python backend. Please make sure its running.";
-    } else if (axios.isAxiosError(e)) {
+    else if (axios.isAxiosError(e)) {
       const data = (e.response?.data as object) || {};
       switch (e.response?.status) {
         case 409:

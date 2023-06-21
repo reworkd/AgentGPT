@@ -2,7 +2,7 @@ import React from "react";
 import FadeIn from "./motions/FadeIn";
 import Expand from "./motions/expand";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useAgentStore, useMessageStore } from "../stores";
+import { useAgentStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
@@ -21,7 +21,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
   const tasks = useTaskStore.use.tasks();
-  const addMessage = useMessageStore.use.addMessage();
+  const addMessage = useTaskStore.use.addTask();
   const [t] = useTranslation();
 
   const handleAddTask = () => {
@@ -81,7 +81,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 
 const Task = ({ task, index }: { task: Task; index: number }) => {
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const deleteTask = useMessageStore.use.deleteTask();
+  const deleteTask = useTaskStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
 
   const handleDeleteTask = () => {

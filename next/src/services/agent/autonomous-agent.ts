@@ -187,12 +187,8 @@ class AutonomousAgent {
 
   private async createTasks(tasks: string[]) {
     for (const value of tasks) {
-      this.messageService.sendMessage({
-        taskId: v1().toString(),
-        value,
-        status: "started",
-        type: "task",
-      });
+      this.messageService.startTask(value);
+      this.model.addTask(value);
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
   }

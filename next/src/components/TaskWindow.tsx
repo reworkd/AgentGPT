@@ -21,11 +21,11 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
   const tasks = useTaskStore.use.tasks();
-  const addMessage = useTaskStore.use.addTask();
+  const addTask = useTaskStore.use.addTask();
   const [t] = useTranslation();
 
   const handleAddTask = () => {
-    addMessage({
+    addTask({
       id: v1().toString(),
       taskId: v1().toString(),
       value: customTask,

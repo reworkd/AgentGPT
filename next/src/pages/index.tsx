@@ -22,8 +22,6 @@ import Input from "../components/Input";
 import clsx from "clsx";
 import Expand from "../components/motions/expand";
 import ChatWindow from "../components/console/ChatWindow";
-import type { GPTModelNames } from "../types";
-import { GPT_35_TURBO_16K, GPT_4 } from "../types";
 import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
@@ -32,6 +30,7 @@ import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
 import { resetAllTaskSlices } from "../stores/taskStore";
+import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 
 const Home: NextPage = () => {
   const { t } = useTranslation();
@@ -299,33 +298,6 @@ const Home: NextPage = () => {
         </div>
       </div>
     </SidebarLayout>
-  );
-};
-
-export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
-  if (model === GPT_4) {
-    return (
-      <>
-        Agent<span className="text-amber-500">GPT-4</span>
-      </>
-    );
-  }
-
-  if (model === GPT_35_TURBO_16K) {
-    return (
-      <>
-        Agent
-        <span className="text-neutral-400">
-          GPT-3.5<span className="text-amber-500">-16K</span>
-        </span>
-      </>
-    );
-  }
-
-  return (
-    <>
-      Agent<span className="text-neutral-400">GPT-3.5</span>
-    </>
   );
 };
 

@@ -42,7 +42,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       ) : (
         <>
-          <span>{t(message.value, { ns: "chat" })}</span>
+          <span>message.value</span>
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&
@@ -54,6 +54,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     </div>
   );
 };
+
 // Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
@@ -67,6 +68,7 @@ const getMessagePrefix = (message: Message) => {
   }
   return "";
 };
+
 const FAQ = () => {
   return (
     <p>

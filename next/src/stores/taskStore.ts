@@ -25,7 +25,7 @@ const initialTaskState = {
 export interface TaskSlice {
   tasks: Task[];
   addTask: (newTask: Task) => void;
-  updateTaskStatus: (updatedTask: Task) => void;
+  updateTask: (updatedTask: Task) => void;
   deleteTask: (taskId: string) => void;
 }
 
@@ -40,7 +40,7 @@ export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set)
         tasks: [...state.tasks, { ...newTask }],
       }));
     },
-    updateTaskStatus: (updatedTask) => {
+    updateTask: (updatedTask) => {
       const { taskId, info, status: newStatus } = updatedTask;
 
       if (!isExistingTask(updatedTask) || taskId === undefined) {

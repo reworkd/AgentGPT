@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import type { Task } from "../../types/task";
+import type { Task, TaskStatus } from "../../types/task";
 import { useTaskStore } from "../../stores/taskStore";
 
 export interface AgentRunModel {
@@ -13,11 +13,11 @@ export interface AgentRunModel {
 
   getCurrentTask(): Task | undefined;
 
+  updateTaskStatus(task: Task, status: TaskStatus): Task;
+
   getCompletedTasks(): string[];
 
   addTask(taskValue: string): void;
-
-  addCompletedTask(taskValue: string): void;
 }
 
 export class DefaultAgentRunModel implements AgentRunModel {
@@ -46,7 +46,11 @@ export class DefaultAgentRunModel implements AgentRunModel {
 
   getCurrentTask = (): Task | undefined => this.getRemainingTasks()[0];
 
-  getCompletedTasks = (): string[] => this.completedTasks;
+  getCompletedTasks = (): string[] =>
+    useTaskStore
+      .getState()
+      .tasks.filter((t: Task) => t.status === "completed")
+      .map((t: Task) => t.value);
 
   addTask = (taskValue: string) =>
     useTaskStore.getState().addTask({
@@ -56,5 +60,12 @@ export class DefaultAgentRunModel implements AgentRunModel {
       status: "started",
     });
 
-  addCompletedTask = (taskValue: string) => this.completedTasks.push(taskValue);
+  updateTaskStatus(task: Task, status: TaskStatus): Task {
+    const updatedTask = {
+      ...task,
+      status,
+    };
+    useTaskStore.getState().updateTask(updatedTask);
+    return updatedTask;
+  }
 }

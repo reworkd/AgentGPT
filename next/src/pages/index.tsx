@@ -32,6 +32,7 @@ import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
+import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
 
 const Home: NextPage = () => {
   const { i18n } = useTranslation();
@@ -116,11 +117,10 @@ const Home: NextPage = () => {
       return;
     }
 
+    const model = new DefaultAgentRunModel(name.trim(), goal.trim());
     const messageService = new MessageService(handleAddMessage);
-
     const newAgent = new AutonomousAgent(
-      name.trim(),
-      goal.trim(),
+      model,
       messageService,
       () => setAgent(null),
       settings,

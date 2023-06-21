@@ -26,7 +26,7 @@ export function useSettings(): SettingsModel {
   // Handle langauge setting changes
   useEffect(() => {
     const handleLanguageChange = async (language: Language): Promise<void> => {
-      if (!i18n || router.locale == modelSettings.language.code) {
+      if (!i18n || router.locale === modelSettings.language.code) {
         return;
       }
 

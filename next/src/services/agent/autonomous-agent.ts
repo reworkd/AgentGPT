@@ -1,49 +1,43 @@
 import type { Session } from "next-auth";
 import { v1, v4 } from "uuid";
 import type { Message, Task } from "../../types/agentTypes";
-import { useMessageStore } from "../../stores";
 import { AgentApi } from "./agent-api";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
+import type { AgentRunModel } from "./agent-run-model";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
 
 class AutonomousAgent {
-  name: string;
-  goal: string;
-  completedTasks: string[] = [];
+  model: AgentRunModel;
   modelSettings: ModelSettings;
   isRunning = false;
   shutdown: () => void;
   session?: Session;
-  _id: string;
   messageService: MessageService;
   $api: AgentApi;
 
   constructor(
-    name: string,
-    goal: string,
+    model: AgentRunModel,
     messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
     session?: Session
   ) {
-    this.name = name;
-    this.goal = goal;
+    this.model = model;
     this.messageService = messageService;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-    this._id = v4();
 
     this.$api = new AgentApi(
       {
         model_settings: toApiModelSettings(modelSettings),
-        goal,
+        goal: this.model.getGoal(),
         session,
       },
       this.onApiError
@@ -60,7 +54,7 @@ class AutonomousAgent {
   }
 
   async startGoal() {
-    this.messageService.sendGoalMessage(this.goal);
+    this.messageService.sendGoalMessage(this.model.getGoal());
 
     // Initialize by getting taskValues
     try {
@@ -81,7 +75,7 @@ class AutonomousAgent {
       return;
     }
 
-    if (this.getRemainingTasks().length === 0) {
+    if (this.model.getRemainingTasks().length === 0) {
       this.messageService.sendCompletedMessage();
       this.stopAgent();
       return;
@@ -91,7 +85,7 @@ class AutonomousAgent {
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
 
     // Start with first task
-    const currentTask = this.getRemainingTasks()[0] as Task;
+    const currentTask = this.model.getRemainingTasks()[0] as Task;
 
     this.messageService.sendMessage({ ...currentTask, status: "executing" });
 
@@ -122,7 +116,7 @@ class AutonomousAgent {
       "/api/agent/execute",
       {
         run_id: this.$api.runId,
-        goal: this.goal,
+        goal: this.model.getGoal(),
         task: currentTask.value,
         analysis: analysis,
         model_settings: toApiModelSettings(this.modelSettings),
@@ -141,7 +135,7 @@ class AutonomousAgent {
       () => !this.isRunning
     );
 
-    this.completedTasks.push(currentTask.value || "");
+    this.model.addCompletedTask(currentTask.value || "");
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -151,8 +145,8 @@ class AutonomousAgent {
       const newTasks = await this.$api.getAdditionalTasks(
         {
           current: currentTask.value,
-          remaining: this.getRemainingTasks().map((task) => task.value),
-          completed: this.completedTasks,
+          remaining: this.model.getRemainingTasks().map((task) => task.value),
+          completed: this.model.getCompletedTasks(),
         },
         executionMessage.info || ""
       );
@@ -167,10 +161,6 @@ class AutonomousAgent {
     }
 
     await this.loop();
-  }
-
-  getRemainingTasks(): Task[] {
-    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
   }
 
   updateIsRunning(isRunning: boolean) {
@@ -191,7 +181,6 @@ class AutonomousAgent {
 
   private onApiError = (e: unknown) => {
     // TODO: handle retries here
-    this.shutdown();
     throw e;
   };
 

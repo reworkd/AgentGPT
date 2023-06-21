@@ -11,6 +11,7 @@ import Button from "./Button";
 import { v1 } from "uuid";
 import { AnimatePresence } from "framer-motion";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/task";
+import { useTaskStore } from "../stores/taskStore";
 
 export interface TaskWindowProps {
   visibleOnMobile?: boolean;
@@ -19,7 +20,7 @@ export interface TaskWindowProps {
 export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
-  const tasks = useMessageStore.use.tasks();
+  const tasks = useTaskStore.use.tasks();
   const addMessage = useMessageStore.use.addMessage();
   const [t] = useTranslation();
 

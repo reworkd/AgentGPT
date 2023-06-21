@@ -2,8 +2,6 @@ import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import type { Message } from "../types/message";
-import type { TaskSlice } from "./taskStore";
-import { createTaskSlice } from "./taskStore";
 
 const resetters: (() => void)[] = [];
 
@@ -17,7 +15,7 @@ interface MessageSlice {
   updateMessage: (newMessage: Message) => void;
 }
 
-const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], MessageSlice> = (set) => {
+const createMessageSlice: StateCreator<MessageSlice, [], [], MessageSlice> = (set) => {
   resetters.push(() => set(initialMessageState));
   return {
     ...initialMessageState,
@@ -47,9 +45,8 @@ const createMessageSlice: StateCreator<MessageSlice & TaskSlice, [], [], Message
 };
 
 export const useMessageStore = createSelectors(
-  create<MessageSlice & TaskSlice>()((...a) => ({
+  create<MessageSlice>()((...a) => ({
     ...createMessageSlice(...a),
-    ...createTaskSlice(...a),
   }))
 );
 

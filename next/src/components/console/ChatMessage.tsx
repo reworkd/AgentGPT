@@ -42,7 +42,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         </>
       ) : (
         <>
-          <span>message.value</span>
+          <span>{message.value}</span>
           {
             // Link to the FAQ if it is a shutdown message
             message.type == MESSAGE_TYPE_SYSTEM &&

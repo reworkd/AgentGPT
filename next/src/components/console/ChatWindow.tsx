@@ -85,7 +85,8 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "CREATE_AN_AGENT_DESCRIPTION",
+                  value:
+                    "👉 Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
                 }}
               />
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">

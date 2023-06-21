@@ -39,11 +39,9 @@ const SettingsPage = () => {
   return (
     <SidebarLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-10 lg:p-16">
-        <div className="rounded-xl border-2 border-white/20 bg-neutral-900 dark:bg-neutral-800">
+        <div className="rounded-xl border-2 border-white/20 bg-neutral-900">
           <div className="border-b-2 border-white/20 p-3 sm:p-5">
-            <h1 className="light:text-black text-3xl font-bold dark:text-white md:text-4xl">
-              Settings ⚙
-            </h1>
+            <h1 className="text-3xl font-bold dark:text-white md:text-4xl">Settings ⚙</h1>
           </div>
           <div className="p-3 sm:p-5">
             <div className="flex flex-col gap-3">
@@ -77,9 +75,7 @@ const SettingsPage = () => {
             </div>
             {showAdvancedSettings && (
               <div className="flex flex-col gap-3">
-                <h1 className="light:text-black mt-6 text-xl font-bold dark:text-white">
-                  Advanced Settings
-                </h1>
+                <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
                 <Combo<LLMModel>
                   label="Model"
                   value={model}

@@ -7,7 +7,6 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
-import type { Message } from "../types/message";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
@@ -32,14 +31,13 @@ import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
-import { isTask } from "../types/task";
+import { resetAllTaskSlices } from "../stores/taskStore";
 
 const Home: NextPage = () => {
   const { t } = useTranslation();
   // Zustand states with state dependencies
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
-  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
   const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
@@ -86,21 +84,9 @@ const Home: NextPage = () => {
   }, [agent, updateIsAgentStopped]);
 
   const setAgentRun = (newName: string, newGoal: string) => {
-    if (agent != null) {
-      return;
-    }
-
     setNameInput(newName);
     setGoalInput(newGoal);
     handleNewGoal(newName, newGoal);
-  };
-
-  const handleAddMessage = (message: Message) => {
-    if (isTask(message)) {
-      updateTaskStatus(message);
-    }
-
-    addMessage(message);
   };
 
   const disableDeployAgent =
@@ -111,14 +97,13 @@ const Home: NextPage = () => {
       return;
     }
 
-    // Do not force login locally for people that don't have auth setup
     if (session === null) {
       setShowSignInDialog(true);
       return;
     }
 
     const model = new DefaultAgentRunModel(name.trim(), goal.trim());
-    const messageService = new MessageService(handleAddMessage);
+    const messageService = new MessageService(addMessage);
     const newAgent = new AutonomousAgent(
       model,
       messageService,
@@ -129,6 +114,7 @@ const Home: NextPage = () => {
     setAgent(newAgent);
     setHasSaved(false);
     resetAllMessageSlices();
+    resetAllTaskSlices();
     newAgent?.run().then(console.log).catch(console.error);
   };
 

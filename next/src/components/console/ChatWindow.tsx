@@ -85,7 +85,7 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
-                  value: "👉 " + t("CREATE_AN_AGENT_DESCRIPTION", { ns: "chat" }),
+                  value: "CREATE_AN_AGENT_DESCRIPTION",
                 }}
               />
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">

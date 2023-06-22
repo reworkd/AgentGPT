@@ -8,9 +8,10 @@ import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
+import type { Task } from "../../types/task";
 
 const TIMEOUT_LONG = 1000;
-const TIMOUT_SHORT = 800;
+const TIMOUT_SHORT = 150;
 
 class AutonomousAgent {
   model: AgentRunModel;
@@ -20,6 +21,8 @@ class AutonomousAgent {
   session?: Session;
   messageService: MessageService;
   $api: AgentApi;
+
+  private readonly workLog: AgentWork[];
 
   constructor(
     model: AgentRunModel,
@@ -33,7 +36,6 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-
     this.$api = new AgentApi(
       {
         model_settings: toApiModelSettings(modelSettings),
@@ -42,122 +44,161 @@ class AutonomousAgent {
       },
       this.onApiError
     );
+
+    this.workLog = [new this.startGoalWork(this)];
   }
 
   async run() {
-    if (!this.isRunning) {
-      this.updateIsRunning(true);
-      await this.startGoal();
+    this.setIsRunning(true);
+
+    while (this.workLog[0]) {
+      // No longer running, dip
+      if (!this.isRunning) return;
+
+      // Get and run the next work item
+      const work = this.workLog[0];
+      await work.run();
+      this.workLog.pop();
+
+      // Run conclusion of work item
+      if (this.isRunning) {
+        await work.conclude();
+      }
+
+      // Add next thing if available
+      const next = work.next();
+      if (next) {
+        this.workLog.push(next);
+        continue;
+      }
+
+      // No work items, check if we still have tasks
+      const currentTask = this.model.getCurrentTask();
+      if (currentTask) {
+        this.workLog.push(new this.analyzeTaskWork(this, currentTask));
+      }
     }
 
-    await this.loop();
+    // Done with everything in the log and all queued tasks
+    this.messageService.sendCompletedMessage();
+    this.stopAgent();
   }
 
-  async startGoal() {
-    this.messageService.sendGoalMessage(this.model.getGoal());
+  startGoalWork = class StartGoalWork implements AgentWork {
+    tasksValues: string[] = [];
 
-    // Initialize by getting taskValues
-    try {
-      const tasks = await this.$api.getInitialTasks();
-      await this.createTasks(tasks);
-    } catch (e) {
-      console.error(e);
-      this.messageService.sendErrorMessage(e);
-      this.messageService.sendErrorMessage("ERROR_RETRIEVE_INITIAL_TASKS");
-      this.stopAgent();
-      return;
-    }
-  }
+    constructor(private parent: AutonomousAgent) {}
 
-  async loop() {
-    if (!this.isRunning) {
-      this.stopAgent();
-      return;
-    }
-
-    let currentTask = this.model.getCurrentTask();
-    if (currentTask === undefined) {
-      this.messageService.sendCompletedMessage();
-      this.stopAgent();
-      return;
-    }
-
-    // Wait before starting TODO: think about removing this
-    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-    currentTask = this.model.updateTaskStatus(currentTask, "executing");
-
-    // Analyze how to execute a task: Reason, web search, other tools...
-
-    let analysis: Analysis;
-    try {
-      analysis = await this.$api.analyzeTask(currentTask.value);
-    } catch (e) {
-      console.error(e);
-      this.messageService.sendErrorMessage(e);
-      this.stopAgent();
-      return;
-    }
-
-    this.messageService.sendAnalysisMessage(analysis);
-
-    const executionMessage: Message = {
-      ...currentTask,
-      id: v1(),
-      status: "completed",
-      info: "Loading...",
+    run = async () => {
+      this.parent.messageService.sendGoalMessage(this.parent.model.getGoal());
+      this.tasksValues = await this.parent.$api.getInitialTasks();
     };
-    this.messageService.sendMessage({ ...executionMessage, status: "completed" });
 
-    // TODO: this should be moved to the api layer
-    await streamText(
-      "/api/agent/execute",
-      {
-        run_id: this.$api.runId,
-        goal: this.model.getGoal(),
-        task: currentTask.value,
-        analysis: analysis,
-        model_settings: toApiModelSettings(this.modelSettings),
-      },
-      this.$api.props.session?.accessToken || "",
-      () => {
-        executionMessage.info = "";
-      },
-      (text) => {
-        executionMessage.info += text;
-        this.messageService.updateMessage(executionMessage);
-      },
-      (error) => {
-        this.messageService.sendErrorMessage(error);
-      },
-      () => !this.isRunning
-    );
+    conclude = async () => {
+      await this.parent.createTasks(this.tasksValues);
+    };
 
-    this.model.updateTaskStatus(currentTask, "completed");
-    this.messageService.sendMessage({ ...currentTask, status: "final" });
+    next = () => undefined;
+  };
 
-    // Wait before adding tasks TODO: think about removing this
-    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
+  analyzeTaskWork = class AnalyzeTaskWork implements AgentWork {
+    analysis: Analysis | undefined = undefined;
 
-    // Add new tasks
-    try {
-      const newTasks = await this.$api.getAdditionalTasks(
+    constructor(private parent: AutonomousAgent, private task: Task) {}
+
+    run = async () => {
+      this.task = this.parent.model.updateTaskStatus(this.task, "executing");
+      this.analysis = await this.parent.$api.analyzeTask(this.task.value);
+    };
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    conclude = async () => {
+      if (!this.analysis) return;
+      this.parent.messageService.sendAnalysisMessage(this.analysis);
+    };
+
+    next = () => {
+      if (!this.analysis) return undefined;
+      return new this.parent.executeTaskWork(this.parent, this.task, this.analysis);
+    };
+  };
+
+  executeTaskWork = class ExecuteTaskWork implements AgentWork {
+    result = "";
+
+    constructor(private parent: AutonomousAgent, private task: Task, private analysis: Analysis) {}
+
+    run = async () => {
+      const executionMessage: Message = {
+        ...this.task,
+        id: v1(),
+        status: "completed",
+        info: "Loading...",
+      };
+      this.parent.messageService.sendMessage({ ...executionMessage, status: "completed" });
+
+      // TODO: this should be moved to the api layer
+      await streamText(
+        "/api/agent/execute",
         {
-          current: currentTask.value,
-          remaining: this.model.getRemainingTasks().map((task) => task.value),
-          completed: this.model.getCompletedTasks(),
+          run_id: this.parent.$api.runId,
+          goal: this.parent.model.getGoal(),
+          task: this.task.value,
+          analysis: this.analysis,
+          model_settings: toApiModelSettings(this.parent.modelSettings),
         },
-        executionMessage.info || ""
+        this.parent.$api.props.session?.accessToken || "",
+        () => {
+          executionMessage.info = "";
+        },
+        (text) => {
+          executionMessage.info += text;
+          this.parent.messageService.updateMessage(executionMessage);
+        },
+        (error) => {
+          this.parent.messageService.sendErrorMessage(error);
+        },
+        () => !this.parent.isRunning
       );
-      await this.createTasks(newTasks);
-    } catch (e) {
-      console.error(e);
-    }
+      this.result = executionMessage.info || "";
+    };
 
-    await this.loop();
-  }
+    // eslint-disable-next-line @typescript-eslint/require-await
+    conclude = async () => {
+      this.parent.model.updateTaskStatus(this.task, "completed");
+      this.parent.messageService.sendMessage({ ...this.task, status: "final" });
+    };
 
-  updateIsRunning(isRunning: boolean) {
-    this.messageService.setIsRunning(isRunning);
+    next = () => {
+      if (!this.result) return undefined;
+      return new this.parent.createTaskWork(this.parent, this.task, "");
+    };
+  };
+
+  createTaskWork = class CreateTaskWork implements AgentWork {
+    taskValues: string[] = [];
+
+    constructor(private parent: AutonomousAgent, private task: Task, private result: string) {}
+
+    run = async () => {
+      this.taskValues = await this.parent.$api.getAdditionalTasks(
+        {
+          current: this.task.value,
+          remaining: this.parent.model.getRemainingTasks().map((task) => task.value),
+          completed: this.parent.model.getCompletedTasks(),
+        },
+        this.result
+      );
+    };
+
+    conclude = async () => {
+      await this.parent.createTasks(this.taskValues);
+    };
+
+    next = () => undefined;
+  };
+
+  setIsRunning(isRunning: boolean) {
     this.isRunning = isRunning;
   }
 
@@ -167,7 +208,7 @@ class AutonomousAgent {
   }
 
   stopAgent() {
-    this.updateIsRunning(false);
+    this.setIsRunning(false);
     this.shutdown();
     return;
   }
@@ -184,6 +225,13 @@ class AutonomousAgent {
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
   }
+}
+
+interface AgentWork {
+  run: () => Promise<void>;
+  onError?: (e: unknown) => Promise<void>;
+  conclude: () => Promise<void>;
+  next: () => AgentWork | undefined;
 }
 
 export default AutonomousAgent;

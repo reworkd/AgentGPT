@@ -57,7 +57,7 @@ class AgentTaskAnalyze(AgentRun):
 
 class AgentTaskExecute(AgentRun):
     task: str
-    analysis: Analysis = None
+    analysis: Analysis
 
 
 class AgentTaskCreate(AgentRun):

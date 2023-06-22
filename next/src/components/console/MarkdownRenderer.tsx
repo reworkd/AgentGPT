@@ -15,8 +15,8 @@ const MarkdownRenderer = ({ children }) => {
       components={{
         pre: CustomPre,
         code: CustomCodeBlock,
-        h1: (props) => <h1 className="mb-2 text-xl font-black">{props.children}</h1>,
-        h2: (props) => <h1 className="text-md mb-2 font-bold">{props.children}</h1>,
+        h1: (props) => <h1 className="text-md mb-2 font-black sm:text-xl">{props.children}</h1>,
+        h2: (props) => <h1 className="sm:text-md mb-2 text-sm font-bold">{props.children}</h1>,
         a: (props) => CustomLink({ children: props.children, href: props.href }),
         p: (props) => <p className="mb-4">{props.children}</p>,
         ul: (props) => (

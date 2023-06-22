@@ -6,7 +6,7 @@ from replicate.exceptions import ReplicateError as ReplicateAPIError
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
-from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
+from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.errors import ReplicateError
 
@@ -50,12 +50,13 @@ async def get_open_ai_image(input_str: str) -> str:
 
 
 class Image(Tool):
-    description = (
-        "Used to sketch, draw, or generate an image. The input string "
-        "should be a detailed description of the image touching on image "
-        "style, image focus, color, etc"
-    )
+    description = "Used to sketch, draw, or generate an image."
     public_description = "Generate AI images."
+    arg_description = (
+        "The input prompt to the image generator. "
+        "This should be a detailed description of the image touching on image "
+        "style, image focus, color, etc."
+    )
 
     async def call(
         self, goal: str, task: str, input_str: str

@@ -1,17 +1,17 @@
 {
-  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Estamos experimentando un tráfico excepcional, espere retrasos y fallos si no utiliza su propia clave API 🚨",
-  "CREATE_AN_AGENT_DESCRIPTION": "¡Cree un agente agregando un nombre/objetivo y presionando desplegar!",
-  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 ¡Puede proporcionar su propia clave de API de OpenAI en la pestaña de configuración para aumentar los límites!",
-  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Ayude a apoyar el avance de AgentGPT. 💝️",
-  "CONSIDER_SPONSORING_ON_GITHUB": "Considere patrocinar el proyecto en GitHub.",
-  "SUPPORT_NOW": "Apoye ahora 🚀",
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 AgentGPT experimenta un tráfico excepcional. Si no estas usando tu propia clave del API, podrias notar retrasos y errores 🚨",
+  "CREATE_AN_AGENT_DESCRIPTION": "¡Crea un Agente agregando un nombre, objetivo y presionando 'Ejecutar Agente'! Puedes experimentar con estos ejemplos:",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 ¡Puedes proporcionar tu propia clave de API de OpenAI en la pestaña de configuración para evitar limitaciones!",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Apoya el progreso de AgentGPT. 💝️",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Considera patrocinar el proyecto en GitHub.",
+  "SUPPORT_NOW": "Apoyar ahora 🚀",
   "EMBARKING_ON_NEW_GOAL": "Embarcándose en un nuevo objetivo:",
   "THINKING": "Pensando...",
-  "TASK_ADDED": "Tarea añadida:",
+  "TASK_ADDED": "Tarea agregada:",
   "COMPLETING": "Completando:",
   "NO_MORE_TASKS": "No hay más sub-tareas para:",
   "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Texto copiado al portapapeles",
   "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "No se pudo copiar el texto al portapapeles",
   "RESTART_IF_IT_TAKES_X_SEC": "(Reiniciar si esto tarda más de 30 segundos)",
-  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 ¡Cree un agente agregando un nombre / objetivo y presionando implementar!"
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 ¡Crea un agente agregando un nombre, objetivo y presionando 'Ejecutar Agente'!"
 }

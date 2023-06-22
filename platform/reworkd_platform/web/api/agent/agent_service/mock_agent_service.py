@@ -6,7 +6,7 @@ from reworkd_platform.web.api.agent.agent_service.agent_service import (
     AgentService,
     Analysis,
 )
-from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
+from reworkd_platform.web.api.agent.stream_mock import stream_string
 
 
 class MockAgentService(AgentService):

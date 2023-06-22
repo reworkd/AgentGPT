@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
       allowDangerousEmailAccountLinking: true,
     }),
   ],
-  pages:{
-    signIn: '/signin',
-}
+  pages: {
+    signIn: "/signin",
+  },
 };

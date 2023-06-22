@@ -13,18 +13,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function NavLayout({
-  children,
-  style,
-}: {
-  children: ReactNode;
-  style?: React.CSSProperties;
-}) {
+export default function NavLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="h-screen w-screen" style={style}>
+    <>
       <Disclosure
         as="nav"
-        className="fixed top-0 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-xl"
+        className="fixed top-0 z-50 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-xl"
       >
         {({ open }) => (
           <>
@@ -87,7 +81,7 @@ export default function NavLayout({
         )}
       </Disclosure>
 
-      <main className="h-full w-full bg-black/20 px-3 md:px-6">{children}</main>
-    </div>
+      <main className="min-w-screen min-h-screen">{children}</main>
+    </>
   );
 }

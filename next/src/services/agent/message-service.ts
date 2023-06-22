@@ -8,28 +8,18 @@ import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import { v1 } from "uuid";
 
 export class MessageService {
-  private isRunning: boolean;
   private readonly renderMessage: (message: Message) => void;
 
   constructor(renderMessage: (message: Message) => void) {
-    this.isRunning = false;
     this.renderMessage = renderMessage;
   }
 
-  setIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
   sendMessage(message: Message) {
-    if (this.isRunning) {
-      this.renderMessage({ ...message });
-    }
+    this.renderMessage({ ...message });
   }
 
   updateMessage(message: Message) {
-    if (this.isRunning) {
-      useMessageStore.getState().updateMessage(message);
-    }
+    useMessageStore.getState().updateMessage(message);
   }
 
   startTask(task: string) {

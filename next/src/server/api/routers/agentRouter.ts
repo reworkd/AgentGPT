@@ -2,7 +2,8 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { prisma } from "../../db";
-import { MESSAGE_TYPE_TASK, messageSchema } from "../../../types/agentTypes";
+import { messageSchema } from "../../../types/message";
+import { MESSAGE_TYPE_TASK } from "../../../types/task";
 
 const saveAgentParser = z.object({
   name: z.string(),

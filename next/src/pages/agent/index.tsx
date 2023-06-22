@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "../../utils/api";
 import ChatWindow from "../../components/console/ChatWindow";
-import type { Message } from "../../types/agentTypes";
+import type { Message } from "../../types/message";
 import Toast from "../../components/toast";
 import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";
@@ -42,15 +42,9 @@ const AgentPage: NextPage = () => {
     <SidebarLayout>
       <div
         id="content"
-        className="flex min-h-screen w-full flex-col items-center justify-center gap-4"
+        className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
-        <ChatWindow
-          messages={messages.filter((m) => m.type !== "thinking")}
-          title={getAgent?.data?.name}
-          className="my-5 flex w-[90%] flex-1"
-          fullscreen
-          visibleOnMobile
-        />
+        <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile />
         <div className="flex flex-row gap-2">
           <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
             Back
@@ -89,7 +83,7 @@ const AgentPage: NextPage = () => {
 
 export default AgentPage;
 
-export const getStaticProps: GetStaticProps = async({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

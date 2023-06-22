@@ -1,17 +1,20 @@
 from abc import ABC, abstractmethod
 
 from lanarky.responses import StreamingResponse
-
-from reworkd_platform.schemas import ModelSettings
+from langchain.chat_models.base import BaseChatModel
 
 
 class Tool(ABC):
     description: str = ""
     public_description: str = ""
-    model_settings: ModelSettings
+    arg_description: str = "The argument to the function."
 
-    def __init__(self, model_settings: ModelSettings):
-        self.model_settings = model_settings
+    model: BaseChatModel
+    language: str
+
+    def __init__(self, model: BaseChatModel, language: str):
+        self.model = model
+        self.language = language
 
     @staticmethod
     def available() -> bool:

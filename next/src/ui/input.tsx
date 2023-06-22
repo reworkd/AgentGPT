@@ -9,7 +9,7 @@ interface Props {
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   attributes?: { [key: string]: string | number | string[] };
-  helpText?: string | null;
+  helpText?: string | React.ReactNode;
   placeholder?: string;
   icon?: React.ReactNode;
 }
@@ -27,7 +27,7 @@ const Input = ({ ...props }: Props) => {
           <span className="text-xs font-thin text-gray-300 lg:text-sm">({props.value})</span>
         )}
       </label>
-      <div className="relative rounded-md shadow-sm">
+      <div className="relative flex flex-col gap-1 rounded-md shadow-sm">
         {props.helpText && (
           <p
             className="text-xs font-thin text-gray-500 dark:text-gray-400 lg:text-sm"
@@ -40,7 +40,7 @@ const Input = ({ ...props }: Props) => {
           type={props.type}
           name={props.name}
           id={props.name}
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:border-transparent sm:text-sm sm:leading-6"
+          className="block w-full rounded-md border-0 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:border-transparent sm:text-sm sm:leading-6"
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}

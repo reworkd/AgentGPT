@@ -10,25 +10,30 @@ const fetchData = async (
   onError: (message: unknown) => void
 ): Promise<TextStream | undefined> => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
-  const response = await fetch(url, {
-    method: "POST",
-    cache: "no-cache",
-    keepalive: true,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "text/event-stream",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(body),
-  });
 
-  if (response.status === 409) {
-    // TODO: Return the entire object
-    const error = (await response.json()) as { error: string; detail: string };
-    onError(error.detail);
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      cache: "no-cache",
+      keepalive: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "text/event-stream",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (response.status === 409) {
+      // TODO: Return the entire object
+      const error = (await response.json()) as { error: string; detail: string };
+      onError(error.detail);
+    }
+
+    return response.body?.getReader();
+  } catch (error) {
+    onError(error);
   }
-
-  return response.body?.getReader();
 };
 
 async function readStream(reader: TextStream): Promise<string | null> {

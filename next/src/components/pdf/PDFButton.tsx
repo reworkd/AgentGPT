@@ -2,9 +2,10 @@ import React, { memo } from "react";
 import { pdf } from "@react-pdf/renderer";
 import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
-import type { Message } from "../../types/agentTypes";
-import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_TASK } from "../../types/agentTypes";
 import { i18n } from "next-i18next";
+import type { Message} from "../../types/message";
+import { MESSAGE_TYPE_GOAL } from "../../types/message";
+import { MESSAGE_TYPE_TASK } from "../../types/task";
 
 const PDFButton = ({ messages, name }: { messages: Message[]; name: string }) => {
   const textSections = getTextSections(messages);

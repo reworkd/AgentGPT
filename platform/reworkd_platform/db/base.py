@@ -1,7 +1,7 @@
 import uuid
 from typing import Optional, Type, TypeVar
 
-from sqlalchemy import Column, String, func
+from sqlalchemy import Column, DateTime, String, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
@@ -30,7 +30,7 @@ class TrackedModel(Base):
     __abstract__ = True
 
     create_date = Column(
-        String, name="create_date", server_default=func.now(), nullable=False
+        DateTime, name="create_date", server_default=func.now(), nullable=False
     )
 
     @classmethod

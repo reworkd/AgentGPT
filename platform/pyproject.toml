@@ -25,7 +25,7 @@ sentry-sdk = "^1.25.0"
 loguru = "^0.7.0"
 aiokafka = "^0.8.1"
 requests = "2.28.0"
-langchain = "^0.0.194"
+langchain = "^0.0.199"
 openai = "^0.27.7"
 wikipedia = "^1.4.0"
 replicate = "^0.8.3"
@@ -35,7 +35,7 @@ tiktoken = "^0.4.0"
 numpy = "^1.24.3"
 vecs = "^0.2.6"
 grpcio = "^1.54.2"
-pinecone-client = {version = "^2.2.2", extras = ["grpc"]}
+pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
 
 
 [tool.poetry.dev-dependencies]

@@ -1,0 +1,17 @@
+{
+  "EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Kivételesen nagy forgalmat tapasztalunk, várható késések és hibák, ha nem a saját API-kulcsát használja 🚨",
+  "CREATE_AN_AGENT_DESCRIPTION": "Hozzon létre egy ügynököt a név és a cél hozzáadásával, majd kattintson az \"Ügynök indítása!\" gombra",
+  "YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Saját OpenAI API-kulcsot adhat meg a beállítások fülön az emelt korlátok érdekében!",
+  "HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Segítse az AgentGPT fejlesztését. 💝️",
+  "CONSIDER_SPONSORING_ON_GITHUB": "Támogasson a projektet a GitHub-on keresztül.",
+  "SUPPORT_NOW": "Támogatás most 🚀",
+  "EMBARKING_ON_NEW_GOAL": "Új cél elérése:",
+  "THINKING": "Gondolkodás...",
+  "TASK_ADDED": "Feladat hozzáadva:",
+  "COMPLETING": "Befejezés:",
+  "NO_MORE_TASKS": "Nincsenek további alfeladatok ehhez:",
+  "CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Szöveg másolva a vágólapra",
+  "CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nem sikerült a szöveg vágólapra másolása",
+  "RESTART_IF_IT_TAKES_X_SEC": "(Frissítse az oldalt vagy indítsa újra az ügynököt manuálisan, ha ez több mint 30 másodpercig tart)",
+  "👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Hozzon létre egy ügynököt név/cél hozzáadásával, és a telepítés gombra kattintva!"
+}

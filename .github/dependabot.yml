@@ -4,6 +4,16 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: /
+    directory: /cli
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: npm
+    directory: /next
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: pip
+    directory: /platform
     schedule:
       interval: weekly

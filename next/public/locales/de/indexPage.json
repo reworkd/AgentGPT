@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Stellen Sie autonome KI-Agenten in Ihrem Browser zusammen, konfigurieren Sie sie und installieren Sie sie.",
+  "AGENT_NAME": "Name",
+  "LABEL_AGENT_GOAL": "Ziel",
+  "PLACEHOLDER_AGENT_GOAL": "Machen Sie die Welt zu einem besseren Ort",
+  "BUTTON_DEPLOY_AGENT": "Agent ausführen",
+  "BUTTON_STOP_AGENT": "Agent stoppen"
+}

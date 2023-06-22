@@ -1,0 +1,31 @@
+{
+  "name": "agentgpt-cli",
+  "version": "1.0.0",
+  "description": "A CLI to create your AgentGPT environment",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0 <19.0.0"
+  },
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "author": "reworkd",
+  "dependencies": {
+    "@octokit/auth-basic": "^1.4.8",
+    "@octokit/rest": "^19.0.11",
+    "chalk": "^5.2.0",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^6.0.0",
+    "dotenv": "^16.3.1",
+    "figlet": "^1.6.0",
+    "inquirer": "^9.2.7",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
+    "simple-git": "^3.19.0",
+    "touch": "^3.1.0"
+  }
+}

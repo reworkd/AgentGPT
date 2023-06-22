@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Ensambla, configura y ejecuta agentes de IA autónomos en tu navegador.",
+  "AGENT_NAME": "Nombre",
+  "LABEL_AGENT_GOAL": "Objetivo",
+  "PLACEHOLDER_AGENT_GOAL": "Hacer del mundo un lugar mejor",
+  "BUTTON_DEPLOY_AGENT": "Ejecutar Agente",
+  "BUTTON_STOP_AGENT": "Detener Agente"
+}

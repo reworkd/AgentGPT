@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "BŁĄD podczas łączenia się z kluczem API OpenAI. Proszę sprawdzić klucz API lub spróbować później.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "BŁĄD podczas dodawania dodatkowych zadań. Nasz model może nie obsługiwać odpowiedzi i spowodować to błąd. Kontynuacja...",
+  "RATE_LIMIT_EXCEEDED": "Przekroczyłeś maksymalną liczbę zapytań! Proszę zwolnić... 😅",
+  "AGENT_MAXED_OUT_LOOPS": "Ten agent osiągnął maksymalną liczbę możliwych iteracji. Aby zachować swoją kieszeń, ten agent jest teraz wyłączony... Maksymalną liczbę iteracji agenta można skonfigurować w ustawieniach.",
+  "DEMO_LOOPS_REACHED": "Przepraszamy, ale ponieważ jest to aplikacja demonstracyjna, nie możemy uruchamiać agentów przez zbyt długi czas. Uwaga: jeśli chcesz uruchamiać dłuższe sesje, proszę podać własny klucz API w ustawieniach. Wyłączenie...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agent został ręcznie wyłączony.",
+  "ALL_TASKS_COMPLETETD": "Wszystkie zadania zostały zakończone. Wyłączanie...",
+  "ERROR_API_KEY_QUOTA": "BŁĄD podczas korzystania z klucza OpenAI API. Przekroczono bieżący limit, proszę sprawdzić informacje o rozliczeniach.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "BŁĄD: Twój klucz OpenAI API nie ma dostępu do GPT-4. Musisz najpierw zapisać się na listę oczekujących OpenAI. (To różni się od ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "BŁĄD podczas pobierania podstawowych zadań. Spróbuj ponownie, sformułuj cel agenta bardziej jasno lub zmodyfikuj go w taki sposób, aby pasował do naszego modelu. Wyłączanie...",
+  "INVALID_OPENAI_API_KEY": "BŁĄD nieprawidłowy klucz API OpenAI"
+}

@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "Error al acceder al API de OpenAI. Por favor, verifica tu clave de API o intenta más tarde.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "Error al agregar tarea(s) adicional(es). Es posible que las politicas de AgentGPT hayan evitar que se ejecuten. Continuando...",
+  "RATE_LIMIT_EXCEEDED": "¡Has alcanzado el número máximo de consultas! Por favor, disminuye la velocidad...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Este agente ha alcanzado el número máximo de rondas ejecutables. Para cuidar tu billetera, este agente se detendrá ahora... El número máximo de rondas de ejecución del agente se puede configurar en la configuración.",
+  "DEMO_LOOPS_REACHED": "Esta es una aplicación de demostración y no podemos ejecutar nuestros agentes durante mucho tiempo. Si desea ejecuciones más extendidas, proporciona tu clave de API de OpenAI en Configuración. Deteniendo...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agente apagado manualmente.",
+  "ALL_TASKS_COMPLETETD": "Todas las tareas han sido completadas. Deteniendo...",
+  "ERROR_API_KEY_QUOTA": "Error al usar la clave de API de OpenAI. Has superado su cuota actual, por favor, revisa tu información de facturación.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR: Tu clave de API de OpenAI no tiene acceso a GPT-4. Debes registrarse en la lista de espera de OpenAI para tener acceso. (AgentGPT utiliza el API de OpenAI, que no es lo mismo que ChatGPT ni ChatGPT Plus de chat.openai.com)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "Error al recuperar las tareas iniciales. Inténtalo de nuevo formulando el objetivo del agente de manera más clara o modificandolo de manera que se adapte a las políticas de nuestro modelo. Deteniendo...",
+  "INVALID_OPENAI_API_KEY": "ERROR Clave de API de OpenAI inválida"
+}

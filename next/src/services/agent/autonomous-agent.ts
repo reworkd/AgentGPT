@@ -149,11 +149,11 @@ class AutonomousAgent {
       );
       await this.createTasks(newTasks);
       if (newTasks.length == 0) {
-        this.messageService.sendMessage({ ...currentTask, status: "final" });
+        this.messageService.sendMessage({ ...currentTask, status: "completed" });
       }
     } catch (e) {
       console.error(e);
-      this.messageService.sendMessage({ ...currentTask, status: "final" });
+      this.messageService.sendMessage({ ...currentTask, status: "completed" });
     }
 
     await this.loop();

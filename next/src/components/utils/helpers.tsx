@@ -1,7 +1,7 @@
 import {
+  FaCheckCircle,
   FaCircleNotch,
   FaExclamationTriangle,
-  FaRegCheckCircle,
   FaStar,
   FaStopCircle,
   FaThumbtack,
@@ -62,7 +62,7 @@ export const getTaskStatusIcon = (
     );
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
     return (
-      <FaRegCheckCircle className={`${taskStatusIconClass} text-green-500 hover:text-green-400`} />
+      <FaCheckCircle className={`${taskStatusIconClass} text-green-500 hover:text-green-400`} />
     );
   }
 };

@@ -153,7 +153,6 @@ class AutonomousAgent {
       }
     } catch (e) {
       console.error(e);
-      this.messageService.sendErrorMessage("ERROR_ADDING_ADDITIONAL_TASKS");
       this.messageService.sendMessage({ ...currentTask, status: "final" });
     }
 

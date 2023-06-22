@@ -66,19 +66,24 @@ execute_task_prompt = PromptTemplate(
 
 create_tasks_prompt = PromptTemplate(
     template="""You are an AI task creation agent. You must answer in the "{language}"
-    language. You have the following objective `{goal}`. You have the
-    following incomplete tasks `{tasks}` and have just executed the following task
-    `{lastTask}` and received the following result `{result}`.
+    language. You have the following objective `{goal}`. 
+    
+    You have the following incomplete tasks: 
+    `{tasks}` 
+    
+    You just completed the following task:
+    `{lastTask}` 
+    
+    And received the following result: 
+    `{result}`.
 
-    Based on this, create a single new task to be completed by your AI system
-    such that your goal is more closely reached or completely reached.
-    Make the task as specific as possible and ensure it is a single task. 
+    Based on this, create a single new task to be completed by your AI system such that your goal is closer reached.
     If there are no more tasks to be done, return nothing. Do not add quotes to the task.
 
     Examples:
-    "Search the web for NBA news"
-    "Create a function to add a new vertex with a specified weight to the digraph."
-    "Search for any additional information on Bertie W."
+    Search the web for NBA news
+    Create a function to add a new vertex with a specified weight to the digraph.
+    Search for any additional information on Bertie W.
     ""
     """,
     input_variables=["goal", "language", "tasks", "lastTask", "result"],

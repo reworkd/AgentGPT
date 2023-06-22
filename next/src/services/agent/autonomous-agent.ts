@@ -1,7 +1,7 @@
 import type { Session } from "next-auth";
 import { v1 } from "uuid";
 import type { Message } from "../../types/message";
-import { AgentApi } from "./agent-api";
+import { AgentApi, withRetries } from "./agent-api";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
@@ -33,14 +33,11 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-    this.$api = new AgentApi(
-      {
-        model_settings: toApiModelSettings(modelSettings),
-        goal: this.model.getGoal(),
-        session,
-      },
-      this.onApiError
-    );
+    this.$api = new AgentApi({
+      model_settings: toApiModelSettings(modelSettings),
+      goal: this.model.getGoal(),
+      session,
+    });
 
     this.workLog = [new this.startGoalWork(this)];
   }
@@ -55,13 +52,20 @@ class AutonomousAgent {
 
       // Get and run the next work item
       const work = this.workLog[0];
-      await work.run();
+      await withRetries(
+        async () => {
+          await work.run();
+        },
+        async () => {
+          if (this.isRunning) {
+            await work.conclude();
+          }
+        },
+        (e) => {
+          return work.onError?.(e) || false;
+        }
+      );
       this.workLog.pop();
-
-      // Run conclusion of work item
-      if (this.isRunning) {
-        await work.conclude();
-      }
 
       // Add next thing if available
       const next = work.next();
@@ -99,6 +103,11 @@ class AutonomousAgent {
       await this.parent.createTasks(this.tasksValues);
     };
 
+    onError = (e: unknown): boolean => {
+      this.parent.messageService.sendErrorMessage(e);
+      return false;
+    };
+
     next = () => undefined;
   };
 
@@ -121,6 +130,11 @@ class AutonomousAgent {
     next = () => {
       if (!this.analysis) return undefined;
       return new this.parent.executeTaskWork(this.parent, this.task, this.analysis);
+    };
+
+    onError = (e: unknown): boolean => {
+      this.parent.messageService.sendErrorMessage(e);
+      return false;
     };
   };
 
@@ -174,6 +188,11 @@ class AutonomousAgent {
       if (!this.result) return undefined;
       return new this.parent.createTaskWork(this.parent, this.task, "");
     };
+
+    onError = (e: unknown): boolean => {
+      this.parent.messageService.sendErrorMessage(e);
+      return false;
+    };
   };
 
   createTaskWork = class CreateTaskWork implements AgentWork {
@@ -199,6 +218,10 @@ class AutonomousAgent {
     };
 
     next = () => undefined;
+
+    onError = (): boolean => {
+      return true;
+    };
   };
 
   setIsRunning(isRunning: boolean) {
@@ -234,9 +257,9 @@ class AutonomousAgent {
 
 interface AgentWork {
   run: () => Promise<void>;
-  onError?: (e: unknown) => Promise<void>;
   conclude: () => Promise<void>;
   next: () => AgentWork | undefined;
+  onError?: (e: unknown) => boolean;
 }
 
 export default AutonomousAgent;

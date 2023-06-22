@@ -3,7 +3,11 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple, cast
 
 import numpy as np
+<<<<<<< HEAD
 import weaviate  # type: ignore
+=======
+import weaviate
+>>>>>>> 5de21aa3fc95a8240ef4da11526220d1a4b678a3
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Weaviate
 from loguru import logger

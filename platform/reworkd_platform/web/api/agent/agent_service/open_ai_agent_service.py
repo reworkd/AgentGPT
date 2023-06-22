@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from lanarky.responses import StreamingResponse  # type: ignore
+from lanarky.responses import StreamingResponse
 from langchain.chat_models.base import BaseChatModel
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate

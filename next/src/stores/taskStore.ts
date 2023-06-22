@@ -2,19 +2,12 @@ import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import type { Message } from "../types/message";
 import type { Task } from "../types/task";
-import {
-  isTask,
-  TASK_STATUS_COMPLETED,
-  TASK_STATUS_EXECUTING,
-  TASK_STATUS_FINAL,
-} from "../types/task";
+import { isTask, TASK_STATUS_COMPLETED, TASK_STATUS_EXECUTING } from "../types/task";
 import { createSelectors } from "./helpers";
 
 export const isExistingTask = (message: Message): boolean =>
   isTask(message) &&
-  (message.status === TASK_STATUS_EXECUTING ||
-    message.status === TASK_STATUS_COMPLETED ||
-    message.status === TASK_STATUS_FINAL);
+  (message.status === TASK_STATUS_EXECUTING || message.status === TASK_STATUS_COMPLETED);
 
 const resetters: (() => void)[] = [];
 

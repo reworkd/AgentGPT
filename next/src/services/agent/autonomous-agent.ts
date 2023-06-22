@@ -133,6 +133,7 @@ class AutonomousAgent {
     );
 
     this.model.updateTaskStatus(currentTask, "completed");
+    this.messageService.sendMessage({ ...currentTask, status: "final" });
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -148,12 +149,8 @@ class AutonomousAgent {
         executionMessage.info || ""
       );
       await this.createTasks(newTasks);
-      if (newTasks.length == 0) {
-        this.messageService.sendMessage({ ...currentTask, status: "completed" });
-      }
     } catch (e) {
       console.error(e);
-      this.messageService.sendMessage({ ...currentTask, status: "completed" });
     }
 
     await this.loop();

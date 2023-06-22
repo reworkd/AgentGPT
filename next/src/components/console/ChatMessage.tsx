@@ -9,6 +9,7 @@ import {
   getTaskStatus,
   isAction,
   TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
 
@@ -60,7 +61,9 @@ const getMessagePrefix = (message: Message) => {
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
     return "Task Added:";
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return `Completing: ${message.value}`;
+    return `Executing: ${message.value}`;
+  } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
+    return `Finished: ${message.value}`;
   }
   return "";
 };

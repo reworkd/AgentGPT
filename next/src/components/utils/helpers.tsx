@@ -11,6 +11,7 @@ import {
   isTask,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_EXECUTING,
+  TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
 import type { Message } from "../../types/message";
@@ -32,6 +33,7 @@ export const getMessageContainerStyle = (message: Message) => {
     case TASK_STATUS_EXECUTING:
       return "border-white/20 hover:border-white/40";
     case TASK_STATUS_COMPLETED:
+    case TASK_STATUS_FINAL:
       return "border-green-500 hover:border-green-400";
     default:
       return "";
@@ -60,7 +62,10 @@ export const getTaskStatusIcon = (
     ) : (
       <FaCircleNotch className={`${taskStatusIconClass} animate-spin`} />
     );
-  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
+  } else if (
+    getTaskStatus(message) === TASK_STATUS_COMPLETED ||
+    getTaskStatus(message) === TASK_STATUS_FINAL
+  ) {
     return (
       <FaCheckCircle className={`${taskStatusIconClass} text-green-500 hover:text-green-400`} />
     );

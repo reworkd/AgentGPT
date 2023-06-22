@@ -7,17 +7,18 @@ const messageSchemaBase = z.object({
   info: z.string().optional().nullable(),
 });
 
-export const [TASK_STATUS_STARTED, TASK_STATUS_EXECUTING, TASK_STATUS_COMPLETED] = [
-  "started" as const,
-  "executing" as const,
-  "completed" as const,
-  "final" as const,
-];
+export const [
+  TASK_STATUS_STARTED,
+  TASK_STATUS_EXECUTING,
+  TASK_STATUS_COMPLETED,
+  TASK_STATUS_FINAL,
+] = ["started" as const, "executing" as const, "completed" as const, "final" as const];
 
 export const TaskStatusSchema = z.union([
   z.literal(TASK_STATUS_STARTED),
   z.literal(TASK_STATUS_EXECUTING),
   z.literal(TASK_STATUS_COMPLETED),
+  z.literal(TASK_STATUS_FINAL),
   z.literal(""),
 ]);
 

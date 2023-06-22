@@ -10,9 +10,6 @@ import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
 import type { Task } from "../../types/task";
 
-const TIMEOUT_LONG = 1000;
-const TIMOUT_SHORT = 150;
-
 class AutonomousAgent {
   model: AgentRunModel;
   modelSettings: ModelSettings;
@@ -51,6 +48,7 @@ class AutonomousAgent {
   async run() {
     this.setIsRunning(true);
 
+    this.addTasksIfWorklogEmpty();
     while (this.workLog[0]) {
       // No longer running, dip
       if (!this.isRunning) return;
@@ -69,20 +67,23 @@ class AutonomousAgent {
       const next = work.next();
       if (next) {
         this.workLog.push(next);
-        continue;
       }
 
-      // No work items, check if we still have tasks
-      const currentTask = this.model.getCurrentTask();
-      if (currentTask) {
-        this.workLog.push(new this.analyzeTaskWork(this, currentTask));
-      }
+      this.addTasksIfWorklogEmpty();
     }
 
     // Done with everything in the log and all queued tasks
     this.messageService.sendCompletedMessage();
     this.stopAgent();
   }
+
+  addTasksIfWorklogEmpty = () => {
+    // No work items, check if we still have tasks
+    const currentTask = this.model.getCurrentTask();
+    if (currentTask) {
+      this.workLog.push(new this.analyzeTaskWork(this, currentTask));
+    }
+  };
 
   startGoalWork = class StartGoalWork implements AgentWork {
     tasksValues: string[] = [];
@@ -192,7 +193,9 @@ class AutonomousAgent {
     };
 
     conclude = async () => {
+      const TIMEOUT_LONG = 1000;
       await this.parent.createTasks(this.taskValues);
+      await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
     };
 
     next = () => undefined;
@@ -219,6 +222,8 @@ class AutonomousAgent {
   };
 
   private async createTasks(tasks: string[]) {
+    const TIMOUT_SHORT = 150;
+
     for (const value of tasks) {
       this.messageService.startTask(value);
       this.model.addTask(value);

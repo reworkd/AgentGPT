@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field, validator
 
@@ -33,11 +33,10 @@ class ModelSettings(BaseModel):
     language: str = Field(default="English")
 
     @validator("max_tokens")
-    def validate_max_tokens(cls, v: float, values: dict) -> float:
+    def validate_max_tokens(cls, v: float, values: Dict[str, Any]) -> float:
         model = values["model"]
         if v > (max_tokens := LLM_MODEL_MAX_TOKENS[model]):
             raise ValueError(f"Model {model} only supports {max_tokens} tokens")
-
         return v
 
 
@@ -58,7 +57,7 @@ class AgentTaskAnalyze(AgentRun):
 
 class AgentTaskExecute(AgentRun):
     task: str
-    analysis: Optional[Analysis] = None  # TODO Why is this optional?
+    analysis: Analysis = None
 
 
 class AgentTaskCreate(AgentRun):

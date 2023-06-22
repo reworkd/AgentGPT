@@ -1,5 +1,5 @@
-import MessageService from "../src/services/agent/message-service";
-import type { Message } from "../src/types/agentTypes";
+import type { Message } from "../src/types/message";
+import { MessageService } from "../src/services/agent/message-service";
 
 describe("sendErrorMessage", () => {
   let instance: MessageService;
@@ -71,7 +71,7 @@ describe("sendErrorMessage", () => {
     instance.sendErrorMessage({});
     expect(renderMessage).toHaveBeenCalledWith({
       type: "error",
-      value: "ERROR_RETRIEVE_INITIAL_TASKS",
+      value: "An unknown error occurred. Please try again later.",
     });
   });
 });

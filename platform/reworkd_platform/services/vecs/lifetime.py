@@ -10,5 +10,5 @@ def init_supabase_vecs(app: FastAPI) -> None:
 
 
 def shutdown_supabase_vecs(app: FastAPI) -> None:
-    if vecs := app.state.vecs:
+    if vecs := getattr(app.state, "vecs", None):
         vecs.disconnect()

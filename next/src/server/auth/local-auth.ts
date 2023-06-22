@@ -57,7 +57,10 @@ export const options = (
         },
       }),
     ],
-    callbacks: {
+    pages: {
+      signIn: "/signin"
+    },
+        callbacks: {
       async signIn({ user }) {
         if (user) {
           const session = (await adapter.createSession({

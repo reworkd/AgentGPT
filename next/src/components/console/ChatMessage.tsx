@@ -27,7 +27,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         // Avoid for system messages as they do not have an icon and will cause a weird space
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-          <span className="mr-2 font-bold">{t(getMessagePrefix(message), { ns: "chat" })}</span>
+          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
         </>
       )}
 
@@ -56,9 +56,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
 // Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
-    return "EMBARKING_ON_NEW_GOAL";
+    return "Embarking on a new goal";
   } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
-    return "TASK_ADDED";
+    return "Task Added:";
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
     return `Completing: ${message.value}`;
   }

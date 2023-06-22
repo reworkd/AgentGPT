@@ -19,7 +19,7 @@ interface AgentSlice {
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
   isAgentStopped: boolean;
-  updateIsAgentStopped: () => void;
+  setIsAgentStopped: (boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
@@ -37,9 +37,9 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
         isAgentThinking: isThinking,
       }));
     },
-    updateIsAgentStopped: () => {
+    setIsAgentStopped: (isStopped: boolean) => {
       set((state) => ({
-        isAgentStopped: !state.agent?.isRunning,
+        isAgentStopped: isStopped,
       }));
     },
     setAgent: (newAgent) => {

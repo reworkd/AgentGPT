@@ -2,6 +2,7 @@ FROM python:3.11-slim-buster as prod
 
 RUN apt-get update && apt-get install -y \
   default-libmysqlclient-dev \
+  pkg-config \
   gcc \
   && rm -rf /var/lib/apt/lists/*
 

@@ -1,6 +1,6 @@
 import type { Session } from "next-auth";
-import { v1, v4 } from "uuid";
-import type { Message, Task } from "../../types/agentTypes";
+import { v1 } from "uuid";
+import type { Message } from "../../types/message";
 import { AgentApi } from "./agent-api";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
@@ -75,7 +75,8 @@ class AutonomousAgent {
       return;
     }
 
-    if (this.model.getRemainingTasks().length === 0) {
+    let currentTask = this.model.getCurrentTask();
+    if (currentTask === undefined) {
       this.messageService.sendCompletedMessage();
       this.stopAgent();
       return;
@@ -83,11 +84,7 @@ class AutonomousAgent {
 
     // Wait before starting TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-
-    // Start with first task
-    const currentTask = this.model.getRemainingTasks()[0] as Task;
-
-    this.messageService.sendMessage({ ...currentTask, status: "executing" });
+    currentTask = this.model.updateTaskStatus(currentTask, "executing");
 
     // Analyze how to execute a task: Reason, web search, other tools...
 
@@ -135,7 +132,8 @@ class AutonomousAgent {
       () => !this.isRunning
     );
 
-    this.model.addCompletedTask(currentTask.value || "");
+    this.model.updateTaskStatus(currentTask, "completed");
+    this.messageService.sendMessage({ ...currentTask, status: "final" });
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
@@ -151,13 +149,8 @@ class AutonomousAgent {
         executionMessage.info || ""
       );
       await this.createTasks(newTasks);
-      if (newTasks.length == 0) {
-        this.messageService.sendMessage({ ...currentTask, status: "final" });
-      }
     } catch (e) {
       console.error(e);
-      this.messageService.sendErrorMessage("ERROR_ADDING_ADDITIONAL_TASKS");
-      this.messageService.sendMessage({ ...currentTask, status: "final" });
     }
 
     await this.loop();
@@ -186,12 +179,8 @@ class AutonomousAgent {
 
   private async createTasks(tasks: string[]) {
     for (const value of tasks) {
-      this.messageService.sendMessage({
-        taskId: v1().toString(),
-        value,
-        status: "started",
-        type: "task",
-      });
+      this.messageService.startTask(value);
+      this.model.addTask(value);
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
   }

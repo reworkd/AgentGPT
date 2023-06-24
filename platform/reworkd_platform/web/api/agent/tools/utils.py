@@ -13,7 +13,7 @@ class CitedSnippet:
     text: str
     url: str
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         The string representation the AI model will see
         """

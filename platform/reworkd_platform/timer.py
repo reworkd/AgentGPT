@@ -1,7 +1,6 @@
 from functools import wraps
 from time import time
-from typing import Any, Callable
-from typing import Literal
+from typing import Any, Callable, Literal
 
 from loguru import logger
 

@@ -76,20 +76,14 @@ export class AgentApi {
 
 export async function withRetries(
   fn: () => Promise<void>,
-  onSuccess: () => Promise<void>,
-  onError: (error: unknown) => boolean, // Function to handle the error and return whether to continue
+  onError: (error: unknown) => Promise<boolean>, // Function to handle the error and return whether to continue
   retries = 3
 ): Promise<void> {
-  const RETRY_TIMEOUT = 2000;
-
   for (let i = 1; i < retries + 1; i++) {
     try {
-      await fn();
-      await onSuccess();
-      return;
+      return await fn();
     } catch (error) {
-      if (onError(error) || i === retries) return;
+      if ((await onError(error)) || i === retries) return;
     }
-    await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
   }
 }

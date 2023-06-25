@@ -234,6 +234,7 @@ class AutonomousAgent {
     next = () => undefined;
 
     onError = (): boolean => {
+      // Ignore errors and simply avoid creating more tasks
       return true;
     };
   };

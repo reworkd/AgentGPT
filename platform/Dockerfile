@@ -20,6 +20,7 @@ RUN poetry install --only main
 # Removing gcc
 RUN apt-get purge -y \
   gcc \
+  pkg-config \
   && rm -rf /var/lib/apt/lists/*
 
 # Copying actual application

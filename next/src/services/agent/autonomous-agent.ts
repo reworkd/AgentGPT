@@ -61,10 +61,12 @@ class AutonomousAgent {
           await work.run();
         },
         async (e) => {
-          const res = work.onError?.(e) || false;
-          useAgentStore.getState().setIsAgentThinking(true);
-          await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
-          return res;
+          const shouldContinue = work.onError?.(e) || false;
+          if (!shouldContinue) {
+            useAgentStore.getState().setIsAgentThinking(true);
+            await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
+          }
+          return shouldContinue;
         }
       );
       useAgentStore.getState().setIsAgentThinking(false);

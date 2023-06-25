@@ -65,7 +65,7 @@ class AutonomousAgent {
           return work.onError?.(e) || false;
         }
       );
-      this.workLog.pop();
+      this.workLog.shift();
 
       // Add next thing if available
       const next = work.next();
@@ -82,6 +82,8 @@ class AutonomousAgent {
   }
 
   addTasksIfWorklogEmpty = () => {
+    if (this.workLog.length > 0) return;
+
     // No work items, check if we still have tasks
     const currentTask = this.model.getCurrentTask();
     if (currentTask) {

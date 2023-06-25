@@ -62,7 +62,7 @@ export const streamText = async (
   onText: (text: string) => void,
   shouldClose: () => boolean
 ) => {
-  const reader = await fetchData(url, body, accessToken); // Try to fetch data
+  const reader = await fetchData(url, body, accessToken);
   if (!reader) {
     console.error("Reader is undefined!");
     return;

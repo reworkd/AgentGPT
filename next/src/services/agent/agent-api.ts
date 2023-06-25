@@ -66,8 +66,6 @@ export class AgentApi {
 
       if (this.runId === undefined) this.runId = run_id;
       return data;
-    } catch (e) {
-      throw e;
     } finally {
       useAgentStore.getState().setIsAgentThinking(false);
     }

@@ -274,7 +274,7 @@ interface AgentWork {
   run: () => Promise<void>;
   conclude: () => Promise<void>;
   next: () => AgentWork | undefined;
-  onError?: (e: unknown) => boolean;
+  onError: (e: unknown) => boolean;
 }
 
 export default AutonomousAgent;

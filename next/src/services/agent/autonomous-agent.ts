@@ -9,6 +9,7 @@ import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
 import type { Task } from "../../types/task";
+import { useAgentStore } from "../../stores";
 
 class AutonomousAgent {
   model: AgentRunModel;
@@ -52,20 +53,28 @@ class AutonomousAgent {
 
       // Get and run the next work item
       const work = this.workLog[0];
+      const RETRY_TIMEOUT = 2000;
+
       await withRetries(
         async () => {
+          if (!this.isRunning) return;
           await work.run();
         },
-        async () => {
-          if (this.isRunning) {
-            await work.conclude();
-          }
-        },
-        (e) => {
-          return work.onError?.(e) || false;
+        async (e) => {
+          const res = work.onError?.(e) || false;
+          useAgentStore.getState().setIsAgentThinking(true);
+          await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
+          return res;
         }
       );
+      useAgentStore.getState().setIsAgentThinking(false);
+
       this.workLog.shift();
+      if (this.isRunning) {
+        await work.conclude();
+      } else {
+        return;
+      }
 
       // Add next thing if available
       const next = work.next();
@@ -119,14 +128,18 @@ class AutonomousAgent {
     constructor(private parent: AutonomousAgent, private task: Task) {}
 
     run = async () => {
+      this.parent.messageService.startTaskMessage(this.task);
       this.task = this.parent.model.updateTaskStatus(this.task, "executing");
       this.analysis = await this.parent.$api.analyzeTask(this.task.value);
     };
 
     // eslint-disable-next-line @typescript-eslint/require-await
     conclude = async () => {
-      if (!this.analysis) return;
-      this.parent.messageService.sendAnalysisMessage(this.analysis);
+      if (!this.analysis) {
+        this.parent.messageService.skipTaskMessage(this.task);
+      } else {
+        this.parent.messageService.sendAnalysisMessage(this.analysis);
+      }
     };
 
     next = () => {
@@ -171,9 +184,6 @@ class AutonomousAgent {
         (text) => {
           executionMessage.info += text;
           this.parent.messageService.updateMessage(executionMessage);
-        },
-        (error) => {
-          this.parent.messageService.sendErrorMessage(error);
         },
         () => !this.parent.isRunning
       );

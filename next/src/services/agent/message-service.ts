@@ -6,6 +6,7 @@ import { useMessageStore } from "../../stores";
 import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import { v1 } from "uuid";
+import type { Task } from "../../types/task";
 
 export class MessageService {
   private readonly renderMessage: (message: Message) => void;
@@ -20,6 +21,20 @@ export class MessageService {
 
   updateMessage(message: Message) {
     useMessageStore.getState().updateMessage(message);
+  }
+
+  startTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `✨ Starting task: ${task.value}`,
+    });
+  }
+
+  skipTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `🥺 Skipping task: ${task.value}`,
+    });
   }
 
   startTask(task: string) {
@@ -77,6 +92,7 @@ export class MessageService {
       message = "Error attempting to connect to the server.";
     } else if (axios.isAxiosError(e)) {
       const data = (e.response?.data as object) || {};
+      console.log(data);
       switch (e.response?.status) {
         case 409:
           message = isPlatformError(data)

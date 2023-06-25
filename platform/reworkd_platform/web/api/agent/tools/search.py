@@ -4,7 +4,7 @@ import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
+from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import CitedSnippet, summarize
 
@@ -36,9 +36,9 @@ class Search(Tool):
     description = (
         "Search Google for short up to date searches for simple questions "
         "news and people.\n"
-        "The argument should be the search query."
     )
     public_description = "Search google for information about current events."
+    arg_description = "The query argument to search for. This value is always populated and cannot be an empty string."
 
     @staticmethod
     def available() -> bool:
@@ -81,7 +81,4 @@ class Search(Tool):
         if len(snippets) == 0:
             return stream_string("No good Google Search Result was found", True)
 
-        return summarize(self.model_settings, goal, task, snippets)
-
-        # TODO: Stream with formatting
-        # return f"{summary}\n\nLinks:\n" + "\n".join([f"- {link}" for link in links])
+        return summarize(self.model, self.language, goal, task, snippets)

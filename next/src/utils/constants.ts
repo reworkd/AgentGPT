@@ -10,6 +10,7 @@ export const DEFAULT_MAX_LOOPS_CUSTOM_API_KEY = 10 as const;
 
 export const getDefaultModelSettings = (): ModelSettings => {
   return {
+    customApiKey: "",
     language: ENGLISH,
     customModelName: GPT_35_TURBO,
     customTemperature: 0.8,

@@ -13,6 +13,7 @@ export const toApiModelSettings = (modelSettings: ModelSettings) => ({
   model: modelSettings.customModelName,
   temperature: modelSettings.customTemperature,
   max_tokens: modelSettings.maxTokens,
+  custom_api_key: modelSettings.customApiKey,
 });
 
 export interface RequestBody {

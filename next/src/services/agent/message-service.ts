@@ -1,16 +1,13 @@
-import type { Message } from "../../types/agentTypes";
-import {
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_SYSTEM,
-  MESSAGE_TYPE_THINKING,
-} from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
-import { isPlatformError } from "../../types/errors";
+import { isPlatformError, isValueError } from "../../types/errors";
 import { useMessageStore } from "../../stores";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import { v1 } from "uuid";
 
-class MessageService {
+export class MessageService {
   private isRunning: boolean;
   private readonly renderMessage: (message: Message) => void;
 
@@ -33,6 +30,15 @@ class MessageService {
     if (this.isRunning) {
       useMessageStore.getState().updateMessage(message);
     }
+  }
+
+  startTask(task: string) {
+    this.renderMessage({
+      taskId: v1().toString(),
+      value: task,
+      status: "started",
+      type: "task",
+    });
   }
 
   sendGoalMessage(goal: string) {
@@ -74,23 +80,23 @@ class MessageService {
     });
   }
 
-  sendThinkingMessage() {
-    this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
-  }
-
   sendErrorMessage(e: unknown) {
-    let message = "ERROR_RETRIEVE_INITIAL_TASKS";
+    let message = "An unknown error occurred. Please try again later.";
 
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e) && !e.response) {
-      message = "Unable to connect to the Python backend. Please make sure its running.";
-    } else if (axios.isAxiosError(e)) {
+    else if (axios.isAxiosError(e)) {
+      const data = (e.response?.data as object) || {};
       switch (e.response?.status) {
         case 409:
-          const data = (e.response?.data as object) || {};
           message = isPlatformError(data)
             ? data.detail
             : "An Unknown Error Occurred, Please Try Again!";
+          break;
+        case 422:
+          if (isValueError(data)) {
+            const detailMessages = data.detail.map((detail) => detail.msg);
+            message = detailMessages.join("\n");
+          }
           break;
         case 429:
           message = "ERROR_API_KEY_QUOTA";
@@ -110,5 +116,3 @@ class MessageService {
     this.sendMessage({ type: "error", value: translate(message, "errors") });
   }
 }
-
-export default MessageService;

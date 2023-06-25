@@ -1,18 +1,16 @@
 import { useTranslation } from "next-i18next";
-import { useAgentStore } from "../../stores";
 import * as htmlToImage from "html-to-image";
 import WindowButton from "../WindowButton";
-import { FaClipboard, FaImage, FaPause, FaPlay, FaSave } from "react-icons/fa";
+import { FaClipboard, FaImage, FaSave } from "react-icons/fa";
 import PDFButton from "../pdf/PDFButton";
 import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
-import type { Message } from "../../types/agentTypes";
-import { PAUSE_MODE } from "../../types/agentTypes";
 import { AnimatePresence } from "framer-motion";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
 import type { ReactNode } from "react";
 import React from "react";
+import type { Message } from "../../types/message";
 
 export const messageListId = "chat-window-message-list";
 
@@ -24,9 +22,6 @@ export interface HeaderProps {
 
 export const MacWindowHeader = (props: HeaderProps) => {
   const [t] = useTranslation();
-  const isAgentPaused = useAgentStore.use.isAgentPaused();
-  const agent = useAgentStore.use.agent();
-  const agentMode = useAgentStore.use.agentMode();
 
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
@@ -111,29 +106,11 @@ export const MacWindowHeader = (props: HeaderProps) => {
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
       <Expand
-        delay={1}
-        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
+        delay={0.75}
+        className="flex flex-grow font-mono text-xs font-bold text-gray-500 sm:ml-2 sm:text-sm"
       >
         {props.title}
       </Expand>
-
-      {agentMode === PAUSE_MODE && agent !== null && (
-        <div
-          className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
-        >
-          {isAgentPaused ? (
-            <>
-              <FaPause />
-              <p className="font-mono">{`${t("PAUSED", { ns: "common" })}`}</p>
-            </>
-          ) : (
-            <>
-              <FaPlay />
-              <p className="font-mono">{`${t("RUNNING", { ns: "common" })}`}</p>
-            </>
-          )}
-        </div>
-      )}
 
       <AnimatePresence>
         {props.onSave && (

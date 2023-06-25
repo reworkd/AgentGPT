@@ -1,62 +1,43 @@
 import type { Session } from "next-auth";
-import { v1, v4 } from "uuid";
-import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
-import { AGENT_PAUSE, AGENT_PLAY, AUTOMATIC_MODE, PAUSE_MODE } from "../../types/agentTypes";
-import { useMessageStore } from "../../stores";
+import { v1 } from "uuid";
+import type { Message } from "../../types/message";
 import { AgentApi } from "./agent-api";
-import MessageService from "./message-service";
 import { streamText } from "../stream-utils";
 import type { Analysis } from "./analysis";
 import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
+import type { MessageService } from "./message-service";
+import type { AgentRunModel } from "./agent-run-model";
 
 const TIMEOUT_LONG = 1000;
 const TIMOUT_SHORT = 800;
 
 class AutonomousAgent {
-  name: string;
-  goal: string;
-  completedTasks: string[] = [];
+  model: AgentRunModel;
   modelSettings: ModelSettings;
   isRunning = false;
-  renderMessage: (message: Message) => void;
-  handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
   shutdown: () => void;
   session?: Session;
-  _id: string;
-  mode: AgentMode;
-  playbackControl: AgentPlaybackControl;
   messageService: MessageService;
   $api: AgentApi;
 
   constructor(
-    name: string,
-    goal: string,
-    renderMessage: (message: Message) => void,
-    handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
+    model: AgentRunModel,
+    messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
-    mode: AgentMode,
-    session?: Session,
-    playbackControl?: AgentPlaybackControl
+    session?: Session
   ) {
-    this.name = name;
-    this.goal = goal;
-    this.renderMessage = renderMessage;
-    this.handlePause = handlePause;
+    this.model = model;
+    this.messageService = messageService;
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-    this._id = v4();
-    this.mode = mode || AUTOMATIC_MODE;
-    this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
-
-    this.messageService = new MessageService(renderMessage);
 
     this.$api = new AgentApi(
       {
         model_settings: toApiModelSettings(modelSettings),
-        goal,
+        goal: this.model.getGoal(),
         session,
       },
       this.onApiError
@@ -70,14 +51,10 @@ class AutonomousAgent {
     }
 
     await this.loop();
-    if (this.mode === PAUSE_MODE && !this.isRunning) {
-      this.handlePause({ agentPlaybackControl: this.playbackControl });
-    }
   }
 
   async startGoal() {
-    this.messageService.sendGoalMessage(this.goal);
-    this.messageService.sendThinkingMessage();
+    this.messageService.sendGoalMessage(this.model.getGoal());
 
     // Initialize by getting taskValues
     try {
@@ -86,32 +63,28 @@ class AutonomousAgent {
     } catch (e) {
       console.error(e);
       this.messageService.sendErrorMessage(e);
-      this.shutdown();
+      this.messageService.sendErrorMessage("ERROR_RETRIEVE_INITIAL_TASKS");
+      this.stopAgent();
       return;
     }
   }
 
   async loop() {
-    this.conditionalPause();
-
     if (!this.isRunning) {
+      this.stopAgent();
       return;
     }
 
-    if (this.getRemainingTasks().length === 0) {
+    let currentTask = this.model.getCurrentTask();
+    if (currentTask === undefined) {
       this.messageService.sendCompletedMessage();
-      this.shutdown();
+      this.stopAgent();
       return;
     }
 
     // Wait before starting TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-
-    // Start with first task
-    const currentTask = this.getRemainingTasks()[0] as Task;
-
-    this.messageService.sendMessage({ ...currentTask, status: "executing" });
-    this.messageService.sendThinkingMessage();
+    currentTask = this.model.updateTaskStatus(currentTask, "executing");
 
     // Analyze how to execute a task: Reason, web search, other tools...
 
@@ -121,7 +94,7 @@ class AutonomousAgent {
     } catch (e) {
       console.error(e);
       this.messageService.sendErrorMessage(e);
-      this.shutdown();
+      this.stopAgent();
       return;
     }
 
@@ -140,7 +113,7 @@ class AutonomousAgent {
       "/api/agent/execute",
       {
         run_id: this.$api.runId,
-        goal: this.goal,
+        goal: this.model.getGoal(),
         task: currentTask.value,
         analysis: analysis,
         model_settings: toApiModelSettings(this.modelSettings),
@@ -155,60 +128,32 @@ class AutonomousAgent {
       },
       (error) => {
         this.messageService.sendErrorMessage(error);
-        this.shutdown();
       },
       () => !this.isRunning
     );
 
-    this.completedTasks.push(currentTask.value || "");
+    this.model.updateTaskStatus(currentTask, "completed");
+    this.messageService.sendMessage({ ...currentTask, status: "final" });
 
     // Wait before adding tasks TODO: think about removing this
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-    this.messageService.sendThinkingMessage();
 
     // Add new tasks
     try {
       const newTasks = await this.$api.getAdditionalTasks(
         {
           current: currentTask.value,
-          remaining: this.getRemainingTasks().map((task) => task.value),
-          completed: this.completedTasks,
+          remaining: this.model.getRemainingTasks().map((task) => task.value),
+          completed: this.model.getCompletedTasks(),
         },
         executionMessage.info || ""
       );
       await this.createTasks(newTasks);
-      if (newTasks.length == 0) {
-        this.messageService.sendMessage({ ...currentTask, status: "final" });
-      }
     } catch (e) {
       console.error(e);
-      this.messageService.sendErrorMessage("ERROR_ADDING_ADDITIONAL_TASKS");
-      this.messageService.sendMessage({ ...currentTask, status: "final" });
     }
 
     await this.loop();
-  }
-
-  getRemainingTasks(): Task[] {
-    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
-  }
-
-  private conditionalPause() {
-    if (this.mode != PAUSE_MODE) {
-      return;
-    }
-
-    // decide whether to pause agent when pause mode is enabled
-    this.isRunning = !(this.playbackControl === AGENT_PAUSE);
-
-    // reset playbackControl to pause so agent pauses on next set of task(s)
-    if (this.playbackControl === AGENT_PLAY) {
-      this.playbackControl = AGENT_PAUSE;
-    }
-  }
-
-  updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
-    this.playbackControl = newPlaybackControl;
   }
 
   updateIsRunning(isRunning: boolean) {
@@ -216,8 +161,12 @@ class AutonomousAgent {
     this.isRunning = isRunning;
   }
 
-  stopAgent() {
+  manuallyStopAgent() {
     this.messageService.sendManualShutdownMessage();
+    this.stopAgent();
+  }
+
+  stopAgent() {
     this.updateIsRunning(false);
     this.shutdown();
     return;
@@ -225,19 +174,14 @@ class AutonomousAgent {
 
   private onApiError = (e: unknown) => {
     // TODO: handle retries here
-    this.shutdown();
     throw e;
   };
 
   private async createTasks(tasks: string[]) {
     for (const value of tasks) {
+      this.messageService.startTask(value);
+      this.model.addTask(value);
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-      this.messageService.sendMessage({
-        taskId: v1().toString(),
-        value,
-        status: "started",
-        type: "task",
-      });
     }
   }
 }

@@ -105,7 +105,8 @@ export class MessageService {
           }
           break;
         case 429:
-          message = "ERROR_API_KEY_QUOTA";
+          const { detail } = e.response?.data as { detail: string | undefined };
+          message = detail || "Too many requests. Please try again later.";
           break;
         case 403:
           message = "Authentication Error. Please make sure you are logged in.";

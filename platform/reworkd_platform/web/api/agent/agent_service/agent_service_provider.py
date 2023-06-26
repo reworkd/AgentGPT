@@ -22,7 +22,7 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 def get_agent_service(
     validator: Callable[..., Coroutine[Any, Any, AgentRun]],
     streaming: bool = False,
-):
+) -> Callable[..., AgentService]:
     def func(
         run: AgentRun = Depends(validator),
         user: UserBase = Depends(get_current_user),

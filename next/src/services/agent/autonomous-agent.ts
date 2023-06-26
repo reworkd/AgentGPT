@@ -145,10 +145,10 @@ class AutonomousAgent {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     conclude = async () => {
-      if (!this.analysis) {
-        this.parent.messageService.skipTaskMessage(this.task);
-      } else {
+      if (this.analysis) {
         this.parent.messageService.sendAnalysisMessage(this.analysis);
+      } else {
+        this.parent.messageService.skipTaskMessage(this.task);
       }
     };
 
@@ -206,10 +206,8 @@ class AutonomousAgent {
       this.parent.messageService.sendMessage({ ...this.task, status: "final" });
     };
 
-    next = () => {
-      if (!this.result) return undefined;
-      return new this.parent.createTaskWork(this.parent, this.task, "");
-    };
+    next = () =>
+      this.result ? new this.parent.createTaskWork(this.parent, this.task, "") : undefined;
 
     onError = (e: unknown): boolean => {
       this.parent.messageService.sendErrorMessage(e);
@@ -241,10 +239,8 @@ class AutonomousAgent {
 
     next = () => undefined;
 
-    onError = (): boolean => {
-      // Ignore errors and simply avoid creating more tasks
-      return true;
-    };
+    // Ignore errors and simply avoid creating more tasks
+    onError = (): boolean => true;
   };
 
   setIsRunning(isRunning: boolean) {

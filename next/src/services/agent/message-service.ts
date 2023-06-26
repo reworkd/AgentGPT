@@ -92,7 +92,6 @@ export class MessageService {
       message = "Error attempting to connect to the server.";
     } else if (axios.isAxiosError(e)) {
       const data = (e.response?.data as object) || {};
-      console.log(data);
       switch (e.response?.status) {
         case 409:
           message = isPlatformError(data)

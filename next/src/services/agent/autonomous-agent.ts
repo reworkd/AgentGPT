@@ -10,6 +10,7 @@ import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
 import type { Task } from "../../types/task";
 import { useAgentStore } from "../../stores";
+import { isRetryableError } from "../../types/errors";
 
 class AutonomousAgent {
   model: AgentRunModel;
@@ -62,10 +63,17 @@ class AutonomousAgent {
         },
         async (e) => {
           const shouldContinue = work.onError?.(e) || false;
+
+          if (!isRetryableError(e)) {
+            this.stopAgent();
+            return false;
+          }
+
           if (!shouldContinue) {
             useAgentStore.getState().setIsAgentThinking(true);
             await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
           }
+
           return shouldContinue;
         }
       );

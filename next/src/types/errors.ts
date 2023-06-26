@@ -15,9 +15,13 @@ export const isPlatformError = (e: unknown): e is PlatformError => {
 };
 
 export const isRetryableError = (e: unknown): boolean => {
-  if (axios.isAxiosError(e) && isPlatformError(e.response?.data)) {
-    const error = e.response?.data.error;
-    return error !== MAX_LOOPS_ERROR;
+  if (axios.isAxiosError(e)) {
+    if (isPlatformError(e.response?.data)) {
+      const error = e.response?.data.error;
+      return error !== MAX_LOOPS_ERROR;
+    }
+
+    return e.response?.status !== 429;
   }
   return true;
 };

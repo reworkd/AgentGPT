@@ -10,7 +10,7 @@ import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
 import { FaSpinner } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
-import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
+import { getTaskStatus } from "../../types/task";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 
 interface ChatWindowProps extends HeaderProps {
@@ -68,7 +68,9 @@ const ChatWindow = ({
         id={messageListId}
       >
         {messages.map((message, index) => {
-          if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
+          const status = getTaskStatus(message);
+
+          if (!status || status === "executing") {
             return null;
           }
 

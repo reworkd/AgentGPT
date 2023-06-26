@@ -45,7 +45,7 @@ export const isTask = (value: unknown): value is Task => {
 };
 
 /* Helper Functions */
-export const getTaskStatus = (value: unknown): string | undefined => {
+export const getTaskStatus = (value: unknown): TaskStatus | undefined => {
   if (!isTask(value)) {
     return;
   }

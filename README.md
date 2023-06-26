@@ -44,18 +44,60 @@ The cli sets up the following for AgentGPT:
 - 🤖 [Backend](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
 - 🎨 [Frontend](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
 
-- You will need node intalled, you can check by running 'node -v' or install [node](https://nodejs.org/en/download)
+## Prerequisites :point_up:
 
-To get started on Mac/Linux, run the commands below.
+Before you get started, please make sure you have the following installed:
+
+- [Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
+- [Node.js](https://nodejs.org/en/download)
+- [Docker](https://www.docker.com/products/docker-desktop)
+- An [OpenAI API key](https://beta.openai.com/signup/)
+
+For Docker, after installation, please create an account, download Docker, and sign in to your account.
+
+
+## Getting Started :rocket:
+
+1. **Open VS Code**
+   - You can do this by searching for it in your applications or clicking on the shortcut if you have one.
+   
+2. **Open the Terminal in VS Code**
+   - You can do this by clicking on the 'Terminal' tab at the top or by using the shortcut `Ctrl + ~` for Windows or `Control + ~` for Mac.
+   
+3. **Clone the Repository and Navigate into the Directory**
+   - Once your terminal is open, you can clone the repository and move into the directory by running the following commands:
+     
+For Mac/Linux users :apple: :penguin: 
+
 ```bash
 git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
+```
+For Windows users :windows:
+
+```bash
+git clone https://github.com/reworkd/AgentGPT.git 
+cd AgentGPT
+```
+
+**Run the Setup File**
+- This will set up everything you need for the project.
+
+For Mac/Linux users :apple: :penguin:
+```bash
 ./setup.sh
 ```
-If you are on windows, you can do the following after downloading the repo.
+For Windows users :windows:
+
+```bash
+./setup.bat
 ```
-setup.bat
+## Build and Run the Docker Container
+
+Finally, you can build and run the Docker container with the following command:
+```bash
+docker-compose up --build
 ```
-> 🐳 The recommend way to set up AgentGPT locally is to [docker-compose](https://www.docker.com/), please make sure you have docker installed.
+Happy hacking! :tada:
 
 ## 🎉 Roadmap
 

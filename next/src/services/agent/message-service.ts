@@ -6,30 +6,35 @@ import { useMessageStore } from "../../stores";
 import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import { v1 } from "uuid";
+import type { Task } from "../../types/task";
 
 export class MessageService {
-  private isRunning: boolean;
   private readonly renderMessage: (message: Message) => void;
 
   constructor(renderMessage: (message: Message) => void) {
-    this.isRunning = false;
     this.renderMessage = renderMessage;
   }
 
-  setIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
   sendMessage(message: Message) {
-    if (this.isRunning) {
-      this.renderMessage({ ...message });
-    }
+    this.renderMessage({ ...message });
   }
 
   updateMessage(message: Message) {
-    if (this.isRunning) {
-      useMessageStore.getState().updateMessage(message);
-    }
+    useMessageStore.getState().updateMessage(message);
+  }
+
+  startTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `✨ Starting task: ${task.value}`,
+    });
+  }
+
+  skipTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `🥺 Skipping task: ${task.value}`,
+    });
   }
 
   startTask(task: string) {
@@ -82,9 +87,10 @@ export class MessageService {
 
   sendErrorMessage(e: unknown) {
     let message = "An unknown error occurred. Please try again later.";
-
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e)) {
+    else if (axios.isAxiosError(e) && e.message == "Network Error") {
+      message = "Error attempting to connect to the server.";
+    } else if (axios.isAxiosError(e)) {
       const data = (e.response?.data as object) || {};
       switch (e.response?.status) {
         case 409:

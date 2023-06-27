@@ -1,4 +1,3 @@
-import type { AxiosError } from "axios";
 import axios from "axios";
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
@@ -10,13 +9,23 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { FaCoins, FaGlobe, FaKey, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaCoins,
+  FaExclamationCircle,
+  FaGlobe,
+  FaKey,
+  FaRobot,
+  FaSyncAlt,
+  FaThermometerFull,
+} from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
 import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
 import Button from "../ui/button";
+import clsx from "clsx";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
@@ -24,9 +33,9 @@ const SettingsPage = () => {
   const { session } = useAuth();
   const { models, getModel } = useModels();
 
-  const [validationResult, setValidationResult] = useState(""); // State to hold the validation result
+  const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
 
-  const handleSubmit = async () => {
+  const validateApiKey = async () => {
     try {
       await axios.get("https://api.openai.com/v1/engines", {
         headers: {
@@ -34,17 +43,9 @@ const SettingsPage = () => {
         },
       });
 
-      setValidationResult("API key is valid");
+      setIsApiKeyValid(true);
     } catch (error) {
-      if (error && (error as AxiosError).response) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response && axiosError.response.status === 401) {
-          setValidationResult("API key is not valid");
-        } else {
-          setValidationResult("An error occurred while trying to validate the API key");
-          console.error(axiosError);
-        }
-      }
+      setIsApiKeyValid(false);
     }
   };
 
@@ -82,37 +83,45 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-              <Input
-                label="API Key"
-                name="api-key"
-                placeholder="sk..."
-                helpText={
-                  <span>
-                    You can optionally use your own API key here. You can find your API key in your{" "}
-                    <a className="link" href="https://platform.openai.com/account/api-keys">
-                      OpenAI dashboard.
-                    </a>
-                  </span>
-                }
-                type="text"
-                value={settings.customApiKey}
-                onChange={(e) => updateSettings("customApiKey", e.target.value)}
-                icon={<FaKey />}
-                className="flex-grow-1 mr-2"
-              />
-              <Button
-                onClick={handleSubmit}
-                className={`transition-400 rounded px-4 py-2 text-sm text-white duration-200 ${
-                  validationResult
-                    ? validationResult.includes("valid")
-                      ? "bg-red-500 hover:bg-red-700"
-                      : "bg-blue-500 hover:bg-blue-700"
-                    : "bg-zinc-800 hover:bg-zinc-600"
-                }`}
-              >
-                {validationResult ? validationResult : "Save"}
-              </Button>
+              <div className="flex flex-row items-end gap-2">
+                <Input
+                  label="API Key"
+                  name="api-key"
+                  placeholder="sk..."
+                  helpText={
+                    <span>
+                      You can optionally use your own API key here. You can find your API key in
+                      your{" "}
+                      <a className="link" href="https://platform.openai.com/account/api-keys">
+                        OpenAI dashboard.
+                      </a>
+                    </span>
+                  }
+                  type="text"
+                  value={settings.customApiKey}
+                  onChange={(e) => {
+                    setIsApiKeyValid(undefined);
+                    updateSettings("customApiKey", e.target.value);
+                  }}
+                  icon={<FaKey />}
+                  className="flex-grow-1 mr-2"
+                />
+                <Button
+                  onClick={validateApiKey}
+                  className={clsx(
+                    "transition-400 h-10 w-10 flex-1 rounded px-2 py-2 text-sm text-white duration-200",
+                    isApiKeyValid === undefined && "bg-gray-500 hover:bg-gray-700",
+                    isApiKeyValid === true && "bg-green-500 hover:bg-green-700",
+                    isApiKeyValid === false && "bg-red-500 hover:bg-red-700"
+                  )}
+                >
+                  {isApiKeyValid === undefined && "Test"}
+                  {isApiKeyValid === true && <FaCheckCircle />}
+                  {isApiKeyValid === false && <FaExclamationCircle />}
+                </Button>
+              </div>
             </div>
+
             {!disableAdvancedSettings && (
               <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">
                 <h1 className="pb-4 text-xl font-bold dark:text-gray-200">Advanced Settings</h1>

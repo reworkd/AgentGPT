@@ -1,7 +1,6 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse
-from langchain.chat_models import ChatOpenAI
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
@@ -15,6 +14,7 @@ from reworkd_platform.web.api.agent.helpers import (
     openai_error_handler,
     parse_with_handling,
 )
+from reworkd_platform.web.api.agent.model_settings import WrappedChatOpenAI
 from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
     create_tasks_prompt,
@@ -35,7 +35,7 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 class OpenAIAgentService(AgentService):
     def __init__(
         self,
-        model: ChatOpenAI,
+        model: WrappedChatOpenAI,
         language: str,
         agent_memory: AgentMemory,
         token_service: TokenService,
@@ -84,7 +84,7 @@ class OpenAIAgentService(AgentService):
         ).to_messages()
 
         self.model.max_tokens -= sum(
-            self.token_service.count(m.to_string()) for m in messages
+            [self.token_service.count(m.content) for m in messages]
         )
 
         message = await openai_error_handler(

@@ -1,27 +1,35 @@
+import itertools
+
 import pytest
 
-from reworkd_platform.schemas import ModelSettings
-from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
-    create_model,
-)
+from reworkd_platform.schemas import ModelSettings, UserBase
+from reworkd_platform.web.api.agent.model_settings import create_model
 
 
 @pytest.mark.parametrize(
-    "settings",
-    [
-        ModelSettings(
-            customTemperature=0.222,
-            customModelName="gpt-4",
-            maxTokens=1234,
-        ),
-        ModelSettings(),
-    ],
+    "settings, streaming",
+    list(
+        itertools.product(
+            [
+                ModelSettings(
+                    customTemperature=0.222,
+                    customModelName="gpt-4",
+                    maxTokens=1234,
+                ),
+                ModelSettings(),
+            ],
+            [True, False],
+        )
+    ),
 )
-def test_create_model(
-    settings: ModelSettings,
-):
-    model = create_model(settings)
+def test_create_model(settings: ModelSettings, streaming: bool):
+    model = create_model(
+        settings,
+        UserBase(id="", email="test@example.com"),
+        streaming=streaming,
+    )
 
     assert model.temperature == settings.temperature
-    assert model.model_name == settings.model
+    assert model.model_name.startswith(settings.model)
     assert model.max_tokens == settings.max_tokens
+    assert model.streaming == streaming

@@ -21,7 +21,7 @@ const SettingsPage = () => {
   const { session } = useAuth();
   const { models, getModel } = useModels();
 
-  const showAdvancedSettings = session?.user;
+  const disableAdvancedSettings = !session?.user;
   const model = getModel(settings.customModelName) || {
     name: settings.customModelName,
     max_tokens: 2000,
@@ -38,7 +38,7 @@ const SettingsPage = () => {
 
   return (
     <SidebarLayout>
-      <div className="grid min-h-screen flex-grow place-items-center p-10 lg:p-16">
+      <div className="grid min-h-screen place-items-center p-2 sm:p-10 lg:p-16">
         <div className="rounded-xl border-2 border-white/20 bg-neutral-900">
           <div className="border-b-2 border-white/20 p-3 sm:p-5">
             <h1 className="text-3xl font-bold dark:text-white md:text-4xl">Settings ⚙</h1>
@@ -73,59 +73,66 @@ const SettingsPage = () => {
                 icon={<FaKey />}
               />
             </div>
-            {showAdvancedSettings && (
-              <div className="flex flex-col gap-3">
-                <h1 className="mt-6 text-xl font-bold dark:text-white">Advanced Settings</h1>
-                <Combo<LLMModel>
-                  label="Model"
-                  value={model}
-                  valueMapper={(e) => e.name}
-                  onChange={updateModel}
-                  items={models}
-                  icon={<FaRobot />}
-                />
-                <Input
-                  label={t("TEMPERATURE")}
-                  value={settings.customTemperature}
-                  name="temperature"
-                  type="range"
-                  onChange={(e) => updateSettings("customTemperature", parseFloat(e.target.value))}
-                  attributes={{
-                    min: 0,
-                    max: 1,
-                    step: 0.01,
-                  }}
-                  helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
-                  icon={<FaThermometerFull />}
-                />
-                <Input
-                  label={t("LOOP")}
-                  value={settings.customMaxLoops}
-                  name="loop"
-                  type="range"
-                  onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
-                  attributes={{
-                    min: 1,
-                    max: 25,
-                    step: 1,
-                  }}
-                  helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
-                  icon={<FaSyncAlt />}
-                />
-                <Input
-                  label={t("TOKENS")}
-                  value={settings.maxTokens}
-                  name="tokens"
-                  type="range"
-                  onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
-                  attributes={{
-                    min: 200,
-                    max: model.max_tokens,
-                    step: 100,
-                  }}
-                  helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
-                  icon={<FaCoins />}
-                />
+            {!disableAdvancedSettings && (
+              <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">
+                <h1 className="pb-4 text-xl font-bold dark:text-gray-200">Advanced Settings</h1>
+                <div className="flex flex-col gap-3">
+                  <Combo<LLMModel>
+                    label="Model"
+                    value={model}
+                    valueMapper={(e) => e.name}
+                    onChange={updateModel}
+                    items={models}
+                    icon={<FaRobot />}
+                  />
+                  <Input
+                    label={t("TEMPERATURE")}
+                    value={settings.customTemperature}
+                    name="temperature"
+                    type="range"
+                    onChange={(e) =>
+                      updateSettings("customTemperature", parseFloat(e.target.value))
+                    }
+                    attributes={{
+                      min: 0,
+                      max: 1,
+                      step: 0.01,
+                    }}
+                    helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
+                    icon={<FaThermometerFull />}
+                    disabled={disableAdvancedSettings}
+                  />
+                  <Input
+                    label={t("LOOP")}
+                    value={settings.customMaxLoops}
+                    name="loop"
+                    type="range"
+                    onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
+                    attributes={{
+                      min: 1,
+                      max: 25,
+                      step: 1,
+                    }}
+                    helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
+                    icon={<FaSyncAlt />}
+                    disabled={disableAdvancedSettings}
+                  />
+                  <Input
+                    label={t("TOKENS")}
+                    value={settings.maxTokens}
+                    name="tokens"
+                    type="range"
+                    onChange={(e) => updateSettings("maxTokens", parseFloat(e.target.value))}
+                    attributes={{
+                      min: 200,
+                      max: model.max_tokens,
+                      step: 100,
+                    }}
+                    helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
+                    icon={<FaCoins />}
+                    disabled={disableAdvancedSettings}
+                  />
+                </div>
               </div>
             )}
           </div>

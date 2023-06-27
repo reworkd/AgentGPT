@@ -25,7 +25,7 @@ class ModelWithAccess(BaseModel):
 @router.get("")
 async def get_models(
     user: UserBase = Depends(get_current_user),
-) -> List["ModelWithAccess"]:
+) -> List[ModelWithAccess]:
     return [
         ModelWithAccess.from_model(name=model, max_tokens=tokens, user=user)
         for model, tokens in LLM_MODEL_MAX_TOKENS.items()

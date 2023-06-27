@@ -6,6 +6,8 @@ from typing import List, Optional
 from pydantic import BaseSettings
 from yarl import URL
 
+from reworkd_platform.constants import ENV_PREFIX
+
 TEMP_DIR = Path(gettempdir())
 
 
@@ -52,6 +54,7 @@ class Settings(BaseSettings):
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
+    allowed_origins_regex: Optional[str] = None
 
     # Variables for the database
     db_host: str = "localhost"
@@ -102,7 +105,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
-        env_prefix = "REWORKD_PLATFORM_"
+        env_prefix = ENV_PREFIX
         env_file_encoding = "utf-8"
 
 

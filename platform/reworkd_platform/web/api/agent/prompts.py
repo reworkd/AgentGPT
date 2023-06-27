@@ -91,16 +91,16 @@ create_tasks_prompt = PromptTemplate(
 
 summarize_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language. 
-    
+
     Parse and summarize the following text snippets "{snippets}".
     Write using clear markdown formatting in a style expected of the goal "{goal}".
     Be as clear, informative, and descriptive as necessary and attempt to
     answer the query: "{query}" as best as possible.
-    
-    Cite sources for as many sentences as possible via the source link. Use the index as the citation text.
-    Site the source using a markdown link directly at the end of the sentence that the source is used in. 
-    Do not list sources at the end of the writing. 
-    
+
+    Cite sources for as many sentences as possible by using the corresponding source link. Use the index as the citation text.
+    Incorporate the source using a markdown link directly at the end of the sentence that the source is used in. 
+    Do not separately list sources at the end of the writing. 
+
     Example: "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence." 
     """,
     input_variables=["goal", "language", "query", "snippets"],

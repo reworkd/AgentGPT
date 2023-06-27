@@ -1,25 +1,53 @@
+import axios from "axios";
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { FaCoins, FaGlobe, FaKey, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaCoins,
+  FaExclamationCircle,
+  FaGlobe,
+  FaKey,
+  FaRobot,
+  FaSyncAlt,
+  FaThermometerFull,
+} from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
 import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
+import Button from "../ui/button";
+import clsx from "clsx";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
   const { session } = useAuth();
   const { models, getModel } = useModels();
+
+  const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
+
+  const validateApiKey = async () => {
+    try {
+      await axios.get("https://api.openai.com/v1/engines", {
+        headers: {
+          Authorization: `Bearer ${settings.customApiKey}`,
+        },
+      });
+
+      setIsApiKeyValid(true);
+    } catch (error) {
+      setIsApiKeyValid(false);
+    }
+  };
 
   const disableAdvancedSettings = !session?.user;
   const model = getModel(settings.customModelName) || {
@@ -55,24 +83,45 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-              <Input
-                label="API Key"
-                name="api-key"
-                placeholder="sk..."
-                helpText={
-                  <span>
-                    You can optionally use your own API key here. You can find your API key in your{" "}
-                    <a className="link" href="https://platform.openai.com/account/api-keys">
-                      OpenAI dashboard.
-                    </a>
-                  </span>
-                }
-                type="text"
-                value={settings.customApiKey}
-                onChange={(e) => updateSettings("customApiKey", e.target.value)}
-                icon={<FaKey />}
-              />
+              <div className="flex flex-row items-end gap-2">
+                <Input
+                  label="API Key"
+                  name="api-key"
+                  placeholder="sk..."
+                  helpText={
+                    <span>
+                      You can optionally use your own API key here. You can find your API key in
+                      your{" "}
+                      <a className="link" href="https://platform.openai.com/account/api-keys">
+                        OpenAI dashboard.
+                      </a>
+                    </span>
+                  }
+                  type="text"
+                  value={settings.customApiKey}
+                  onChange={(e) => {
+                    setIsApiKeyValid(undefined);
+                    updateSettings("customApiKey", e.target.value);
+                  }}
+                  icon={<FaKey />}
+                  className="flex-grow-1 mr-2"
+                />
+                <Button
+                  onClick={validateApiKey}
+                  className={clsx(
+                    "transition-400 h-10 w-10 flex-1 rounded px-2 py-2 text-sm text-white duration-200",
+                    isApiKeyValid === undefined && "bg-gray-500 hover:bg-gray-700",
+                    isApiKeyValid === true && "bg-green-500 hover:bg-green-700",
+                    isApiKeyValid === false && "bg-red-500 hover:bg-red-700"
+                  )}
+                >
+                  {isApiKeyValid === undefined && "Test"}
+                  {isApiKeyValid === true && <FaCheckCircle />}
+                  {isApiKeyValid === false && <FaExclamationCircle />}
+                </Button>
+              </div>
             </div>
+
             {!disableAdvancedSettings && (
               <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">
                 <h1 className="pb-4 text-xl font-bold dark:text-gray-200">Advanced Settings</h1>

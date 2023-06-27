@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
+import axios from "axios";
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";

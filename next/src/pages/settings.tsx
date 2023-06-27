@@ -5,7 +5,7 @@ import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
@@ -24,6 +24,8 @@ const SettingsPage = () => {
   const { session } = useAuth();
   const { models, getModel } = useModels();
 
+  const [validationResult, setValidationResult] = useState(""); // State to hold the validation result
+
   const handleSubmit = async () => {
     try {
       await axios.get("https://api.openai.com/v1/engines", {
@@ -32,14 +34,14 @@ const SettingsPage = () => {
         },
       });
 
-      alert("API key is valid");
+      setValidationResult("API key is valid");
     } catch (error) {
       if (error && (error as AxiosError).response) {
         const axiosError = error as AxiosError;
         if (axiosError.response && axiosError.response.status === 401) {
-          alert("API key is not valid");
+          setValidationResult("API key is not valid");
         } else {
-          alert("An error occurred while trying to validate the API key");
+          setValidationResult("An error occurred while trying to validate the API key");
           console.error(axiosError);
         }
       }
@@ -102,7 +104,7 @@ const SettingsPage = () => {
                 onClick={handleSubmit}
                 className="transition-400 rounded bg-zinc-800 px-4 py-2 text-sm text-white duration-200 hover:bg-zinc-600"
               >
-                Save
+                {validationResult ? validationResult : "Save"}
               </Button>
             </div>
             {!disableAdvancedSettings && (

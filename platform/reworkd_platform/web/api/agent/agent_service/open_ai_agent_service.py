@@ -156,10 +156,7 @@ class OpenAIAgentService(AgentService):
         )
 
         completion = await call_model_with_handling(
-            self.model,
-            prompt,
-            args,
-            callbacks=self.callbacks
+            self.model, prompt, args, callbacks=self.callbacks
         )
 
         previous_tasks = (completed_tasks or []) + tasks

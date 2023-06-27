@@ -74,6 +74,8 @@ Before you get started, please make sure you have the following installed:
    cd AgentGPT
    ./setup.bat
    ```
+5. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
+
 Happy hacking! :tada:
 
 ## 🎉 Roadmap

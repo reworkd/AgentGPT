@@ -14,12 +14,15 @@ import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
+import Button from "../ui/button";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
   const { session } = useAuth();
   const { models, getModel } = useModels();
+
+  const handleSubmit = () => {};
 
   const disableAdvancedSettings = !session?.user;
   const model = getModel(settings.customModelName) || {
@@ -55,23 +58,32 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-              <Input
-                label="API Key"
-                name="api-key"
-                placeholder="sk..."
-                helpText={
-                  <span>
-                    You can optionally use your own API key here. You can find your API key in your{" "}
-                    <a className="link" href="https://platform.openai.com/account/api-keys">
-                      OpenAI dashboard.
-                    </a>
-                  </span>
-                }
-                type="text"
-                value={settings.customApiKey}
-                onChange={(e) => updateSettings("customApiKey", e.target.value)}
-                icon={<FaKey />}
-              />
+              <div className="relative">
+                <Input
+                  label="API Key"
+                  name="api-key"
+                  placeholder="sk..."
+                  helpText={
+                    <span>
+                      You can optionally use your own API key here. You can find your API key in
+                      your{" "}
+                      <a className="link" href="https://platform.openai.com/account/api-keys">
+                        OpenAI dashboard.
+                      </a>
+                    </span>
+                  }
+                  type="text"
+                  value={settings.customApiKey}
+                  onChange={(e) => updateSettings("customApiKey", e.target.value)}
+                  icon={<FaKey />}
+                />
+                <Button
+                  onClick={handleSubmit}
+                  className="right-0 top-0 h-full rounded-r bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-900 focus:bg-zinc-600"
+                >
+                  Save
+                </Button>
+              </div>
             </div>
             {!disableAdvancedSettings && (
               <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">

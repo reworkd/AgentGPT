@@ -102,7 +102,13 @@ const SettingsPage = () => {
               />
               <Button
                 onClick={handleSubmit}
-                className="transition-400 rounded bg-zinc-800 px-4 py-2 text-sm text-white duration-200 hover:bg-zinc-600"
+                className={`transition-400 rounded px-4 py-2 text-sm text-white duration-200 ${
+                  validationResult
+                    ? validationResult.includes("valid")
+                      ? "bg-red-500 hover:bg-red-700"
+                      : "bg-blue-500 hover:bg-blue-700"
+                    : "bg-zinc-800 hover:bg-zinc-600"
+                }`}
               >
                 {validationResult ? validationResult : "Save"}
               </Button>

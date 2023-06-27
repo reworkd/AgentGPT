@@ -77,20 +77,22 @@ class OpenAIAgentService(AgentService):
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        messages = analyze_task_prompt.format_prompt(
+        functions = list(map(get_tool_function, get_user_tools(tool_names)))
+        prompt = analyze_task_prompt.format_prompt(
             goal=goal,
             task=task,
             language=self.language,
-        ).to_messages()
-
-        self.model.max_tokens -= sum(
-            [self.token_service.count(m.content) for m in messages]
         )
+
+        self.model.max_tokens -= self.token_service.count(prompt.to_string())
+
+        # TODO: We are over counting tokens here
+        self.model.max_tokens -= self.token_service.count(str(functions))
 
         message = await openai_error_handler(
             func=self.model.apredict_messages,
-            messages=messages,
-            functions=list(map(get_tool_function, get_user_tools(tool_names))),
+            messages=prompt.to_messages(),
+            functions=functions,
         )
 
         function_call = message.additional_kwargs.get("function_call", {})

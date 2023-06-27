@@ -58,32 +58,31 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-              <div className="relative">
-                <Input
-                  label="API Key"
-                  name="api-key"
-                  placeholder="sk..."
-                  helpText={
-                    <span>
-                      You can optionally use your own API key here. You can find your API key in
-                      your{" "}
-                      <a className="link" href="https://platform.openai.com/account/api-keys">
-                        OpenAI dashboard.
-                      </a>
-                    </span>
-                  }
-                  type="text"
-                  value={settings.customApiKey}
-                  onChange={(e) => updateSettings("customApiKey", e.target.value)}
-                  icon={<FaKey />}
-                />
-                <Button
-                  onClick={handleSubmit}
-                  className="right-0 top-0 h-full rounded-r bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-900 focus:bg-zinc-600"
-                >
-                  Save
-                </Button>
-              </div>
+
+              <Input
+                label="API Key"
+                name="api-key"
+                placeholder="sk..."
+                helpText={
+                  <span>
+                    You can optionally use your own API key here. You can find your API key in your{" "}
+                    <a className="link" href="https://platform.openai.com/account/api-keys">
+                      OpenAI dashboard.
+                    </a>
+                  </span>
+                }
+                type="text"
+                value={settings.customApiKey}
+                onChange={(e) => updateSettings("customApiKey", e.target.value)}
+                icon={<FaKey />}
+                className="flex-grow-1 mr-2"
+              />
+              <Button
+                onClick={handleSubmit}
+                className="rounded bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-600"
+              >
+                Save
+              </Button>
             </div>
             {!disableAdvancedSettings && (
               <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">

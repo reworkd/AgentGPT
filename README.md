@@ -48,55 +48,32 @@ The cli sets up the following for AgentGPT:
 
 Before you get started, please make sure you have the following installed:
 
-- [Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
+- An editor of your choice. For example, [Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
 - [Node.js](https://nodejs.org/en/download)
-- [Docker](https://www.docker.com/products/docker-desktop)
+- [Git](https://git-scm.com/downloads)
+- [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
 - An [OpenAI API key](https://beta.openai.com/signup/)
 
-For Docker, after installation, please create an account, download Docker, and sign in to your account.
-
-
 ## Getting Started :rocket:
+1. **Open your editor**
 
-1. **Open VS Code**
-   - You can do this by searching for it in your applications or clicking on the shortcut if you have one.
-   
-2. **Open the Terminal in VS Code**
-   - You can do this by clicking on the 'Terminal' tab at the top or by using the shortcut `Ctrl + ~` for Windows or `Control + ~` for Mac.
-   
-3. **Clone the Repository and Navigate into the Directory**
-   - Once your terminal is open, you can clone the repository and move into the directory by running the following commands:
-     
-For Mac/Linux users :apple: :penguin: 
+2. **Open the Terminal** - Typically, you can do this from a 'Terminal' tab or by using a shortcut
+   (e.g., `Ctrl + ~` for Windows or `Control + ~` for Mac in VS Code).
 
-```bash
-git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
-```
-For Windows users :windows:
+4. **Clone the Repository and Navigate into the Directory** - Once your terminal is open, you can clone the repository and move into the directory by running the commands below.
 
-```bash
-git clone https://github.com/reworkd/AgentGPT.git 
-cd AgentGPT
-```
-
-**Run the Setup File**
-- This will set up everything you need for the project.
-
-For Mac/Linux users :apple: :penguin:
-```bash
-./setup.sh
-```
-For Windows users :windows:
-
-```bash
-./setup.bat
-```
-## Build and Run the Docker Container
-
-Finally, you can build and run the Docker container with the following command:
-```bash
-docker-compose up --build
-```
+   **For Mac/Linux users** :apple: :penguin:
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   ./setup.sh
+   ```
+   **For Windows users** :windows:
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   ./setup.bat
+   ```
 Happy hacking! :tada:
 
 ## 🎉 Roadmap

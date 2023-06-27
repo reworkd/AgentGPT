@@ -6,6 +6,15 @@ sidebar_position: 3
 
 AgentGPT is currently in beta and we have a lot of features planned. Here's a glimpse of whats in the works!
 
+## Features in development ⏳
+
+:::tip
+AgentGPT developers are actively working on the following. Expect these to take anywhere from a few days to 2 weeks.
+:::
+
+For the most up-to-date information on the current
+roadmap, [visit our roadmap board on GitHub](https://github.com/orgs/reworkd/projects/3).
+
 ## Finished features ✔
 
 - 🔐 **Users and authentication**
@@ -17,29 +26,17 @@ AgentGPT is currently in beta and we have a lot of features planned. Here's a gl
 - 🤖 **AI Model customization**
   - Now users have the ability to use their own OpenAI API key to customize everything from the model, temperature,
     loops, and more! This also all runs directly within the user's browser!
-
-## Features in development ⏳
-
-:::tip
-AgentGPT developers are actively working on the following. Expect these to take anywhere from a few days to 2 weeks.
-:::
-
+- 📚 **Documentation overhaul**
+  - This is the page you're viewing right now! It will continually be updated as the project evolves to allow any new
+    user / contributer to get familiar with AgentGPT as quickly as possible.
 - 🌐 **Web browsing capabilities**
   - We have a basic version implemented that performs and summarizes a Google search via the SERP api.
-  - Note we've had to disable this due to costs, we will have it back up and running permanently within the week.
   - This does not currently visit the websites themselves and parse websites but we are working on this.
 - ✈ **Backend migration to Python**
   - This is a bigger undertaking but something we feel must be done. It will allow us to migrate off of edge functions
     and use all the tools available for language models in the Python ecosystem.
-- 🧠 **Long term memory via a vector DB**
-  - Providing Agents with more memory will allow them to perform tasks with a lot more context. This will also stop
-    Agents from trying to perform the same or similar tasks multiple times.
-- 🤖 **Agent steer-ability**
-  - Users should be able to guide the Agent through a goal. This involves adding or removing tasks and providing
-    additional context for the agent
-- 📚 **Documentation overhaul**
-  - This is the page you're viewing right now! It will continually be updated as the project evolves to allow any new
-    user / contributer to get familiar with AgentGPT as quickly as possible.
+- 💵 **Stripe integration for a lower limit paid version**
+  - (Will help us stop worrying about infra costs)
 
 ## Planned features 🕰️
 
@@ -51,8 +48,6 @@ the [AgentGPT discord](https://discord.gg/jdSBAnmdnY)!
 - 👨‍👩‍👦 **Interaction with websites and people**
 - 📄 **Writing capabilities via a document API**
   - This would involve the ability
-- 💵 **Stripe integration for a lower limit paid version**
-  - (Will help us stop worrying about infra costs)
 - 🤖 **Cross agent communication**
 
 ## Notes

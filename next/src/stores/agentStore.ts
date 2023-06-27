@@ -3,26 +3,23 @@ import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../services/agent/autonomous-agent";
-import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
-import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
 import type { ActiveTool } from "../hooks/useTools";
 
 const resetters: (() => void)[] = [];
 
 const initialAgentState = {
   agent: null,
+  isAgentThinking: false,
   isAgentStopped: true,
   isAgentPaused: undefined,
 };
 
 interface AgentSlice {
   agent: AutonomousAgent | null;
+  isAgentThinking: boolean;
+  setIsAgentThinking: (isThinking: boolean) => void;
   isAgentStopped: boolean;
-  isAgentPaused: boolean | undefined;
-  agentMode: AgentMode;
-  updateAgentMode: (agentMode: AgentMode) => void;
-  updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
-  updateIsAgentStopped: () => void;
+  setIsAgentStopped: (boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
@@ -35,20 +32,14 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
-    agentMode: AUTOMATIC_MODE,
-    updateAgentMode: (agentMode) => {
+    setIsAgentThinking: (isThinking: boolean) => {
       set(() => ({
-        agentMode,
+        isAgentThinking: isThinking,
       }));
     },
-    updateIsAgentPaused: (agentPlaybackControl) => {
-      set(() => ({
-        isAgentPaused: agentPlaybackControl === AGENT_PAUSE,
-      }));
-    },
-    updateIsAgentStopped: () => {
+    setIsAgentStopped: (isStopped: boolean) => {
       set((state) => ({
-        isAgentStopped: !state.agent?.isRunning,
+        isAgentStopped: isStopped,
       }));
     },
     setAgent: (newAgent) => {
@@ -82,10 +73,10 @@ export const useAgentStore = createSelectors(
         ...createToolsSlice(...a),
       }),
       {
-        name: "agent-storage",
+        name: "agent-storage-v2",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
-          agentMode: state.agentMode,
+          tools: state.tools,
         }),
       }
     )

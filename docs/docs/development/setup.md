@@ -15,19 +15,20 @@ The following document will help you set up a local installation of AgentGPT.
 ## Interactive Setup
 
 We've recently launched an interactive setup tool that will guide you through creating an ENV and running AgentGPT.
-Simply run the following:
+
+- You will need node intalled you can check by running 'node -v' or install [node](https://nodejs.org/en/download)
+
+Simply run the following on a unix system:
 
 ```
 git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
 ./setup.sh
 ```
 
-If you are on windows, you can do the following after downloading the repo
+If you are on windows, you can do the following after downloading the repo:
 
 ```
-cd cli
-npm install
-npm run start
+setup.bat
 ```
 
 Going this route, you can ignore the below text.
@@ -40,6 +41,17 @@ it to `.env` and update values as necessary. Some things to note:
 
 - You will need to update the `OPENAI_API_KEY` with your own value. See the [FAQ](/faq) for details
 - The DB ENV values are taken from definitions in `./docker-compose.yml`
+
+:::note Increasing Max Loops
+
+If you want to increase the max loops you agent has locally this can be done by modifying `REWORKD_PLATFORM_MAX_LOOPS`
+variable in your `platform/.env` file. It can also be done by directly modifying the platform's source
+code in `settings.py` (not recommended).
+
+**Note**: Running a large number of loops locally can be result in a higher OpenAI bill.
+
+:::
+
 
 ## Using Docker
 

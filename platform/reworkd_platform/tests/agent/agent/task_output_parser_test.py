@@ -4,10 +4,10 @@ import pytest
 from langchain.schema import OutputParserException
 
 from reworkd_platform.web.api.agent.task_output_parser import (
+    TaskOutputParser,
+    extract_array,
     real_tasks_filter,
     remove_prefix,
-    extract_array,
-    TaskOutputParser,
 )
 
 
@@ -47,9 +47,21 @@ def test_parse_with_completed_tasks() -> None:
 
 
 @pytest.mark.parametrize(
-    "input_text,exception",
+    "input_text, exception",
     [
+        # Test cases for non-array and non-multiline string inputs
         ("This is not an array", OutputParserException),
+        ("123456", OutputParserException),
+        ("Some random text", OutputParserException),
+        ("[abc]", OutputParserException),
+        # Test cases for malformed arrays
+        ("[1, 2, 3", OutputParserException),
+        ("'item1', 'item2']", OutputParserException),
+        ("['item1', 'item2", OutputParserException),
+        # Test case for invalid multiline strings
+        ("This is not\na valid\nmultiline string.", OutputParserException),
+        # Test case for multiline strings that don't start with digit + period
+        ("Some text\nMore text\nAnd more text.", OutputParserException),
     ],
 )
 def test_parse_failure(input_text: str, exception: Type[Exception]) -> None:
@@ -61,17 +73,21 @@ def test_parse_failure(input_text: str, exception: Type[Exception]) -> None:
 @pytest.mark.parametrize(
     "input_str, expected",
     [
+        # Test cases for empty array
         ("[]", []),
+        # Test cases for arrays with one element
         ('["One"]', ["One"]),
-        (
-            '```json\n["Research", "Develop", "Integrate"]\n```',
-            ["Research", "Develop", "Integrate"],
-        ),
-        ('["Search", "Identify"]', ["Search", "Identify"]),
         ("['Single quote']", ["Single quote"]),
-        ("['Single with \"quote\"']", ['Single with "quote"']),
-        ("Random stuff ['Search', 'Identify']", ["Search", "Identify"]),
+        # Test cases for arrays with multiple elements
+        ('["Research", "Develop", "Integrate"]', ["Research", "Develop", "Integrate"]),
+        ('["Search", "Identify"]', ["Search", "Identify"]),
         ('["Item 1","Item 2","Item 3"]', ["Item 1", "Item 2", "Item 3"]),
+        # Test cases for arrays with special characters in elements
+        ("['Single with \"quote\"']", ['Single with "quote"']),
+        ('["Escape \\" within"]', ['Escape " within']),
+        # Test case for array embedded in other text
+        ("Random stuff ['Search', 'Identify']", ["Search", "Identify"]),
+        # Test case for array within JSON
         ('{"array": ["123", "456"]}', ["123", "456"]),
         # Multiline string cases
         (
@@ -94,6 +110,21 @@ def test_parse_failure(input_text: str, exception: Type[Exception]) -> None:
                 "process",
                 "3. Print out debug information and setup initial variables",
                 "4. Start necessary threads and execute program logic.",
+            ],
+        ),
+        # Test cases with sentences before the digit + period pattern
+        (
+            "Any text before 1. Identify the task to be repeated\nUnrelated info 2. "
+            "Determine the frequency of the repetition\nAnother sentence 3. Create a "
+            "schedule or system to ensure completion of the task at the designated "
+            "frequency\nMore text 4. Execute the task according to the established "
+            "schedule or system",
+            [
+                "1. Identify the task to be repeated",
+                "2. Determine the frequency of the repetition",
+                "3. Create a schedule or system to ensure completion of the task at "
+                "the designated frequency",
+                "4. Execute the task according to the established schedule or system",
             ],
         ),
     ],

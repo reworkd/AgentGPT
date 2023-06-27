@@ -1,6 +1,6 @@
 import { api } from "../utils/api";
-import type { Message } from "../types/agentTypes";
 import { useAuth } from "./useAuth";
+import type { Message } from "../types/message";
 
 export interface SaveProps {
   name: string;
@@ -15,10 +15,7 @@ export function useAgent() {
   const voidFunc = () => {};
   const saveMutation = api.agent.create.useMutation({
     onSuccess: (data) => {
-      utils.agent.getAll.setData(voidFunc(), (oldData) => [
-        data,
-        ...(oldData ?? []),
-      ]);
+      utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
     },
   });
 

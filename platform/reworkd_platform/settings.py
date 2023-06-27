@@ -6,6 +6,8 @@ from typing import List, Optional
 from pydantic import BaseSettings
 from yarl import URL
 
+from reworkd_platform.constants import ENV_PREFIX
+
 TEMP_DIR = Path(gettempdir())
 
 
@@ -48,11 +50,11 @@ class Settings(BaseSettings):
     secondary_openai_api_key: Optional[str] = None
 
     replicate_api_key: Optional[str] = None
-    ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     serp_api_key: Optional[str] = None
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
+    allowed_origins_regex: Optional[str] = None
 
     # Variables for the database
     db_host: str = "localhost"
@@ -63,15 +65,27 @@ class Settings(BaseSettings):
     db_echo: bool = False
     db_ca_path: str = "/etc/ssl/cert.pem"
 
-    # Variables for the vector db. We're currently using Weaviate
-    vector_db_url: str = "<Should be updated via env>"
-    vector_db_api_key: str = "<Should be updated via env>"
+    # Variables for Weaviate db.
+    vector_db_url: Optional[str] = None
+    vector_db_api_key: Optional[str] = None
+
+    # Variables for Supabase PG_Vector DB
+    supabase_vecs_url: Optional[str] = None
+
+    # Variables for Pinecone DB
+    pinecone_api_key: Optional[str] = None
+    pinecone_index_name: Optional[str] = None
+    pinecone_environment: Optional[str] = None
 
     # Sentry's configuration.
     sentry_dsn: Optional[str] = None
     sentry_sample_rate: float = 1.0
 
     kafka_bootstrap_servers: List[str] = ["reworkd_platform-kafka:9092"]
+
+    # Application Settings
+    ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
+    max_loops: int = 25  # Maximum number of loops to run
 
     @property
     def db_url(self) -> URL:
@@ -91,7 +105,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
-        env_prefix = "REWORKD_PLATFORM_"
+        env_prefix = ENV_PREFIX
         env_file_encoding = "utf-8"
 
 

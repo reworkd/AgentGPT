@@ -69,20 +69,21 @@ reworkd_platform
 This application can be configured with environment variables.
 
 You can create `.env` file in the root directory and place all
-environment variables here. 
+environment variables here.
 
 All environment variables should start with "REWORKD_PLATFORM_" prefix.
 
 For example if you see in your "reworkd_platform/settings.py" a variable named like
-`random_parameter`, you should provide the "REWORKD_PLATFORM_RANDOM_PARAMETER" 
+`random_parameter`, you should provide the "REWORKD_PLATFORM_RANDOM_PARAMETER"
 variable to configure the value. This behaviour can be changed by overriding `env_prefix` property
 in `reworkd_platform.settings.Settings.Config`.
 
 An example of .env file:
+
 ```bash
 REWORKD_PLATFORM_RELOAD="True"
 REWORKD_PLATFORM_PORT="8000"
-REWORKD_PLATFORM_ENVIRONMENT="dev"
+REWORKD_PLATFORM_ENVIRONMENT="development"
 ```
 
 You can read more about BaseSettings class here: https://pydantic-docs.helpmanual.io/usage/settings/
@@ -90,6 +91,7 @@ You can read more about BaseSettings class here: https://pydantic-docs.helpmanua
 ## Pre-commit
 
 To install pre-commit simply run inside the shell:
+
 ```bash
 pre-commit install
 ```
@@ -98,14 +100,13 @@ pre-commit is very useful to check your code before publishing it.
 It's configured using .pre-commit-config.yaml file.
 
 By default it runs:
+
 * black (formats your code);
 * mypy (validates types);
 * isort (sorts imports in all files);
 * flake8 (spots possibe bugs);
 
-
 You can read more about pre-commit here: https://pre-commit.com/
-
 
 ## Running tests
 
@@ -117,20 +118,23 @@ docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.dev.yml --p
 ```
 
 For running tests on your local machine.
+
 1. you need to start a database.
 
 I prefer doing it with docker:
+
 ```
 docker run -p "3306:3306" -e "MYSQL_PASSWORD=reworkd_platform" -e "MYSQL_USER=reworkd_platform" -e "MYSQL_DATABASE=reworkd_platform" -e ALLOW_EMPTY_PASSWORD=yes bitnami/mysql:8.0.30
 ```
 
-
 2. Run the pytest.
+
 ```bash
 pytest -vv .
 ```
 
 ## Running linters
+
 ```bash
 # Flake
 poetry run black .

@@ -1,53 +1,57 @@
-import type { Message } from "../../types/agentTypes";
-import {
-  MESSAGE_TYPE_GOAL,
-  MESSAGE_TYPE_SYSTEM,
-  MESSAGE_TYPE_THINKING,
-} from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
-import { isPlatformError } from "../../types/errors";
+import { isPlatformError, isValueError } from "../../types/errors";
 import { useMessageStore } from "../../stores";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import { v1 } from "uuid";
+import type { Task } from "../../types/task";
 
-class MessageService {
-  private isRunning: boolean;
+export class MessageService {
   private readonly renderMessage: (message: Message) => void;
 
   constructor(renderMessage: (message: Message) => void) {
-    this.isRunning = false;
     this.renderMessage = renderMessage;
   }
 
-  setIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
   sendMessage(message: Message) {
-    if (this.isRunning) {
-      this.renderMessage({ ...message });
-    }
+    this.renderMessage({ ...message });
   }
 
   updateMessage(message: Message) {
-    if (this.isRunning) {
-      useMessageStore.getState().updateMessage(message);
-    }
+    useMessageStore.getState().updateMessage(message);
+  }
+
+  startTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `✨ Starting task: ${task.value}`,
+    });
+  }
+
+  skipTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `🥺 Skipping task: ${task.value}`,
+    });
+  }
+
+  startTask(task: string) {
+    this.renderMessage({
+      taskId: v1().toString(),
+      value: task,
+      status: "started",
+      type: "task",
+    });
   }
 
   sendGoalMessage(goal: string) {
     this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: goal });
   }
 
-  sendLoopMessage() {
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("DEMO_LOOPS_REACHED", "errors"),
-    });
-  }
-
   sendManualShutdownMessage() {
-    this.sendMessage({
+    this.renderMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
     });
@@ -81,24 +85,31 @@ class MessageService {
     });
   }
 
-  sendThinkingMessage() {
-    this.sendMessage({ type: MESSAGE_TYPE_THINKING, value: "" });
-  }
-
   sendErrorMessage(e: unknown) {
-    let message = "ERROR_RETRIEVE_INITIAL_TASKS";
-
+    let message = "An unknown error occurred. Please try again later.";
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e)) {
+    else if (axios.isAxiosError(e) && e.message == "Network Error") {
+      message = "Error attempting to connect to the server.";
+    } else if (axios.isAxiosError(e)) {
+      const data = (e.response?.data as object) || {};
       switch (e.response?.status) {
         case 409:
-          const data = (e.response?.data as object) || {};
           message = isPlatformError(data)
             ? data.detail
             : "An Unknown Error Occurred, Please Try Again!";
           break;
+        case 422:
+          if (isValueError(data)) {
+            const detailMessages = data.detail.map((detail) => detail.msg);
+            message = detailMessages.join("\n");
+          }
+          break;
         case 429:
-          message = "ERROR_API_KEY_QUOTA";
+          const { detail } = e.response?.data as { detail: string | undefined };
+          message = detail || "Too many requests. Please try again later.";
+          break;
+        case 403:
+          message = "Authentication Error. Please make sure you are logged in.";
           break;
         case 404:
           message = "ERROR_OPENAI_API_KEY_NO_GPT4";
@@ -112,5 +123,3 @@ class MessageService {
     this.sendMessage({ type: "error", value: translate(message, "errors") });
   }
 }
-
-export default MessageService;

@@ -1,4 +1,4 @@
-from typing import Type, List
+from typing import List, Type
 
 from reworkd_platform.web.api.agent.tools.code import Code
 from reworkd_platform.web.api.agent.tools.conclude import Conclude

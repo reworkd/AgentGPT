@@ -1,4 +1,8 @@
-from reworkd_platform.schemas import ModelSettings
+from typing import Any, Coroutine, Callable
+
+from fastapi import Depends
+
+from reworkd_platform.schemas import AgentRun, UserBase
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.agent_service.mock_agent_service import (
@@ -7,10 +11,27 @@ from reworkd_platform.web.api.agent.agent_service.mock_agent_service import (
 from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
     OpenAIAgentService,
 )
+from reworkd_platform.web.api.agent.dependancies import (
+    get_agent_memory,
+)
+from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.dependencies import get_current_user
+from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
-def get_agent_service(model_settings: ModelSettings) -> AgentService:
-    if settings.ff_mock_mode_enabled:
-        return MockAgentService()
-    else:
-        return OpenAIAgentService(model_settings)
+def get_agent_service(
+    validator: Callable[..., Coroutine[Any, Any, AgentRun]],
+    streaming: bool = False,
+) -> Callable[..., AgentService]:
+    def func(
+        run: AgentRun = Depends(validator),
+        user: UserBase = Depends(get_current_user),
+        agent_memory: AgentMemory = Depends(get_agent_memory),
+    ) -> AgentService:
+        if settings.ff_mock_mode_enabled:
+            return MockAgentService()
+
+        model = create_model(run.model_settings, user, streaming=streaming)
+        return OpenAIAgentService(model, run.model_settings.language, agent_memory)
+
+    return func

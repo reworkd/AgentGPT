@@ -1,5 +1,5 @@
-import MessageService from "../src/services/agent/message-service";
-import type { Message } from "../src/types/agentTypes";
+import type { Message } from "../src/types/message";
+import { MessageService } from "../src/services/agent/message-service";
 
 describe("sendErrorMessage", () => {
   let instance: MessageService;
@@ -8,7 +8,6 @@ describe("sendErrorMessage", () => {
   beforeEach(() => {
     renderMessage = jest.fn((message: Message) => ({}));
     instance = new MessageService(renderMessage);
-    instance.setIsRunning(true);
   });
 
   it("should handle Axios errors", () => {

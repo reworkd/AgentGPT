@@ -1,34 +1,49 @@
-import type { Message } from "../../types/agentTypes";
-import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/agentTypes";
 import { translate } from "../../utils/translations";
 import type { Analysis } from "./analysis";
 import axios from "axios";
 import { isPlatformError, isValueError } from "../../types/errors";
 import { useMessageStore } from "../../stores";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import { v1 } from "uuid";
+import type { Task } from "../../types/task";
 
 export class MessageService {
-  private isRunning: boolean;
   private readonly renderMessage: (message: Message) => void;
 
   constructor(renderMessage: (message: Message) => void) {
-    this.isRunning = false;
     this.renderMessage = renderMessage;
   }
 
-  setIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
   sendMessage(message: Message) {
-    if (this.isRunning) {
-      this.renderMessage({ ...message });
-    }
+    this.renderMessage({ ...message });
   }
 
   updateMessage(message: Message) {
-    if (this.isRunning) {
-      useMessageStore.getState().updateMessage(message);
-    }
+    useMessageStore.getState().updateMessage(message);
+  }
+
+  startTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `✨ Starting task: ${task.value}`,
+    });
+  }
+
+  skipTaskMessage(task: Task) {
+    this.sendMessage({
+      type: "system",
+      value: `🥺 Skipping task: ${task.value}`,
+    });
+  }
+
+  startTask(task: string) {
+    this.renderMessage({
+      taskId: v1().toString(),
+      value: task,
+      status: "started",
+      type: "task",
+    });
   }
 
   sendGoalMessage(goal: string) {
@@ -72,10 +87,9 @@ export class MessageService {
 
   sendErrorMessage(e: unknown) {
     let message = "An unknown error occurred. Please try again later.";
-
     if (typeof e == "string") message = e;
-    else if (axios.isAxiosError(e) && !e.response) {
-      message = "Unable to connect to the Python backend. Please make sure its running.";
+    else if (axios.isAxiosError(e) && e.message == "Network Error") {
+      message = "Error attempting to connect to the server.";
     } else if (axios.isAxiosError(e)) {
       const data = (e.response?.data as object) || {};
       switch (e.response?.status) {
@@ -91,7 +105,8 @@ export class MessageService {
           }
           break;
         case 429:
-          message = "ERROR_API_KEY_QUOTA";
+          const { detail } = e.response?.data as { detail: string | undefined };
+          message = detail || "Too many requests. Please try again later.";
           break;
         case 403:
           message = "Authentication Error. Please make sure you are logged in.";

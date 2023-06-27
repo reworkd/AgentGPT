@@ -5,12 +5,12 @@ import { FaClipboard, FaImage, FaSave } from "react-icons/fa";
 import PDFButton from "../pdf/PDFButton";
 import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
-import type { Message } from "../../types/agentTypes";
 import { AnimatePresence } from "framer-motion";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
 import type { ReactNode } from "react";
 import React from "react";
+import type { Message } from "../../types/message";
 
 export const messageListId = "chat-window-message-list";
 

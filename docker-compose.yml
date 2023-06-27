@@ -68,6 +68,11 @@ services:
     volumes:
       - weaviate:/var/lib/weaviate
 
+  docs:
+    build: ./docs
+    ports:
+      - "3001:3001"
+
 volumes:
   weaviate:
   db_data:

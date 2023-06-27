@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse
+
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
@@ -158,7 +159,7 @@ class OpenAIAgentService(AgentService):
             self.model,
             prompt,
             args,
-            callbacks=self.callbacks,
+            callbacks=self.callbacks
         )
 
         previous_tasks = (completed_tasks or []) + tasks

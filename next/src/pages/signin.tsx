@@ -12,7 +12,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Input from "../components/Input";
 
-
 const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: session } = useSession();
   const { push } = useRouter();
@@ -28,14 +27,7 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
         <title>Sign in - AgentGPT</title>
       </Head>
 
-      <div
-        className="h-screen w-screen"
-        style={{
-          backgroundColor: "rgb(0, 0, 0)",
-          backgroundImage:
-            "radial-gradient(at 170% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% -30%, rgb(21, 94, 117) 0, transparent 50%)",
-        }}
-      >
+      <div className="radial-background-1 h-screen w-screen bg-black">
         <div className="flex h-full w-full items-center justify-center pb-8">
           <FadeIn
             duration={1.5}
@@ -54,8 +46,8 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
                 Welcome to AgentGPT
               </h1>
             </div>
-            {providers["credentials"] &&
-              <div >
+            {providers["credentials"] && (
+              <div>
                 <Input
                   value={usernameValue}
                   onChange={(e) => setUsernameValue(e.target.value)}
@@ -64,22 +56,25 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
                 />
                 <button
                   onClick={() => {
-                    if (!usernameValue) return
+                    if (!usernameValue) {
+                      return;
+                    }
+
                     signIn("credentials", {
                       callbackUrl: "/",
-                      name: usernameValue
+                      name: usernameValue,
                     }).catch(console.error);
                   }}
-                  className={`mt-4 bg-white hover:bg-gray-200 text-black mb-4 flex items-center rounded-md px-10 py-3 text-base font-semibold shadow-md transition-colors duration-300 sm:px-16 sm:py-5 sm:text-lg`}
+                  className={`mb-4 mt-4 flex items-center rounded-md bg-white px-10 py-3 text-base font-semibold text-black shadow-md transition-colors duration-300 hover:bg-gray-200 sm:px-16 sm:py-5 sm:text-lg`}
                 >
                   Sign in {providers["credentials"]?.name}
                 </button>
               </div>
-            }
+            )}
             {providers &&
               Object.values(providers).map((provider) => (
                 <div key={provider.id}>
-                  <SignInBtn provider={btnDetails[provider.id]} id={provider.id} />
+                  <SignInBtn provider={buttonDetails[provider.id]} id={provider.id} />
                 </div>
               ))}
           </FadeIn>
@@ -109,16 +104,16 @@ const SignInBtn: React.FC<{
   );
 };
 
-type BTNdetail = {
+type ButtonDetail = {
   [key: string]:
-  | {
-    name: string;
-    icon: JSX.Element;
-    color: string;
-  }
-  | undefined;
+    | {
+        name: string;
+        icon: JSX.Element;
+        color: string;
+      }
+    | undefined;
 };
-const btnDetails: BTNdetail = {
+const buttonDetails: ButtonDetail = {
   google: {
     name: "Google",
     icon: <FaGoogle className="mr-2" />,

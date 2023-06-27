@@ -17,6 +17,10 @@ body {
     background-position: 0 0, 15px 15px;
 }
 
+.radial-background-1 {
+  background-image:radial-gradient(at 170% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% -30%, rgb(21, 94, 117) 0, transparent 50%);
+}
+
 .lower-gradient {
     background-image: linear-gradient(
             to top,

@@ -1,3 +1,4 @@
+import axios, { AxiosError } from "axios";
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
@@ -22,7 +23,27 @@ const SettingsPage = () => {
   const { session } = useAuth();
   const { models, getModel } = useModels();
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    try {
+      await axios.get("https://api.openai.com/v1/engines", {
+        headers: {
+          Authorization: `Bearer ${settings.customApiKey}`,
+        },
+      });
+
+      alert("API key is valid");
+    } catch (error) {
+      if (error && (error as AxiosError).response) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.status === 401) {
+          alert("API key is not valid");
+        } else {
+          alert("An error occurred while trying to validate the API key");
+          console.error(axiosError);
+        }
+      }
+    }
+  };
 
   const disableAdvancedSettings = !session?.user;
   const model = getModel(settings.customModelName) || {
@@ -58,7 +79,6 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-
               <Input
                 label="API Key"
                 name="api-key"
@@ -79,7 +99,7 @@ const SettingsPage = () => {
               />
               <Button
                 onClick={handleSubmit}
-                className="rounded bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-600"
+                className="transition-400 rounded bg-zinc-800 px-4 py-2 text-sm text-white duration-200 hover:bg-zinc-600"
               >
                 Save
               </Button>

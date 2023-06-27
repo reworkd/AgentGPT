@@ -36,7 +36,11 @@ def get_agent_service(
 
         model = create_model(run.model_settings, user, streaming=streaming)
         return OpenAIAgentService(
-            model, run.model_settings.language, agent_memory, token_service
+            model,
+            run.model_settings.language,
+            agent_memory,
+            token_service,
+            callbacks=None,
         )
 
     return func

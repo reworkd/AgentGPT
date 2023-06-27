@@ -1,6 +1,8 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse
+
+from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
@@ -39,11 +41,13 @@ class OpenAIAgentService(AgentService):
         language: str,
         agent_memory: AgentMemory,
         token_service: TokenService,
+        callbacks: Optional[List[AsyncCallbackHandler]],
     ):
         self.model = model
         self.agent_memory = agent_memory
         self.language = language
         self.token_service = token_service
+        self.callbacks = callbacks
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         prompt = ChatPromptTemplate.from_messages(
@@ -63,6 +67,7 @@ class OpenAIAgentService(AgentService):
                 [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
             ),
             {"goal": goal, "language": self.language},
+            callbacks=self.callbacks,
         )
 
         task_output_parser = TaskOutputParser(completed_tasks=[])
@@ -93,6 +98,7 @@ class OpenAIAgentService(AgentService):
             func=self.model.apredict_messages,
             messages=prompt.to_messages(),
             functions=functions,
+            callbacks=self.callbacks,
         )
 
         function_call = message.additional_kwargs.get("function_call", {})
@@ -150,9 +156,7 @@ class OpenAIAgentService(AgentService):
         )
 
         completion = await call_model_with_handling(
-            self.model,
-            prompt,
-            args,
+            self.model, prompt, args, callbacks=self.callbacks
         )
 
         previous_tasks = (completed_tasks or []) + tasks

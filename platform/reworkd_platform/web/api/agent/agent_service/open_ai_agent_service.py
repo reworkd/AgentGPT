@@ -7,6 +7,7 @@ from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
 from pydantic import ValidationError
 
+from reworkd_platform.schemas import LLM_MODEL_MAX_TOKENS
 from reworkd_platform.services.tokenizer.service import TokenService
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
@@ -177,7 +178,9 @@ class OpenAIAgentService(AgentService):
 
         return unique_tasks
 
-    def calculate_max_tokens(self, *args: str):
-        prompt_tokens = sum([self.token_service.count(arg) for arg in args])
-        self.model.max_tokens -= prompt_tokens
-        self.model.max_tokens = max(self.model.max_tokens, self.MIN_COMPLETION_SPACE)
+    def calculate_max_tokens(self, *prompts: str) -> None:
+        model_max_tokens = LLM_MODEL_MAX_TOKENS.get(self.model.model_name, 4000)
+        prompt_tokens = sum([self.token_service.count(p) for p in prompts])
+        requested_tokens = model_max_tokens - prompt_tokens
+
+        self.model.max_tokens = min(self.model.max_tokens, requested_tokens)

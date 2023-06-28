@@ -86,7 +86,6 @@ class AutonomousAgent {
       this.workLog.shift();
       if (this.model.getLifecycle() !== "running") {
         this.lastConclusion = () => work.conclude();
-        if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
       } else {
         await work.conclude();
       }

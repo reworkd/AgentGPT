@@ -21,10 +21,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(message.value);
-      console.log("Copied to clipboard:", message.value);
       setIsCopied(true);
     } catch (error) {
-      console.error("Failed to copy to clipboard:", error);
+      console.error(error);
     }
   };
 
@@ -45,13 +44,15 @@ const ChatMessage = ({ message }: { message: Message }) => {
             </>
           )}
         </div>
-        <button
-          className="text-white transition-colors hover:text-[#1E88E5]"
-          onClick={handleCopy}
-          aria-label="Copy"
-        >
-          {isCopied ? "Copied!" : <FaCopy />}
-        </button>
+        {isAction(message) && (
+          <button
+            className="text-white transition-colors hover:text-[#1E88E5]"
+            onClick={handleCopy}
+            aria-label="Copy"
+          >
+            {isCopied ? "Copied!" : <FaCopy />}
+          </button>
+        )}
       </div>
 
       {isAction(message) ? (

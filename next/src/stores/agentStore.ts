@@ -4,10 +4,12 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../services/agent/autonomous-agent";
 import type { ActiveTool } from "../hooks/useTools";
+import type { AgentLifecycle } from "../services/agent/agent-run-model";
 
 interface AgentSlice {
   agent: AutonomousAgent | null;
-  lifecycle: "running" | "paused" | "stopped";
+  lifecycle: AgentLifecycle;
+  setLifecycle: (AgentLifecycle) => void;
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
   isAgentStopped: boolean;
@@ -34,6 +36,11 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
+    setLifecycle: (lifecycle: AgentLifecycle) => {
+      set(() => ({
+        lifecycle: lifecycle,
+      }));
+    },
     setIsAgentThinking: (isThinking: boolean) => {
       set(() => ({
         isAgentThinking: isThinking,

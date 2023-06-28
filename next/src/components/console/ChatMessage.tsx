@@ -17,8 +17,13 @@ import { FaCopy } from "react-icons/fa";
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(message.value);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(message.value);
+      console.log("Copied to clipboard:", message.value);
+    } catch (error) {
+      console.error("Failed to copy to clipboard:", error);
+    }
   };
 
   return (

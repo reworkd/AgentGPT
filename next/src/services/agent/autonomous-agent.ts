@@ -53,6 +53,7 @@ class AutonomousAgent {
     this.addTasksIfWorklogEmpty();
     while (this.workLog[0]) {
       // No longer running, dip
+      if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
       if (this.model.getLifecycle() !== "running") return;
 
       // Get and run the next work item
@@ -85,6 +86,7 @@ class AutonomousAgent {
       this.workLog.shift();
       if (this.model.getLifecycle() !== "running") {
         this.lastConclusion = () => work.conclude();
+        if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
         return;
       } else {
         await work.conclude();
@@ -115,7 +117,7 @@ class AutonomousAgent {
   };
 
   pauseAgent() {
-    this.model.setLifecycle("paused");
+    this.model.setLifecycle("pausing");
   }
 
   stopAgent() {

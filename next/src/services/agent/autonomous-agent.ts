@@ -13,7 +13,6 @@ import type AgentWork from "./agent-work/agent-work";
 class AutonomousAgent {
   model: AgentRunModel;
   modelSettings: ModelSettings;
-  isRunning = false;
   shutdown: () => void;
   session?: Session;
   messageService: MessageService;
@@ -48,7 +47,7 @@ class AutonomousAgent {
     this.addTasksIfWorklogEmpty();
     while (this.workLog[0]) {
       // No longer running, dip
-      if (!this.isRunning) return;
+      if (this.model.getLifecycle() !== "running") return;
 
       // Get and run the next work item
       const work = this.workLog[0];
@@ -56,7 +55,7 @@ class AutonomousAgent {
 
       await withRetries(
         async () => {
-          if (!this.isRunning) return;
+          if (this.model.getLifecycle() !== "running") return;
           await work.run();
         },
         async (e) => {
@@ -78,10 +77,10 @@ class AutonomousAgent {
       useAgentStore.getState().setIsAgentThinking(false);
 
       this.workLog.shift();
-      if (this.isRunning) {
-        await work.conclude();
-      } else {
+      if (this.model.getLifecycle() !== "running") {
         return;
+      } else {
+        await work.conclude();
       }
 
       // Add next thing if available
@@ -109,7 +108,8 @@ class AutonomousAgent {
   };
 
   setIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
+    const lifecycle = isRunning ? "running" : "stopped";
+    this.model.setLifecycle(lifecycle);
   }
 
   manuallyStopAgent() {

@@ -30,7 +30,7 @@ roadmap, [visit our roadmap board on GitHub](https://github.com/orgs/reworkd/pro
   - This is the page you're viewing right now! It will continually be updated as the project evolves to allow any new
     user / contributer to get familiar with AgentGPT as quickly as possible.
 - 🌐 **Web browsing capabilities**
-  - We have a basic version implemented that performs and summarizes a Google search via the SERP api.
+  - We have a basic version implemented that performs and summarizes a Google search via [Serper.dev](https://serper.dev), other SERP APIs are currently not supported.
   - This does not currently visit the websites themselves and parse websites but we are working on this.
 - ✈ **Backend migration to Python**
   - This is a bigger undertaking but something we feel must be done. It will allow us to migrate off of edge functions

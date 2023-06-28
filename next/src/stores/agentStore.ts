@@ -12,8 +12,6 @@ interface AgentSlice {
   setLifecycle: (AgentLifecycle) => void;
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
-  isAgentStopped: boolean;
-  setIsAgentStopped: (boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
@@ -21,7 +19,6 @@ const initialAgentState = {
   agent: null,
   lifecycle: "stopped" as const,
   isAgentThinking: false,
-  isAgentStopped: true,
   isAgentPaused: undefined,
 };
 
@@ -44,11 +41,6 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
     setIsAgentThinking: (isThinking: boolean) => {
       set(() => ({
         isAgentThinking: isThinking,
-      }));
-    },
-    setIsAgentStopped: (isStopped: boolean) => {
-      set((state) => ({
-        isAgentStopped: isStopped,
       }));
     },
     setAgent: (newAgent) => {

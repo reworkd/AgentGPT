@@ -33,7 +33,7 @@ const ChatWindow = ({
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
-  const isStopped = useAgentStore.use.isAgentStopped();
+  const isStopped = useAgentStore.use.lifecycle() === "stopped";
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {

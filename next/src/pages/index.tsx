@@ -112,7 +112,7 @@ const Home: NextPage = () => {
   };
 
   const shouldShowSave =
-    status === "authenticated" && agentLifecycle && messages.length && !hasSaved;
+    status === "authenticated" && agentLifecycle === "stopped" && messages.length && !hasSaved;
 
   return (
     <SidebarLayout>

@@ -63,6 +63,7 @@ class AutonomousAgent {
 
       await withRetries(
         async () => {
+          if (this.model.getLifecycle() === "stopped") return;
           await work.run();
         },
         async (e) => {

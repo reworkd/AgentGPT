@@ -1,6 +1,6 @@
 import { type Theme, THEMES } from "../types";
 import { useEffect } from "react";
-const DARK_THEME = "dark"; // preferred theme must be dark for Tailwind
+const DARK_THEME = "dark";
 
 export const handleTheme = (theme, event?) => {
   if (typeof document === "undefined" || typeof window === "undefined") {

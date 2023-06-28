@@ -1,13 +1,13 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse
-
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from loguru import logger
 from pydantic import ValidationError
 
+from reworkd_platform.schemas import LLM_MODEL_MAX_TOKENS
 from reworkd_platform.services.tokenizer.service import TokenService
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
@@ -54,7 +54,7 @@ class OpenAIAgentService(AgentService):
             [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
         )
 
-        self.model.max_tokens -= self.token_service.count(
+        self.calculate_max_tokens(
             prompt.format_prompt(
                 goal=goal,
                 language=self.language,
@@ -89,10 +89,10 @@ class OpenAIAgentService(AgentService):
             language=self.language,
         )
 
-        self.model.max_tokens -= self.token_service.count(prompt.to_string())
-
-        # TODO: We are over counting tokens here
-        self.model.max_tokens -= self.token_service.count(str(functions))
+        self.calculate_max_tokens(
+            prompt.to_string(),
+            str(functions),
+        )
 
         message = await openai_error_handler(
             func=self.model.apredict_messages,
@@ -151,9 +151,7 @@ class OpenAIAgentService(AgentService):
             "result": result,
         }
 
-        self.model.max_tokens -= self.token_service.count(
-            prompt.format_prompt(**args).to_string(),
-        )
+        self.calculate_max_tokens(prompt.format_prompt(**args).to_string())
 
         completion = await call_model_with_handling(
             self.model, prompt, args, callbacks=self.callbacks
@@ -177,3 +175,10 @@ class OpenAIAgentService(AgentService):
                 memory.add_tasks(unique_tasks)
 
         return unique_tasks
+
+    def calculate_max_tokens(self, *prompts: str) -> None:
+        max_allowed_tokens = LLM_MODEL_MAX_TOKENS.get(self.model.model_name, 4000)
+        prompt_tokens = sum([self.token_service.count(p) for p in prompts])
+        requested_tokens = max_allowed_tokens - prompt_tokens
+
+        self.model.max_tokens = min(self.model.max_tokens, requested_tokens)

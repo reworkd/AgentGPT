@@ -13,7 +13,7 @@ describe("sendErrorMessage", () => {
   it("should handle Axios errors", () => {
     const axiosError = {
       isAxiosError: true,
-      response: { status: 429 },
+      response: { status: 429, data: { detail: "ERROR_API_KEY_QUOTA" } },
     };
 
     instance.sendErrorMessage(axiosError);

@@ -18,94 +18,49 @@ module.exports = {
         "3xl": "0 40px 70px -15px rgba(0, 0, 0, 0.40)" // Customize the shadow value according to your preferences.
       },
       colors: {
-        blue: {
-          base: {
-            dark: "hsl(210, 100%, 52%)",
-            light: "hsl(210, 100%, 50%)",
+        primary: {
+          main: {
+            dark: "#409CFF",
           },
-          hover: {
-            dark: "hsl(210, 70%, 45%)",
-            light: "hsl(210, 100%, 38%)",
+          active: {
+            dark: "#267BD5",
           },
           focusVisible: {
-            dark: "hsl(210, 70%, 40%)",
-            light: "hsl(210, 70%, 38%)",
+            dark: "#6BB3FF",
+          },
+          hover: {
+            dark: "#5c95D1",
           },
         },
-        amber: {
-          base: {
-            dark: "hsl(39, 100%, 50%)",
-            light: "hsl(45, 100%, 50%)",
+        secondary: {
+          main: {
+            dark: "#ff9f0a",
           },
-          hover: {
-            dark: "hsl(39, 100%, 40%)",
-            light: "hsl(45, 100%, 45%)",
-          },
-          focusVisible: {
-            dark: "hsl(39, 85%, 30%)",
-            light: "hsl(45, 85%, 35%)",
-          }
-        },
-        red: {
-          base: {
-            dark: "hsl(3, 100%, 61%)",
-            light: "hsl(3, 100%, 59%)",
-          },
-          hover: {
-            dark: "hsl(3, 100% 45%)",
-            light: "hsl(3, 100%, 40%)",
-          },
-          focusVisible: {
-            dark: "hsl(3, 85%, 40%)",
-            light: "hsl(3, 85%, 35%)",
-          }
-        },
-        green: {
-          base: {
-            dark: "hsl(143, 71%, 45%)",
-            light: "hsl(143, 71%, 40%)",
-          },
-          hover: {
-            dark: "hsl(143, 65%, 40%)",
-            light: "hsl(143, 71%, 33%)",
-          },
-          focusVisible: {
-            dark: "hsl(143, 65%, 35%)",
-            light: "hsl(143, 71%, 30%)",
-          }
         },
         shade: {
           100: {
-            dark: "hsl(0, 0%, 100%)",
-            light: "hsl(0, 0%, 0%)",
+            dark: "#FFFFFF",
           },
           200: {
-            dark: "hsl(240, 3%, 69%)",
-            light: "hsl(240, 2%, 30%)",
+            dark: "#AEAEB2",
           },
           300: {
-            dark: "hsl(240, 2%, 49%)",
-            light: "hsl(240, 2%, 57%)",
+            dark: "#7C7C80",
           },
           400: {
-            dark: "hsl(240, 1%, 33%)",
-            light: "hsl(240, 3%, 69%)",
+            dark: "#545456",
           },
           500: {
-            dark: "hsl(240, 1%, 27%)",
-            light: "hsl(240, 5%, 79%)",
+            dark: "#444446",
           },
           600: {
-            dark: "hsl(240, 2%, 22%)",
-            light: "hsl(240, 6%, 83%)",
+            dark: "#363638",
           },
           700: {
-            dark: "hsl(240, 3%, 15%)",
-            light: "hsl(240, 11%, 91%)",
+            dark: "#242426",
           },
           800: {
-            dark: "hsl(240, 6%, 10%)",
-            light: "hsl(240, 24%, 96%)",
+            dark: "#18181B",
           }
         }
       },

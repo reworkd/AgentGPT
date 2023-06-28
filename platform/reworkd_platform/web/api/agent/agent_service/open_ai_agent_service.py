@@ -35,8 +35,6 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 class OpenAIAgentService(AgentService):
-    MIN_COMPLETION_SPACE = 200
-
     def __init__(
         self,
         model: WrappedChatOpenAI,
@@ -179,8 +177,8 @@ class OpenAIAgentService(AgentService):
         return unique_tasks
 
     def calculate_max_tokens(self, *prompts: str) -> None:
-        model_max_tokens = LLM_MODEL_MAX_TOKENS.get(self.model.model_name, 4000)
+        max_allowed_tokens = LLM_MODEL_MAX_TOKENS.get(self.model.model_name, 4000)
         prompt_tokens = sum([self.token_service.count(p) for p in prompts])
-        requested_tokens = model_max_tokens - prompt_tokens
+        requested_tokens = max_allowed_tokens - prompt_tokens
 
         self.model.max_tokens = min(self.model.max_tokens, requested_tokens)

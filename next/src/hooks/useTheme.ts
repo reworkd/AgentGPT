@@ -1,41 +1,37 @@
 import { type Theme, THEMES } from "../types";
 import { useEffect } from "react";
-const PREFERRED_THEME = "dark"; // preferred theme must be dark for Tailwind
+const DARK_THEME = "dark"; // preferred theme must be dark for Tailwind
 
-function isPreferredTheme(theme, matchObj?) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  const preferredThemeMatches = (
-    matchObj || window?.matchMedia(`(prefers-color-scheme: ${PREFERRED_THEME})`)
-  ).matches;
-
-  return theme === PREFERRED_THEME || (theme === "system" && preferredThemeMatches);
-}
-
-export function handleTheme(theme, matchObj?) {
-  if (typeof document === "undefined") {
+export const handleTheme = (theme, matchObj?) => {
+  if (typeof document === "undefined" || typeof window === "undefined") {
     return;
   }
 
   const classList = document.documentElement.classList;
 
-  if (isPreferredTheme(theme, matchObj)) {
-    classList.add(PREFERRED_THEME);
-  } else {
-    classList.remove(PREFERRED_THEME);
-  }
-}
+  // true if user's system has dark theme
+  const isSystemThemeDark = (
+    matchObj || window?.matchMedia(`(prefers-color-scheme: ${DARK_THEME})`)
+  ).matches;
 
-export function useTheme(theme: Theme) {
+  // determine whether App should have dark theme
+  const shouldAppThemeBeDark = theme === DARK_THEME || (theme === "system" && isSystemThemeDark);
+
+  if (shouldAppThemeBeDark && !classList.contains(DARK_THEME)) {
+    classList.add(DARK_THEME);
+  } else {
+    classList.remove(DARK_THEME);
+  }
+};
+
+export const useTheme = (theme: Theme) => {
   theme = THEMES.includes(theme) ? theme : "system";
 
   useEffect(() => {
-    const preferredTheme = window.matchMedia(`(prefers-color-scheme: ${PREFERRED_THEME})`);
+    const prefersDark = window.matchMedia(`(prefers-color-scheme: ${DARK_THEME})`);
 
-    preferredTheme.addEventListener("change", (event) => {
+    prefersDark.addEventListener("change", (event) => {
       handleTheme(theme, event);
     });
   }, []);
-}
+};

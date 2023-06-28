@@ -57,6 +57,9 @@ export const options = (
         },
       }),
     ],
+    pages: {
+      signIn: "/signin"
+    },
     callbacks: {
       async signIn({ user }) {
         if (user) {

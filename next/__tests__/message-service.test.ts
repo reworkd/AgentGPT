@@ -8,7 +8,6 @@ describe("sendErrorMessage", () => {
   beforeEach(() => {
     renderMessage = jest.fn((message: Message) => ({}));
     instance = new MessageService(renderMessage);
-    instance.setIsRunning(true);
   });
 
   it("should handle Axios errors", () => {

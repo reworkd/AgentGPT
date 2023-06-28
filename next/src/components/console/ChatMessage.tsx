@@ -63,7 +63,7 @@ const getMessagePrefix = (message: Message) => {
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
     return `Executing: ${message.value}`;
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return `Finished: ${message.value}`;
+    return `Finished:`;
   }
   return "";
 };

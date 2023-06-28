@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
+  const setIsAgentStopped = useAgentStore.use.setIsAgentStopped();
 
   const agent = useAgentStore.use.agent();
 
@@ -96,7 +96,7 @@ const Home: NextPage = () => {
     resetAllMessageSlices();
     resetAllTaskSlices();
     newAgent?.run().then(console.log).catch(console.error);
-    updateIsAgentStopped();
+    setIsAgentStopped(false);
   };
 
   const handleKeyPress = (
@@ -110,7 +110,7 @@ const Home: NextPage = () => {
 
   const handleStopAgent = () => {
     agent?.manuallyStopAgent();
-    updateIsAgentStopped();
+    setIsAgentStopped(true);
   };
 
   const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {

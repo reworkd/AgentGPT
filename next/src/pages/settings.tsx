@@ -1,19 +1,31 @@
+import axios from "axios";
 import SidebarLayout from "../layout/sidebar";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import type { GetStaticProps } from "next";
-import { FaCoins, FaGlobe, FaKey, FaRobot, FaSyncAlt, FaThermometerFull } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaCoins,
+  FaExclamationCircle,
+  FaGlobe,
+  FaKey,
+  FaRobot,
+  FaSyncAlt,
+  FaThermometerFull,
+} from "react-icons/fa";
 import { useSettings } from "../hooks/useSettings";
 import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
+import Button from "../ui/button";
+import clsx from "clsx";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
@@ -21,7 +33,23 @@ const SettingsPage = () => {
   const { session } = useAuth();
   const { models, getModel } = useModels();
 
-  const showAdvancedSettings = session?.user;
+  const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
+
+  const validateApiKey = async () => {
+    try {
+      await axios.get("https://api.openai.com/v1/engines", {
+        headers: {
+          Authorization: `Bearer ${settings.customApiKey}`,
+        },
+      });
+
+      setIsApiKeyValid(true);
+    } catch (error) {
+      setIsApiKeyValid(false);
+    }
+  };
+
+  const disableAdvancedSettings = !session?.user;
   const model = getModel(settings.customModelName) || {
     name: settings.customModelName,
     max_tokens: 2000,
@@ -38,7 +66,7 @@ const SettingsPage = () => {
 
   return (
     <SidebarLayout>
-      <div className="grid min-h-screen flex-grow place-items-center p-10 lg:p-16">
+      <div className="grid min-h-screen place-items-center p-2 sm:p-10 lg:p-16">
         <div className="rounded-xl border-2 border-white/20 bg-neutral-900">
           <div className="border-b-2 border-white/20 p-3 sm:p-5">
             <h1 className="light:text-white text-3xl font-bold dark:text-white md:text-4xl">

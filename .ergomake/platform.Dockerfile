@@ -1,10 +1,12 @@
 FROM python:3.11-slim-buster as prod
 
+ARG REWORKD_PLATFORM_FRONTEND_URL
+ENV REWORKD_PLATFORM_FRONTEND_URL=$REWORKD_PLATFORM_FRONTEND_URL
+
 RUN apt-get update && apt-get install -y \
   default-libmysqlclient-dev \
   pkg-config \
   gcc \
-  pkg-config \
   && rm -rf /var/lib/apt/lists/*
 
 RUN pip install poetry==1.4.2

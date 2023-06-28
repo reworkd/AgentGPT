@@ -45,12 +45,12 @@ const ChatWindow = ({
     const hasUserScrolled = scrollTop < scrollHeight - clientHeight - 10;
     setHasUserScrolled(hasUserScrolled);
 
-    // if user have scrolled down far enough and also user is not at buttom 
+    // if user have scrolled down far enough and also user is not at bottom 
     const _showBottomScrollButton = scrollTop > 1000 && scrollTop < (scrollHeight - clientHeight - 400);
     setShowScrollToBottomButton(_showBottomScrollButton)
   };
 
-  const scrollToButtom = () => {
+  const handleScrollToBottom = () => {
     scrollRef.current.scrollTo({
       top: scrollRef.current.scrollHeight,
       behavior: 'smooth',
@@ -80,7 +80,7 @@ const ChatWindow = ({
         className="absolute bottom-4 right-6 cursor-pointer"
       >
         <FaArrowCircleDown
-          onClick={scrollToButtom}
+          onClick={handleScrollToBottom}
           className="w-6 h-6 md:w-8 md:h-8 animate-bounce" />
       </HideShow>
 

@@ -38,16 +38,10 @@ async function readStream(reader: TextStream): Promise<string | null> {
 async function processStream(
   reader: TextStream,
   onStart: () => void,
-  onText: (text: string) => void,
-  shouldClose: () => boolean
+  onText: (text: string) => void
 ): Promise<void> {
   onStart();
   while (true) {
-    if (shouldClose()) {
-      await reader.cancel();
-      return;
-    }
-
     const text = await readStream(reader);
     if (text === null) break;
     onText(text);
@@ -59,8 +53,7 @@ export const streamText = async (
   body: RequestBody,
   accessToken: string,
   onStart: () => void,
-  onText: (text: string) => void,
-  shouldClose: () => boolean
+  onText: (text: string) => void
 ) => {
   const reader = await fetchData(url, body, accessToken);
   if (!reader) {
@@ -68,5 +61,5 @@ export const streamText = async (
     return;
   }
 
-  await processStream(reader, onStart, onText, shouldClose);
+  await processStream(reader, onStart, onText);
 };

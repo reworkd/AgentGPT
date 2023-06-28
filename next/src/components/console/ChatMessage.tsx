@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
@@ -16,11 +16,13 @@ import { FaCopy } from "react-icons/fa";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(message.value);
       console.log("Copied to clipboard:", message.value);
+      setIsCopied(true);
     } catch (error) {
       console.error("Failed to copy to clipboard:", error);
     }
@@ -48,7 +50,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
           onClick={handleCopy}
           aria-label="Copy"
         >
-          <FaCopy />
+          {isCopied ? "Copied!" : <FaCopy />}
         </button>
       </div>
 
@@ -62,12 +64,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
       ) : (
         <>
           <span>{message.value}</span>
-          {
-            // Link to the FAQ if it is a shutdown message
-            message.type == MESSAGE_TYPE_SYSTEM &&
-              (message.value.toLowerCase().includes("shut") ||
-                message.value.toLowerCase().includes("error")) && <FAQ />
-          }
+          {message.type == MESSAGE_TYPE_SYSTEM &&
+            (message.value.toLowerCase().includes("shut") ||
+              message.value.toLowerCase().includes("error")) && <FAQ />}
         </>
       )}
     </div>

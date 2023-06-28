@@ -1,4 +1,4 @@
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable, TypeVar, Dict
 
 from langchain import BasePromptTemplate, LLMChain
 from langchain.chat_models.base import BaseChatModel
@@ -59,7 +59,8 @@ async def openai_error_handler(
 async def call_model_with_handling(
     model: BaseChatModel,
     prompt: BasePromptTemplate,
-    args: dict[str, str],
+    args: Dict[str, str],
+    **kwargs: Any,
 ) -> str:
     chain = LLMChain(llm=model, prompt=prompt)
-    return await openai_error_handler(chain.arun, args)
+    return await openai_error_handler(chain.arun, args, **kwargs)

@@ -7,8 +7,6 @@ import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
-import type { Message } from "../types/agentTypes";
-import { isTask } from "../types/agentTypes";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
 import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
@@ -24,25 +22,25 @@ import Input from "../components/Input";
 import clsx from "clsx";
 import Expand from "../components/motions/expand";
 import ChatWindow from "../components/console/ChatWindow";
-import type { GPTModelNames } from "../types";
-import { GPT_35_TURBO_16K, GPT_4 } from "../types";
 import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
+import { MessageService } from "../services/agent/message-service";
+import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
+import { resetAllTaskSlices } from "../stores/taskStore";
+import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 
 const Home: NextPage = () => {
-  const { i18n } = useTranslation();
-  // Zustand states with state dependencies
+  const { t } = useTranslation();
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
-  const updateTaskStatus = useMessageStore.use.updateTaskStatus();
   const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
   const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const updateIsAgentStopped = useAgentStore.use.updateIsAgentStopped();
+  const setIsAgentStopped = useAgentStore.use.setIsAgentStopped();
 
   const agent = useAgentStore.use.agent();
 
@@ -55,50 +53,20 @@ const Home: NextPage = () => {
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
-  const [showHelpDialog, setShowHelpDialog] = React.useState(false);
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
-
-  useEffect(() => {
-    const key = "agentgpt-modal-opened-v0.2";
-    const savedModalData = localStorage.getItem(key);
-
-    setTimeout(() => {
-      if (savedModalData == null) {
-        setShowHelpDialog(true);
-      }
-    }, 1800);
-
-    localStorage.setItem(key, JSON.stringify(true));
-  }, []);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     nameInputRef?.current?.focus();
   }, []);
 
-  useEffect(() => {
-    updateIsAgentStopped();
-  }, [agent, updateIsAgentStopped]);
-
   const setAgentRun = (newName: string, newGoal: string) => {
-    if (agent != null) {
-      return;
-    }
-
     setNameInput(newName);
     setGoalInput(newGoal);
     handleNewGoal(newName, newGoal);
-  };
-
-  const handleAddMessage = (message: Message) => {
-    if (isTask(message)) {
-      updateTaskStatus(message);
-    }
-
-    addMessage(message);
   };
 
   const disableDeployAgent =
@@ -109,16 +77,16 @@ const Home: NextPage = () => {
       return;
     }
 
-    // Do not force login locally for people that don't have auth setup
     if (session === null) {
       setShowSignInDialog(true);
       return;
     }
 
+    const model = new DefaultAgentRunModel(name.trim(), goal.trim());
+    const messageService = new MessageService(addMessage);
     const newAgent = new AutonomousAgent(
-      name.trim(),
-      goal.trim(),
-      handleAddMessage,
+      model,
+      messageService,
       () => setAgent(null),
       settings,
       session ?? undefined
@@ -126,16 +94,9 @@ const Home: NextPage = () => {
     setAgent(newAgent);
     setHasSaved(false);
     resetAllMessageSlices();
+    resetAllTaskSlices();
     newAgent?.run().then(console.log).catch(console.error);
-  };
-
-  const handleContinue = () => {
-    if (!agent) {
-      return;
-    }
-
-    agent.updateIsRunning(true);
-    agent.run().then(console.log).catch(console.error);
+    setIsAgentStopped(false);
   };
 
   const handleKeyPress = (
@@ -149,7 +110,7 @@ const Home: NextPage = () => {
 
   const handleStopAgent = () => {
     agent?.manuallyStopAgent();
-    updateIsAgentStopped();
+    setIsAgentStopped(true);
   };
 
   const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
@@ -167,11 +128,11 @@ const Home: NextPage = () => {
       onClick={() => handleNewGoal(nameInput, goalInput)}
     >
       {agent == null ? (
-        i18n.t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
+        t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
       ) : (
         <>
           <VscLoading className="animate-spin" size={20} />
-          <span className="ml-2">{i18n.t("RUNNING", { ns: "common" })}</span>
+          <span className="ml-2">{t("RUNNING", { ns: "common" })}</span>
         </>
       )}
     </Button>
@@ -179,7 +140,7 @@ const Home: NextPage = () => {
 
   return (
     <SidebarLayout>
-      <HelpDialog show={showHelpDialog} close={() => setShowHelpDialog(false)} />
+      <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
@@ -270,7 +231,7 @@ const Home: NextPage = () => {
                       left={
                         <>
                           <FaRobot />
-                          <span className="ml-2">{`${i18n?.t("AGENT_NAME", {
+                          <span className="ml-2">{`${t("AGENT_NAME", {
                             ns: "indexPage",
                           })}`}</span>
                         </>
@@ -295,7 +256,7 @@ const Home: NextPage = () => {
                     left={
                       <>
                         <FaStar />
-                        <span className="ml-2">{`${i18n?.t("LABEL_AGENT_GOAL", {
+                        <span className="ml-2">{`${t("LABEL_AGENT_GOAL", {
                           ns: "indexPage",
                         })}`}</span>
                       </>
@@ -304,7 +265,7 @@ const Home: NextPage = () => {
                     value={goalInput}
                     onChange={(e) => setGoalInput(e.target.value)}
                     onKeyDown={(e) => handleKeyPress(e)}
-                    placeholder={`${i18n?.t("PLACEHOLDER_AGENT_GOAL", {
+                    placeholder={`${t("PLACEHOLDER_AGENT_GOAL", {
                       ns: "indexPage",
                     })}`}
                     type="textarea"
@@ -323,12 +284,12 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${i18n?.t("BUTTON_STOPPING", {
+                    <span className="ml-2">{`${t("BUTTON_STOPPING", {
                       ns: "indexPage",
                     })}`}</span>
                   </>
                 ) : (
-                  `${i18n?.t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
+                  `${t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
                     ns: "indexPage",
                   })}`
                 )}
@@ -338,34 +299,6 @@ const Home: NextPage = () => {
         </div>
       </div>
     </SidebarLayout>
-  );
-};
-
-export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
-  if (model === GPT_4) {
-    return (
-      <>
-        Agent<span className="text-secondary-base-light dark:text-secondary-base-dark">GPT-4</span>
-      </>
-    );
-  }
-
-  if (model === GPT_35_TURBO_16K) {
-    return (
-      <>
-        Agent
-        <span className="text-neutral-400">
-          GPT-3.5
-          <span className="text-secondary-base-light dark:text-secondary-base-dark">-16K</span>
-        </span>
-      </>
-    );
-  }
-
-  return (
-    <>
-      Agent<span className="text-color-primary">GPT-3.5</span>
-    </>
   );
 };
 

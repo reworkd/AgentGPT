@@ -8,9 +8,13 @@ from reworkd_platform.web.api.agent.api_utils import rotate_keys
 openai.api_base = settings.openai_api_base
 
 
+class WrappedChatOpenAI(ChatOpenAI):
+    max_tokens: int
+
+
 def create_model(
     model_settings: ModelSettings, user: UserBase, streaming: bool = False
-) -> ChatOpenAI:
+) -> WrappedChatOpenAI:
     if model_settings.custom_api_key != "":
         api_key = model_settings.custom_api_key
     else:
@@ -20,7 +24,7 @@ def create_model(
             model=model_settings.model,
         )
 
-    return ChatOpenAI(
+    return WrappedChatOpenAI(
         client=None,  # Meta private value but mypy will complain its missing
         openai_api_key=api_key,
         temperature=model_settings.temperature,

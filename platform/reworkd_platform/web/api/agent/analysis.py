@@ -1,3 +1,5 @@
+from typing import Dict
+
 from pydantic import BaseModel, validator
 
 
@@ -23,7 +25,7 @@ class Analysis(AnalysisArguments):
         return v
 
     @validator("action")
-    def search_action_must_have_arg(cls, v: str, values: dict) -> str:
+    def search_action_must_have_arg(cls, v: str, values: Dict[str, str]) -> str:
         from reworkd_platform.web.api.agent.tools.search import Search
         from reworkd_platform.web.api.agent.tools.tools import get_tool_name
 

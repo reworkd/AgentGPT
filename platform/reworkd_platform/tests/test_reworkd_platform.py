@@ -4,6 +4,7 @@ from httpx import AsyncClient
 from starlette import status
 
 
+@pytest.mark.skip(reason="Mysql needs to be mocked")
 @pytest.mark.anyio
 async def test_health(client: AsyncClient, fastapi_app: FastAPI) -> None:
     """

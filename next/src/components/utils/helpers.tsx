@@ -2,22 +2,20 @@ import {
   FaCheckCircle,
   FaCircleNotch,
   FaExclamationTriangle,
-  FaRegCheckCircle,
   FaStar,
   FaStopCircle,
   FaThumbtack,
 } from "react-icons/fa";
-import type { Message } from "../../types/agentTypes";
 import {
   getTaskStatus,
   isTask,
-  MESSAGE_TYPE_ERROR,
-  MESSAGE_TYPE_GOAL,
   TASK_STATUS_COMPLETED,
   TASK_STATUS_EXECUTING,
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
-} from "../../types/agentTypes";
+} from "../../types/task";
+import type { Message } from "../../types/message";
+import { MESSAGE_TYPE_ERROR, MESSAGE_TYPE_GOAL } from "../../types/message";
 
 export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {
@@ -35,7 +33,6 @@ export const getMessageContainerStyle = (message: Message) => {
     case TASK_STATUS_EXECUTING:
       return "border-color-1 border hover:border-shade-400-light dark:hover:border-shade-200-dark";
     case TASK_STATUS_COMPLETED:
-      return "border-color-success border-hover-success border";
     case TASK_STATUS_FINAL:
       return "border-color-success border-hover-success border";
     default:
@@ -65,11 +62,12 @@ export const getTaskStatusIcon = (
     ) : (
       <FaCircleNotch className={`${taskStatusIconClass} animate-spin`} />
     );
-  } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
+  } else if (
+    getTaskStatus(message) === TASK_STATUS_COMPLETED ||
+    getTaskStatus(message) === TASK_STATUS_FINAL
+  ) {
     return (
-      <FaRegCheckCircle className={`${taskStatusIconClass} text-color-green text-hover-green`} />
+      <FaCheckCircle className={`${taskStatusIconClass} text-color-green text-hover-green`} />
     );
-  } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
-    return <FaCheckCircle className={`${taskStatusIconClass} text-color-green text-hover-green`} />;
   }
 };

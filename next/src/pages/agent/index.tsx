@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "../../utils/api";
 import ChatWindow from "../../components/console/ChatWindow";
-import type { Message } from "../../types/agentTypes";
+import type { Message } from "../../types/message";
 import Toast from "../../components/toast";
 import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
 import { env } from "../../env/client.mjs";

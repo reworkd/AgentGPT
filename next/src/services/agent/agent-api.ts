@@ -10,12 +10,10 @@ type ApiProps = Pick<RequestBody, "model_settings" | "goal"> & {
 
 export class AgentApi {
   readonly props: ApiProps;
-  readonly onError: (e: unknown) => never;
   runId: string | undefined;
 
-  constructor(apiProps: ApiProps, onError: (e: unknown) => never) {
+  constructor(apiProps: ApiProps) {
     this.props = apiProps;
-    this.onError = onError;
   }
 
   async getInitialTasks(): Promise<string[]> {
@@ -51,7 +49,6 @@ export class AgentApi {
     url: string,
     data: Omit<RequestBody, "goal" | "model_settings" | "run_id">
   ) {
-    useAgentStore.getState().setIsAgentThinking(true);
     const requestBody: RequestBody = {
       model_settings: this.props.model_settings,
       goal: this.props.goal,
@@ -60,6 +57,7 @@ export class AgentApi {
     };
 
     try {
+      useAgentStore.getState().setIsAgentThinking(true);
       const { run_id, ...data } = await apiUtils.post<T & { run_id: string }>(
         url,
         requestBody,
@@ -68,10 +66,22 @@ export class AgentApi {
 
       if (this.runId === undefined) this.runId = run_id;
       return data;
-    } catch (e) {
-      this.onError(e);
     } finally {
       useAgentStore.getState().setIsAgentThinking(false);
+    }
+  }
+}
+
+export async function withRetries(
+  fn: () => Promise<void>,
+  onError: (error: unknown) => Promise<boolean>, // Function to handle the error and return whether to continue
+  retries = 3
+): Promise<void> {
+  for (let i = 1; i < retries + 1; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if ((await onError(error)) || i === retries) return;
     }
   }
 }

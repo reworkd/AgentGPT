@@ -36,7 +36,7 @@ export const useModelSettingsStore = createSelectors(
         ...createModelSettingsSlice(...a),
       }),
       {
-        name: "agentgpt-settings-storage",
+        name: "agentgpt-settings-storage-v2",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           modelSettings: state.modelSettings,

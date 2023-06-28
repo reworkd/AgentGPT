@@ -13,7 +13,7 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
-import { FaClipboard } from "react-icons/fa";
+import { FaCheck, FaCheckCircle, FaClipboard } from "react-icons/fa";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -51,7 +51,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
             onClick={handleCopy}
             aria-label="Copy"
           >
-            {isCopied ? "Copied!" : <FaClipboard />}
+            {isCopied ? <FaCheck /> : <FaClipboard />}
           </Button>
         )}
       </div>

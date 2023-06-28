@@ -12,15 +12,15 @@ from reworkd_platform.web.api.agent.stream_mock import stream_string
 
 class MockAgentService(AgentService):
     async def start_goal_agent(self, **kwargs: Any) -> List[str]:
-        time.sleep(2)
+        time.sleep(1)
         return ["Task X", "Task Y", "Task Z"]
 
     async def create_tasks_agent(self, **kwargs: Any) -> List[str]:
-        time.sleep(1.5)
+        time.sleep(1)
         return ["Some random task that doesn't exist"]
 
     async def analyze_task_agent(self, **kwargs: Any) -> Analysis:
-        time.sleep(2)
+        time.sleep(1.5)
         return Analysis(
             action="reason",
             arg="Mock analysis",

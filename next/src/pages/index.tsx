@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Button from "../components/Button";
-import { FaCog, FaPause, FaRobot, FaStar } from "react-icons/fa";
-import { VscLoading } from "react-icons/vsc";
+import { FaCog, FaPause, FaPlay, FaRobot, FaStar, FaStop } from "react-icons/fa";
+import { ImSpinner2 } from "react-icons/im";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
@@ -65,19 +65,26 @@ const Home: NextPage = () => {
   const setAgentRun = (newName: string, newGoal: string) => {
     setNameInput(newName);
     setGoalInput(newGoal);
-    handleNewGoal(newName, newGoal);
+    handlePlay(newName, newGoal);
   };
 
-  const disableDeployAgent =
-    agent != null || isEmptyOrBlank(nameInput) || isEmptyOrBlank(goalInput);
+  const disableStartAgent =
+    (agent !== null && agentLifecycle !== "paused") ||
+    isEmptyOrBlank(nameInput) ||
+    isEmptyOrBlank(goalInput);
 
-  const handleNewGoal = (name: string, goal: string) => {
+  const handlePlay = (name: string, goal: string) => {
     if (name.trim() === "" || goal.trim() === "") {
       return;
     }
 
     if (session === null) {
       setShowSignInDialog(true);
+      return;
+    }
+
+    if (agent && agentLifecycle == "paused") {
+      agent?.run().catch(console.error);
       return;
     }
 
@@ -101,8 +108,8 @@ const Home: NextPage = () => {
     e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     // Only Enter is pressed, execute the function
-    if (e.key === "Enter" && !disableDeployAgent && !e.shiftKey) {
-      handleNewGoal(nameInput, goalInput);
+    if (e.key === "Enter" && !disableStartAgent && !e.shiftKey) {
+      handlePlay(nameInput, goalInput);
     }
   };
 
@@ -246,40 +253,33 @@ const Home: NextPage = () => {
 
             <div className="flex gap-2">
               <Button
-                ping={!disableDeployAgent}
-                disabled={disableDeployAgent}
-                onClick={() => handleNewGoal(nameInput, goalInput)}
+                ping={!disableStartAgent}
+                disabled={disableStartAgent}
+                onClick={() => handlePlay(nameInput, goalInput)}
               >
-                {agent == null && t("BUTTON_DEPLOY_AGENT")}
-                {agent != null && agentLifecycle == "running" && (
-                  <>
-                    <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{t("RUNNING", { ns: "common" })}</span>
-                  </>
-                )}
-                {agent != null && ["paused", "pausing"].includes(agentLifecycle) && (
-                  <>
-                    <FaPause />
-                    <span className="ml-2">Paused</span>
-                  </>
+                {agentLifecycle === "running" ? (
+                  <ImSpinner2 className="animate-spin" />
+                ) : (
+                  <FaPlay />
                 )}
               </Button>
               <Button
-                disabled={agent === null || agentLifecycle == "pausing"}
-                onClick={() => {
-                  if (agentLifecycle == "running") {
-                    agent?.pauseAgent();
-                  } else if (agentLifecycle == "paused") {
-                    agent?.run().catch(console.error);
-                  }
-                }}
-                enabledClassName={clsx(
-                  agentLifecycle == "paused"
-                    ? "bg-green-600 hover:bg-green-400"
-                    : "bg-yellow-600 hover:bg-yellow-400"
-                )}
+                disabled={agent === null || agentLifecycle !== "running"}
+                onClick={() => agent?.pauseAgent()}
+                enabledClassName={clsx("bg-yellow-600 hover:bg-yellow-400")}
               >
-                {agentLifecycle == "paused" ? "Resume Agent" : "Pause Agent"}
+                {agentLifecycle === "pausing" ? (
+                  <ImSpinner2 className="animate-spin" />
+                ) : (
+                  <FaPause />
+                )}
+              </Button>
+              <Button
+                disabled={agent === null || agentLifecycle == "stopped"}
+                onClick={() => agent?.stopAgent()}
+                enabledClassName={clsx("bg-red-600 hover:bg-red-400")}
+              >
+                <FaStop />
               </Button>
             </div>
           </FadeIn>

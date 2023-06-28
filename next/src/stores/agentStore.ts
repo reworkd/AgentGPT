@@ -5,17 +5,9 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../services/agent/autonomous-agent";
 import type { ActiveTool } from "../hooks/useTools";
 
-const resetters: (() => void)[] = [];
-
-const initialAgentState = {
-  agent: null,
-  isAgentThinking: false,
-  isAgentStopped: true,
-  isAgentPaused: undefined,
-};
-
 interface AgentSlice {
   agent: AutonomousAgent | null;
+  lifecycle: "running" | "paused" | "stopped";
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
   isAgentStopped: boolean;
@@ -23,10 +15,20 @@ interface AgentSlice {
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
 
+const initialAgentState = {
+  agent: null,
+  lifecycle: "stopped" as const,
+  isAgentThinking: false,
+  isAgentStopped: true,
+  isAgentPaused: undefined,
+};
+
 interface ToolsSlice {
   tools: Omit<ActiveTool, "active">[];
   setTools: (tools: ActiveTool[]) => void;
 }
+
+const resetters: (() => void)[] = [];
 
 const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));

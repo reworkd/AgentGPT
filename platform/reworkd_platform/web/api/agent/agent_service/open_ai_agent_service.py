@@ -1,7 +1,6 @@
 from typing import List, Optional
 
 from lanarky.responses import StreamingResponse
-
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
@@ -35,6 +34,8 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 class OpenAIAgentService(AgentService):
+    MIN_COMPLETION_SPACE = 200
+
     def __init__(
         self,
         model: WrappedChatOpenAI,
@@ -54,7 +55,7 @@ class OpenAIAgentService(AgentService):
             [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
         )
 
-        self.model.max_tokens -= self.token_service.count(
+        self.calculate_max_tokens(
             prompt.format_prompt(
                 goal=goal,
                 language=self.language,
@@ -89,10 +90,10 @@ class OpenAIAgentService(AgentService):
             language=self.language,
         )
 
-        self.model.max_tokens -= self.token_service.count(prompt.to_string())
-
-        # TODO: We are over counting tokens here
-        self.model.max_tokens -= self.token_service.count(str(functions))
+        self.calculate_max_tokens(
+            prompt.to_string(),
+            str(functions),
+        )
 
         message = await openai_error_handler(
             func=self.model.apredict_messages,
@@ -151,9 +152,7 @@ class OpenAIAgentService(AgentService):
             "result": result,
         }
 
-        self.model.max_tokens -= self.token_service.count(
-            prompt.format_prompt(**args).to_string(),
-        )
+        self.calculate_max_tokens(prompt.format_prompt(**args).to_string())
 
         completion = await call_model_with_handling(
             self.model, prompt, args, callbacks=self.callbacks
@@ -177,3 +176,8 @@ class OpenAIAgentService(AgentService):
                 memory.add_tasks(unique_tasks)
 
         return unique_tasks
+
+    def calculate_max_tokens(self, *args: str):
+        prompt_tokens = sum([self.token_service.count(arg) for arg in args])
+        self.model.max_tokens -= prompt_tokens
+        self.model.max_tokens = max(self.model.max_tokens, self.MIN_COMPLETION_SPACE)

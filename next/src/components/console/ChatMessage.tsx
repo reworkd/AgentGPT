@@ -12,9 +12,14 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
+import { FaCopy } from "react-icons/fa";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.value);
+  };
 
   return (
     <div
@@ -24,13 +29,23 @@ const ChatMessage = ({ message }: { message: Message }) => {
         "sm:my-1.5 sm:text-sm"
       )}
     >
-      {message.type != MESSAGE_TYPE_SYSTEM && (
-        // Avoid for system messages as they do not have an icon and will cause a weird space
-        <>
-          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
-        </>
-      )}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          {message.type !== MESSAGE_TYPE_SYSTEM && (
+            <>
+              <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+              <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+            </>
+          )}
+        </div>
+        <button
+          className="text-white transition-colors hover:text-[#1E88E5]"
+          onClick={handleCopy}
+          aria-label="Copy"
+        >
+          <FaCopy />
+        </button>
+      </div>
 
       {isAction(message) ? (
         <>
@@ -79,4 +94,5 @@ const FAQ = () => {
     </p>
   );
 };
+
 export { ChatMessage };

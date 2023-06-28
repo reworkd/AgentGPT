@@ -42,7 +42,7 @@ class AutonomousAgent {
   }
 
   async run() {
-    this.setIsRunning(true);
+    this.model.setLifecycle("running");
 
     this.addTasksIfWorklogEmpty();
     while (this.workLog[0]) {
@@ -107,18 +107,12 @@ class AutonomousAgent {
     }
   };
 
-  setIsRunning(isRunning: boolean) {
-    const lifecycle = isRunning ? "running" : "stopped";
-    this.model.setLifecycle(lifecycle);
-  }
-
-  manuallyStopAgent() {
-    this.messageService.sendManualShutdownMessage();
-    this.stopAgent();
+  pauseAgent() {
+    this.model.setLifecycle("paused");
   }
 
   stopAgent() {
-    this.setIsRunning(false);
+    this.model.setLifecycle("stopped");
     this.shutdown();
     return;
   }

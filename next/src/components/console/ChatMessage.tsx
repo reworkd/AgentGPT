@@ -5,6 +5,7 @@ import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
 import MarkdownRenderer from "./MarkdownRenderer";
 import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import Button from "../../ui/button";
 import {
   getTaskStatus,
   isAction,
@@ -12,7 +13,7 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
-import { FaCopy } from "react-icons/fa";
+import { FaClipboard } from "react-icons/fa";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -39,19 +40,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
         <div className="flex items-center">
           {message.type !== MESSAGE_TYPE_SYSTEM && (
             <>
-              <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+              <div className="mr-2 inline-block">{getTaskStatusIcon(message, {})}</div>
               <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
             </>
           )}
         </div>
         {isAction(message) && (
-          <button
-            className="text-white transition-colors hover:text-[#1E88E5]"
+          <Button
+            className="flex items-center gap-2 rounded px-2 py-1 hover:bg-zinc-600 focus:outline-none"
             onClick={handleCopy}
             aria-label="Copy"
           >
-            {isCopied ? "Copied!" : <FaCopy />}
-          </button>
+            {isCopied ? "Copied!" : <FaClipboard />}
+          </Button>
         )}
       </div>
 

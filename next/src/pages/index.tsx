@@ -257,7 +257,7 @@ const Home: NextPage = () => {
                     <span className="ml-2">{t("RUNNING", { ns: "common" })}</span>
                   </>
                 )}
-                {agent != null && agentLifecycle == "paused" && (
+                {agent != null && ["paused", "pausing"].includes(agentLifecycle) && (
                   <>
                     <FaPause />
                     <span className="ml-2">Paused</span>
@@ -265,7 +265,7 @@ const Home: NextPage = () => {
                 )}
               </Button>
               <Button
-                disabled={agent === null}
+                disabled={agent === null || agentLifecycle == "pausing"}
                 onClick={() => {
                   if (agentLifecycle == "running") {
                     agent?.pauseAgent();

@@ -19,7 +19,7 @@ describe("sendErrorMessage", () => {
     instance.sendErrorMessage(axiosError);
     expect(renderMessage).toHaveBeenCalledWith({
       type: "error",
-      value: "Too many requests. Please try again later.",
+      value: "ERROR_API_KEY_QUOTA",
     });
   });
 

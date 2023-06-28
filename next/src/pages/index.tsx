@@ -33,7 +33,7 @@ import { resetAllTaskSlices } from "../stores/taskStore";
 import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 
 const Home: NextPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("indexPage");
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const { query } = useRouter();
@@ -128,7 +128,7 @@ const Home: NextPage = () => {
       onClick={() => handleNewGoal(nameInput, goalInput)}
     >
       {agent == null ? (
-        t("BUTTON_DEPLOY_AGENT", { ns: "indexPage" })
+        t("BUTTON_DEPLOY_AGENT")
       ) : (
         <>
           <VscLoading className="animate-spin" size={20} />
@@ -231,9 +231,7 @@ const Home: NextPage = () => {
                       left={
                         <>
                           <FaRobot />
-                          <span className="ml-2">{`${t("AGENT_NAME", {
-                            ns: "indexPage",
-                          })}`}</span>
+                          <span className="ml-2">{`${t("AGENT_NAME")}`}</span>
                         </>
                       }
                       value={nameInput}
@@ -256,18 +254,14 @@ const Home: NextPage = () => {
                     left={
                       <>
                         <FaStar />
-                        <span className="ml-2">{`${t("LABEL_AGENT_GOAL", {
-                          ns: "indexPage",
-                        })}`}</span>
+                        <span className="ml-2">{`${t("LABEL_AGENT_GOAL")}`}</span>
                       </>
                     }
                     disabled={agent != null}
                     value={goalInput}
                     onChange={(e) => setGoalInput(e.target.value)}
                     onKeyDown={(e) => handleKeyPress(e)}
-                    placeholder={`${t("PLACEHOLDER_AGENT_GOAL", {
-                      ns: "indexPage",
-                    })}`}
+                    placeholder={`${t("PLACEHOLDER_AGENT_GOAL")}`}
                     type="textarea"
                   />
                 </motion.div>
@@ -284,14 +278,10 @@ const Home: NextPage = () => {
                 {!isAgentStopped && agent === null ? (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${t("BUTTON_STOPPING", {
-                      ns: "indexPage",
-                    })}`}</span>
+                    <span className="ml-2">{`${t("BUTTON_STOPPING")}`}</span>
                   </>
                 ) : (
-                  `${t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT", {
-                    ns: "indexPage",
-                  })}`
+                  `${t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT")}`
                 )}
               </Button>
             </div>

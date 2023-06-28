@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import PopIn from "../motions/popin";
 import FadeIn from "../motions/FadeIn";
+import HideShow from "../motions/HideShow";
 import clsx from "clsx";
 import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaArrowCircleDown } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
 import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
@@ -32,6 +33,7 @@ const ChatWindow = ({
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
+  const [showScrollToBottomButton, setShowScrollToBottomButton] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
   const isStopped = useAgentStore.use.isAgentStopped();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -42,7 +44,18 @@ const ChatWindow = ({
     // Use has scrolled if we have scrolled up at all from the bottom
     const hasUserScrolled = scrollTop < scrollHeight - clientHeight - 10;
     setHasUserScrolled(hasUserScrolled);
+
+    // if user have scrolled down far enough and also user is not at buttom 
+    const _showBottomScrollButton = scrollTop > 1000 && scrollTop < (scrollHeight - clientHeight - 400);
+    setShowScrollToBottomButton(_showBottomScrollButton)
   };
+
+  const scrollToButtom = () => {
+    scrollRef.current.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  }
 
   useEffect(() => {
     // Scroll to bottom on re-renders
@@ -53,6 +66,7 @@ const ChatWindow = ({
     }
   });
 
+
   return (
     <div
       className={clsx(
@@ -60,6 +74,16 @@ const ChatWindow = ({
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
+
+      <HideShow
+        showComponent={showScrollToBottomButton}
+        className="absolute bottom-4 right-6 cursor-pointer"
+      >
+        <FaArrowCircleDown
+          onClick={scrollToButtom}
+          className="w-6 h-6 md:w-8 md:h-8 animate-bounce" />
+      </HideShow>
+
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
         className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
@@ -71,7 +95,6 @@ const ChatWindow = ({
           if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
             return null;
           }
-
           return (
             <FadeIn key={`${index}-${message.type}`}>
               <ChatMessage message={message} />

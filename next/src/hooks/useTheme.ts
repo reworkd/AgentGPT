@@ -1,5 +1,6 @@
-import { type Theme, PREFERRED_THEME, SYSTEM_THEME, THEMES } from "../types";
+import { type Theme, THEMES } from "../types";
 import { useEffect } from "react";
+const PREFERRED_THEME = "dark"; // preferred theme must be dark for Tailwind
 
 function isPreferredTheme(theme, matchObj?) {
   if (typeof window === "undefined") {
@@ -10,7 +11,7 @@ function isPreferredTheme(theme, matchObj?) {
     matchObj || window?.matchMedia(`(prefers-color-scheme: ${PREFERRED_THEME})`)
   ).matches;
 
-  return theme === PREFERRED_THEME || (theme === SYSTEM_THEME && preferredThemeMatches);
+  return theme === PREFERRED_THEME || (theme === "system" && preferredThemeMatches);
 }
 
 export function handleTheme(theme, matchObj?) {
@@ -28,7 +29,7 @@ export function handleTheme(theme, matchObj?) {
 }
 
 export function useTheme(theme: Theme) {
-  theme = THEMES.includes(theme) ? theme : SYSTEM_THEME;
+  theme = THEMES.includes(theme) ? theme : "system";
 
   useEffect(() => {
     const preferredTheme = window.matchMedia(`(prefers-color-scheme: ${PREFERRED_THEME})`);

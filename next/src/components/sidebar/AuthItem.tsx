@@ -9,7 +9,6 @@ import { CgSun } from "react-icons/cg";
 import Dialog from "../../ui/dialog";
 import ToggleButton from "../../ui/toggleButton";
 import { useThemeStore } from "../../stores";
-import { DARK_THEME, LIGHT_THEME } from "../../types";
 
 const AuthItem: FC<{
   session: Session | null;
@@ -25,8 +24,8 @@ const AuthItem: FC<{
   const setTheme = useThemeStore.use.setTheme();
   const sunIcon = <CgSun className="text-color-secondary h-8 w-8 hover:text-yellow-500" />;
   const moonIcon = <FaMoon className="text-color-primary h-8 w-8 hover:text-blue-base-light" />;
-  const themeIconOn = theme === DARK_THEME ? sunIcon : moonIcon;
-  const themeIconOff = theme !== DARK_THEME ? moonIcon : sunIcon;
+  const themeIconOn = theme === "dark" ? sunIcon : moonIcon;
+  const themeIconOff = theme !== "dark" ? moonIcon : sunIcon;
 
   return (
     <div className="flex items-center justify-between">
@@ -89,11 +88,11 @@ const AuthItem: FC<{
       <ToggleButton
         className="mt-2 py-2"
         setChecked={(checked) => {
-          setTheme(checked ? DARK_THEME : LIGHT_THEME);
+          setTheme(checked ? "dark" : "light");
         }}
         onIcon={themeIconOn}
         offIcon={themeIconOff}
-        checked={theme === DARK_THEME}
+        checked={theme === "dark"}
       />
     </div>
   );

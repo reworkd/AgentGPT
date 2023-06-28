@@ -3,7 +3,6 @@ import { createSelectors } from "./helpers";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { Theme } from "../types";
-import { SYSTEM_THEME } from "../types";
 import { handleTheme } from "../hooks/useTheme";
 
 const resetters: (() => void)[] = [];
@@ -14,7 +13,7 @@ interface ThemeSlice {
 }
 
 const initialThemeState = {
-  theme: SYSTEM_THEME,
+  theme: "system" as const,
 };
 
 const createThemeSlice: StateCreator<ThemeSlice> = (set) => {
@@ -46,7 +45,7 @@ export const useThemeStore = createSelectors(
             if (error) {
               console.error("an error happened during hydration. ", error);
             } else {
-              handleTheme(state ? state.theme : SYSTEM_THEME);
+              handleTheme(state ? state.theme : "system");
             }
           };
         },

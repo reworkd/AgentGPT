@@ -48,6 +48,7 @@ class AutonomousAgent {
     // If an agent is paused during execution, we need to play work conclusions
     if (this.lastConclusion) {
       await this.lastConclusion();
+      this.lastConclusion = undefined;
     }
 
     this.addTasksIfWorklogEmpty();
@@ -62,7 +63,6 @@ class AutonomousAgent {
 
       await withRetries(
         async () => {
-          if (this.model.getLifecycle() !== "running") return;
           await work.run();
         },
         async (e) => {
@@ -87,7 +87,6 @@ class AutonomousAgent {
       if (this.model.getLifecycle() !== "running") {
         this.lastConclusion = () => work.conclude();
         if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
-        return;
       } else {
         await work.conclude();
       }
@@ -100,6 +99,9 @@ class AutonomousAgent {
 
       this.addTasksIfWorklogEmpty();
     }
+
+    if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
+    if (this.model.getLifecycle() !== "running") return;
 
     // Done with everything in the log and all queued tasks
     this.messageService.sendCompletedMessage();

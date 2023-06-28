@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Button from "../components/Button";
-import { FaCog, FaRobot, FaStar } from "react-icons/fa";
+import { FaCog, FaPause, FaRobot, FaStar } from "react-icons/fa";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
@@ -39,8 +39,7 @@ const Home: NextPage = () => {
   const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
-  const isAgentStopped = useAgentStore.use.isAgentStopped();
-  const setIsAgentStopped = useAgentStore.use.setIsAgentStopped();
+  const agentLifecycle = useAgentStore.use.lifecycle();
 
   const agent = useAgentStore.use.agent();
 
@@ -96,7 +95,6 @@ const Home: NextPage = () => {
     resetAllMessageSlices();
     resetAllTaskSlices();
     newAgent?.run().then(console.log).catch(console.error);
-    setIsAgentStopped(false);
   };
 
   const handleKeyPress = (
@@ -108,35 +106,13 @@ const Home: NextPage = () => {
     }
   };
 
-  const handleStopAgent = () => {
-    agent?.manuallyStopAgent();
-    setIsAgentStopped(true);
-  };
-
   const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
     // This controls whether the ChatWindow or TaskWindow is visible on mobile
     setMobileVisibleWindow(visibleWindow);
   };
 
   const shouldShowSave =
-    status === "authenticated" && isAgentStopped && messages.length && !hasSaved;
-
-  const firstButton = (
-    <Button
-      ping={!disableDeployAgent}
-      disabled={disableDeployAgent}
-      onClick={() => handleNewGoal(nameInput, goalInput)}
-    >
-      {agent == null ? (
-        t("BUTTON_DEPLOY_AGENT")
-      ) : (
-        <>
-          <VscLoading className="animate-spin" size={20} />
-          <span className="ml-2">{t("RUNNING", { ns: "common" })}</span>
-        </>
-      )}
-    </Button>
-  );
+    status === "authenticated" && agentLifecycle && messages.length && !hasSaved;
 
   return (
     <SidebarLayout>
@@ -269,20 +245,41 @@ const Home: NextPage = () => {
             </AnimatePresence>
 
             <div className="flex gap-2">
-              {firstButton}
               <Button
-                disabled={agent === null}
-                onClick={handleStopAgent}
-                enabledClassName={"bg-red-600 hover:bg-red-400"}
+                ping={!disableDeployAgent}
+                disabled={disableDeployAgent}
+                onClick={() => handleNewGoal(nameInput, goalInput)}
               >
-                {!isAgentStopped && agent === null ? (
+                {agent == null && t("BUTTON_DEPLOY_AGENT")}
+                {agent != null && agentLifecycle == "running" && (
                   <>
                     <VscLoading className="animate-spin" size={20} />
-                    <span className="ml-2">{`${t("BUTTON_STOPPING")}`}</span>
+                    <span className="ml-2">{t("RUNNING", { ns: "common" })}</span>
                   </>
-                ) : (
-                  `${t("BUTTON_STOP_AGENT", "BUTTON_STOP_AGENT")}`
                 )}
+                {agent != null && agentLifecycle == "paused" && (
+                  <>
+                    <FaPause />
+                    <span className="ml-2">Paused</span>
+                  </>
+                )}
+              </Button>
+              <Button
+                disabled={agent === null}
+                onClick={() => {
+                  if (agentLifecycle == "running") {
+                    agent?.pauseAgent();
+                  } else if (agentLifecycle == "paused") {
+                    agent?.run().catch(console.error);
+                  }
+                }}
+                enabledClassName={clsx(
+                  agentLifecycle == "paused"
+                    ? "bg-green-600 hover:bg-green-400"
+                    : "bg-yellow-600 hover:bg-yellow-400"
+                )}
+              >
+                {agentLifecycle == "paused" ? "Resume Agent" : "Pause Agent"}
               </Button>
             </div>
           </FadeIn>

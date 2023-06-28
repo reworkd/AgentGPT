@@ -19,6 +19,7 @@ class AutonomousAgent {
   $api: AgentApi;
 
   private readonly workLog: AgentWork[];
+  private lastConclusion?: () => Promise<void>;
 
   constructor(
     model: AgentRunModel,
@@ -43,6 +44,11 @@ class AutonomousAgent {
 
   async run() {
     this.model.setLifecycle("running");
+
+    // If an agent is paused during execution, we need to play work conclusions
+    if (this.lastConclusion) {
+      await this.lastConclusion();
+    }
 
     this.addTasksIfWorklogEmpty();
     while (this.workLog[0]) {
@@ -78,6 +84,7 @@ class AutonomousAgent {
 
       this.workLog.shift();
       if (this.model.getLifecycle() !== "running") {
+        this.lastConclusion = () => work.conclude();
         return;
       } else {
         await work.conclude();

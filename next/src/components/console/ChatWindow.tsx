@@ -9,10 +9,11 @@ import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
-import { FaSpinner, FaArrowCircleDown } from "react-icons/fa";
+import { FaArrowCircleDown } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
 import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import { ImSpinner2 } from "react-icons/im";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -35,7 +36,7 @@ const ChatWindow = ({
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const [showScrollToBottomButton, setShowScrollToBottomButton] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
-  const isStopped = useAgentStore.use.isAgentStopped();
+  const isStopped = useAgentStore.use.lifecycle() === "stopped";
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -45,7 +46,7 @@ const ChatWindow = ({
     const hasUserScrolled = scrollTop < scrollHeight - clientHeight - 10;
     setHasUserScrolled(hasUserScrolled);
 
-    // if user have scrolled down far enough and also user is not at bottom 
+    // if user have scrolled down far enough and also user is not at bottom
     const _showBottomScrollButton = scrollTop > 1000 && scrollTop < (scrollHeight - clientHeight - 400);
     setShowScrollToBottomButton(_showBottomScrollButton)
   };
@@ -134,7 +135,7 @@ const ChatWindow = ({
           )}
         >
           <p>🧠 Thinking</p>
-          <FaSpinner className="animate-spin" />
+          <ImSpinner2 className="animate-spin" />
         </div>
       </div>
     </div>

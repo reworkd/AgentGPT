@@ -35,7 +35,7 @@ class AutonomousAgent {
     this.modelSettings = modelSettings;
     this.session = session;
     this.$api = new AgentApi({
-      model_settings: toApiModelSettings(modelSettings),
+      model_settings: toApiModelSettings(modelSettings, session),
       goal: this.model.getGoal(),
       session,
     });

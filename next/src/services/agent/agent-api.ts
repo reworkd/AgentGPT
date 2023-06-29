@@ -71,17 +71,3 @@ export class AgentApi {
     }
   }
 }
-
-export async function withRetries(
-  fn: () => Promise<void>,
-  onError: (error: unknown) => Promise<boolean>, // Function to handle the error and return whether to continue
-  retries = 3
-): Promise<void> {
-  for (let i = 1; i < retries + 1; i++) {
-    try {
-      return await fn();
-    } catch (error) {
-      if ((await onError(error)) || i === retries) return;
-    }
-  }
-}

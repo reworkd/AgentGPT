@@ -56,3 +56,17 @@ export const fetchAPI = async <T extends z.ZodTypeAny>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return schema.parse(await response.json());
 };
+
+export async function withRetries(
+  fn: () => Promise<void>,
+  onError: (error: unknown) => Promise<boolean>, // Function to handle the error and return whether to continue retrying
+  retries = 3
+): Promise<void> {
+  for (let i = 0; i < retries + 1; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (!(await onError(error))) return;
+    }
+  }
+}

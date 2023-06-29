@@ -58,7 +58,7 @@ export const serverEnv = {
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]).default("development"),
+  NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development", "test"]).default("development"),
   NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean(),
   NEXT_PUBLIC_VERCEL_URL: z.string().default("http://localhost:3000"),
   NEXT_PUBLIC_BACKEND_URL: z.string().url(),

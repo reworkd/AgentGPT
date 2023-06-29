@@ -77,11 +77,11 @@ export async function withRetries(
   onError: (error: unknown) => Promise<boolean>, // Function to handle the error and return whether to continue
   retries = 3
 ): Promise<void> {
-  for (let i = 1; i < retries + 1; i++) {
+  for (let i = 0; i < retries + 1; i++) {
     try {
       return await fn();
     } catch (error) {
-      if ((await onError(error)) || i === retries) return;
+      if (!(await onError(error))) return;
     }
   }
 }

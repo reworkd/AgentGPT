@@ -1,3 +1,4 @@
+import "../__mocks__/matchMedia.mock"
 import type { Message } from "../src/types/message";
 import { MessageService } from "../src/services/agent/message-service";
 

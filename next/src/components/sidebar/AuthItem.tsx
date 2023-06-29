@@ -36,17 +36,6 @@ const AuthItem: FC<{
     }
   };
 
-  const getThemeButtonStyle = (theme: Theme) => {
-    switch (theme) {
-      case "dark":
-        return "text-color-primary hover:text-yellow-500";
-      case "light":
-        return "text-color-secondary  hover:text-blue-base-light";
-      case "system":
-        return "text-color-primary";
-    }
-  };
-
   const themeOptions = [
     <WindowButton
       key="Light"
@@ -126,12 +115,9 @@ const AuthItem: FC<{
           <p className="text-sm text-gray-500">Email: {user?.email}</p>
         </Dialog>
       </div>
-      <Menu
-        icon={getThemeIcon(theme)}
-        items={themeOptions}
-        className={getThemeButtonStyle(theme)}
-        buttonPosition="bottom"
-      />
+      <div className="mt-2">
+        <Menu icon={getThemeIcon(theme)} items={themeOptions} buttonPosition="bottom" />
+      </div>
     </div>
   );
 };

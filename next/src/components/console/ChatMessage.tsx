@@ -49,7 +49,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         "sm:my-1.5 sm:text-sm"
       )}
     >
-      {message.type !== MESSAGE_TYPE_SYSTEM && (
+      {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
           <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
@@ -58,13 +58,17 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
       {isAction(message) ? (
         <>
-          <Button
-            className="ml-2 justify-end text-zinc-500 hover:text-zinc-700"
-            onClick={handleCopy}
-            aria-label="Copy"
-          >
-            {isCopied ? <FaCheck /> : <FaClipboard />}
-          </Button>
+          <div className="flex flex-row">
+            <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+            <span className="mr-2 flex-1 font-bold">{getMessagePrefix(message)}</span>
+            <Button
+              className="justify-end text-zinc-400 hover:text-white"
+              onClick={handleCopy}
+              aria-label="Copy"
+            >
+              <div className="w-full">{isCopied ? <FaCheck /> : <FaClipboard />}</div>
+            </Button>
+          </div>
           <hr className="my-2 border border-white/20" />
           <div className="prose">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>

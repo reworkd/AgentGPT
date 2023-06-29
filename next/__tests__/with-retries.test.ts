@@ -1,5 +1,5 @@
 import "../__mocks__/matchMedia.mock";
-import { withRetries } from "../src/services/agent/agent-api";
+import { withRetries } from "../src/services/api-utils";
 
 describe("withRetries", () => {
   it("should retry 3 times by default", async () => {

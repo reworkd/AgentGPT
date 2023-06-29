@@ -1,5 +1,5 @@
 import type { Session } from "next-auth";
-import { AgentApi, withRetries } from "./agent-api";
+import { AgentApi } from "./agent-api";
 import type { ModelSettings } from "../../types";
 import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
@@ -9,6 +9,7 @@ import { isRetryableError } from "../../types/errors";
 import AnalyzeTaskWork from "./agent-work/analyze-task-work";
 import StartGoalWork from "./agent-work/start-task-work";
 import type AgentWork from "./agent-work/agent-work";
+import { withRetries } from "../api-utils";
 
 class AutonomousAgent {
   model: AgentRunModel;

@@ -4,13 +4,9 @@ import type { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import { get_avatar } from "../../utils/user";
-import { FaMoon, FaAdjust, FaSignInAlt } from "react-icons/fa";
-import { CgSun } from "react-icons/cg";
+import { FaSignInAlt } from "react-icons/fa";
 import Dialog from "../../ui/dialog";
-import { useTheme } from "../../hooks/useTheme";
-import Menu from "../Menu";
-import WindowButton from "../WindowButton";
-import type { Theme } from "../../types";
+import { ThemeMenu } from "../ThemeMenu";
 
 const AuthItem: FC<{
   session: Session | null;
@@ -21,40 +17,6 @@ const AuthItem: FC<{
   const [t] = useTranslation("drawer");
   const [showDialog, setShowDialog] = useState(false);
   const user = session?.user;
-
-  const { theme, setTheme } = useTheme();
-
-  const getThemeIcon = (theme: Theme) => {
-    switch (theme) {
-      case "dark":
-        return <FaMoon />;
-      case "light":
-        return <CgSun />;
-      case "system":
-        return <FaAdjust />;
-    }
-  };
-
-  const themeOptions = [
-    <WindowButton
-      key="Light"
-      onClick={(): void => setTheme("light")}
-      icon={getThemeIcon("light")}
-      name="Light"
-    />,
-    <WindowButton
-      key="Dark"
-      onClick={(): void => setTheme("dark")}
-      icon={getThemeIcon("dark")}
-      name="Dark"
-    />,
-    <WindowButton
-      key="System"
-      onClick={(): void => setTheme("system")}
-      icon={getThemeIcon("system")}
-      name="System"
-    />,
-  ];
 
   return (
     <div className="flex items-center justify-between">
@@ -115,7 +77,7 @@ const AuthItem: FC<{
         </Dialog>
       </div>
       <div className="mt-2">
-        <Menu icon={getThemeIcon(theme)} items={themeOptions} buttonPosition="bottom" />
+        <ThemeMenu />
       </div>
     </div>
   );

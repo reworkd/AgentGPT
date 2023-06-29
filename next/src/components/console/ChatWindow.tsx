@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import PopIn from "../motions/popin";
 import FadeIn from "../motions/FadeIn";
+import HideShow from "../motions/HideShow";
 import clsx from "clsx";
 import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
+import { FaArrowCircleDown } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
 import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
@@ -44,12 +46,18 @@ const ChatWindow = ({
     setHasUserScrolled(hasUserScrolled);
   };
 
+  const handleScrollToBottom = (behaviour: "instant" | "smooth") => {
+    if (!scrollRef || !scrollRef.current) return;
+
+    scrollRef.current.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: behaviour,
+    });
+  };
+
   useEffect(() => {
-    // Scroll to bottom on re-renders
-    if (scrollToBottom && scrollRef && scrollRef.current) {
-      if (!hasUserScrolled) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
+    if (!hasUserScrolled) {
+      handleScrollToBottom("instant");
     }
   });
 
@@ -60,6 +68,16 @@ const ChatWindow = ({
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
+      <HideShow
+        showComponent={hasUserScrolled}
+        className="absolute bottom-2 right-6 cursor-pointer"
+      >
+        <FaArrowCircleDown
+          onClick={() => handleScrollToBottom("smooth")}
+          className="h-6 w-6 animate-bounce md:h-7 md:w-7"
+        />
+      </HideShow>
+
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />
       <div
         className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
@@ -71,7 +89,6 @@ const ChatWindow = ({
           if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
             return null;
           }
-
           return (
             <FadeIn key={`${index}-${message.type}`}>
               <ChatMessage message={message} />

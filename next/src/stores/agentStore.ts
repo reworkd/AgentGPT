@@ -4,42 +4,43 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type AutonomousAgent from "../services/agent/autonomous-agent";
 import type { ActiveTool } from "../hooks/useTools";
-
-const resetters: (() => void)[] = [];
-
-const initialAgentState = {
-  agent: null,
-  isAgentThinking: false,
-  isAgentStopped: true,
-  isAgentPaused: undefined,
-};
+import type { AgentLifecycle } from "../services/agent/agent-run-model";
 
 interface AgentSlice {
   agent: AutonomousAgent | null;
+  lifecycle: AgentLifecycle;
+  setLifecycle: (AgentLifecycle) => void;
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
-  isAgentStopped: boolean;
-  setIsAgentStopped: (boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
+
+const initialAgentState = {
+  agent: null,
+  lifecycle: "stopped" as const,
+  isAgentThinking: false,
+  isAgentPaused: undefined,
+};
 
 interface ToolsSlice {
   tools: Omit<ActiveTool, "active">[];
   setTools: (tools: ActiveTool[]) => void;
 }
 
+const resetters: (() => void)[] = [];
+
 const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
+    setLifecycle: (lifecycle: AgentLifecycle) => {
+      set(() => ({
+        lifecycle: lifecycle,
+      }));
+    },
     setIsAgentThinking: (isThinking: boolean) => {
       set(() => ({
         isAgentThinking: isThinking,
-      }));
-    },
-    setIsAgentStopped: (isStopped: boolean) => {
-      set((state) => ({
-        isAgentStopped: isStopped,
       }));
     },
     setAgent: (newAgent) => {

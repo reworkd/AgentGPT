@@ -13,13 +13,13 @@ import type AgentWork from "./agent-work/agent-work";
 class AutonomousAgent {
   model: AgentRunModel;
   modelSettings: ModelSettings;
-  isRunning = false;
   shutdown: () => void;
   session?: Session;
   messageService: MessageService;
   $api: AgentApi;
 
   private readonly workLog: AgentWork[];
+  private lastConclusion?: () => Promise<void>;
 
   constructor(
     model: AgentRunModel,
@@ -43,12 +43,19 @@ class AutonomousAgent {
   }
 
   async run() {
-    this.setIsRunning(true);
+    this.model.setLifecycle("running");
+
+    // If an agent is paused during execution, we need to play work conclusions
+    if (this.lastConclusion) {
+      await this.lastConclusion();
+      this.lastConclusion = undefined;
+    }
 
     this.addTasksIfWorklogEmpty();
     while (this.workLog[0]) {
       // No longer running, dip
-      if (!this.isRunning) return;
+      if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
+      if (this.model.getLifecycle() !== "running") return;
 
       // Get and run the next work item
       const work = this.workLog[0];
@@ -56,7 +63,7 @@ class AutonomousAgent {
 
       await withRetries(
         async () => {
-          if (!this.isRunning) return;
+          if (this.model.getLifecycle() === "stopped") return;
           await work.run();
         },
         async (e) => {
@@ -78,10 +85,10 @@ class AutonomousAgent {
       useAgentStore.getState().setIsAgentThinking(false);
 
       this.workLog.shift();
-      if (this.isRunning) {
-        await work.conclude();
+      if (this.model.getLifecycle() !== "running") {
+        this.lastConclusion = () => work.conclude();
       } else {
-        return;
+        await work.conclude();
       }
 
       // Add next thing if available
@@ -92,6 +99,9 @@ class AutonomousAgent {
 
       this.addTasksIfWorklogEmpty();
     }
+
+    if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
+    if (this.model.getLifecycle() !== "running") return;
 
     // Done with everything in the log and all queued tasks
     this.messageService.sendCompletedMessage();
@@ -108,17 +118,12 @@ class AutonomousAgent {
     }
   };
 
-  setIsRunning(isRunning: boolean) {
-    this.isRunning = isRunning;
-  }
-
-  manuallyStopAgent() {
-    this.messageService.sendManualShutdownMessage();
-    this.stopAgent();
+  pauseAgent() {
+    this.model.setLifecycle("pausing");
   }
 
   stopAgent() {
-    this.setIsRunning(false);
+    this.model.setLifecycle("stopped");
     this.shutdown();
     return;
   }

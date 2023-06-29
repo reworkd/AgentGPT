@@ -1,0 +1,1 @@
+const ThemeMenu = ({ ...props }) => {};

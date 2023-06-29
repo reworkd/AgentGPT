@@ -7,7 +7,7 @@ import { get_avatar } from "../../utils/user";
 import { FaMoon, FaAdjust, FaSignInAlt } from "react-icons/fa";
 import { CgSun } from "react-icons/cg";
 import Dialog from "../../ui/dialog";
-import { useThemeStore } from "../../stores";
+import { useTheme } from "../../hooks/useTheme";
 import Menu from "../Menu";
 import WindowButton from "../WindowButton";
 import type { Theme } from "../../types";
@@ -22,8 +22,7 @@ const AuthItem: FC<{
   const [showDialog, setShowDialog] = useState(false);
   const user = session?.user;
 
-  const theme = useThemeStore.use.theme();
-  const setTheme = useThemeStore.use.setTheme();
+  const { theme, setTheme } = useTheme();
 
   const getThemeIcon = (theme: Theme) => {
     switch (theme) {

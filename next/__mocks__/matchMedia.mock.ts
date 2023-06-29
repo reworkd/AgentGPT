@@ -1,4 +1,5 @@
-Object.defineProperty(window, 'matchMedia', {
+// When using the matchMedia API in your tests, you will need to mock it.
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: jest.fn().mockImplementation((query: string) => ({
     matches: false,

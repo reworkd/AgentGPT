@@ -67,19 +67,20 @@ class AutonomousAgent {
           await work.run();
         },
         async (e) => {
-          const shouldContinue = work.onError?.(e) || false;
+          const shouldRetry = work.onError?.(e) || true;
 
           if (!isRetryableError(e)) {
             this.stopAgent();
             return false;
           }
 
-          if (!shouldContinue) {
+          if (shouldRetry) {
+            // Wait a bit before retrying
             useAgentStore.getState().setIsAgentThinking(true);
             await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
           }
 
-          return shouldContinue;
+          return shouldRetry;
         }
       );
       useAgentStore.getState().setIsAgentThinking(false);

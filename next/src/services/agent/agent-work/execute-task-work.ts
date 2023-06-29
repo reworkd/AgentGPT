@@ -40,7 +40,7 @@ export default class ExecuteTaskWork implements AgentWork {
         executionMessage.info += text;
         this.parent.messageService.updateMessage(executionMessage);
       },
-      () => !this.parent.isRunning
+      () => this.parent.model.getLifecycle() === "stopped"
     );
     this.result = executionMessage.info || "";
   };

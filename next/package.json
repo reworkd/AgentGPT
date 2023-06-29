@@ -49,6 +49,7 @@
     "react-icons": "^4.8.0",
     "react-markdown": "^8.0.7",
     "react-type-animation": "^3.1.0",
+    "reactflow": "^11.7.4",
     "rehype-highlight": "^6.0.0",
     "remark-gfm": "^3.0.1",
     "superjson": "1.9.1",

@@ -29,18 +29,6 @@ const ChatMessage = ({ message }: { message: Message }) => {
     }
   };
 
-  const FAQ = () => {
-    return (
-      <p>
-        <br />
-        If you are facing issues, please head over to our{" "}
-        <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
-          FAQ
-        </a>
-      </p>
-    );
-  };
-
   return (
     <div
       className={clsx(
@@ -85,6 +73,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
     </div>
   );
 };
+
+const FAQ = () => {
+  return (
+    <p>
+      <br />
+      If you are facing issues, please head over to our{" "}
+      <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
+        FAQ
+      </a>
+    </p>
+  );
+};
+
 // Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {

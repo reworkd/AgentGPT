@@ -13,19 +13,32 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
-import { FaCheck, FaCheckCircle, FaClipboard } from "react-icons/fa";
+import { FaCheck, FaClipboard } from "react-icons/fa";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
   const [isCopied, setIsCopied] = useState(false);
 
-  const handleCopy = async () => {
+  const handleCopy = () => {
     try {
-      await navigator.clipboard.writeText(message.value);
+      const textToCopy = isAction(message) ? message.info || "" : message.value;
+      void navigator.clipboard.writeText(textToCopy);
       setIsCopied(true);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const FAQ = () => {
+    return (
+      <p>
+        <br />
+        If you are facing issues, please head over to our{" "}
+        <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
+          FAQ
+        </a>
+      </p>
+    );
   };
 
   return (
@@ -36,28 +49,22 @@ const ChatMessage = ({ message }: { message: Message }) => {
         "sm:my-1.5 sm:text-sm"
       )}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          {message.type !== MESSAGE_TYPE_SYSTEM && (
-            <>
-              <div className="mb-1 mr-2 inline-block">{getTaskStatusIcon(message, {})}</div>
-              <span className="inline-block font-bold">{getMessagePrefix(message)}</span>
-            </>
-          )}
-        </div>
-        {isAction(message) && (
+      {message.type !== MESSAGE_TYPE_SYSTEM && (
+        <>
+          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+        </>
+      )}
+
+      {isAction(message) ? (
+        <>
           <Button
-            className="flex items-center gap-2 rounded px-2 py-1 hover:bg-zinc-600 focus:outline-none"
+            className="ml-2 justify-end text-zinc-500 hover:text-zinc-700"
             onClick={handleCopy}
             aria-label="Copy"
           >
             {isCopied ? <FaCheck /> : <FaClipboard />}
           </Button>
-        )}
-      </div>
-
-      {isAction(message) ? (
-        <>
           <hr className="my-2 border border-white/20" />
           <div className="prose">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
@@ -66,7 +73,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       ) : (
         <>
           <span>{message.value}</span>
-          {message.type == MESSAGE_TYPE_SYSTEM &&
+          {message.type === MESSAGE_TYPE_SYSTEM &&
             (message.value.toLowerCase().includes("shut") ||
               message.value.toLowerCase().includes("error")) && <FAQ />}
         </>
@@ -74,7 +81,6 @@ const ChatMessage = ({ message }: { message: Message }) => {
     </div>
   );
 };
-
 // Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {
   if (message.type === MESSAGE_TYPE_GOAL) {
@@ -88,17 +94,4 @@ const getMessagePrefix = (message: Message) => {
   }
   return "";
 };
-
-const FAQ = () => {
-  return (
-    <p>
-      <br />
-      If you are facing issues, please head over to our{" "}
-      <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
-        FAQ
-      </a>
-    </p>
-  );
-};
-
 export { ChatMessage };

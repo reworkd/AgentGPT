@@ -7,17 +7,16 @@ interface MenuProps {
   icon?: ReactNode;
   chevron?: boolean;
   name?: string;
-  className?: string;
   buttonPosition?: "top" | "bottom";
   items: JSX.Element[];
 }
 
-function Menu({ icon, name, items, chevron, className, buttonPosition = "top" }: MenuProps) {
+function Menu({ icon, name, items, chevron, buttonPosition = "top" }: MenuProps) {
   return (
     <MenuPrimitive>
       <div className="relative">
         <MenuPrimitive.Button
-          className={`neutral-button-primary flex h-8 items-center gap-1 rounded-lg  border p-2 font-bold ${className}`}
+          className={`neutral-button-primary flex h-8 items-center gap-1 rounded-lg  border p-2 font-bold`}
         >
           <div>{icon}</div>
           {name && <p className="text-gray/50 font-mono text-sm">{name}</p>}

@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import React, { useCallback, useState } from "react";
-import { FaCopy } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/default.css";
 import clsx from "clsx";
+import { FiClipboard } from "react-icons/fi";
 
 const MarkdownRenderer = ({ children }) => {
   return (
@@ -62,7 +62,7 @@ const CustomPre = ({ children }: { children: ReactNode }) => {
           onClick={handleCopyClick}
           className="flex items-center gap-2 rounded px-2 py-1 hover:bg-zinc-600 focus:outline-none"
         >
-          <FaCopy />
+          <FiClipboard />
           {isCopied ? "Copied!" : "Copy Code"}
         </button>
       </div>

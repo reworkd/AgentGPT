@@ -13,7 +13,8 @@ import {
   TASK_STATUS_FINAL,
   TASK_STATUS_STARTED,
 } from "../../types/task";
-import { FaCheck, FaClipboard } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
+import { FiClipboard } from "react-icons/fi";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -54,7 +55,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
               onClick={handleCopy}
               aria-label="Copy"
             >
-              <div className="w-full">{isCopied ? <FaCheck /> : <FaClipboard />}</div>
+              <div className="w-full">{isCopied ? <FaCheck /> : <FiClipboard size={15} />}</div>
             </Button>
           </div>
           <hr className="my-2 border border-white/20" />

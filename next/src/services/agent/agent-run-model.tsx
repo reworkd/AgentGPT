@@ -1,13 +1,21 @@
 import { v4 } from "uuid";
 import type { Task, TaskStatus } from "../../types/task";
 import { useTaskStore } from "../../stores/taskStore";
+import { useAgentStore } from "../../stores";
 
+/*
+ * Abstraction over model used by Autonomous Agent to encapsulate the data required for a given run
+ */
 export interface AgentRunModel {
+  getId(): string;
+
   getName(): string;
 
   getGoal(): string;
 
-  getId(): string;
+  getLifecycle(): AgentLifecycle;
+
+  setLifecycle(AgentLifecycle): void;
 
   getRemainingTasks(): Task[];
 
@@ -19,6 +27,8 @@ export interface AgentRunModel {
 
   addTask(taskValue: string): void;
 }
+
+export type AgentLifecycle = "running" | "pausing" | "paused" | "stopped";
 
 export class DefaultAgentRunModel implements AgentRunModel {
   id: string;
@@ -35,10 +45,11 @@ export class DefaultAgentRunModel implements AgentRunModel {
     this.completedTasks = [];
   }
 
+  getId = () => this.id;
   getName = () => this.name;
   getGoal = () => this.goal;
-
-  getId = () => this.id;
+  getLifecycle = (): AgentLifecycle => useAgentStore.getState().lifecycle;
+  setLifecycle = (lifecycle: AgentLifecycle) => useAgentStore.getState().setLifecycle(lifecycle);
 
   getRemainingTasks = (): Task[] => {
     return useTaskStore.getState().tasks.filter((t: Task) => t.status === "started");

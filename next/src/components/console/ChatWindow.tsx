@@ -8,10 +8,10 @@ import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
 import { ExampleAgentButton } from "./ExampleAgentButton";
-import { FaSpinner } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
 import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import { ImSpinner2 } from "react-icons/im";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -33,7 +33,7 @@ const ChatWindow = ({
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
-  const isStopped = useAgentStore.use.isAgentStopped();
+  const isStopped = useAgentStore.use.lifecycle() === "stopped";
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -111,7 +111,7 @@ const ChatWindow = ({
           )}
         >
           <p>🧠 Thinking</p>
-          <FaSpinner className="animate-spin" />
+          <ImSpinner2 className="animate-spin" />
         </div>
       </div>
     </div>

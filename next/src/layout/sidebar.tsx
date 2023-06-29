@@ -15,6 +15,8 @@ import AppHead from "../components/AppHead";
 import LinkItem from "../components/sidebar/LinkItem";
 import AuthItem from "../components/sidebar/AuthItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
+import { useThemeStore } from "../stores";
+import { useTheme } from "../hooks/useTheme";
 
 const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
@@ -26,6 +28,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
     enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
+
+  const theme = useThemeStore.use.theme();
+  useTheme(theme);
 
   useEffect(() => {
     const handleResize = () => {

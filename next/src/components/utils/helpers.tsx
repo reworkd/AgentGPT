@@ -44,7 +44,7 @@ export const getTaskStatusIcon = (
   message: Message,
   config: { [key: string]: string | boolean | undefined }
 ) => {
-  const taskStatusIconClass = "mr-1 mb-1 inline-block";
+  const taskStatusIconClass = "inline-block";
   const { isAgentStopped } = config;
 
   switch (message.type) {

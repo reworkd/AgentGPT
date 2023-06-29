@@ -40,8 +40,8 @@ const ChatMessage = ({ message }: { message: Message }) => {
         <div className="flex items-center">
           {message.type !== MESSAGE_TYPE_SYSTEM && (
             <>
-              <div className="mr-2 inline-block">{getTaskStatusIcon(message, {})}</div>
-              <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+              <div className="mb-1 mr-2 inline-block">{getTaskStatusIcon(message, {})}</div>
+              <span className="inline-block font-bold">{getMessagePrefix(message)}</span>
             </>
           )}
         </div>

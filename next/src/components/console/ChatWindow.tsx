@@ -34,7 +34,6 @@ const ChatWindow = ({
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
-  const [showScrollToBottomButton, setShowScrollToBottomButton] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
   const isStopped = useAgentStore.use.lifecycle() === "stopped";
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -45,28 +44,22 @@ const ChatWindow = ({
     // Use has scrolled if we have scrolled up at all from the bottom
     const hasUserScrolled = scrollTop < scrollHeight - clientHeight - 10;
     setHasUserScrolled(hasUserScrolled);
-
-    // if user have scrolled down far enough and also user is not at bottom
-    const _showBottomScrollButton = scrollTop > 1000 && scrollTop < (scrollHeight - clientHeight - 400);
-    setShowScrollToBottomButton(_showBottomScrollButton)
   };
 
-  const handleScrollToBottom = () => {
+  const handleScrollToBottom = (behaviour: "instant" | "smooth") => {
+    if (!scrollRef || !scrollRef.current) return;
+
     scrollRef.current.scrollTo({
       top: scrollRef.current.scrollHeight,
-      behavior: 'smooth',
+      behavior: behaviour,
     });
-  }
+  };
 
   useEffect(() => {
-    // Scroll to bottom on re-renders
-    if (scrollToBottom && scrollRef && scrollRef.current) {
-      if (!hasUserScrolled) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
+    if (!hasUserScrolled) {
+      handleScrollToBottom("instant");
     }
   });
-
 
   return (
     <div
@@ -75,14 +68,14 @@ const ChatWindow = ({
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
-
       <HideShow
-        showComponent={showScrollToBottomButton}
-        className="absolute bottom-4 right-6 cursor-pointer"
+        showComponent={hasUserScrolled}
+        className="absolute bottom-2 right-6 cursor-pointer"
       >
         <FaArrowCircleDown
-          onClick={handleScrollToBottom}
-          className="w-6 h-6 md:w-8 md:h-8 animate-bounce" />
+          onClick={() => handleScrollToBottom("smooth")}
+          className="h-6 w-6 animate-bounce md:h-7 md:w-7"
+        />
       </HideShow>
 
       <MacWindowHeader title={title} messages={messages} onSave={onSave} />

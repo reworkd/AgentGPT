@@ -3,21 +3,6 @@ import type { Edge, Node } from "reactflow";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 
-const toPrisma = (n: Node<Partial<WorkflowNode>>) =>
-  ({
-    ...n.data,
-    posX: n.position.x,
-    posY: n.position.y,
-  } as WorkflowNode);
-
-const toReactFlowPartial = (node: WorkflowNode) =>
-  ({
-    id: node.ref,
-    data: node,
-    position: { x: node.posX, y: node.posY },
-    type: "custom",
-  } as Node<Partial<WorkflowNode>>);
-
 export const useWorkflow = (id: string) => {
   // const { mutateAsync: upsertWorkflow } = trpc.workflow.save.useMutation();
 
@@ -34,8 +19,42 @@ export const useWorkflow = (id: string) => {
           name: "Test",
           // description: "Test",
           // code: "Test",
-          hasOutput: false,
+          hasOutput: true,
           hasInput: false,
+        },
+      },
+    },
+    {
+      id: "2",
+      type: "custom",
+      position: { x: 100, y: 0 },
+      data: {
+        id: "1",
+        ref: "1",
+        actionBlock: {
+          id: "1",
+          name: "Test",
+          // description: "Test",
+          // code: "Test",
+          hasOutput: true,
+          hasInput: true,
+        },
+      },
+    },
+    {
+      id: "3",
+      type: "custom",
+      position: { x: 0, y: 100 },
+      data: {
+        id: "1",
+        ref: "1",
+        actionBlock: {
+          id: "1",
+          name: "Test",
+          // description: "Test",
+          // code: "Test",
+          hasOutput: false,
+          hasInput: true,
         },
       },
     },

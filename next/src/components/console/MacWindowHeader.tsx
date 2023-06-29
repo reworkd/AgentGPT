@@ -11,7 +11,7 @@ import { CgExport } from "react-icons/cg";
 import type { ReactNode } from "react";
 import React from "react";
 import type { Message } from "../../types/message";
-import { FiClipboard } from "react-icons/all";
+import { FiClipboard } from "react-icons/fi";
 
 export const messageListId = "chat-window-message-list";
 

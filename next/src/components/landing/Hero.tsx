@@ -27,11 +27,22 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "bg-gradient-to-br from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent",
-              "text-left text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]"
+              "text-left text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]",
+              "bg-clip-text text-transparent",
+              "bg-gradient-to-br from-white via-neutral-300 to-neutral-500"
             )}
+            style={{
+              backgroundImage:
+                "linear-gradient(172.22deg, #FFFFFF 13.42%, rgba(255, 255, 255, 0.22) 154.02%)",
+              fontFamily: "",
+              fontSize: "68px",
+              fontWeight: 700,
+              lineHeight: "68px",
+              letterSpacing: "0px",
+              textAlign: "left",
+            }}
           >
-            <div>
+            <div className="pb-3">
               Autonomous AI
               <br />
               Agents At Your
@@ -39,7 +50,8 @@ const Hero = () => {
               Fingertips
             </div>
           </h1>
-          <p className="my-2 mb-9 inline-block w-full text-left align-top font-thin text-neutral-300">
+
+          <p className="my-3 mb-9 inline-block w-full text-left align-top font-thin text-neutral-300">
             The leading web-based autonomous agent platform. Automate business processes at scale.
           </p>
           <PrimaryButton

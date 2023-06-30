@@ -11,7 +11,7 @@ const Hero = () => {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="col-span-1 mt-8">
+      <div className="col-span-1">
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">
             <BannerBadge
@@ -27,19 +27,14 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "text-left text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]",
+              "text-md text-left leading-none tracking-[-0.64px] sm:text-xl sm:leading-[1.1em]",
               "bg-clip-text text-transparent",
-              "bg-gradient-to-br from-white via-neutral-300 to-neutral-500"
+              "bg-gradient-to-br from-white via-neutral-300 to-neutral-500",
+              "text-xl font-bold leading-[68px] tracking-[-0.64px] sm:text-[60px] sm:leading-[1.1em]"
             )}
             style={{
               backgroundImage:
                 "linear-gradient(172.22deg, #FFFFFF 13.42%, rgba(255, 255, 255, 0.22) 154.02%)",
-              fontFamily: "",
-              fontSize: "68px",
-              fontWeight: 700,
-              lineHeight: "68px",
-              letterSpacing: "0px",
-              textAlign: "left",
             }}
           >
             <div className="pb-3">

@@ -32,10 +32,6 @@ const Hero = () => {
               "bg-gradient-to-br from-white via-neutral-300 to-neutral-500",
               "text-xl font-bold leading-[68px] tracking-[-0.64px] sm:text-[60px] sm:leading-[1.1em]"
             )}
-            style={{
-              backgroundImage:
-                "linear-gradient(172.22deg, #FFFFFF 13.42%, rgba(255, 255, 255, 0.22) 154.02%)",
-            }}
           >
             <div className="pb-3">
               Autonomous AI

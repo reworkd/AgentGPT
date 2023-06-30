@@ -10,7 +10,7 @@ const Hero = () => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+    <div className="z-40 grid grid-cols-1 gap-2 sm:grid-cols-2">
       <div className="col-span-1">
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">

@@ -10,7 +10,7 @@ const Hero = () => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
       <div className="col-span-1">
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">
@@ -27,13 +27,15 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "text-md text-left leading-none tracking-[-0.64px] sm:text-xl sm:leading-[1.1em]",
+              "text-4xl sm:text-4xl md:text-6xl lg:text-7xl",
+              "text-left",
+              "pb-2",
               "bg-clip-text text-transparent",
-              "via-[rgba(255, 255, 255, 0.22)] bg-gradient-to-br from-white to-neutral-500",
-              "text-xl font-bold leading-[68px] tracking-[-0.64px] sm:text-[60px] sm:leading-[1.1em]"
+              "bg-gradient-to-br from-white to-neutral-600",
+              "leading-[1.1em] tracking-[-0.5px]"
             )}
           >
-            <div className="pb-3">
+            <div>
               Autonomous AI
               <br />
               Agents At Your
@@ -54,7 +56,7 @@ const Hero = () => {
           </PrimaryButton>
         </FadeIn>
       </div>
-      <div className="col-span-1"></div>
+      <div className="col-span-1 hidden sm:block"></div>
       <FadeIn initialY={30} duration={1.5} delay={0.6} className="absolute bottom-10">
         <Backing />
       </FadeIn>

@@ -17,7 +17,7 @@ export default class StartGoalWork implements AgentWork {
 
   onError = (e: unknown): boolean => {
     this.parent.messageService.sendErrorMessage(e);
-    return false;
+    return true;
   };
 
   next = () => undefined;

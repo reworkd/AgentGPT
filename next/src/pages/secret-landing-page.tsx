@@ -16,8 +16,8 @@ const HomePage = () => {
         }}
       />
       <div className="flex w-full justify-center">
-        <div className="flex w-full max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-10 text-white">
-          <div className="flex h-screen max-w-screen-lg flex-col items-center justify-center overflow-x-hidden text-white">
+        <div className="flex w-full max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-5 text-white">
+          <div className="flex h-screen max-w-screen-lg flex-col items-start justify-center overflow-x-hidden text-white">
             <Hero />
           </div>
           <div id="section" className="flex min-h-screen w-full items-center">

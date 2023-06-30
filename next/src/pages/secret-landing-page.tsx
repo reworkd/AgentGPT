@@ -28,7 +28,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <Image src="/3DBG.png" alt="Background Image" layout="fill" quality={100} priority />
+      <Image src="/3DBG.png" alt="Background Image" layout="fill" quality={100} />
     </NavLayout>
   );
 };

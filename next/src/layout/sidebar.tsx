@@ -28,6 +28,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
   });
   const userAgents = data ?? [];
 
+  //add event listener to detect OS theme changes
   useTheme();
 
   useEffect(() => {

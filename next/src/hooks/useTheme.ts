@@ -21,7 +21,6 @@ export const handleTheme = (theme) => {
 };
 
 export const useTheme = () => {
-  // theme = THEMES.includes(theme) ? theme : "system";
   const theme = useThemeStore.use.theme();
   const setTheme = useThemeStore.use.setTheme();
   const handleSetTheme = (theme) => {

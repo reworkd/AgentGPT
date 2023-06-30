@@ -27,5 +27,5 @@ export default class CreateTaskWork implements AgentWork {
   next = () => undefined;
 
   // Ignore errors and simply avoid creating more tasks
-  onError = (): boolean => true;
+  onError = (): boolean => false;
 }

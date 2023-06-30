@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import * as htmlToImage from "html-to-image";
 import WindowButton from "../WindowButton";
-import { FaClipboard, FaImage, FaSave } from "react-icons/fa";
+import { FaImage, FaSave } from "react-icons/fa";
 import PDFButton from "../pdf/PDFButton";
 import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
@@ -11,6 +11,7 @@ import { CgExport } from "react-icons/cg";
 import type { ReactNode } from "react";
 import React from "react";
 import type { Message } from "../../types/message";
+import { FiClipboard } from "react-icons/fi";
 
 export const messageListId = "chat-window-message-list";
 
@@ -88,7 +89,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
-      icon={<FaClipboard size={12} />}
+      icon={<FiClipboard size={12} />}
       name={`${t("COPY", { ns: "common" })}`}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,

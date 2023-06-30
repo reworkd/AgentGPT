@@ -30,7 +30,7 @@ export default class ExecuteTaskWork implements AgentWork {
         goal: this.parent.model.getGoal(),
         task: this.task.value,
         analysis: this.analysis,
-        model_settings: toApiModelSettings(this.parent.modelSettings),
+        model_settings: toApiModelSettings(this.parent.modelSettings, this.parent.session),
       },
       this.parent.$api.props.session?.accessToken || "",
       () => {
@@ -51,10 +51,10 @@ export default class ExecuteTaskWork implements AgentWork {
     this.parent.messageService.sendMessage({ ...this.task, status: "final" });
   };
 
-  next = () => (this.result ? new CreateTaskWork(this.parent, this.task, "") : undefined);
+  next = () => (this.result ? new CreateTaskWork(this.parent, this.task, this.result) : undefined);
 
   onError = (e: unknown): boolean => {
     this.parent.messageService.sendErrorMessage(e);
-    return false;
+    return true;
   };
 }

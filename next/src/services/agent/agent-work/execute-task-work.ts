@@ -51,7 +51,7 @@ export default class ExecuteTaskWork implements AgentWork {
     this.parent.messageService.sendMessage({ ...this.task, status: "final" });
   };
 
-  next = () => (this.result ? new CreateTaskWork(this.parent, this.task, "") : undefined);
+  next = () => (this.result ? new CreateTaskWork(this.parent, this.task, this.result) : undefined);
 
   onError = (e: unknown): boolean => {
     this.parent.messageService.sendErrorMessage(e);

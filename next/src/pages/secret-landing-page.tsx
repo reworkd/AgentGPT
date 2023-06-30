@@ -2,6 +2,7 @@ import React from "react";
 import NavLayout from "../components/NavLayout";
 import Hero from "../components/landing/Hero";
 import Sections from "../components/landing/Section";
+import Image from "next/image";
 
 const HomePage = () => {
   return (
@@ -12,7 +13,7 @@ const HomePage = () => {
         style={{
           backgroundColor: "rgb(0, 0, 0)",
           backgroundImage:
-            "radial-gradient(at 100% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% 0%, rgb(21, 94, 117) 0, transparent 50%)",
+            "radial-gradient(at 100% 0%, rgb(49, 46, 130) 0, transparent 69%), radial-gradient(at 0% 0%, rgb(21, 94, 117) 0, transparent 50%)",
         }}
       />
       <div className="flex w-full justify-center">
@@ -27,6 +28,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <Image src="/3DBG.png" alt="Background Image" layout="fill" quality={100} priority />
     </NavLayout>
   );
 };

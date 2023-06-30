@@ -13,7 +13,7 @@ const Hero = () => {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div className="col-span-1 mt-8">
         <FadeIn duration={1.5} delay={0}>
-          <div className="mb-2s">
+          <div className="mb-2">
             <BannerBadge
               onClick={() =>
                 window.open(

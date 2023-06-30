@@ -9,7 +9,7 @@ const HomePage = () => {
     <NavLayout>
       <div
         id="background-gradient"
-        className="absolute -z-10 h-screen w-full overflow-hidden"
+        className="absolute -z-10 h-screen w-full overflow-hidden "
         style={{
           backgroundColor: "rgb(0, 0, 0)",
           backgroundImage: "radial-gradient(at 100% 0%, rgb(49, 46, 130) 0, transparent 69%)",
@@ -27,7 +27,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <Image src="/3DBG.png" alt="Background Image" layout="fill" quality={100} />
+      <Image src="/heroBackground.png" alt="Background Image" layout="fill" quality={100} />
     </NavLayout>
   );
 };

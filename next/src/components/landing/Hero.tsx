@@ -29,7 +29,7 @@ const Hero = () => {
             className={clsx(
               "text-md text-left leading-none tracking-[-0.64px] sm:text-xl sm:leading-[1.1em]",
               "bg-clip-text text-transparent",
-              "bg-gradient-to-br from-white via-neutral-300 to-neutral-500",
+              "via-[rgba(255, 255, 255, 0.22)] bg-gradient-to-br from-white to-neutral-500",
               "text-xl font-bold leading-[68px] tracking-[-0.64px] sm:text-[60px] sm:leading-[1.1em]"
             )}
           >

@@ -10,69 +10,64 @@ const Hero = () => {
   const router = useRouter();
 
   return (
-    <>
-      <FadeIn duration={1.5} delay={0}>
-        <div className="mb-2 flex w-full justify-center">
-          <BannerBadge
-            onClick={() =>
-              window.open(
-                "https://calendly.com/reworkdai/enterprise-customers?month=2023-06",
-                "_blank"
-              )
-            }
-          >
-            Shape the future of AI agents for your business
-          </BannerBadge>
-        </div>
-        <h1
-          className={clsx(
-            "text-left text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]",
-            "bg-clip-text text-transparent",
-            "bg-gradient-to-br from-white via-neutral-300 to-neutral-500"
-          )}
-          style={{
-            backgroundImage:
-              "linear-gradient(172.22deg, #FFFFFF 13.42%, rgba(255, 255, 255, 0.22) 154.02%)",
-            fontFamily: "Satoshi Variable",
-            fontSize: "68px",
-            fontWeight: 700,
-            lineHeight: "68px",
-            letterSpacing: "0px",
-            textAlign: "left",
-          }}
-        >
-          <div>
-            Autonomous AI
-            <br />
-            Agents At Your
-            <br />
-            Fingertips
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="col-span-1 mt-8">
+        <FadeIn duration={1.5} delay={0}>
+          <div className="mb-2">
+            <BannerBadge
+              onClick={() =>
+                window.open(
+                  "https://calendly.com/reworkdai/enterprise-customers?month=2023-06",
+                  "_blank"
+                )
+              }
+            >
+              Shape the future of AI agents for your business
+            </BannerBadge>
           </div>
-        </h1>
+          <h1
+            className={clsx(
+              "text-left text-4xl font-bold leading-[42px] tracking-[-0.64px] sm:text-6xl sm:leading-[1.1em]",
+              "bg-clip-text text-transparent",
+              "bg-gradient-to-br from-white via-neutral-300 to-neutral-500"
+            )}
+            style={{
+              backgroundImage:
+                "linear-gradient(172.22deg, #FFFFFF 13.42%, rgba(255, 255, 255, 0.22) 154.02%)",
+              fontFamily: "",
+              fontSize: "68px",
+              fontWeight: 700,
+              lineHeight: "68px",
+              letterSpacing: "0px",
+              textAlign: "left",
+            }}
+          >
+            <div className="pb-3">
+              Autonomous AI
+              <br />
+              Agents At Your
+              <br />
+              Fingertips
+            </div>
+          </h1>
 
-        <p className="my-2 mb-9 inline-block w-full text-center align-top font-thin text-neutral-300">
-          The leading web based autonomous agent platform. Automate business processes at scale.
-        </p>
-      </FadeIn>
-      <FadeIn
-        initialY={30}
-        duration={1.5}
-        delay={0.6}
-        className="flex w-full flex-col items-center gap-2 sm:flex-row"
-      >
-        <div className="w-full cursor-text rounded-full border border-white/30 p-2 px-4 font-thin text-neutral-100 transition-colors hover:border-white/60 sm:flex-1"></div>
-        <PrimaryButton
-          onClick={() => {
-            router.push("/").catch(console.error);
-          }}
-        >
-          Get started
-        </PrimaryButton>
-      </FadeIn>
+          <p className="my-3 mb-9 inline-block w-full text-left align-top font-thin text-neutral-300">
+            The leading web-based autonomous agent platform. Automate business processes at scale.
+          </p>
+          <PrimaryButton
+            onClick={() => {
+              router.push("/").catch(console.error);
+            }}
+          >
+            Get started
+          </PrimaryButton>
+        </FadeIn>
+      </div>
+      <div className="col-span-1"></div>
       <FadeIn initialY={30} duration={1.5} delay={0.6} className="absolute bottom-10">
         <Backing />
       </FadeIn>
-    </>
+    </div>
   );
 };
 

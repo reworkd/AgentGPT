@@ -72,6 +72,7 @@ const Hero = () => {
           objectFit="cover"
           objectPosition="center"
           quality={100}
+          className="brightness-[0.8] saturate-[0.9]"
         />
       </FadeIn>
     </div>

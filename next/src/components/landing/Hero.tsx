@@ -58,13 +58,13 @@ const Hero = () => {
 
       <FadeIn
         initialY={50}
-        duration={2}
+        duration={1.5}
         className="absolute bottom-10 right-0 z-10 flex w-screen justify-center"
       >
         <Backing />
       </FadeIn>
 
-      <FadeIn duration={5} delay={0.5} initialX={100} className="absolute inset-0 z-0">
+      <FadeIn duration={1.5} initialX={50} initialY={0} className="absolute inset-0 z-0">
         <Image
           src="/hero-background.png"
           alt="Background Image"

@@ -5,13 +5,14 @@ import PrimaryButton from "../PrimaryButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Hero = () => {
   const router = useRouter();
 
   return (
-    <div className="z-40 grid grid-cols-1 gap-2 sm:grid-cols-2">
-      <div className="col-span-1">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+      <div className="z-10 col-span-1">
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">
             <BannerBadge
@@ -27,9 +28,7 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "text-4xl md:text-6xl lg:text-7xl",
-              "text-left",
-              "pb-2",
+              "pb-2 text-left text-4xl md:text-6xl lg:text-7xl",
               "bg-clip-text text-transparent",
               "bg-gradient-to-br from-white to-neutral-600",
               "leading-[1.1em] tracking-[-0.5px]"
@@ -56,9 +55,24 @@ const Hero = () => {
           </PrimaryButton>
         </FadeIn>
       </div>
-      <div className="col-span-1 hidden sm:block"></div>
-      <FadeIn initialY={30} duration={1.5} delay={0.6} className="absolute bottom-10">
+
+      <FadeIn
+        initialY={50}
+        duration={2}
+        className="absolute bottom-10 right-0 z-10 flex w-screen justify-center"
+      >
         <Backing />
+      </FadeIn>
+
+      <FadeIn duration={5} delay={0.5} initialX={100} className="absolute inset-0 z-0">
+        <Image
+          src="/hero-background.png"
+          alt="Background Image"
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+          quality={100}
+        />
       </FadeIn>
     </div>
   );

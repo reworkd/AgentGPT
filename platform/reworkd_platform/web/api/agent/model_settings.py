@@ -17,14 +17,11 @@ class WrappedChatOpenAI(ChatOpenAI):
 def create_model(
     model_settings: ModelSettings, user: UserBase, streaming: bool = False
 ) -> WrappedChatOpenAI:
-    if model_settings.custom_api_key != "":
-        api_key = model_settings.custom_api_key
-    else:
-        api_key = rotate_keys(
-            gpt_3_key=settings.openai_api_key,
-            gpt_4_key=settings.secondary_openai_api_key,
-            model=model_settings.model,
-        )
+    api_key = model_settings.custom_api_key or rotate_keys(
+        gpt_3_key=settings.openai_api_key,
+        gpt_4_key=settings.secondary_openai_api_key,
+        model=model_settings.model,
+    )
 
     return WrappedChatOpenAI(
         client=None,  # Meta private value but mypy will complain its missing

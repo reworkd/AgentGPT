@@ -105,8 +105,12 @@ export class MessageService {
           }
           break;
         case 429:
-          const { detail } = e.response?.data as { detail: string | undefined };
-          message = detail || "Too many requests. Please try again later.";
+          if (e.response?.data && "detail" in e.response.data) {
+            const { detail } = e.response.data as { detail?: string };
+            message = detail || "Too many requests. Please try again later.";
+          } else {
+            message = "Too many requests. Please try again later.";
+          }
           break;
         case 403:
           message = "Authentication Error. Please make sure you are logged in.";

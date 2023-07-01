@@ -52,6 +52,7 @@ class AgentCRUD(BaseCrud):
                 StopIteration(),
                 f"Max loops of {max_} exceeded, shutting down.",
                 429,
+                should_log=False,
             )
 
 

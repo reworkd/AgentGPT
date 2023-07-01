@@ -11,7 +11,8 @@ const Backing = () => {
           target="_blank"
         >
           <div className="relative">
-            <div className="absolute inset-0 rounded-sm bg-gradient-to-t from-[#f26522] to-[#ffa437] ring-1 ring-[#f26522]/50"></div>
+            <div className="absolute inset-0 rounded-sm bg-gradient-to-bl from-orange-50 via-orange-500 to-[#f26522]"></div>
+            <div className="absolute inset-[2px] rounded-sm bg-gradient-to-t from-[#f26522] to-[#ffa437] ring-1 ring-[#f26522]/50"></div>
             <div className="relative flex items-center justify-center px-2 font-sans text-lg font-medium text-white">
               Y
             </div>

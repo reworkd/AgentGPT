@@ -9,7 +9,7 @@ const Backing = () => {
         >
           <div className="mr-1 font-thin">Backed By:</div>
           <div className="relative p-[1px]">
-            <div className="absolute inset-0 rotate-180 bg-[#9A9A9A]"></div>
+            <div className="absolute inset-0 bg-[#9A9A9A]"></div>
             <div className="relative flex items-center justify-center bg-[#9A9A9A] px-2 text-lg font-thin text-black">
               Y
             </div>

@@ -1,6 +1,6 @@
 const Backing = () => {
   return (
-    <div className="font-white relative z-40 flex flex-col items-center text-xs md:text-sm">
+    <div className="font-white relative flex flex-col items-center gap-x-2 text-xs sm:flex-row md:text-sm">
       <div className="font-thin">Backed by</div>
       <div className="flex flex-row items-center gap-2">
         <a

@@ -2,6 +2,7 @@ import React from "react";
 import NavLayout from "../components/NavLayout";
 import Hero from "../components/landing/Hero";
 import Sections from "../components/landing/Section";
+import Image from "next/image";
 
 const HomePage = () => {
   return (
@@ -11,8 +12,7 @@ const HomePage = () => {
         className="absolute -z-10 h-screen w-full overflow-hidden"
         style={{
           backgroundColor: "rgb(0, 0, 0)",
-          backgroundImage:
-            "radial-gradient(at 100% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% 0%, rgb(21, 94, 117) 0, transparent 50%)",
+          backgroundImage: "radial-gradient(at 100% 0%, rgb(49, 46, 130) 0, transparent 69%)",
         }}
       />
       <div className="flex w-full justify-center">
@@ -26,6 +26,16 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="absolute inset-0">
+        <Image
+          src="/hero-background.png"
+          alt="Background Image"
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+          quality={100}
+        />
       </div>
     </NavLayout>
   );

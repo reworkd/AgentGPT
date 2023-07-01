@@ -10,8 +10,7 @@ const HomePage = () => {
         id="background-gradient"
         className="absolute -z-10 h-screen w-full overflow-hidden"
         style={{
-          backgroundColor: "rgb(0, 0, 0)",
-          backgroundImage: "radial-gradient(at 100% 0%, rgb(49, 46, 130) 0, transparent 69%)",
+          backgroundImage: "radial-gradient(at 100% 0%, #463d66 0, transparent 66%)",
         }}
       />
       <div className="flex w-full justify-center">

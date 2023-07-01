@@ -90,7 +90,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     </button>
                   </div>
                   <FadingHr className="my-2" />
-                  <div className="mb-2 flex-1 overflow-y-auto">
+                  <div className="-mr-2 mb-2 flex-1 overflow-y-auto">
                     {status === "unauthenticated" && (
                       <div className="p-1 font-mono text-sm text-white">
                         <a className="link" onClick={() => void signIn()}>

@@ -254,7 +254,7 @@ Not supports in Firefox and IE */
 *::-webkit-scrollbar {
   border-radius: 10px;
   background-color: #464649;
-  width: 0.75em;
+  width: 8px;
 }
 
 /* background of the scrollbar except button or resizer */

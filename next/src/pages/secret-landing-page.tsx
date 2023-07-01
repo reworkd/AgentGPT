@@ -14,7 +14,7 @@ const HomePage = () => {
         }}
       />
       <div className="flex w-full justify-center">
-        <div className="flex w-full max-w-screen-lg flex-col items-center justify-center overflow-x-hidden px-5 text-white">
+        <div className="flex w-full max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-5 text-white">
           <div className="flex h-screen w-full flex-col items-start justify-center overflow-x-hidden text-white">
             <Hero />
           </div>

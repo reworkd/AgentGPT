@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { Disclosure, Menu } from "@headlessui/react";
 import { FaBars, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
+import clsx from "clsx";
+import Image from "next/image";
 
 const navigation = [
   { name: "Home", href: "#" },
@@ -10,32 +12,33 @@ const navigation = [
   { name: "Docs", href: "https://docs.reworkd.ai/" },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function NavLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <FadeIn duration={2}>
-        <Disclosure
-          as="nav"
-          className="fixed top-0 z-50 w-full border-b border-white/10 bg-transparent text-white backdrop-blur-lg"
-        >
+        <Disclosure as="nav" className="absolute top-0 z-50 w-full bg-transparent text-white">
           {({ open }) => (
             <>
-              <div className="mx-auto max-w-screen-lg px-6">
-                <div className="flex h-16 justify-between">
-                  <div className="flex flex-shrink-0 items-center font-medium">Reworkd.</div>
+              <div className="mx-auto max-w-screen-xl px-6">
+                <div className="align-center flex h-16 flex-row justify-between">
+                  <div className="flex flex-shrink-0 items-center font-extralight">
+                    <Image
+                      src="wordmark.svg"
+                      width="132"
+                      height="20"
+                      alt="Reworkd AI"
+                      className="mr-2"
+                    />
+                  </div>
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
-                        className={classNames(
+                        className={clsx(
                           "border-transparent text-neutral-200 hover:border-gray-300 hover:text-neutral-50",
                           "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium",
-                          "transition-colors duration-300"
+                          "font-extralight tracking-wider transition-colors duration-300"
                         )}
                       >
                         {item.name}
@@ -69,9 +72,9 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       key={item.name}
                       as="a"
                       href={item.href}
-                      className={classNames(
+                      className={clsx(
                         "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800",
-                        "block border-l-4 py-2 pl-3 pr-4 text-base font-medium"
+                        "block border-l-4 py-2 pl-3 pr-4 text-base"
                       )}
                     >
                       {item.name}

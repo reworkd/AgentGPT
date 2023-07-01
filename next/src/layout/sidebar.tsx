@@ -15,6 +15,7 @@ import AppHead from "../components/AppHead";
 import LinkItem from "../components/sidebar/LinkItem";
 import AuthItem from "../components/sidebar/AuthItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
+import { useTheme } from "../hooks/useTheme";
 
 const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
@@ -26,6 +27,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
     enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
+
+  //add event listener to detect OS theme changes
+  useTheme();
 
   useEffect(() => {
     const handleResize = () => {

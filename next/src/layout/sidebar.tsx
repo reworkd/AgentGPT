@@ -174,7 +174,12 @@ const SidebarLayout = (props: PropsWithChildren) => {
         <FaBars size="15" className="z-20 m-2" />
       </button>
 
-      <main className={clsx("background-color-2", sidebarOpen && "lg:pl-60")}>
+      <main
+        className={clsx(
+          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
+          sidebarOpen && "lg:pl-60"
+        )}
+      >
         <DottedGridBackground className="min-w-screen min-h-screen">
           {props.children}
         </DottedGridBackground>

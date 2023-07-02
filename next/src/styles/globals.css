@@ -6,15 +6,8 @@ body {
     background: black;
 }
 
-/* Used for the background effect in the landing page */
-.background {
-    background-image: radial-gradient(
-            circle,
-            rgba(58, 58, 58, 0.75) 2px,
-            transparent 0px
-    );
-    background-size: 30px 30px;
-    background-position: 0 0, 15px 15px;
+.radial-background-1 {
+    background-image: radial-gradient(at 170% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% -30%, rgb(21, 94, 117) 0, transparent 50%);
 }
 
 .lower-gradient {
@@ -31,6 +24,20 @@ body {
 }
 
 .fading-hr {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(
+            to right,
+            transparent,
+            hsla(240, 2%, 57%, 0.1),
+            hsla(240, 2%, 57%, 0.2),
+            hsla(240, 2%, 57%, 0.2),
+            hsla(240, 2%, 57%, 0.1),
+            transparent
+    );
+}
+
+.fading-hr-dark {
     position: relative;
     height: 1px;
     background: linear-gradient(
@@ -75,26 +82,194 @@ tr:nth-child(even) {
     background-color: #1c2028;
 }
 
+@layer base {
+    /* background styles */
+    /* Used for the background effect in the landing page */
+    .background {
+        background-image: radial-gradient(
+                circle,
+                rgba(58, 58, 58, 0.75) 2px,
+                transparent 0px
+        );
+        background-size: 30px 30px;
+        background-position: 0 0, 15px 15px;
+    }
+
+    .background-dark {
+        background-image: radial-gradient(
+                circle,
+                rgba(58, 58, 58, 0.75) 2px,
+                transparent 0px
+        );
+        background-size: 30px 30px;
+        background-position: 0 0, 15px 15px;
+    }
+
+    .background-color-1 {
+        @apply dark:bg-shade-800-dark bg-shade-800-light;
+    }
+
+    .background-color-2 {
+        @apply dark:bg-shade-700-dark bg-shade-700-light;
+    }
+
+    .background-color-3 {
+        @apply dark:bg-shade-600-dark bg-shade-600-light;
+    }
+
+    .background-color-4 {
+        @apply dark:bg-shade-500-dark bg-shade-700-light;
+    }
+
+    .background-color-5 {
+        @apply dark:bg-shade-500-dark bg-shade-800-light;
+    }
+
+    .background-color-6 {
+        @apply dark:bg-shade-800-dark bg-blue-base-light
+    }
+
+    /* border styles */
+    .border-color-1 {
+        @apply dark:border-shade-400-dark border-shade-600-light
+    }
+
+    .border-color-2 {
+        @apply dark:border-shade-400-dark border-blue-base-light
+    }
+
+    .border-color-success {
+        @apply dark:border-green-base-dark border-green-base-light
+    }
+
+    .border-color-warn {
+        @apply dark:border-amber-base-dark border-amber-base-light
+    }
+
+    .border-style-1 {
+        @apply border-color-1 rounded-xl border-2;
+    }
+
+    .border-hover-1 {
+        @apply hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus:ring-0 border-2;
+    }
+
+    .border-hover-success {
+        @apply dark:hover:border-green-hover-dark hover:border-green-hover-light;
+    }
+
+    .border-hover-warn {
+        @apply dark:hover:border-amber-hover-dark hover:border-amber-hover-light;
+    }
+
+    .border-focusVisible-1 {
+        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2;
+    }
+
+    .border-focusVisible-1[type=range] {
+        @apply border;
+    }
+
+    /* text colors */
+    .text-color-primary {
+        @apply dark:text-shade-100-dark text-shade-100-light;
+    }
+
+    .text-color-secondary {
+        @apply dark:text-shade-200-dark text-shade-200-light;
+    }
+
+    .text-color-tertiary {
+        @apply dark:text-shade-300-dark text-shade-300-light;
+    }
+
+    .text-color-green {
+        @apply dark:text-green-base-dark text-green-base-light
+    }
+
+    .text-hover-green {
+        @apply dark:hover:text-green-hover-dark hover:text-green-hover-light
+    }
+
+    .text-color-error {
+        @apply dark:text-red-base-dark text-red-base-light
+    }
+
+    /* button styles */
+    .blue-button-primary {
+        @apply bg-blue-base-light dark:bg-blue-base-dark text-shade-100-dark hover:bg-blue-hover-light dark:hover:bg-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
+    }
+
+    .blue-button-secondary {
+        @apply bg-white dark:bg-white hover:bg-shade-500-light dark:hover:bg-shade-200-dark border-2 border-blue-base-light dark:border-blue-base-dark text-blue-base-light dark:text-blue-base-dark hover:text-blue-hover-light dark:hover:text-blue-hover-dark hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
+    }
+
+    .red-button-primary {
+        @apply bg-red-base-light dark:bg-red-base-dark text-shade-100-dark hover:bg-red-hover-light focus-visible:outline-red-focusVisible-light dark:hover:bg-red-hover-dark dark:focus-visible:outline-red-focusVisible-dark;
+    }
+
+    .red-button-secondary {
+        @apply bg-white hover:bg-gray-300 border border-red-base-light dark:border-red-base-dark text-red-base-light dark:text-red-base-dark hover:text-red-hover-light dark:hover:text-red-hover-dark hover:border-red-hover-light dark:hover:border-red-hover-dark focus-visible:outline-red-focusVisible-light dark:focus-visible:outline-red-focusVisible-dark;
+    }
+
+    .neutral-button-primary {
+        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-600-light dark:hover:bg-shade-300-dark;
+    }
+
+    .button-disabled {
+        @apply dark:bg-shade-800-dark bg-shade-400-light cursor-not-allowed text-color-tertiary text-white border-style-1;
+    }
+}
+
+
+/* range input track style */
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+input[type=range] {
+    @apply background-color-4 rounded-md;
+    height: 0.5rem;
+}
+
 /* Customize website's scrollbar like Mac OS
 Not supports in Firefox and IE */
 /* total width */
 *::-webkit-scrollbar {
     border-radius: 10px;
     background-color: #464649;
-    width: 0.75em;
+    width: 8px;
 }
 
 /* background of the scrollbar except button or resizer */
 *::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: #464649;
+    @apply bg-shade-300-light dark:bg-shade-500-dark;
+}
+
+#layout *::-webkit-scrollbar-track {
+    @apply rounded-xl
 }
 
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
-    background-color: #babac0;
-    border-radius: 10px;
-    border: 2px solid #464649;
+    @apply rounded-lg bg-shade-600-light dark:bg-shade-200-dark;
 }
 
 /* set button(top and bottom of the scrollbar) */

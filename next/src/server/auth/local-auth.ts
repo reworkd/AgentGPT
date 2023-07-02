@@ -1,11 +1,11 @@
-import type {NextApiRequest, NextApiResponse,} from "next";
-import type {AuthOptions} from "next-auth";
+import type { NextApiRequest, NextApiResponse } from "next";
+import type { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import {getCookie, setCookie} from "cookies-next";
-import {z} from "zod";
-import {v4} from "uuid";
-import type {IncomingMessage, ServerResponse} from "http";
-import type {Adapter} from "next-auth/adapters";
+import { getCookie, setCookie } from "cookies-next";
+import { z } from "zod";
+import { v4 } from "uuid";
+import type { IncomingMessage, ServerResponse } from "http";
+import type { Adapter } from "next-auth/adapters";
 
 const monthFromNow = () => {
   const now = new Date(Date.now());
@@ -34,7 +34,7 @@ export const options = (
       Credentials({
         name: "Username, Development Only (Insecure)",
         credentials: {
-          name: {label: "Username", type: "text"},
+          name: { label: "Username", type: "text" },
         },
         async authorize(credentials, req) {
           if (!credentials) return null;
@@ -57,14 +57,21 @@ export const options = (
         },
       }),
     ],
+    pages: {
+      signIn: "/signin",
+    },
     callbacks: {
+      // Fallback to base url if provided url is not a subdirectory
+      redirect: (params: { url: string; baseUrl: string }) =>
+        params.url.startsWith(params.baseUrl) ? params.url : params.baseUrl,
+
       async signIn({ user }) {
         if (user) {
-          const session = (await adapter.createSession({
+          const session = await adapter.createSession({
             sessionToken: v4(),
             userId: user.id,
             expires: monthFromNow(),
-          }));
+          });
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           setCookie("next-auth.session-token", session.sessionToken, {

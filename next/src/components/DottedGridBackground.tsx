@@ -7,7 +7,7 @@ interface DottedGridBackgroundProps {
 }
 
 const DottedGridBackground = ({ children, className }: DottedGridBackgroundProps) => {
-  return <div className={clsx(className, "background")}>{children}</div>;
+  return <div className={clsx(className, "dark:background-dark background")}>{children}</div>;
 };
 
 export default DottedGridBackground;

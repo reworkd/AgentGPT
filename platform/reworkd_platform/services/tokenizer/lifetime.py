@@ -4,7 +4,7 @@ from fastapi import FastAPI
 ENCODING_NAME = "cl100k_base"  # gpt-4, gpt-3.5-turbo, text-embedding-ada-002
 
 
-async def init_tokenizer(app: FastAPI) -> None:  # pragma: no cover
+def init_tokenizer(app: FastAPI) -> None:  # pragma: no cover
     """
     Initialize tokenizer.
 

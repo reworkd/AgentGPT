@@ -1,20 +1,15 @@
 import React from "react";
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  value: string | number | readonly string[] | undefined;
   name: string;
-  type: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
-  ) => void;
   attributes?: { [key: string]: string | number | string[] };
   helpText?: string | React.ReactNode;
-  placeholder?: string;
   icon?: React.ReactNode;
+  disabled?: boolean;
 }
 
-const Input = ({ ...props }: Props) => {
+const Input = (props: Props) => {
   return (
     <div>
       <label
@@ -44,6 +39,7 @@ const Input = ({ ...props }: Props) => {
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}
+          disabled={props.disabled}
           {...(props.helpText ? { "aria-describedby": `${props.name}-description` } : {})}
           {...props.attributes}
         />

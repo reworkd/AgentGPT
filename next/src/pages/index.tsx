@@ -31,6 +31,8 @@ import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
 import { resetAllTaskSlices } from "../stores/taskStore";
 import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
+import { AgentApi } from "../services/agent/agent-api";
+import { toApiModelSettings } from "../utils/interfaces";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -90,11 +92,17 @@ const Home: NextPage = () => {
 
     const model = new DefaultAgentRunModel(name.trim(), goal.trim());
     const messageService = new MessageService(addMessage);
+    const agentApi = new AgentApi({
+      model_settings: toApiModelSettings(settings, session),
+      goal: goal.trim(),
+      session,
+    });
     const newAgent = new AutonomousAgent(
       model,
       messageService,
       () => setAgent(null),
       settings,
+      agentApi,
       session ?? undefined
     );
     setAgent(newAgent);

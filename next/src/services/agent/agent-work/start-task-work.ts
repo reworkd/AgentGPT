@@ -8,7 +8,7 @@ export default class StartGoalWork implements AgentWork {
 
   run = async () => {
     this.parent.messageService.sendGoalMessage(this.parent.model.getGoal());
-    this.tasksValues = await this.parent.$api.getInitialTasks();
+    this.tasksValues = await this.parent.api.getInitialTasks();
   };
 
   conclude = async () => {

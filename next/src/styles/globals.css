@@ -287,3 +287,19 @@ Not supports in Firefox and IE */
         opacity: 0;
     }
 }
+
+@keyframes border-pulse-animation {
+    0% {
+      border-color: rgba(216, 180, 254, 0.3);
+    }
+    50% {
+      border-color: rgba(216, 180, 254, 0.4);
+    }
+    100% {
+      border-color: rgba(216, 180, 254, 0.3);
+    }
+  }
+  
+  .animate-border-pulse {
+    animation: border-pulse-animation 2s infinite;
+  }

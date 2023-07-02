@@ -92,6 +92,19 @@ create_tasks_prompt = PromptTemplate(
 summarize_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language. 
 
+    Summarize the following text snippets "{snippets}".
+    Write using clear markdown formatting in a style expected of the goal "{goal}".
+    Be as clear, informative, and descriptive as necessary. 
+    Do not make up information, only summarize what is given. 
+    
+    If there is nothing to summarize, say "There is nothing to summarize".  
+    """,
+    input_variables=["goal", "language", "snippets"],
+)
+
+summarize_with_sources_prompt = PromptTemplate(
+    template="""You must answer in the "{language}" language. 
+
     Parse and summarize the following text snippets "{snippets}".
     Write using clear markdown formatting in a style expected of the goal "{goal}".
     Be as clear, informative, and descriptive as necessary and attempt to

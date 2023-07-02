@@ -67,6 +67,10 @@ class AgentTaskCreate(AgentRun):
     completed_tasks: List[str] = Field(default=[])
 
 
+class AgentSummarize(AgentRun):
+    results: List[str] = Field(default=[])
+
+
 class NewTasksResponse(BaseModel):
     run_id: str
     new_tasks: List[str] = Field(alias="newTasks")

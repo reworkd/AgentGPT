@@ -12,7 +12,7 @@ export default class AnalyzeTaskWork implements AgentWork {
   run = async () => {
     this.parent.messageService.startTaskMessage(this.task);
     this.task = this.parent.model.updateTaskStatus(this.task, "executing");
-    this.analysis = await this.parent.$api.analyzeTask(this.task.value);
+    this.analysis = await this.parent.api.analyzeTask(this.task.value);
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -31,6 +31,6 @@ export default class AnalyzeTaskWork implements AgentWork {
 
   onError = (e: unknown): boolean => {
     this.parent.messageService.sendErrorMessage(e);
-    return false;
+    return true;
   };
 }

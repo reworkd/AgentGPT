@@ -25,8 +25,6 @@ const createThemeSlice: StateCreator<ThemeSlice> = (set) => {
       set(() => ({
         theme,
       }));
-
-      handleTheme(theme);
     },
   };
 };

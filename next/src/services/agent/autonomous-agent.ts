@@ -1,7 +1,6 @@
 import type { Session } from "next-auth";
-import { AgentApi, withRetries } from "./agent-api";
+import type { AgentApi } from "./agent-api";
 import type { ModelSettings } from "../../types";
-import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
 import { useAgentStore } from "../../stores";
@@ -9,6 +8,7 @@ import { isRetryableError } from "../../types/errors";
 import AnalyzeTaskWork from "./agent-work/analyze-task-work";
 import StartGoalWork from "./agent-work/start-task-work";
 import type AgentWork from "./agent-work/agent-work";
+import { withRetries } from "../api-utils";
 
 class AutonomousAgent {
   model: AgentRunModel;
@@ -16,7 +16,7 @@ class AutonomousAgent {
   shutdown: () => void;
   session?: Session;
   messageService: MessageService;
-  $api: AgentApi;
+  api: AgentApi;
 
   private readonly workLog: AgentWork[];
   private lastConclusion?: () => Promise<void>;
@@ -26,6 +26,7 @@ class AutonomousAgent {
     messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
+    api: AgentApi,
     session?: Session
   ) {
     this.model = model;
@@ -33,12 +34,7 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-    this.$api = new AgentApi({
-      model_settings: toApiModelSettings(modelSettings),
-      goal: this.model.getGoal(),
-      session,
-    });
-
+    this.api = api;
     this.workLog = [new StartGoalWork(this)];
   }
 
@@ -67,19 +63,20 @@ class AutonomousAgent {
           await work.run();
         },
         async (e) => {
-          const shouldContinue = work.onError?.(e) || false;
+          const shouldRetry = work.onError?.(e) || true;
 
           if (!isRetryableError(e)) {
             this.stopAgent();
             return false;
           }
 
-          if (!shouldContinue) {
+          if (shouldRetry) {
+            // Wait a bit before retrying
             useAgentStore.getState().setIsAgentThinking(true);
             await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
           }
 
-          return shouldContinue;
+          return shouldRetry;
         }
       );
       useAgentStore.getState().setIsAgentThinking(false);

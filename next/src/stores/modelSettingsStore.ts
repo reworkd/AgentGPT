@@ -39,7 +39,11 @@ export const useModelSettingsStore = createSelectors(
         name: "agentgpt-settings-storage-v2",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
-          modelSettings: state.modelSettings,
+          modelSettings: {
+            ...state.modelSettings,
+            customModelName: "gpt-3.5-turbo",
+            maxTokens: Math.min(state.modelSettings.maxTokens, 4000),
+          },
         }),
       }
     )

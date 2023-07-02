@@ -29,10 +29,10 @@ body {
     background: linear-gradient(
             to right,
             transparent,
-            hsla(240, 2%, 57%, 0.1),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.1),
+            hsla(0, 0%, 0%, 0.1),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(20, 0%, 0%, 0.1),
             transparent
     );
 }

@@ -31,7 +31,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_name,
     get_user_tools,
 )
-from reworkd_platform.web.api.agent.tools.utils import CitedSnippet, summarize
+from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
@@ -193,22 +193,21 @@ class OpenAIAgentService(AgentService):
 
         snippet_max_tokens = 7000  # Leave room for the rest of the prompt
         snippet_tokens = 0
-        snippets: List[CitedSnippet] = []
+        snippets: List[str] = []
 
-        for i, completed_task in enumerate(results):
-            task_tokens = self.token_service.count(completed_task)
+        for i, result in enumerate(results):
+            task_tokens = self.token_service.count(result)
             if snippet_tokens + task_tokens > snippet_max_tokens:
                 break
 
             snippet_tokens += task_tokens
-            snippets.append(CitedSnippet(index=i, text=completed_task))
+            snippets.append(result)
 
         print(snippets)
         return summarize(
             model=self.model,
             language=self.settings.language,
             goal=goal,
-            query=goal,
             snippets=snippets,
         )
 

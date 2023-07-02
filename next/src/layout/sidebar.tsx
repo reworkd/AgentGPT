@@ -16,6 +16,7 @@ import LinkItem from "../components/sidebar/LinkItem";
 import AuthItem from "../components/sidebar/AuthItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../components/sidebar/links";
 import { useTheme } from "../hooks/useTheme";
+import LinkIconItem from "../components/sidebar/LinkIconItem";
 
 const SidebarLayout = (props: PropsWithChildren) => {
   const router = useRouter();
@@ -70,9 +71,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="flex h-screen max-h-screen w-60 max-w-xs flex-1">
+              <div className="flex h-screen max-h-screen w-64 max-w-xs flex-1">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <nav className="flex flex-1 flex-col bg-neutral-900 px-2.5 py-2 ring-1 ring-white/10">
+                <nav className="flex flex-1 flex-col bg-neutral-900 px-4 py-3 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
                     <Image
                       src="logo-white.svg"
@@ -127,6 +128,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                             title={link.name}
                             icon={link.icon}
                             href={link.href}
+                            badge={link.badge}
                             onClick={() => {
                               void router.push(link.href);
                             }}
@@ -135,12 +137,10 @@ const SidebarLayout = (props: PropsWithChildren) => {
                       })}
                     </ul>
                     <li className="mb-2">
-                      <div className="ml-2 text-xs font-semibold text-neutral-400">Socials</div>
-                      <ul role="list" className="mt-2 space-y-1">
+                      <div className="flex items-center justify-center gap-3">
                         {SOCIAL_LINKS.map((link) => (
-                          <LinkItem
+                          <LinkIconItem
                             key={link.name}
-                            title={link.name}
                             icon={link.icon}
                             href={link.href}
                             onClick={() => {
@@ -148,7 +148,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                             }}
                           />
                         ))}
-                      </ul>
+                      </div>
                     </li>
                     <li>
                       <FadingHr />
@@ -175,7 +175,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
       <main
         className={clsx(
           "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
-          sidebarOpen && "lg:pl-60"
+          sidebarOpen && "lg:pl-64"
         )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">

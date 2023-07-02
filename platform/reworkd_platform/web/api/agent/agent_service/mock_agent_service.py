@@ -1,5 +1,5 @@
 import time
-from typing import Any, List, Optional
+from typing import Any, List
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 
@@ -46,7 +46,7 @@ class MockAgentService(AgentService):
         self,
         *,
         goal: str,
-        results: Optional[List[str]],
+        results: List[str],
     ) -> FastAPIStreamingResponse:
         time.sleep(0.5)
         return stream_string(

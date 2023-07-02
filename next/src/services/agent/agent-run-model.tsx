@@ -22,7 +22,7 @@ export interface AgentRunModel {
   getCurrentTask(): Task | undefined;
 
   updateTaskStatus(task: Task, status: TaskStatus): Task;
-  
+
   updateTaskResult(task: Task, result: string): Task;
 
   getCompletedTasks(): Task[];
@@ -62,12 +62,13 @@ export class DefaultAgentRunModel implements AgentRunModel {
   getCompletedTasks = (): Task[] =>
     useTaskStore.getState().tasks.filter((t: Task) => t.status === "completed");
 
-  addTask = (taskValue: string) =>
+  addTask = (taskValue: string): void =>
     useTaskStore.getState().addTask({
-      taskId: v4().toString(),
+      id: v4().toString(),
       type: "task",
       value: taskValue,
       status: "started",
+      result: "",
     });
 
   updateTaskStatus(task: Task, status: TaskStatus): Task {

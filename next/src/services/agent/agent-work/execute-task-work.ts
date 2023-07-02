@@ -26,13 +26,13 @@ export default class ExecuteTaskWork implements AgentWork {
     await streamText(
       "/api/agent/execute",
       {
-        run_id: this.parent.$api.runId,
+        run_id: this.parent.api.runId,
         goal: this.parent.model.getGoal(),
         task: this.task.value,
         analysis: this.analysis,
         model_settings: toApiModelSettings(this.parent.modelSettings, this.parent.session),
       },
-      this.parent.$api.props.session?.accessToken || "",
+      this.parent.api.props.session?.accessToken || "",
       () => {
         executionMessage.info = "";
       },
@@ -43,12 +43,16 @@ export default class ExecuteTaskWork implements AgentWork {
       },
       () => this.parent.model.getLifecycle() === "stopped"
     );
+    this.result = executionMessage.info || "";
+    this.parent.api.saveMessages([executionMessage]);
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await
   conclude = async () => {
     this.parent.model.updateTaskStatus(this.task, "completed");
-    this.parent.messageService.sendMessage({ ...this.task, status: "final" });
+    this.parent.api.saveMessages([
+      this.parent.messageService.sendMessage({ ...this.task, status: "final" }),
+    ]);
   };
 
   next = () => (this.task.result ? new CreateTaskWork(this.parent, this.task) : undefined);

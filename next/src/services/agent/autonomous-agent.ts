@@ -1,7 +1,6 @@
 import type { Session } from "next-auth";
-import { AgentApi } from "./agent-api";
+import type { AgentApi } from "./agent-api";
 import type { ModelSettings } from "../../types";
-import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
 import { useAgentStore } from "../../stores";
@@ -10,6 +9,7 @@ import AnalyzeTaskWork from "./agent-work/analyze-task-work";
 import StartGoalWork from "./agent-work/start-task-work";
 import type AgentWork from "./agent-work/agent-work";
 import { withRetries } from "../api-utils";
+import type { Message } from "../../types/message";
 import SummarizeWork from "./agent-work/summarize-work";
 
 class AutonomousAgent {
@@ -17,7 +17,7 @@ class AutonomousAgent {
   modelSettings: ModelSettings;
   session?: Session;
   messageService: MessageService;
-  $api: AgentApi;
+  api: AgentApi;
 
   private readonly workLog: AgentWork[];
   private lastConclusion?: () => Promise<void>;
@@ -26,18 +26,14 @@ class AutonomousAgent {
     model: AgentRunModel,
     messageService: MessageService,
     modelSettings: ModelSettings,
+    api: AgentApi,
     session?: Session
   ) {
     this.model = model;
     this.messageService = messageService;
     this.modelSettings = modelSettings;
     this.session = session;
-    this.$api = new AgentApi({
-      model_settings: toApiModelSettings(modelSettings, session),
-      goal: this.model.getGoal(),
-      session,
-    });
-
+    this.api = api;
     this.workLog = [new StartGoalWork(this)];
   }
 
@@ -144,14 +140,17 @@ class AutonomousAgent {
     return await this.run();
   }
 
-  async createTasks(tasks: string[]) {
+  async createTaskMessages(tasks: string[]) {
     const TIMOUT_SHORT = 150;
+    const messages: Message[] = [];
 
     for (const value of tasks) {
-      this.messageService.startTask(value);
+      messages.push(this.messageService.startTask(value));
       this.model.addTask(value);
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
+
+    return messages;
   }
 }
 

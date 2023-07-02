@@ -10,11 +10,11 @@ import AnalyzeTaskWork from "./agent-work/analyze-task-work";
 import StartGoalWork from "./agent-work/start-task-work";
 import type AgentWork from "./agent-work/agent-work";
 import { withRetries } from "../api-utils";
+import SummarizeWork from "./agent-work/summarize-work";
 
 class AutonomousAgent {
   model: AgentRunModel;
   modelSettings: ModelSettings;
-  shutdown: () => void;
   session?: Session;
   messageService: MessageService;
   $api: AgentApi;
@@ -25,13 +25,11 @@ class AutonomousAgent {
   constructor(
     model: AgentRunModel,
     messageService: MessageService,
-    shutdown: () => void,
     modelSettings: ModelSettings,
     session?: Session
   ) {
     this.model = model;
     this.messageService = messageService;
-    this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
     this.$api = new AgentApi({
@@ -126,8 +124,24 @@ class AutonomousAgent {
 
   stopAgent() {
     this.model.setLifecycle("stopped");
-    this.shutdown();
     return;
+  }
+
+  async summarize() {
+    // Empty worklog
+    this.workLog.length = 0;
+    this.lastConclusion = undefined;
+
+    // Update all tasks to completed
+    let task = this.model.getCurrentTask();
+    while (task) {
+      this.model.updateTaskStatus(task, "completed");
+      task = this.model.getCurrentTask();
+    }
+
+    // Add summary work and run
+    this.workLog.push(new SummarizeWork(this));
+    return await this.run();
   }
 
   async createTasks(tasks: string[]) {

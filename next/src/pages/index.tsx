@@ -69,7 +69,7 @@ const Home: NextPage = () => {
   };
 
   const disableStartAgent =
-    (agent !== null && agentLifecycle !== "paused") ||
+    (agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
     isEmptyOrBlank(nameInput) ||
     isEmptyOrBlank(goalInput);
 
@@ -90,13 +90,7 @@ const Home: NextPage = () => {
 
     const model = new DefaultAgentRunModel(name.trim(), goal.trim());
     const messageService = new MessageService(addMessage);
-    const newAgent = new AutonomousAgent(
-      model,
-      messageService,
-      () => setAgent(null),
-      settings,
-      session ?? undefined
-    );
+    const newAgent = new AutonomousAgent(model, messageService, settings, session ?? undefined);
     setAgent(newAgent);
     setHasSaved(false);
     resetAllMessageSlices();

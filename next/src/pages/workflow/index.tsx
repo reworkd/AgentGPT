@@ -1,10 +1,13 @@
-import { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import SidebarLayout from "../../layout/sidebar";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Button from "../../ui/button";
 import WorkflowApi from "../../services/workflow/workflowApi";
+import { languages } from "../../utils/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 const WorkflowList: NextPage = () => {
   const { data: session } = useSession();
@@ -55,3 +58,14 @@ const WorkflowList: NextPage = () => {
 };
 
 export default WorkflowList;
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  const supportedLocales = languages.map((language) => language.code);
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
+  return {
+    props: {
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+    },
+  };
+};

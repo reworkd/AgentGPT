@@ -1,3 +1,4 @@
+import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useWorkflow } from "../../hooks/useWorkflow";
@@ -5,6 +6,9 @@ import { useWorkflow } from "../../hooks/useWorkflow";
 import { useRouter } from "next/router";
 import SidebarLayout from "../../layout/sidebar";
 import Button from "../../ui/button";
+import { languages } from "../../utils/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 const WorkflowPage: NextPage = () => {
   const router = useRouter();
@@ -47,3 +51,14 @@ const WorkflowPage: NextPage = () => {
 };
 
 export default WorkflowPage;
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  const supportedLocales = languages.map((language) => language.code);
+  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+
+  return {
+    props: {
+      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+    },
+  };
+};

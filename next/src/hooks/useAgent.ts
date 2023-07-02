@@ -11,11 +11,10 @@ export type AgentUtils = {
 export function useAgent(): AgentUtils {
   const { status } = useAuth();
   const utils = api.useContext();
-  const voidFunc = () => void 0;
 
   const createMutation = api.agent.create.useMutation({
     onSuccess: (data: PrismaAgent) => {
-      utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
+      utils.agent.getAll.setData(void 0, (oldData) => [data, ...(oldData ?? [])]);
       return data;
     },
   });

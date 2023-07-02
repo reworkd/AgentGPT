@@ -110,4 +110,4 @@ async def agent_summarize_validator(
     body: AgentSummarize = Body(),
     crud: AgentCRUD = Depends(agent_crud),
 ) -> AgentSummarize:
-    return await validate(body, crud, "create")
+    return await validate(body, crud, "summarize")

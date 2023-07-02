@@ -16,6 +16,7 @@ Loop_Step = Literal[
     "analyze",
     "execute",
     "create",
+    "summarize",
 ]
 
 LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {

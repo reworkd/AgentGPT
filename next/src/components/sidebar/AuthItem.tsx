@@ -22,8 +22,8 @@ const AuthItem: FC<{
     <div className="flex items-center justify-between">
       <div
         className={clsx(
-          "mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold text-white",
-          "cursor-pointer hover:bg-neutral-800",
+          "text-color-primary mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold",
+          "hover:background-color-2 cursor-pointer",
           classname
         )}
         onClick={(e) => {

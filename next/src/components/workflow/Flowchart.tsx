@@ -12,9 +12,9 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 import CustomNode from "./BasicNode";
-import type { EdgesModel, NodesModel } from "../../types/flowchart";
 import Loader from "../loader";
 import { useMounted } from "../../hooks/useMounted";
+import { EdgesModel, NodesModel } from "../../types/workflow";
 
 const nodeTypes = {
   custom: CustomNode,

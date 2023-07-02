@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { Node } from "reactflow";
+import type { Node } from "reactflow";
+import type { Dispatch, SetStateAction } from "react";
+
+type Model<T> = [T, Dispatch<SetStateAction<T>>];
 
 const WorkflowNodeSchema = z.object({
   id: z.string().optional(),
@@ -21,6 +24,10 @@ export const WorkflowSchema = z.object({
 export type WorkflowNode = z.infer<typeof WorkflowNodeSchema>;
 export type WorkflowEdge = z.infer<typeof WorkflowEdgeSchema>;
 export type Workflow = z.infer<typeof WorkflowSchema>;
+
+export type NodesModel = Model<Node<WorkflowNode>[]>;
+export type EdgesModel = Model<WorkflowEdge[]>;
+
 export const toReactFlowPartial = (node: WorkflowNode) =>
   ({
     id: node.id ?? node.ref,

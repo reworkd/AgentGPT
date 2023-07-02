@@ -8,7 +8,7 @@ export default class CreateTaskWork implements AgentWork {
   constructor(private parent: AutonomousAgent, private task: Task, private result: string) {}
 
   run = async () => {
-    this.taskValues = await this.parent.$api.getAdditionalTasks(
+    this.taskValues = await this.parent.api.getAdditionalTasks(
       {
         current: this.task.value,
         remaining: this.parent.model.getRemainingTasks().map((task) => task.value),

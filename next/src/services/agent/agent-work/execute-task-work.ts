@@ -26,13 +26,13 @@ export default class ExecuteTaskWork implements AgentWork {
     await streamText(
       "/api/agent/execute",
       {
-        run_id: this.parent.$api.runId,
+        run_id: this.parent.api.runId,
         goal: this.parent.model.getGoal(),
         task: this.task.value,
         analysis: this.analysis,
         model_settings: toApiModelSettings(this.parent.modelSettings, this.parent.session),
       },
-      this.parent.$api.props.session?.accessToken || "",
+      this.parent.api.props.session?.accessToken || "",
       () => {
         executionMessage.info = "";
       },

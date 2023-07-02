@@ -1,7 +1,6 @@
 import type { Session } from "next-auth";
-import { AgentApi } from "./agent-api";
+import type { AgentApi } from "./agent-api";
 import type { ModelSettings } from "../../types";
-import { toApiModelSettings } from "../../utils/interfaces";
 import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
 import { useAgentStore } from "../../stores";
@@ -17,7 +16,7 @@ class AutonomousAgent {
   shutdown: () => void;
   session?: Session;
   messageService: MessageService;
-  $api: AgentApi;
+  api: AgentApi;
 
   private readonly workLog: AgentWork[];
   private lastConclusion?: () => Promise<void>;
@@ -27,6 +26,7 @@ class AutonomousAgent {
     messageService: MessageService,
     shutdown: () => void,
     modelSettings: ModelSettings,
+    api: AgentApi,
     session?: Session
   ) {
     this.model = model;
@@ -34,12 +34,7 @@ class AutonomousAgent {
     this.shutdown = shutdown;
     this.modelSettings = modelSettings;
     this.session = session;
-    this.$api = new AgentApi({
-      model_settings: toApiModelSettings(modelSettings, session),
-      goal: this.model.getGoal(),
-      session,
-    });
-
+    this.api = api;
     this.workLog = [new StartGoalWork(this)];
   }
 

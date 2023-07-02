@@ -59,7 +59,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-neutral-900/80 lg:hidden" />
+            <div className="fixed inset-0 lg:hidden" />
           </Transition.Child>
           <div className="fixed flex">
             <Transition.Child
@@ -73,27 +73,27 @@ const SidebarLayout = (props: PropsWithChildren) => {
             >
               <div className="flex h-screen max-h-screen w-64 max-w-xs flex-1">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <nav className="flex flex-1 flex-col bg-neutral-900 px-4 py-3 ring-1 ring-white/10">
+                <nav className="background-color-1 flex flex-1 flex-col px-2.5 py-2 ring-1 ring-white/10">
                   <div className="flex flex-row items-center justify-between">
                     <Image
                       src="logo-white.svg"
                       width="25"
                       height="25"
                       alt="Reworkd AI"
-                      className="ml-2"
+                      className="ml-2 invert dark:invert-0"
                     />
-                    <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
+                    <h1 className="text-color-primary font-mono font-extrabold">My Agents</h1>
                     <button
-                      className="hover:background-color-2 rounded-md border border-transparent text-white transition-all hover:border-white/20"
+                      className="neutral-button-primary rounded-md border  transition-all"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                       <FaBars size="15" className="z-20 m-2" />
                     </button>
                   </div>
                   <FadingHr className="my-2" />
-                  <div className="-mr-2 mb-2 flex-1 overflow-y-auto">
+                  <div className="mb-2 mr-2 flex-1 overflow-y-auto">
                     {status === "unauthenticated" && (
-                      <div className="p-1 font-mono text-sm text-white">
+                      <div className="text-color-primary p-1 font-mono text-sm">
                         <a className="link" onClick={() => void signIn()}>
                           {t("SIGN_IN")}
                         </a>{" "}
@@ -101,7 +101,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                       </div>
                     )}
                     {status === "authenticated" && !isLoading && userAgents.length === 0 && (
-                      <div className="p-1 font-mono text-sm text-white">
+                      <div className="text-color-primary p-1 font-mono text-sm">
                         {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
                       </div>
                     )}
@@ -116,7 +116,9 @@ const SidebarLayout = (props: PropsWithChildren) => {
                   </div>
                   <ul role="list" className="flex flex-col">
                     <ul className="mb-2">
-                      <div className="mb-2 ml-2 text-xs font-semibold text-neutral-400">Pages</div>
+                      <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">
+                        Pages
+                      </div>
                       {PAGE_LINKS.map((link) => {
                         if (router.route == link.href) {
                           return null;
@@ -165,7 +167,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
       <button
         className={clsx(
           sidebarOpen && "hidden",
-          "background-color-1 hover:background-color-2 text-color-primary fixed z-20 m-2 rounded-md border border-white/20 transition-all"
+          "neutral-button-primary fixed z-20 m-2 rounded-md  border border-shade-300-light transition-all"
         )}
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >

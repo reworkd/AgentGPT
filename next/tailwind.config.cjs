@@ -22,15 +22,15 @@ module.exports = {
         blue: {
           base: {
             dark: "hsl(199, 89%, 48%)",
-            light: "hsl(210, 100%, 50%)",
+            light: "hsl(199, 89%, 48%)",
           },
           hover: {
             dark: "hsl(199, 80%, 45%)",
-            light: "hsl(210, 100%, 38%)",
+            light: "hsl(199, 80%, 45%)",
           },
           focusVisible: {
             dark: "hsl(199, 80%, 40%)",
-            light: "hsl(210, 70%, 38%)",
+            light: "hsl(199, 80%, 40%)",
           },
         },
         amber: {

@@ -5,7 +5,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.exc import NoResultFound
 
-from reworkd_platform.db.crud import UserCrud
+from reworkd_platform.db.crud.user import UserCrud
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.models.user import User
 from reworkd_platform.schemas import UserBase

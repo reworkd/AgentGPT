@@ -3,7 +3,7 @@ from typing import TypeVar
 from fastapi import Body, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from reworkd_platform.db.crud import AgentCRUD
+from reworkd_platform.db.crud.agent import AgentCRUD
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.schemas import (
     AgentRun,

@@ -1,7 +1,6 @@
-from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ActionBlock(BaseModel):
@@ -11,17 +10,24 @@ class ActionBlock(BaseModel):
     hasOutput: bool
 
 
+class EdgeUpsert(BaseModel):
+    id: Optional[str]
+    source: str
+    target: str
+
+
+class NodeUpsert(BaseModel):
+    id: Optional[str]
+    ref: str = Field(description="Reference ID generate by the frontend")
+    pos_x: int
+    pos_y: int
+
+
 class Node(BaseModel):
     id: str
-    actionBlock: ActionBlock
     ref: str
-    workflowId: str
-    codeBlockId: str
-    posX: int
-    posY: int
-    createdAt: datetime
-    updatedAt: datetime
-    deletedAt: Optional[datetime]
+    pos_x: int
+    pos_y: int
 
 
 class Edge(BaseModel):
@@ -32,5 +38,17 @@ class Edge(BaseModel):
 
 class Workflow(BaseModel):
     id: str
+    user_id: str
+    organization_id: Optional[str] = Field(default=None)
     name: str
     description: str
+
+
+class WorkflowFull(Workflow):
+    nodes: list[Node]
+    edges: list[Edge]
+
+
+class WorkflowUpdate(BaseModel):
+    nodes: List[NodeUpsert]
+    edges: List[EdgeUpsert]

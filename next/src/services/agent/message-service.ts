@@ -74,7 +74,7 @@ export class MessageService {
       message = `💻 Writing code...`;
     }
 
-    this.sendMessage({
+    return this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: message,
     });
@@ -119,6 +119,6 @@ export class MessageService {
       }
     }
 
-    this.sendMessage({ type: "error", value: translate(message, "errors") });
+    return this.sendMessage({ type: "error", value: translate(message, "errors") });
   };
 }

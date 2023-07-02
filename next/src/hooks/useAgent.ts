@@ -1,26 +1,37 @@
 import { api } from "../utils/api";
 import { useAuth } from "./useAuth";
 import type { CreateAgentProps, SaveAgentProps } from "../server/api/routers/agentRouter";
+import type { Agent as PrismaAgent } from "@prisma/client";
 
-export function useAgent() {
+export type AgentUtils = {
+  createAgent: (data: CreateAgentProps) => Promise<PrismaAgent | undefined>;
+  saveAgent: (data: SaveAgentProps) => void;
+};
+
+export function useAgent(): AgentUtils {
   const { status } = useAuth();
   const utils = api.useContext();
   const voidFunc = () => void 0;
 
   const createMutation = api.agent.create.useMutation({
-    onSuccess: (data) => {
+    onSuccess: (data: PrismaAgent) => {
       utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
+      return data;
     },
   });
 
   const saveMutation = api.agent.save.useMutation({
-    onSuccess: (data) => {
+    onSuccess: (data: PrismaAgent) => {
       utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
     },
   });
 
-  const createAgent = (data: CreateAgentProps) => {
-    if (status === "authenticated") createMutation.mutate(data);
+  const createAgent = async (data: CreateAgentProps): Promise<PrismaAgent | undefined> => {
+    if (status === "authenticated") {
+      return await createMutation.mutateAsync(data);
+    } else {
+      return undefined;
+    }
   };
 
   const saveAgent = (data: SaveAgentProps) => {

@@ -5,7 +5,7 @@ import type AutonomousAgent from "../autonomous-agent";
 export default class CreateTaskWork implements AgentWork {
   taskValues: string[] = [];
 
-  constructor(private parent: AutonomousAgent, private task: Task, private result: string) {}
+  constructor(private parent: AutonomousAgent, private task: Task) {}
 
   run = async () => {
     this.taskValues = await this.parent.$api.getAdditionalTasks(
@@ -14,7 +14,7 @@ export default class CreateTaskWork implements AgentWork {
         remaining: this.parent.model.getRemainingTasks().map((task) => task.value),
         completed: this.parent.model.getCompletedTasks().map((task) => task.value),
       },
-      this.result
+      this.task.result || ""
     );
   };
 

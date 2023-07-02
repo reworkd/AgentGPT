@@ -38,11 +38,11 @@ export default class ExecuteTaskWork implements AgentWork {
       },
       (text) => {
         executionMessage.info += text;
+        this.task = this.parent.model.updateTaskResult(this.task, executionMessage.info || "");
         this.parent.messageService.updateMessage(executionMessage);
       },
       () => this.parent.model.getLifecycle() === "stopped"
     );
-    this.result = executionMessage.info || "";
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -51,7 +51,7 @@ export default class ExecuteTaskWork implements AgentWork {
     this.parent.messageService.sendMessage({ ...this.task, status: "final" });
   };
 
-  next = () => (this.result ? new CreateTaskWork(this.parent, this.task, this.result) : undefined);
+  next = () => (this.task.result ? new CreateTaskWork(this.parent, this.task) : undefined);
 
   onError = (e: unknown): boolean => {
     this.parent.messageService.sendErrorMessage(e);

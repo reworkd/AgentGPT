@@ -19,13 +19,6 @@ export function useAgent(): AgentUtils {
       return data;
     },
   });
-
-  const saveMutation = api.agent.save.useMutation({
-    onSuccess: (data: PrismaAgent) => {
-      utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
-    },
-  });
-
   const createAgent = async (data: CreateAgentProps): Promise<PrismaAgent | undefined> => {
     if (status === "authenticated") {
       return await createMutation.mutateAsync(data);
@@ -34,6 +27,7 @@ export function useAgent(): AgentUtils {
     }
   };
 
+  const saveMutation = api.agent.save.useMutation();
   const saveAgent = (data: SaveAgentProps) => {
     if (status === "authenticated") saveMutation.mutate(data);
   };

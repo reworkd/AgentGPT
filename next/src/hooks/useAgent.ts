@@ -1,29 +1,34 @@
 import { api } from "../utils/api";
 import { useAuth } from "./useAuth";
-import type { Message } from "../types/message";
-
-export interface SaveProps {
-  name: string;
-  goal: string;
-  tasks: Message[];
-}
+import type { CreateAgentProps, SaveAgentProps } from "../server/api/routers/agentRouter";
 
 export function useAgent() {
   const { status } = useAuth();
   const utils = api.useContext();
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const voidFunc = () => {};
-  const saveMutation = api.agent.create.useMutation({
+  const voidFunc = () => void 0;
+
+  const createMutation = api.agent.create.useMutation({
     onSuccess: (data) => {
       utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
     },
   });
 
-  const saveAgent = (data: SaveProps) => {
+  const saveMutation = api.agent.save.useMutation({
+    onSuccess: (data) => {
+      utils.agent.getAll.setData(voidFunc(), (oldData) => [data, ...(oldData ?? [])]);
+    },
+  });
+
+  const createAgent = (data: CreateAgentProps) => {
+    if (status === "authenticated") createMutation.mutate(data);
+  };
+
+  const saveAgent = (data: SaveAgentProps) => {
     if (status === "authenticated") saveMutation.mutate(data);
   };
 
   return {
+    createAgent,
     saveAgent,
   };
 }

@@ -182,18 +182,6 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              onSave={
-                shouldShowSave
-                  ? (format) => {
-                      setHasSaved(true);
-                      agentUtils.saveAgent({
-                        goal: goalInput.trim(),
-                        name: nameInput.trim(),
-                        tasks: messages,
-                      });
-                    }
-                  : undefined
-              }
               scrollToBottom
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}

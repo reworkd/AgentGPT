@@ -17,7 +17,7 @@ uvicorn = { version = "^0.22.0", extras = ["standard"] }
 pydantic = { version = "^1.10.8", extras = ["dotenv"] }
 yarl = "^1.9.2"
 ujson = "^5.7.0"
-SQLAlchemy = { version = "^2.0.15", extras = ["asyncio"] }
+sqlalchemy = {version = "^2.0.17", extras = ["mypy", "asyncio"]}
 aiomysql = "^0.1.1"
 mysqlclient = "^2.1.1"
 httptools = "^0.5.0"
@@ -64,6 +64,8 @@ multi_line_output = 3
 src_paths = ["reworkd_platform", ]
 
 [tool.mypy]
+# https://docs.sqlalchemy.org/en/20/orm/extensions/mypy.html TODO: enable this if tying issues happen with SQLA
+# plugins = ["sqlalchemy.ext.mypy.plugin"]
 strict = true
 ignore_missing_imports = true
 allow_subclassing_any = true

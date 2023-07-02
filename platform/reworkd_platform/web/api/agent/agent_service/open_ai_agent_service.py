@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
@@ -30,6 +31,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_name,
     get_user_tools,
 )
+from reworkd_platform.web.api.agent.tools.utils import CitedSnippet, summarize
 from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
@@ -177,6 +179,38 @@ class OpenAIAgentService(AgentService):
                 memory.add_tasks(unique_tasks)
 
         return unique_tasks
+
+    async def summarize_task_agent(
+        self,
+        *,
+        goal: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        # TODO: Update max_tokens calculation
+        # For summary, leave ~ 7000 tokens for the prompt and ~ 8000 for the completion
+        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
+
+        snippet_max_tokens = 7000  # Leave room for the rest of the prompt
+        snippet_tokens = 0
+        snippets: List[CitedSnippet] = []
+
+        for i, completed_task in enumerate(results):
+            task_tokens = self.token_service.count(completed_task)
+            if snippet_tokens + task_tokens > snippet_max_tokens:
+                break
+
+            snippet_tokens += task_tokens
+            snippets.append(CitedSnippet(index=i, text=completed_task))
+
+        print(snippets)
+        return summarize(
+            model=self.model,
+            language=self.settings.language,
+            goal=goal,
+            query=goal,
+            snippets=snippets,
+        )
 
     def calculate_max_tokens(self, *prompts: str) -> None:
         max_allowed_tokens = LLM_MODEL_MAX_TOKENS.get(self.model.model_name, 4000)

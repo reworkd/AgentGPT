@@ -38,6 +38,6 @@ class AgentService(Protocol):
         self,
         *,
         goal: str,
-        completed_tasks: List[str],
+        results: List[str],
     ) -> FastAPIStreamingResponse:
         pass

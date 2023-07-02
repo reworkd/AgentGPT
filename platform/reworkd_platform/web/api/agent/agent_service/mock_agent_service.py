@@ -46,7 +46,7 @@ class MockAgentService(AgentService):
         self,
         *,
         goal: str,
-        completed_tasks: Optional[List[str]],
+        results: Optional[List[str]],
     ) -> FastAPIStreamingResponse:
         time.sleep(0.5)
         return stream_string(

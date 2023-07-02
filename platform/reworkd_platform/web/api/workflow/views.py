@@ -43,6 +43,6 @@ async def update_workflow(
     workflow_id: str,
     workflow: WorkflowUpdate,
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
-):
+) -> str:
     """Update a workflow by id."""
     return await crud.update(workflow_id, workflow)

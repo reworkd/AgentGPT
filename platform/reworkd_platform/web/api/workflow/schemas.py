@@ -19,15 +19,15 @@ class EdgeUpsert(BaseModel):
 class NodeUpsert(BaseModel):
     id: Optional[str]
     ref: str = Field(description="Reference ID generate by the frontend")
-    pos_x: int
-    pos_y: int
+    pos_x: float
+    pos_y: float
 
 
 class Node(BaseModel):
     id: str
     ref: str
-    pos_x: int
-    pos_y: int
+    pos_x: float
+    pos_y: float
 
 
 class Edge(BaseModel):

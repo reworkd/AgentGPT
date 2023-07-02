@@ -10,7 +10,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 from reworkd_platform.db.meta import meta
 
-T = TypeVar("T")
+T = TypeVar("T", bound="Base")
 
 
 class Base(DeclarativeBase):

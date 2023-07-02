@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, Dict
+from typing import List, Dict, Set
 
 from fastapi import Depends
 from sqlalchemy import select, and_
@@ -65,7 +65,7 @@ class WorkflowCRUD(BaseCrud):
             ).save(self.session)
         ).to_schema()
 
-    async def update(self, workflow_id: str, workflow_update: WorkflowUpdate):
+    async def update(self, workflow_id: str, workflow_update: WorkflowUpdate) -> str:
         workflow, all_nodes, all_edges = await asyncio.gather(
             WorkflowModel.get_or_404(self.session, workflow_id),
             self.get_nodes(workflow_id),
@@ -73,7 +73,7 @@ class WorkflowCRUD(BaseCrud):
         )
 
         node_ids = {n.id for n in workflow_update.nodes}
-        ref_to_id = {}
+        ref_to_id: Dict[str, str] = {}
 
         # TODO: use co-routines to make this faster
         for n in workflow_update.nodes:
@@ -121,7 +121,7 @@ class WorkflowCRUD(BaseCrud):
             if edge_service.add_edge(edge.source, edge.target)
         ]
 
-        return {}
+        return "OK"
 
     async def get_nodes(self, workflow_id: str) -> Dict[str, WorkflowNodeModel]:
         query = select(WorkflowNodeModel).where(
@@ -148,8 +148,8 @@ class WorkflowCRUD(BaseCrud):
 
 
 class EdgeService:
-    def __init__(self):
-        self.source_target_map = {}
+    def __init__(self) -> None:
+        self.source_target_map: Dict[str, Set[str]] = {}
 
     def add_edge(self, source: str, target: str) -> bool:
         if source not in self.source_target_map:
@@ -162,6 +162,6 @@ class EdgeService:
         targets.add(target)
         return True
 
-    def add_all(self, edges: List[EdgeUpsert]):
+    def add_all(self, edges: List[EdgeUpsert]) -> None:
         for e in edges:
             self.add_edge(e.source, e.target)

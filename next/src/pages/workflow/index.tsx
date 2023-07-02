@@ -13,10 +13,7 @@ const WorkflowList: NextPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(session);
-
   const api = new WorkflowApi(session?.accessToken);
-
   const query = useQuery(["workflows"], async () => await api.getAll(), {
     enabled: !!session,
   });
@@ -43,7 +40,10 @@ const WorkflowList: NextPage = () => {
           className="bg-violet-500"
           onClick={() => {
             api
-              .create()
+              .create({
+                name: "New Workflow",
+                description: "New Workflow",
+              })
               .then((workflow) => {
                 void router.push(`workflow/${workflow.id}`);
               })

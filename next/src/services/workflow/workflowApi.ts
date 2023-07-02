@@ -1,11 +1,15 @@
 import { z } from "zod";
 import { get, post } from "../fetch-utils";
+import type { Workflow } from "../../types/workflow";
+import { WorkflowSchema } from "../../types/workflow";
 
-const WorkflowSchema = z.object({
+const WorkflowMetaSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
 });
+
+type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;
 
 export default class WorkflowApi {
   readonly accessToken?: string;
@@ -14,22 +18,18 @@ export default class WorkflowApi {
   }
 
   async getAll() {
-    return await get("/api/workflow", z.array(WorkflowSchema), this.accessToken);
+    return await get("/api/workflow", z.array(WorkflowMetaSchema), this.accessToken);
   }
 
   async get(id: string) {
     return await get(`/api/workflow/${id}`, WorkflowSchema, this.accessToken);
   }
 
-  async create() {
-    return await post(
-      "/api/workflow",
-      WorkflowSchema,
-      {
-        name: "New Workflow",
-        description: "A new workflow",
-      },
-      this.accessToken
-    );
+  async update(id: string, data: Workflow) {
+    return await post(`/api/workflow/${id}`, WorkflowSchema, data, this.accessToken);
+  }
+
+  async create(workflow: Omit<WorkflowMeta, "id">) {
+    return await post("/api/workflow", WorkflowMetaSchema, workflow, this.accessToken);
   }
 }

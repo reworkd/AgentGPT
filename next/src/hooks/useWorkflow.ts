@@ -2,23 +2,22 @@ import type { Edge, Node } from "reactflow";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { get, put } from "../services/fetch-utils";
 import { useSession } from "next-auth/react";
-import { z } from "zod";
-import { toReactFlowPartial, Workflow, WorkflowNode, WorkflowSchema } from "../types/workflow";
+import type { Workflow, WorkflowNode } from "../types/workflow";
+import { toReactFlowPartial } from "../types/workflow";
+import WorkflowApi from "../services/workflow/workflowApi";
 
 export const useWorkflow = (workflowId: string) => {
   const { data: session } = useSession();
+  const api = new WorkflowApi(session?.accessToken);
 
-  const { mutateAsync: updateWorkflow } = useMutation(async (update: Workflow) => {
-    return put(`/api/workflow/${workflowId}`, z.any(), update, session?.accessToken);
-  });
+  const { mutateAsync: updateWorkflow } = useMutation(
+    async (data: Workflow) => await api.update(workflowId, data)
+  );
 
-  const workflowQuery = useQuery(
+  const { data: workflow } = useQuery(
     ["workflow", workflowId],
-    async () => {
-      return await get(`/api/workflow/${workflowId}`, WorkflowSchema, session?.accessToken);
-    },
+    async () => await api.get(workflowId),
     {
       enabled: !!workflowId && !!session?.accessToken,
     }
@@ -30,13 +29,9 @@ export const useWorkflow = (workflowId: string) => {
   const [edges, setEdges] = edgesModel;
 
   useEffect(() => {
-    setNodes(workflowQuery.data?.nodes.map(toReactFlowPartial) ?? []);
-    setEdges(workflowQuery.data?.edges ?? []);
-  }, [setNodes, setEdges, workflowQuery.data]);
-
-  useEffect(() => {
-    console.log(edges, edgesModel);
-  }, [edges, edgesModel]);
+    setNodes(workflow?.nodes.map(toReactFlowPartial) ?? []);
+    setEdges(workflow?.edges ?? []);
+  }, [setNodes, setEdges, workflow]);
 
   const createNode = () => {
     const ref = nanoid(11);

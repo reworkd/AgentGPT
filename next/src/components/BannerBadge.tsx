@@ -10,24 +10,27 @@ type BannerBadgeProps = {
 const BannerBadge = ({ children, onClick }: BannerBadgeProps) => {
   const badgeStyles = clsx(
     "relative flex w-max cursor-pointer items-center gap-1 rounded-full font-thin",
-    "border-2 border-purple-300/20 p-1 text-sm text-[#CC98FF] transition-colors duration-300",
-    "before:absolute before:inset-0 before:animate-pulse before:bg-gradient-to-r before:from-purple-300/20 before:to-transparent",
-    "before:content-' ' before:overflow-hidden before:rounded-full"
+    "border-2 border-purple-300/20 p-1 text-sm text-[#CC98FF]",
+    "animate-border-pulse"
   );
 
   return (
     <div className={badgeStyles} onClick={onClick}>
       <style>{`
-        @keyframes pulse-animation {
+        @keyframes border-pulse-animation {
           0% {
-            background-position: 0% 50%;
+            border-color: rgba(186, 166, 255, 0.2);
           }
           50% {
-            background-position: 100% 50%;
+            border-color: rgba(186, 166, 255, 0.4);
           }
           100% {
-            background-position: 0% 50%;
+            border-color: rgba(186, 166, 255, 0.2);
           }
+        }
+        
+        .animate-border-pulse {
+          animation: border-pulse-animation 2s infinite;
         }
       `}</style>
       <span>{children}</span>

@@ -3,17 +3,40 @@ import type { Analysis } from "./analysis";
 import type { Session } from "next-auth";
 import { useAgentStore } from "../../stores";
 import * as apiUtils from "../api-utils";
+import type { AgentUtils } from "../../hooks/useAgent";
+import type { Message } from "../../types/message";
 
 type ApiProps = Pick<RequestBody, "model_settings" | "goal"> & {
+  name: string;
   session?: Session;
+  agentUtils: AgentUtils;
 };
 
 export class AgentApi {
   readonly props: ApiProps;
+  agentId: string | undefined;
   runId: string | undefined;
 
   constructor(apiProps: ApiProps) {
     this.props = apiProps;
+  }
+
+  async createAgent(): Promise<void> {
+    if (this.agentId) return;
+    const agent = await this.props.agentUtils.createAgent({
+      name: this.props.name,
+      goal: this.props.goal,
+    });
+    this.agentId = agent?.id;
+  }
+
+  saveMessages(messages: Message[]): void {
+    if (!this.agentId) return;
+
+    this.props.agentUtils.saveAgent({
+      id: this.agentId,
+      tasks: messages,
+    });
   }
 
   async getInitialTasks(): Promise<string[]> {

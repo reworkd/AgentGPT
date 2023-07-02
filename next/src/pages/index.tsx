@@ -94,8 +94,10 @@ const Home: NextPage = () => {
     const messageService = new MessageService(addMessage);
     const agentApi = new AgentApi({
       model_settings: toApiModelSettings(settings, session),
+      name: name.trim(),
       goal: goal.trim(),
       session,
+      agentUtils: agentUtils,
     });
     const newAgent = new AutonomousAgent(
       model,
@@ -182,18 +184,6 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              onSave={
-                shouldShowSave
-                  ? (format) => {
-                      setHasSaved(true);
-                      agentUtils.saveAgent({
-                        goal: goalInput.trim(),
-                        name: nameInput.trim(),
-                        tasks: messages,
-                      });
-                    }
-                  : undefined
-              }
               scrollToBottom
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}

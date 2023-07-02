@@ -9,6 +9,7 @@ import AnalyzeTaskWork from "./agent-work/analyze-task-work";
 import StartGoalWork from "./agent-work/start-task-work";
 import type AgentWork from "./agent-work/agent-work";
 import { withRetries } from "../api-utils";
+import type { Message } from "../../types/message";
 
 class AutonomousAgent {
   model: AgentRunModel;
@@ -125,14 +126,17 @@ class AutonomousAgent {
     return;
   }
 
-  async createTasks(tasks: string[]) {
+  async createTaskMessages(tasks: string[]) {
     const TIMOUT_SHORT = 150;
+    const messages: Message[] = [];
 
     for (const value of tasks) {
-      this.messageService.startTask(value);
+      messages.push(this.messageService.startTask(value));
       this.model.addTask(value);
       await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
     }
+
+    return messages;
   }
 }
 

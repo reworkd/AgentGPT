@@ -1,11 +1,10 @@
 import { useTranslation } from "next-i18next";
 import * as htmlToImage from "html-to-image";
 import WindowButton from "../WindowButton";
-import { FaImage, FaSave } from "react-icons/fa";
+import { FaImage } from "react-icons/fa";
 import PDFButton from "../pdf/PDFButton";
 import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
-import { AnimatePresence } from "framer-motion";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
 import type { ReactNode } from "react";
@@ -18,7 +17,6 @@ export const messageListId = "chat-window-message-list";
 export interface HeaderProps {
   title?: string | ReactNode;
   messages: Message[];
-  onSave?: (format: string) => void;
 }
 
 export const MacWindowHeader = (props: HeaderProps) => {
@@ -112,22 +110,6 @@ export const MacWindowHeader = (props: HeaderProps) => {
       >
         {props.title}
       </Expand>
-
-      <AnimatePresence>
-        {props.onSave && (
-          <PopIn>
-            <WindowButton
-              ping
-              key="Agent"
-              onClick={() => props.onSave?.("db")}
-              icon={<FaSave size={12} />}
-              name={`${t("SAVE", { ns: "common" })}`}
-              border
-            />
-          </PopIn>
-        )}
-      </AnimatePresence>
-
       <Menu icon={<CgExport size={15} />} items={exportOptions} />
     </div>
   );

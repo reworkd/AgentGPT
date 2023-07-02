@@ -84,7 +84,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     />
                     <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
                     <button
-                      className="rounded-md border border-transparent text-white transition-all hover:border-white/20 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                      className="hover:background-color-2 rounded-md border border-transparent text-white transition-all hover:border-white/20"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                       <FaBars size="15" className="z-20 m-2" />
@@ -165,7 +165,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
       <button
         className={clsx(
           sidebarOpen && "hidden",
-          "fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+          "background-color-1 hover:background-color-2 fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all"
         )}
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >

@@ -225,7 +225,7 @@ const Home: NextPage = () => {
                     <Button
                       ping
                       onClick={() => setShowToolsDialog(true)}
-                      className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                      className="blue-button-primary"
                     >
                       <p className="mr-3">Tools</p>
                       <FaCog />
@@ -264,7 +264,7 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent === null || agentLifecycle !== "running"}
                 onClick={() => agent?.pauseAgent()}
-                enabledClassName={clsx("bg-yellow-600 hover:bg-yellow-400")}
+                enabledClassName={clsx("amber-button-primary")}
               >
                 {agentLifecycle === "pausing" ? (
                   <ImSpinner2 className="animate-spin" />
@@ -275,7 +275,7 @@ const Home: NextPage = () => {
               <Button
                 disabled={agent === null || agentLifecycle == "stopped"}
                 onClick={() => agent?.stopAgent()}
-                enabledClassName={clsx("bg-red-600 hover:bg-red-400")}
+                enabledClassName={clsx("red-button-primary")}
               >
                 <FaStop />
               </Button>

@@ -129,6 +129,10 @@ tr:nth-child(even) {
         @apply dark:bg-shade-800-dark bg-blue-base-light
     }
 
+    .background-blue-base {
+      @apply bg-blue-base-light dark:bg-blue-base-dark
+    }
+
     /* border styles */
     .border-color-1 {
         @apply dark:border-shade-400-dark border-shade-600-light
@@ -196,12 +200,20 @@ tr:nth-child(even) {
     }
 
     /* button styles */
+    .amber-button-primary {
+      @apply bg-amber-base-light dark:bg-amber-base-dark text-shade-100-dark hover:bg-amber-hover-light dark:hover:bg-amber-hover-dark focus-visible:outline-amber-focusVisible-light dark:focus-visible:outline-amber-focusVisible-dark;
+    }
+
     .blue-button-primary {
         @apply bg-blue-base-light dark:bg-blue-base-dark text-shade-100-dark hover:bg-blue-hover-light dark:hover:bg-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
     }
 
     .blue-button-secondary {
         @apply bg-white dark:bg-white hover:bg-shade-500-light dark:hover:bg-shade-200-dark border-2 border-blue-base-light dark:border-blue-base-dark text-blue-base-light dark:text-blue-base-dark hover:text-blue-hover-light dark:hover:text-blue-hover-dark hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
+    }
+
+    .green-button-primary {
+      @apply bg-green-base-light dark:bg-green-base-dark text-shade-100-dark hover:bg-green-hover-light dark:hover:bg-green-hover-dark focus-visible:outline-green-focusVisible-light dark:focus-visible:outline-green-focusVisible-dark;
     }
 
     .red-button-primary {

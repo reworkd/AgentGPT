@@ -12,7 +12,7 @@ const AppTitle = () => {
         <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">Agent</span>
         <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
         <PopIn delay={0.5}>
-          <Badge colorClass="background-blue-base border-2 border-white/20">
+          <Badge colorClass="background-blue-base border-2 border-color-3">
             {i18n?.t("BETA", {
               ns: "indexPage",
             })}

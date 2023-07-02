@@ -34,7 +34,7 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
       type={props.type}
       disabled={loading || props.disabled}
       className={clsx(
-        "text-color-primary relative rounded-lg px-4 py-1 font-bold transition-all sm:px-10 sm:py-3",
+        "text-color-primary border-color-3 relative rounded-lg border-2 px-4 py-1 font-bold transition-all sm:px-10 sm:py-3",
         props.disabled && "button-disabled",
         props.disabled || "mou cursor-pointer",
         props.disabled || props.enabledClassName || "blue-button-primary",

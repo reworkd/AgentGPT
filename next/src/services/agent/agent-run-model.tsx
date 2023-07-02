@@ -22,6 +22,8 @@ export interface AgentRunModel {
   getCurrentTask(): Task | undefined;
 
   updateTaskStatus(task: Task, status: TaskStatus): Task;
+  
+  updateTaskResult(task: Task, result: string): Task;
 
   getCompletedTasks(): Task[];
 
@@ -69,10 +71,14 @@ export class DefaultAgentRunModel implements AgentRunModel {
     });
 
   updateTaskStatus(task: Task, status: TaskStatus): Task {
-    const updatedTask = {
-      ...task,
-      status,
-    };
+    return this.updateTask({ ...task, status });
+  }
+
+  updateTaskResult(task: Task, result: string): Task {
+    return this.updateTask({ ...task, result });
+  }
+
+  updateTask(updatedTask: Task): Task {
     useTaskStore.getState().updateTask(updatedTask);
     return updatedTask;
   }

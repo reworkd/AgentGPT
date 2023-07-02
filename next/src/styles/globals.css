@@ -29,10 +29,10 @@ body {
     background: linear-gradient(
             to right,
             transparent,
-            hsla(240, 2%, 57%, 0.1),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.1),
+            hsla(0, 0%, 0%, 0.1),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(20, 0%, 0%, 0.1),
             transparent
     );
 }
@@ -213,7 +213,7 @@ tr:nth-child(even) {
     }
 
     .neutral-button-primary {
-        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-600-light dark:hover:bg-shade-300-dark;
+        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
     }
 
     .button-disabled {

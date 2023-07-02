@@ -84,7 +84,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
                     />
                     <h1 className="text-color-primary font-mono font-extrabold">My Agents</h1>
                     <button
-                      className="neutral-button-primary rounded-md border  transition-all"
+                      className="neutral-button-primary rounded-md border-none transition-all"
                       onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                       <FaBars size="15" className="z-20 m-2" />

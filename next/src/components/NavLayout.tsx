@@ -30,7 +30,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       className="mr-2"
                     />
                   </div>
-                  <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                  <div className="hidden gap-8 sm:-my-px sm:flex">
                     {navigation.map((item) => (
                       <a
                         key={item.name}

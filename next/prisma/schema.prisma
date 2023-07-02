@@ -47,11 +47,10 @@ model User {
 
   createDate DateTime @default(now())
 
-  accounts     Account[]
-  sessions     Session[]
-  runs         Run[]
-  Agent        Agent[]
-  Subscription Subscription[]
+  accounts Account[]
+  sessions Session[]
+  runs     Run[]
+  Agent    Agent[]
 
   @@index([email])
   @@index([createDate])
@@ -173,6 +172,6 @@ model WorkflowNode {
 
   workflow Workflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
 
-  // @@unique([workflow_id, ref])
+  @@unique([workflow_id, ref])
   @@map("workflow_node")
 }

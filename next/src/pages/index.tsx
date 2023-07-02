@@ -180,7 +180,6 @@ const Home: NextPage = () => {
                     }
                   : undefined
               }
-              scrollToBottom
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
             />

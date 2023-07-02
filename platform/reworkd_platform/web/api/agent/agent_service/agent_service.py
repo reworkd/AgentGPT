@@ -33,3 +33,11 @@ class AgentService(Protocol):
         completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
         pass
+
+    async def summarize_task_agent(
+        self,
+        *,
+        goal: str,
+        completed_tasks: List[str],
+    ) -> FastAPIStreamingResponse:
+        pass

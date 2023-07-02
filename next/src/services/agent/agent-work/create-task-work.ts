@@ -12,7 +12,7 @@ export default class CreateTaskWork implements AgentWork {
       {
         current: this.task.value,
         remaining: this.parent.model.getRemainingTasks().map((task) => task.value),
-        completed: this.parent.model.getCompletedTasks(),
+        completed: this.parent.model.getCompletedTasks().map((task) => task.value),
       },
       this.result
     );

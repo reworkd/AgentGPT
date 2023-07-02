@@ -102,7 +102,6 @@ const Home: NextPage = () => {
     const newAgent = new AutonomousAgent(
       model,
       messageService,
-      () => setAgent(null),
       settings,
       agentApi,
       session ?? undefined

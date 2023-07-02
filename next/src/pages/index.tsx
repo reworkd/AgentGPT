@@ -94,8 +94,10 @@ const Home: NextPage = () => {
     const messageService = new MessageService(addMessage);
     const agentApi = new AgentApi({
       model_settings: toApiModelSettings(settings, session),
+      name: name.trim(),
       goal: goal.trim(),
       session,
+      agentUtils: agentUtils,
     });
     const newAgent = new AutonomousAgent(
       model,

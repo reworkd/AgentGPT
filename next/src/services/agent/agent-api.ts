@@ -22,6 +22,7 @@ export class AgentApi {
   }
 
   async createAgent(): Promise<void> {
+    if (this.agentId) return;
     const agent = await this.props.agentUtils.createAgent({
       name: this.props.name,
       goal: this.props.goal,

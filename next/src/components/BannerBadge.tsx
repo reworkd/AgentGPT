@@ -1,4 +1,5 @@
-import { FaArrowRight } from "react-icons/fa";
+import React from "react";
+import { FaStar } from "react-icons/fa";
 import clsx from "clsx";
 
 type BannerBadgeProps = {
@@ -10,14 +11,15 @@ const BannerBadge = ({ children, onClick }: BannerBadgeProps) => {
   return (
     <div
       className={clsx(
-        "flex w-max cursor-pointer items-center gap-2 rounded-full border border-blue-300 bg-blue-500/40 px-3 py-1 text-xs text-blue-300",
-        "hover:border-blue-200 hover:bg-blue-500/60 hover:text-blue-200",
-        "transition-colors duration-300"
+        "relative flex w-max cursor-pointer items-center gap-1 rounded-full font-thin",
+        "border-2 border-purple-300/20 p-1 text-xs text-purple-300 transition-colors duration-300",
+        "before:absolute before:inset-0 before:animate-pulse before:bg-gradient-to-r before:from-purple-300/20 before:to-transparent"
       )}
       onClick={onClick}
     >
+      <FaStar className="ml-2 text-purple-300" />
       <span>{children}</span>
-      <FaArrowRight />
+      <div />
     </div>
   );
 };

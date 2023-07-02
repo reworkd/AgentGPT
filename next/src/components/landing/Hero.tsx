@@ -64,7 +64,7 @@ const Hero = () => {
         <Backing />
       </FadeIn>
 
-      <FadeIn duration={1.5} initialX={50} initialY={0} className="absolute inset-0 z-0">
+      <FadeIn duration={1.5} initialY={50} className="absolute inset-0 z-0">
         <Image
           src="/hero-background.png"
           alt="Background Image"

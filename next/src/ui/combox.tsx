@@ -55,7 +55,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
                   )
                 }
               >
-                {({ active, selected }) => (
+                {({ selected }) => (
                   <>
                     <span className={classNames("block truncate", selected && "font-semibold")}>
                       {props.valueMapper(e)}

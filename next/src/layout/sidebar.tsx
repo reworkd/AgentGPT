@@ -165,7 +165,7 @@ const SidebarLayout = (props: PropsWithChildren) => {
       <button
         className={clsx(
           sidebarOpen && "hidden",
-          "background-color-1 hover:background-color-2 fixed z-20 m-2 rounded-md border border-white/20 text-white transition-all"
+          "background-color-1 hover:background-color-2 text-color-primary fixed z-20 m-2 rounded-md border border-white/20 transition-all"
         )}
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >

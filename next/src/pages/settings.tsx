@@ -67,7 +67,7 @@ const SettingsPage = () => {
   return (
     <SidebarLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
-        <div className="background-color-1 border-color-1 rounded-xl border-2">
+        <div className="background-color-1 border-color-1 m-2 rounded-xl border-2">
           <div className="border-color-1 align flex justify-between border-b-2 p-3 sm:p-5">
             <h1 className="text-color-primary text-3xl font-bold md:text-4xl">⚙ Settings</h1>
           </div>
@@ -123,7 +123,7 @@ const SettingsPage = () => {
             </div>
 
             {!disableAdvancedSettings && (
-              <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">
+              <div className="mt-4 flex flex-col ">
                 <h1 className="text-color-primary pb-4 text-xl font-bold">Advanced Settings</h1>
                 <div className="flex flex-col gap-3">
                   <Combo<LLMModel>

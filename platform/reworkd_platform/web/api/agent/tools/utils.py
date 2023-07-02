@@ -11,7 +11,7 @@ from langchain.chat_models.base import BaseChatModel
 class CitedSnippet:
     index: int
     text: str
-    url: str
+    url: str = ""
 
     def __repr__(self) -> str:
         """

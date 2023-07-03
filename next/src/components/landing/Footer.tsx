@@ -54,6 +54,7 @@ const Footer = (props: Props) => {
                 key={i}
                 href={link.href}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="transition-all hover:rotate-6 hover:text-purple-400"
               >
                 <span className="sr-only">{link.name}</span>
@@ -67,6 +68,7 @@ const Footer = (props: Props) => {
                 key={i}
                 href={link.href}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="transition-all hover:rotate-6 hover:text-purple-400"
               >
                 <span className="sr-only">{link.name}</span>

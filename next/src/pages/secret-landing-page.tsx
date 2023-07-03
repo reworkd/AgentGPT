@@ -15,11 +15,11 @@ const HomePage = () => {
         }}
       />
       <div className="flex w-full justify-center">
-        <div className="max-w-screen flex flex-col items-center justify-center overflow-x-hidden px-5 text-white">
-          <div className="flex h-screen w-full max-w-screen-xl flex-col items-start justify-center overflow-x-hidden text-white">
+        <div className="flex max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-5 text-white">
+          <div className="flex h-screen w-full flex-col items-start justify-center overflow-x-hidden text-white">
             <Hero />
           </div>
-          <div id="section" className="flex min-h-screen max-w-screen-xl items-center">
+          <div id="section" className="flex min-h-screen w-full items-center">
             <div className="flex w-full grid-cols-4 grid-rows-2 flex-col items-center justify-center gap-4 sm:grid">
               <Sections />
             </div>

@@ -2,7 +2,7 @@ import React from "react";
 import NavLayout from "../components/NavLayout";
 import Hero from "../components/landing/Hero";
 import Sections from "../components/landing/Section";
-import Connector from "../components/landing/Connector";
+import ConnectorSection from "../components/landing/Connector";
 
 const HomePage = () => {
   return (
@@ -24,7 +24,7 @@ const HomePage = () => {
               <Sections />
             </div>
           </div>
-          <Connector />
+          <ConnectorSection />
         </div>
       </div>
     </NavLayout>

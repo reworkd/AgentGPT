@@ -18,8 +18,11 @@ export const printTitle = () => {
   );
 };
 
-// Function to check if entered api key is in the correct format
-export const isValidSkKey = (apikey) => {
-  const pattern = /^sk-[a-zA-Z0-9]{48}$/;
-  return pattern.test(apikey);
+// Function to check if entered api key is in the correct format or empty
+export const isValidKey = (apikey, pattern) => {
+  if (pattern.test(apikey) || apikey === "") {
+    return true;
+  } else {
+    return "\nInvalid api key. Please try again.";
+  }
 };

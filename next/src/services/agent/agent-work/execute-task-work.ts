@@ -45,11 +45,11 @@ export default class ExecuteTaskWork implements AgentWork {
     );
     this.result = executionMessage.info || "";
     this.parent.api.saveMessages([executionMessage]);
+    this.task = this.parent.model.updateTaskStatus(this.task, "completed");
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await
   conclude = async () => {
-    this.parent.model.updateTaskStatus(this.task, "completed");
     this.parent.api.saveMessages([
       this.parent.messageService.sendMessage({ ...this.task, status: "final" }),
     ]);

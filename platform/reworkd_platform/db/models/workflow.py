@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, Float, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import String, Float, ForeignKey
+from sqlalchemy.orm import relationship, mapped_column
 
 from reworkd_platform.db.base import TrackedModel, UserMixin, Base
 from reworkd_platform.web.api.workflow.schemas import Workflow, Node, Edge
@@ -8,8 +8,8 @@ from reworkd_platform.web.api.workflow.schemas import Workflow, Node, Edge
 class WorkflowModel(TrackedModel, UserMixin):
     __tablename__ = "workflow"
 
-    name = Column(String, nullable=False)
-    description = Column(String, nullable=False)
+    name = mapped_column(String, nullable=False)
+    description = mapped_column(String, nullable=False)
 
     nodes = relationship("WorkflowNodeModel", back_populates="workflow", uselist=True)
     edges = relationship("WorkflowEdgeModel", back_populates="workflow", uselist=True)
@@ -26,11 +26,11 @@ class WorkflowModel(TrackedModel, UserMixin):
 
 class WorkflowNodeModel(TrackedModel):
     __tablename__ = "workflow_node"
-    ref = Column(String, nullable=False)
-    workflow_id = Column(String, ForeignKey("workflow.id"))
+    ref = mapped_column(String, nullable=False)
+    workflow_id = mapped_column(String, ForeignKey("workflow.id"))
 
-    pos_x = Column(Float)
-    pos_y = Column(Float)
+    pos_x = mapped_column(Float)
+    pos_y = mapped_column(Float)
 
     workflow = relationship("WorkflowModel", back_populates="nodes")
 
@@ -45,10 +45,10 @@ class WorkflowNodeModel(TrackedModel):
 
 class WorkflowEdgeModel(Base):
     __tablename__ = "workflow_edge"
-    workflow_id = Column(String, ForeignKey("workflow.id"))
+    workflow_id = mapped_column(String, ForeignKey("workflow.id"))
 
-    source = Column(String)
-    target = Column(String)
+    source = mapped_column(String)
+    target = mapped_column(String)
 
     workflow = relationship("WorkflowModel", back_populates="edges")
 

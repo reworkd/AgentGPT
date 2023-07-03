@@ -2,10 +2,9 @@ import uuid
 from datetime import datetime
 from typing import Optional, Type, TypeVar
 
-from sqlalchemy import DateTime, String, func
 from fastapi import HTTPException
 from pydantic import BaseModel
-from sqlalchemy import Column, String, DateTime, func
+from sqlalchemy import String, DateTime, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 
@@ -71,5 +70,5 @@ class TrackedModel(Base):
 
 
 class UserMixin:
-    user_id = Column(String, name="user_id", nullable=False)
-    organization_id = Column(String, name="organization_id", nullable=True)
+    user_id = mapped_column(String, name="user_id", nullable=False)
+    organization_id = mapped_column(String, name="organization_id", nullable=True)

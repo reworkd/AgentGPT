@@ -140,7 +140,7 @@ const SidebarTransition = ({ children, show }: SidebarTransitionProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 lg:hidden" />
+          <div className="fixed inset-0 bg-neutral-900/80 lg:hidden" />
         </Transition.Child>
         <div className="fixed flex">
           <Transition.Child
@@ -163,7 +163,7 @@ const SidebarTransition = ({ children, show }: SidebarTransitionProps) => {
 export const SidebarControlButton = ({ show, setShow }: SidebarProps) => {
   return (
     <button
-      className="neutral-button-primary fixed z-20 m-2 rounded-md border border-shade-300-light transition-all"
+      className="neutral-button-primary fixed z-20 m-1 rounded-md border border-shade-300-light transition-all sm:m-2"
       onClick={() => setShow(!show)}
     >
       <FaBars size="15" className="m-2" />

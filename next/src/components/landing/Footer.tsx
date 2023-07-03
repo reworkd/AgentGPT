@@ -17,7 +17,7 @@ const Footer = (props: Props) => {
             <Image src="wordmark.svg" width="200" height="20" alt="Reworkd AI" className="mr-2" />
           </div>
           <div className="flex flex-1 justify-center">
-            <div className="flex flex-col gap-6 px-8 text-center text-gray-400 sm:flex-row sm:text-left md:tracking-wider">
+            <div className="flex flex-col gap-6 px-8 text-center text-gray-400 sm:-translate-y-1/2 sm:flex-row sm:text-left md:tracking-wider">
               <a
                 className="text-bold text-center"
                 href="https://www.ycombinator.com/companies/reworkd/jobs"
@@ -49,7 +49,7 @@ const Footer = (props: Props) => {
             ))}
           </div>
         </div>
-        <div className="mb-4 mt-16 w-full border-t border-gray-700/50 sm:mt-8" />
+        <div className="mb-4 mt-16 w-full border-t border-gray-700/50 sm:mt-4" />
         <div className="flex flex-col gap-4">
           <BannerBadge
             href="https://www.ycombinator.com/companies/reworkd/jobs"

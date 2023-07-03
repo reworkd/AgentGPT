@@ -2,6 +2,7 @@ import React from "react";
 import NavLayout from "../components/NavLayout";
 import Hero from "../components/landing/Hero";
 import Sections from "../components/landing/Section";
+import ConnectorSection from "../components/landing/ConnectorSection";
 
 const HomePage = () => {
   return (
@@ -14,7 +15,7 @@ const HomePage = () => {
         }}
       />
       <div className="flex w-full justify-center">
-        <div className="flex w-full max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-5 text-white">
+        <div className="flex max-w-screen-xl flex-col items-center justify-center overflow-x-hidden px-5 text-white">
           <div className="flex h-screen w-full flex-col items-start justify-center overflow-x-hidden text-white">
             <Hero />
           </div>
@@ -23,6 +24,7 @@ const HomePage = () => {
               <Sections />
             </div>
           </div>
+          <ConnectorSection />
         </div>
       </div>
     </NavLayout>

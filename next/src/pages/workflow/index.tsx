@@ -1,5 +1,4 @@
 import type { GetStaticProps, NextPage } from "next";
-import SidebarLayout from "../../layout/sidebar";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -8,6 +7,7 @@ import WorkflowApi from "../../services/workflow/workflowApi";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
+import DashboardLayout from "../../layout/dashboard";
 
 const WorkflowList: NextPage = () => {
   const { data: session } = useSession();
@@ -21,7 +21,7 @@ const WorkflowList: NextPage = () => {
   const data = query.data ?? [];
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <div className="grid grid-cols-4 gap-2 p-16">
         {data.map((workflow) => (
           <div
@@ -53,7 +53,7 @@ const WorkflowList: NextPage = () => {
           New Workflow
         </Button>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

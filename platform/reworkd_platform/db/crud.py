@@ -7,7 +7,7 @@ from reworkd_platform.db.models.agent import AgentRun, AgentTask
 from reworkd_platform.db.models.user import UserSession
 from reworkd_platform.schemas import Loop_Step, UserBase
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.errors import MaxLoopsError
+from reworkd_platform.web.api.errors import MaxLoopsError, MultipleSummaryError
 
 
 class BaseCrud:
@@ -53,6 +53,13 @@ class AgentCRUD(BaseCrud):
                 f"Max loops of {max_} exceeded, shutting down.",
                 429,
                 should_log=False,
+            )
+
+        if type_ == "summarize" and task_count > 1:
+            raise MultipleSummaryError(
+                StopIteration(),
+                "Multiple summary tasks are not allowed",
+                429,
             )
 
 

@@ -14,9 +14,9 @@ const OpenSource = () => {
   return (
     <div className="min-h-[50vh] w-full">
       <div className="flex flex-row">
-        <div className="relative w-full">
+        <div className="relative hidden w-full md:flex">
           <Terminal className="absolute" title="index.ts">
-            <pre className="overflow-hidden">
+            <pre className="overflow-x-hidden">
               {"" +
                 "<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -42,7 +42,7 @@ const OpenSource = () => {
             </pre>
           </Terminal>
           <Terminal className="absolute left-16 top-20 z-10" title="agent_service.py">
-            <pre>
+            <pre className="overflow-x-hidden">
               {"import requests\n" +
                 "\n" +
                 "# Define the API endpoint\n" +
@@ -74,9 +74,14 @@ const OpenSource = () => {
             community. This is why we are proudly open source. We'd love to hear your feedback at
             every step of the journey.
           </p>
-          <a href="https://github.com/reworkd" target="_blank" className="mt-16">
-            <PrimaryButton>View on Github</PrimaryButton>
-          </a>
+          <div className="mt-6 flex flex-row gap-4">
+            <a href="https://github.com/reworkd" target="_blank">
+              <PrimaryButton>View on Github</PrimaryButton>
+            </a>
+            <a href="https://github.com/orgs/reworkd/projects/3" target="_blank">
+              <PrimaryButton outline>Public Roadmap</PrimaryButton>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -86,7 +91,7 @@ const OpenSource = () => {
 const Terminal = (props: TerminalProps) => {
   return (
     <div
-      className={clsx("w-full max-w-md rounded-xl bg-neutral-800 drop-shadow-2xl", props.className)}
+      className={clsx("w-3/4 max-w-md rounded-xl bg-neutral-800 drop-shadow-2xl", props.className)}
     >
       <MacWindowInternal>{props.title}</MacWindowInternal>
       <div className="h-72 overflow-hidden rounded-b-xl bg-neutral-900 p-4 text-[8pt] text-gray-400">

@@ -4,7 +4,7 @@ import Badge from "../Badge";
 
 const LinkItem = (props: {
   title: string;
-  icon: ReactNode;
+  children: ReactNode;
   href?: string;
   badge?: string;
   onClick: () => void;
@@ -22,7 +22,7 @@ const LinkItem = (props: {
       }}
     >
       <span className="text-color-secondary group-hover:text-color-primary neutral-button-primary flex h-[2em] w-[2em] shrink-0 items-center justify-center rounded-lg border text-sm font-medium group-hover:scale-110">
-        {props.icon}
+        {props.children}
       </span>
       <span>{props.title}</span>
       {props.badge && <Badge className="ml-auto">{props.badge}</Badge>}

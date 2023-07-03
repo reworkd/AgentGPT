@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 host=db
 port=3306

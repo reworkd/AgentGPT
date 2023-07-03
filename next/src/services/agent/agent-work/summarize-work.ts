@@ -22,12 +22,12 @@ export default class SummarizeWork implements AgentWork {
     await streamText(
       "/api/agent/summarize",
       {
-        run_id: this.parent.$api.runId,
+        run_id: this.parent.api.runId,
         goal: this.parent.model.getGoal(),
         model_settings: toApiModelSettings(this.parent.modelSettings, this.parent.session),
         results: this.parent.model.getCompletedTasks().map((task) => task.result || ""),
       },
-      this.parent.$api.props.session?.accessToken || "",
+      this.parent.api.props.session?.accessToken || "",
       () => {
         executionMessage.info = "";
       },

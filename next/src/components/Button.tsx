@@ -44,15 +44,16 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
       onClick={onClick}
     >
       {props.ping ? <Ping color="white" /> : <></>}
-      <div className="flex items-center justify-center">
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            {props.icon ? <div className="mr-2">{props.icon}</div> : null}
-            {props.children}
-          </>
+      <div className="relative">
+        {loading && (
+          <Loader className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform" />
         )}
+        <div
+          className={clsx("flex h-full w-full items-center justify-center", loading && "opacity-0")}
+        >
+          {props.icon ? <div className="mr-2">{props.icon}</div> : null}
+          {props.children}
+        </div>
       </div>
     </button>
   );

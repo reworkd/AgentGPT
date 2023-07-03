@@ -35,7 +35,7 @@ const Footer = (props: Props) => {
     <footer className={clsx(props.className, "relative w-full text-sm font-extralight")}>
       <div className="ml-auto mr-auto w-full max-w-7xl px-8 pb-16 text-center">
         <div className="flex w-full flex-col items-baseline justify-between gap-16 sm:flex-row sm:justify-start sm:gap-0">
-          <div className="flex font-extralight">
+          <div className="flex">
             <Image src="wordmark.svg" width="200" height="20" alt="Reworkd AI" className="mr-2" />
           </div>
           <div className="flex flex-1 justify-center">

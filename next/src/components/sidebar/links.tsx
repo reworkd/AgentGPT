@@ -18,7 +18,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
   {
     name: "Home",
     href: "/",
-    icon: <FaHome className="group-hover:text-white" />,
+    icon: <FaHome className="group-hover:text-color-secondary" />,
   },
   {
     name: "Templates",

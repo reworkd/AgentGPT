@@ -20,7 +20,7 @@ export default class CreateTaskWork implements AgentWork {
 
   conclude = async () => {
     const TIMEOUT_LONG = 1000;
-    await this.parent.createTasks(this.taskValues);
+    this.parent.api.saveMessages(await this.parent.createTaskMessages(this.taskValues));
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
   };
 

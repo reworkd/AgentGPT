@@ -68,7 +68,7 @@ async def agent_start_validator(
     return AgentRun(**body.dict(), run_id=str(id_))
 
 
-async def validate(body: T, crud: AgentCRUD, type_: Loop_Step):
+async def validate(body: T, crud: AgentCRUD, type_: Loop_Step) -> T:
     _id = (await crud.create_task(body.run_id, type_)).id
     body.run_id = str(_id)
     return body

@@ -2,11 +2,12 @@ import uuid
 from datetime import datetime
 from typing import Optional, Type, TypeVar
 
+from sqlalchemy import DateTime, String, func
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import Column, String, DateTime, func
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 
 from reworkd_platform.db.meta import meta
 
@@ -17,7 +18,7 @@ class Base(DeclarativeBase):
     """Base for all models."""
 
     metadata = meta
-    id = Column(
+    id: Mapped[str] = mapped_column(
         String,
         primary_key=True,
         default=lambda _: str(uuid.uuid4()),
@@ -51,13 +52,13 @@ class TrackedModel(Base):
 
     __abstract__ = True
 
-    create_date = Column(
+    create_date = mapped_column(
         DateTime, name="create_date", server_default=func.now(), nullable=False
     )
-    update_date = Column(
+    update_date = mapped_column(
         DateTime, name="update_date", onupdate=func.now(), nullable=True
     )
-    delete_date = Column(DateTime, name="delete_date", nullable=True)
+    delete_date = mapped_column(DateTime, name="delete_date", nullable=True)
 
     def mark_deleted(self) -> "TrackedModel":
         """Marks the model as deleted."""

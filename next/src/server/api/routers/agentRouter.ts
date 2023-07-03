@@ -5,21 +5,37 @@ import { prisma } from "../../db";
 import { messageSchema } from "../../../types/message";
 import { MESSAGE_TYPE_TASK } from "../../../types/task";
 
-const saveAgentParser = z.object({
+const createAgentParser = z.object({
   name: z.string(),
   goal: z.string(),
+});
+export type CreateAgentProps = z.infer<typeof createAgentParser>;
+
+const saveAgentParser = z.object({
+  id: z.string(),
   tasks: z.array(messageSchema),
 });
+export type SaveAgentProps = z.infer<typeof saveAgentParser>;
 
 export const agentRouter = createTRPCRouter({
-  create: protectedProcedure.input(saveAgentParser).mutation(async ({ input, ctx }) => {
-    const agent = await prisma.agent.create({
+  create: protectedProcedure.input(createAgentParser).mutation(async ({ input, ctx }) => {
+    return await prisma.agent.create({
       data: {
         name: input.name,
         goal: input.goal,
         userId: ctx.session?.user?.id,
       },
     });
+  }),
+  save: protectedProcedure.input(saveAgentParser).mutation(async ({ input, ctx }) => {
+    const agent = await prisma.agent.findFirst({
+      where: {
+        id: input.id,
+        userId: ctx.session?.user?.id,
+      },
+    });
+
+    if (!agent) throw new Error("Agent not found");
 
     const all = input.tasks.map((e, i) => {
       return prisma.agentTask.create({
@@ -29,7 +45,7 @@ export const agentRouter = createTRPCRouter({
           ...(e.type === MESSAGE_TYPE_TASK && { status: e.status }),
           info: e.info,
           value: e.value,
-          sort: i,
+          sort: 0, // TODO: Remove sort
         },
       });
     });
@@ -53,7 +69,7 @@ export const agentRouter = createTRPCRouter({
       include: {
         tasks: {
           orderBy: {
-            sort: "asc",
+            createDate: "asc",
           },
         },
       },

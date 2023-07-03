@@ -140,7 +140,9 @@ const ChatWindow = ({
 const Summarize = () => {
   const agent = useAgentStore.use.agent();
   const lifecycle = useAgentStore.use.lifecycle();
-  const tasksWithResults = useTaskStore.use.tasks().filter((task) => task.result !== "completed");
+  const tasksWithResults = useTaskStore.use
+    .tasks()
+    .filter((task) => task.status == "completed" && task.result !== "");
   const [summarized, setSummarized] = useState(false);
 
   // Reset the summarized state when the agent changes
@@ -148,9 +150,10 @@ const Summarize = () => {
     setSummarized(false);
   }, [agent]);
 
+  console.log(tasksWithResults);
+
   if (!agent || lifecycle !== "stopped" || tasksWithResults.length < 1 || summarized) return null;
 
-  console.log(tasksWithResults);
   return (
     <div
       className={clsx(

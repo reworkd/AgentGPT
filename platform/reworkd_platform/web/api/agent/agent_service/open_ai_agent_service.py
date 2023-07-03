@@ -196,6 +196,7 @@ class OpenAIAgentService(AgentService):
         snippet_max_tokens = 7000  # Leave room for the rest of the prompt
         text_tokens = self.token_service.tokenize("".join(results))
         text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
+        logger.info(f"Summarizing text: {text}")
 
         return summarize(
             model=self.model,

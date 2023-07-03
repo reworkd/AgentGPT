@@ -25,7 +25,10 @@ export default class SummarizeWork implements AgentWork {
         run_id: this.parent.api.runId,
         goal: this.parent.model.getGoal(),
         model_settings: toApiModelSettings(this.parent.modelSettings, this.parent.session),
-        results: this.parent.model.getCompletedTasks().map((task) => task.result || ""),
+        results: this.parent.model
+          .getCompletedTasks()
+          .filter((task) => task.result && task.result !== "")
+          .map((task) => task.result || ""),
       },
       this.parent.api.props.session?.accessToken || "",
       () => {

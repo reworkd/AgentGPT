@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { SOCIAL_LINKS } from "../sidebar/links";
+import BannerBadge from "../BannerBadge";
 
 interface Props {
   className?: string;
@@ -49,9 +50,17 @@ const Footer = (props: Props) => {
           </div>
         </div>
         <div className="mb-4 mt-16 w-full border-t border-gray-700/50 sm:mt-8" />
-        <span className="w-full text-xs text-gray-400 sm:text-left">
-          &#169;2023 Reworkd AI, Inc.
-        </span>
+        <div className="flex flex-col gap-4">
+          <BannerBadge
+            href="https://www.ycombinator.com/companies/reworkd/jobs"
+            className="hidden sm:flex"
+          >
+            {"Interested in AI Agents? We're Hiring!"}
+          </BannerBadge>
+          <span className="w-full text-xs text-gray-400 sm:text-left">
+            &#169;2023 Reworkd AI, Inc.
+          </span>
+        </div>
       </div>
     </footer>
   );

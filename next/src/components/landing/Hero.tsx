@@ -15,14 +15,7 @@ const Hero = () => {
       <div className="z-10 col-span-1">
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">
-            <BannerBadge
-              onClick={() =>
-                window.open(
-                  "https://calendly.com/reworkdai/enterprise-customers?month=2023-06",
-                  "_blank"
-                )
-              }
-            >
+            <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
               Shape the future of AI agents for your business
             </BannerBadge>
           </div>

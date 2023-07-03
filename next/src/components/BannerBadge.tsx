@@ -3,31 +3,34 @@ import { FaArrowRight } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
 import clsx from "clsx";
 
-type BannerBadgeProps = {
+interface BannerBadgeProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  color?: string;
   children: string;
-  onClick: () => void;
-};
+}
 
-const BannerBadge = ({ children, onClick }: BannerBadgeProps) => {
+const BannerBadge = ({ children, className, color, ...props }: BannerBadgeProps) => {
+  color = color || "purple-300";
+
   const badgeStyles = clsx(
     "group pr-2.5",
     "relative flex w-max cursor-pointer items-center gap-1 rounded-full",
-    "border border-purple-300 pl-2 p-1 text-sm text-purple-300",
-    "animate-border-pulse"
+    `border border-${color} pl-2 p-1 text-sm text-${color}`,
+    "animate-border-pulse",
+    className
   );
 
   const arrowStyles = clsx(
-    "text-purple-300",
+    `text-${color}`,
     "transition-transform duration-300",
     "transform-gpu group-hover:translate-x-1.5"
   );
 
   return (
-    <div className={badgeStyles} onClick={onClick}>
+    <a className={badgeStyles} {...props}>
       <IoSparkles className="mx-1" />
       <span>{children}</span>
       <FaArrowRight className={arrowStyles} />
-    </div>
+    </a>
   );
 };
 

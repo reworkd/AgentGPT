@@ -258,15 +258,6 @@ Not supports in Firefox and IE */
     width: 8px;
 }
 
-/* background of the scrollbar except button or resizer */
-*::-webkit-scrollbar-track {
-    @apply bg-shade-300-light dark:bg-shade-500-dark;
-}
-
-#layout *::-webkit-scrollbar-track {
-    @apply rounded-xl
-}
-
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
     @apply rounded-lg bg-shade-600-light dark:bg-shade-200-dark;

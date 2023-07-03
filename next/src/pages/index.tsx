@@ -15,7 +15,7 @@ import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
-import SidebarLayout from "../layout/sidebar";
+import DashboardLayout from "../layout/dashboard";
 import AppTitle from "../components/AppTitle";
 import FadeIn from "../components/motions/FadeIn";
 import Input from "../components/Input";
@@ -132,7 +132,7 @@ const Home: NextPage = () => {
     status === "authenticated" && agentLifecycle === "stopped" && messages.length && !hasSaved;
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
@@ -283,7 +283,7 @@ const Home: NextPage = () => {
           </FadeIn>
         </div>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

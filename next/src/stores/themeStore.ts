@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
-import { createSelectors } from "./helpers";
 import { create } from "zustand";
+import { createSelectors } from "./helpers";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { Theme } from "../types";
 import { handleTheme } from "../hooks/useTheme";
@@ -13,7 +13,7 @@ interface ThemeSlice {
 }
 
 const initialThemeState = {
-  theme: "system" as const,
+  theme: "dark" as const,
 };
 
 const createThemeSlice: StateCreator<ThemeSlice> = (set) => {
@@ -36,7 +36,7 @@ export const useThemeStore = createSelectors(
         ...createThemeSlice(...a),
       }),
       {
-        name: "theme",
+        name: "agentgpt-theme",
         storage: createJSONStorage(() => localStorage),
         onRehydrateStorage: () => {
           return (state, error) => {

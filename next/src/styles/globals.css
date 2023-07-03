@@ -29,10 +29,10 @@ body {
     background: linear-gradient(
             to right,
             transparent,
-            hsla(240, 2%, 57%, 0.1),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.1),
+            hsla(0, 0%, 0%, 0.1),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(20, 0%, 0%, 0.1),
             transparent
     );
 }
@@ -213,7 +213,7 @@ tr:nth-child(even) {
     }
 
     .neutral-button-primary {
-        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-600-light dark:hover:bg-shade-300-dark;
+        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
     }
 
     .button-disabled {
@@ -258,15 +258,6 @@ Not supports in Firefox and IE */
     width: 8px;
 }
 
-/* background of the scrollbar except button or resizer */
-*::-webkit-scrollbar-track {
-    @apply bg-shade-300-light dark:bg-shade-500-dark;
-}
-
-#layout *::-webkit-scrollbar-track {
-    @apply rounded-xl
-}
-
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
     @apply rounded-lg bg-shade-600-light dark:bg-shade-200-dark;
@@ -287,3 +278,19 @@ Not supports in Firefox and IE */
         opacity: 0;
     }
 }
+
+@keyframes border-pulse-animation {
+    0% {
+      border-color: rgba(216, 180, 254, 0.3);
+    }
+    50% {
+      border-color: rgba(216, 180, 254, 0.4);
+    }
+    100% {
+      border-color: rgba(216, 180, 254, 0.3);
+    }
+  }
+  
+  .animate-border-pulse {
+    animation: border-pulse-animation 2s infinite;
+  }

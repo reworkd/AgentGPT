@@ -143,12 +143,13 @@ const SidebarLayout = (props: PropsWithChildren) => {
                         {SOCIAL_LINKS.map((link) => (
                           <LinkIconItem
                             key={link.name}
-                            icon={link.icon}
                             href={link.href}
                             onClick={() => {
                               void router.push(link.href);
                             }}
-                          />
+                          >
+                            <link.icon size={20} className="group-hover:rotate-3" />
+                          </LinkIconItem>
                         ))}
                       </div>
                     </li>

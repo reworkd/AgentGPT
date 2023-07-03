@@ -38,20 +38,25 @@ export const PAGE_LINKS: LinkMetadata[] = [
   },
 ];
 
-export const SOCIAL_LINKS: LinkMetadata[] = [
+export const SOCIAL_LINKS = [
   {
     name: "Github",
     href: "https://github.com/reworkd/AgentGPT",
-    icon: <FaGithub className="group-hover:text-violet-600" />,
+    icon: FaGithub,
   },
   {
     name: "Twitter",
     href: "https://twitter.com/ReworkdAI",
-    icon: <FaTwitter className="group-hover:text-sky-500" />,
+    icon: FaTwitter,
   },
   {
     name: "Discord",
     href: "https://discord.gg/gcmNyAAFfV",
-    icon: <FaDiscord className="group-hover:text-blue-400" />,
+    icon: FaDiscord,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/reworkd/",
+    icon: FaLinkedin,
   },
 ];

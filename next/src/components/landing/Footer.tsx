@@ -1,34 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import { FaDiscord, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import clsx from "clsx";
+import { SOCIAL_LINKS } from "../sidebar/links";
 
 interface Props {
   className?: string;
 }
-
-const links = [
-  {
-    name: "Github",
-    href: "https://github.com/reworkd/AgentGPT",
-    icon: FaGithub,
-  },
-  {
-    name: "Twitter",
-    href: "https://twitter.com/ReworkdAI",
-    icon: FaTwitter,
-  },
-  {
-    name: "Discord",
-    href: "https://discord.gg/gcmNyAAFfV",
-    icon: FaDiscord,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/company/reworkd/",
-    icon: FaLinkedin,
-  },
-];
 
 const Footer = (props: Props) => {
   return (
@@ -43,13 +20,13 @@ const Footer = (props: Props) => {
               <a className="text-center" href="https://reworkd.ai/privacyPolicy" target="_blank">
                 Privacy Policy
               </a>
-              <a className="text-center" href="http://reworkd.ai/terms">
+              <a className="text-center" href="https://reworkd.ai/terms" target="_blank">
                 Terms and Conditions
               </a>
             </div>
           </div>
           <div className="flex flex-row gap-8 text-white sm:hidden">
-            {links.map((link, i) => (
+            {SOCIAL_LINKS.map((link, i) => (
               <a
                 key={i}
                 href={link.href}
@@ -63,7 +40,7 @@ const Footer = (props: Props) => {
             ))}
           </div>
           <div className="hidden flex-row gap-3 text-white sm:flex">
-            {links.map((link, i) => (
+            {SOCIAL_LINKS.map((link, i) => (
               <a
                 key={i}
                 href={link.href}

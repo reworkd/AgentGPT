@@ -30,21 +30,27 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
 
   return (
     <SidebarTransition show={show}>
-      <nav className="flex flex-1 flex-col bg-neutral-900 px-4 py-3 ring-1 ring-white/10">
+      <nav className="background-color-1 flex flex-1 flex-col px-2.5 py-2 ring-1 ring-white/10">
         <div className="flex flex-row items-center justify-between">
-          <Image src="logo-white.svg" width="25" height="25" alt="Reworkd AI" className="ml-2" />
-          <h1 className="font-mono font-extrabold text-gray-200">My Agents</h1>
+          <Image
+            src="logo-white.svg"
+            width="25"
+            height="25"
+            alt="Reworkd AI"
+            className="ml-2 invert dark:invert-0"
+          />
+          <h1 className="text-color-primary font-mono font-extrabold">My Agents</h1>
           <button
-            className="hover:background-color-2 rounded-md border border-transparent text-white transition-all hover:border-white/20"
+            className="neutral-button-primary rounded-md border-none transition-all"
             onClick={() => setShow(!show)}
           >
             <FaBars size="15" className="z-20 m-2" />
           </button>
         </div>
         <FadingHr className="my-2" />
-        <div className="-mr-2 mb-2 flex-1 overflow-y-auto">
+        <div className="mb-2 mr-2 flex-1 overflow-y-auto">
           {status === "unauthenticated" && (
-            <div className="p-1 font-mono text-sm text-white">
+            <div className="text-color-primary p-1 font-mono text-sm">
               <a className="link" onClick={() => void signIn()}>
                 {t("SIGN_IN")}
               </a>{" "}
@@ -52,7 +58,7 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
             </div>
           )}
           {status === "authenticated" && !isLoading && userAgents.length === 0 && (
-            <div className="p-1 font-mono text-sm text-white">
+            <div className="text-color-primary p-1 font-mono text-sm">
               {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
             </div>
           )}
@@ -67,23 +73,24 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
         </div>
         <ul role="list" className="flex flex-col">
           <ul className="mb-2">
-            <div className="mb-2 ml-2 text-xs font-semibold text-neutral-400">Pages</div>
-            {PAGE_LINKS.map((link) => {
+            <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">Pages</div>
+            {PAGE_LINKS.map((link, i) => {
               if (router.route == link.href) {
                 return null;
               }
 
               return (
                 <LinkItem
-                  key={link.name}
+                  key={i}
                   title={link.name}
-                  icon={link.icon}
                   href={link.href}
                   badge={link.badge}
                   onClick={() => {
                     void router.push(link.href);
                   }}
-                />
+                >
+                  <link.icon className={link.className} />
+                </LinkItem>
               );
             })}
           </ul>
@@ -92,12 +99,13 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
               {SOCIAL_LINKS.map((link) => (
                 <LinkIconItem
                   key={link.name}
-                  icon={link.icon}
                   href={link.href}
                   onClick={() => {
                     void router.push(link.href);
                   }}
-                />
+                >
+                  <link.icon size={20} className="group-hover:rotate-3" />
+                </LinkIconItem>
               ))}
             </div>
           </li>
@@ -129,7 +137,7 @@ const SidebarTransition = ({ children, show }: SidebarTransitionProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-neutral-900/80 lg:hidden" />
+          <div className="fixed inset-0 lg:hidden" />
         </Transition.Child>
         <div className="fixed flex">
           <Transition.Child

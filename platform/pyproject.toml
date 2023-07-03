@@ -51,7 +51,7 @@ autoflake = "^2.1.1"
 pytest-cov = "^4.1.0"
 anyio = "^3.7.0"
 pytest-env = "^0.8.2"
-taskiq = { version = "^0.6.0", extras = ["reload"] }
+taskiq = { version = "^0.7.2", extras = ["reload"] }
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.10.0"

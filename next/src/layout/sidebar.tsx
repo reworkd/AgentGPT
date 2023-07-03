@@ -119,22 +119,23 @@ const SidebarLayout = (props: PropsWithChildren) => {
                       <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">
                         Pages
                       </div>
-                      {PAGE_LINKS.map((link) => {
+                      {PAGE_LINKS.map((link, i) => {
                         if (router.route == link.href) {
                           return null;
                         }
 
                         return (
                           <LinkItem
-                            key={link.name}
+                            key={i}
                             title={link.name}
-                            icon={link.icon}
                             href={link.href}
                             badge={link.badge}
                             onClick={() => {
                               void router.push(link.href);
                             }}
-                          />
+                          >
+                            <link.icon className={link.className} />
+                          </LinkItem>
                         );
                       })}
                     </ul>

@@ -25,7 +25,7 @@ const Footer = (props: Props) => {
               </a>
             </div>
           </div>
-          <div className="flex flex-row gap-8 text-white sm:hidden">
+          <div className="flex flex-row gap-8 text-white sm:gap-3">
             {SOCIAL_LINKS.map((link, i) => (
               <a
                 key={i}
@@ -35,21 +35,8 @@ const Footer = (props: Props) => {
                 className="transition-all hover:rotate-6 hover:text-purple-400"
               >
                 <span className="sr-only">{link.name}</span>
-                <link.icon size={48} />
-              </a>
-            ))}
-          </div>
-          <div className="hidden flex-row gap-3 text-white sm:flex">
-            {SOCIAL_LINKS.map((link, i) => (
-              <a
-                key={i}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-all hover:rotate-6 hover:text-purple-400"
-              >
-                <span className="sr-only">{link.name}</span>
-                <link.icon size={24} />
+                <link.icon size={48} className="sm:hidden" />
+                <link.icon size={24} className="hidden sm:flex" />
               </a>
             ))}
           </div>

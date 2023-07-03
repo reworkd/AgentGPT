@@ -3,6 +3,7 @@ import NavLayout from "../components/NavLayout";
 import Hero from "../components/landing/Hero";
 import Sections from "../components/landing/Section";
 import ConnectorSection from "../components/landing/ConnectorSection";
+import OpenSource from "../components/landing/OpenSource";
 
 const HomePage = () => {
   return (
@@ -23,6 +24,9 @@ const HomePage = () => {
             <div className="flex w-full grid-cols-4 grid-rows-2 flex-col items-center justify-center gap-4 sm:grid">
               <Sections />
             </div>
+          </div>
+          <div className="relative flex w-full items-center">
+            <OpenSource />
           </div>
           <ConnectorSection />
         </div>

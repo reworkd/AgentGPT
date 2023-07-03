@@ -7,10 +7,11 @@ import PopIn from "../motions/popin";
 import Expand from "../motions/expand";
 import Menu from "../Menu";
 import { CgExport } from "react-icons/cg";
-import type { ReactNode } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import React from "react";
 import type { Message } from "../../types/message";
 import { FiClipboard } from "react-icons/fi";
+import clsx from "clsx";
 
 export const messageListId = "chat-window-message-list";
 
@@ -111,6 +112,37 @@ export const MacWindowHeader = (props: HeaderProps) => {
         {props.title}
       </Expand>
       <Menu icon={<CgExport size={15} />} items={exportOptions} />
+    </div>
+  );
+};
+
+interface MacWindowInternalProps extends PropsWithChildren {
+  className?: string;
+}
+
+export const MacWindowInternal = (props: MacWindowInternalProps) => {
+  return (
+    <div
+      className={clsx(
+        "ml-2 flex items-baseline gap-1 overflow-visible rounded-t-3xl p-1.5",
+        props.className
+      )}
+    >
+      <PopIn delay={0.4}>
+        <div className="h-2 w-2 rounded-full bg-red-500" />
+      </PopIn>
+      <PopIn delay={0.5}>
+        <div className="h-2 w-2 rounded-full bg-yellow-500" />
+      </PopIn>
+      <PopIn delay={0.6}>
+        <div className="h-2 w-2 rounded-full bg-green-500" />
+      </PopIn>
+      <Expand
+        delay={0.75}
+        className="ml-1 flex flex-grow font-mono text-[8pt] font-bold text-gray-400"
+      >
+        {props.children}
+      </Expand>
     </div>
   );
 };

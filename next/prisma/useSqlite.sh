@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 cd "$(dirname "$0")"
 
 sed -ie 's/mysql/sqlite/g' schema.prisma

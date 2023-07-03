@@ -31,9 +31,9 @@ async def get_current_user(
 
     if session.expires > datetime.utcnow():
         return UserBase(
-            id=str(user.id),
-            name=str(user.name),
-            email=str(user.email),
+            id=user.id,
+            name=user.name,
+            email=user.email,
         )
 
     raise _forbidden("Session token expired")

@@ -17,7 +17,6 @@ import { ImSpinner2 } from "react-icons/im";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
-  fullscreen?: boolean;
   scrollToBottom?: boolean;
   setAgentRun?: (name: string, goal: string) => void;
   visibleOnMobile?: boolean;

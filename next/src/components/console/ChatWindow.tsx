@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import PopIn from "../motions/popin";
 import FadeIn from "../motions/FadeIn";
 import HideShow from "../motions/HideShow";
 import clsx from "clsx";
@@ -97,7 +96,7 @@ const ChatWindow = ({
 
         {messages.length === 0 && (
           <>
-            <PopIn delay={0.8} duration={0.5}>
+            <FadeIn delay={0.8} duration={0.5}>
               <ChatMessage
                 message={{
                   type: MESSAGE_TYPE_SYSTEM,
@@ -105,6 +104,8 @@ const ChatWindow = ({
                     "👉 Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
                 }}
               />
+            </FadeIn>
+            <FadeIn delay={0.9} duration={0.5}>
               <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
                 <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
                   Write some code to make a platformer game.
@@ -116,7 +117,7 @@ const ChatWindow = ({
                   Create a comprehensive report of the Nike company
                 </ExampleAgentButton>
               </div>
-            </PopIn>
+            </FadeIn>
           </>
         )}
         <div

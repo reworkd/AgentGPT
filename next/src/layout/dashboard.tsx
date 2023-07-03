@@ -24,7 +24,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       </div>
 
       {/* Desktop sidebar */}
-      <div className={clsx("hidden lg:fixed lg:inset-y-0  lg:flex lg:w-64 lg:flex-col")}>
+      <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
         <Sidebar show={desktopSidebarOpen} setShow={setDesktopSidebarOpen} />
       </div>
       <div className={desktopSidebarOpen ? "hidden" : "hidden lg:block"}>

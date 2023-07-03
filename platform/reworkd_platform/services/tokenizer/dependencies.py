@@ -1,6 +1,6 @@
 from fastapi import Request
 
-from reworkd_platform.services.tokenizer.service import TokenService
+from reworkd_platform.services.tokenizer.token_service import TokenService
 
 
 def get_token_service(request: Request) -> TokenService:

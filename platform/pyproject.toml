@@ -84,6 +84,7 @@ filterwarnings = [
     "error",
     "ignore::DeprecationWarning",
     "ignore:.*unclosed.*:ResourceWarning",
+    "ignore::ImportWarning",
 ]
 env = [
     "REWORKD_PLATFORM_ENVIRONMENT=pytest",

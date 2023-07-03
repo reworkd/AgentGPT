@@ -2,7 +2,7 @@ import React from "react";
 
 const ConnectorSection = () => {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-950 from-5% via-black via-70% to-transparent "></div>
+    <div className="h-screen w-screen items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500 from-10% via-black via-70% to-transparent opacity-20 "></div>
   );
 };
 

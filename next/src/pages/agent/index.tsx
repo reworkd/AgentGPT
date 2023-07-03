@@ -46,11 +46,12 @@ const AgentPage: NextPage = () => {
       >
         <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile />
         <div className="flex flex-row gap-2">
-          <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          <Button icon={<FaBackspace />} loader onClick={() => void router.push("/")}>
             Back
           </Button>
           <Button
             icon={<FaTrash />}
+            loader
             onClick={() => {
               deleteAgent.mutate(agentId);
             }}
@@ -61,6 +62,7 @@ const AgentPage: NextPage = () => {
 
           <Button
             icon={<FaShare />}
+            loader
             onClick={() => {
               void window.navigator.clipboard
                 .writeText(shareLink())

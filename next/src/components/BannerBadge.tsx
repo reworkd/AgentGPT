@@ -24,7 +24,7 @@ const BannerBadge = ({ children, className, ...props }: BadgeProps) => {
         className={clsx(
           "text-purple-300",
           "transition-transform duration-300",
-          "group-hover:translate-x-1.5"
+          "group-hover:translate-x-1"
         )}
       />
     </a>

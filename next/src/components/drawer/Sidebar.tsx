@@ -104,7 +104,10 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
                     void router.push(link.href);
                   }}
                 >
-                  <link.icon size={20} className="group-hover:rotate-3" />
+                  <link.icon
+                    size={20}
+                    className="transition-all group-hover:rotate-3 group-hover:scale-125"
+                  />
                 </LinkIconItem>
               ))}
             </div>
@@ -160,7 +163,7 @@ const SidebarTransition = ({ children, show }: SidebarTransitionProps) => {
 export const SidebarControlButton = ({ show, setShow }: SidebarProps) => {
   return (
     <button
-      className="background-color-1 hover:background-color-2 fixed z-20 m-1 rounded-md border border-white/20 text-white transition-all sm:m-2"
+      className="neutral-button-primary fixed z-20 m-2 rounded-md border border-shade-300-light transition-all"
       onClick={() => setShow(!show)}
     >
       <FaBars size="15" className="m-2" />

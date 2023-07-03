@@ -11,17 +11,20 @@ const Hero = () => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
       <div className="z-10 col-span-1">
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">
             <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
-              Shape the future of AI agents for your business
+              <span className="sm:hidden">Shape AI agents for your business</span>
+              <span className="hidden sm:inline">
+                Shape the future of AI agents for your business
+              </span>
             </BannerBadge>
           </div>
           <h1
             className={clsx(
-              "pb-2 text-left text-4xl md:text-6xl lg:text-7xl",
+              "pb-2 text-left text-5xl sm:text-6xl md:text-7xl xl:text-8xl",
               "bg-clip-text text-transparent",
               "bg-gradient-to-br from-white to-neutral-600",
               "leading-[1.1em] tracking-[-0.5px]"
@@ -36,8 +39,10 @@ const Hero = () => {
             </div>
           </h1>
 
-          <p className="my-3 mb-9 inline-block w-full text-left align-top font-thin text-neutral-300">
-            The leading web-based autonomous agent platform. Automate business processes at scale.
+          <p className="my-3 mb-9 inline-block w-full text-left align-top text-sm font-thin text-neutral-300 sm:text-base lg:text-lg">
+            The leading web-based autonomous agent platform.
+            <br />
+            Automate business processes at scale.
           </p>
           <PrimaryButton
             onClick={() => {
@@ -57,7 +62,7 @@ const Hero = () => {
         <Backing />
       </FadeIn>
 
-      <FadeIn duration={1.5} initialY={50} className="absolute inset-0 z-0">
+      <FadeIn duration={1.5} initialY={50} className="absolute inset-0">
         <Image
           src="/hero-background.png"
           alt="Background Image"

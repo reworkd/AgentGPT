@@ -13,7 +13,7 @@ import { useTranslation } from "next-i18next";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
-import SidebarLayout from "../../layout/sidebar";
+import DashboardLayout from "../../layout/dashboard";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();
@@ -39,7 +39,7 @@ const AgentPage: NextPage = () => {
   };
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <div
         id="content"
         className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
@@ -79,7 +79,7 @@ const AgentPage: NextPage = () => {
           className="bg-gray-950 text-sm"
         />
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

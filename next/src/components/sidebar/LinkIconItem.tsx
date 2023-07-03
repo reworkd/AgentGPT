@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
 
-const LinkItem = (props: { children: ReactNode; href?: string; onClick: () => void }) => (
+const LinkIconItem = (props: { children: ReactNode; href?: string; onClick: () => void }) => (
   <a
     href={props.href}
     className={clsx(
@@ -14,8 +14,8 @@ const LinkItem = (props: { children: ReactNode; href?: string; onClick: () => vo
       props.onClick();
     }}
   >
-    <span className="group-hover:scale-125">{props.children}</span>
+    {props.children}
   </a>
 );
 
-export default LinkItem;
+export default LinkIconItem;

@@ -152,7 +152,7 @@ const SidebarTransition = ({ children, show }: SidebarTransitionProps) => {
 export const SidebarControlButton = ({ show, setShow }: SidebarProps) => {
   return (
     <button
-      className="background-color-1 hover:background-color-2 fixed z-20 m-1 rounded-md border border-white/20 text-white transition-all"
+      className="background-color-1 hover:background-color-2 fixed z-20 m-1 rounded-md border border-white/20 text-white transition-all sm:m-2"
       onClick={() => setShow(!show)}
     >
       <FaBars size="15" className="m-2" />

@@ -1,10 +1,10 @@
-import type { GetStaticProps } from "next";
+import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useWorkflow } from "../../hooks/useWorkflow";
 
 import { useRouter } from "next/router";
-import SidebarLayout from "../../layout/sidebar";
+import DashboardLayout from "../../layout/dashboard";
 import Button from "../../ui/button";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -18,7 +18,7 @@ const WorkflowPage: NextPage = () => {
   );
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <FlowChart
         controls={true}
         isLoading={false}
@@ -46,13 +46,13 @@ const WorkflowPage: NextPage = () => {
           </Button>
         </div>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 
 export default WorkflowPage;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

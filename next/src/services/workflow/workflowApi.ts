@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { get, post } from "../fetch-utils";
+import { get, post, put } from "../fetch-utils";
 import type { Workflow } from "../../types/workflow";
 import { WorkflowSchema } from "../../types/workflow";
 
@@ -26,7 +26,7 @@ export default class WorkflowApi {
   }
 
   async update(id: string, data: Workflow) {
-    return await post(`/api/workflow/${id}`, WorkflowSchema, data, this.accessToken);
+    return await put(`/api/workflow/${id}`, z.any(), data, this.accessToken);
   }
 
   async create(workflow: Omit<WorkflowMeta, "id">) {

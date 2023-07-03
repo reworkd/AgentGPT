@@ -18,7 +18,6 @@ import { useTaskStore } from "../../stores/taskStore";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
-  fullscreen?: boolean;
   setAgentRun?: (name: string, goal: string) => void;
   visibleOnMobile?: boolean;
 }

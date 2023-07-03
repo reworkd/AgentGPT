@@ -57,6 +57,7 @@ taskiq = { version = "^0.6.0", extras = ["reload"] }
 pytest-mock = "^3.10.0"
 httpx = "^0.24.1"
 pytest-asyncio = "^0.21.0"
+mypy = "^1.4.1"
 
 [tool.isort]
 profile = "black"
@@ -64,8 +65,6 @@ multi_line_output = 3
 src_paths = ["reworkd_platform", ]
 
 [tool.mypy]
-# https://docs.sqlalchemy.org/en/20/orm/extensions/mypy.html TODO: enable this if tying issues happen with SQLA
-# plugins = ["sqlalchemy.ext.mypy.plugin"]
 strict = true
 ignore_missing_imports = true
 allow_subclassing_any = true

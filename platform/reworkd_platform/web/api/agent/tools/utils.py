@@ -24,7 +24,7 @@ def summarize(
     model: BaseChatModel,
     language: str,
     goal: str,
-    snippets: List[str],
+    text: str,
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_prompt
 
@@ -35,7 +35,7 @@ def summarize(
         {
             "goal": goal,
             "language": language,
-            "snippets": snippets,
+            "text": text,
         },
         media_type="text/event-stream",
     )

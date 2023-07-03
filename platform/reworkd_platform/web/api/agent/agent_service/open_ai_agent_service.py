@@ -190,27 +190,16 @@ class OpenAIAgentService(AgentService):
         goal: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        # TODO: Update max_tokens calculation
-        # For summary, leave ~ 7000 tokens for the prompt and ~ 8000 for the completion
         self.model.model_name = "gpt-3.5-turbo-16k"
         self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
 
         snippet_max_tokens = 7000  # Leave room for the rest of the prompt
-        snippet_tokens = 0
-        snippets: List[str] = []
+        text_tokens = self.token_service.tokenize("".join(results))
+        text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
 
-        for i, result in enumerate(results):
-            task_tokens = self.token_service.count(result)
-            if snippet_tokens + task_tokens > snippet_max_tokens:
-                break
-
-            snippet_tokens += task_tokens
-            snippets.append(result)
-
-        print(snippets)
         return summarize(
             model=self.model,
             language=self.settings.language,
             goal=goal,
-            snippets=snippets,
+            text=text,
         )

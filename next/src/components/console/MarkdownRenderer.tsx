@@ -15,10 +15,18 @@ const MarkdownRenderer = ({ children }) => {
       components={{
         pre: CustomPre,
         code: CustomCodeBlock,
-        h1: (props) => <h1 className="text-md mb-2 font-black sm:text-xl">{props.children}</h1>,
-        h2: (props) => <h1 className="sm:text-md mb-2 text-sm font-bold">{props.children}</h1>,
+        h1: (props) => (
+          <h1 className="text-md text-color-secondary mb-2 font-black sm:text-xl">
+            {props.children}
+          </h1>
+        ),
+        h2: (props) => (
+          <h1 className="sm:text-md text-color-secondary mb-2 text-sm font-bold">
+            {props.children}
+          </h1>
+        ),
         a: (props) => CustomLink({ children: props.children, href: props.href }),
-        p: (props) => <p className="mb-4">{props.children}</p>,
+        p: (props) => <p className="text-color-secondary mb-4">{props.children}</p>,
         ul: (props) => (
           <ul className="mb-4 ml-8 list-disc marker:text-neutral-400">{props.children}</ul>
         ),
@@ -56,7 +64,7 @@ const CustomPre = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="mb-4 flex flex-col ">
-      <div className="flex w-full items-center justify-between rounded-t-lg bg-zinc-800 p-1 px-4 text-white">
+      <div className="background-color-3 text-color-primary flex w-full items-center justify-between rounded-t-lg p-1 px-4">
         <div>{language.charAt(0).toUpperCase() + language.slice(1)}</div>
         <button
           onClick={handleCopyClick}

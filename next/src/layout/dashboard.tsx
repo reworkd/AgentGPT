@@ -31,12 +31,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
         <SidebarControlButton show={desktopSidebarOpen} setShow={setDesktopSidebarOpen} />
       </div>
 
-      <main
-        className={clsx(
-          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
-          desktopSidebarOpen && "lg:pl-64"
-        )}
-      >
+      <main className={clsx("background-color-2", desktopSidebarOpen && "lg:pl-64")}>
         <DottedGridBackground className="min-w-screen min-h-screen">
           {props.children}
         </DottedGridBackground>

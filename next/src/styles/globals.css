@@ -86,20 +86,20 @@ tr:nth-child(even) {
     /* background styles */
     /* Used for the background effect in the landing page */
     .background {
-        background-image: radial-gradient(
-                circle,
-                rgba(58, 58, 58, 0.75) 2px,
-                transparent 0px
-        );
-        background-size: 30px 30px;
-        background-position: 0 0, 15px 15px;
+      background-image: radial-gradient(
+        circle,
+        hsla(240, 11%, 85%, 0.75) 2px,
+        transparent 0px
+      );
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
     }
 
     .background-dark {
         background-image: radial-gradient(
-                circle,
-                rgba(58, 58, 58, 0.75) 2px,
-                transparent 0px
+              circle,
+              rgba(58, 58, 58, 0.75) 2px,
+              transparent 0px
         );
         background-size: 30px 30px;
         background-position: 0 0, 15px 15px;

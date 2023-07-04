@@ -26,11 +26,11 @@ module.exports = {
           },
           hover: {
             dark: "hsl(199, 80%, 30%)",
-            light: "hsl(199, 80%, 30%)",
+            light: "hsl(199, 90%, 40%)",
           },
           focusVisible: {
             dark: "hsl(208, 79%, 51%)",
-            light: "hsl(208, 79%, 51%)",
+            light: "hsl(208, 79%, 55%)",
           },
         },
         amber: {

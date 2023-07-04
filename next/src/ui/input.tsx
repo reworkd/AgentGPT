@@ -36,7 +36,7 @@ const Input = (props: Props) => {
           type={props.type}
           name={props.name}
           id={props.name}
-          className="text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm dark:border-transparent sm:text-sm sm:leading-6"
+          className="text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm sm:text-sm sm:leading-6"
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}

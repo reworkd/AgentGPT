@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
@@ -30,6 +31,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_name,
     get_user_tools,
 )
+from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
@@ -181,3 +183,24 @@ class OpenAIAgentService(AgentService):
                 memory.add_tasks(unique_tasks)
 
         return unique_tasks
+
+    async def summarize_task_agent(
+        self,
+        *,
+        goal: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
+
+        snippet_max_tokens = 7000  # Leave room for the rest of the prompt
+        text_tokens = self.token_service.tokenize("".join(results))
+        text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
+        logger.info(f"Summarizing text: {text}")
+
+        return summarize(
+            model=self.model,
+            language=self.settings.language,
+            goal=goal,
+            text=text,
+        )

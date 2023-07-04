@@ -71,7 +71,7 @@ const Home: NextPage = () => {
   };
 
   const disableStartAgent =
-    (agent !== null && agentLifecycle !== "paused") ||
+    (agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
     isEmptyOrBlank(nameInput) ||
     isEmptyOrBlank(goalInput);
 
@@ -102,7 +102,6 @@ const Home: NextPage = () => {
     const newAgent = new AutonomousAgent(
       model,
       messageService,
-      () => setAgent(null),
       settings,
       agentApi,
       session ?? undefined
@@ -184,7 +183,6 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              scrollToBottom
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
             />

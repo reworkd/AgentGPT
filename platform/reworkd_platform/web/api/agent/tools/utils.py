@@ -11,7 +11,7 @@ from langchain.chat_models.base import BaseChatModel
 class CitedSnippet:
     index: int
     text: str
-    url: str
+    url: str = ""
 
     def __repr__(self) -> str:
         """
@@ -24,18 +24,34 @@ def summarize(
     model: BaseChatModel,
     language: str,
     goal: str,
-    query: str,
-    snippets: List[CitedSnippet],
+    text: str,
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_prompt
 
     chain = LLMChain(llm=model, prompt=summarize_prompt)
 
-    print(
-        summarize_prompt.format_prompt(
-            goal=goal, query=query, snippets=snippets, language=language
-        )
+    return StreamingResponse.from_chain(
+        chain,
+        {
+            "goal": goal,
+            "language": language,
+            "text": text,
+        },
+        media_type="text/event-stream",
     )
+
+
+def summarize_with_sources(
+    model: BaseChatModel,
+    language: str,
+    goal: str,
+    query: str,
+    snippets: List[CitedSnippet],
+) -> FastAPIStreamingResponse:
+    from reworkd_platform.web.api.agent.prompts import summarize_with_sources_prompt
+
+    chain = LLMChain(llm=model, prompt=summarize_with_sources_prompt)
+
     return StreamingResponse.from_chain(
         chain,
         {

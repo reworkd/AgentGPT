@@ -21,5 +21,5 @@ class Wikipedia(Tool):
 
         # TODO: Make the below async
         wikipedia_search = wikipedia_client.run(input_str)
-        # return summarize(self.model, self.language, goal, task, [wikipedia_search])
+        # return summarize_with_sources(self.model, self.language, goal, task, [wikipedia_search])
         return stream_string("Wikipedia is currently not working")

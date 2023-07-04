@@ -2,12 +2,12 @@ import type { GetStaticProps, NextPage } from "next";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Button from "../../ui/button";
 import WorkflowApi from "../../services/workflow/workflowApi";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
 import DashboardLayout from "../../layout/dashboard";
+import EmptyWorkflowButton from "../../components/workflow/EmptyWorkflow";
 
 const WorkflowList: NextPage = () => {
   const { data: session } = useSession();
@@ -36,8 +36,7 @@ const WorkflowList: NextPage = () => {
             <p className="text-neutral-400">{workflow.description}</p>
           </div>
         ))}
-        <Button
-          className="bg-violet-500"
+        <EmptyWorkflowButton
           onClick={() => {
             api
               .create({
@@ -49,9 +48,7 @@ const WorkflowList: NextPage = () => {
               })
               .catch(console.error);
           }}
-        >
-          New Workflow
-        </Button>
+        />
       </div>
     </DashboardLayout>
   );

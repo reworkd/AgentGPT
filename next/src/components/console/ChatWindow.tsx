@@ -7,14 +7,13 @@ import clsx from "clsx";
 import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
-import { ExampleAgentButton } from "./ExampleAgentButton";
 import { FaArrowCircleDown } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
 import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
-import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import { ImSpinner2 } from "react-icons/im";
 import Button from "../Button";
 import { useTaskStore } from "../../stores/taskStore";
+import ExampleAgents from "./ExampleAgents";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -93,33 +92,7 @@ const ChatWindow = ({
           );
         })}
         {children}
-
-        {messages.length === 0 && (
-          <>
-            <FadeIn delay={0.8} duration={0.5}>
-              <ChatMessage
-                message={{
-                  type: MESSAGE_TYPE_SYSTEM,
-                  value:
-                    "👉 Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
-                }}
-              />
-            </FadeIn>
-            <FadeIn delay={0.9} duration={0.5}>
-              <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
-                <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
-                  Write some code to make a platformer game.
-                </ExampleAgentButton>
-                <ExampleAgentButton name="TravelGPT 🌴" setAgentRun={setAgentRun}>
-                  Plan a detailed trip to Hawaii.
-                </ExampleAgentButton>
-                <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
-                  Create a comprehensive report of the Nike company
-                </ExampleAgentButton>
-              </div>
-            </FadeIn>
-          </>
-        )}
+        {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun} />}
         <Summarize />
         <div
           className={clsx(

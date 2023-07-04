@@ -1,5 +1,5 @@
 import axios from "axios";
-import SidebarLayout from "../layout/sidebar";
+import DashboardLayout from "../layout/dashboard";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
@@ -65,7 +65,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
         <div className="background-color-1 border-color-1 m-2 rounded-xl border-2">
           <div className="border-color-1 align flex justify-between border-b-2 p-3 sm:p-5">
@@ -187,7 +187,7 @@ const SettingsPage = () => {
           </div>
         </div>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

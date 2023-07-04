@@ -13,7 +13,7 @@ import { useTranslation } from "next-i18next";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
-import SidebarLayout from "../../layout/sidebar";
+import DashboardLayout from "../../layout/dashboard";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();
@@ -39,18 +39,19 @@ const AgentPage: NextPage = () => {
   };
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <div
         id="content"
         className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
         <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile />
         <div className="flex flex-row gap-2">
-          <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
+          <Button icon={<FaBackspace />} loader onClick={() => void router.push("/")}>
             Back
           </Button>
           <Button
             icon={<FaTrash />}
+            loader
             onClick={() => {
               deleteAgent.mutate(agentId);
             }}
@@ -61,6 +62,7 @@ const AgentPage: NextPage = () => {
 
           <Button
             icon={<FaShare />}
+            loader
             onClick={() => {
               void window.navigator.clipboard
                 .writeText(shareLink())
@@ -77,7 +79,7 @@ const AgentPage: NextPage = () => {
           className="bg-gray-950 text-sm"
         />
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

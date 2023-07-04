@@ -29,3 +29,7 @@ class ReplicateError(PlatformaticError):
 
 class MaxLoopsError(PlatformaticError):
     pass
+
+
+class MultipleSummaryError(PlatformaticError):
+    pass

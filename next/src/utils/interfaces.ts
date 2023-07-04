@@ -28,6 +28,7 @@ export interface RequestBody {
   tasks?: string[];
   last_task?: string;
   result?: string;
+  results?: string[];
   completed_tasks?: string[];
   analysis?: Analysis;
   tool_names?: string[];

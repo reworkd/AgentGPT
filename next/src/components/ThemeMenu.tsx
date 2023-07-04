@@ -1,7 +1,6 @@
 import { useTheme } from "../hooks/useTheme";
-import { Theme } from "../types";
-import { FaAdjust, FaMoon } from "react-icons/fa";
-import { CgSun } from "react-icons/cg";
+import type { Theme } from "../types";
+import { FaAdjust, FaMoon, FaSun } from "react-icons/fa";
 import WindowButton from "./WindowButton";
 import React from "react";
 import Menu from "./Menu";
@@ -14,7 +13,7 @@ export const ThemeMenu = () => {
       case "dark":
         return <FaMoon />;
       case "light":
-        return <CgSun />;
+        return <FaSun />;
       case "system":
         return <FaAdjust />;
     }

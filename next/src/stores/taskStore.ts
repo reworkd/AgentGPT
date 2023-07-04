@@ -34,19 +34,11 @@ export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set)
       }));
     },
     updateTask: (updatedTask) => {
-      const { taskId, info, status: newStatus } = updatedTask;
-
-      if (!isExistingTask(updatedTask) || taskId === undefined) {
-        return;
-      }
-
       set((state) => {
         const updatedTasks = state.tasks.map((task) => {
-          if (task.taskId === taskId) {
+          if (task.id === updatedTask.id && task.taskId == updatedTask.taskId) {
             return {
-              ...task,
-              status: newStatus,
-              info,
+              ...updatedTask,
             };
           }
           return task;

@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useThemeStore } from "../stores";
+import type { Theme } from "../types";
 
-export const handleTheme = (theme) => {
+export const handleTheme = (theme: Theme) => {
   if (typeof document === "undefined" || typeof window === "undefined") {
     return;
   }
@@ -21,23 +22,27 @@ export const handleTheme = (theme) => {
 };
 
 export const useTheme = () => {
+  const [_theme, _setTheme] = useState<Theme>("dark");
   const theme = useThemeStore.use.theme();
   const setTheme = useThemeStore.use.setTheme();
-  const handleSetTheme = (theme) => {
+
+  const handleSetTheme = (theme: Theme) => {
+    _setTheme(theme);
     setTheme(theme);
     handleTheme(theme);
   };
 
   useEffect(() => {
+    handleSetTheme(theme);
     const prefersDark = window.matchMedia(`(prefers-color-scheme: dark)`);
 
     prefersDark.addEventListener("change", () => {
-      handleTheme(theme);
+      handleSetTheme(theme);
     });
-  }, []);
+  });
 
   return {
-    theme,
+    theme: _theme,
     setTheme: handleSetTheme,
   };
 };

@@ -15,7 +15,7 @@ import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
-import SidebarLayout from "../layout/sidebar";
+import DashboardLayout from "../layout/dashboard";
 import AppTitle from "../components/AppTitle";
 import FadeIn from "../components/motions/FadeIn";
 import Input from "../components/Input";
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
   };
 
   const disableStartAgent =
-    (agent !== null && agentLifecycle !== "paused") ||
+    (agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
     isEmptyOrBlank(nameInput) ||
     isEmptyOrBlank(goalInput);
 
@@ -102,7 +102,6 @@ const Home: NextPage = () => {
     const newAgent = new AutonomousAgent(
       model,
       messageService,
-      () => setAgent(null),
       settings,
       agentApi,
       session ?? undefined
@@ -132,7 +131,7 @@ const Home: NextPage = () => {
     status === "authenticated" && agentLifecycle === "stopped" && messages.length && !hasSaved;
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
@@ -184,7 +183,6 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              scrollToBottom
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
             />
@@ -283,7 +281,7 @@ const Home: NextPage = () => {
           </FadeIn>
         </div>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

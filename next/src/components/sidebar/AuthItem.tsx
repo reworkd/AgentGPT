@@ -22,7 +22,7 @@ const AuthItem: FC<{
     <div className="flex items-center justify-between">
       <div
         className={clsx(
-          "text-color-primary mt-2 flex items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold",
+          "text-color-primary flex flex-1 items-center justify-start gap-3 rounded-md px-2 py-2 text-sm font-semibold",
           "hover:background-color-2 cursor-pointer",
           classname
         )}
@@ -31,10 +31,14 @@ const AuthItem: FC<{
         }}
       >
         {user && (
-          <img className="h-8 w-8 rounded-full bg-neutral-800" src={get_avatar(user)} alt="" />
+          <img
+            className="h-8 w-8 rounded-full bg-neutral-800"
+            src={get_avatar(user)}
+            alt="user avatar"
+          />
         )}
         {!user && (
-          <h1 className="ml-2 flex flex-grow items-center gap-2 text-center">
+          <h1 className="ml-2 flex h-8 w-8 flex-grow items-center gap-2 text-center">
             <FaSignInAlt />
             {t("SIGN_IN")}
           </h1>
@@ -76,7 +80,7 @@ const AuthItem: FC<{
           <p className="text-sm text-gray-500">Email: {user?.email}</p>
         </Dialog>
       </div>
-      <div className="mt-2">
+      <div className="ml-2 mt-2">
         <ThemeMenu />
       </div>
     </div>

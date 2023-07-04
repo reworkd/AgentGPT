@@ -29,10 +29,10 @@ body {
     background: linear-gradient(
             to right,
             transparent,
-            hsla(240, 2%, 57%, 0.1),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.2),
-            hsla(240, 2%, 57%, 0.1),
+            hsla(0, 0%, 0%, 0.1),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(0, 0%, 0%, 0.2),
+            hsla(20, 0%, 0%, 0.1),
             transparent
     );
 }
@@ -129,6 +129,10 @@ tr:nth-child(even) {
         @apply dark:bg-shade-800-dark bg-blue-base-light
     }
 
+    .background-color-7 {
+        @apply dark:bg-shade-500-dark bg-shade-800-light;
+    }
+
     .background-blue-base {
       @apply bg-blue-base-light dark:bg-blue-base-dark
     }
@@ -171,7 +175,7 @@ tr:nth-child(even) {
     }
 
     .border-focusVisible-1 {
-        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2;
+        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2 focus-visible:ring-offset-0;
     }
 
     .border-focusVisible-1[type=range] {
@@ -233,7 +237,7 @@ tr:nth-child(even) {
     }
 
     .neutral-button-primary {
-        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-600-light dark:hover:bg-shade-300-dark;
+        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
     }
 
     .button-disabled {
@@ -265,7 +269,7 @@ input[type=range]::-ms-track {
 }
 
 input[type=range] {
-    @apply background-color-4 rounded-md;
+    @apply background-color-7 rounded-md;
     height: 0.5rem;
 }
 
@@ -307,3 +311,19 @@ Not supports in Firefox and IE */
         opacity: 0;
     }
 }
+
+@keyframes border-pulse-animation {
+    0% {
+      border-color: rgba(216, 180, 254, 0.3);
+    }
+    50% {
+      border-color: rgba(216, 180, 254, 0.4);
+    }
+    100% {
+      border-color: rgba(216, 180, 254, 0.3);
+    }
+  }
+
+  .animate-border-pulse {
+    animation: border-pulse-animation 2s infinite;
+  }

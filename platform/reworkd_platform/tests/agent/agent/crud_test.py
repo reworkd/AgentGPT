@@ -4,7 +4,7 @@ import pytest
 from fastapi import HTTPException
 from pytest_mock import MockerFixture
 
-from reworkd_platform.db.crud import AgentCRUD
+from reworkd_platform.db.crud.agent import AgentCRUD
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.errors import MaxLoopsError, MultipleSummaryError
 

@@ -90,7 +90,7 @@ async def summarize(
 ) -> FastAPIStreamingResponse:
     return await agent_service.summarize_task_agent(
         goal=req_body.goal or "",
-        results=req_body.results or "",
+        results=req_body.results,
     )
 
 

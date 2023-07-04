@@ -13,7 +13,6 @@ import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
 import { ImSpinner2 } from "react-icons/im";
 import Button from "../Button";
 import { useTaskStore } from "../../stores/taskStore";
-import ExampleAgents from "./ExampleAgents";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -60,7 +59,7 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent h-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
+        "border-translucent h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
@@ -92,7 +91,6 @@ const ChatWindow = ({
           );
         })}
         {children}
-        {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun} />}
         <Summarize />
         <div
           className={clsx(

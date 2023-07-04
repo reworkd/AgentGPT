@@ -33,6 +33,7 @@ import { resetAllTaskSlices } from "../stores/taskStore";
 import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 import { AgentApi } from "../services/agent/agent-api";
 import { toApiModelSettings } from "../utils/interfaces";
+import ExampleAgents from "../components/console/ExampleAgents";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -185,7 +186,9 @@ const Home: NextPage = () => {
               title={<ChatWindowTitle model={settings.customModelName} />}
               setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
-            />
+            >
+              {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun} />}
+            </ChatWindow>
             <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
           </Expand>
 

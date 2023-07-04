@@ -216,6 +216,10 @@ tr:nth-child(even) {
         @apply bg-white dark:bg-white hover:bg-shade-500-light dark:hover:bg-shade-200-dark border-2 border-blue-base-light dark:border-blue-base-dark text-blue-base-light dark:text-blue-base-dark hover:text-blue-hover-light dark:hover:text-blue-hover-dark hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus-visible:outline-blue-focusVisible-light dark:focus-visible:outline-blue-focusVisible-dark;
     }
 
+    .blue-button-gradient {
+      @apply border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600 border-2
+    }
+
     .green-button-primary {
       @apply bg-green-base-light dark:bg-green-base-dark text-shade-100-dark hover:bg-green-hover-light dark:hover:bg-green-hover-dark focus-visible:outline-green-focusVisible-light dark:focus-visible:outline-green-focusVisible-dark;
     }

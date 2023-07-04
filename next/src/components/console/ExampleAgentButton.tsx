@@ -19,9 +19,8 @@ export const ExampleAgentButton = ({
   return (
     <div
       className={clsx(
-        `w-full p-3 sm:w-[33%]`,
-        `border-color-3 cursor-pointer rounded-lg border-2 font-mono text-sm sm:text-base`,
-        `blue-button-primary transition-all`
+        `w-full p-2 sm:w-[33%]`,
+        `blue-button-gradient cursor-pointer rounded-lg font-mono text-sm sm:text-base`
       )}
       onClick={handleClick}
     >

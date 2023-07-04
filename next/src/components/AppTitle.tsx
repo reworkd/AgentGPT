@@ -16,7 +16,7 @@ const AppTitle = () => {
           GPT
         </span>
         <PopIn delay={0.5}>
-          <Badge colorClass="background-blue-base border-2 border-color-3">
+          <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
             {i18n?.t("BETA", {
               ns: "indexPage",
             })}

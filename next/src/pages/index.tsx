@@ -222,7 +222,11 @@ const Home: NextPage = () => {
                       placeholder="AgentGPT"
                       type="text"
                     />
-                    <Button ping onClick={() => setShowToolsDialog(true)}>
+                    <Button
+                      ping
+                      onClick={() => setShowToolsDialog(true)}
+                      className="blue-button-gradient"
+                    >
                       <p className="mr-3">Tools</p>
                       <FaCog />
                     </Button>

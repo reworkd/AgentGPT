@@ -110,9 +110,9 @@ const SettingsPage = () => {
                   onClick={validateApiKey}
                   className={clsx(
                     "transition-400 h-10 w-10 flex-1 rounded px-2 py-2 text-sm text-white duration-200",
-                    isApiKeyValid === undefined && "bg-gray-500 hover:bg-gray-700",
-                    isApiKeyValid === true && "bg-green-500 hover:bg-green-700",
-                    isApiKeyValid === false && "bg-red-500 hover:bg-red-700"
+                    isApiKeyValid === undefined && "blue-button-primary",
+                    isApiKeyValid === true && "green-button-primary",
+                    isApiKeyValid === false && "red-button-primary"
                   )}
                 >
                   {isApiKeyValid === undefined && "Test"}

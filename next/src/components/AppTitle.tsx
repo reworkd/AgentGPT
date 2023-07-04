@@ -9,8 +9,12 @@ const AppTitle = () => {
   return (
     <div id="title" className="relative flex flex-col items-center font-mono">
       <div className="flex flex-row items-start">
-        <span className="text-4xl font-bold text-[#C0C0C0] xs:text-5xl sm:text-6xl">Agent</span>
-        <span className="text-4xl font-bold text-white xs:text-5xl sm:text-6xl">GPT</span>
+        <span className="text-4xl font-bold text-shade-100-light dark:text-shade-200-dark xs:text-5xl sm:text-6xl">
+          Agent
+        </span>
+        <span className="text-4xl font-bold text-shade-200-light dark:text-shade-100-dark xs:text-5xl sm:text-6xl">
+          GPT
+        </span>
         <PopIn delay={0.5}>
           <Badge colorClass="bg-gradient-to-t from-sky-500 to-sky-600 border-2 border-white/20">
             {i18n?.t("BETA", {

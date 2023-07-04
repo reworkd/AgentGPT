@@ -61,7 +61,7 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent h-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
+        "border-translucent background-color-1 border-style-1 h-full max-w-[inherit] flex-1 flex-col overflow-auto text-white transition-all duration-500",
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
@@ -124,8 +124,8 @@ const ChatWindow = ({
         <div
           className={clsx(
             isThinking && !isStopped ? "opacity-100" : "opacity-0",
-            "mx-2 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300 sm:mx-4",
-            "text-xs sm:text-base"
+            "border-color-1 mx-2 flex flex-row items-center gap-2 rounded-lg border p-2 font-mono transition duration-300 hover:border-shade-400-light sm:mx-4",
+            "text-color-primary text-xs sm:text-base"
           )}
         >
           <p>🧠 Thinking</p>

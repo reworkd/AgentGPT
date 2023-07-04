@@ -34,14 +34,14 @@ const ChatMessage = ({ message }: { message: Message }) => {
     <div
       className={clsx(
         getMessageContainerStyle(message),
-        "mx-2 my-1 rounded-lg border bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
+        "background-color-4 text-color-primary mx-2 my-1 rounded-lg p-2 font-mono text-xs sm:mx-4 sm:p-3",
         "sm:my-1.5 sm:text-sm"
       )}
     >
       {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-          <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+          <span className="text-color-primary mr-2 font-bold">{getMessagePrefix(message)}</span>
         </>
       )}
 
@@ -51,14 +51,14 @@ const ChatMessage = ({ message }: { message: Message }) => {
             <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
             <span className="mr-2 flex-1 font-bold">{getMessagePrefix(message)}</span>
             <Button
-              className="justify-end text-zinc-400 hover:text-white"
+              className="hover:text-color-primary text-color-secondary justify-end"
               onClick={handleCopy}
               aria-label="Copy"
             >
               <div className="w-full">{isCopied ? <FaCheck /> : <FiClipboard size={15} />}</div>
             </Button>
           </div>
-          <hr className="my-2 border border-white/20" />
+          <hr className="border-style-1 my-2" />
           <div className="prose">
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>

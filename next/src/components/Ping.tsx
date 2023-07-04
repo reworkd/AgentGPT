@@ -2,8 +2,14 @@ import React from "react";
 
 const Ping = ({ color }: { color: "blue" | "white" }) => {
   const colorClasses = {
-    primary: color == "blue" ? "bg-sky-400" : "bg-white",
-    secondary: color == "blue" ? "bg-sky-400" : "bg-white",
+    primary:
+      color == "blue"
+        ? "dark:bg-blue-base-dark bg-blue-base-light"
+        : "bg-shade-500-light dark:bg-shade-100-dark",
+    secondary:
+      color == "blue"
+        ? "dark:bg-blue-base-dark bg-blue-base-light"
+        : "bg-shade-500-light dark:bg-shade-100-dark",
   };
 
   return (

@@ -21,20 +21,20 @@ export const getMessageContainerStyle = (message: Message) => {
   if (!isTask(message)) {
     switch (message.type) {
       case "error":
-        return "border-yellow-400 hover:border-yellow-300 transition-colors";
+        return "border-color-warn border-hover-warn border-2 transition-colors";
       default:
-        return "border-white/10 hover:border-white/40";
+        return "border-color-1 border hover:border-shade-400-light dark:hover:border-shade-200-dark";
     }
   }
 
   switch (message.status) {
     case TASK_STATUS_STARTED:
-      return "border-white/20 hover:border-white/40";
+      return "border-color-1 border hover:border-shade-400-light dark:hover:border-shade-200-dark";
     case TASK_STATUS_EXECUTING:
-      return "border-white/20 hover:border-white/40";
+      return "border-color-1 border hover:border-shade-400-light dark:hover:border-shade-200-dark";
     case TASK_STATUS_COMPLETED:
     case TASK_STATUS_FINAL:
-      return "border-green-500 hover:border-green-400";
+      return "border-color-success border-hover-success border";
     default:
       return "";
   }
@@ -66,8 +66,6 @@ export const getTaskStatusIcon = (
     getTaskStatus(message) === TASK_STATUS_COMPLETED ||
     getTaskStatus(message) === TASK_STATUS_FINAL
   ) {
-    return (
-      <FaCheckCircle className={`${taskStatusIconClass} text-green-500 hover:text-green-400`} />
-    );
+    return <FaCheckCircle className={`${taskStatusIconClass} text-color-green text-hover-green`} />;
   }
 };

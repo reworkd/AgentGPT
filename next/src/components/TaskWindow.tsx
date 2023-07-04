@@ -38,18 +38,18 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   return (
     <Expand
       className={clsx(
-        "h-full flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 font-mono shadow-2xl",
+        "background-color-1 border-color-1 h-full flex-col items-center rounded-2xl border-2 font-mono shadow-2xl",
         "w-full xl:ml-2 xl:flex xl:w-64 xl:px-1",
         !visibleOnMobile && "hidden"
       )}
     >
-      <div className="sticky top-0 my-1 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-100 ">
+      <div className="background-color-1 text-color-primary sticky top-0 my-1 flex items-center justify-center gap-2 p-2">
         <FaListAlt /> {t("Current tasks")}
       </div>
       <div className="flex h-full w-full flex-col gap-1 overflow-auto p-1">
         <div className="flex h-full w-full flex-col gap-2 overflow-auto pr-1">
           {tasks.length == 0 && (
-            <p className="w-full p-2 text-center text-xs text-gray-300">
+            <p className="text-color-secondary w-full p-2 text-center text-xs">
               This window will display agent tasks as they are created.
             </p>
           )}
@@ -94,7 +94,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
     <FadeIn>
       <div
         className={clsx(
-          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+          "text-color-primary w-full animate-[rotate] rounded-md border-2 p-2 text-xs",
           isAgentStopped && "opacity-50",
           getMessageContainerStyle(task)
         )}

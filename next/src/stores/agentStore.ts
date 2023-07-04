@@ -17,7 +17,7 @@ interface AgentSlice {
 
 const initialAgentState = {
   agent: null,
-  lifecycle: "stopped" as const,
+  lifecycle: "offline" as const,
   isAgentThinking: false,
   isAgentPaused: undefined,
 };

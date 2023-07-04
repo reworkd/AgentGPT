@@ -2,8 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Button from "../components/Button";
-import { FaCog, FaPause, FaPlay, FaRobot, FaStar, FaStop } from "react-icons/fa";
-import { ImSpinner2 } from "react-icons/im";
+import { FaCog, FaRobot, FaStar } from "react-icons/fa";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
@@ -35,6 +34,7 @@ import { AgentApi } from "../services/agent/agent-api";
 import { toApiModelSettings } from "../utils/interfaces";
 import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
+import AgentControls from "../components/console/AgentControls";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -58,7 +58,6 @@ const Home: NextPage = () => {
 
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
-  const [hasSaved, setHasSaved] = React.useState(false);
   const agentUtils = useAgent();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -78,10 +77,12 @@ const Home: NextPage = () => {
     isEmptyOrBlank(goalInput);
 
   const handlePlay = (name: string, goal: string) => {
-    if (name.trim() === "" || goal.trim() === "") {
-      return;
-    }
+    if (agentLifecycle === "stopped") handleRestart();
+    else if (name.trim() === "" || goal.trim() === "") return;
+    else handleNewAgent(name.trim(), goal.trim());
+  };
 
+  const handleNewAgent = (name: string, goal: string) => {
     if (session === null) {
       setShowSignInDialog(true);
       return;
@@ -96,8 +97,8 @@ const Home: NextPage = () => {
     const messageService = new MessageService(addMessage);
     const agentApi = new AgentApi({
       model_settings: toApiModelSettings(settings, session),
-      name: name.trim(),
-      goal: goal.trim(),
+      name: name,
+      goal: goal,
       session,
       agentUtils: agentUtils,
     });
@@ -109,10 +110,13 @@ const Home: NextPage = () => {
       session ?? undefined
     );
     setAgent(newAgent);
-    setHasSaved(false);
+    newAgent?.run().then(console.log).catch(console.error);
+  };
+
+  const handleRestart = () => {
     resetAllMessageSlices();
     resetAllTaskSlices();
-    newAgent?.run().then(console.log).catch(console.error);
+    setAgent(null);
   };
 
   const handleKeyPress = (
@@ -128,9 +132,6 @@ const Home: NextPage = () => {
     // This controls whether the ChatWindow or TaskWindow is visible on mobile
     setMobileVisibleWindow(visibleWindow);
   };
-
-  const shouldShowSave =
-    status === "authenticated" && agentLifecycle === "stopped" && messages.length && !hasSaved;
 
   return (
     <DashboardLayout>
@@ -251,38 +252,13 @@ const Home: NextPage = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-
-            <div className="flex gap-2">
-              <Button
-                ping={!disableStartAgent}
-                disabled={disableStartAgent}
-                onClick={() => handlePlay(nameInput, goalInput)}
-              >
-                {agentLifecycle === "running" ? (
-                  <ImSpinner2 className="animate-spin" />
-                ) : (
-                  <FaPlay />
-                )}
-              </Button>
-              <Button
-                disabled={agent === null || agentLifecycle !== "running"}
-                onClick={() => agent?.pauseAgent()}
-                enabledClassName={clsx("bg-yellow-600 hover:bg-yellow-400")}
-              >
-                {agentLifecycle === "pausing" ? (
-                  <ImSpinner2 className="animate-spin" />
-                ) : (
-                  <FaPause />
-                )}
-              </Button>
-              <Button
-                disabled={agent === null || agentLifecycle == "stopped"}
-                onClick={() => agent?.stopAgent()}
-                enabledClassName={clsx("bg-red-600 hover:bg-red-400")}
-              >
-                <FaStop />
-              </Button>
-            </div>
+            <AgentControls
+              disablePlay={disableStartAgent}
+              lifecycle={agentLifecycle}
+              handlePlay={() => handlePlay(nameInput, goalInput)}
+              handlePause={() => agent?.pauseAgent()}
+              handleStop={() => agent?.stopAgent()}
+            />
           </FadeIn>
         </div>
       </div>

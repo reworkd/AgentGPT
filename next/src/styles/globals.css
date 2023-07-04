@@ -129,6 +129,10 @@ tr:nth-child(even) {
         @apply dark:bg-shade-800-dark bg-blue-base-light
     }
 
+    .background-color-7 {
+        @apply dark:bg-shade-500-dark bg-shade-800-light;
+    }
+
     /* border styles */
     .border-color-1 {
         @apply dark:border-shade-400-dark border-shade-600-light
@@ -163,7 +167,7 @@ tr:nth-child(even) {
     }
 
     .border-focusVisible-1 {
-        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2;
+        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2 focus-visible:ring-offset-0;
     }
 
     .border-focusVisible-1[type=range] {
@@ -245,7 +249,7 @@ input[type=range]::-ms-track {
 }
 
 input[type=range] {
-    @apply background-color-4 rounded-md;
+    @apply background-color-7 rounded-md;
     height: 0.5rem;
 }
 
@@ -290,7 +294,7 @@ Not supports in Firefox and IE */
       border-color: rgba(216, 180, 254, 0.3);
     }
   }
-  
+
   .animate-border-pulse {
     animation: border-pulse-animation 2s infinite;
   }

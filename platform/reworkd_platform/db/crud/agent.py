@@ -1,10 +1,10 @@
 from fastapi import HTTPException
-from sqlalchemy import select, func, and_
+from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
 from reworkd_platform.db.models.agent import AgentRun, AgentTask
-from reworkd_platform.schemas import UserBase, Loop_Step
+from reworkd_platform.schemas import Loop_Step, UserBase
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.errors import MaxLoopsError, MultipleSummaryError
 

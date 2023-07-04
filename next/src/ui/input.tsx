@@ -20,9 +20,7 @@ const Input = (props: Props) => {
         <span>{props.label}</span>
 
         {props.type == "range" && (
-          <span className="text-color-secondary text-xs font-extralight lg:text-sm">
-            ({props.value})
-          </span>
+          <span className="text-color-primary text-xs font-medium lg:text-sm">({props.value})</span>
         )}
       </label>
       <div className="relative flex flex-col gap-1 rounded-md shadow-sm">
@@ -38,7 +36,7 @@ const Input = (props: Props) => {
           type={props.type}
           name={props.name}
           id={props.name}
-          className="text-color-primary background-color-4 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm dark:border-transparent sm:text-sm sm:leading-6"
+          className="text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm dark:border-transparent sm:text-sm sm:leading-6"
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}

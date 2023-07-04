@@ -32,7 +32,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
-          className="background-color-4 text-color-primary border-style-1 border-focusVisible-1 w-full rounded-md py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6"
+          className="background-color-7 text-color-primary border-style-1 border-focusVisible-1 w-full rounded-md py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(e) => props.valueMapper(e as T)}
         />
@@ -41,7 +41,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
         </Combobox.Button>
 
         {filtered.length > 0 && (
-          <Combobox.Options className="background-color-4 text-color-primary absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Combobox.Options className="background-color-7 text-color-primary absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {filtered.map((e, i) => (
               <Combobox.Option
                 key={i}

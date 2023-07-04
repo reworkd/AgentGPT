@@ -82,7 +82,7 @@ const Input = (props: InputProps) => {
           container: "relative w-full",
           options:
             "absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-auto border-color-1 rounded-xl border-2 background-color-5 tracking-wider shadow-xl outline-0 transition-all",
-          input: `border:black delay-50 sm: flex w-full items-center justify-between border-color-1 rounded-xl border-2 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all border-focusVisible-1 sm:py-3 text-color-primary md:text-lg ${
+          input: `border:black delay-50 sm: flex w-full items-center justify-between border-color-1 rounded-xl border-2 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all border-focusVisible-1 border-hover-1 sm:py-3 text-color-primary md:text-lg ${
             disabled ? "cursor-not-allowed" : ""
           } ${left ? "md:rounded-l-none" : ""}`,
           option:
@@ -94,7 +94,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "border:black delay-50 h-15 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 w-full resize-none rounded-xl rounded-xl border-2 p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
+          "border:black delay-50 h-15 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full resize-none rounded-xl border-2 p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none"
         )}
@@ -110,7 +110,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <div
         className={clsx(
-          "border-focusVisible-1 flex w-full flex-row items-center overflow-clip",
+          "border-focusVisible-1 border-hover-1 flex w-full flex-row items-center overflow-clip",
           disabled && " hover:border-color-1 cursor-not-allowed hover:rounded-xl hover:border-2",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"
@@ -141,7 +141,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <input
         className={clsx(
-          "delay-50 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 w-full rounded-xl border-2 py-1 text-sm tracking-wider outline-0 transition-all sm:py-3 md:text-lg",
+          "delay-50 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full rounded-xl border-2 py-1 text-sm tracking-wider outline-0 transition-all sm:py-3 md:text-lg",
           !isTypeRange() && "border-color-1 rounded-xl border-2 px-2",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",

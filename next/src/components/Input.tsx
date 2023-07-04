@@ -1,8 +1,6 @@
 import React from "react";
 import Label from "./Label";
 import clsx from "clsx";
-import Combobox from "./Combobox";
-import { isArrayOfType } from "../utils/helpers";
 import type { toolTipProperties } from "../types";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
@@ -43,10 +41,6 @@ const Input = (props: InputProps) => {
   } = props;
   const [isHidden, setIsHidden] = React.useState(false);
 
-  const isTypeCombobox = () => {
-    return type === "combobox";
-  };
-
   const isTypeRange = () => {
     return type === "range";
   };
@@ -64,33 +58,8 @@ const Input = (props: InputProps) => {
   };
 
   let inputElement;
-  const options = attributes?.options;
 
-  if (
-    isTypeCombobox() &&
-    isArrayOfType(options, "string") &&
-    setValue !== undefined &&
-    typeof value === "string"
-  ) {
-    inputElement = (
-      <Combobox
-        value={value}
-        options={options}
-        disabled={disabled}
-        onChange={setValue}
-        styleClass={{
-          container: "relative w-full",
-          options:
-            "absolute right-0 top-full z-20 mt-1 max-h-48 w-full overflow-auto border-color-1 rounded-xl border-2 background-color-5 tracking-wider shadow-xl outline-0 transition-all",
-          input: `border:black delay-50 sm: flex w-full items-center justify-between border-color-1 rounded-xl border-2 bg-transparent px-2 py-2 text-sm tracking-wider outline-0 transition-all border-focusVisible-1 border-hover-1 sm:py-3 text-color-primary md:text-lg ${
-            disabled ? "cursor-not-allowed" : ""
-          } ${left ? "md:rounded-l-none" : ""}`,
-          option:
-            "cursor-pointer px-2 py-2 font-mono text-sm text-color-primary hover:bg-blue-500 sm:py-3 md:text-lg",
-        }}
-      />
-    );
-  } else if (isTypeTextArea()) {
+  if (isTypeTextArea()) {
     inputElement = (
       <textarea
         className={clsx(
@@ -162,8 +131,8 @@ const Input = (props: InputProps) => {
   return (
     <div
       className={clsx(
-        `items-left z-5 text-color-primary flex h-fit w-full flex-col rounded-xl font-mono text-lg md:flex-row md:items-center`,
-        `md:flex-row md:items-center`
+        "items-left z-5 text-color-primary flex h-fit w-full flex-col rounded-xl font-mono text-lg md:flex-row md:items-center",
+        "md:flex-row md:items-center"
       )}
     >
       {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}

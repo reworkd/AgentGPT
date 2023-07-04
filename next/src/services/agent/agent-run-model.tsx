@@ -29,8 +29,8 @@ export interface AgentRunModel {
 
   addTask(taskValue: string): void;
 }
-
-export type AgentLifecycle = "running" | "pausing" | "paused" | "stopped";
+ 
+export type AgentLifecycle = "offline" | "running" | "pausing" | "paused" | "stopped";
 
 export class DefaultAgentRunModel implements AgentRunModel {
   id: string;

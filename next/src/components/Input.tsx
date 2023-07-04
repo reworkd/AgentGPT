@@ -2,7 +2,6 @@ import React from "react";
 import Label from "./Label";
 import clsx from "clsx";
 import type { toolTipProperties } from "../types";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 interface InputProps {
   small?: boolean; // Will lower padding and font size. Currently only works for the default input
@@ -41,20 +40,8 @@ const Input = (props: InputProps) => {
   } = props;
   const [isHidden, setIsHidden] = React.useState(false);
 
-  const isTypeRange = () => {
-    return type === "range";
-  };
-
   const isTypeTextArea = () => {
     return type === "textarea";
-  };
-
-  const isTypePassword = () => {
-    return type === "password";
-  };
-
-  const handleApiKeyToggle = (e) => {
-    setIsHidden(!isHidden);
   };
 
   let inputElement;
@@ -65,7 +52,8 @@ const Input = (props: InputProps) => {
         className={clsx(
           "border:black delay-50 h-15 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full resize-none rounded-xl border-2 p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
           disabled && "cursor-not-allowed",
-          left && "md:rounded-l-none"
+          left && "md:rounded-l-none",
+          small && "text-sm sm:py-[0]"
         )}
         placeholder={placeholder}
         value={value}
@@ -75,43 +63,11 @@ const Input = (props: InputProps) => {
         {...attributes}
       />
     );
-  } else if (isTypePassword()) {
-    inputElement = (
-      <div
-        className={clsx(
-          "border-focusVisible-1 border-hover-1 flex w-full flex-row items-center overflow-clip",
-          disabled && " hover:border-color-1 cursor-not-allowed hover:rounded-xl hover:border-2",
-          left && "md:rounded-l-none",
-          small && "text-sm sm:py-[0]"
-        )}
-      >
-        <input
-          className={clsx(
-            "delay-50 placeholder:text-color-tertiary text-color-primary border-color-1 w-full flex-grow overflow-ellipsis rounded-xl  border-2 bg-transparent py-1 text-sm tracking-wider outline-0  transition-all sm:py-3 md:text-lg"
-          )}
-          ref={inputRef}
-          placeholder={placeholder}
-          type={isHidden ? "text" : "password"}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-          onKeyDown={onKeyDown}
-          {...attributes}
-        />
-        <div
-          className="flex-none cursor-pointer rounded-full p-2 hover:bg-white/20"
-          onClick={(e) => handleApiKeyToggle(e)}
-        >
-          {isHidden ? <FaRegEye /> : <FaRegEyeSlash />}
-        </div>
-      </div>
-    );
   } else {
     inputElement = (
       <input
         className={clsx(
           "delay-50 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full rounded-xl border-2 py-1 text-sm tracking-wider outline-0 transition-all sm:py-3 md:text-lg",
-          !isTypeRange() && "border-color-1 rounded-xl border-2 px-2",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"
@@ -137,9 +93,6 @@ const Input = (props: InputProps) => {
     >
       {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}
       {inputElement}
-      {isTypeRange() && (
-        <p className="m-auto mx-4 w-1/6 px-0 text-center text-sm md:text-lg">{value}</p>
-      )}
     </div>
   );
 };

@@ -7,14 +7,10 @@ import clsx from "clsx";
 import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
-import { ExampleAgentButton } from "./ExampleAgentButton";
 import { FaArrowCircleDown } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
 import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
-import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import { ImSpinner2 } from "react-icons/im";
-import Button from "../Button";
-import { useTaskStore } from "../../stores/taskStore";
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
@@ -61,7 +57,7 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent h-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
+        "border-translucent h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
         visibleOnMobile ? "flex" : "hidden xl:flex"
       )}
     >
@@ -93,34 +89,6 @@ const ChatWindow = ({
           );
         })}
         {children}
-
-        {messages.length === 0 && (
-          <>
-            <FadeIn delay={0.8} duration={0.5}>
-              <ChatMessage
-                message={{
-                  type: MESSAGE_TYPE_SYSTEM,
-                  value:
-                    "👉 Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
-                }}
-              />
-            </FadeIn>
-            <FadeIn delay={0.9} duration={0.5}>
-              <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
-                <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
-                  Write some code to make a platformer game.
-                </ExampleAgentButton>
-                <ExampleAgentButton name="TravelGPT 🌴" setAgentRun={setAgentRun}>
-                  Plan a detailed trip to Hawaii.
-                </ExampleAgentButton>
-                <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
-                  Create a comprehensive report of the Nike company
-                </ExampleAgentButton>
-              </div>
-            </FadeIn>
-          </>
-        )}
-        <Summarize />
         <div
           className={clsx(
             isThinking && !isStopped ? "opacity-100" : "opacity-0",
@@ -132,43 +100,6 @@ const ChatWindow = ({
           <ImSpinner2 className="animate-spin" />
         </div>
       </div>
-    </div>
-  );
-};
-
-const Summarize = () => {
-  const agent = useAgentStore.use.agent();
-  const lifecycle = useAgentStore.use.lifecycle();
-  const tasksWithResults = useTaskStore.use
-    .tasks()
-    .filter((task) => task.status == "completed" && task.result !== "");
-  const [summarized, setSummarized] = useState(false);
-
-  // Reset the summarized state when the agent changes
-  useEffect(() => {
-    setSummarized(false);
-  }, [agent]);
-
-  if (!agent || lifecycle !== "stopped" || tasksWithResults.length < 1 || summarized) return null;
-
-  return (
-    <div
-      className={clsx(
-        "mx-2 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300 sm:mx-4",
-        "text-xs sm:text-base"
-      )}
-    >
-      <span className="md:hidden">Test</span>
-      <span className="hidden md:inline">Click here to summarize the conversation!</span>
-      <Button
-        className="ml-auto py-1  sm:py-1  md:py-1"
-        onClick={async () => {
-          setSummarized(true);
-          await agent?.summarize();
-        }}
-      >
-        Summarize
-      </Button>
     </div>
   );
 };

@@ -54,31 +54,7 @@ class AutonomousAgent {
 
       // Get and run the next work item
       const work = this.workLog[0];
-      const RETRY_TIMEOUT = 2000;
-
-      await withRetries(
-        async () => {
-          if (this.model.getLifecycle() === "stopped") return;
-          await work.run();
-        },
-        async (e) => {
-          const shouldRetry = work.onError?.(e) || true;
-
-          if (!isRetryableError(e)) {
-            this.stopAgent();
-            return false;
-          }
-
-          if (shouldRetry) {
-            // Wait a bit before retrying
-            useAgentStore.getState().setIsAgentThinking(true);
-            await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
-          }
-
-          return shouldRetry;
-        }
-      );
-      useAgentStore.getState().setIsAgentThinking(false);
+      await this.runWork(work);
 
       this.workLog.shift();
       if (this.model.getLifecycle() !== "running") {
@@ -104,6 +80,37 @@ class AutonomousAgent {
     this.stopAgent();
   }
 
+  /*
+   * Runs a provided work object with error handling and retries
+   */
+  private async runWork(work: AgentWork) {
+    const RETRY_TIMEOUT = 2000;
+
+    await withRetries(
+      async () => {
+        if (this.model.getLifecycle() === "stopped") return;
+        await work.run();
+      },
+      async (e) => {
+        const shouldRetry = work.onError?.(e) || true;
+
+        if (!isRetryableError(e)) {
+          this.stopAgent();
+          return false;
+        }
+
+        if (shouldRetry) {
+          // Wait a bit before retrying
+          useAgentStore.getState().setIsAgentThinking(true);
+          await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
+        }
+
+        return shouldRetry;
+      }
+    );
+    useAgentStore.getState().setIsAgentThinking(false);
+  }
+
   addTasksIfWorklogEmpty = () => {
     if (this.workLog.length > 0) return;
 
@@ -124,20 +131,11 @@ class AutonomousAgent {
   }
 
   async summarize() {
-    // Empty worklog
-    this.workLog.length = 0;
-    this.lastConclusion = undefined;
-
-    // Update all tasks to completed
-    let task = this.model.getCurrentTask();
-    while (task) {
-      this.model.updateTaskStatus(task, "completed");
-      task = this.model.getCurrentTask();
-    }
-
-    // Add summary work and run
-    this.workLog.push(new SummarizeWork(this));
-    return await this.run();
+    this.model.setLifecycle("running");
+    const summarizeWork = new SummarizeWork(this);
+    await this.runWork(summarizeWork);
+    await summarizeWork.conclude();
+    this.model.setLifecycle("stopped");
   }
 
   async createTaskMessages(tasks: string[]) {

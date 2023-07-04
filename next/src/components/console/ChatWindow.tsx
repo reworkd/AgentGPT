@@ -149,8 +149,6 @@ const Summarize = () => {
     setSummarized(false);
   }, [agent]);
 
-  console.log(tasksWithResults);
-
   if (!agent || lifecycle !== "stopped" || tasksWithResults.length < 1 || summarized) return null;
 
   return (

@@ -40,6 +40,7 @@ export default class SummarizeWork implements AgentWork {
       },
       () => this.parent.model.getLifecycle() === "stopped"
     );
+    this.parent.api.saveMessages([executionMessage]);
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await

@@ -4,6 +4,7 @@ import clsx from "clsx";
 import type { toolTipProperties } from "../types";
 
 interface InputProps {
+  small?: boolean; // Will lower padding and font size. Currently only works for the default input
   left?: React.ReactNode;
   value: string | number | undefined;
   onChange: (
@@ -24,6 +25,7 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const {
+    small,
     placeholder,
     left,
     value,
@@ -50,7 +52,8 @@ const Input = (props: InputProps) => {
         className={clsx(
           "border:black delay-50 h-15 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full resize-none rounded-xl border-2 p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
           disabled && "cursor-not-allowed",
-          left && "md:rounded-l-none"
+          left && "md:rounded-l-none",
+          small && "text-sm sm:py-[0]"
         )}
         placeholder={placeholder}
         value={value}
@@ -66,7 +69,8 @@ const Input = (props: InputProps) => {
         className={clsx(
           "delay-50 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full rounded-xl border-2 py-1 text-sm tracking-wider outline-0 transition-all sm:py-3 md:text-lg",
           disabled && "cursor-not-allowed",
-          left && "md:rounded-l-none"
+          left && "md:rounded-l-none",
+          small && "text-sm sm:py-[0]"
         )}
         ref={inputRef}
         placeholder={placeholder}

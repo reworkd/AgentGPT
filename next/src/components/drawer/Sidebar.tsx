@@ -152,7 +152,7 @@ const SidebarTransition = ({ children, show }: SidebarTransitionProps) => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="flex h-screen max-h-screen w-64 max-w-xs flex-1">{children}</div>
+            <div className="flex h-[100dvh] w-64 max-w-xs flex-1">{children}</div>
           </Transition.Child>
         </div>
       </div>

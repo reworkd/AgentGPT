@@ -136,10 +136,10 @@ const Home: NextPage = () => {
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
-      <div id="content" className="flex min-h-screen w-full items-center justify-center">
+      <div id="content" className="flex w-full items-center justify-center">
         <div
           id="layout"
-          className="flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 sm:gap-3 sm:p-4"
+          className="flex h-screen w-full max-w-screen-2xl flex-col items-center gap-1 p-2 sm:gap-3 sm:p-4"
         >
           {
             <AnimatePresence>

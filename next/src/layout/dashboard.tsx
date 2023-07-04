@@ -37,7 +37,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
           desktopSidebarOpen && "lg:pl-64"
         )}
       >
-        <DottedGridBackground className="min-w-screen min-h-screen">
+        <DottedGridBackground className="min-w-screen min-h-[100dvh]">
           {props.children}
         </DottedGridBackground>
       </main>

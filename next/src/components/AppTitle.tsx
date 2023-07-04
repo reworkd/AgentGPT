@@ -24,7 +24,7 @@ const AppTitle = () => {
           </Badge>
         </PopIn>
       </div>
-      <div className="text-color-primary mt-1 text-center font-mono text-[0.7em] font-bold">
+      <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
         <p>
           {i18n.t("HEADING_DESCRIPTION", {
             ns: "indexPage",

@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from reworkd_platform.schemas import (
     AgentRun,
+    AgentSummarize,
     AgentTaskAnalyze,
     AgentTaskCreate,
     AgentTaskExecute,
@@ -21,6 +22,7 @@ from reworkd_platform.web.api.agent.dependancies import (
     agent_create_validator,
     agent_execute_validator,
     agent_start_validator,
+    agent_summarize_validator,
 )
 from reworkd_platform.web.api.agent.tools.tools import get_external_tools, get_tool_name
 
@@ -77,6 +79,19 @@ async def create_tasks(
         completed_tasks=req_body.completed_tasks or [],
     )
     return NewTasksResponse(newTasks=new_tasks, run_id=req_body.run_id)
+
+
+@router.post("/summarize")
+async def summarize(
+    req_body: AgentSummarize = Depends(agent_summarize_validator),
+    agent_service: AgentService = Depends(
+        get_agent_service(validator=agent_summarize_validator, streaming=True),
+    ),
+) -> FastAPIStreamingResponse:
+    return await agent_service.summarize_task_agent(
+        goal=req_body.goal or "",
+        results=req_body.results,
+    )
 
 
 class ToolModel(BaseModel):

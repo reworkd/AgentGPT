@@ -29,6 +29,7 @@ export const taskSchema = z
     taskId: z.string().optional(),
     type: z.literal(MESSAGE_TYPE_TASK),
     status: TaskStatusSchema,
+    result: z.string().optional(),
   })
   .merge(messageSchemaBase);
 

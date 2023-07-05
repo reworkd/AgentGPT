@@ -8,7 +8,12 @@ import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
+import {
+  resetAllAgentSlices,
+  resetAllMessageSlices,
+  useAgentStore,
+  useMessageStore,
+} from "../stores";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
@@ -119,7 +124,7 @@ const Home: NextPage = () => {
   const handleRestart = () => {
     resetAllMessageSlices();
     resetAllTaskSlices();
-    setAgent(null);
+    resetAllAgentSlices();
   };
 
   const handleKeyPress = (

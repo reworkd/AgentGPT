@@ -22,6 +22,7 @@ export const toApiModelSettings = (modelSettings: ModelSettings, session?: Sessi
 };
 
 export interface RequestBody {
+  run_id?: string;
   model_settings: ApiModelSettings;
   goal: string;
   task?: string;
@@ -32,5 +33,5 @@ export interface RequestBody {
   completed_tasks?: string[];
   analysis?: Analysis;
   tool_names?: string[];
-  run_id?: string;
+  message?: string; // Used for the chat endpoint
 }

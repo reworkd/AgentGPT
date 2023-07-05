@@ -38,25 +38,35 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
 
 
   
+  // For storing Index of the task which we want to drag
   const dragTaskIndex = React.useRef(null);
+  // When Task DragStarted
   const onDragStart = (e:React.DragEvent<HTMLDivElement>, i: number) => {
     dragTaskIndex.current = i;
+
+    // Making Task opacity zero in the task list. Using timeout because without it, it will make opacity 0 instantly and then the Task which is showing on cursor will also not visible
     setTimeout(() => {
       e.target.classList.add("opacity-0");
     }, 0);
   }
+  // When we drag the task upon another task
+  const onDragEnter = (i:number) => {
+    if (dragTaskIndex.current === null) return;
+    // Tasks Order will be updated only when the Task on which we are droping has `started` status 
+    if (tasks[i].status !== "started") return
+    const _items = [...tasks];
+    // removing the Task from array
+    const draggedItem = _items.splice(dragTaskIndex.current, 1)[0];
+    // inserting that element in new position where we want to drop
+    _items.splice(i, 0, draggedItem);
+    dragTaskIndex.current = i;
+    setTasks(_items)
+  }
+
+  // When we left the draging Task
   const onDragEnd = (e:React.DragEvent<HTMLDivElement>) => {
     dragTaskIndex.current = null;
     e.target.classList.remove("opacity-0");
-  }
-  const onDragEnter = (i:number) => {
-    if (dragTaskIndex.current === null) return;
-    if (tasks[i].status !== "started") return
-    const _items = [...tasks];
-    const draggedItem = _items.splice(dragTaskIndex.current, 1)[0];
-    _items.splice(i, 0, draggedItem)
-    dragTaskIndex.current = i;
-    setTasks(_items)
   }
 
   return (

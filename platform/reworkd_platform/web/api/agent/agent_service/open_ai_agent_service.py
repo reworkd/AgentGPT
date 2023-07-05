@@ -214,6 +214,7 @@ class OpenAIAgentService(AgentService):
         message: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
+        self.model.model_name = "gpt-3.5-turbo-16k"
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessagePromptTemplate(prompt=chat_prompt),

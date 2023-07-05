@@ -125,13 +125,13 @@ summarize_with_sources_prompt = PromptTemplate(
 
 chat_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language. 
-
+ 
     You are a helpful AI Assistant that will provide responses based on the current conversation history. 
     
     The human will provide previous messages as context. Use ONLY this information for your responses.
     Do not make anything up and do not add any additional information.
     If you have no information for a given question in the conversation history, 
-    say "I do not have any information on this".  
+    say "I do not have any information on this". 
     """,
     input_variables=["language"],
 )

@@ -16,7 +16,6 @@ import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
 import DashboardLayout from "../layout/dashboard";
 import AppTitle from "../components/AppTitle";
-import FadeIn from "../components/motions/FadeIn";
 import Input from "../components/Input";
 import clsx from "clsx";
 import Expand from "../components/motions/expand";
@@ -35,6 +34,7 @@ import { toApiModelSettings } from "../utils/interfaces";
 import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
+import FadeIn from "../components/motions/FadeIn";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -195,63 +195,58 @@ const Home: NextPage = () => {
             <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
           </Expand>
 
-          <FadeIn
-            delay={0}
-            initialY={30}
-            duration={1}
-            className="flex w-full flex-col items-center gap-2"
-          >
-            <AnimatePresence>
-              {!fullscreen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "fit-content" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.5, type: "easeInOut" }}
-                  className="flex w-full flex-col gap-2"
-                >
-                  <div className="flex w-full flex-row items-end gap-2 md:items-center">
-                    <Input
-                      inputRef={nameInputRef}
-                      left={
-                        <>
-                          <FaRobot />
-                          <span className="ml-2">{`${t("AGENT_NAME")}`}</span>
-                        </>
-                      }
-                      value={nameInput}
-                      disabled={agent != null}
-                      onChange={(e) => setNameInput(e.target.value)}
-                      onKeyDown={(e) => handleKeyPress(e)}
-                      placeholder="AgentGPT"
-                      type="text"
-                    />
-                    <Button
-                      ping
-                      onClick={() => setShowToolsDialog(true)}
-                      className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-                    >
-                      <p className="mr-3">Tools</p>
-                      <FaCog />
-                    </Button>
-                  </div>
+          <AnimatePresence>
+            {!fullscreen && (
+              <motion.div
+                initial={{ opacity: 0, height: "fit-content" }}
+                animate={{ opacity: 1, height: "fit-content" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.5, type: "easeInOut" }}
+                className="flex w-full flex-col gap-2"
+              >
+                <div className="flex w-full flex-row items-end gap-2 md:items-center">
                   <Input
+                    inputRef={nameInputRef}
                     left={
                       <>
-                        <FaStar />
-                        <span className="ml-2">{`${t("LABEL_AGENT_GOAL")}`}</span>
+                        <FaRobot />
+                        <span className="ml-2">{`${t("AGENT_NAME")}`}</span>
                       </>
                     }
+                    value={nameInput}
                     disabled={agent != null}
-                    value={goalInput}
-                    onChange={(e) => setGoalInput(e.target.value)}
+                    onChange={(e) => setNameInput(e.target.value)}
                     onKeyDown={(e) => handleKeyPress(e)}
-                    placeholder={`${t("PLACEHOLDER_AGENT_GOAL")}`}
-                    type="textarea"
+                    placeholder="AgentGPT"
+                    type="text"
                   />
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <Button
+                    ping
+                    onClick={() => setShowToolsDialog(true)}
+                    className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                  >
+                    <p className="mr-3">Tools</p>
+                    <FaCog />
+                  </Button>
+                </div>
+                <Input
+                  left={
+                    <>
+                      <FaStar />
+                      <span className="ml-2">{`${t("LABEL_AGENT_GOAL")}`}</span>
+                    </>
+                  }
+                  disabled={agent != null}
+                  value={goalInput}
+                  onChange={(e) => setGoalInput(e.target.value)}
+                  onKeyDown={(e) => handleKeyPress(e)}
+                  placeholder={`${t("PLACEHOLDER_AGENT_GOAL")}`}
+                  type="textarea"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <FadeIn initialY={20} duration={0.5}>
             <AgentControls
               disablePlay={disableStartAgent}
               lifecycle={agentLifecycle}

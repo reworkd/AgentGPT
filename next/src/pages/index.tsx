@@ -28,7 +28,7 @@ import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
-import { resetAllTaskSlices } from "../stores/taskStore";
+import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
 import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 import { AgentApi } from "../services/agent/agent-api";
 import { toApiModelSettings } from "../utils/interfaces";
@@ -41,6 +41,7 @@ const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
+  const tasks = useTaskStore.use.tasks();
   const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
@@ -199,6 +200,7 @@ const Home: NextPage = () => {
                       handleChat: async () => {
                         await agent?.chat(chatInput);
                       },
+                      loading: tasks.length == 0,
                     }
                   : undefined
               }

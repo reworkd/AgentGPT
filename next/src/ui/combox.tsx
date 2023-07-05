@@ -32,7 +32,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
-          className="background-color-7 text-color-primary border-style-1 border-focusVisible-1 w-full rounded-md py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6"
+          className="border-hover-1 background-color-7 text-color-primary border-style-1 border-focusVisible-1 w-full rounded-md py-1.5 pl-3 pr-10 shadow-sm transition-colors sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(e) => props.valueMapper(e as T)}
         />

@@ -14,7 +14,7 @@ import Button from "../Button";
 interface ChatControls {
   value: string;
   onChange: (string) => void;
-  handleChat: () => void;
+  handleChat: () => Promise<void>;
   loading?: boolean;
 }
 
@@ -105,7 +105,7 @@ const ChatWindow = ({
             value={chatControls.value}
             onChange={(e) => chatControls?.onChange(e.target.value)}
           />
-          <Button className="px-1 py-1 sm:px-3 md:py-1">
+          <Button className="px-1 py-1 sm:px-3 md:py-1" onClick={chatControls?.handleChat}>
             <FaCommentDots />
           </Button>
         </div>

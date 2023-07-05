@@ -6,6 +6,7 @@ from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
 from reworkd_platform.web.api.agent.tools.tool import Tool
+from reworkd_platform.web.api.agent.tools.wikipedia_search import Wikipedia
 
 
 def get_user_tools(tool_names: List[str]) -> List[Type[Tool]]:
@@ -22,7 +23,7 @@ def get_available_tools_names() -> List[str]:
 
 def get_external_tools() -> List[Type[Tool]]:
     return [
-        # Wikipedia,  # TODO: Remove if async doesn't work
+        Wikipedia,
         Image,
         Search,
         Code,

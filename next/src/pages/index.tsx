@@ -196,7 +196,9 @@ const Home: NextPage = () => {
                       onChange: (value: string) => {
                         setChatInput(value);
                       },
-                      handleChat: () => void 0,
+                      handleChat: async () => {
+                        await agent?.chat(chatInput);
+                      },
                     }
                   : undefined
               }

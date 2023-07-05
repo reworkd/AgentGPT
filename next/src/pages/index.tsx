@@ -35,6 +35,7 @@ import { toApiModelSettings } from "../utils/interfaces";
 import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
+import { ChatMessage } from "../components/console/ChatMessage";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -53,6 +54,7 @@ const Home: NextPage = () => {
   const setNameInput = useAgentInputStore.use.setNameInput();
   const goalInput = useAgentInputStore.use.goalInput();
   const setGoalInput = useAgentInputStore.use.setGoalInput();
+  const [chatInput, setChatInput] = React.useState("");
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
@@ -186,10 +188,27 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
+              chatControls={
+                agent
+                  ? {
+                      value: chatInput,
+                      onChange: (value: string) => {
+                        setChatInput(value);
+                      },
+                      handleChat: () => void 0,
+                    }
+                  : undefined
+              }
             >
               {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun} />}
+              {messages.map((message, index) => {
+                return (
+                  <FadeIn key={`${index}-${message.type}`}>
+                    <ChatMessage message={message} />
+                  </FadeIn>
+                );
+              })}
               <Summarize />
             </ChatWindow>
             <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />

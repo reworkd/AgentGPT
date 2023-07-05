@@ -5,6 +5,7 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
 from reworkd_platform.schemas import (
+    AgentChat,
     AgentRun,
     AgentSummarize,
     AgentTaskAnalyze,
@@ -19,6 +20,7 @@ from reworkd_platform.web.api.agent.agent_service.agent_service_provider import 
 from reworkd_platform.web.api.agent.analysis import Analysis
 from reworkd_platform.web.api.agent.dependancies import (
     agent_analyze_validator,
+    agent_chat_validator,
     agent_create_validator,
     agent_execute_validator,
     agent_start_validator,
@@ -90,6 +92,19 @@ async def summarize(
 ) -> FastAPIStreamingResponse:
     return await agent_service.summarize_task_agent(
         goal=req_body.goal or "",
+        results=req_body.results,
+    )
+
+
+@router.post("/chat")
+async def chat(
+    req_body: AgentChat = Depends(agent_chat_validator),
+    agent_service: AgentService = Depends(
+        get_agent_service(validator=agent_chat_validator, streaming=True),
+    ),
+) -> FastAPIStreamingResponse:
+    return await agent_service.chat(
+        message=req_body.message,
         results=req_body.results,
     )
 

@@ -122,3 +122,19 @@ summarize_with_sources_prompt = PromptTemplate(
     """,
     input_variables=["goal", "language", "query", "snippets"],
 )
+
+chat_prompt = PromptTemplate(
+    template="""You must answer in the "{language}" language. 
+
+    You are a helpful AI Assistant that will provide responses based on the current conversation history. 
+    
+    You do not have access to real time information or time.
+    If you are asked for this, say "I do not have access to this information".
+    
+    The human will provide previous messages as context. Use only this information for your responses.
+    Do not make anything up and do not add any additional information.
+    If you have no information for a given question in the conversation history, 
+    say "I do not have any information on this".  
+    """,
+    input_variables=["language"],
+)

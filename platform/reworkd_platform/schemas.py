@@ -17,6 +17,7 @@ Loop_Step = Literal[
     "execute",
     "create",
     "summarize",
+    "chat",
 ]
 
 LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {
@@ -69,6 +70,11 @@ class AgentTaskCreate(AgentRun):
 
 
 class AgentSummarize(AgentRun):
+    results: List[str] = Field(default=[])
+
+
+class AgentChat(AgentRun):
+    message: str
     results: List[str] = Field(default=[])
 
 

@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from reworkd_platform.db.crud.agent import AgentCRUD
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.schemas import (
+    AgentChat,
     AgentRun,
     AgentRunCreate,
     AgentSummarize,
@@ -25,7 +26,9 @@ from reworkd_platform.web.api.memory.memory_with_fallback import MemoryWithFallb
 from reworkd_platform.web.api.memory.null import NullAgentMemory
 from reworkd_platform.web.api.memory.weaviate import WeaviateMemory
 
-T = TypeVar("T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate, AgentSummarize)
+T = TypeVar(
+    "T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate, AgentSummarize, AgentChat
+)
 
 
 def agent_crud(
@@ -111,3 +114,10 @@ async def agent_summarize_validator(
     crud: AgentCRUD = Depends(agent_crud),
 ) -> AgentSummarize:
     return await validate(body, crud, "summarize")
+
+
+async def agent_chat_validator(
+    body: AgentChat = Body(),
+    crud: AgentCRUD = Depends(agent_crud),
+) -> AgentChat:
+    return await validate(body, crud, "chat")

@@ -23,3 +23,7 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
     </button>
   );
 };
+
+export const DrawerItemButtonLoader = () => {
+  return <div className="background-color-4 w-50 mx-1.5 h-7 animate-pulse rounded-md"></div>;
+};

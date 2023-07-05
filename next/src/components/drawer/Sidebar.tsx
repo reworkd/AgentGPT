@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FaBars } from "react-icons/fa";
 import FadingHr from "../FadingHr";
-import { DrawerItemButton } from "./DrawerItemButton";
+import { DrawerItemButton, DrawerItemButtonLoader } from "./DrawerItemButton";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../sidebar/links";
 import LinkItem from "../sidebar/LinkItem";
 import LinkIconItem from "../sidebar/LinkIconItem";
@@ -62,6 +62,16 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
               {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
             </div>
           )}
+          {isLoading && (
+            <div className="flex flex-col gap-2 overflow-hidden">
+              {Array(10)
+                .fill(0)
+                .map((_, index) => (
+                  <DrawerItemButtonLoader key={index} />
+                ))}
+            </div>
+          )}
+
           {userAgents.map((agent, index) => (
             <DrawerItemButton
               key={`${index}-${agent.name}`}

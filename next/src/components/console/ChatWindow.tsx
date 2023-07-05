@@ -105,7 +105,11 @@ const ChatWindow = ({
             value={chatControls.value}
             onChange={(e) => chatControls?.onChange(e.target.value)}
           />
-          <Button className="px-1 py-1 sm:px-3 md:py-1" onClick={chatControls?.handleChat}>
+          <Button
+            className="px-1 py-1 sm:px-3 md:py-1"
+            onClick={chatControls?.handleChat}
+            disabled={chatControls.loading}
+          >
             <FaCommentDots />
           </Button>
         </div>

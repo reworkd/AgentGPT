@@ -62,9 +62,9 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
               {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
             </div>
           )}
-          {isLoading && (
+          {status === "authenticated" && isLoading && (
             <div className="flex flex-col gap-2 overflow-hidden">
-              {Array(10)
+              {Array(13)
                 .fill(0)
                 .map((_, index) => (
                   <DrawerItemButtonLoader key={index} />

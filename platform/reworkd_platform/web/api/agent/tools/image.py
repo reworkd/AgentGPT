@@ -57,6 +57,7 @@ class Image(Tool):
         "This should be a detailed description of the image touching on image "
         "style, image focus, color, etc."
     )
+    image_url = "/tools/replicate.png"
 
     async def call(
         self, goal: str, task: str, input_str: str

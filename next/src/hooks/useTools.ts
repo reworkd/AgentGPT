@@ -9,6 +9,7 @@ const Tool = z.object({
   name: z.string(),
   description: z.string(),
   color: z.string(),
+  image_url: z.string().optional(),
 });
 
 const ToolsResponseSchema = z.object({

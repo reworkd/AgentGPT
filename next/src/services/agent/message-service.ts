@@ -83,6 +83,7 @@ export class MessageService {
   sendErrorMessage = (e: unknown) => {
     let message = "An unknown error occurred. Please try again later.";
     if (typeof e == "string") message = e;
+    else if (e instanceof Error) message = e.message;
     else if (axios.isAxiosError(e) && e.message == "Network Error") {
       message = "Error attempting to connect to the server.";
     } else if (axios.isAxiosError(e)) {

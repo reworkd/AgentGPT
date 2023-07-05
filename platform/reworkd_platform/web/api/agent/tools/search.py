@@ -42,6 +42,7 @@ class Search(Tool):
     )
     public_description = "Search google for information about current events."
     arg_description = "The query argument to search for. This value is always populated and cannot be an empty string."
+    image_url = "/tools/google.png"
 
     @staticmethod
     def available() -> bool:

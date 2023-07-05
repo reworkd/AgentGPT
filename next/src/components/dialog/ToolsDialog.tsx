@@ -2,7 +2,6 @@ import React from "react";
 import Dialog from "./Dialog";
 import { FaCog } from "react-icons/fa";
 import { Switch } from "../Switch";
-import clsx from "clsx";
 import type { ActiveTool } from "../../hooks/useTools";
 import { useTools } from "../../hooks/useTools";
 
@@ -45,5 +44,10 @@ export const ToolsDialog: React.FC<{
 };
 
 const ToolAvatar = ({ tool }: { tool: ActiveTool }) => {
-  return <div className={clsx("h-10 w-10 rounded-full border border-white/30 bg-amber-600")} />;
+  if (tool.image_url) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img alt={tool.name} width="40px" height="40px" src={tool.image_url} />;
+  }
+
+  return <div className="h-10 w-10 rounded-full border border-white/30 bg-amber-600" />;
 };

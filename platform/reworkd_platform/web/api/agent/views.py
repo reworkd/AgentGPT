@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
@@ -98,6 +98,7 @@ class ToolModel(BaseModel):
     name: str
     description: str
     color: str
+    image_url: Optional[str]
 
 
 class ToolsResponse(BaseModel):
@@ -112,6 +113,7 @@ async def get_user_tools() -> ToolsResponse:
             name=get_tool_name(tool),
             description=tool.public_description,
             color="TODO: Change to image of tool",
+            image_url=tool.image_url,
         )
         for tool in tools
         if tool.available()

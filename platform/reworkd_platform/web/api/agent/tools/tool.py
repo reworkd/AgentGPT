@@ -8,6 +8,7 @@ class Tool(ABC):
     description: str = ""
     public_description: str = ""
     arg_description: str = "The argument to the function."
+    image_url: str = "/tools/openai-white.png"
 
     model: BaseChatModel
     language: str

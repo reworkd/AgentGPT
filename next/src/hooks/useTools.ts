@@ -35,7 +35,6 @@ const loadTools = async (key: string) => {
       return tool ?? { ...db_tool, active: true };
     });
   } catch (error) {
-    console.log(error);
     activeTools = allTools.tools.map((toolModel) => ({ ...toolModel, active: true }));
   }
 

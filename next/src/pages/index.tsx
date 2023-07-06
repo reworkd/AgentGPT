@@ -8,7 +8,12 @@ import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
 import { useAgent } from "../hooks/useAgent";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import { resetAllMessageSlices, useAgentStore, useMessageStore } from "../stores";
+import {
+  resetAllAgentSlices,
+  resetAllMessageSlices,
+  useAgentStore,
+  useMessageStore,
+} from "../stores";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { languages } from "../utils/languages";
 import nextI18NextConfig from "../../next-i18next.config.js";
@@ -28,18 +33,20 @@ import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
 import { MessageService } from "../services/agent/message-service";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
-import { resetAllTaskSlices } from "../stores/taskStore";
+import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
 import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 import { AgentApi } from "../services/agent/agent-api";
 import { toApiModelSettings } from "../utils/interfaces";
 import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
+import { ChatMessage } from "../components/console/ChatMessage";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
+  const tasks = useTaskStore.use.tasks();
   const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
@@ -53,6 +60,7 @@ const Home: NextPage = () => {
   const setNameInput = useAgentInputStore.use.setNameInput();
   const goalInput = useAgentInputStore.use.goalInput();
   const setGoalInput = useAgentInputStore.use.setGoalInput();
+  const [chatInput, setChatInput] = React.useState("");
   const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
@@ -116,7 +124,7 @@ const Home: NextPage = () => {
   const handleRestart = () => {
     resetAllMessageSlices();
     resetAllTaskSlices();
-    setAgent(null);
+    resetAllAgentSlices();
   };
 
   const handleKeyPress = (
@@ -186,10 +194,30 @@ const Home: NextPage = () => {
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              setAgentRun={setAgentRun}
               visibleOnMobile={mobileVisibleWindow === "Chat"}
+              chatControls={
+                agent
+                  ? {
+                      value: chatInput,
+                      onChange: (value: string) => {
+                        setChatInput(value);
+                      },
+                      handleChat: async () => {
+                        await agent?.chat(chatInput);
+                      },
+                      loading: tasks.length == 0,
+                    }
+                  : undefined
+              }
             >
               {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun} />}
+              {messages.map((message, index) => {
+                return (
+                  <FadeIn key={`${index}-${message.type}`}>
+                    <ChatMessage message={message} />
+                  </FadeIn>
+                );
+              })}
               <Summarize />
             </ChatWindow>
             <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />

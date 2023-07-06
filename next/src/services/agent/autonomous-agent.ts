@@ -11,6 +11,7 @@ import type AgentWork from "./agent-work/agent-work";
 import { withRetries } from "../api-utils";
 import type { Message } from "../../types/message";
 import SummarizeWork from "./agent-work/summarize-work";
+import ChatWork from "./agent-work/chat-work";
 
 class AutonomousAgent {
   model: AgentRunModel;
@@ -54,7 +55,7 @@ class AutonomousAgent {
 
       // Get and run the next work item
       const work = this.workLog[0];
-      await this.runWork(work);
+      await this.runWork(work, () => this.model.getLifecycle() === "stopped");
 
       this.workLog.shift();
       if (this.model.getLifecycle() !== "running") {
@@ -83,12 +84,12 @@ class AutonomousAgent {
   /*
    * Runs a provided work object with error handling and retries
    */
-  private async runWork(work: AgentWork) {
+  private async runWork(work: AgentWork, shouldStop: () => boolean = () => false) {
     const RETRY_TIMEOUT = 2000;
 
     await withRetries(
       async () => {
-        if (this.model.getLifecycle() === "stopped") return;
+        if (shouldStop()) return;
         await work.run();
       },
       async (e) => {
@@ -136,6 +137,13 @@ class AutonomousAgent {
     await this.runWork(summarizeWork);
     await summarizeWork.conclude();
     this.model.setLifecycle("stopped");
+  }
+
+  async chat(message: string) {
+    if (this.model.getLifecycle() == "running") this.pauseAgent();
+    const chatWork = new ChatWork(this, message);
+    await this.runWork(chatWork);
+    await chatWork.conclude();
   }
 
   async createTaskMessages(tasks: string[]) {

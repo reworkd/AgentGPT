@@ -41,3 +41,11 @@ class AgentService(Protocol):
         results: List[str],
     ) -> FastAPIStreamingResponse:
         pass
+
+    async def chat(
+        self,
+        *,
+        message: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        pass

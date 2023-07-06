@@ -15,13 +15,13 @@
       "light": "#FFFFFF"
     }
   },
-  
-  
+
+
   "topbarCtaButton": {
     "type": "github",
     "url": "https://github.com/reworkd/AgentGPT"
   },
-   
+
   "anchors": [
     {
       "name":"Reworkd",
@@ -30,7 +30,7 @@
     },
     {
       "name": "GitHub",
-      "icon": "github", 
+      "icon": "github",
       "url": "https://github.com/reworkd/AgentGPT"
     },
     {
@@ -39,7 +39,7 @@
       "url": "https://discord.gg/qNWFxxRJNh"
     }
   ],
-  
+
   "navigation": [
     {
       "group": "Get Started",
@@ -58,12 +58,13 @@
       "pages": ["other/philosophy"]
     }
   ],
-  
+
   "footerSocials": {
-    "twitter": "https://twitter.com/ReworkdAI",
     "github": "https://github.com/reworkd/AgentGPT",
+    "discord": "https://discord.gg/qNWFxxRJNh",
+    "twitter": "https://twitter.com/ReworkdAI",
     "linkedin": "https://www.linkedin.com/company/reworkd/"
   },
-  
+
   "backgroundImage": "/background.png"
 }

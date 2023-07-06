@@ -203,8 +203,9 @@ const Home: NextPage = () => {
                         setChatInput(value);
                       },
                       handleChat: async () => {
-                        await agent?.chat(chatInput);
+                        const currentInput = chatInput;
                         setChatInput("");
+                        await agent?.chat(currentInput);
                       },
                       loading: tasks.length == 0,
                     }

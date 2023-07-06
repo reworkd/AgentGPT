@@ -1,8 +1,6 @@
-import type { MotionValue } from "framer-motion";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import clsx from "clsx";
-import type { MouseEvent } from "react";
 import React from "react";
+import Highlight from "../../ui/highlight";
+import clsx from "clsx";
 
 const Sections = () => {
   return (
@@ -58,25 +56,14 @@ interface ResourceProps {
 }
 
 const Section = ({ title, subtitle, className }: ResourceProps) => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  function onMouseMove(event: MouseEvent) {
-    const { clientX, clientY } = event;
-    const { left, top } = event.currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
   return (
     <div
-      onMouseMove={onMouseMove}
       className={clsx(
         className,
         "group relative flex h-full rounded-xl border border-white/20 bg-black p-10 transition duration-300 hover:border-sky-500/60"
       )}
     >
-      <Highlight mouseX={mouseX} mouseY={mouseY} />
+      <Highlight color="blue" />
       <div className="relative rounded-xl">
         <h3 className="text-xl font-bold leading-7 ">{title}</h3>
         <p className="text-sm text-zinc-400">{subtitle}</p>
@@ -84,24 +71,5 @@ const Section = ({ title, subtitle, className }: ResourceProps) => {
     </div>
   );
 };
-
-interface HighlightProps {
-  mouseX: MotionValue<number>;
-  mouseY: MotionValue<number>;
-}
-
-function Highlight({ mouseX, mouseY }: HighlightProps) {
-  const maskImage = useMotionTemplate`radial-gradient(200px at ${mouseX}px ${mouseY}px, white, transparent)`;
-  const style = { maskImage, WebkitMaskImage: maskImage };
-
-  return (
-    <div className="pointer-events-none">
-      <motion.div
-        className="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-500/30 to-sky-500/20 opacity-0 transition duration-300 group-hover:opacity-100"
-        style={style}
-      />
-    </div>
-  );
-}
 
 export default Sections;

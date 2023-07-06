@@ -230,11 +230,6 @@ class OpenAIAgentService(AgentService):
             ).to_string(),
         )
 
-        print(
-            prompt.format_prompt(
-                language=self.settings.language,
-            ).to_string()
-        )
         chain = LLMChain(llm=self.model, prompt=prompt)
 
         return StreamingResponse.from_chain(

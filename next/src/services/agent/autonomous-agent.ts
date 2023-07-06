@@ -141,9 +141,17 @@ class AutonomousAgent {
 
   async chat(message: string) {
     if (this.model.getLifecycle() == "running") this.pauseAgent();
+    let paused = false;
+    if (this.model.getLifecycle() == "stopped") {
+      paused = true;
+      this.model.setLifecycle("pausing");
+    }
     const chatWork = new ChatWork(this, message);
     await this.runWork(chatWork);
     await chatWork.conclude();
+    if (paused) {
+      this.model.setLifecycle("stopped");
+    }
   }
 
   async createTaskMessages(tasks: string[]) {

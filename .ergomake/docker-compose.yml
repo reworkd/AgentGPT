@@ -16,13 +16,6 @@ services:
       dev.ergomake.env.replace-arg.NEXT_PUBLIC_BACKEND_URL: 'https://{{ services.platform.url }}'
       dev.ergomake.env.replace-arg.NEXTAUTH_URL: 'https://{{ services.next.url }}'
 
-  docs:
-    build:
-      context: ../docs
-      dockerfile: ../.ergomake/docs.Dockerfile
-    ports:
-      - "3001:3001"
-
   platform:
     build:
       context: ../platform

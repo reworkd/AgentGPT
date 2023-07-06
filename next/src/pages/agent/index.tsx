@@ -14,6 +14,8 @@ import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
 import DashboardLayout from "../../layout/dashboard";
+import FadeIn from "../../components/motions/FadeIn";
+import { ChatMessage } from "../../components/console/ChatMessage";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();
@@ -44,7 +46,15 @@ const AgentPage: NextPage = () => {
         id="content"
         className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
-        <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile />
+        <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile>
+          {messages.map((message, index) => {
+            return (
+              <FadeIn key={`${index}-${message.type}`}>
+                <ChatMessage message={message} />
+              </FadeIn>
+            );
+          })}
+        </ChatWindow>
         <div className="flex flex-row gap-2">
           <Button icon={<FaBackspace />} loader onClick={() => void router.push("/")}>
             Back

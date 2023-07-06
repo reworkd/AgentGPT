@@ -33,7 +33,7 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
       <nav className="background-color-1 flex flex-1 flex-col px-2.5 py-2 ring-1 ring-white/10">
         <div className="flex flex-row items-center justify-between">
           <Image
-            src="logo-white.svg"
+            src="logos/dark-default-solid.svg"
             width="25"
             height="25"
             alt="Reworkd AI"

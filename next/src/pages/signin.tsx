@@ -39,7 +39,12 @@ const SignIn = ({ providers }: { providers: Provider }) => {
             className="flex flex-col items-center justify-center gap-6 text-white"
           >
             <div className="flex flex-row gap-6">
-              <Image src="logo-white.svg" width="56" height="56" alt="Reworkd AI" />
+              <Image
+                src="logos/dark-default-gradient.svg"
+                width="56"
+                height="56"
+                alt="Reworkd AI"
+              />
               <h1
                 className={`${clsx(
                   "bg-gradient-to-br from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent",

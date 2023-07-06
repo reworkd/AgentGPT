@@ -1,0 +1,34 @@
+---
+title: Prompts
+description: Learn how we use prompts to guide the behavior of our AI agents.
+icon: "page"
+---
+
+Prompts play a pivotal role in shaping the behavior of our AI agents as they guide the language models towards accomplishing specific tasks or goals. We predominantly utilize two models `gpt-3.5-turbo` and `gpt-4`. All these models are highly sensitive to the minutest details in their prompts, making the prompt design an essential aspect of our system.
+
+## Prompt Templates
+
+Along with these powerful models, we also provide an assortment of pre-made prompt templates. These templates can serve as a valuable resource when getting started, providing excellent examples of well-structured prompts. However, these templates aren't always perfect and should be fine-tuned to best suit your specific use case. Each situation is unique, and the best results often come from iterative testing and refinement of prompts based on your unique requirements and objectives.
+
+## Getting Started with Prompting
+
+If you are interested in learning more about the art of prompting, we recommend the following resources:
+
+1. [Learn prompting docs](https://learnprompting.org/)
+2. [Prompt engineering guide](https://www.promptingguide.ai/techniques/consistency)
+3. [Prompt engineering for developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/)
+
+## Key Terms
+
+1. **One shot / Two shot / N shot**: You provide 1, 2, or N examples along with your prompt to improve model accuracy.
+2. **Zero shot**: You provide a prompt to a model directly, without any examples.
+
+## Prompting Techniques in AgentGPT
+
+### Plan and Solve
+
+Plan and Solve (PS) is a technique that enhances the chain of thought prompting approach. In PS, the model is asked to understand the problem, extract relevant variables and values, and devise a step-by-step plan. We primarily use this zero-shot approach to increase reasoning accuracy about abstract goals. Find out more about Plan and Solve through its [GitHub repo](https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting).
+
+### ReAct
+
+Reasoning + Action, abbreviated as ReAct, is a prompting technique that combines both reasoning and action generation into one output. This allows the model to better synchronize thoughts with actions.

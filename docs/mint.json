@@ -1,0 +1,64 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Reworkd",
+  "logo": {
+    "dark": "/logo/logolight.png",
+    "light": "/logo/logodark.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#12A7D3",
+    "light": "#81D7F7",
+    "dark": "#004E7A"
+  },
+  
+  "topbarCtaButton": {
+    "type": "github",
+    "url": "https://github.com/reworkd/AgentGPT"
+  },
+   
+  "anchors": [
+    {
+      "name":"Reworkd",
+      "icon":"window",
+      "url":"https://reworkd.ai/"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github", 
+      "url": "https://github.com/reworkd/AgentGPT"
+    },
+    {
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.gg/qNWFxxRJNh"
+    }
+  ],
+  
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": ["introduction"]
+    },
+    {
+      "group": "Development",
+      "pages": ["development/memory", "development/prompts", "development/setup", "development/translations"]
+    },
+    {
+      "group": "Essentials",
+      "pages": ["essentials/roadmap", "essentials/FAQ", "essentials/usecases", "essentials/contributing"]
+    },
+    {
+      "group": "Other",
+      "pages": [ "other/philosophy"]
+    }
+  ],
+  
+  "footerSocials": {
+    "twitter": "https://twitter.com/ReworkdAI",
+    "github": "https://github.com/reworkd/AgentGPT",
+    "linkedin": "https://www.linkedin.com/company/reworkd/"
+  },
+  
+  "backgroundImage": "/background.png"
+}

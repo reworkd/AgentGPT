@@ -26,10 +26,6 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
       return session;
     },
   },
-  theme: {
-    colorScheme: "dark",
-    logo: "https://agentgpt.reworkd.ai/logo-white.svg",
-  },
 };
 export const authOptions = (
   req: NextApiRequest | IncomingMessage,

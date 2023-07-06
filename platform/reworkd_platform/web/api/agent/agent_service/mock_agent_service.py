@@ -60,3 +60,15 @@ class MockAgentService(AgentService):
         """,
             True,
         )
+
+    async def chat(
+        self,
+        *,
+        message: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        time.sleep(0.5)
+        return stream_string(
+            "What do you want dude?",
+            True,
+        )

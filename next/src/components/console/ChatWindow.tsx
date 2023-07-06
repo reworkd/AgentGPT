@@ -1,29 +1,36 @@
 import type { ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
-import FadeIn from "../motions/FadeIn";
 import HideShow from "../motions/HideShow";
 import clsx from "clsx";
-import { ChatMessage } from "./ChatMessage";
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
-import { FaArrowCircleDown } from "react-icons/fa";
+import { FaArrowCircleDown, FaCommentDots } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
-import { getTaskStatus, TASK_STATUS_EXECUTING } from "../../types/task";
 import { ImSpinner2 } from "react-icons/im";
+import Input from "../Input";
+import Button from "../Button";
+
+interface ChatControls {
+  value: string;
+  onChange: (string) => void;
+  handleChat: () => Promise<void>;
+  loading?: boolean;
+}
 
 interface ChatWindowProps extends HeaderProps {
   children?: ReactNode;
   setAgentRun?: (name: string, goal: string) => void;
   visibleOnMobile?: boolean;
+  chatControls?: ChatControls;
 }
 
 const ChatWindow = ({
   messages,
   children,
   title,
-  setAgentRun,
   visibleOnMobile,
+  chatControls,
 }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
@@ -63,7 +70,7 @@ const ChatWindow = ({
     >
       <HideShow
         showComponent={hasUserScrolled}
-        className="absolute bottom-2 right-6 cursor-pointer"
+        className="absolute bottom-14 right-6 cursor-pointer"
       >
         <FaArrowCircleDown
           onClick={() => handleScrollToBottom("smooth")}
@@ -78,16 +85,6 @@ const ChatWindow = ({
         onScroll={handleScroll}
         id={messageListId}
       >
-        {messages.map((message, index) => {
-          if (getTaskStatus(message) === TASK_STATUS_EXECUTING) {
-            return null;
-          }
-          return (
-            <FadeIn key={`${index}-${message.type}`}>
-              <ChatMessage message={message} />
-            </FadeIn>
-          );
-        })}
         {children}
         <div
           className={clsx(
@@ -100,6 +97,23 @@ const ChatWindow = ({
           <ImSpinner2 className="animate-spin" />
         </div>
       </div>
+      {chatControls && (
+        <div className="mt-auto flex flex-row gap-2 p-2 sm:p-4">
+          <Input
+            small
+            placeholder="Chat with your agent..."
+            value={chatControls.value}
+            onChange={(e) => chatControls?.onChange(e.target.value)}
+          />
+          <Button
+            className="px-1 py-1 sm:px-3 md:py-1"
+            onClick={chatControls?.handleChat}
+            disabled={chatControls.loading}
+          >
+            <FaCommentDots />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

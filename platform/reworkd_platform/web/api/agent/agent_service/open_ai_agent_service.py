@@ -2,9 +2,11 @@ from typing import List, Optional
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
+from langchain import LLMChain
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
+from langchain.schema import HumanMessage
 from loguru import logger
 from pydantic import ValidationError
 
@@ -20,6 +22,7 @@ from reworkd_platform.web.api.agent.helpers import (
 from reworkd_platform.web.api.agent.model_settings import WrappedChatOpenAI
 from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
+    chat_prompt,
     create_tasks_prompt,
     start_goal_prompt,
 )
@@ -203,4 +206,34 @@ class OpenAIAgentService(AgentService):
             language=self.settings.language,
             goal=goal,
             text=text,
+        )
+
+    async def chat(
+        self,
+        *,
+        message: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        self.model.model_name = "gpt-3.5-turbo-16k"
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                SystemMessagePromptTemplate(prompt=chat_prompt),
+                *[HumanMessage(content=result) for result in results],
+                HumanMessage(content=message),
+            ]
+        )
+
+        self.token_service.calculate_max_tokens(
+            self.model,
+            prompt.format_prompt(
+                language=self.settings.language,
+            ).to_string(),
+        )
+
+        chain = LLMChain(llm=self.model, prompt=prompt)
+
+        return StreamingResponse.from_chain(
+            chain,
+            {"language": self.settings.language},
+            media_type="text/event-stream",
         )

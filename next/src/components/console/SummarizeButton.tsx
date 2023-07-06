@@ -1,6 +1,6 @@
 import { useAgentStore } from "../../stores";
 import { useTaskStore } from "../../stores/taskStore";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import Button from "../Button";
 
@@ -10,12 +10,8 @@ const Summarize = () => {
   const tasksWithResults = useTaskStore.use
     .tasks()
     .filter((task) => task.status == "completed" && task.result !== "");
-  const [summarized, setSummarized] = useState(false);
-
-  // Reset the summarized state when the agent changes
-  useEffect(() => {
-    setSummarized(false);
-  }, [agent]);
+  const summarized = useAgentStore.use.summarized();
+  const setSummarized = useAgentStore.use.setSummarized();
 
   if (!agent || lifecycle !== "stopped" || tasksWithResults.length < 1 || summarized) return null;
 

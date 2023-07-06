@@ -67,7 +67,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <input
         className={clsx(
-          "background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full rounded-xl border-2 py-1 text-sm tracking-wider outline-0 transition-all duration-200 sm:py-3 md:text-lg",
+          "background-color-5 placeholder:text-color-tertiary text-color-primary border-color-1 border-focusVisible-1 border-hover-1 w-full rounded-xl border-2 p-2 py-1 text-sm tracking-wider outline-0 transition-all duration-200 sm:py-3 md:text-lg",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"

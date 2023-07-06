@@ -7,10 +7,15 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#12A7D3",
-    "light": "#81D7F7",
-    "dark": "#004E7A"
+    "primary": "#000000",
+    "light": "#FFFFFF",
+    "dark": "#000000",
+    "background": {
+      "dark": "#000000",
+      "light": "#FFFFFF"
+    }
   },
+  
   
   "topbarCtaButton": {
     "type": "github",
@@ -50,7 +55,7 @@
     },
     {
       "group": "Other",
-      "pages": [ "other/philosophy"]
+      "pages": ["other/philosophy"]
     }
   ],
   

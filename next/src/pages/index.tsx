@@ -207,7 +207,7 @@ const Home: NextPage = () => {
                         setChatInput("");
                         await agent?.chat(currentInput);
                       },
-                      loading: tasks.length == 0,
+                      loading: tasks.length == 0 || chatInput === "",
                     }
                   : undefined
               }

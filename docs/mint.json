@@ -24,8 +24,8 @@
 
   "anchors": [
     {
-      "name":"Reworkd",
-      "icon":"window",
+      "name":"AgentGPT",
+      "icon":"user-ninja",
       "url":"https://reworkd.ai/"
     },
     {
@@ -47,7 +47,7 @@
     },
     {
       "group": "Development",
-      "pages": ["development/memory", "development/prompts", "development/setup", "development/translations"]
+      "pages": ["development/setup", "development/prompts", "development/memory", "development/translations"]
     },
     {
       "group": "Essentials",

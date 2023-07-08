@@ -1,7 +1,7 @@
 import enum
 from pathlib import Path
 from tempfile import gettempdir
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 from pydantic import BaseSettings
 from yarl import URL
@@ -20,6 +20,12 @@ class LogLevel(str, enum.Enum):  # noqa: WPS600
     WARNING = "WARNING"
     ERROR = "ERROR"
     FATAL = "FATAL"
+
+
+SASL_MECHANISM = Literal[
+    "PLAIN",
+    "SCRAM-SHA-256",
+]
 
 
 class Settings(BaseSettings):
@@ -84,7 +90,7 @@ class Settings(BaseSettings):
     kafka_bootstrap_servers: List[str] = ["reworkd_platform-kafka:9092"]
     kafka_username: str = "<Should be updated via env>"
     kafka_password: str = "<Should be updated via env>"
-    kafka_security_protocol: str = "SASL_SSL"
+    kafka_ssal_mechanism: SASL_MECHANISM = "PLAIN"
 
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked

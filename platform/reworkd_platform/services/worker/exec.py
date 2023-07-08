@@ -14,26 +14,26 @@ class ExecutionEngine:
         await self.producer.send(event=self.workflow)
 
     async def loop(self) -> None:
-        if not self.workflow.queue:
-            pass
-
         curr = self.workflow.queue.pop(0)
         # TODO: do work
 
-        await self.start()
+        if self.workflow.queue:
+            await self.start()
 
     @classmethod
     def create_execution_plan(
         cls, producer: WorkflowTaskProducer, workflow: WorkflowFull
     ) -> "ExecutionEngine":
+        node_map = {n.id: n for n in workflow.nodes}
+
         graph = workflow.to_graph()
-        nodes = [n for n in topological_sort(graph)]
+        sorted_nodes = [node_map[n] for n in topological_sort(graph)]
 
         return cls(
             producer=producer,
             workflow=WorkflowTaskEvent.from_workflow(
                 workflow_id=workflow.id,
                 user_id=workflow.user_id,
-                work_queue=nodes,
+                work_queue=sorted_nodes,
             ),
         )

@@ -24,8 +24,8 @@ class AsyncConsumer(ABC):
         self.consumer = AIOKafkaConsumer(
             *topics,
             bootstrap_servers=settings.kafka_bootstrap_servers,
-            group_id="silverback",
-            sasl_mechanism="SCRAM-SHA-256",
+            group_id="platform",
+            sasl_mechanism=settings.kafka_ssal_mechanism,
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,

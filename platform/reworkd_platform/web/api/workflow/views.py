@@ -55,7 +55,7 @@ async def update_workflow(
     return await crud.update(workflow_id, workflow)
 
 
-@router.post("/{workflow_id}/trigger")
+@router.post("/{workflow_id}/execute")
 async def trigger_workflow(
     workflow_id: str,
     producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),

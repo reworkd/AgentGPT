@@ -1,4 +1,3 @@
-import json
 from ssl import create_default_context
 from typing import Literal
 
@@ -16,7 +15,7 @@ class AsyncProducer:
     def __init__(self, settings: Settings):
         self._producer = AIOKafkaProducer(
             bootstrap_servers=settings.kafka_bootstrap_servers,
-            sasl_mechanism="SCRAM-SHA-256",
+            sasl_mechanism=settings.kafka_ssal_mechanism,
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,
@@ -35,6 +34,4 @@ class AsyncProducer:
         await self._producer.stop()
 
     async def produce(self, topic: TOPICS, data: BaseModel) -> None:
-        await self._producer.send(
-            topic=topic, value=json.dumps(data.dict()).encode("utf-8")
-        )
+        await self._producer.send(topic=topic, value=data.json().encode("utf-8"))

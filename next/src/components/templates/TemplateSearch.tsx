@@ -39,6 +39,7 @@ const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory }) => {
           <option>Health and Fitness</option>
           <option>Creative and social</option>
           <option>Academics and Professional</option>
+          <option>Science and Technology</option>
           <option>Other</option>
         </select>
       </div>

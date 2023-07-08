@@ -3,7 +3,7 @@ import type { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
-import TemplateCard from "../components/templates/TemplateCard";
+import DialogManager from "../components/templates/DialogManager";
 import FadeIn from "../components/motions/FadeIn";
 import SearchBar from "../components/templates/TemplateSearch";
 import DashboardLayout from "../layout/dashboard";
@@ -12,6 +12,7 @@ import { TEMPLATE_DATA } from "../components/templates/TemplateData";
 const Templates = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("");
+  const [openedDialog, setOpenedDialog] = useState<string | null>(null);
 
   const filteredData = TEMPLATE_DATA.filter((model) => {
     const matchQuery = model.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -19,6 +20,14 @@ const Templates = () => {
       category === "" || model.category.toLowerCase() === category.toLowerCase();
     return matchQuery && matchCategory;
   });
+
+  const openDialog = (modelName: string) => {
+    setOpenedDialog(modelName);
+  };
+
+  const closeDialog = () => {
+    setOpenedDialog(null);
+  };
 
   return (
     <DashboardLayout>
@@ -35,7 +44,13 @@ const Templates = () => {
           <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
           <div className="grid grid-cols-1 justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredData.map((model) => (
-              <TemplateCard key={model.name + model.description} model={model} />
+              <DialogManager
+                key={model.name + model.description}
+                model={model}
+                isOpen={openedDialog === model.name}
+                onClick={openDialog}
+                onClose={closeDialog}
+              />
             ))}
           </div>
         </FadeIn>

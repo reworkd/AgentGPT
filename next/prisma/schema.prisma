@@ -51,9 +51,57 @@ model User {
   sessions Session[]
   runs     Run[]
   Agent    Agent[]
+  UserRole UserRole[]
 
   @@index([email])
   @@index([createDate])
+}
+
+model Organization {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?
+  UserRole    UserRole[]
+
+  create_date DateTime  @default(now())
+  update_date DateTime? @updatedAt
+  delete_date DateTime?
+
+  @@index([name])
+  @@map("organization")
+}
+
+enum RoleName {
+  ADMIN
+  OWNER
+  MEMBER
+}
+
+model Role {
+  id          String     @id @default(cuid())
+  name        RoleName
+  description String?
+  UserRole    UserRole[]
+
+  @@index([name])
+  @@map("role")
+}
+
+model UserRole {
+  id              String  @id @default(cuid())
+  user_id         String
+  organization_id String?
+  role_id         String
+
+  user         User          @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  role         Role          @relation(fields: [role_id], references: [id], onDelete: NoAction)
+  Organization Organization? @relation(fields: [organization_id], references: [id], onDelete: NoAction)
+
+  @@unique([user_id, organization_id, role_id])
+  @@index([user_id])
+  @@index([organization_id])
+  @@index([role_id])
+  @@map("user_role")
 }
 
 model VerificationToken {

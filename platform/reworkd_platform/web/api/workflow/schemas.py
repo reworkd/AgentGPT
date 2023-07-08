@@ -52,7 +52,7 @@ class WorkflowUpdate(BaseModel):
 
     def to_graph(self) -> DiGraph:
         graph = DiGraph()
-        graph.add_nodes_from([v.id for v in self.nodes])
+        graph.add_nodes_from([v.id or v.ref for v in self.nodes])
         graph.add_edges_from([(e.source, e.target) for e in self.edges])
 
         return graph

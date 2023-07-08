@@ -68,10 +68,13 @@ export const useWorkflow = (workflowId: string) => {
     });
   };
 
+  const onExecute = async () => await api.execute(workflowId);
+
   return {
     nodesModel,
     edgesModel,
     saveWorkflow: onSave,
+    executeWorkflow: onExecute,
     createNode,
   };
 };

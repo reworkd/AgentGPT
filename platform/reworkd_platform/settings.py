@@ -58,7 +58,7 @@ class Settings(BaseSettings):
 
     # Variables for the database
     db_host: str = "localhost"
-    db_port: int = 3306
+    db_port: int = 3307
     db_user: str = "reworkd_platform"
     db_pass: str = "reworkd_platform"
     db_base: str = "reworkd_platform"
@@ -82,6 +82,9 @@ class Settings(BaseSettings):
     sentry_sample_rate: float = 1.0
 
     kafka_bootstrap_servers: List[str] = ["reworkd_platform-kafka:9092"]
+    kafka_username: str = "<Should be updated via env>"
+    kafka_password: str = "<Should be updated via env>"
+    kafka_security_protocol: str = "SASL_SSL"
 
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked

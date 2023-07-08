@@ -1,7 +1,11 @@
-from aiokafka import AIOKafkaProducer
+from typing import Optional
+
 from fastapi import FastAPI
 
+from reworkd_platform.services.kafka.producers.base import AsyncProducer
 from reworkd_platform.settings import settings
+
+producer: Optional[AsyncProducer] = None
 
 
 async def init_kafka(app: FastAPI) -> None:  # pragma: no cover
@@ -19,10 +23,9 @@ async def init_kafka(app: FastAPI) -> None:  # pragma: no cover
 
     :param app: current application.
     """
-    app.state.kafka_producer = AIOKafkaProducer(
-        bootstrap_servers=settings.kafka_bootstrap_servers,
-    )
-    await app.state.kafka_producer.start()
+    global producer
+    producer = await AsyncProducer.create(settings)
+    app.state.kafka_producer = producer
 
 
 async def shutdown_kafka(app: FastAPI) -> None:  # pragma: no cover

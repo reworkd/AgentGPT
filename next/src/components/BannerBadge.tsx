@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from "react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { IoSparkles } from "react-icons/io5";
 import clsx from "clsx";
 
 type BadgeProps = PropsWithChildren<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
@@ -18,7 +17,6 @@ const BannerBadge = ({ children, className, ...props }: BadgeProps) => {
       )}
       {...props}
     >
-      <IoSparkles className="mx-1" />
       <span>{children}</span>
       <FaArrowRight
         className={clsx(

@@ -1,3 +1,4 @@
+from loguru import logger
 from networkx import topological_sort
 
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent

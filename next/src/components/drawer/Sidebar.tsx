@@ -62,7 +62,7 @@ const Sidebar = ({ show, setShow }: SidebarProps) => {
               {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
             </div>
           )}
-          {status === "authenticated" && isLoading && (
+          {(status === "loading" || isLoading) && (
             <div className="flex flex-col gap-2 overflow-hidden">
               {Array(13)
                 .fill(0)

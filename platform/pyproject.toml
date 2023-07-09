@@ -37,6 +37,7 @@ vecs = "^0.2.6"
 grpcio = "^1.54.2"
 pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
 networkx = "^3.1"
+pusher = "^3.3.2"
 
 
 [tool.poetry.dev-dependencies]

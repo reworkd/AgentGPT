@@ -21,7 +21,6 @@ const WorkflowPage: NextPage = () => {
     <DashboardLayout>
       <FlowChart
         controls={true}
-        isLoading={false}
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"

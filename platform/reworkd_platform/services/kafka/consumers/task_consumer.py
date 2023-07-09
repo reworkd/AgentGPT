@@ -1,5 +1,4 @@
 from aiokafka import ConsumerRecord
-from loguru import logger
 
 from reworkd_platform.services.kafka.consumers.base import AsyncConsumer
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
@@ -26,7 +25,6 @@ class WorkflowTaskConsumer(AsyncConsumer):
 
     async def on_message(self, record: ConsumerRecord) -> None:
         workflow = WorkflowTaskEvent(**record.value)
-        logger.info(f"Received message: {workflow}")
 
         engine = ExecutionEngine(self.producer, workflow)
         await engine.loop()

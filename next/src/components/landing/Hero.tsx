@@ -23,7 +23,7 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "pb-2 text-left text-2xl font-normal leading-loose tracking-wide sm:text-6xl md:text-7xl",
+              "pb-2 text-left text-2xl font-normal leading-loose tracking-[.09rem] sm:text-6xl md:text-7xl",
               "bg-clip-text text-transparent",
               "bg-gradient-to-r from-white to-transparent"
             )}

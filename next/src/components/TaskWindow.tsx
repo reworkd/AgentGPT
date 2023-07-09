@@ -9,7 +9,7 @@ import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, Reorder } from "framer-motion";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/task";
 import { useTaskStore } from "../stores/taskStore";
 
@@ -21,6 +21,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
   const tasks = useTaskStore.use.tasks();
+  const setTasks = useTaskStore.use.setTasks();
   const addTask = useTaskStore.use.addTask();
   const [t] = useTranslation();
 
@@ -34,6 +35,39 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
     });
     setCustomTask("");
   };
+
+
+  
+  // For storing Index of the task which we want to drag
+  const dragTaskIndex = React.useRef(null);
+  // When Task DragStarted
+  const onDragStart = (e:React.DragEvent<HTMLDivElement>, i: number) => {
+    dragTaskIndex.current = i;
+
+    // Making Task opacity zero in the task list. Using timeout because without it, it will make opacity 0 instantly and then the Task which is showing on cursor will also not visible
+    setTimeout(() => {
+      e.target.classList.add("opacity-0");
+    }, 0);
+  }
+  // When we drag the task upon another task
+  const onDragEnter = (i:number) => {
+    if (dragTaskIndex.current === null) return;
+    // Tasks Order will be updated only when the Task on which we are droping has `started` status 
+    if (tasks[i].status !== "started") return
+    const _items = [...tasks];
+    // removing the Task from array
+    const draggedItem = _items.splice(dragTaskIndex.current, 1)[0];
+    // inserting that element in new position where we want to drop
+    _items.splice(i, 0, draggedItem);
+    dragTaskIndex.current = i;
+    setTasks(_items)
+  }
+
+  // When we left the draging Task
+  const onDragEnd = (e:React.DragEvent<HTMLDivElement>) => {
+    dragTaskIndex.current = null;
+    e.target.classList.remove("opacity-0");
+  }
 
   return (
     <Expand
@@ -53,11 +87,28 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
               This window will display agent tasks as they are created.
             </p>
           )}
-          <AnimatePresence>
-            {tasks.map((task, i) => (
-              <Task key={i} index={i} task={task} />
-            ))}
-          </AnimatePresence>
+          <Reorder.Group drag="y" values={[]} onReorder={() => {}} as="div" >
+            <AnimatePresence>
+              {tasks.map((task, i) => (
+                    <Reorder.Item
+                      key={task.id}
+                      as='span'
+                    >
+                      <div
+                        className={task.status === "started" ? "cursor-move" : ""}
+                        draggable={task.status === "started"}
+                        onDragStart={(e:React.DragEvent<HTMLDivElement>) => onDragStart(e, i)}
+                        onDragEnter={() => onDragEnter(i)}
+                        onDragEnd={onDragEnd}
+                        onDragOver={(e:React.DragEvent<HTMLDivElement>)=>e.preventDefault()}
+                        >
+                        <Task index={i} task={task} />
+                      </div>
+                    </Reorder.Item>
+                  ))
+                }
+                </AnimatePresence>
+          </Reorder.Group>
         </div>
         <div className="mt-auto flex flex-row gap-1">
           <Input
@@ -89,7 +140,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
       deleteTask(task.taskId as string);
     }
   };
-
+  
   return (
     <FadeIn>
       <div

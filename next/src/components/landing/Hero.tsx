@@ -23,7 +23,9 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "pb-2 text-left text-2xl font-medium leading-loose tracking-wide sm:text-6xl md:text-7xl "
+              "pb-2 text-left text-2xl font-normal leading-loose tracking-wide sm:text-6xl md:text-7xl",
+              "bg-clip-text text-transparent",
+              "bg-gradient-to-r from-white to-transparent"
             )}
           >
             <div>
@@ -34,7 +36,10 @@ const Hero = () => {
           </h1>
           <p
             className={clsx(
-              "text-16 font-inter my-3 mb-9 inline-block w-full text-left align-top font-thin leading-[28px] tracking-widest"
+              "font-inter my-3 mb-9 inline-block w-full",
+              "text-left align-top font-normal leading-[28px] tracking-[.08rem]",
+              "bg-gradient-to-r bg-clip-text text-transparent",
+              "from-white via-white via-40% to-transparent"
             )}
           >
             Create and deploy AI agents in the web in seconds. Simply

@@ -34,7 +34,7 @@ const Hero = () => {
           </h1>
           <p
             className={clsx(
-              "text-16 font-inter my-3 mb-9 inline-block w-full text-left align-top font-thin leading-6 tracking-widest"
+              "text-16 font-inter my-3 mb-9 inline-block w-full text-left align-top font-thin leading-[28px] tracking-widest"
             )}
           >
             Create and deploy AI agents in the web in seconds. Simply

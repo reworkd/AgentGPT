@@ -92,6 +92,12 @@ class Settings(BaseSettings):
     kafka_password: str = "<Should be updated via env>"
     kafka_ssal_mechanism: SASL_MECHANISM = "PLAIN"
 
+    # Websocket settings
+    pusher_app_id: str = "change_me"
+    pusher_key: str = "change_me"
+    pusher_secret: str = "change_me"
+    pusher_cluster: str = "change_me"
+
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     max_loops: int = 25  # Maximum number of loops to run

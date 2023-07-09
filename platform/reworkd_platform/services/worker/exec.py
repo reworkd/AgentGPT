@@ -2,6 +2,7 @@ from networkx import topological_sort
 
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
+from reworkd_platform.services.sockets import websockets
 from reworkd_platform.web.api.workflow.schemas import WorkflowFull
 
 
@@ -15,7 +16,22 @@ class ExecutionEngine:
 
     async def loop(self) -> None:
         curr = self.workflow.queue.pop(0)
+        logger.info(f"Running task: {curr.ref}")
+
+        websockets.emit(
+            self.workflow.workflow_id,
+            "my-event",
+            {"nodeId": curr.id, "status": "running"},
+        )
+
         # TODO: do work
+        # await sleep(0.5)
+
+        websockets.emit(
+            self.workflow.workflow_id,
+            "my-event",
+            {"nodeId": curr.id, "status": "success"},
+        )
 
         if self.workflow.queue:
             await self.start()

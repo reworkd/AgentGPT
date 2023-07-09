@@ -5,7 +5,6 @@ import PrimaryButton from "../PrimaryButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 const Hero = () => {
   const router = useRouter();
@@ -31,11 +30,9 @@ const Hero = () => {
             )}
           >
             <div>
-              Autonomous AI
+              AI Agents. At
               <br />
-              Agents At Your
-              <br />
-              Fingertips
+              Your Fingertips
             </div>
           </h1>
 

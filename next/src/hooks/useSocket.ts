@@ -13,18 +13,15 @@ export default function useSocket<T extends z.Schema>(
     const app_key = env.NEXT_PUBLIC_PUSHER_APP_KEY as string | undefined;
     if (!app_key) return () => void 0;
 
-    console.log("connecting to", channelName);
     const pusher = new Pusher(app_key, { cluster: "mt1" });
     const channel = pusher.subscribe(channelName);
 
     channel.bind("my-event", async (data) => {
-      console.log(JSON.stringify(data));
       const obj = (await eventSchema.parse(data)) as z.infer<T>;
       callback(obj);
     });
 
     return () => {
-      console.log("disconnecting from", channelName);
       pusher.unsubscribe(channelName);
     };
   }, []);

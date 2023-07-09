@@ -37,7 +37,7 @@ const Hero = () => {
           <p
             className={clsx(
               "font-inter my-3 mb-9 inline-block w-full",
-              "text-left align-top font-normal leading-[28px] tracking-[.08rem]",
+              "text-left align-top font-light leading-[28px] tracking-[.08rem]",
               "bg-gradient-to-r bg-clip-text text-transparent",
               "from-white via-white via-40% to-transparent"
             )}

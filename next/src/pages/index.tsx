@@ -92,6 +92,7 @@ const Home: NextPage = () => {
 
   const handleNewAgent = (name: string, goal: string) => {
     if (session === null) {
+      storeAgentDataInLocalStorage(name, goal);
       setShowSignInDialog(true);
       return;
     }
@@ -120,6 +121,28 @@ const Home: NextPage = () => {
     setAgent(newAgent);
     newAgent?.run().then(console.log).catch(console.error);
   };
+
+  const storeAgentDataInLocalStorage = (name: string, goal: string) => {
+    const agentData = { name, goal };
+    localStorage.setItem("agentData", JSON.stringify(agentData));
+  };
+
+  const getAgentDataFromLocalStorage = () => {
+    const agentData = localStorage.getItem("agentData");
+    return agentData ? JSON.parse(agentData) : null;
+  };
+
+  useEffect(() => {
+    if (session !== null) {
+      const agentData = getAgentDataFromLocalStorage();
+
+      if (agentData) {
+        setNameInput(agentData.name);
+        setGoalInput(agentData.goal);
+        localStorage.removeItem("agentData");
+      }
+    }
+  }, [session]);
 
   const handleRestart = () => {
     resetAllMessageSlices();

@@ -2,6 +2,7 @@
 import Pusher from "pusher-js";
 import { useEffect } from "react";
 import type { z } from "zod";
+import { env } from "../env/client.mjs";
 
 export default function useSocket<T extends z.Schema>(
   channelName: string,
@@ -9,8 +10,11 @@ export default function useSocket<T extends z.Schema>(
   callback: (data: z.infer<T>) => void
 ) {
   useEffect(() => {
+    const app_key = env.NEXT_PUBLIC_PUSHER_APP_KEY as string | undefined;
+    if (!app_key) return () => void 0;
+
     console.log("connecting to", channelName);
-    const pusher = new Pusher("377d23ce6b781644137c", { cluster: "mt1" });
+    const pusher = new Pusher(app_key, { cluster: "mt1" });
     const channel = pusher.subscribe(channelName);
 
     channel.bind("my-event", async (data) => {

@@ -35,6 +35,7 @@ import { toApiModelSettings } from "../utils/interfaces";
 import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
+import FeedbackDialog from "../components/dialog/FeedbackDialog";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -137,6 +138,9 @@ const Home: NextPage = () => {
     <DashboardLayout>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
+      <FeedbackDialog lifecycle={agentLifecycle} />
+
+
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
       <div id="content" className="flex min-h-screen w-full items-center justify-center">
@@ -163,7 +167,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Chat" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Chat"}
               onClick={() => handleVisibleWindowClick("Chat")}
@@ -174,7 +178,7 @@ const Home: NextPage = () => {
               className={clsx(
                 "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
                 mobileVisibleWindow == "Tasks" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
               )}
               disabled={mobileVisibleWindow == "Tasks"}
               onClick={() => handleVisibleWindowClick("Tasks")}

@@ -3,11 +3,12 @@
   "name": "Reworkd",
   "logo": {
     "dark": "/logo/logolight.png",
-    "light": "/logo/logodark.png"
+    "light": "/logo/logodark.png",
+    "href": ""
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#000000",
+    "primary": "#808080",
     "light": "#FFFFFF",
     "dark": "#000000",
     "background": {
@@ -47,7 +48,7 @@
     },
     {
       "group": "Development",
-      "pages": ["development/setup", "development/prompts", "development/memory", "development/translations"]
+      "pages": ["development/setup", "development/prompts", "development/memory", "development/translations",  "development/auth"]
     },
     {
       "group": "Essentials",

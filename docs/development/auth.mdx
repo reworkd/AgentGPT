@@ -1,0 +1,63 @@
+---
+title: Authentication
+description: Learn how AgentGPT handles authentication in different development modes and with various providers.
+icon: "lock"
+---
+
+# Authentication in Development Mode
+
+In development mode, your application uses a simplified version of authentication for ease of testing and debugging. This is usually not secure and should not be used in a production environment.
+
+In your `.env` file, you can switch between development and production environments using the `NODE_ENV` variable. When it's set to "development", the application runs in development mode.
+
+To make the application use the insecure, simple version of authentication, set the `NEXTAUTH_SECRET` variable in your `.env` file to a simple, insecure value (e.g., "changeme").
+
+## Accessing Provider Secret Keys
+
+To enable different types of OAuth authentication, you will need to acquire secret keys from the respective providers. Below are the general instructions for getting these secret keys:
+
+<Tabs>
+  <Tab title="Google">
+
+Create a project in the Google Cloud Console.  
+Go to "Credentials", click on "Create Credentials" and choose "OAuth client ID".  
+Configure your OAuth consent screen and application type, then click "Create".  
+Your client ID and secret will be displayed.  
+For more detailed instructions, visit Google's official [OAuth 2.0 setup guide](https://developers.google.com/identity/protocols/oauth2).
+
+  </Tab>
+
+  <Tab title="GitHub">
+
+Go to your GitHub settings.  
+Click on "Developer settings".  
+Click on "OAuth Apps" and then "New OAuth App".  
+Fill in the required information and click "Register Application".  
+The client ID and secret will be displayed on the next page.  
+You can find more detailed instructions in the [GitHub OAuth documentation](https://docs.github.com/en/developers/apps/building-oauth-apps).
+
+  </Tab>
+
+  <Tab title="Discord">
+
+Go to the Discord Developer Portal.  
+Click on "New Application".  
+Give your application a name and click "Create".  
+Go to the "OAuth2" page in your application settings.  
+Under "Redirects", add your redirect URIs.  
+Click on "Save Changes".  
+The client ID can be found on the "General Information" page, and the secret can be found on the "OAuth2" page.  
+For more detailed instructions, visit the [Discord OAuth2 documentation](https://discord.com/developers/docs/topics/oauth2).
+
+  </Tab>
+</Tabs>
+
+## Enabling Non-Local Authentication
+
+The `.env` file includes several placeholders for provider client IDs and secrets. Replace these placeholders with the keys obtained from the respective providers:
+
+- For Google, replace the "\*\*\*" placeholders for `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` with the client ID and secret obtained from Google.
+- For GitHub, replace the "\*\*\*" placeholders for `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` with the client ID and secret obtained from GitHub.
+- For Discord, replace the "\*\*\*" placeholders for `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` with the client ID and secret obtained from Discord.
+
+Once these changes are made, your application will be set up to use OAuth authentication with these providers. To switch from local authentication to OAuth authentication, change the `NEXTAUTH_URL` variable in your `.env` file to the URL where your application is hosted. This cannot be localhost.

@@ -61,18 +61,6 @@ const Hero = () => {
       >
         <Backing />
       </FadeIn>
-
-      <FadeIn duration={1.5} initialY={50} className="absolute inset-0">
-        <Image
-          src="/hero-background.png"
-          alt="Background Image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          quality={100}
-          className="brightness-[0.8] saturate-[0.9]"
-        />
-      </FadeIn>
     </div>
   );
 };

@@ -47,7 +47,7 @@
     },
     {
       "group": "Development",
-      "pages": ["development/setup", "development/prompts", "development/memory", "development/translations"]
+      "pages": ["development/setup", "development/prompts", "development/memory", "development/translations",  "development/auth"]
     },
     {
       "group": "Essentials",

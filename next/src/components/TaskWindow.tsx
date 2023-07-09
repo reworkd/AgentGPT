@@ -9,7 +9,7 @@ import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, Reorder } from "framer-motion";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/task";
 import { useTaskStore } from "../stores/taskStore";
 
@@ -21,6 +21,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
   const tasks = useTaskStore.use.tasks();
+  const setTasks = useTaskStore.use.setTasks();
   const addTask = useTaskStore.use.addTask();
   const [t] = useTranslation();
 
@@ -34,6 +35,12 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
     });
     setCustomTask("");
   };
+
+
+  const rearrangeList = (tasks) => {
+    console.log(tasks);
+    setTasks(tasks)
+  }
 
   return (
     <Expand
@@ -53,11 +60,14 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
               This window will display agent tasks as they are created.
             </p>
           )}
-          <AnimatePresence>
-            {tasks.map((task, i) => (
-              <Task key={i} index={i} task={task} />
-            ))}
-          </AnimatePresence>
+            <AnimatePresence>
+          <Reorder.Group drag="y" values={tasks} onReorder={rearrangeList} as="div" className="gap-4" >
+              {tasks.map((task, i) => (
+                <Task index={i} task={task} />
+              ))
+              }
+          </Reorder.Group>
+            </AnimatePresence>
         </div>
         <div className="mt-auto flex flex-row gap-1">
           <Input
@@ -91,27 +101,36 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
   };
 
   return (
-    <FadeIn>
-      <div
-        className={clsx(
-          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
-          isAgentStopped && "opacity-50",
-          getMessageContainerStyle(task)
-        )}
-      >
-        {getTaskStatusIcon(task, { isAgentStopped })}
-        <span>{task.value}</span>
-        <div className="flex justify-end">
-          <FaTimesCircle
-            onClick={handleDeleteTask}
-            className={clsx(
-              isTaskDeletable && "cursor-pointer hover:text-red-500",
-              !isTaskDeletable && "cursor-not-allowed opacity-30"
-            )}
-            size={12}
-          />
+    <Reorder.Item
+      key={task.id}
+      as='div'
+      value={task}
+      // dragListener={task.status === "started"}
+      className="mb-2"
+    >
+      <FadeIn>
+        <div
+          className={clsx(
+            "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+            isAgentStopped && "opacity-50",
+            getMessageContainerStyle(task)
+          )}
+        >
+          {getTaskStatusIcon(task, { isAgentStopped })}
+          <span>{task.value}</span>
+          <div className="flex justify-end">
+            <FaTimesCircle
+              onClick={handleDeleteTask}
+              className={clsx(
+                isTaskDeletable && "cursor-pointer hover:text-red-500",
+                !isTaskDeletable && "cursor-not-allowed opacity-30"
+              )}
+              size={12}
+            />
+          </div>
         </div>
-      </div>
-    </FadeIn>
+      </FadeIn>
+    </Reorder.Item>
+
   );
 };

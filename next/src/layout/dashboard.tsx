@@ -4,11 +4,31 @@ import clsx from "clsx";
 import DottedGridBackground from "../components/DottedGridBackground";
 import AppHead from "../components/AppHead";
 import { useTheme } from "../hooks/useTheme";
-import Sidebar, { SidebarControlButton } from "../components/drawer/Sidebar";
+import LeftSidebar from "../components/drawer/LeftSidebar";
+import { SidebarControlButton } from "../components/drawer/Sidebar";
+import TaskSidebar from "../components/drawer/TaskSidebar";
 
+type SidebarSettings = {
+  mobile: boolean;
+  desktop: boolean;
+};
 const DashboardLayout = (props: PropsWithChildren) => {
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
+  const [leftSettings, setLeftSettings] = useState({ mobile: false, desktop: true });
+  const [rightSettings, setRightSettings] = useState({ mobile: false, desktop: true });
+
+  const setMobile =
+    (settings: SidebarSettings, setSettings: (SidebarSettings) => void) => (open: boolean) =>
+      setSettings({
+        mobile: open,
+        desktop: settings.desktop,
+      });
+
+  const setDesktop =
+    (settings: SidebarSettings, setSettings: (SidebarSettings) => void) => (open: boolean) =>
+      setSettings({
+        mobile: settings.mobile,
+        desktop: open,
+      });
 
   //add event listener to detect OS theme changes
   useTheme();
@@ -17,24 +37,64 @@ const DashboardLayout = (props: PropsWithChildren) => {
     <>
       <AppHead />
 
-      {/*Mobile sidebar*/}
-      <Sidebar show={mobileSidebarOpen} setShow={setMobileSidebarOpen} />
-      <div className={mobileSidebarOpen ? "hidden" : "lg:hidden"}>
-        <SidebarControlButton show={mobileSidebarOpen} setShow={setMobileSidebarOpen} />
+      {/* Left sidebar */}
+      {/* Mobile */}
+      <LeftSidebar show={leftSettings.mobile} setShow={setMobile(leftSettings, setLeftSettings)} />
+      <div className={leftSettings.mobile ? "hidden" : "lg:hidden"}>
+        <SidebarControlButton
+          side="left"
+          show={leftSettings.mobile}
+          setShow={setMobile(leftSettings, setLeftSettings)}
+        />
+      </div>
+      {/* Desktop */}
+      <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
+        <LeftSidebar
+          show={leftSettings.desktop}
+          setShow={setDesktop(leftSettings, setLeftSettings)}
+        />
+      </div>
+      <div className={leftSettings.desktop ? "hidden" : "hidden lg:block"}>
+        <SidebarControlButton
+          side="left"
+          show={leftSettings.desktop}
+          setShow={setDesktop(leftSettings, setLeftSettings)}
+        />
       </div>
 
+      {/* Right sidebar */}
+      {/* Mobile */}
+      <TaskSidebar
+        show={rightSettings.mobile}
+        setShow={setMobile(rightSettings, setRightSettings)}
+      />
+      <div className={rightSettings.mobile ? "hidden" : "lg:hidden"}>
+        <SidebarControlButton
+          side="right"
+          show={rightSettings.mobile}
+          setShow={setMobile(rightSettings, setRightSettings)}
+        />
+      </div>
       {/* Desktop sidebar */}
       <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
-        <Sidebar show={desktopSidebarOpen} setShow={setDesktopSidebarOpen} />
+        <TaskSidebar
+          show={rightSettings.desktop}
+          setShow={setDesktop(rightSettings, setRightSettings)}
+        />
       </div>
-      <div className={desktopSidebarOpen ? "hidden" : "hidden lg:block"}>
-        <SidebarControlButton show={desktopSidebarOpen} setShow={setDesktopSidebarOpen} />
+      <div className={rightSettings.desktop ? "hidden" : "hidden lg:block"}>
+        <SidebarControlButton
+          side="right"
+          show={rightSettings.desktop}
+          setShow={setDesktop(rightSettings, setRightSettings)}
+        />
       </div>
 
       <main
         className={clsx(
           "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
-          desktopSidebarOpen && "lg:pl-64"
+          leftSettings.desktop && "lg:pl-64",
+          rightSettings.desktop && "lg:pr-64"
         )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">

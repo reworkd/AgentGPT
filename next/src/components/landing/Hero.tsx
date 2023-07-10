@@ -2,10 +2,12 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
+import TextButton from "../TextButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { FaChevronRight } from "react-icons/fa";
 
 const Hero = () => {
   const router = useRouter();
@@ -24,26 +26,32 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "pb-2 text-left text-5xl sm:text-6xl md:text-7xl xl:text-8xl",
+              "pb-2 text-left font-normal tracking-[.09rem]",
+              "text-3xl md:text-5xl lg:text-6xl xl:text-7xl",
               "bg-clip-text text-transparent",
-              "bg-gradient-to-br from-white to-neutral-600",
-              "leading-[1.1em] tracking-[-0.5px]"
+              "bg-gradient-to-r from-white to-transparent"
             )}
           >
             <div>
-              Autonomous AI
+              AI Agents at
               <br />
-              Agents At Your
-              <br />
-              Fingertips
+              Your Fingertips.
             </div>
           </h1>
-
-          <p className="my-3 mb-9 inline-block w-full text-left align-top text-sm font-thin text-neutral-300 sm:text-base lg:text-lg">
-            The leading web-based autonomous agent platform.
-            <br />
-            Automate business processes at scale.
-          </p>
+          <div className="w-4/5">
+            <p
+              className={clsx(
+                "my-3 inline-block w-full font-inter",
+                "text-left align-top font-light leading-[22px]",
+                "tracking-[.08rem]",
+                "bg-gradient-to-r bg-clip-text text-transparent",
+                "from-white via-white via-50% to-neutral-600"
+              )}
+            >
+              Create and deploy AI agents in the web in seconds. Simply give them a name and goal.
+              Then experience a new way to accomplish any objective.
+            </p>
+          </div>
           <PrimaryButton
             onClick={() => {
               router.push("/").catch(console.error);
@@ -57,21 +65,9 @@ const Hero = () => {
       <FadeIn
         initialY={50}
         duration={1.5}
-        className="absolute bottom-10 right-0 z-10 flex w-screen justify-center"
+        className="absolute bottom-10 right-0 z-10 hidden w-screen justify-center lg:flex"
       >
         <Backing />
-      </FadeIn>
-
-      <FadeIn duration={1.5} initialY={50} className="absolute inset-0">
-        <Image
-          src="/hero-background.png"
-          alt="Background Image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          quality={100}
-          className="brightness-[0.8] saturate-[0.9]"
-        />
       </FadeIn>
     </div>
   );

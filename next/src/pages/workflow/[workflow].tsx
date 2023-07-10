@@ -25,7 +25,7 @@ const WorkflowPage: NextPage = () => {
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
       />
-      <div>
+      <div className="relative h-full w-full">
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <Button
             className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"

@@ -79,7 +79,7 @@ const OpenSource = () => {
               <PrimaryButton>View on Github</PrimaryButton>
             </a>
             <a href="https://github.com/orgs/reworkd/projects/3" target="_blank">
-              <PrimaryButton outline>Public Roadmap</PrimaryButton>
+              <PrimaryButton>Public Roadmap</PrimaryButton>
             </a>
           </div>
         </div>

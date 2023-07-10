@@ -2,9 +2,12 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
+import TextButton from "../TextButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { FaChevronRight } from "react-icons/fa";
 
 const Hero = () => {
   const router = useRouter();
@@ -43,13 +46,29 @@ const Hero = () => {
             <br />
             accomplish any objective.
           </p>
-          <PrimaryButton
-            onClick={() => {
-              router.push("/").catch(console.error);
-            }}
-          >
-            Get started
-          </PrimaryButton>
+          <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
+            <PrimaryButton
+              icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Contact Us</span>
+                <FaChevronRight size="12" />
+              </>
+            </PrimaryButton>
+            <TextButton
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Explore AI Agents</span>
+                <FaChevronRight size="12" />
+              </>
+            </TextButton>
+          </div>
         </FadeIn>
       </div>
 

@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import clsx from "clsx";
 import DottedGridBackground from "../components/DottedGridBackground";
@@ -12,7 +12,12 @@ type SidebarSettings = {
   mobile: boolean;
   desktop: boolean;
 };
-const DashboardLayout = (props: PropsWithChildren) => {
+
+type DashboardLayoutProps = {
+  children: ReactNode;
+  rightSidebar?: ReactNode;
+};
+const DashboardLayout = (props: DashboardLayoutProps) => {
   const [leftSettings, setLeftSettings] = useState({ mobile: false, desktop: true });
   const [rightSettings, setRightSettings] = useState({ mobile: false, desktop: true });
 
@@ -64,37 +69,41 @@ const DashboardLayout = (props: PropsWithChildren) => {
 
       {/* Right sidebar */}
       {/* Mobile */}
-      <TaskSidebar
-        show={rightSettings.mobile}
-        setShow={setMobile(rightSettings, setRightSettings)}
-      />
-      <div className={rightSettings.mobile ? "hidden" : "lg:hidden"}>
-        <SidebarControlButton
-          side="right"
-          show={rightSettings.mobile}
-          setShow={setMobile(rightSettings, setRightSettings)}
-        />
-      </div>
-      {/* Desktop sidebar */}
-      <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
-        <TaskSidebar
-          show={rightSettings.desktop}
-          setShow={setDesktop(rightSettings, setRightSettings)}
-        />
-      </div>
-      <div className={rightSettings.desktop ? "hidden" : "hidden lg:block"}>
-        <SidebarControlButton
-          side="right"
-          show={rightSettings.desktop}
-          setShow={setDesktop(rightSettings, setRightSettings)}
-        />
-      </div>
+      {props.rightSidebar && (
+        <>
+          <TaskSidebar
+            show={rightSettings.mobile}
+            setShow={setMobile(rightSettings, setRightSettings)}
+          />
+          <div className={rightSettings.mobile ? "hidden" : "lg:hidden"}>
+            <SidebarControlButton
+              side="right"
+              show={rightSettings.mobile}
+              setShow={setMobile(rightSettings, setRightSettings)}
+            />
+          </div>
+          {/* Desktop sidebar */}
+          <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
+            <TaskSidebar
+              show={rightSettings.desktop}
+              setShow={setDesktop(rightSettings, setRightSettings)}
+            />
+          </div>
+          <div className={rightSettings.desktop ? "hidden" : "hidden lg:block"}>
+            <SidebarControlButton
+              side="right"
+              show={rightSettings.desktop}
+              setShow={setDesktop(rightSettings, setRightSettings)}
+            />
+          </div>
+        </>
+      )}
 
       <main
         className={clsx(
           "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
           leftSettings.desktop && "lg:pl-64",
-          rightSettings.desktop && "lg:pr-64"
+          props.rightSidebar && rightSettings.desktop && "lg:pr-64"
         )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">

@@ -39,6 +39,7 @@ import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
 import { ChatMessage } from "../components/console/ChatMessage";
+import clsx from "clsx";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -165,7 +166,10 @@ const Home: NextPage = () => {
       <div id="content" className="flex min-h-screen w-full items-center justify-center">
         <div
           id="layout"
-          className="flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 sm:gap-3 sm:p-4"
+          className={clsx(
+            "flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 pt-10 sm:gap-3 sm:p-4",
+            agent !== null ? "pt-11" : "pt-3"
+          )}
         >
           {
             <AnimatePresence>

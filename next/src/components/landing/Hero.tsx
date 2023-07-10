@@ -26,25 +26,25 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "pb-2 text-left text-5xl sm:text-6xl md:text-7xl xl:text-8xl",
-              "bg-clip-text text-transparent",
-              "bg-gradient-to-br from-white to-neutral-600",
-              "leading-[1.1em] tracking-[-0.5px]"
+              "pb-2 text-left text-2xl font-medium leading-loose tracking-wide sm:text-6xl md:text-7xl "
             )}
           >
             <div>
-              Autonomous AI
+              AI Agents at
               <br />
-              Agents At Your
-              <br />
-              Fingertips
+              Your Fingertips.
             </div>
           </h1>
-
-          <p className="my-3 mb-9 inline-block w-full text-left align-top text-sm font-thin text-neutral-300 sm:text-base lg:text-lg">
-            The leading web-based autonomous agent platform.
+          <p
+            className={clsx(
+              "text-16 font-inter my-3 mb-9 inline-block w-full text-left align-top font-thin leading-[28px] tracking-widest"
+            )}
+          >
+            Create and deploy AI agents in the web in seconds. Simply
             <br />
-            Automate business processes at scale.
+            give them a name and goal. Then experience a new way to
+            <br />
+            accomplish any objective.
           </p>
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
             <PrimaryButton

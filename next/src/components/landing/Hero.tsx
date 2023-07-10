@@ -52,13 +52,29 @@ const Hero = () => {
               Then experience a new way to accomplish any objective.
             </p>
           </div>
-          <PrimaryButton
-            onClick={() => {
-              router.push("/").catch(console.error);
-            }}
-          >
-            Get started
-          </PrimaryButton>
+          <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
+            <PrimaryButton
+              icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Contact Us</span>
+                <FaChevronRight size="12" />
+              </>
+            </PrimaryButton>
+            <TextButton
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Explore AI Agents</span>
+                <FaChevronRight size="12" />
+              </>
+            </TextButton>
+          </div>
         </FadeIn>
       </div>
 

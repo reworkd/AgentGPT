@@ -14,7 +14,7 @@ const BannerBadge = ({ children, className, ...props }: BadgeProps) => {
         "relative flex w-max cursor-pointer items-center gap-1 rounded-full",
         "border border-purple-300 p-1 pl-2 text-sm text-purple-300",
         "animate-border-pulse",
-        className
+        "bg-gradient-to-t from-purple-500/20 via-transparent to-transparent"
       )}
       {...props}
     >
@@ -22,7 +22,7 @@ const BannerBadge = ({ children, className, ...props }: BadgeProps) => {
       <span>{children}</span>
       <FaArrowRight
         className={clsx(
-          "text-purple-300",
+          "font-thin text-purple-300",
           "transition-transform duration-300",
           "group-hover:translate-x-1"
         )}

@@ -4,7 +4,7 @@ import type { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import { get_avatar } from "../../utils/user";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaEllipsisH, FaSignInAlt } from "react-icons/fa";
 import Dialog from "../../ui/dialog";
 import { ThemeMenu } from "../ThemeMenu";
 
@@ -32,20 +32,27 @@ const AuthItem: FC<{
       >
         {user && (
           <img
-            className="h-8 w-8 rounded-full bg-neutral-800"
+            className="h-9 w-9 rounded-md bg-neutral-800"
             src={get_avatar(user)}
             alt="user avatar"
           />
         )}
         {!user && (
-          <h1 className="ml-2 flex h-8 w-8 flex-grow items-center gap-2 text-center">
+          <h1 className="ml-2 flex h-9 w-9 flex-grow items-center gap-2 text-center">
             <FaSignInAlt />
             {t("SIGN_IN")}
           </h1>
         )}
 
         <span className="sr-only">Your profile</span>
-        <span aria-hidden="true">{user?.name}</span>
+        <div>
+          <p aria-hidden="true">{user?.name}</p>
+          <p aria-hidden="true" className="text-xs font-thin">
+            {user?.email}
+          </p>
+        </div>
+        <FaEllipsisH className="ml-auto">Test</FaEllipsisH>
+
         <Dialog
           inline
           open={showDialog}

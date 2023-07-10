@@ -53,7 +53,7 @@ const TaskSidebar = ({ show, setShow }: DisplayProps) => {
           )}
           <AnimatePresence>
             {tasks.map((task) => (
-              <Task key={task.taskId} task={task} />
+              <Task key={`${task.id || ""} ${task.taskId || ""}`} task={task} />
             ))}
           </AnimatePresence>
         </div>

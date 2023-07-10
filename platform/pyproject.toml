@@ -60,6 +60,7 @@ pytest-mock = "^3.10.0"
 httpx = "^0.24.1"
 pytest-asyncio = "^0.21.0"
 mypy = "^1.4.1"
+types-requests = "^2.31.0.1"
 
 [tool.isort]
 profile = "black"

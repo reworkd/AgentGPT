@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from loguru import logger
 from pusher import Pusher
 from pusher.errors import PusherBadRequest
@@ -16,7 +18,7 @@ class WebsocketService:
             ssl=True,
         )
 
-    def emit(self, channel: str, event: str, data: dict) -> None:
+    def emit(self, channel: str, event: str, data: Dict[str, Any]) -> None:
         try:
             self._client.trigger(channel, event, data)
         except (PusherBadRequest, ReadTimeout) as e:

@@ -63,7 +63,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
     >
       <HideShow
         showComponent={hasUserScrolled}
-        className="absolute bottom-14 right-6 cursor-pointer"
+        className="absolute bottom-11 right-6 cursor-pointer sm:bottom-14"
       >
         <FaArrowCircleDown
           onClick={() => handleScrollToBottom("smooth")}
@@ -73,7 +73,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
 
       <MacWindowHeader title={title} messages={messages} />
       <div
-        className="mr-2 flex-1 overflow-auto transition-all duration-500"
+        className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}
@@ -91,7 +91,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
         </div>
       </div>
       {chatControls && (
-        <div className="mt-auto flex flex-row gap-2 p-2 sm:p-4">
+        <div className="mt-auto flex flex-row gap-2 p-2 pt-0 sm:p-4">
           <Input
             small
             placeholder="Chat with your agent..."

@@ -54,8 +54,8 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
             </p>
           )}
           <AnimatePresence>
-            {tasks.map((task, i) => (
-              <Task key={i} index={i} task={task} />
+            {tasks.map((task) => (
+              <Task key={task.taskId} task={task} />
             ))}
           </AnimatePresence>
         </div>
@@ -79,7 +79,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   );
 };
 
-const Task = ({ task, index }: { task: Task; index: number }) => {
+const Task = ({ task }: { task: Task }) => {
   const isAgentStopped = useAgentStore.use.lifecycle() === "stopped";
   const deleteTask = useTaskStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";

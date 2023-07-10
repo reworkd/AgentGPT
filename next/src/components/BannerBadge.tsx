@@ -22,7 +22,7 @@ const BannerBadge = ({ children, className, ...props }: BadgeProps) => {
       <span>{children}</span>
       <FaArrowRight
         className={clsx(
-          "text-purple-300",
+          "font-thin text-purple-300",
           "transition-transform duration-300",
           "group-hover:translate-x-1"
         )}

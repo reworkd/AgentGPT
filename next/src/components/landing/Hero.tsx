@@ -23,7 +23,8 @@ const Hero = () => {
           </div>
           <h1
             className={clsx(
-              "pb-2 text-left text-2xl font-normal leading-loose tracking-[.09rem] sm:text-6xl md:text-7xl",
+              "pb-2 text-left font-normal tracking-[.09rem]",
+              "text-3xl md:text-5xl lg:text-6xl xl:text-7xl",
               "bg-clip-text text-transparent",
               "bg-gradient-to-r from-white to-transparent"
             )}
@@ -36,8 +37,9 @@ const Hero = () => {
           </h1>
           <p
             className={clsx(
-              "font-inter my-3 mb-9 inline-block w-full",
-              "text-left align-top font-light leading-[28px] tracking-[.08rem]",
+              "font-inter my-3 inline-block w-full",
+              "text-left align-top font-light leading-[22px]",
+              "tracking-[.08rem] ",
               "bg-gradient-to-r bg-clip-text text-transparent",
               "from-white via-white via-40% to-transparent"
             )}
@@ -61,7 +63,7 @@ const Hero = () => {
       <FadeIn
         initialY={50}
         duration={1.5}
-        className="absolute bottom-10 right-0 z-10 flex w-screen justify-center"
+        className="absolute bottom-10 right-0 z-10 hidden w-screen justify-center lg:flex"
       >
         <Backing />
       </FadeIn>

@@ -35,21 +35,20 @@ const Hero = () => {
               Your Fingertips.
             </div>
           </h1>
-          <p
-            className={clsx(
-              "font-inter my-3 inline-block w-full",
-              "text-left align-top font-light leading-[22px]",
-              "tracking-[.08rem] ",
-              "bg-gradient-to-r bg-clip-text text-transparent",
-              "from-white via-white via-40% to-transparent"
-            )}
-          >
-            Create and deploy AI agents in the web in seconds. Simply
-            <br />
-            give them a name and goal. Then experience a new way to
-            <br />
-            accomplish any objective.
-          </p>
+          <div className="w-4/5">
+            <p
+              className={clsx(
+                "font-inter my-3 inline-block w-full",
+                "text-left align-top font-light leading-[22px]",
+                "tracking-[.08rem]",
+                "bg-gradient-to-r bg-clip-text text-transparent",
+                "from-white via-white via-50% to-neutral-600"
+              )}
+            >
+              Create and deploy AI agents in the web in seconds. Simply give them a name and goal.
+              Then experience a new way to accomplish any objective.
+            </p>
+          </div>
           <PrimaryButton
             onClick={() => {
               router.push("/").catch(console.error);

@@ -6,7 +6,7 @@ import AppHead from "../components/AppHead";
 import { useTheme } from "../hooks/useTheme";
 import LeftSidebar from "../components/drawer/LeftSidebar";
 import { SidebarControlButton } from "../components/drawer/Sidebar";
-import RightSidebar from "../components/drawer/RightSidebar";
+import TaskSidebar from "../components/drawer/TaskSidebar";
 
 type SidebarSettings = {
   mobile: boolean;
@@ -64,7 +64,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
 
       {/* Right sidebar */}
       {/* Mobile */}
-      <RightSidebar
+      <TaskSidebar
         show={rightSettings.mobile}
         setShow={setMobile(rightSettings, setRightSettings)}
       />
@@ -77,7 +77,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       </div>
       {/* Desktop sidebar */}
       <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
-        <RightSidebar
+        <TaskSidebar
           show={rightSettings.desktop}
           setShow={setDesktop(rightSettings, setRightSettings)}
         />

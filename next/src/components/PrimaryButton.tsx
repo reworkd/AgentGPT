@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import Button from "../ui/button";
+import type { ReactNode } from "react";
 import React from "react";
 
 type PrimaryButtonProps = {
-  children: JSX.Element;
+  children: ReactNode | string;
   icon?: React.ReactNode;
   onClick?: () => void;
 };

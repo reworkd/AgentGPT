@@ -5,8 +5,8 @@ import DottedGridBackground from "../components/DottedGridBackground";
 import AppHead from "../components/AppHead";
 import { useTheme } from "../hooks/useTheme";
 import LeftSidebar from "../components/drawer/LeftSidebar";
+import type { DisplayProps } from "../components/drawer/Sidebar";
 import { SidebarControlButton } from "../components/drawer/Sidebar";
-import TaskSidebar from "../components/drawer/TaskSidebar";
 
 type SidebarSettings = {
   mobile: boolean;
@@ -15,7 +15,7 @@ type SidebarSettings = {
 
 type DashboardLayoutProps = {
   children: ReactNode;
-  rightSidebar?: ReactNode;
+  rightSidebar?: ({ show, setShow }: DisplayProps) => JSX.Element;
 };
 const DashboardLayout = (props: DashboardLayoutProps) => {
   const [leftSettings, setLeftSettings] = useState({ mobile: false, desktop: true });
@@ -71,7 +71,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
       {/* Mobile */}
       {props.rightSidebar && (
         <>
-          <TaskSidebar
+          <props.rightSidebar
             show={rightSettings.mobile}
             setShow={setMobile(rightSettings, setRightSettings)}
           />
@@ -84,7 +84,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           </div>
           {/* Desktop sidebar */}
           <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
-            <TaskSidebar
+            <props.rightSidebar
               show={rightSettings.desktop}
               setShow={setDesktop(rightSettings, setRightSettings)}
             />

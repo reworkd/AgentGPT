@@ -170,6 +170,9 @@ model WorkflowNode {
   update_date DateTime? @updatedAt
   delete_date DateTime?
 
+  type         String
+  input_config Json
+
   workflow Workflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
 
   @@unique([workflow_id, ref])

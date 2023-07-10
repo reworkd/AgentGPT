@@ -5,12 +5,12 @@ from pusher import Pusher
 from pusher.errors import PusherBadRequest
 from requests import ReadTimeout
 
-from reworkd_platform.settings import Settings, settings
+from reworkd_platform.settings import Settings, settings as app_settings
 
 
 class WebsocketService:
     def __init__(self, settings: Settings):
-        self._client = Pusher(
+        self._client = settings.pusher_enabled and Pusher(
             app_id=settings.pusher_app_id,
             key=settings.pusher_key,
             secret=settings.pusher_secret,
@@ -20,9 +20,9 @@ class WebsocketService:
 
     def emit(self, channel: str, event: str, data: Dict[str, Any]) -> None:
         try:
-            self._client.trigger(channel, event, data)
+            self._client and self._client.trigger(channel, event, data)
         except (PusherBadRequest, ReadTimeout) as e:
             logger.warning(f"Failed to emit event: {data}")
 
 
-websockets = WebsocketService(settings=settings)
+websockets = WebsocketService(settings=app_settings)

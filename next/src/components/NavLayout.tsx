@@ -15,7 +15,7 @@ const navigation = [
 export default function NavLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <FadeIn duration={2}>
+      <FadeIn duration={3}>
         <Disclosure as="nav" className="absolute top-0 z-50 w-full bg-transparent text-white">
           {({ open }) => (
             <>

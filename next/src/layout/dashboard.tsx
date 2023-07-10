@@ -42,6 +42,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       <LeftSidebar show={leftSettings.mobile} setShow={setMobile(leftSettings, setLeftSettings)} />
       <div className={leftSettings.mobile ? "hidden" : "lg:hidden"}>
         <SidebarControlButton
+          side="left"
           show={leftSettings.mobile}
           setShow={setMobile(leftSettings, setLeftSettings)}
         />
@@ -55,6 +56,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       </div>
       <div className={leftSettings.desktop ? "hidden" : "hidden lg:block"}>
         <SidebarControlButton
+          side="left"
           show={leftSettings.desktop}
           setShow={setDesktop(leftSettings, setLeftSettings)}
         />
@@ -62,12 +64,13 @@ const DashboardLayout = (props: PropsWithChildren) => {
 
       {/* Right sidebar */}
       {/* Mobile */}
-      <LeftSidebar
+      <RightSidebar
         show={rightSettings.mobile}
         setShow={setMobile(rightSettings, setRightSettings)}
       />
       <div className={rightSettings.mobile ? "hidden" : "lg:hidden"}>
         <SidebarControlButton
+          side="right"
           show={rightSettings.mobile}
           setShow={setMobile(rightSettings, setRightSettings)}
         />
@@ -81,6 +84,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       </div>
       <div className={rightSettings.desktop ? "hidden" : "hidden lg:block"}>
         <SidebarControlButton
+          side="right"
           show={rightSettings.desktop}
           setShow={setDesktop(rightSettings, setRightSettings)}
         />

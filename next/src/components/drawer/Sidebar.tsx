@@ -2,6 +2,7 @@ import { FaBars } from "react-icons/fa";
 import type { ReactNode } from "react";
 import { Fragment } from "react";
 import { Transition } from "@headlessui/react";
+import clsx from "clsx";
 
 export type DisplayProps = {
   show: boolean;
@@ -62,10 +63,17 @@ const SidebarTransition = ({ children, show, side }: SidebarTransitionProps) => 
   );
 };
 
-export const SidebarControlButton = ({ show, setShow }: DisplayProps) => {
+export const SidebarControlButton = ({
+  show,
+  setShow,
+  side,
+}: DisplayProps & { side: "left" | "right" }) => {
   return (
     <button
-      className="neutral-button-primary fixed z-20 m-1 rounded-md border border-shade-300-light transition-all sm:m-2"
+      className={clsx(
+        "neutral-button-primary fixed z-20 m-1 rounded-md border border-shade-300-light transition-all sm:m-2",
+        side === "right" && "right-0"
+      )}
       onClick={() => setShow(!show)}
     >
       <FaBars size="15" className="m-2" />

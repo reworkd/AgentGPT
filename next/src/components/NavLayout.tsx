@@ -4,7 +4,6 @@ import { FaBars, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
-import Footer from "./landing/Footer";
 
 const navigation = [
   { name: "Home", href: "#" },
@@ -89,7 +88,6 @@ export default function NavLayout({ children }: { children: ReactNode }) {
       </FadeIn>
 
       <main className="min-w-screen min-h-screen">{children}</main>
-      <Footer className="mt-32" />
     </>
   );
 }

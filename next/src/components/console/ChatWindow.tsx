@@ -25,13 +25,7 @@ interface ChatWindowProps extends HeaderProps {
   chatControls?: ChatControls;
 }
 
-const ChatWindow = ({
-  messages,
-  children,
-  title,
-  visibleOnMobile,
-  chatControls,
-}: ChatWindowProps) => {
+const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps) => {
   const [t] = useTranslation();
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const isThinking = useAgentStore.use.isAgentThinking();
@@ -64,8 +58,7 @@ const ChatWindow = ({
   return (
     <div
       className={clsx(
-        "border-translucent h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500",
-        visibleOnMobile ? "flex" : "hidden xl:flex"
+        "border-translucent flex h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500"
       )}
     >
       <HideShow
@@ -80,7 +73,7 @@ const ChatWindow = ({
 
       <MacWindowHeader title={title} messages={messages} />
       <div
-        className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
+        className="mr-2 flex-1 overflow-auto transition-all duration-500"
         ref={scrollRef}
         onScroll={handleScroll}
         id={messageListId}

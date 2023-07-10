@@ -19,7 +19,7 @@ class WorkflowNode:
     description: str
     image_url: str
 
-    def __init__(self, node_id: str, input_config: NodeIOBase):
+    def __init__(self, node_id: str, input_config: WorkflowNodeIOBase):
         self.node_id = node_id
         self.input_config = input_config
 

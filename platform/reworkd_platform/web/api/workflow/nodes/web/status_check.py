@@ -19,18 +19,17 @@ class UrlStatusCheckNode(WorkflowNode):
     type = "UrlStatusCheckNode"
     description = "Outputs the status code of a GET request to a URL"
     image_url = ""
+    input_config: UrlStatusCheckNodeInput
 
-    def __init__(self, node_id: str, config: UrlStatusCheckNodeInput):
-        super().__init__(node_id, config)
-        self.config = config
+    def __init__(self, node_id: str, input_config: UrlStatusCheckNodeInput):
+        super().__init__(node_id, input_config)
 
     def run(self):
         try:
-            response = requests.get(self.config.url)
-            success = response.status_code != 404
+            response = requests.get(self.input_config.url)
             code = response.status_code
         except RequestException:
-            success = False
             code = None
+            
         output = UrlStatusCheckNodeOutput(status=code)
         return output

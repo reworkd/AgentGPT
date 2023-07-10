@@ -1,23 +1,21 @@
+import type { DisplayProps } from "./Sidebar";
+import Sidebar from "./Sidebar";
+import { FaBars, FaTimesCircle } from "react-icons/fa";
 import React from "react";
-import FadeIn from "./motions/FadeIn";
-import Expand from "./motions/expand";
-import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
-import { useAgentStore } from "../stores";
-import { FaListAlt, FaTimesCircle } from "react-icons/fa";
+import { useAgentStore } from "../../stores";
+import { useTaskStore } from "../../stores/taskStore";
 import { useTranslation } from "next-i18next";
-import clsx from "clsx";
-import Input from "./Input";
-import Button from "./Button";
 import { v1 } from "uuid";
+import type { Task as TaskType } from "../../types/task";
+import { MESSAGE_TYPE_TASK, TASK_STATUS_STARTED } from "../../types/task";
+import FadeIn from "../motions/FadeIn";
+import clsx from "clsx";
+import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
 import { AnimatePresence } from "framer-motion";
-import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/task";
-import { useTaskStore } from "../stores/taskStore";
+import Input from "../Input";
+import Button from "../Button";
 
-export interface TaskWindowProps {
-  visibleOnMobile?: boolean;
-}
-
-export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
+const TaskSidebar = ({ show, setShow }: DisplayProps) => {
   const [customTask, setCustomTask] = React.useState("");
   const agent = useAgentStore.use.agent();
   const tasks = useTaskStore.use.tasks();
@@ -36,30 +34,30 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   };
 
   return (
-    <Expand
-      className={clsx(
-        "h-full flex-col items-center rounded-2xl border-2 border-white/20 bg-zinc-900 font-mono shadow-2xl",
-        "w-full xl:ml-2 xl:flex xl:w-64 xl:px-1",
-        !visibleOnMobile && "hidden"
-      )}
-    >
-      <div className="sticky top-0 my-1 flex items-center justify-center gap-2 bg-zinc-900 p-2 text-gray-100 ">
-        <FaListAlt /> {t("Current tasks")}
-      </div>
-      <div className="flex h-full w-full flex-col gap-1 overflow-auto p-1">
-        <div className="flex h-full w-full flex-col gap-2 overflow-auto pr-1">
+    <Sidebar show={show} setShow={setShow} side="right">
+      <div className="flex h-screen flex-col gap-2 text-white">
+        <div className="flex flex-row items-center gap-1">
+          <button
+            className="neutral-button-primary rounded-md border-none transition-all"
+            onClick={() => setShow(!show)}
+          >
+            <FaBars size="15" className="z-20 m-2" />
+          </button>
+          <div className="ml-5 font-bold">{t("Current tasks")}</div>
+        </div>
+        <div className="flex flex-1 flex-col gap-2 overflow-auto pr-1">
           {tasks.length == 0 && (
-            <p className="w-full p-2 text-center text-xs text-gray-300">
+            <p className="w-full p-2 text-gray-300">
               This window will display agent tasks as they are created.
             </p>
           )}
           <AnimatePresence>
-            {tasks.map((task, i) => (
-              <Task key={i} index={i} task={task} />
+            {tasks.map((task) => (
+              <Task key={`${task.id || ""} ${task.taskId || ""}`} task={task} />
             ))}
           </AnimatePresence>
         </div>
-        <div className="mt-auto flex flex-row gap-1">
+        <div className="flex flex-row gap-1">
           <Input
             value={customTask}
             onChange={(e) => setCustomTask(e.target.value)}
@@ -75,11 +73,11 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
           </Button>
         </div>
       </div>
-    </Expand>
+    </Sidebar>
   );
 };
 
-const Task = ({ task, index }: { task: Task; index: number }) => {
+const Task = ({ task }: { task: TaskType }) => {
   const isAgentStopped = useAgentStore.use.lifecycle() === "stopped";
   const deleteTask = useTaskStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
@@ -94,7 +92,7 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
     <FadeIn>
       <div
         className={clsx(
-          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+          "w-full rounded-md border p-2 text-sm text-white",
           isAgentStopped && "opacity-50",
           getMessageContainerStyle(task)
         )}
@@ -108,10 +106,11 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
               isTaskDeletable && "cursor-pointer hover:text-red-500",
               !isTaskDeletable && "cursor-not-allowed opacity-30"
             )}
-            size={12}
           />
         </div>
       </div>
     </FadeIn>
   );
 };
+
+export default TaskSidebar;

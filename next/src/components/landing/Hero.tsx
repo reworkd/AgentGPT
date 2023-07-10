@@ -2,9 +2,12 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
+import TextButton from "../TextButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { FaChevronRight } from "react-icons/fa";
 
 const Hero = () => {
   const router = useRouter();
@@ -38,7 +41,7 @@ const Hero = () => {
           <div className="w-4/5">
             <p
               className={clsx(
-                "font-inter my-3 inline-block w-full",
+                "my-3 inline-block w-full font-inter",
                 "text-left align-top font-light leading-[22px]",
                 "tracking-[.08rem]",
                 "bg-gradient-to-r bg-clip-text text-transparent",

@@ -7,7 +7,6 @@ import {
   FaLinkedin,
   FaQuestion,
   FaTwitter,
-  FaUser,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
@@ -25,13 +24,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaHome,
     className: "group-hover:text-color-secondary",
   },
-  // {
-  //   name: "Flows",
-  //   href: "/workflow",
-  //   icon: FaWaveSquare,
-  //   badge: "Beta",
-  //   className: "transition-transform group-hover:scale-110",
-  // },
   {
     name: "Templates",
     href: "/templates",
@@ -50,12 +42,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     href: "/settings",
     icon: FaCog,
     className: "transition-transform group-hover:rotate-90",
-  },
-  {
-    name: "Manage account",
-    href: "/plan",
-    icon: FaUser,
-    className: "transition-transform group-hover:scale-110",
   },
 ];
 

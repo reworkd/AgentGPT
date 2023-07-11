@@ -43,6 +43,7 @@
     "next-auth": "4.20.1",
     "next-i18next": "^13.2.2",
     "nextjs-google-analytics": "^2.3.3",
+    "pusher-js": "^8.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.3.1",

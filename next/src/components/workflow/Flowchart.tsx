@@ -12,11 +12,15 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 import CustomNode from "./BasicNode";
-import Loader from "../loader";
+import CustomEdge from "./BasicEdge";
 import type { EdgesModel, NodesModel } from "../../types/workflow";
 
 const nodeTypes = {
   custom: CustomNode,
+};
+
+const edgeTypes = {
+  custom: CustomEdge,
 };
 
 const fitViewOptions: FitViewOptions = {
@@ -24,7 +28,6 @@ const fitViewOptions: FitViewOptions = {
 };
 
 interface FlowChartProps extends React.ComponentProps<typeof ReactFlow> {
-  isLoading?: boolean;
   onSave?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
   controls?: boolean;
   minimap?: boolean;
@@ -35,7 +38,6 @@ interface FlowChartProps extends React.ComponentProps<typeof ReactFlow> {
 }
 
 const FlowChart: FC<FlowChartProps> = ({
-  isLoading,
   onSave,
   // workflow,
   nodesModel,
@@ -69,6 +71,7 @@ const FlowChart: FC<FlowChartProps> = ({
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       proOptions={{ hideAttribution: true }}
       fitView
       fitViewOptions={fitViewOptions}
@@ -76,17 +79,7 @@ const FlowChart: FC<FlowChartProps> = ({
     >
       {props.minimap && <MiniMap nodeStrokeWidth={3} />}
       {props.controls && <Controls />}
-      {isLoading ? (
-        <div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-stone-900">
-          <Loader size={100} lineWeight={3} color={"black"} />
-        </div>
-      ) : (
-        <Background
-          variant={BackgroundVariant.Lines}
-          lineWidth={0}
-          className="radial-mask dark:bg-shade-900" //TODO: fix radial mask
-        />
-      )}
+      <Background variant={BackgroundVariant.Lines} lineWidth={0} />
     </ReactFlow>
   );
 };

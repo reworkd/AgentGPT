@@ -1,5 +1,6 @@
 from typing import Optional, List
 
+from networkx import DiGraph
 from pydantic import BaseModel, Field
 
 
@@ -44,11 +45,27 @@ class Workflow(BaseModel):
     description: str
 
 
-class WorkflowFull(Workflow):
-    nodes: list[Node]
-    edges: list[Edge]
-
-
+# noinspection DuplicatedCode
 class WorkflowUpdate(BaseModel):
     nodes: List[NodeUpsert]
     edges: List[EdgeUpsert]
+
+    def to_graph(self) -> DiGraph:
+        graph = DiGraph()
+        graph.add_nodes_from([v.id or v.ref for v in self.nodes])
+        graph.add_edges_from([(e.source, e.target) for e in self.edges])
+
+        return graph
+
+
+# noinspection DuplicatedCode
+class WorkflowFull(Workflow):
+    nodes: List[Node]
+    edges: List[Edge]
+
+    def to_graph(self) -> DiGraph:
+        graph = DiGraph()
+        graph.add_nodes_from([v.id for v in self.nodes])
+        graph.add_edges_from([(e.source, e.target) for e in self.edges])
+
+        return graph

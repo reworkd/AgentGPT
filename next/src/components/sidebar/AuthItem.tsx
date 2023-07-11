@@ -51,7 +51,7 @@ const AuthItem: FC<{
             {user?.email}
           </p>
         </div>
-        <FaEllipsisH className="ml-auto">Test</FaEllipsisH>
+        {user && <FaEllipsisH className="ml-auto">Test</FaEllipsisH>}
 
         <Dialog
           inline

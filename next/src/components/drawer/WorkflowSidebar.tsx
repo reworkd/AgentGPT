@@ -4,15 +4,16 @@ import React from "react";
 import { FaBars } from "react-icons/fa";
 import type { NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
+import type { createNodeType } from "../../hooks/useWorkflow";
 
 type WorkflowControls = {
-  createNode: () => void;
+  createNode: createNodeType;
 };
 
 type WorkflowSidebarProps = DisplayProps & WorkflowControls;
 
 // Wrapper HOC to curry the createNode function
-export const getWorkflowSidebar = (createNode: () => void) => {
+export const getWorkflowSidebar = (createNode: createNodeType) => {
   const WorkflowSidebarHOC = ({ show, setShow }: DisplayProps) => (
     <WorkflowSidebar show={show} setShow={setShow} createNode={createNode} />
   );
@@ -47,13 +48,13 @@ const WorkflowSidebar = ({ show, setShow, createNode }: WorkflowSidebarProps) =>
 
 type NodeBlockProps = {
   definition: NodeBlockDefinition;
-  createNode: () => void;
+  createNode: createNodeType;
 };
 const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
   return (
     <div
       className="flex cursor-pointer flex-row gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10"
-      onClick={() => createNode()}
+      onClick={() => createNode(definition)}
     >
       <img src={definition.image_url} alt={definition.type} width={30} height={30} />
       <div className="flex-shrink">

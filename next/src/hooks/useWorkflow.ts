@@ -8,6 +8,7 @@ import { toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 import WorkflowApi from "../services/workflow/workflowApi";
 import useSocket from "./useSocket";
 import { z } from "zod";
+import type { NodeBlockDefinition } from "../services/workflow/node-block-definitions";
 
 const eventSchema = z.object({
   nodeId: z.string(),
@@ -77,7 +78,7 @@ export const useWorkflow = (workflowId: string) => {
     );
   });
 
-  const createNode = () => {
+  const createNode: createNodeType = (block: NodeBlockDefinition) => {
     const ref = nanoid(11);
 
     setNodes((nodes) => [
@@ -91,6 +92,7 @@ export const useWorkflow = (workflowId: string) => {
           ref: ref,
           pos_x: 0,
           pos_y: 0,
+          block: block,
         },
       },
     ]);
@@ -122,3 +124,5 @@ export const useWorkflow = (workflowId: string) => {
     createNode,
   };
 };
+
+export type createNodeType = (block: NodeBlockDefinition) => void;

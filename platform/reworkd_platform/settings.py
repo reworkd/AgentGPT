@@ -93,10 +93,10 @@ class Settings(BaseSettings):
     kafka_ssal_mechanism: SASL_MECHANISM = "PLAIN"
 
     # Websocket settings
-    pusher_app_id: str = "change_me"
-    pusher_key: str = "change_me"
-    pusher_secret: str = "change_me"
-    pusher_cluster: str = "change_me"
+    pusher_app_id: Optional[str] = None
+    pusher_key: Optional[str] = None
+    pusher_secret: Optional[str] = None
+    pusher_cluster: Optional[str] = None
 
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
@@ -116,6 +116,17 @@ class Settings(BaseSettings):
             user=self.db_user,
             password=self.db_pass,
             path=f"/{self.db_base}",
+        )
+
+    @property
+    def pusher_enabled(self) -> bool:
+        return all(
+            [
+                self.pusher_app_id,
+                self.pusher_key,
+                self.pusher_secret,
+                self.pusher_cluster,
+            ]
         )
 
     class Config:

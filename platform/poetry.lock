@@ -156,13 +156,13 @@ zstd = ["zstandard"]
 
 [[package]]
 name = "aiomysql"
-version = "0.1.1"
+version = "0.2.0"
 description = "MySQL driver for asyncio."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "aiomysql-0.1.1-py3-none-any.whl", hash = "sha256:b66fa1481ca71c5ee0d933ec3abf51f6136543a3710ba80b134eb33da7ed6f13"},
-    {file = "aiomysql-0.1.1.tar.gz", hash = "sha256:0d686c4fdae6b67d1825d8be60fa3b0e644fca2c84d3c936d850fc259c8e107e"},
+    {file = "aiomysql-0.2.0-py3-none-any.whl", hash = "sha256:b7c26da0daf23a5ec5e0b133c03d20657276e4eae9b73e040b72787f6f6ade0a"},
+    {file = "aiomysql-0.2.0.tar.gz", hash = "sha256:558b9c26d580d08b8c5fd1be23c5231ce3aeff2dadad989540fee740253deb67"},
 ]
 
 [package.dependencies]
@@ -170,7 +170,7 @@ PyMySQL = ">=1.0"
 
 [package.extras]
 rsa = ["PyMySQL[rsa] (>=1.0)"]
-sa = ["sqlalchemy (>=1.0,<1.4)"]
+sa = ["sqlalchemy (>=1.3,<1.4)"]
 
 [[package]]
 name = "aiosignal"
@@ -3764,4 +3764,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "889e424b528c389712505034da216f669dd413ed511a3f88e2b5f0531b1af1aa"
+content-hash = "0a65481bc91da5b55519c11fd8025124af84f67725b47addc1d83d30582909ad"

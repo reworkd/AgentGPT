@@ -83,7 +83,6 @@ const Hero = () => {
         initialY={50}
         duration={3}
         className="absolute bottom-10 right-0 z-10 w-screen justify-center"
-        s
       >
         <div className="flex justify-between px-4 md:px-8 lg:px-16">
           <Backing />

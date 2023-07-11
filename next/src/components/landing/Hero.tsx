@@ -8,6 +8,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
+import FooterLinks from "./FooterLinks";
 
 const Hero = () => {
   const router = useRouter();
@@ -82,8 +83,12 @@ const Hero = () => {
         initialY={50}
         duration={3}
         className="absolute bottom-10 right-0 z-10 w-screen justify-center"
+        s
       >
-        <Backing />
+        <div className="flex justify-between px-4 md:px-8 lg:px-16">
+          <Backing />
+          <FooterLinks />
+        </div>
       </FadeIn>
     </div>
   );

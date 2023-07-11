@@ -14,7 +14,7 @@ readme = "README.md"
 python = "^3.9"
 fastapi = "^0.98.0"
 uvicorn = { version = "^0.22.0", extras = ["standard"] }
-pydantic = { version = "^1.10.8", extras = ["dotenv"] }
+pydantic = { version = "^1.10.11", extras = ["dotenv"] }
 yarl = "^1.9.2"
 ujson = "^5.7.0"
 sqlalchemy = {version = "^2.0.17", extras = ["mypy", "asyncio"]}

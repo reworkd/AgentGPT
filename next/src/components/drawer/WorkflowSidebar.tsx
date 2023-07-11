@@ -2,7 +2,7 @@ import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
 import React from "react";
 import { FaBars } from "react-icons/fa";
-import { getWorkflowNodeDefinitions } from "../../services/workflow/workflow-nodes-definitions";
+import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
 
 const WorkflowSidebar = ({ show, setShow }: DisplayProps) => {
   return (
@@ -17,7 +17,7 @@ const WorkflowSidebar = ({ show, setShow }: DisplayProps) => {
           </button>
           <div className="ml-5 font-bold">Nodes</div>
         </div>
-        {getWorkflowNodeDefinitions().map((nodeDefinition) => (
+        {getNodeBlockDefinitions().map((nodeDefinition) => (
           <div key={nodeDefinition.type} className="ml-5 font-bold">
             {nodeDefinition.type}
           </div>

@@ -4,7 +4,7 @@ const FooterLink = ({ href, children }) => (
   <a
     href={href}
     className={clsx(
-      "rounded-full bg-transparent text-white/60 ",
+      "w-full rounded-full bg-transparent text-white/20 ",
       "transition duration-200 ease-in-out hover:text-white/90",
       " focus:outline-none focus:ring-2 focus:ring-white/60 focus:ring-offset-2 focus:ring-offset-transparent"
     )}
@@ -15,11 +15,13 @@ const FooterLink = ({ href, children }) => (
 
 const FooterLinks = () => {
   return (
-    <div className="flex cursor-pointer justify-between space-x-4">
+    <div className="flex cursor-pointer justify-between space-x-8">
       <FooterLink href="https://www.ycombinator.com/companies/reworkd/jobs">Careers</FooterLink>
-      <div className="flex items-center space-x-2">
-        <div className="text-white/60">Status</div>
-        <div className="h-2 w-2 rounded-full bg-green-500"></div>
+      <div className="group flex items-center space-x-2">
+        <div className="pr-1 text-white/20">Status</div>
+        <div className="relative flex h-2 w-2 items-center justify-center rounded-full bg-green-500">
+          <div className="absolute h-4 w-4 rounded-full bg-green-500 opacity-50 transition-opacity duration-200"></div>
+        </div>
       </div>
       <FooterLink href="https://agentgpt.reworkd.ai/privacypolicy">Privacy</FooterLink>
       <FooterLink href="https://agentgpt.reworkd.ai/terms">Terms</FooterLink>

@@ -71,8 +71,8 @@ const OpenSource = () => {
           <h3 className="my-4 text-6xl font-medium tracking-tight">Proudly Open Source</h3>
           <p className="mb-8 font-extralight leading-7 text-gray-400">
             We think the power of AI should be available to everyone and should be driven by
-            community. This is why we are proudly open source. We'd love to hear your feedback at
-            every step of the journey.
+            community. This is why we are proudly open source. We&apos;d love to hear your feedback
+            at every step of the journey.
           </p>
           <div className="mt-6 flex flex-row gap-4">
             <a href="https://github.com/reworkd" target="_blank">

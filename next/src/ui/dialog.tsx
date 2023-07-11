@@ -1,13 +1,14 @@
-import React, { Dispatch, FC, Fragment, PropsWithChildren, SetStateAction, useRef } from "react";
+import type { Dispatch, FC, PropsWithChildren, ReactNode, SetStateAction } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 
 interface DialogProps extends PropsWithChildren {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  icon: React.ReactNode;
-  title: React.ReactNode;
-  actions?: React.ReactNode;
+  icon: ReactNode;
+  title: ReactNode;
+  actions?: ReactNode;
   inline?: boolean;
 }
 

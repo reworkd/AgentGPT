@@ -1,3 +1,5 @@
+from typing import Optional
+
 import requests
 from requests import RequestException
 
@@ -12,7 +14,7 @@ class UrlStatusCheckNodeInput(WorkflowNodeIOBase):
 
 
 class UrlStatusCheckNodeOutput(WorkflowNodeIOBase):
-    code: str
+    code: Optional[int]
 
 
 class UrlStatusCheckNode(WorkflowNode):

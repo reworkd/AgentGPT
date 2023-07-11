@@ -17,9 +17,9 @@ const WorkflowSidebar = ({ show, setShow }: DisplayProps) => {
           </button>
           <div className="ml-5 font-bold">Nodes</div>
         </div>
-        {getNodeBlockDefinitions().map((nodeDefinition) => (
-          <div key={nodeDefinition.type} className="ml-5 font-bold">
-            {nodeDefinition.type}
+        {getNodeBlockDefinitions().map((nodeBlockDefinition) => (
+          <div key={nodeBlockDefinition.type} className="ml-5 font-bold">
+            {nodeBlockDefinition.type}
           </div>
         ))}
       </div>

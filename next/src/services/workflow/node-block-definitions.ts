@@ -1,8 +1,12 @@
-export interface NodeBlockDefinition {
-  type: string;
-  description: string;
-  image_url: string;
-}
+import { z } from "zod";
+
+export const NodeBlockDefinitionSchema = z.object({
+  type: z.string(),
+  description: z.string(),
+  image_url: z.string(),
+});
+
+export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
 
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   type: "UrlStatusCheck",

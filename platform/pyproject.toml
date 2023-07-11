@@ -36,6 +36,8 @@ numpy = "^1.24.3"
 vecs = "^0.2.6"
 grpcio = "^1.54.2"
 pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
+networkx = "^3.1"
+pusher = "^3.3.2"
 
 
 [tool.poetry.dev-dependencies]
@@ -58,6 +60,7 @@ pytest-mock = "^3.10.0"
 httpx = "^0.24.1"
 pytest-asyncio = "^0.21.0"
 mypy = "^1.4.1"
+types-requests = "^2.31.0.1"
 
 [tool.isort]
 profile = "black"

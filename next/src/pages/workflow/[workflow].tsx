@@ -14,7 +14,7 @@ import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 const WorkflowPage: NextPage = () => {
   const router = useRouter();
 
-  const { nodesModel, edgesModel, saveWorkflow, createNode } = useWorkflow(
+  const { nodesModel, edgesModel, saveWorkflow, executeWorkflow, createNode } = useWorkflow(
     router.query.workflow as string
   );
 
@@ -22,7 +22,6 @@ const WorkflowPage: NextPage = () => {
     <DashboardLayout rightSidebar={WorkflowSidebar}>
       <FlowChart
         controls={true}
-        isLoading={false}
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
@@ -44,6 +43,14 @@ const WorkflowPage: NextPage = () => {
             }}
           >
             Save
+          </Button>
+          <Button
+            className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
+            onClick={async () => {
+              await executeWorkflow();
+            }}
+          >
+            Execute
           </Button>
         </div>
       </div>

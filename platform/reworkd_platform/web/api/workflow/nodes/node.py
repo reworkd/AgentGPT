@@ -23,5 +23,5 @@ class WorkflowNode:
         self.node_id = node_id
         self.input_config = input_config
 
-    def run(self):
+    def run(self) -> WorkflowNodeIOBase:
         raise NotImplementedError("Base workflow Node class must be inherited")

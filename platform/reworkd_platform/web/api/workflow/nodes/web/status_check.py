@@ -24,12 +24,12 @@ class UrlStatusCheckNode(WorkflowNode):
     def __init__(self, node_id: str, input_config: UrlStatusCheckNodeInput):
         super().__init__(node_id, input_config)
 
-    def run(self):
+    def run(self) -> WorkflowNodeIOBase:
         try:
             response = requests.get(self.input_config.url)
             code = response.status_code
         except RequestException:
             code = None
-            
-        output = UrlStatusCheckNodeOutput(status=code)
+
+        output = UrlStatusCheckNodeOutput(code=code)
         return output

@@ -87,9 +87,9 @@ class Settings(BaseSettings):
     sentry_dsn: Optional[str] = None
     sentry_sample_rate: float = 1.0
 
-    kafka_bootstrap_servers: List[str] = ["reworkd_platform-kafka:9092"]
-    kafka_username: str = "<Should be updated via env>"
-    kafka_password: str = "<Should be updated via env>"
+    kafka_bootstrap_servers: List[str] = []
+    kafka_username: Optional[str] = None
+    kafka_password: Optional[str] = None
     kafka_ssal_mechanism: SASL_MECHANISM = "PLAIN"
 
     # Websocket settings
@@ -126,6 +126,16 @@ class Settings(BaseSettings):
                 self.pusher_key,
                 self.pusher_secret,
                 self.pusher_cluster,
+            ]
+        )
+
+    @property
+    def kafka_enabled(self) -> bool:
+        return all(
+            [
+                self.kafka_bootstrap_servers,
+                self.kafka_username,
+                self.kafka_password,
             ]
         )
 

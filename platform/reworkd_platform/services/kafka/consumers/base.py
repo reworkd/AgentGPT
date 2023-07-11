@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Protocol
 
 from aiokafka import AIOKafkaConsumer, ConsumerRecord
+from loguru import logger
 
 from reworkd_platform.settings import settings
 
@@ -21,7 +22,7 @@ class JSONDeserializer(Deserializer):
 
 class AsyncConsumer(ABC):
     def __init__(self, *topics: Any, deserializer: Deserializer = JSONDeserializer()):
-        self.consumer = AIOKafkaConsumer(
+        self.consumer = settings.kafka_enabled and AIOKafkaConsumer(
             *topics,
             bootstrap_servers=settings.kafka_bootstrap_servers,
             group_id="platform",
@@ -36,19 +37,27 @@ class AsyncConsumer(ABC):
         )
 
     async def start(self) -> "AsyncConsumer":
-        await self.consumer.start()
+        if not self.consumer:
+            logger.warning("Kafka consumer is not enabled")
+            return self
+
+        consumer: AIOKafkaConsumer = self.consumer
+        await consumer.start()
 
         async def consumer_loop() -> None:
             try:
-                async for msg in self.consumer:
+                async for msg in consumer:
                     await self.on_message(msg)
             finally:
-                await self.consumer.stop()
+                await self.stop()
 
         asyncio.get_event_loop().create_task(consumer_loop())
         return self
 
     async def stop(self) -> None:
+        if not self.consumer:
+            return
+
         await self.consumer.stop()
 
     @abstractmethod

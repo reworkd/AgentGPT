@@ -20,9 +20,6 @@ class UrlStatusCheckBlock(Block):
     image_url = ""
     input_config: UrlStatusCheckBlockInput
 
-    def __init__(self, node_id: str, input_config: UrlStatusCheckBlockInput):
-        super().__init__(node_id, input_config)
-
     def run(self) -> BlockIOBase:
         try:
             response = requests.get(self.input_config.url)

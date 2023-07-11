@@ -2,12 +2,9 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
-import TextButton from "../TextButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import { FaChevronRight } from "react-icons/fa";
 
 const Hero = () => {
   const router = useRouter();
@@ -18,10 +15,7 @@ const Hero = () => {
         <FadeIn duration={1.5} delay={0}>
           <div className="mb-2">
             <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
-              <span className="sm:hidden">Shape AI agents for your business</span>
-              <span className="hidden sm:inline">
-                Shape the future of AI agents for your business
-              </span>
+              <span>Shape AI agents for your business</span>
             </BannerBadge>
           </div>
           <h1

@@ -9,7 +9,7 @@ import Button from "../../ui/button";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
-import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
+import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
 
 const WorkflowPage: NextPage = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const WorkflowPage: NextPage = () => {
   );
 
   return (
-    <DashboardLayout rightSidebar={WorkflowSidebar}>
+    <DashboardLayout rightSidebar={getWorkflowSidebar(createNode)}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}

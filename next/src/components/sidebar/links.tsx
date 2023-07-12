@@ -7,6 +7,7 @@ import {
   FaLinkedin,
   FaQuestion,
   FaTwitter,
+  FaWater,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
@@ -23,6 +24,13 @@ export const PAGE_LINKS: LinkMetadata[] = [
     href: "/",
     icon: FaHome,
     className: "group-hover:text-color-secondary",
+  },
+  {
+    name: "Flows",
+    href: "/workflow",
+    icon: FaWater,
+    badge: "Alpha",
+    className: "transition-transform group-hover:scale-110",
   },
   {
     name: "Templates",

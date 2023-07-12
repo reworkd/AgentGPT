@@ -7,6 +7,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   helpText?: string | React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  right?: React.ReactNode;
 }
 
 const Input = (props: Props) => {
@@ -32,18 +33,21 @@ const Input = (props: Props) => {
             {props.helpText}
           </p>
         )}
-        <input
-          type={props.type}
-          name={props.name}
-          id={props.name}
-          className="border-hover-1 text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm transition-colors sm:text-sm sm:leading-6"
-          placeholder={props.placeholder}
-          value={props.value}
-          onChange={props.onChange}
-          disabled={props.disabled}
-          {...(props.helpText ? { "aria-describedby": `${props.name}-description` } : {})}
-          {...props.attributes}
-        />
+        <div className="flex flex-grow flex-row items-center gap-1">
+          <input
+            type={props.type}
+            name={props.name}
+            id={props.name}
+            className="border-hover-1 text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm transition-colors sm:text-sm sm:leading-6"
+            placeholder={props.placeholder}
+            value={props.value}
+            onChange={props.onChange}
+            disabled={props.disabled}
+            {...(props.helpText ? { "aria-describedby": `${props.name}-description` } : {})}
+            {...props.attributes}
+          />
+          {props.right}
+        </div>
       </div>
     </div>
   );

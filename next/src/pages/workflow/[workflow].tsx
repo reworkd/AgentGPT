@@ -9,6 +9,7 @@ import Button from "../../ui/button";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
+import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
 
 const WorkflowPage: NextPage = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const WorkflowPage: NextPage = () => {
   );
 
   return (
-    <DashboardLayout>
+    <DashboardLayout rightSidebar={getWorkflowSidebar(createNode)}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
@@ -27,14 +28,6 @@ const WorkflowPage: NextPage = () => {
       />
       <div className="relative h-full w-full">
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
-          <Button
-            className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
-            onClick={() => {
-              createNode();
-            }}
-          >
-            New
-          </Button>
           <Button
             className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
             onClick={async () => {

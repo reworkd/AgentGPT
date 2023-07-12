@@ -17,7 +17,8 @@ function BasicNode({ data }: NodeProps<WorkflowNode>) {
     >
       <div className="flex items-center">
         <div className="ml-2">
-          <div className="text-lg font-bold dark:text-gray-100">{data.ref.substr(0, 4)}</div>
+          <div className="text-lg font-bold dark:text-gray-100">{data.block.type}</div>
+          <div className="text-md font-thin">{data.block.description}</div>
         </div>
       </div>
 

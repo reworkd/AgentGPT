@@ -124,7 +124,7 @@ const SettingsPage = () => {
             {!disableAdvancedSettings && (
               <div className="mt-4 flex flex-col ">
                 <h1 className="text-color-primary pb-4 text-xl font-bold">Advanced Settings</h1>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-4">
                   <Combo<LLMModel>
                     label="Model"
                     value={model}

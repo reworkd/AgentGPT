@@ -1,9 +1,12 @@
 import type { ReactNode } from "react";
 import { Disclosure, Menu } from "@headlessui/react";
-import { FaBars, FaQuestion } from "react-icons/fa";
+import { FaBars, FaQuestion, FaChevronRight } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import NavContactButton from "./NavbarContactButton";
+import TextButton from "./NavbarTextButton";
 
 const navigation = [
   { name: "Home", href: "#" },
@@ -13,10 +16,15 @@ const navigation = [
 ];
 
 export default function NavLayout({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
   return (
     <>
       <FadeIn duration={3}>
-        <Disclosure as="nav" className="absolute top-0 z-50 w-full bg-transparent text-white">
+        <Disclosure
+          as="nav"
+          className="hidden:overlay absolute top-0 z-50 w-full bg-transparent text-white"
+        >
           {({ open }) => (
             <>
               <div className="mx-auto max-w-screen-xl px-6">
@@ -45,11 +53,27 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       </a>
                     ))}
                   </div>
-                  <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="relative ml-3">
-                      <div></div>
-                    </Menu>
+                  <div className="ml-auto hidden sm:ml-6 sm:flex sm:items-center">
+                    <TextButton
+                      onClick={() => {
+                        router.push("/").catch(console.error);
+                      }}
+                    >
+                      <>
+                        <span>AI Agents</span>
+                        <FaChevronRight size="12" />
+                      </>
+                    </TextButton>
+                    <NavContactButton
+                      onClick={() => {
+                        router.push("/").catch(console.error);
+                      }}
+                    >
+                      <>
+                        <span>Contact Us</span>
+                        <FaChevronRight size="12" />
+                      </>
+                    </NavContactButton>
                   </div>
                   <div className="-mr-2 flex items-center sm:hidden">
                     {/* Mobile menu button */}

@@ -8,7 +8,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ href, children, className }) =>
   <a
     href={href}
     className={`w-full rounded-full bg-transparent text-white/50 transition duration-200 
-    ease-in-out hover:text-white/90 focus:outline-none focus:ring-2 focus:ring-white/60 ${className}`}
+    ease-in-out hover:text-white/90 ${className}`}
   >
     {children}
   </a>

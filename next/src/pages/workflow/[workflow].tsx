@@ -30,14 +30,6 @@ const WorkflowPage: NextPage = () => {
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <Button
             className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
-            onClick={() => {
-              createNode();
-            }}
-          >
-            New
-          </Button>
-          <Button
-            className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
             onClick={async () => {
               await saveWorkflow();
             }}

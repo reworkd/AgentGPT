@@ -105,6 +105,7 @@ export const useWorkflow = (workflowId: string) => {
         ref: n.data.ref,
         pos_x: n.position.x,
         pos_y: n.position.y,
+        block: n.data.block,
       })),
       edges: edges.map((e) => ({
         id: e.id,

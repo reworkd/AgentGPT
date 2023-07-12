@@ -58,7 +58,6 @@ const AuthItem: FC<{
           open={showDialog}
           setOpen={setShowDialog}
           title="My Account"
-          className="w-full max-w-sm"
           icon={<img className="h-20 w-20 rounded-md" src={get_avatar(user)} alt="" />}
           actions={
             <>

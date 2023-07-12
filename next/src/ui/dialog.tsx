@@ -10,7 +10,6 @@ interface DialogProps extends PropsWithChildren {
   title: ReactNode;
   actions?: ReactNode;
   inline?: boolean;
-  className?: string;
 }
 
 const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
@@ -54,9 +53,8 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
             >
               <HeadlessDialog.Panel
                 className={clsx(
-                  "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all",
-                  props.inline || "sm:my-8 sm:w-full sm:max-w-lg",
-                  props.className
+                  "relative w-full max-w-sm transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all",
+                  props.inline || "sm:my-8 sm:w-full sm:max-w-lg"
                 )}
               >
                 <HeadlessDialog.Title
@@ -85,12 +83,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                     </div>
                   </div>
                 </div>
-                <div
-                  className={clsx(
-                    props.inline || "sm:flex sm:flex-row-reverse sm:px-6",
-                    props.inline && "flex flex-col gap-2 bg-gray-100 p-4"
-                  )}
-                >
+                <div className="flex flex-col gap-2 border-t-2 bg-gray-100 px-8 py-4">
                   {props.actions}
                 </div>
               </HeadlessDialog.Panel>

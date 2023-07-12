@@ -1,29 +1,31 @@
+import type { FC, ReactNode } from "react";
+
 interface FooterLinkProps {
   href: string;
-  children: React.ReactNode;
-  className?: string;
+  children: ReactNode;
 }
 
-const FooterLink: React.FC<FooterLinkProps> = ({ href, children, className }) => (
+const FooterLink: FC<FooterLinkProps> = ({ href, children }) => (
   <a
     href={href}
-    className={`w-full rounded-full bg-transparent text-sm text-white/50 transition 
-    duration-200 ease-in-out hover:text-white/90 ${className}`}
+    className="group w-full rounded-full bg-transparent text-sm text-white/50 transition-colors duration-300 ease-in-out hover:text-white/90"
   >
     {children}
   </a>
 );
 
-const FooterLinks: React.FC = () => {
+const FooterLinks = () => {
   return (
     <div className="flex cursor-pointer justify-evenly space-x-8">
       <FooterLink href="https://www.ycombinator.com/companies/reworkd/jobs">Careers</FooterLink>
-      <div className="group flex items-center space-x-2 text-sm">
-        <div className="pr-1 text-white/50">Status</div>
-        <div className="relative flex h-2 w-2 items-center justify-center rounded-full bg-green-500">
-          <div className="absolute h-4 w-4 rounded-full bg-green-500 opacity-50 transition-opacity duration-200"></div>
+      <FooterLink href="https://twitter.com/ReworkdAI">
+        <div className="flex items-center gap-2">
+          <p>Status</p>
+          <div className="relative flex h-2 w-2 items-center justify-center rounded-full bg-green-500">
+            <div className="absolute h-3.5 w-3.5 rounded-full bg-green-500 opacity-40 transition-opacity duration-300 group-hover:opacity-60"></div>
+          </div>
         </div>
-      </div>
+      </FooterLink>
       <FooterLink href="https://agentgpt.reworkd.ai/privacypolicy">Privacy</FooterLink>
       <FooterLink href="https://agentgpt.reworkd.ai/terms">Terms</FooterLink>
     </div>

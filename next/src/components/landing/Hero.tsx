@@ -8,12 +8,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
+import FooterLinks from "./FooterLinks";
 
 const Hero = () => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+    <div className="relative grid h-screen grid-cols-1 place-items-center gap-2 lg:grid-cols-2">
       <div className="z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
@@ -78,12 +79,16 @@ const Hero = () => {
         </FadeIn>
       </div>
 
-      <FadeIn
-        initialY={50}
-        duration={3}
-        className="absolute bottom-10 right-0 z-10 w-screen justify-center"
-      >
-        <Backing />
+      <FadeIn initialY={50} duration={3} className="z-8 absolute bottom-10 w-full justify-center">
+        <div className="flex justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="font-inter text-sm font-normal text-white/50">
+              &copy; 2023 Reworkd AI, Inc.
+            </div>
+            <Backing />
+          </div>
+          <FooterLinks />
+        </div>
       </FadeIn>
     </div>
   );

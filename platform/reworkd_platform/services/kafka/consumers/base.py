@@ -7,7 +7,7 @@ from typing import Any, Protocol
 from aiokafka import AIOKafkaConsumer, ConsumerRecord
 from loguru import logger
 
-from reworkd_platform.settings import settings
+from reworkd_platform.settings import Settings
 
 
 class Deserializer(Protocol):
@@ -21,8 +21,13 @@ class JSONDeserializer(Deserializer):
 
 
 class AsyncConsumer(ABC):
-    def __init__(self, *topics: Any, deserializer: Deserializer = JSONDeserializer()):
-        self.consumer = settings.kafka_enabled and AIOKafkaConsumer(
+    def __init__(
+        self,
+        *topics: Any,
+        settings: Settings,
+        deserializer: Deserializer = JSONDeserializer()
+    ):
+        self._consumer = settings.kafka_enabled and AIOKafkaConsumer(
             *topics,
             bootstrap_servers=settings.kafka_bootstrap_servers,
             group_id="platform",
@@ -37,11 +42,11 @@ class AsyncConsumer(ABC):
         )
 
     async def start(self) -> "AsyncConsumer":
-        if not self.consumer:
+        if not self._consumer:
             logger.warning("Kafka consumer is not enabled")
             return self
 
-        consumer: AIOKafkaConsumer = self.consumer
+        consumer: AIOKafkaConsumer = self._consumer
         await consumer.start()
 
         async def consumer_loop() -> None:
@@ -55,10 +60,10 @@ class AsyncConsumer(ABC):
         return self
 
     async def stop(self) -> None:
-        if not self.consumer:
+        if not self._consumer:
             return
 
-        await self.consumer.stop()
+        await self._consumer.stop()
 
     @abstractmethod
     async def on_message(self, record: ConsumerRecord) -> None:

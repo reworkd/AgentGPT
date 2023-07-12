@@ -5,6 +5,7 @@ from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.base import AsyncProducer
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.worker.exec import ExecutionEngine
+from reworkd_platform.settings import settings
 
 
 class WorkflowTaskConsumer(AsyncConsumer):
@@ -12,7 +13,7 @@ class WorkflowTaskConsumer(AsyncConsumer):
         self,
         producer: WorkflowTaskProducer,
     ):
-        super().__init__("workflow_task")
+        super().__init__("workflow_task", settings=settings)
         self.producer = producer
 
     @classmethod

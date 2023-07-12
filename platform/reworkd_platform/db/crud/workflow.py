@@ -1,24 +1,24 @@
 import asyncio
-from typing import List, Dict, Set
+from typing import Dict, List, Set
 
 from fastapi import Depends
-from sqlalchemy import select, and_
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.models.workflow import (
+    WorkflowEdgeModel,
     WorkflowModel,
     WorkflowNodeModel,
-    WorkflowEdgeModel,
 )
 from reworkd_platform.schemas import UserBase
 from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.web.api.workflow.schemas import (
+    EdgeUpsert,
     Workflow,
     WorkflowFull,
     WorkflowUpdate,
-    EdgeUpsert,
 )
 
 
@@ -29,8 +29,8 @@ class WorkflowCRUD(BaseCrud):
 
     @staticmethod
     def inject(
-        session: AsyncSession = Depends(get_db_session),
-        user: UserBase = Depends(get_current_user),
+            session: AsyncSession = Depends(get_db_session),
+            user: UserBase = Depends(get_current_user),
     ) -> "WorkflowCRUD":
         return WorkflowCRUD(session, user)
 
@@ -124,6 +124,19 @@ class WorkflowCRUD(BaseCrud):
         return "OK"
 
     async def get_nodes(self, workflow_id: str) -> Dict[str, WorkflowNodeModel]:
+        query = select(WorkflowNodeModel).where(
+            and_(
+                WorkflowNodeModel.workflow_id == workflow_id,
+                WorkflowNodeModel.delete_date.is_(None),
+            )
+        )
+
+        return {
+            node.id: node
+            for node in (await self.session.execute(query)).scalars().all()
+        }
+
+    async def get_node_blocks(self, workflow_id: str) -> Dict[str, WorkflowNodeModel]:
         query = select(WorkflowNodeModel).where(
             and_(
                 WorkflowNodeModel.workflow_id == workflow_id,

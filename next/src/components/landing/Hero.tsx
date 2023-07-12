@@ -86,7 +86,9 @@ const Hero = () => {
       >
         <div className="flex justify-between px-4 md:px-8 lg:px-16">
           <div className="flex items-center space-x-2">
-            <div className="text-white/60">&copy; 2023 Reworkd AI, Inc.</div>
+            <div className="font-inter text-sm font-normal text-white/50">
+              &copy; 2023 Reworkd AI, Inc.
+            </div>
             <Backing />
           </div>
           <FooterLinks />

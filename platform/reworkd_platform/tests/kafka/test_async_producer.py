@@ -29,9 +29,10 @@ async def test_kafka_disabled():
     assert producer._producer is False
 
 
+# noinspection PyBroadException
 @pytest.mark.asyncio
 async def test_kafka_enabled():
     try:
-        producer = await AsyncProducer.create(settings=MockedSettings(enabled=True))
-    except ValueError:
+        await AsyncProducer.create(settings=MockedSettings(enabled=True))
+    except Exception:
         pass

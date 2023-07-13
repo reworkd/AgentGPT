@@ -13,12 +13,11 @@ export default function NavbarContactButton({ children, onClick, icon }: Primary
     <Button
       onClick={onClick}
       className={clsx(
-        "flex h-8 items-center justify-center rounded-full pl-2 font-extralight shadow-sm",
-        "transition duration-200 ease-in-out hover:hover:bg-white/80",
+        "flex h-8 items-center justify-center rounded-full pl-2 shadow-sm",
+        "ml-4 transition duration-200 ease-in-out hover:hover:bg-white/80",
         "bg-white text-black"
       )}
     >
-      {icon}
       {children}
     </Button>
   );

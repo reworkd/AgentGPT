@@ -98,6 +98,10 @@ class WorkflowCRUD(BaseCrud):
         # Delete nodes
         await self.node_service.mark_old_nodes_deleted(workflow_update.nodes, all_nodes)
 
+        # Mark edges as added
+        for e in all_edges.values():
+            self.edge_service.add_edge(e.source, e.target)
+
         # Modify the edges' source and target to their corresponding IDs
         for e in workflow_update.edges:
             e.source = ref_to_id.get(e.source, e.source)

@@ -55,8 +55,8 @@ const Hero: React.FC = () => {
           <HeroTimeBanner
             title="Platformer"
             subtitle="A Platformer game builder"
-            leftIcon={<FaChevronRight size="24" />}
-            rightIcon={<FaChevronRight size="24" />}
+            leftIcon={<FaChevronRight size="12" />}
+            rightIcon={<FaChevronRight size="12" />}
             onClick={() => {
               router.push("/").catch(console.error);
             }}

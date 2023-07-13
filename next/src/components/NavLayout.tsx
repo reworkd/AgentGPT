@@ -42,7 +42,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                         href={item.href}
                         className={clsx(
                           "border-transparent text-neutral-200 hover:border-gray-300 hover:text-neutral-50",
-                          "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium",
+                          "inline-flex items-center border-b-2 px-1 pt-1 text-sm ",
                           "font-extralight tracking-wider transition-colors duration-300"
                         )}
                       >

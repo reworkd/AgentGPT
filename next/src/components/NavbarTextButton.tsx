@@ -17,7 +17,6 @@ export default function NavbarTextButton({ children, onClick, icon }: TextButton
         "bg-transparent text-white/60"
       )}
     >
-      {icon}
       {children}
     </Button>
   );

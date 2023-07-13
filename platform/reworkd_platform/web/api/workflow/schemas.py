@@ -1,13 +1,25 @@
-from typing import Optional, List
+from typing import List, Optional
 
+from networkx import DiGraph
 from pydantic import BaseModel, Field
 
 
-class ActionBlock(BaseModel):
+class BlockIOBase(BaseModel):
+    """
+    Base input/output type inherited by all blocks. Allows for overrides
+    """
+
+    class Config:
+        extra = "allow"
+
+
+class Block(BaseModel):
     id: str
-    name: str
-    hasInput: bool
-    hasOutput: bool
+    type: str
+    input: BlockIOBase
+
+    def run(self) -> BlockIOBase:
+        raise NotImplementedError("Base workflow Node class must be inherited")
 
 
 class EdgeUpsert(BaseModel):
@@ -44,11 +56,27 @@ class Workflow(BaseModel):
     description: str
 
 
-class WorkflowFull(Workflow):
-    nodes: list[Node]
-    edges: list[Edge]
-
-
+# noinspection DuplicatedCode
 class WorkflowUpdate(BaseModel):
     nodes: List[NodeUpsert]
     edges: List[EdgeUpsert]
+
+    def to_graph(self) -> DiGraph:
+        graph = DiGraph()
+        graph.add_nodes_from([v.id or v.ref for v in self.nodes])
+        graph.add_edges_from([(e.source, e.target) for e in self.edges])
+
+        return graph
+
+
+# noinspection DuplicatedCode
+class WorkflowFull(Workflow):
+    nodes: List[Node]
+    edges: List[Edge]
+
+    def to_graph(self) -> DiGraph:
+        graph = DiGraph()
+        graph.add_nodes_from([v.id for v in self.nodes])
+        graph.add_edges_from([(e.source, e.target) for e in self.edges])
+
+        return graph

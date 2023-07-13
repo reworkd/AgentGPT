@@ -18,6 +18,9 @@ module.exports = {
       boxShadow: {
         "3xl": "0 40px 70px -15px rgba(0, 0, 0, 0.40)" // Customize the shadow value according to your preferences.
       },
+      fontFamily: {
+        inter: ["Inter", ...defaultTheme.fontFamily.sans]
+      },
       colors: {
         blue: {
           base: {

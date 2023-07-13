@@ -43,6 +43,7 @@
     "next-auth": "4.20.1",
     "next-i18next": "^13.2.2",
     "nextjs-google-analytics": "^2.3.3",
+    "pusher-js": "^8.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.3.1",
@@ -59,6 +60,7 @@
     "zustand": "^4.3.7"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/node": "^18.11.18",

@@ -23,10 +23,8 @@ import DashboardLayout from "../layout/dashboard";
 import AppTitle from "../components/AppTitle";
 import FadeIn from "../components/motions/FadeIn";
 import Input from "../components/Input";
-import clsx from "clsx";
 import Expand from "../components/motions/expand";
 import ChatWindow from "../components/console/ChatWindow";
-import { TaskWindow } from "../components/TaskWindow";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../hooks/useSettings";
 import { useRouter } from "next/router";
@@ -41,6 +39,8 @@ import ExampleAgents from "../components/console/ExampleAgents";
 import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
 import { ChatMessage } from "../components/console/ChatMessage";
+import clsx from "clsx";
+import TaskSidebar from "../components/drawer/TaskSidebar";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -61,7 +61,6 @@ const Home: NextPage = () => {
   const goalInput = useAgentInputStore.use.goalInput();
   const setGoalInput = useAgentInputStore.use.setGoalInput();
   const [chatInput, setChatInput] = React.useState("");
-  const [mobileVisibleWindow, setMobileVisibleWindow] = React.useState<"Chat" | "Tasks">("Chat");
   const { settings } = useSettings();
 
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
@@ -129,7 +128,7 @@ const Home: NextPage = () => {
 
   const getAgentDataFromLocalStorage = () => {
     const agentData = localStorage.getItem("agentData");
-    return agentData ? JSON.parse(agentData) : null;
+    return agentData ? (JSON.parse(agentData) as { name: string; goal: string }) : null;
   };
 
   useEffect(() => {
@@ -159,13 +158,8 @@ const Home: NextPage = () => {
     }
   };
 
-  const handleVisibleWindowClick = (visibleWindow: "Chat" | "Tasks") => {
-    // This controls whether the ChatWindow or TaskWindow is visible on mobile
-    setMobileVisibleWindow(visibleWindow);
-  };
-
   return (
-    <DashboardLayout>
+    <DashboardLayout rightSidebar={TaskSidebar}>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
@@ -173,7 +167,10 @@ const Home: NextPage = () => {
       <div id="content" className="flex min-h-screen w-full items-center justify-center">
         <div
           id="layout"
-          className="flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 sm:gap-3 sm:p-4"
+          className={clsx(
+            "flex h-screen w-full max-w-screen-xl flex-col items-center gap-1 p-2 pt-10 sm:gap-3 sm:p-4",
+            agent !== null ? "pt-11" : "pt-3"
+          )}
         >
           {
             <AnimatePresence>
@@ -189,35 +186,10 @@ const Home: NextPage = () => {
               )}
             </AnimatePresence>
           }
-          <div>
-            <Button
-              className={clsx(
-                "rounded-r-none py-0 text-sm sm:py-[0.25em] xl:hidden",
-                mobileVisibleWindow == "Chat" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-              )}
-              disabled={mobileVisibleWindow == "Chat"}
-              onClick={() => handleVisibleWindowClick("Chat")}
-            >
-              Chat
-            </Button>
-            <Button
-              className={clsx(
-                "rounded-l-none py-0 text-sm sm:py-[0.25em] xl:hidden",
-                mobileVisibleWindow == "Tasks" ||
-                  "border-2 border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-              )}
-              disabled={mobileVisibleWindow == "Tasks"}
-              onClick={() => handleVisibleWindowClick("Tasks")}
-            >
-              Tasks
-            </Button>
-          </div>
           <Expand className="flex w-full flex-grow overflow-hidden">
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}
-              visibleOnMobile={mobileVisibleWindow === "Chat"}
               chatControls={
                 agent
                   ? {
@@ -245,7 +217,6 @@ const Home: NextPage = () => {
               })}
               <Summarize />
             </ChatWindow>
-            <TaskWindow visibleOnMobile={mobileVisibleWindow === "Tasks"} />
           </Expand>
 
           <FadeIn

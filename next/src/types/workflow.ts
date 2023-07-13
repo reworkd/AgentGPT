@@ -1,6 +1,10 @@
 import { z } from "zod";
-import type { Node } from "reactflow";
+import type { Edge, Node } from "reactflow";
 import type { Dispatch, SetStateAction } from "react";
+import {
+  NodeBlockDefinition,
+  NodeBlockDefinitionSchema,
+} from "../services/workflow/node-block-definitions";
 
 type Model<T> = [T, Dispatch<SetStateAction<T>>];
 
@@ -9,12 +13,15 @@ const WorkflowNodeSchema = z.object({
   ref: z.string(),
   pos_x: z.number(),
   pos_y: z.number(),
+  status: z.enum(["running", "success", "failure"]).optional(),
+  block: NodeBlockDefinitionSchema,
 });
 
 const WorkflowEdgeSchema = z.object({
   id: z.string(),
   source: z.string(),
   target: z.string(),
+  status: z.enum(["running", "success", "failure"]).optional(),
 });
 export const WorkflowSchema = z.object({
   nodes: z.array(WorkflowNodeSchema),
@@ -28,10 +35,19 @@ export type Workflow = z.infer<typeof WorkflowSchema>;
 export type NodesModel = Model<Node<WorkflowNode>[]>;
 export type EdgesModel = Model<WorkflowEdge[]>;
 
-export const toReactFlowPartial = (node: WorkflowNode) =>
+export const toReactFlowNode = (node: WorkflowNode) =>
   ({
     id: node.id ?? node.ref,
     data: node,
     position: { x: node.pos_x, y: node.pos_y },
     type: "custom",
   } as Node<WorkflowNode>);
+
+export const toReactFlowEdge = (edge: WorkflowEdge) =>
+  ({
+    ...edge,
+    type: "custom",
+    data: {
+      ...edge,
+    },
+  } as Edge<WorkflowEdge>);

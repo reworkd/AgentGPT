@@ -2,76 +2,93 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
+import TextButton from "../TextButton";
 import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { FaChevronRight } from "react-icons/fa";
+import FooterLinks from "./FooterLinks";
 
 const Hero = () => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+    <div className="relative grid h-screen grid-cols-1 place-items-center gap-2 lg:grid-cols-2">
       <div className="z-10 col-span-1">
-        <FadeIn duration={1.5} delay={0}>
-          <div className="mb-2">
-            <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
-              <span className="sm:hidden">Shape AI agents for your business</span>
-              <span className="hidden sm:inline">
-                Shape the future of AI agents for your business
-              </span>
-            </BannerBadge>
-          </div>
-          <h1
-            className={clsx(
-              "pb-2 text-left text-5xl sm:text-6xl md:text-7xl xl:text-8xl",
-              "bg-clip-text text-transparent",
-              "bg-gradient-to-br from-white to-neutral-600",
-              "leading-[1.1em] tracking-[-0.5px]"
-            )}
-          >
-            <div>
-              Autonomous AI
-              <br />
-              Agents At Your
-              <br />
-              Fingertips
+        <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
+          <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
+            <span className="sm:hidden">Shape AI agents for your business</span>
+            <span className="hidden sm:inline">
+              Shape the future of AI agents for your business
+            </span>
+          </BannerBadge>
+          <div>
+            <h1
+              className={clsx(
+                "pb-2 text-left font-normal tracking-[.09rem]",
+                "text-3xl md:text-5xl lg:text-6xl xl:text-7xl",
+                "bg-clip-text text-transparent",
+                "bg-gradient-to-r from-white to-transparent"
+              )}
+            >
+              <div>
+                AI Agents at
+                <br />
+                Your Fingertips.
+              </div>
+            </h1>
+            <div className="w-4/5">
+              <p
+                className={clsx(
+                  "my-3 inline-block w-full font-inter",
+                  "text-left align-top font-light leading-[22px]",
+                  "tracking-[.08rem]",
+                  "bg-gradient-to-r bg-clip-text text-transparent",
+                  "from-white via-white via-50% to-neutral-600"
+                )}
+              >
+                Create and deploy AI agents in the web in seconds. Simply give them a name and goal.
+                Then experience a new way to accomplish any objective.
+              </p>
             </div>
-          </h1>
-
-          <p className="my-3 mb-9 inline-block w-full text-left align-top text-sm font-thin text-neutral-300 sm:text-base lg:text-lg">
-            The leading web-based autonomous agent platform.
-            <br />
-            Automate business processes at scale.
-          </p>
-          <PrimaryButton
-            onClick={() => {
-              router.push("/").catch(console.error);
-            }}
-          >
-            Get started
-          </PrimaryButton>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
+            <PrimaryButton
+              icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Contact Us</span>
+                <FaChevronRight size="12" />
+              </>
+            </PrimaryButton>
+            <TextButton
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Explore AI Agents</span>
+                <FaChevronRight size="12" />
+              </>
+            </TextButton>
+          </div>
         </FadeIn>
       </div>
 
-      <FadeIn
-        initialY={50}
-        duration={1.5}
-        className="absolute bottom-10 right-0 z-10 flex w-screen justify-center"
-      >
-        <Backing />
-      </FadeIn>
-
-      <FadeIn duration={1.5} initialY={50} className="absolute inset-0">
-        <Image
-          src="/hero-background.png"
-          alt="Background Image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          quality={100}
-          className="brightness-[0.8] saturate-[0.9]"
-        />
+      <FadeIn initialY={50} duration={3} className="z-8 absolute bottom-10 w-full justify-center">
+        <div className="flex justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="font-inter text-sm font-normal text-white/50">
+              &copy; 2023 Reworkd AI, Inc.
+            </div>
+            <Backing />
+          </div>
+          <FooterLinks />
+        </div>
       </FadeIn>
     </div>
   );

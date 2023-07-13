@@ -1,5 +1,5 @@
 import { useMotionValue } from "framer-motion";
-import React, { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 export function useMouseMovement() {
   const mouseX = useMotionValue(0);

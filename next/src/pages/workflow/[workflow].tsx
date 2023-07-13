@@ -16,13 +16,18 @@ const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
 
-  const { nodesModel, edgesModel, saveWorkflow, executeWorkflow, createNode } = useWorkflow(
-    router.query.workflow as string,
-    session
-  );
+  const {
+    nodesModel,
+    edgesModel,
+    selectedNode,
+    saveWorkflow,
+    executeWorkflow,
+    createNode,
+    updateNode,
+  } = useWorkflow(router.query.workflow as string, session);
 
   return (
-    <DashboardLayout rightSidebar={getWorkflowSidebar(createNode)}>
+    <DashboardLayout rightSidebar={getWorkflowSidebar({ createNode, selectedNode, updateNode })}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}

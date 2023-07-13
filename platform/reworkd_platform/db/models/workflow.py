@@ -1,8 +1,8 @@
-from sqlalchemy import String, Float, ForeignKey
-from sqlalchemy.orm import relationship, mapped_column
+from sqlalchemy import Float, ForeignKey, String
+from sqlalchemy.orm import mapped_column, relationship
 
-from reworkd_platform.db.base import TrackedModel, UserMixin, Base
-from reworkd_platform.web.api.workflow.schemas import Workflow, Node, Edge
+from reworkd_platform.db.base import Base, TrackedModel, UserMixin
+from reworkd_platform.web.api.workflow.schemas import Edge, Node, Workflow
 
 
 class WorkflowModel(TrackedModel, UserMixin):

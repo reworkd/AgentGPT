@@ -71,8 +71,10 @@ class NodeCRUD:
         existing_block.input = node.block.input
         await existing_block.save(self.session)
 
-    async def delete_old_nodes(
-        self, nodes: List[NodeUpsert], all_nodes: Dict[str, WorkflowNodeModel]
+    async def mark_old_nodes_deleted(
+        self,
+        nodes: List[NodeUpsert],
+        all_nodes: Dict[str, WorkflowNodeModel],
     ) -> None:
         node_ids = {n.id for n in nodes}
         [

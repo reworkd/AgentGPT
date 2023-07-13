@@ -30,7 +30,7 @@ import clsx from "clsx";
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
-  const { session } = useAuth();
+  const { session } = useAuth({ protectedRoute: true });
   const { models, getModel } = useModels();
 
   const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);

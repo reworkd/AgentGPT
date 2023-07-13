@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Optional, Type, TypeVar
 
 from fastapi import HTTPException
-from pydantic import BaseModel
 from sqlalchemy import DateTime, String, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -63,10 +62,6 @@ class TrackedModel(Base):
         """Marks the model as deleted."""
         self.delete_date = datetime.now()
         return self
-
-    def to_schema(self) -> BaseModel:
-        """Converts the model to a schema."""
-        raise NotImplementedError
 
 
 class UserMixin:

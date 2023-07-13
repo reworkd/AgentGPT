@@ -53,10 +53,10 @@ const Hero: React.FC = () => {
             </div>
           </div>
           <HeroTimeBanner
-            title="Start your journey with AI agents"
-            subtitle="Explore our platform and create your own AI agents today."
-            leftIcon={<FaChevronRight size="12" />}
-            rightIconIcon={<FaChevronRight size="12" />}
+            title="Platformer"
+            subtitle="A Platformer game builder"
+            leftIcon={<FaChevronRight size="24" />}
+            rightIcon={<FaChevronRight size="24" />}
             onClick={() => {
               router.push("/").catch(console.error);
             }}

@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import Button from "../ui/button";
 import type { ReactNode } from "react";
 import React from "react";
 
@@ -19,24 +18,24 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   onClick,
 }) => {
   return (
-    <button
+    <div
       className={clsx(
-        "flex flex-col items-center justify-center rounded-full bg-black p-4",
-        "max-h-sm max-w-md shadow-md transition duration-200 ease-in-out",
-        "hover:shadow-lg",
+        "flex flex-col items-start justify-center bg-black p-4",
+        "max-h-sm max-w-md shadow-md transition duration-200",
         "border-[1px] border-black border-opacity-20",
         "animate-border-pulse",
-        "transition duration-200 ease-in-out hover:bg-white/90 focus-visible:bg-white/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
+        "cursor-pointer"
       )}
-      onClick={onClick}
     >
-      <div className="left-align mb-2 flex items-center justify-center">
+      <div className="mb-2 flex  flex-row items-center justify-start">
         {leftIcon}
-        <h2 className="ml-2 text-xl font-bold">{title}</h2>
-        {rightIcon}
+        <div className="flex flex-row">
+          <h2 className="text-md ml-2s font-bold">{title}</h2>
+          <p className="mb-4 text-sm text-gray-600">{subtitle}</p>
+        </div>
+        <div className="flex justify-end">{rightIcon}</div>
       </div>
-      <p className="mb-4 text-sm text-gray-600">{subtitle}</p>
-    </button>
+    </div>
   );
 };
 

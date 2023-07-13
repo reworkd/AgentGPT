@@ -21,7 +21,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <FadeIn duration={3}>
-        <Disclosure as="nav" className="absolute top-0 z-50 w-screen bg-transparent text-white">
+        <Disclosure as="nav" className="fixed top-0 z-50 w-screen bg-transparent text-white">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-screen-2xl px-6">

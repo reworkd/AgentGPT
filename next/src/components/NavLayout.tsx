@@ -5,6 +5,9 @@ import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
 import HomeIcon from "../../public/icons/home-28x28.svg";
+import { useRouter } from "next/router";
+import TextButton from "./TextButton";
+import PrimaryButton from "./PrimaryButton";
 
 const navigation = [
   { name: "Home", href: "#" },
@@ -20,7 +23,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <FadeIn duration={3}>
-        <Disclosure as="nav" className="fixed z-50 mt-6 w-full bg-transparent text-white">
+        <Disclosure as="nav" className="fixed z-50 w-full bg-transparent text-white">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-screen-2xl px-6">
@@ -50,7 +53,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       </a>
                     ))}
                   </div>
-                  <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                  <div className="hidden sm:flex sm:items-center">
                     <TextButton
                       onClick={() => {
                         router.push("/").catch(console.error);

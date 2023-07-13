@@ -4,7 +4,7 @@ from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.models.workflow import NodeBlockModel, WorkflowNodeModel
-from reworkd_platform.web.api.workflow.schemas import NodeUpsert
+from reworkd_platform.schemas.workflow import NodeUpsert
 
 
 class NodeCRUD:

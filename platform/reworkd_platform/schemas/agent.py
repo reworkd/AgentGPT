@@ -87,9 +87,3 @@ class RunCount(BaseModel):
     count: int
     first_run: Optional[datetime]
     last_run: Optional[datetime]
-
-
-class UserBase(BaseModel):
-    id: str
-    name: Optional[str]
-    email: Optional[str]

@@ -7,7 +7,7 @@ from pytest_mock import MockerFixture
 
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.db.models.workflow import WorkflowModel
-from reworkd_platform.schemas import UserBase
+from reworkd_platform.schemas.user import UserBase
 
 
 @pytest.mark.asyncio

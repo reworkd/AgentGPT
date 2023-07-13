@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
-from reworkd_platform.schemas import (
+from reworkd_platform.schemas.agent import (
     AgentChat,
     AgentRun,
     AgentSummarize,

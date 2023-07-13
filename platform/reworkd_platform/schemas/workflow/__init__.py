@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional, List
 
 from networkx import DiGraph
 from pydantic import BaseModel, Field
@@ -64,7 +64,6 @@ class Workflow(BaseModel):
     description: str
 
 
-# noinspection DuplicatedCode
 class WorkflowUpdate(BaseModel):
     nodes: List[NodeUpsert]
     edges: List[EdgeUpsert]
@@ -77,7 +76,6 @@ class WorkflowUpdate(BaseModel):
         return graph
 
 
-# noinspection DuplicatedCode
 class WorkflowFull(Workflow):
     nodes: List[Node]
     edges: List[Edge]

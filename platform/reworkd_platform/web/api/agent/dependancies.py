@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.agent import AgentCRUD
 from reworkd_platform.db.dependencies import get_db_session
-from reworkd_platform.schemas import (
+from reworkd_platform.schemas.agent import (
     AgentChat,
     AgentRun,
     AgentRunCreate,
@@ -14,8 +14,8 @@ from reworkd_platform.schemas import (
     AgentTaskCreate,
     AgentTaskExecute,
     Loop_Step,
-    UserBase,
 )
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.pinecone.pinecone import PineconeMemory
 from reworkd_platform.services.vecs.dependencies import get_supabase_vecs
 from reworkd_platform.services.vecs.vecs import VecsMemory

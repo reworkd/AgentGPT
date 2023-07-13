@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 
 from pydantic import BaseModel
 
-from reworkd_platform.web.api.workflow.schemas import Node
+from reworkd_platform.schemas.workflow import Node
 
 
 class WorkflowTaskEvent(BaseModel):

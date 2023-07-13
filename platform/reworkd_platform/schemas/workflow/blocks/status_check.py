@@ -3,7 +3,7 @@ from typing import Optional
 import requests
 from requests import RequestException
 
-from reworkd_platform.web.api.workflow.schemas import Block, BlockIOBase
+from reworkd_platform.schemas.workflow import BlockIOBase, Block
 
 
 class UrlStatusCheckBlockInput(BlockIOBase):

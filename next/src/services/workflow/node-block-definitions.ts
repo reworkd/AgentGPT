@@ -16,6 +16,13 @@ const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   image_url: "/tools/web.png",
 };
 
+const WebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Webhook",
+  type: "Webhook",
+  description: "Send a webhook to a URL",
+  image_url: "/tools/webhook.png",
+};
+
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition];
+  return [WebhookBlockDefinition, UrlStatusCheckBlockDefinition];
 };

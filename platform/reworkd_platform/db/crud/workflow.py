@@ -10,13 +10,9 @@ from reworkd_platform.db.crud.edge import EdgeCRUD
 from reworkd_platform.db.crud.node import NodeCRUD
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.models.workflow import WorkflowModel
-from reworkd_platform.schemas import UserBase
+from reworkd_platform.schemas.user import UserBase
+from reworkd_platform.schemas.workflow import Workflow, WorkflowUpdate, WorkflowFull
 from reworkd_platform.web.api.dependencies import get_current_user
-from reworkd_platform.web.api.workflow.schemas import (
-    Workflow,
-    WorkflowFull,
-    WorkflowUpdate,
-)
 
 
 class WorkflowCRUD(BaseCrud):

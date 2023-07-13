@@ -78,18 +78,6 @@ const Hero = () => {
           </div>
         </FadeIn>
       </div>
-
-      <FadeIn initialY={50} duration={3} className="z-8 absolute bottom-10 w-full justify-center">
-        <div className="flex justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="font-inter text-sm font-normal text-white/50">
-              &copy; 2023 Reworkd AI, Inc.
-            </div>
-            <Backing />
-          </div>
-          <FooterLinks />
-        </div>
-      </FadeIn>
     </div>
   );
 };

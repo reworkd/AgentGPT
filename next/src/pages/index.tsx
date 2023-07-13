@@ -55,7 +55,7 @@ const Home: NextPage = () => {
   const agent = useAgentStore.use.agent();
 
   const fullscreen = agent !== null;
-  const { session, status } = useAuth();
+  const { session } = useAuth();
   const nameInput = useAgentInputStore.use.nameInput();
   const setNameInput = useAgentInputStore.use.setNameInput();
   const goalInput = useAgentInputStore.use.goalInput();

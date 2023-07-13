@@ -1,0 +1,16 @@
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="container">
+<rect x="1" y="1" width="28" height="28" rx="14" fill="white"/>
+<path id="Rectangle 1" d="M11 21H19C20.1046 21 21 20.1046 21 19V14.8981C21 14.0412 20.6336 13.2252 19.9931 12.6559L16.5381 9.58477C16.1143 9.20808 15.567 9 15 9C14.433 9 13.8857 9.20808 13.4619 9.58477L10.0069 12.6559C9.36644 13.2252 9 14.0412 9 14.8981V19C9 20.1046 9.89543 21 11 21Z" stroke="url(#paint0_angular_130_1013)" stroke-width="2"/>
+<path id="Rectangle 2" d="M13 18C13 17.4477 13.4477 17 14 17H16C16.5523 17 17 17.4477 17 18V20H13V18Z" fill="black"/>
+<rect x="0.5" y="0.5" width="29" height="29" rx="14.5" stroke="black" stroke-opacity="0.4"/>
+</g>
+<defs>
+<radialGradient id="paint0_angular_130_1013" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(15 15) rotate(90) scale(8)">
+<stop offset="0.00335011"/>
+<stop offset="0.216976" stop-opacity="0.3"/>
+<stop offset="0.365828" stop-opacity="0.3"/>
+<stop offset="0.64645"/>
+</radialGradient>
+</defs>
+</svg>

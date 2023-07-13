@@ -10,7 +10,7 @@ from langchain.schema import HumanMessage
 from loguru import logger
 from pydantic import ValidationError
 
-from reworkd_platform.schemas import ModelSettings
+from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.services.tokenizer.token_service import TokenService
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments

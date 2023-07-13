@@ -10,12 +10,15 @@ import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
 import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
+import { useAuth } from "../../hooks/useAuth";
 
 const WorkflowPage: NextPage = () => {
+  const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
 
   const { nodesModel, edgesModel, saveWorkflow, executeWorkflow, createNode } = useWorkflow(
-    router.query.workflow as string
+    router.query.workflow as string,
+    session
   );
 
   return (

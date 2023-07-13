@@ -24,6 +24,14 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaHome,
     className: "group-hover:text-color-secondary",
   },
+  // TODO: Uncomment once enabled
+  // {
+  //   name: "Flows",
+  //   href: "/workflow",
+  //   icon: FaWater,
+  //   badge: "Alpha",
+  //   className: "transition-transform group-hover:scale-110",
+  // },
   {
     name: "Templates",
     href: "/templates",

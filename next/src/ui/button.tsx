@@ -36,7 +36,7 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
       onClick={onClick}
     >
       {props.ping && <Ping color="white" />}
-      <div className="flex items-center justify-center gap-x-2.5 px-3 py-2 font-inter text-sm font-medium leading-6">
+      <div className="flex items-center justify-center gap-x-2.5 px-3 py-2 font-inter text-sm font-normal leading-6">
         {loading ? <Loader /> : props.children}
       </div>
     </button>

@@ -3,14 +3,14 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
-from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
-from reworkd_platform.services.networkx import validate_connected_and_acyclic
-from reworkd_platform.services.worker.exec import ExecutionEngine
-from reworkd_platform.web.api.workflow.schemas import (
+from reworkd_platform.schemas.workflow.base import (
     Workflow,
     WorkflowUpdate,
     WorkflowFull,
 )
+from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
+from reworkd_platform.services.networkx import validate_connected_and_acyclic
+from reworkd_platform.services.worker.exec import ExecutionEngine
 
 router = APIRouter()
 

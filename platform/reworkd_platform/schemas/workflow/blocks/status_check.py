@@ -4,7 +4,7 @@ import requests
 from loguru import logger
 from requests import RequestException
 
-from reworkd_platform.web.api.workflow.schemas import Block, BlockIOBase
+from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 
 
 class UrlStatusCheckBlockInput(BlockIOBase):

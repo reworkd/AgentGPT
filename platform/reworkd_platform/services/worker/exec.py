@@ -1,11 +1,11 @@
 from loguru import logger
 from networkx import topological_sort
 
+from reworkd_platform.schemas.workflow.base import WorkflowFull
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.web.api.workflow.blocks.web import get_block_runner
-from reworkd_platform.web.api.workflow.schemas import WorkflowFull
 
 
 class ExecutionEngine:

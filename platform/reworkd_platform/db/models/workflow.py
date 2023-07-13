@@ -2,7 +2,7 @@ from sqlalchemy import JSON, Float, ForeignKey, String
 from sqlalchemy.orm import mapped_column, relationship
 
 from reworkd_platform.db.base import Base, TrackedModel, UserMixin
-from reworkd_platform.web.api.workflow.schemas import Block, Edge, Node, Workflow
+from reworkd_platform.schemas.workflow.base import Block, Edge, Node, Workflow
 
 
 class WorkflowModel(TrackedModel, UserMixin):

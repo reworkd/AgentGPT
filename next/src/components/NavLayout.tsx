@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Disclosure, Menu } from "@headlessui/react";
-import { FaBars, FaQuestion } from "react-icons/fa";
+import { FaBars, FaQuestion, FaChevronRight } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
@@ -15,13 +15,15 @@ const navigation = [
 ];
 
 export default function NavLayout({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
   return (
     <>
       <FadeIn duration={3}>
-        <Disclosure as="nav" className="z-50 mt-6 w-full  bg-transparent text-white">
+        <Disclosure as="nav" className="fixed z-50 mt-6 w-full bg-transparent text-white">
           {({ open }) => (
             <>
-              <div className="mx-auto max-w-screen-xl px-6">
+              <div className="mx-auto max-w-screen-2xl px-6">
                 <div className="align-center flex h-16 flex-row justify-between">
                   <div className="flex flex-shrink-0 items-center font-extralight">
                     <Image
@@ -49,10 +51,26 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                     ))}
                   </div>
                   <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="relative ml-3">
-                      <div></div>
-                    </Menu>
+                    <TextButton
+                      onClick={() => {
+                        router.push("/").catch(console.error);
+                      }}
+                    >
+                      <>
+                        <span>AI Agents</span>
+                        <FaChevronRight size="12" />
+                      </>
+                    </TextButton>
+                    <PrimaryButton
+                      onClick={() => {
+                        router.push("/").catch(console.error);
+                      }}
+                    >
+                      <>
+                        <span>Contact Us</span>
+                        <FaChevronRight size="12" />
+                      </>
+                    </PrimaryButton>
                   </div>
                   <div className="-mr-2 flex items-center sm:hidden">
                     {/* Mobile menu button */}

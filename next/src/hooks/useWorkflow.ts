@@ -2,20 +2,20 @@ import type { Edge, Node } from "reactflow";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import type { Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
 import { toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 import WorkflowApi from "../services/workflow/workflowApi";
 import useSocket from "./useSocket";
 import { z } from "zod";
+import type { NodeBlockDefinition } from "../services/workflow/node-block-definitions";
+import type { Session } from "next-auth";
 
 const eventSchema = z.object({
   nodeId: z.string(),
   status: z.enum(["running", "success", "failure"]),
 });
 
-export const useWorkflow = (workflowId: string) => {
-  const { data: session } = useSession();
+export const useWorkflow = (workflowId: string, session: Session | null) => {
   const api = new WorkflowApi(session?.accessToken);
 
   const { mutateAsync: updateWorkflow } = useMutation(
@@ -77,7 +77,7 @@ export const useWorkflow = (workflowId: string) => {
     );
   });
 
-  const createNode = () => {
+  const createNode: createNodeType = (block: NodeBlockDefinition) => {
     const ref = nanoid(11);
 
     setNodes((nodes) => [
@@ -91,6 +91,7 @@ export const useWorkflow = (workflowId: string) => {
           ref: ref,
           pos_x: 0,
           pos_y: 0,
+          block: block,
         },
       },
     ]);
@@ -103,6 +104,7 @@ export const useWorkflow = (workflowId: string) => {
         ref: n.data.ref,
         pos_x: n.position.x,
         pos_y: n.position.y,
+        block: n.data.block,
       })),
       edges: edges.map((e) => ({
         id: e.id,
@@ -122,3 +124,5 @@ export const useWorkflow = (workflowId: string) => {
     createNode,
   };
 };
+
+export type createNodeType = (block: NodeBlockDefinition) => void;

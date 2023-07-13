@@ -51,14 +51,14 @@ const AuthItem: FC<{
             {user?.email}
           </p>
         </div>
-        <FaEllipsisH className="ml-auto">Test</FaEllipsisH>
+        {user && <FaEllipsisH className="ml-auto">Test</FaEllipsisH>}
 
         <Dialog
           inline
           open={showDialog}
           setOpen={setShowDialog}
           title="My Account"
-          icon={<img className="rounded-full bg-neutral-800" src={get_avatar(user)} alt="" />}
+          icon={<img className="h-20 w-20 rounded-md" src={get_avatar(user)} alt="" />}
           actions={
             <>
               <button
@@ -83,8 +83,8 @@ const AuthItem: FC<{
             </>
           }
         >
-          <p className="text-sm text-gray-500">Name: {user?.name}</p>
-          <p className="text-sm text-gray-500">Email: {user?.email}</p>
+          <p className="text-sm text-gray-600">{user?.name}</p>
+          <p className="text-sm text-gray-400">{user?.email}</p>
         </Dialog>
       </div>
       <div className="ml-2 mt-2">

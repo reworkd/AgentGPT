@@ -47,7 +47,7 @@ const Dialog = ({
           {/*footer*/}
           <div className="flex items-center justify-end gap-2 rounded-b border-t-2 border-solid border-white/20 p-2">
             <Button enabledClassName="bg-yellow-600 hover:bg-yellow-500" onClick={close}>
-              {`${t("CLOSE", { ns: "common" })}`}
+              {t("CLOSE", { ns: "common" })}
             </Button>
             {footerButton}
           </div>

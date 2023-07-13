@@ -56,7 +56,7 @@ const AgentPage: NextPage = () => {
           })}
         </ChatWindow>
         <div className="flex flex-row gap-2">
-          <Button icon={<FaBackspace />} loader onClick={() => void router.push("/")}>
+          <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
             Back
           </Button>
           <Button
@@ -72,7 +72,6 @@ const AgentPage: NextPage = () => {
 
           <Button
             icon={<FaShare />}
-            loader
             onClick={() => {
               void window.navigator.clipboard
                 .writeText(shareLink())
@@ -85,7 +84,7 @@ const AgentPage: NextPage = () => {
         </div>
         <Toast
           model={[showCopied, setShowCopied]}
-          title={`${t("COPIED_TO_CLIPBOARD", { ns: "common" })}`}
+          title={t("COPIED_TO_CLIPBOARD", { ns: "common" })}
           className="bg-gray-950 text-sm"
         />
       </div>

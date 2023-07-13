@@ -4,12 +4,14 @@ import { FaBars, FaQuestion, FaChevronRight } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
+import HomeIcon from "../../public/icons/home-28x28.svg";
 import { useRouter } from "next/router";
-import PrimaryButton from "./PrimaryButton";
 import TextButton from "./TextButton";
+import PrimaryButton from "./PrimaryButton";
 
 const navigation = [
   { name: "Home", href: "#" },
+  { name: "Blog", href: "https://twitter.com/ReworkdAI" },
   { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan" },
   { name: "Roadmap", href: "https://github.com/orgs/reworkd/projects/3" },
   { name: "Docs", href: "https://docs.reworkd.ai/" },
@@ -21,7 +23,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <FadeIn duration={3}>
-        <Disclosure as="nav" className="fixed top-0 z-50 w-screen bg-transparent text-white">
+        <Disclosure as="nav" className="fixed z-50 w-full bg-transparent text-white">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-screen-2xl px-6">
@@ -35,22 +37,23 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       className="mr-2"
                     />
                   </div>
-                  <div className="hidden gap-8 sm:-my-px sm:flex">
+                  <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
+                    <HomeIcon />
                     {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
                         className={clsx(
-                          "border-transparent text-neutral-200 hover:border-gray-300 hover:text-neutral-50",
-                          "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium",
-                          "font-extralight tracking-wider transition-colors duration-300"
+                          "font-inter text-sm font-medium tracking-normal text-white/50 hover:text-white",
+                          "inline-flex items-center p-2",
+                          "transition-colors duration-300"
                         )}
                       >
                         {item.name}
                       </a>
                     ))}
                   </div>
-                  <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                  <div className="hidden sm:flex sm:items-center">
                     <TextButton
                       onClick={() => {
                         router.push("/").catch(console.error);

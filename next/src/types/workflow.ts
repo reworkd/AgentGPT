@@ -1,10 +1,13 @@
 import { z } from "zod";
 import type { Edge, Node } from "reactflow";
 import type { Dispatch, SetStateAction } from "react";
-import {
-  NodeBlockDefinition,
-  NodeBlockDefinitionSchema,
-} from "../services/workflow/node-block-definitions";
+
+const NodeBlockSchema = z.object({
+  type: z.string(),
+  input: z.any(),
+});
+
+export type NodeBlock = z.infer<typeof NodeBlockSchema>;
 
 type Model<T> = [T, Dispatch<SetStateAction<T>>];
 
@@ -14,7 +17,7 @@ const WorkflowNodeSchema = z.object({
   pos_x: z.number(),
   pos_y: z.number(),
   status: z.enum(["running", "success", "failure"]).optional(),
-  block: NodeBlockDefinitionSchema,
+  block: NodeBlockSchema,
 });
 
 const WorkflowEdgeSchema = z.object({

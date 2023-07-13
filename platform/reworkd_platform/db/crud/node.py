@@ -24,16 +24,16 @@ class NodeCRUD:
             for node in (await self.session.execute(query)).scalars().all()
         }
 
-    async def get_node_blocks(self, node_refs: List[str]) -> Dict[str, NodeBlockModel]:
+    async def get_node_blocks(self, node_ids: List[str]) -> Dict[str, NodeBlockModel]:
         """
-        Returns an object mapping node_ref to NodeBlockModel
+        Returns an object mapping node_id to NodeBlockModel
         """
         query = select(NodeBlockModel).where(
-            NodeBlockModel.node_ref.in_(node_refs),
+            NodeBlockModel.node_id.in_(node_ids),
         )
 
         return {
-            block.node_ref: block
+            block.node_id: block
             for block in (await self.session.execute(query)).scalars().all()
         }
 
@@ -49,10 +49,9 @@ class NodeCRUD:
         ).save(self.session)
 
         await NodeBlockModel(
-            node_ref=node.ref,
             node_id=node.id,
             type=n.block.type,
-            input=n.block.input,
+            input=n.block.input.dict(),
         ).save(self.session)
 
         return node
@@ -62,14 +61,15 @@ class NodeCRUD:
         node: NodeUpsert,
         existing_node: WorkflowNodeModel,
         existing_block: NodeBlockModel,
-    ) -> None:
+    ) -> WorkflowNodeModel:
         existing_node.pos_x = node.pos_x
         existing_node.pos_y = node.pos_y
         await existing_node.save(self.session)
 
         existing_block.type = node.block.type
-        existing_block.input = node.block.input
+        existing_block.input = node.block.input.dict()
         await existing_block.save(self.session)
+        return existing_node
 
     async def mark_old_nodes_deleted(
         self,

@@ -63,14 +63,10 @@ class WorkflowEdgeModel(Base):
 
 class NodeBlockModel(Base):
     __tablename__ = "node_block"
-    id = mapped_column(String, primary_key=True)
-    node_ref = mapped_column(String, ForeignKey("workflow_node.ref"))
     node_id = mapped_column(String, ForeignKey("workflow_node.id"))
 
     type = mapped_column(String)
     input = mapped_column(JSON)
 
     def to_schema(self) -> Block:
-        return Block(
-            id=self.id, node_ref=self.node_ref, type=self.type, input=self.input
-        )
+        return Block(id=self.id, type=self.type, input=self.input)

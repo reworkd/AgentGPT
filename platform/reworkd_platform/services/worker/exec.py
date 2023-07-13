@@ -28,8 +28,6 @@ class ExecutionEngine:
 
         runner = get_block_runner(curr.block)
         await runner.run()
-        # TODO: do work
-        # await sleep(0.5)
 
         websockets.emit(
             self.workflow.workflow_id,

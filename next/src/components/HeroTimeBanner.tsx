@@ -21,8 +21,8 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
     <div
       className={clsx(
         "flex flex-col items-start justify-center bg-black p-4",
-        "max-h-xs rounded-full shadow-md",
-        "max-w-[293px] border-[1px] border-black border-opacity-20",
+        "max-h-min rounded-full shadow-md",
+        "max-w-xs border-[1px] border-black border-opacity-20",
         "animate-border-pulse bg-clip-text text-transparent",
         "bg-gradient-to-r from-white to-transparent",
         "cursor-pointer"
@@ -32,7 +32,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         <div className="p-4 text-white">{leftIcon}</div>
         <div className="flex flex-col">
           <h2 className="text-md ml-2s font-bold">{title}</h2>
-          <p className="mb-4 text-sm text-gray-600">{subtitle}</p>
+          <p className="text-sm text-gray-600">{subtitle}</p>
         </div>
         <div className="flex justify-end p-4 text-white">{rightIcon}</div>
       </div>

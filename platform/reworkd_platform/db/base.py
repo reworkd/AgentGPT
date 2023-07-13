@@ -4,9 +4,9 @@ from typing import Optional, Type, TypeVar
 
 from fastapi import HTTPException
 from pydantic import BaseModel
-from sqlalchemy import String, DateTime, func
+from sqlalchemy import DateTime, String, func
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from reworkd_platform.db.meta import meta
 

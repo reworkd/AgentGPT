@@ -16,6 +16,13 @@ const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   image_url: "/tools/web.png",
 };
 
+const SlackWebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Slack Message Webhook",
+  type: "SlackWebhook",
+  description: "Sends a message to a slack webhook",
+  image_url: "/tools/web.png",
+};
+
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition];
+  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition];
 };

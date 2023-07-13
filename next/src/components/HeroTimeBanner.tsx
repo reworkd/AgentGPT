@@ -27,7 +27,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         "cursor-pointer"
       )}
     >
-      <div className="mb-2 flex  flex-row items-center justify-start">
+      <div className="mb-2 flex flex-row items-center justify-start">
         {leftIcon}
         <div className="flex flex-row">
           <h2 className="text-md ml-2s font-bold">{title}</h2>

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional
+from typing import Literal, Dict, Optional, Any, List
 
 from pydantic import BaseModel, Field, validator
 
@@ -10,7 +10,6 @@ LLM_Model = Literal[
     "gpt-3.5-turbo-16k",
     "gpt-4",
 ]
-
 Loop_Step = Literal[
     "start",
     "analyze",
@@ -19,7 +18,6 @@ Loop_Step = Literal[
     "summarize",
     "chat",
 ]
-
 LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {
     "gpt-3.5-turbo": 4000,
     "gpt-3.5-turbo-16k": 16000,
@@ -87,9 +85,3 @@ class RunCount(BaseModel):
     count: int
     first_run: Optional[datetime]
     last_run: Optional[datetime]
-
-
-class UserBase(BaseModel):
-    id: str
-    name: Optional[str]
-    email: Optional[str]

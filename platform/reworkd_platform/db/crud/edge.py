@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.models.workflow import WorkflowEdgeModel
-from reworkd_platform.web.api.workflow.schemas import EdgeUpsert
+from reworkd_platform.schemas.workflow.base import EdgeUpsert
 
 
 class EdgeCRUD:

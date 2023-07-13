@@ -3,7 +3,8 @@ from typing import List
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 
-from reworkd_platform.schemas import LLM_MODEL_MAX_TOKENS, UserBase
+from reworkd_platform.schemas.agent import LLM_MODEL_MAX_TOKENS
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.web.api.dependencies import get_current_user
 
 router = APIRouter()

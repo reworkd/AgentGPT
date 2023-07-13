@@ -8,6 +8,7 @@ import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import type { WorkflowNode } from "../../types/workflow";
 import type { Node } from "reactflow";
 import TextButton from "../TextButton";
+import Input from "../../ui/input";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -29,7 +30,7 @@ export const getWorkflowSidebar = (controls: WorkflowControls) => {
 };
 
 const WorkflowSidebar = ({ show, setShow, controls }: WorkflowSidebarProps) => {
-  const [tab, setTab] = React.useState<"inspect" | "create">("create");
+  const [tab, setTab] = React.useState<"inspect" | "create">("inspect");
 
   return (
     <Sidebar show={show} setShow={setShow} side="right">
@@ -63,10 +64,19 @@ const InspectSection = ({ selectedNode, updateNode }: InspectSectionProps) => {
   if (selectedNode == undefined)
     return <div>No components selected. Click on a component to select it</div>;
 
+  const definition = getNodeBlockDefinitions().find((d) => d.type === selectedNode.data.block.type);
+
   return (
     <>
-      <div>We selected something!</div>
-      <div>{selectedNode.data.block.type}</div>
+      <div>
+        <p className="text-lg font-bold">{definition?.type}</p>
+        <p className="mb-3 text-sm font-thin">{definition?.description}</p>
+      </div>
+      {definition?.input_fields.map((inputField) => (
+        <div key={definition?.type + inputField.name}>
+          <Input label={inputField.name} name={inputField.name} helpText={inputField.description} />
+        </div>
+      ))}
     </>
   );
 };

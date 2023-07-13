@@ -57,7 +57,7 @@ class WorkflowCRUD(BaseCrud):
 
         return WorkflowFull(
             **workflow.to_schema().dict(),
-            nodes=[node.to_schema(block) for node, block in node_block_pairs],
+            nodes=[node.to_schema(block) for node, block in node_block_pairs if block],
             edges=[edge.to_schema() for edge in edges.values()],
         )
 

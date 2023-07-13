@@ -54,7 +54,7 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
   return (
     <div
       className="flex cursor-pointer flex-row gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10"
-      onClick={() => createNode(definition)}
+      onClick={() => createNode({ input: {}, type: definition.type })}
     >
       <div className="h-[30px] w-[30px]">
         <img src={definition.image_url} alt={definition.type} width={30} />

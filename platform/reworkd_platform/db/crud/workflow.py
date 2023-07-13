@@ -1,5 +1,5 @@
 import asyncio
-from typing import List
+from typing import Dict, List
 
 from fastapi import Depends
 from sqlalchemy import select
@@ -50,10 +50,10 @@ class WorkflowCRUD(BaseCrud):
 
         # get node blocks
         blocks = await self.node_service.get_node_blocks(
-            [node.ref for node in nodes.values()]
+            [node.id for node in nodes.values()]
         )
 
-        node_block_pairs = [(node, blocks.get(node.ref)) for node in nodes.values()]
+        node_block_pairs = [(node, blocks.get(node.id)) for node in nodes.values()]
 
         return WorkflowFull(
             **workflow.to_schema().dict(),
@@ -77,25 +77,37 @@ class WorkflowCRUD(BaseCrud):
             self.node_service.get_nodes(workflow_id),
             self.edge_service.get_edges(workflow_id),
             self.node_service.get_node_blocks(
-                [node.ref for node in workflow_update.nodes]
+                [node.id for node in workflow_update.nodes if node.id]
             ),
         )
 
         # TODO: use co-routines to make this faster
+        # Map from ref to id so edges can use id's instead of refs
+        ref_to_id: Dict[str, str] = {}
         for n in workflow_update.nodes:
             if not n.id:
-                await self.node_service.create_node_with_block(n, workflow_id)
+                node = await self.node_service.create_node_with_block(n, workflow_id)
             elif n.id not in all_nodes:
                 raise Exception("Node not found")
             else:
-                await self.node_service.update_node_with_block(
-                    n, all_nodes[n.id], all_blocks[n.ref]
+                node = await self.node_service.update_node_with_block(
+                    n, all_nodes[n.id], all_blocks[n.id]
                 )
+            ref_to_id[node.ref] = node.id
 
         # Delete nodes
         await self.node_service.mark_old_nodes_deleted(workflow_update.nodes, all_nodes)
 
-        # Update edges
+        # Mark edges as added
+        for edge_model in all_edges.values():
+            self.edge_service.add_edge(edge_model.source, edge_model.target)
+
+        # Modify the edges' source and target to their corresponding IDs
+        for e in workflow_update.edges:
+            e.source = ref_to_id.get(e.source, e.source)
+            e.target = ref_to_id.get(e.target, e.target)
+
+        # update edges
         for e in workflow_update.edges:
             if self.edge_service.add_edge(e.source, e.target):
                 await self.edge_service.create_edge(e, workflow_id)

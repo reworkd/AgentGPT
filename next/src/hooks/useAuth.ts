@@ -2,8 +2,6 @@ import type { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-const UUID_KEY = "uuid";
-
 type Provider = "google" | "github" | "discord";
 
 interface Auth {

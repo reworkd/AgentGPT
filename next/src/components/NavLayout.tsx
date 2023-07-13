@@ -24,7 +24,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
         <Disclosure as="nav" className="absolute top-0 z-50 w-screen bg-transparent text-white">
           {({ open }) => (
             <>
-              <div className="mx-auto max-w-screen-xl px-6">
+              <div className="mx-auto max-w-screen-2xl px-6">
                 <div className="align-center flex h-16 flex-row justify-between">
                   <div className="flex flex-shrink-0 items-center font-extralight">
                     <Image

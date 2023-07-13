@@ -50,7 +50,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       </a>
                     ))}
                   </div>
-                  <div className="ml-auto hidden sm:ml-6 sm:flex sm:items-center">
+                  <div className="hidden sm:ml-6 sm:flex sm:items-center">
                     <TextButton
                       onClick={() => {
                         router.push("/").catch(console.error);

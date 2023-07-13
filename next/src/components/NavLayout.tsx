@@ -5,8 +5,8 @@ import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import NavContactButton from "./NavbarContactButton";
-import TextButton from "./NavbarTextButton";
+import PrimaryButton from "./PrimaryButton";
+import TextButton from "./TextButton";
 
 const navigation = [
   { name: "Home", href: "#" },
@@ -61,7 +61,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                         <FaChevronRight size="12" />
                       </>
                     </TextButton>
-                    <NavContactButton
+                    <PrimaryButton
                       onClick={() => {
                         router.push("/").catch(console.error);
                       }}
@@ -70,7 +70,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                         <span>Contact Us</span>
                         <FaChevronRight size="12" />
                       </>
-                    </NavContactButton>
+                    </PrimaryButton>
                   </div>
                   <div className="-mr-2 flex items-center sm:hidden">
                     {/* Mobile menu button */}

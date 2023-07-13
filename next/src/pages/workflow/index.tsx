@@ -10,7 +10,7 @@ import EmptyWorkflowButton from "../../components/workflow/EmptyWorkflow";
 import { useAuth } from "../../hooks/useAuth";
 
 const WorkflowList: NextPage = () => {
-  const { session, signIn } = useAuth();
+  const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
 
   const api = new WorkflowApi(session?.accessToken);
@@ -38,11 +38,6 @@ const WorkflowList: NextPage = () => {
         ))}
         <EmptyWorkflowButton
           onClick={() => {
-            if (!session) {
-              signIn().catch(console.error);
-              return;
-            }
-
             api
               .create({
                 name: "New Workflow",

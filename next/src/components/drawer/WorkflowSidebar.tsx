@@ -7,6 +7,7 @@ import { getNodeBlockDefinitions } from "../../services/workflow/node-block-defi
 import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import type { WorkflowNode } from "../../types/workflow";
 import type { Node } from "reactflow";
+import TextButton from "../TextButton";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -28,6 +29,8 @@ export const getWorkflowSidebar = (controls: WorkflowControls) => {
 };
 
 const WorkflowSidebar = ({ show, setShow, controls }: WorkflowSidebarProps) => {
+  const [tab, setTab] = React.useState<"inspect" | "create">("create");
+
   return (
     <Sidebar show={show} setShow={setShow} side="right">
       <div className="text-color-primary flex h-screen flex-col gap-2">
@@ -38,10 +41,14 @@ const WorkflowSidebar = ({ show, setShow, controls }: WorkflowSidebarProps) => {
           >
             <FaBars size="15" className="z-20 m-2" />
           </button>
-          <div className="ml-5 font-bold">Block</div>
+          <TextButton onClick={() => setTab("inspect")}>Inspect</TextButton>
+          <TextButton onClick={() => setTab("create")}>Create</TextButton>
+          <div />
         </div>
-        <InspectSection selectedNode={controls.selectedNode} updateNode={controls.updateNode} />
-        <CreateSection createNode={controls.createNode} />
+        {tab === "inspect" && (
+          <InspectSection selectedNode={controls.selectedNode} updateNode={controls.updateNode} />
+        )}
+        {tab === "create" && <CreateSection createNode={controls.createNode} />}
       </div>
     </Sidebar>
   );
@@ -104,3 +111,5 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
     </div>
   );
 };
+
+export default WorkflowSidebar;

@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import Button from "../ui/button";
+import type { ReactNode } from "react";
 import React from "react";
 
 type TextButtonProps = {
-  children: JSX.Element;
-  icon?: React.ReactNode;
+  children: ReactNode | string;
+  icon?: ReactNode;
   onClick?: () => void;
 };
 export default function TextButton({ children, onClick, icon }: TextButtonProps) {

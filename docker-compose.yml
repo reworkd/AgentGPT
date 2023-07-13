@@ -37,7 +37,7 @@ services:
       - db
 
   db:
-    image: mysql:8.0
+    image: mysql:8.0.33
     container_name: db
     restart: always
     build:

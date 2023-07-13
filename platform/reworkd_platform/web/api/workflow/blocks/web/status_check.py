@@ -15,14 +15,14 @@ class UrlStatusCheckBlockOutput(BlockIOBase):
 
 
 class UrlStatusCheckBlock(Block):
-    type = "UrlStatusCheckNode"
+    type = "UrlStatusCheck"
     description = "Outputs the status code of a GET request to a URL"
     image_url = ""
-    input_config: UrlStatusCheckBlockInput
+    input: UrlStatusCheckBlockInput
 
-    def run(self) -> BlockIOBase:
+    async def run(self) -> BlockIOBase:
         try:
-            response = requests.get(self.input_config.url)
+            response = requests.get(self.input.url)
             code = response.status_code
         except RequestException:
             code = None

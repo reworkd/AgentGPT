@@ -178,15 +178,14 @@ model WorkflowNode {
 }
 
 model NodeBlock {
-  id       String @id @default(cuid())
-  node_ref String @db.VarChar(12)
-  node_id  String
+  id      String @id @default(cuid())
+  node_id String
 
   type  String
   input Json
 
   workflow_node WorkflowNode @relation(fields: [node_id], references: [id], onDelete: Cascade)
 
-  @@unique([node_id, node_ref])
+  @@index([node_id])
   @@map("node_block")
 }

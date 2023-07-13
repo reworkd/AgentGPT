@@ -24,7 +24,7 @@ class UrlStatusCheckBlock(Block):
     async def run(self) -> BlockIOBase:
         logger.info("Starting UrlStatusCheckBlock")
         try:
-            response = requests.get("https://twitter.com/")
+            response = requests.get(self.input.url)
             code = response.status_code
         except RequestException:
             code = None

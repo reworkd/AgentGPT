@@ -10,11 +10,13 @@ export default function useSocket<T extends z.Schema>(
   callback: (data: z.infer<T>) => void
 ) {
   useEffect(() => {
-    const app_key = env.NEXT_PUBLIC_PUSHER_APP_KEY as string | undefined;
+    const app_key = env.NEXT_PUBLIC_PUSHER_APP_KEY;
     if (!app_key) return () => void 0;
 
     const pusher = new Pusher(app_key, { cluster: "mt1" });
     const channel = pusher.subscribe(channelName);
+
+    console.log("subscribed to channel", channelName);
 
     channel.bind("my-event", async (data) => {
       const obj = (await eventSchema.parse(data)) as z.infer<T>;
@@ -23,6 +25,8 @@ export default function useSocket<T extends z.Schema>(
 
     return () => {
       pusher.unsubscribe(channelName);
+      pusher.disconnect();
+      console.warn("unsubscribed from channel", channelName);
     };
   }, []);
 }

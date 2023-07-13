@@ -1,14 +1,25 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from networkx import DiGraph
 from pydantic import BaseModel, Field
 
 
-class ActionBlock(BaseModel):
+class BlockIOBase(BaseModel):
+    """
+    Base input/output type inherited by all blocks. Allows for overrides
+    """
+
+    class Config:
+        extra = "allow"
+
+
+class Block(BaseModel):
     id: str
-    name: str
-    hasInput: bool
-    hasOutput: bool
+    type: str
+    input: BlockIOBase
+
+    def run(self) -> BlockIOBase:
+        raise NotImplementedError("Base workflow Node class must be inherited")
 
 
 class EdgeUpsert(BaseModel):

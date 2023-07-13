@@ -40,6 +40,7 @@ import Summarize from "../components/console/SummarizeButton";
 import AgentControls from "../components/console/AgentControls";
 import { ChatMessage } from "../components/console/ChatMessage";
 import clsx from "clsx";
+import TaskSidebar from "../components/drawer/TaskSidebar";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -158,7 +159,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout rightSidebar={TaskSidebar}>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 

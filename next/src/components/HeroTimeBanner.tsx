@@ -21,11 +21,10 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
     <div
       className={clsx(
         "flex flex-col items-start justify-center bg-black p-4",
-        "max-h-sm  rounded-full shadow-md",
-        "max-w-xs border-[1px] border-black border-opacity-20",
+        "max-h-xs rounded-full shadow-md",
+        "max-w-[293px] border-[1px] border-black border-opacity-20",
         "animate-border-pulse bg-clip-text text-transparent",
         "bg-gradient-to-r from-white to-transparent",
-
         "cursor-pointer"
       )}
     >

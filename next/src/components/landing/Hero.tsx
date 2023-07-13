@@ -6,7 +6,7 @@ import TextButton from "../TextButton";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight } from "react-icons/fa";
+import { FaCalculator, FaChevronRight } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
 
 const Hero: React.FC = () => {
@@ -55,8 +55,8 @@ const Hero: React.FC = () => {
           <HeroTimeBanner
             title="Platformer"
             subtitle="A Platformer game builder"
-            leftIcon={<FaChevronRight size="12" />}
-            rightIcon={<FaChevronRight size="12" />}
+            leftIcon={<FaCalculator size="24" />}
+            rightIcon={<FaCalculator size="24" />}
             onClick={() => {
               router.push("/").catch(console.error);
             }}

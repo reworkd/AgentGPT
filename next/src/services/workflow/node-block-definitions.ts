@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { WorkflowNode } from "../../types/workflow";
+import type { Node } from "reactflow";
 
 const IOFieldSchema = z.object({
   name: z.string(),
@@ -66,4 +68,8 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
 
 export const getNodeBlockDefinitions = () => {
   return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition];
+};
+
+export const getNodeBlockDefinitionFromNode = (node: Node<WorkflowNode>) => {
+  return getNodeBlockDefinitions().find((d) => d.type === node.data.block.type);
 };

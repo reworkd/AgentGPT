@@ -1,0 +1,15 @@
+FROM node:18
+
+RUN apt-get update && apt-get install -y \
+  git \
+  python3 \
+  gcc \
+  ca-certificates \
+  build-essential \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g @soketi/soketi
+
+EXPOSE 6001
+
+CMD ["soketi", "start"]

@@ -68,6 +68,15 @@ services:
     volumes:
       - weaviate:/var/lib/weaviate
 
+  soketi:
+    build: ./sockets
+    container_name: soketi
+    ports:
+      - "6001:6001"
+    environment:
+      SOKETI_DEFAULT_APP_ID: 1234567890
+
+
 volumes:
   weaviate:
   db_data:

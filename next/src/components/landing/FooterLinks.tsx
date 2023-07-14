@@ -10,7 +10,7 @@ const FooterLink: FC<FooterLinkProps> = ({ href, children }) => (
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group w-full rounded-full bg-transparent text-sm text-white/50 transition-colors duration-300 ease-in-out hover:text-white/90"
+    className="group w-full rounded-full bg-transparent px-2 text-sm text-white/50 transition-colors duration-300 ease-in-out hover:text-white/90"
   >
     {children}
   </a>
@@ -18,14 +18,12 @@ const FooterLink: FC<FooterLinkProps> = ({ href, children }) => (
 
 const FooterLinks = () => {
   return (
-    <div className="flex cursor-pointer justify-evenly space-x-8">
+    <div className="flex cursor-pointer flex-row justify-center space-x-4">
       <FooterLink href="https://www.ycombinator.com/companies/reworkd/jobs">Careers</FooterLink>
       <FooterLink href="https://status.reworkd.ai">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <p>Status</p>
-          <div className="relative flex h-2 w-2 items-center justify-center rounded-full bg-green-500">
-            <div className="absolute h-3.5 w-3.5 rounded-full bg-green-500 opacity-40 transition-opacity duration-300 group-hover:opacity-60"></div>
-          </div>
+          <div className="h-[6px] w-[6px] animate-pulse items-center justify-center rounded-full bg-green-500 ring-[4px] ring-green-500 ring-opacity-40 group-hover:ring-opacity-60"></div>
         </div>
       </FooterLink>
       <FooterLink href="https://agentgpt.reworkd.ai/privacypolicy">Privacy</FooterLink>

@@ -6,11 +6,12 @@ import TextButton from "../TextButton";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaCalculator, FaChevronRight } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
 import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 import GlowWrapper from "../GlowWrapper";
+import Spline from "@splinetool/react-spline";
 
 const Hero: React.FC = () => {
   const router = useRouter();
@@ -90,6 +91,9 @@ const Hero: React.FC = () => {
             </TextButton>
           </div>
         </FadeIn>
+      </div>
+      <div>
+        <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </div>
     </div>
   );

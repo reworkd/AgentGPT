@@ -11,7 +11,7 @@ type PrimaryButtonProps = {
 export default function PrimaryButton({ children, onClick, icon }: PrimaryButtonProps) {
   return (
     <div className="group relative inline-flex items-center justify-center">
-      <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-700 to-purple-700 opacity-70 blur-lg transition-all duration-1000 group-hover:-inset-px group-hover:opacity-100 group-hover:duration-200" />
+      <div className="absolute -inset-1 rounded-full bg-purple-700 opacity-70 blur-lg transition-all duration-1000 group-hover:-inset-px group-hover:opacity-100 group-hover:duration-200" />
       <Button
         onClick={onClick}
         className={clsx(

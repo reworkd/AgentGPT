@@ -12,7 +12,8 @@ function BasicNode({ data }: NodeProps<WorkflowNode>) {
       className={clsx(
         "border-translucent rounded-md p-3 shadow-2xl shadow-black",
         "bg-stone-900 text-white shadow-stone-800",
-        "transition-colors duration-500",
+        "transition-colors duration-300",
+        "hover:border-white",
         data.status === "running" && "border border-amber-500",
         data.status === "success" && "border border-green-500",
         !data.status && "border border-gray-500"

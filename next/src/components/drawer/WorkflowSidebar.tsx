@@ -4,24 +4,34 @@ import React from "react";
 import { FaBars } from "react-icons/fa";
 import type { NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
-import type { createNodeType } from "../../hooks/useWorkflow";
+import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
+import type { WorkflowNode } from "../../types/workflow";
+import type { Node } from "reactflow";
+import TextButton from "../TextButton";
+import Input from "../../ui/input";
 
 type WorkflowControls = {
+  selectedNode: Node<WorkflowNode> | undefined;
   createNode: createNodeType;
+  updateNode: updateNodeType;
 };
 
-type WorkflowSidebarProps = DisplayProps & WorkflowControls;
+type WorkflowSidebarProps = DisplayProps & {
+  controls: WorkflowControls;
+};
 
 // Wrapper HOC to curry the createNode function
-export const getWorkflowSidebar = (createNode: createNodeType) => {
+export const getWorkflowSidebar = (controls: WorkflowControls) => {
   const WorkflowSidebarHOC = ({ show, setShow }: DisplayProps) => (
-    <WorkflowSidebar show={show} setShow={setShow} createNode={createNode} />
+    <WorkflowSidebar show={show} setShow={setShow} controls={controls} />
   );
   WorkflowSidebarHOC.displayName = "WorkflowSidebarHOC";
   return WorkflowSidebarHOC;
 };
 
-const WorkflowSidebar = ({ show, setShow, createNode }: WorkflowSidebarProps) => {
+const WorkflowSidebar = ({ show, setShow, controls }: WorkflowSidebarProps) => {
+  const [tab, setTab] = React.useState<"inspect" | "create">("inspect");
+
   return (
     <Sidebar show={show} setShow={setShow} side="right">
       <div className="text-color-primary flex h-screen flex-col gap-2">
@@ -32,17 +42,60 @@ const WorkflowSidebar = ({ show, setShow, createNode }: WorkflowSidebarProps) =>
           >
             <FaBars size="15" className="z-20 m-2" />
           </button>
-          <div className="ml-5 font-bold">Block</div>
+          <TextButton onClick={() => setTab("inspect")}>Inspect</TextButton>
+          <TextButton onClick={() => setTab("create")}>Create</TextButton>
+          <div />
         </div>
-        {getNodeBlockDefinitions().map((nodeBlockDefinition) => (
-          <NodeBlock
-            key={nodeBlockDefinition.type}
-            definition={nodeBlockDefinition}
-            createNode={createNode}
-          />
-        ))}
+        {tab === "inspect" && (
+          <InspectSection selectedNode={controls.selectedNode} updateNode={controls.updateNode} />
+        )}
+        {tab === "create" && <CreateSection createNode={controls.createNode} />}
       </div>
     </Sidebar>
+  );
+};
+
+type InspectSectionProps = {
+  selectedNode: Node<WorkflowNode> | undefined;
+  updateNode: updateNodeType;
+};
+
+const InspectSection = ({ selectedNode, updateNode }: InspectSectionProps) => {
+  if (selectedNode == undefined)
+    return <div>No components selected. Click on a component to select it</div>;
+
+  const definition = getNodeBlockDefinitions().find((d) => d.type === selectedNode.data.block.type);
+
+  return (
+    <>
+      <div>
+        <p className="text-lg font-bold">{definition?.type}</p>
+        <p className="mb-3 text-sm font-thin">{definition?.description}</p>
+      </div>
+      {definition?.input_fields.map((inputField) => (
+        <div key={definition?.type + inputField.name}>
+          <Input label={inputField.name} name={inputField.name} helpText={inputField.description} />
+        </div>
+      ))}
+    </>
+  );
+};
+
+type CreateSectionProps = {
+  createNode: createNodeType;
+};
+
+const CreateSection = ({ createNode }: CreateSectionProps) => {
+  return (
+    <>
+      {getNodeBlockDefinitions().map((nodeBlockDefinition) => (
+        <NodeBlock
+          key={nodeBlockDefinition.type}
+          definition={nodeBlockDefinition}
+          createNode={createNode}
+        />
+      ))}
+    </>
   );
 };
 
@@ -68,3 +121,5 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
     </div>
   );
 };
+
+export default WorkflowSidebar;

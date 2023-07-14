@@ -29,6 +29,6 @@ class UrlStatusCheckBlock(Block):
         except RequestException:
             code = None
 
-        logger.info("UrlStatusCheckBlock Code", code)
+        logger.info("UrlStatusCheckBlock Code:", code)
         output = UrlStatusCheckBlockOutput(code=code)
         return output

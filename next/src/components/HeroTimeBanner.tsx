@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import React from "react";
+import GlowWrapper from "./GlowWrapper";
 
 type HeroTimeBannerProps = {
   title: string;
@@ -33,12 +34,11 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
         <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
       </div>
-      <div className="group relative inline-flex h-8 w-8 items-center justify-center rounded-full">
-        <div className="absolute -inset-1 rounded-full bg-purple-600 opacity-70 blur-lg" />
+      <GlowWrapper>
         <div className="relative z-10 flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
           {rightIcon}
         </div>
-      </div>
+      </GlowWrapper>
     </div>
   );
 };

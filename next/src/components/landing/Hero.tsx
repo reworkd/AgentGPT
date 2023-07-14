@@ -10,6 +10,7 @@ import { FaCalculator, FaChevronRight } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
 import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
+import GlowWrapper from "../GlowWrapper";
 
 const Hero: React.FC = () => {
   const router = useRouter();
@@ -64,17 +65,19 @@ const Hero: React.FC = () => {
             }}
           />
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
-            <PrimaryButton
-              icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
-              onClick={() => {
-                router.push("/").catch(console.error);
-              }}
-            >
-              <>
-                <span>Contact Us</span>
-                <FaChevronRight size="12" />
-              </>
-            </PrimaryButton>
+            <GlowWrapper>
+              <PrimaryButton
+                icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              >
+                <>
+                  <span>Contact Us</span>
+                  <FaChevronRight size="12" />
+                </>
+              </PrimaryButton>
+            </GlowWrapper>
             <TextButton
               onClick={() => {
                 router.push("/").catch(console.error);

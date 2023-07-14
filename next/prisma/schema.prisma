@@ -170,8 +170,22 @@ model WorkflowNode {
   update_date DateTime? @updatedAt
   delete_date DateTime?
 
-  workflow Workflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
+  workflow  Workflow    @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
+  NodeBlock NodeBlock[]
 
   @@unique([workflow_id, ref])
   @@map("workflow_node")
+}
+
+model NodeBlock {
+  id      String @id @default(cuid())
+  node_id String
+
+  type  String
+  input Json
+
+  workflow_node WorkflowNode @relation(fields: [node_id], references: [id], onDelete: Cascade)
+
+  @@index([node_id])
+  @@map("node_block")
 }

@@ -1,10 +1,11 @@
 from loguru import logger
 from networkx import topological_sort
 
+from reworkd_platform.schemas.workflow.base import WorkflowFull
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.sockets import websockets
-from reworkd_platform.web.api.workflow.schemas import WorkflowFull
+from reworkd_platform.web.api.workflow.blocks.web import get_block_runner
 
 
 class ExecutionEngine:
@@ -25,8 +26,8 @@ class ExecutionEngine:
             {"nodeId": curr.id, "status": "running"},
         )
 
-        # TODO: do work
-        # await sleep(0.5)
+        runner = get_block_runner(curr.block)
+        await runner.run()
 
         websockets.emit(
             self.workflow.workflow_id,

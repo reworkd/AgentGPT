@@ -2,7 +2,8 @@ import openai
 from langchain.chat_models import ChatOpenAI
 from pydantic import Field
 
-from reworkd_platform.schemas import LLM_Model, ModelSettings, UserBase
+from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
 

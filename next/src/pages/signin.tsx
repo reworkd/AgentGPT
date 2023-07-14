@@ -39,17 +39,12 @@ const SignIn = ({ providers }: { providers: Provider }) => {
             className="flex flex-col items-center justify-center gap-6 text-white"
           >
             <div className="flex flex-row gap-6">
-              <Image
-                src="logos/dark-default-gradient.svg"
-                width="56"
-                height="56"
-                alt="Reworkd AI"
-              />
+              <Image src="logos/dark-default-solid.svg" width="56" height="56" alt="Reworkd AI" />
               <h1
-                className={`${clsx(
+                className={clsx(
                   "bg-gradient-to-br from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent",
                   "text-center text-3xl font-bold leading-[1.1em] tracking-[-0.64px] md:text-5xl"
-                )}`}
+                )}
               >
                 <span className="hidden sm:flex">Welcome to AgentGPT</span>
                 <span className="flex sm:hidden">AgentGPT</span>
@@ -128,7 +123,10 @@ const ProviderSignInButton = ({ detail }: { detail: ButtonDetail }) => {
       onClick={() => {
         signIn(detail.id, { callbackUrl: "/" }).catch(console.error);
       }}
-      className={`${detail.color} mb-4 flex items-center rounded-md px-10 py-3 text-base font-semibold shadow-md transition-colors duration-300 sm:px-16 sm:py-5 sm:text-xl`}
+      className={clsx(
+        detail.color,
+        "mb-4 flex items-center rounded-md px-10 py-3 text-base font-semibold shadow-md transition-colors duration-300 sm:px-16 sm:py-5 sm:text-xl"
+      )}
     >
       {detail.icon}
       Sign in with {detail.id}
@@ -149,8 +147,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  const providers = await getProviders();
   return {
-    props: { providers: providers ?? {} },
+    props: { providers: (await getProviders()) ?? {} },
   };
 }

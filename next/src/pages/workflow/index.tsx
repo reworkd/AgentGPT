@@ -1,6 +1,5 @@
 import type { GetStaticProps, NextPage } from "next";
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import WorkflowApi from "../../services/workflow/workflowApi";
 import { languages } from "../../utils/languages";
@@ -8,9 +7,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
 import DashboardLayout from "../../layout/dashboard";
 import EmptyWorkflowButton from "../../components/workflow/EmptyWorkflow";
+import { useAuth } from "../../hooks/useAuth";
 
 const WorkflowList: NextPage = () => {
-  const { data: session } = useSession();
+  const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
 
   const api = new WorkflowApi(session?.accessToken);

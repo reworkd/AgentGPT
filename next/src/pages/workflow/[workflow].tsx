@@ -9,16 +9,25 @@ import Button from "../../ui/button";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
+import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
+import { useAuth } from "../../hooks/useAuth";
 
 const WorkflowPage: NextPage = () => {
+  const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
 
-  const { nodesModel, edgesModel, saveWorkflow, executeWorkflow, createNode } = useWorkflow(
-    router.query.workflow as string
-  );
+  const {
+    nodesModel,
+    edgesModel,
+    selectedNode,
+    saveWorkflow,
+    executeWorkflow,
+    createNode,
+    updateNode,
+  } = useWorkflow(router.query.workflow as string, session);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout rightSidebar={getWorkflowSidebar({ createNode, selectedNode, updateNode })}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
@@ -27,14 +36,6 @@ const WorkflowPage: NextPage = () => {
       />
       <div className="relative h-full w-full">
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
-          <Button
-            className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
-            onClick={() => {
-              createNode();
-            }}
-          >
-            New
-          </Button>
           <Button
             className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
             onClick={async () => {

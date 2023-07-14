@@ -1,8 +1,8 @@
-from sqlalchemy import String, Float, ForeignKey
-from sqlalchemy.orm import relationship, mapped_column
+from sqlalchemy import JSON, Float, ForeignKey, String
+from sqlalchemy.orm import mapped_column, relationship
 
-from reworkd_platform.db.base import TrackedModel, UserMixin, Base
-from reworkd_platform.web.api.workflow.schemas import Workflow, Node, Edge
+from reworkd_platform.db.base import Base, TrackedModel, UserMixin
+from reworkd_platform.schemas.workflow.base import Block, Edge, Node, Workflow
 
 
 class WorkflowModel(TrackedModel, UserMixin):
@@ -34,12 +34,13 @@ class WorkflowNodeModel(TrackedModel):
 
     workflow = relationship("WorkflowModel", back_populates="nodes")
 
-    def to_schema(self) -> Node:
+    def to_schema(self, block: "NodeBlockModel") -> Node:
         return Node(
             id=self.id,
             ref=self.ref,
             pos_x=self.pos_x,
             pos_y=self.pos_y,
+            block=block.to_schema(),
         )
 
 
@@ -58,3 +59,14 @@ class WorkflowEdgeModel(Base):
             source=self.source,
             target=self.target,
         )
+
+
+class NodeBlockModel(Base):
+    __tablename__ = "node_block"
+    node_id = mapped_column(String, ForeignKey("workflow_node.id"))
+
+    type = mapped_column(String)
+    input = mapped_column(JSON)
+
+    def to_schema(self) -> Block:
+        return Block(id=self.id, type=self.type, input=self.input)

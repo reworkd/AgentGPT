@@ -223,7 +223,7 @@ tr:nth-child(even) {
     }
 
     .neutral-button-primary {
-        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
+        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary hover:background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
     }
 
     .button-disabled {

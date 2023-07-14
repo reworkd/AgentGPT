@@ -11,11 +11,8 @@ import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import type { Edge, Node } from "reactflow";
 import TextButton from "../TextButton";
-import Input from "../../ui/input";
-import WindowButton from "../WindowButton";
-import { Menu as MenuPrimitive } from "@headlessui/react";
-import { MenuItems } from "../Menu";
 import { findParents } from "../../services/graph-utils";
+import InputWithSuggestions from "../../ui/RichInput";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -109,31 +106,14 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
       </div>
       {definition?.input_fields.map((inputField) => (
         <div key={definition?.type + inputField.name}>
-          <Input
+          <InputWithSuggestions
             label={inputField.name}
             name={inputField.name}
             helpText={inputField.description}
             value={selectedNode.data.block.input[inputField.name]}
             onChange={(e) => handleValueChange(inputField.name, e.target.value)}
+            suggestions={outputFields}
           />
-          {outputFields.length > 0 && (
-            <MenuPrimitive>
-              <div className="relative">
-                <MenuItems
-                  buttonPosition="top"
-                  show
-                  items={outputFields.map((field, i) => (
-                    <WindowButton
-                      key={`${inputField.name}-${field.key}`}
-                      icon={<></>}
-                      text={field.value}
-                      onClick={() => handleAutocompleteClick(inputField, field)}
-                    />
-                  ))}
-                />
-              </div>
-            </MenuPrimitive>
-          )}
         </div>
       ))}
     </>

@@ -15,7 +15,7 @@ import { useAuth } from "../../hooks/useAuth";
 const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
-
+  
   const {
     nodesModel,
     edgesModel,
@@ -27,7 +27,15 @@ const WorkflowPage: NextPage = () => {
   } = useWorkflow(router.query.workflow as string, session);
 
   return (
-    <DashboardLayout rightSidebar={getWorkflowSidebar({ createNode, selectedNode, updateNode })}>
+    <DashboardLayout
+      rightSidebar={getWorkflowSidebar({
+        createNode,
+        selectedNode,
+        updateNode,
+        nodes: nodesModel[0],
+        edges: edgesModel[0],
+      })}
+    >
       <FlowChart
         controls={true}
         nodesModel={nodesModel}

@@ -83,13 +83,13 @@ export const MacWindowHeader = (props: HeaderProps) => {
       key="Image"
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name={t("IMAGE", { ns: "common" })}
+      text={t("IMAGE", { ns: "common" })}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
       icon={<FiClipboard size={12} />}
-      name={t("COPY", { ns: "common" })}
+      text={t("COPY", { ns: "common" })}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];

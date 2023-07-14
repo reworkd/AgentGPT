@@ -24,19 +24,19 @@ export const ThemeMenu = () => {
       key="Light"
       onClick={(): void => setTheme("light")}
       icon={getThemeIcon("light")}
-      name="Light"
+      text="Light"
     />,
     <WindowButton
       key="Dark"
       onClick={(): void => setTheme("dark")}
       icon={getThemeIcon("dark")}
-      name="Dark"
+      text="Dark"
     />,
     <WindowButton
       key="System"
       onClick={(): void => setTheme("system")}
       icon={getThemeIcon("system")}
-      name="System"
+      text="System"
     />,
   ];
 

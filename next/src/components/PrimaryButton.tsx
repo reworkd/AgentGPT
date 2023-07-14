@@ -12,18 +12,16 @@ type PrimaryButtonProps = {
 
 export default function PrimaryButton({ children, onClick, icon }: PrimaryButtonProps) {
   return (
-    <GlowWrapper>
-      <Button
-        onClick={onClick}
-        className={clsx(
-          "rounded-full border-[1px] border-black",
-          "transition duration-200 ease-in-out hover:hover:bg-white/90 focus-visible:bg-white/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30",
-          "bg-white text-black"
-        )}
-      >
-        {icon}
-        {children}
-      </Button>
-    </GlowWrapper>
+    <Button
+      onClick={onClick}
+      className={clsx(
+        "rounded-full border-[1px] border-black",
+        "transition duration-200 ease-in-out hover:hover:bg-white/90 focus-visible:bg-white/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30",
+        "bg-white text-black"
+      )}
+    >
+      {icon}
+      {children}
+    </Button>
   );
 }

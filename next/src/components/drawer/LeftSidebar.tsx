@@ -78,25 +78,19 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
       <ul role="list" className="flex flex-col">
         <ul className="mb-2">
           <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">Pages</div>
-          {PAGE_LINKS.map((link, i) => {
-            if (router.route == link.href) {
-              return null;
-            }
-
-            return (
-              <LinkItem
-                key={i}
-                title={link.name}
-                href={link.href}
-                badge={link.badge}
-                onClick={() => {
-                  void router.push(link.href);
-                }}
-              >
-                <link.icon className={link.className} />
-              </LinkItem>
-            );
-          })}
+          {PAGE_LINKS.filter((link) => link.enabled && router.route != link.href).map((link, i) => (
+            <LinkItem
+              key={i}
+              title={link.name}
+              href={link.href}
+              badge={link.badge}
+              onClick={() => {
+                void router.push(link.href);
+              }}
+            >
+              <link.icon className={link.className} />
+            </LinkItem>
+          ))}
         </ul>
         <li className="mb-2">
           <div className="flex items-center justify-center gap-3">

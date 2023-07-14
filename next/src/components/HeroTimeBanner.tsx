@@ -23,7 +23,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
       className={clsx(
         "flex flex-row items-center justify-center gap-x-4",
         "h-fit w-fit py-2.5 pl-3 pr-4",
-        "rounded-[1000px] border-[1px] border-black border-opacity-20 shadow-md",
+        "rounded-[1000px] border-[1px] border-transparent border-opacity-20 shadow-md",
         "animate-border-pulse bg-clip-text text-transparent",
         "bg-gradient-to-r from-white to-transparent",
         "cursor-pointer"

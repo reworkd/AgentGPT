@@ -15,13 +15,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      <FadeIn
-        initialY={50}
-        duration={3}
-        className="z-8 absolute bottom-5 w-full justify-center px-6"
-      >
-        <div className="flex justify-between">
+      <FadeIn initialY={50} duration={3} className="z-8 fixed bottom-5 w-full justify-center px-60">
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="font-inter text-sm font-normal text-white/50">
               &copy; 2023 Reworkd AI, Inc.

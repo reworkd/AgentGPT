@@ -110,7 +110,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
             label={inputField.name}
             name={inputField.name}
             helpText={inputField.description}
-            value={selectedNode.data.block.input[inputField.name]}
+            value={selectedNode.data.block.input[inputField.name] || ""}
             onChange={(e) => handleValueChange(inputField.name, e.target.value)}
             suggestions={outputFields}
           />

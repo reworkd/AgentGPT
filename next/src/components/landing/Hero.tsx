@@ -3,14 +3,15 @@ import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight } from "react-icons/fa";
-import FooterLinks from "./FooterLinks";
+import { FaCalculator, FaChevronRight } from "react-icons/fa";
+import HeroTimeBanner from "../HeroTimeBanner";
+import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
+import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 
-const Hero = () => {
+const Hero: React.FC = () => {
   const router = useRouter();
 
   return (
@@ -48,11 +49,20 @@ const Hero = () => {
                   "from-white via-white via-50% to-neutral-600"
                 )}
               >
-                Create and deploy AI agents in the web in seconds. Simply give them a name and goal.
+                Create and deploy AI agents on the web in seconds. Simply give them a name and goal.
                 Then experience a new way to accomplish any objective.
               </p>
             </div>
           </div>
+          <HeroTimeBanner
+            title="Platformer"
+            subtitle="A Platformer game builder"
+            leftIcon={<GamepadIcon />}
+            rightIcon={<SparkleIcon />}
+            onClick={() => {
+              router.push("/").catch(console.error);
+            }}
+          />
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
             <PrimaryButton
               icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}

@@ -66,6 +66,12 @@ const InspectSection = ({ selectedNode, updateNode }: InspectSectionProps) => {
 
   const definition = getNodeBlockDefinitions().find((d) => d.type === selectedNode.data.block.type);
 
+  const handleValueChange = (name: string, value: string) => {
+    const updatedNode = { ...selectedNode };
+    updatedNode.data.block.input[name] = value;
+    updateNode(updatedNode);
+  };
+
   return (
     <>
       <div>
@@ -74,7 +80,13 @@ const InspectSection = ({ selectedNode, updateNode }: InspectSectionProps) => {
       </div>
       {definition?.input_fields.map((inputField) => (
         <div key={definition?.type + inputField.name}>
-          <Input label={inputField.name} name={inputField.name} helpText={inputField.description} />
+          <Input
+            label={inputField.name}
+            name={inputField.name}
+            helpText={inputField.description}
+            value={selectedNode.data.block.input[inputField.name]}
+            onChange={(e) => handleValueChange(inputField.name, e.target.value)}
+          />
         </div>
       ))}
     </>
@@ -107,9 +119,14 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
   return (
     <div
       className="flex cursor-pointer flex-row gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10"
-      onClick={() =>
-        createNode({ input: { url: "www.ThisIsARandomTestUrl.com" }, type: definition.type })
-      }
+      onClick={() => {
+        const input: Record<string, string> = {};
+        for (const field of definition.input_fields) {
+          input[field.name] = "";
+        }
+
+        createNode({ input: input, type: definition.type });
+      }}
     >
       <div className="h-[30px] w-[30px]">
         <img src={definition.image_url} alt={definition.type} width={30} />

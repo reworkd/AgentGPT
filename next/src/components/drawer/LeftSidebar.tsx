@@ -78,12 +78,8 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
       <ul role="list" className="flex flex-col">
         <ul className="mb-2">
           <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">Pages</div>
-          {PAGE_LINKS.map((link, i) => {
-            if (router.route == link.href) {
-              return null;
-            }
-
-            return (
+          {PAGE_LINKS.filter((link) => !link.disabled || router.route == link.href).map(
+            (link, i) => (
               <LinkItem
                 key={i}
                 title={link.name}
@@ -95,8 +91,8 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
               >
                 <link.icon className={link.className} />
               </LinkItem>
-            );
-          })}
+            )
+          )}
         </ul>
         <li className="mb-2">
           <div className="flex items-center justify-center gap-3">

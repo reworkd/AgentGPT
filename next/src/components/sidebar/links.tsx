@@ -7,8 +7,10 @@ import {
   FaLinkedin,
   FaQuestion,
   FaTwitter,
+  FaWater,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
+import { env } from "../../env/client.mjs";
 
 type LinkMetadata = {
   name: string;
@@ -16,6 +18,7 @@ type LinkMetadata = {
   icon: IconType;
   badge?: string;
   className?: string;
+  disabled?: boolean;
 };
 export const PAGE_LINKS: LinkMetadata[] = [
   {
@@ -24,20 +27,20 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaHome,
     className: "group-hover:text-color-secondary",
   },
-  // TODO: Uncomment once enabled
-  // {
-  //   name: "Flows",
-  //   href: "/workflow",
-  //   icon: FaWater,
-  //   badge: "Alpha",
-  //   className: "transition-transform group-hover:scale-110",
-  // },
+  {
+    name: "Flows",
+    href: "/workflow",
+    icon: FaWater,
+    badge: "Alpha",
+    className: "transition-transform group-hover:scale-110",
+  },
   {
     name: "Templates",
     href: "/templates",
     icon: FaFileCode,
     badge: "New",
     className: "transition-transform group-hover:scale-110",
+    disabled: !env.NEXT_PUBLIC_EXPERIMENTAL_FF_ENABLED,
   },
   {
     name: "Help",

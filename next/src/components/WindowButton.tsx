@@ -6,11 +6,11 @@ type WindowButtonProps = {
   ping?: boolean; // Toggles the ping animation
   onClick?: () => void;
   icon: React.ReactNode;
-  name: string;
+  text: string;
   border?: boolean;
 };
 
-const WindowButton = ({ ping, onClick, icon, name, border }: WindowButtonProps) => {
+const WindowButton = ({ ping, onClick, icon, text, border }: WindowButtonProps) => {
   return (
     <div
       className={clsx(
@@ -21,7 +21,7 @@ const WindowButton = ({ ping, onClick, icon, name, border }: WindowButtonProps) 
     >
       {ping ? <Ping color="blue" /> : <></>}
       {icon}
-      <p className="text-gray/50 font-mono">{name}</p>
+      <p className="text-gray/50 font-mono">{text}</p>
     </div>
   );
 };

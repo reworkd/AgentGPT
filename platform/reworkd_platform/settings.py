@@ -1,7 +1,7 @@
 import enum
 from pathlib import Path
 from tempfile import gettempdir
-from typing import List, Optional, Literal
+from typing import List, Optional, Literal, Union
 
 from pydantic import BaseSettings
 from yarl import URL
@@ -87,7 +87,7 @@ class Settings(BaseSettings):
     sentry_dsn: Optional[str] = None
     sentry_sample_rate: float = 1.0
 
-    kafka_bootstrap_servers: List[str] = []
+    kafka_bootstrap_servers: Union[str, List[str]] = []
     kafka_username: Optional[str] = None
     kafka_password: Optional[str] = None
     kafka_ssal_mechanism: SASL_MECHANISM = "PLAIN"

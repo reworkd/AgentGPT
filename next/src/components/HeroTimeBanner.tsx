@@ -20,21 +20,22 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   return (
     <div
       className={clsx(
-        "flex flex-col items-start justify-center bg-black p-4",
-        "max-h-min rounded-full shadow-md",
-        "max-w-xs border-[1px] border-black border-opacity-20",
+        "flex flex-row items-center justify-center gap-x-4",
+        "h-fit w-fit py-2.5 pl-3 pr-4",
+        "rounded-[1000px] border-[1px] border-black border-opacity-20 shadow-md",
         "animate-border-pulse bg-clip-text text-transparent",
         "bg-gradient-to-r from-white to-transparent",
         "cursor-pointer"
       )}
     >
-      <div className="mb-2 flex flex-row items-center justify-start">
-        <div className="p-4 text-white">{leftIcon}</div>
-        <div className="flex flex-col">
-          <h2 className="text-md ml-2s font-bold">{title}</h2>
-          <p className="text-sm text-gray-600">{subtitle}</p>
-        </div>
-        <div className="flex justify-end p-4 text-white">{rightIcon}</div>
+      {/*<div className="flex h-fit w-fit flex-row items-center justify-center gap-x-4 rounded-[1000px] border-[0.75px] border-white/50 py-2.5 pl-3 pr-4">*/}
+      <div>{leftIcon}</div>
+      <div className="flex flex-col font-inter leading-6 tracking-normal">
+        <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
+        <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
+      </div>
+      <div className="flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
+        {rightIcon}
       </div>
     </div>
   );

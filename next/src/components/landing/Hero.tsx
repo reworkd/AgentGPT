@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaCalculator, FaChevronRight } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
+import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
+import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 
 const Hero: React.FC = () => {
   const router = useRouter();
@@ -55,8 +57,8 @@ const Hero: React.FC = () => {
           <HeroTimeBanner
             title="Platformer"
             subtitle="A Platformer game builder"
-            leftIcon={<FaCalculator size="16" />}
-            rightIcon={<FaCalculator size="16" />}
+            leftIcon={<GamepadIcon />}
+            rightIcon={<SparkleIcon />}
             onClick={() => {
               router.push("/").catch(console.error);
             }}

@@ -23,7 +23,10 @@ class ExecutionEngine:
         websockets.emit(
             self.workflow.workflow_id,
             "my-event",
-            {"nodeId": curr.id, "status": "running"},
+            {
+                "nodeId": curr.id,
+                "status": "running",
+            },
         )
 
         runner = get_block_runner(curr.block)
@@ -32,7 +35,11 @@ class ExecutionEngine:
         websockets.emit(
             self.workflow.workflow_id,
             "my-event",
-            {"nodeId": curr.id, "status": "success"},
+            {
+                "nodeId": curr.id,
+                "status": "success",
+                "remaining": len(self.workflow.queue),
+            },
         )
 
         if self.workflow.queue:

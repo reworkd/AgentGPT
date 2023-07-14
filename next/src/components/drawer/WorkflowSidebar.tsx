@@ -2,7 +2,7 @@ import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
 import React from "react";
 import { FaBars } from "react-icons/fa";
-import type { NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
+import type { IOField, NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
 import {
   getNodeBlockDefinitionFromNode,
   getNodeBlockDefinitions,
@@ -88,11 +88,18 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     const outputFields = definition.output_fields;
     return outputFields.map((outputField) => {
       return {
-        key: `${ancestorNode.id}-${definition.type}-${outputFields.join("-")}`,
+        key: `${ancestorNode.id}-${outputField.name}`,
         value: `${definition.type}-${outputField.name}`,
       };
     });
   });
+
+  const handleAutocompleteClick = (inputField: IOField, field: { key: string; value: string }) => {
+    handleValueChange(
+      inputField.name,
+      `${selectedNode.data.block.input[inputField.name] || ""}{{${field.key}}}`
+    );
+  };
 
   return (
     <>
@@ -120,6 +127,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
                       key={`${inputField.name}-${field.key}`}
                       icon={<></>}
                       text={field.value}
+                      onClick={() => handleAutocompleteClick(inputField, field)}
                     />
                   ))}
                 />

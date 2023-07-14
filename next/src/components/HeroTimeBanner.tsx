@@ -33,8 +33,11 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
         <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
       </div>
-      <div className="flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
-        {rightIcon}
+      <div className="group relative inline-flex h-8 w-8 items-center justify-center rounded-full">
+        <div className="animate-tilt  absolute -inset-1 rounded-full bg-gradient-to-r from-purple-600 to-purple-600 opacity-70 blur-lg" />
+        <div className="relative z-10 flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
+          {rightIcon}
+        </div>
       </div>
     </div>
   );

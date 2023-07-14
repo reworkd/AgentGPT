@@ -3,12 +3,14 @@ import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
 import FooterLinks from "./FooterLinks";
+import TemplateButton from "./TemplateButton";
+import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
+import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 
 const Hero = () => {
   const router = useRouter();
@@ -51,6 +53,12 @@ const Hero = () => {
                 Create and deploy AI agents in the web in seconds. Simply give them a name and goal.
                 Then experience a new way to accomplish any objective.
               </p>
+              <TemplateButton
+                primaryIcon={<GamepadIcon />}
+                secondaryIcon={<SparkleIcon className="shrink-0" />}
+                title="Platformer"
+                description="A platform game builder"
+              />
             </div>
           </div>
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">

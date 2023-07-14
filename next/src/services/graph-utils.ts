@@ -7,6 +7,11 @@ export const findParents = (
   edges: Edge<WorkflowEdge>[],
   node: Node<WorkflowNode>
 ): Node<WorkflowNode>[] => {
+  // If the selected node is deleted, it will still be selected but won't be found in the nodes array
+  if (nodes.find((n) => n.id === node.id) === undefined) {
+    return [];
+  }
+
   // Create a new directed graph
   const graph = new Graph();
 
@@ -32,7 +37,7 @@ export const findParents = (
       }
     }
   }
-  
+
   // Return nodes corresponding to parent IDs
   return nodes.filter((node) => ancestors.has(node.id));
 };

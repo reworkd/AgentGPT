@@ -14,6 +14,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
   right?: React.ReactNode;
   suggestions: { key: string; value: string }[];
+  value: string;
 }
 
 const InputWithSuggestions = (props: Props) => {
@@ -45,10 +46,9 @@ const InputWithSuggestions = (props: Props) => {
                   onClick={() => {
                     const eventMock = {
                       target: {
-                        value: `${props.value}{{${field.value}}}`,
+                        value: `${props.value}{{${field.key}}}`,
                       },
                     };
-                    console.log("test");
                     // @ts-ignore
                     props.onChange && props.onChange(eventMock);
                   }}

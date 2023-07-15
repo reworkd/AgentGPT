@@ -25,12 +25,14 @@ class AsyncConsumer(ABC):
         self,
         *topics: Any,
         settings: Settings,
-        deserializer: Deserializer = JSONDeserializer()
+        deserializer: Deserializer = JSONDeserializer(),
     ):
+        self._group = settings.kafka_consumer_group
+        self._env = settings.environment
         self._consumer = settings.kafka_enabled and AIOKafkaConsumer(
             *topics,
             bootstrap_servers=settings.kafka_bootstrap_servers,
-            group_id="platform",
+            group_id=self._group,
             sasl_mechanism=settings.kafka_ssal_mechanism,
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,
@@ -38,7 +40,7 @@ class AsyncConsumer(ABC):
             ssl_context=ssl.create_default_context(cafile=settings.db_ca_path),
             enable_auto_commit=True,
             auto_offset_reset="earliest",
-            value_deserializer=deserializer.deserialize
+            value_deserializer=deserializer.deserialize,
         )
 
     async def start(self) -> "AsyncConsumer":
@@ -50,11 +52,15 @@ class AsyncConsumer(ABC):
         await consumer.start()
 
         async def consumer_loop() -> None:
-            try:
-                async for msg in consumer:
+            async for msg in consumer:
+                if self.should_skip(msg):
+                    logger.info(f"Skipping message: {msg.headers}")
+                    continue
+
+                try:
                     await self.on_message(msg)
-            finally:
-                await self.stop()
+                except Exception as e:
+                    logger.exception(e)
 
         asyncio.get_event_loop().create_task(consumer_loop())
         return self
@@ -64,6 +70,16 @@ class AsyncConsumer(ABC):
             return
 
         await self._consumer.stop()
+
+    def should_skip(self, record: ConsumerRecord) -> bool:
+        """
+        Skip processing a message if in dev node and
+        the message is not produced by the current host.
+        """
+        return (
+            self._env == "development"
+            and ("host", self._group.encode("utf-8")) not in record.headers
+        )
 
     @abstractmethod
     async def on_message(self, record: ConsumerRecord) -> None:

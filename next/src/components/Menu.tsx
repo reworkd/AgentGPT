@@ -50,10 +50,9 @@ export const MenuItems = ({ buttonPosition, items, show }: MenuItemsProps) => {
           buttonPosition === "top" ? "top-full mt-1" : "bottom-full mb-9"
         )}
       >
-        {items.map((item) => {
-          const itemName = (item.props as { name: string }).name;
+        {items.map((item, i) => {
           return (
-            <MenuPrimitive.Item key={itemName} as={Fragment}>
+            <MenuPrimitive.Item key={i} as={Fragment}>
               <div className="w-full">{item}</div>
             </MenuPrimitive.Item>
           );

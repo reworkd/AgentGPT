@@ -1,7 +1,6 @@
 import { motion, useCycle } from "framer-motion";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import { sequence } from "nth-check";
 
 interface MotionProps extends PropsWithChildren {
   className?: string;

@@ -22,6 +22,13 @@ const navigation = [
 
 export default function NavBar() {
   const router = useRouter();
+  const itemsMap = {
+    home: <HomeIcon />,
+    barcode: <BarcodeIcon />,
+    document: <DocumentIcon />,
+    locationPin: <LocationPinIcon />,
+    megaphone: <MegaphoneIcon />,
+  };
 
   return (
     <FadeIn duration={3}>

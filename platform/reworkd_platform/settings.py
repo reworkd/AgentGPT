@@ -110,6 +110,11 @@ class Settings(BaseSettings):
 
     @property
     def kafka_consumer_group(self) -> str:
+        """
+        Kafka consumer group will be the name of the host in development
+        mode, making it easier to share a dev cluster.
+        """
+
         if self.environment == "development":
             return platform.node()
 
@@ -117,11 +122,6 @@ class Settings(BaseSettings):
 
     @property
     def db_url(self) -> URL:
-        """
-        Assemble database URL from settings.
-
-        :return: database URL.
-        """
         return URL.build(
             scheme="mysql+aiomysql",
             host=self.db_host,

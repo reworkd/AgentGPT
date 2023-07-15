@@ -28,6 +28,7 @@ class AsyncConsumer(ABC):
         deserializer: Deserializer = JSONDeserializer(),
     ):
         self._group = settings.kafka_consumer_group
+        self._env = settings.environment
         self._consumer = settings.kafka_enabled and AIOKafkaConsumer(
             *topics,
             bootstrap_servers=settings.kafka_bootstrap_servers,
@@ -41,8 +42,6 @@ class AsyncConsumer(ABC):
             auto_offset_reset="earliest",
             value_deserializer=deserializer.deserialize,
         )
-
-        self._dev_mode = settings.environment == "development"
 
     async def start(self) -> "AsyncConsumer":
         if not self._consumer:
@@ -73,8 +72,12 @@ class AsyncConsumer(ABC):
         await self._consumer.stop()
 
     def should_skip(self, record: ConsumerRecord) -> bool:
+        """
+        Skip processing a message if in dev node and
+        the message is not produced by the current host.
+        """
         return (
-            self._dev_mode
+            self._env == "development"
             and ("host", self._group.encode("utf-8")) not in record.headers
         )
 

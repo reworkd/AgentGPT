@@ -85,8 +85,8 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     const outputFields = definition.output_fields;
     return outputFields.map((outputField) => {
       return {
-        key: `${ancestorNode.id}-${outputField.name}`,
-        value: `${definition.type}-${outputField.name}`,
+        key: `{{${ancestorNode.id}.${outputField.name}}}`,
+        value: `${definition.type}.${outputField.name}`,
       };
     });
   });

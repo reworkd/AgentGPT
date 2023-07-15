@@ -148,8 +148,6 @@ const Task = ({ task, index, onDragStart, onDragEnter, onDragEnd }: TaskPropsInt
     }
   };
 
-  const dragControls = useDragControls();
-
   return (
     <div
       className={` mb-1`}

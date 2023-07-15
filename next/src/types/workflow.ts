@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from "react";
 
 const NodeBlockSchema = z.object({
   type: z.string(),
-  input: z.any(),
+  input: z.record(z.string()),
 });
 
 export type NodeBlock = z.infer<typeof NodeBlockSchema>;

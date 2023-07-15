@@ -24,9 +24,9 @@ export const ToolsDialog: React.FC<{
     >
       <p>Select what external tools your agents have access to.</p>
       <div className="mt-5 flex flex-col gap-3 ">
-        {activeTools.map((tool) => (
+        {activeTools.map((tool, i) => (
           <div
-            key={tool.name + tool.description}
+            key={i}
             className="flex items-center gap-3 rounded-md border border-white/30 bg-zinc-800 p-2 px-4 text-white"
           >
             <ToolAvatar tool={tool} />

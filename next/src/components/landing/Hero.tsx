@@ -3,18 +3,21 @@ import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import Backing from "./Backing";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
-import FooterLinks from "./FooterLinks";
+import HeroTimeBanner from "../HeroTimeBanner";
+import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
+import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
+import GlowWrapper from "../GlowWrapper";
+import Spline from "@splinetool/react-spline";
 
-const Hero = () => {
+const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
 
   return (
-    <div className="relative grid h-screen grid-cols-1 place-items-center gap-2 lg:grid-cols-2">
+    <div className={clsx("grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2", className)}>
       <div className="z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
@@ -48,23 +51,34 @@ const Hero = () => {
                   "from-white via-white via-50% to-neutral-600"
                 )}
               >
-                Create and deploy AI agents in the web in seconds. Simply give them a name and goal.
+                Create and deploy AI agents on the web in seconds. Simply give them a name and goal.
                 Then experience a new way to accomplish any objective.
               </p>
             </div>
           </div>
+          <HeroTimeBanner
+            title="Platformer"
+            subtitle="A Platformer game builder"
+            leftIcon={<GamepadIcon />}
+            rightIcon={<SparkleIcon />}
+            onClick={() => {
+              router.push("/").catch(console.error);
+            }}
+          />
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
-            <PrimaryButton
-              icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
-              onClick={() => {
-                router.push("/").catch(console.error);
-              }}
-            >
-              <>
-                <span>Contact Us</span>
-                <FaChevronRight size="12" />
-              </>
-            </PrimaryButton>
+            <GlowWrapper>
+              <PrimaryButton
+                icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              >
+                <>
+                  <span>Contact Us</span>
+                  <FaChevronRight size="12" />
+                </>
+              </PrimaryButton>
+            </GlowWrapper>
             <TextButton
               onClick={() => {
                 router.push("/").catch(console.error);
@@ -77,6 +91,9 @@ const Hero = () => {
             </TextButton>
           </div>
         </FadeIn>
+      </div>
+      <div className="h-[500px] w-[500px]">
+        <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </div>
     </div>
   );

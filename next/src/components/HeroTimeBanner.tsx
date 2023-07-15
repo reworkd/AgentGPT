@@ -21,7 +21,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   return (
     <div className="relative">
       <div
-        className="absolute inset-0 -z-10"
+        className="absolute inset-0 -z-10 max-w-[310px]"
         style={{ backgroundImage: "conic-gradient(purple, transparent)" }}
       ></div>
       <div

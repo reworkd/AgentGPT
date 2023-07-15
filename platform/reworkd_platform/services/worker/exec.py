@@ -18,7 +18,7 @@ class ExecutionEngine:
 
     async def loop(self) -> None:
         curr = self.workflow.queue.pop(0)
-        logger.info(f"Running task: {curr.ref}")
+        logger.info(f"Running task: {curr}")
 
         websockets.emit(
             self.workflow.workflow_id,
@@ -30,7 +30,13 @@ class ExecutionEngine:
         )
 
         runner = get_block_runner(curr.block)
-        await runner.run()
+        outputs = await runner.run()
+
+        # Place outputs in workflow
+        outputs_with_key = {
+            f"{{{curr.block.id}.{key}}}": value for key, value in outputs.dict().items()
+        }
+        self.workflow.outputs.update(outputs_with_key)
 
         websockets.emit(
             self.workflow.workflow_id,

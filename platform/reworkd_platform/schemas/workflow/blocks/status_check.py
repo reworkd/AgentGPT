@@ -28,9 +28,7 @@ class UrlStatusCheckBlock(Block):
                 async with session.get(self.input.url) as response:
                     code = response.status
         except RequestException:
-            pass
-        finally:
-            logger.info(f"UrlStatusCheckBlock Response: {response}")
+            logger.info(f"UrlStatusCheckBlock errored: {RequestException}")
 
         logger.info(f"UrlStatusCheckBlock Code: {code}")
         output = UrlStatusCheckBlockOutput(code=code)

@@ -4,12 +4,14 @@ import Expand from "./motions/expand";
 import { getMessageContainerStyle, getTaskStatusIcon } from "./utils/helpers";
 import { useAgentStore } from "../stores";
 import { FaListAlt, FaTimesCircle } from "react-icons/fa";
+import { RxDragHandleDots2 } from "react-icons/rx";
+
 import { useTranslation } from "next-i18next";
 import clsx from "clsx";
 import Input from "./Input";
 import Button from "./Button";
 import { v1 } from "uuid";
-import { AnimatePresence, Reorder } from "framer-motion";
+import { AnimatePresence, Reorder, useDragControls } from "framer-motion";
 import { MESSAGE_TYPE_TASK, Task, TASK_STATUS_STARTED } from "../types/task";
 import { useTaskStore } from "../stores/taskStore";
 
@@ -37,11 +39,11 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   };
 
 
-  
+
   // For storing Index of the task which we want to drag
   const dragTaskIndex = React.useRef(null);
   // When Task DragStarted
-  const onDragStart = (e:React.DragEvent<HTMLDivElement>, i: number) => {
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>, i: number) => {
     dragTaskIndex.current = i;
 
     // Making Task opacity zero in the task list. Using timeout because without it, it will make opacity 0 instantly and then the Task which is showing on cursor will also not visible
@@ -50,7 +52,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
     }, 0);
   }
   // When we drag the task upon another task
-  const onDragEnter = (i:number) => {
+  const onDragEnter = (i: number) => {
     if (dragTaskIndex.current === null) return;
     // Tasks Order will be updated only when the Task on which we are droping has `started` status 
     if (tasks[i].status !== "started") return
@@ -64,7 +66,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   }
 
   // When we left the draging Task
-  const onDragEnd = (e:React.DragEvent<HTMLDivElement>) => {
+  const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     dragTaskIndex.current = null;
     e.target.classList.remove("opacity-0");
   }
@@ -87,27 +89,24 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
               This window will display agent tasks as they are created.
             </p>
           )}
-          <Reorder.Group drag="y" values={[]} onReorder={() => {}} as="div" >
+          <Reorder.Group drag="y" values={[]} onReorder={() => { }} as="div" >
             <AnimatePresence>
               {tasks.map((task, i) => (
-                    <Reorder.Item
-                      key={task.id}
-                      as='span'
-                    >
-                      <div
-                        className={task.status === "started" ? "cursor-move" : ""}
-                        draggable={task.status === "started"}
-                        onDragStart={(e:React.DragEvent<HTMLDivElement>) => onDragStart(e, i)}
-                        onDragEnter={() => onDragEnter(i)}
-                        onDragEnd={onDragEnd}
-                        onDragOver={(e:React.DragEvent<HTMLDivElement>)=>e.preventDefault()}
-                        >
-                        <Task index={i} task={task} />
-                      </div>
-                    </Reorder.Item>
-                  ))
-                }
-                </AnimatePresence>
+                <Reorder.Item
+                  key={task.id}
+                  as='span'
+                  className="mb-2"
+                  >
+                  <Task index={i} task={task}
+                    onDragStart={onDragStart}
+                    onDragEnter={onDragEnter}
+                    onDragEnd={onDragEnd}
+                  />
+                </Reorder.Item>
+              )
+              )
+              }
+            </AnimatePresence>
           </Reorder.Group>
         </div>
         <div className="mt-auto flex flex-row gap-1">
@@ -130,7 +129,15 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
   );
 };
 
-const Task = ({ task, index }: { task: Task; index: number }) => {
+
+interface TaskPropsInterface {
+  task: Task; index: number;
+  onDragStart: (e: React.DragEvent<HTMLDivElement>, i: number) => void;
+  onDragEnter: (i: number) => void;
+  onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;
+}
+
+const Task = ({ task, index, onDragStart, onDragEnter, onDragEnd }: TaskPropsInterface) => {
   const isAgentStopped = useAgentStore.use.lifecycle() === "stopped";
   const deleteTask = useTaskStore.use.deleteTask();
   const isTaskDeletable = task.taskId && !isAgentStopped && task.status === "started";
@@ -140,29 +147,46 @@ const Task = ({ task, index }: { task: Task; index: number }) => {
       deleteTask(task.taskId as string);
     }
   };
-  
+
+  const dragControls = useDragControls();
+
   return (
-    <FadeIn>
-      <div
-        className={clsx(
-          "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
-          isAgentStopped && "opacity-50",
-          getMessageContainerStyle(task)
-        )}
+    <div
+      className={` mb-1`}
+      draggable={task.status === "started"}
+      onDragStart={(e: React.DragEvent<HTMLDivElement>) => onDragStart(e, index)}
+      onDragEnter={() => onDragEnter(index)}
+      onDragEnd={onDragEnd}
+      onDragOver={(e: React.DragEvent<HTMLDivElement>) => e.preventDefault()}
       >
-        {getTaskStatusIcon(task, { isAgentStopped })}
-        <span>{task.value}</span>
-        <div className="flex justify-end">
-          <FaTimesCircle
-            onClick={handleDeleteTask}
-            className={clsx(
-              isTaskDeletable && "cursor-pointer hover:text-red-500",
-              !isTaskDeletable && "cursor-not-allowed opacity-30"
+      <FadeIn>
+        <div
+          className={clsx(
+            "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
+            isAgentStopped && "opacity-50",
+            getMessageContainerStyle(task)
             )}
+            >
+          {getTaskStatusIcon(task, { isAgentStopped })}
+          <span>{task.value}</span>
+          <div className="flex justify-end">
+          {task.status === "started" &&
+            <RxDragHandleDots2
             size={12}
-          />
+            className={"cursor-move mr-auto"}
+            />
+          }
+            <FaTimesCircle
+              onClick={handleDeleteTask}
+              className={clsx(
+                isTaskDeletable && "cursor-pointer hover:text-red-500",
+                !isTaskDeletable && "cursor-not-allowed opacity-30"
+              )}
+              size={12}
+            />
+          </div>
         </div>
-      </div>
-    </FadeIn>
+      </FadeIn>
+    </div>
   );
 };

@@ -19,14 +19,14 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   rightIcon,
   onClick,
 }) => {
-  const variants = {
+  const rotationVariants = {
     initial: {
       rotate: 0,
     },
     animate: {
       rotate: 360,
       transition: {
-        duration: 10,
+        duration: 60,
         ease: "linear",
         repeat: Infinity,
       },
@@ -34,16 +34,18 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative flex">
+      <div className="pointer-events-none absolute inset-0 z-[-10] max-w-[330px] scale-105 transform rounded-full bg-purple-600 opacity-60"></div>
       <motion.div
-        className="pointer-events-none absolute inset-0 z-[-10] max-w-[330px] scale-105 transform rounded-full bg-purple-600 opacity-60"
-        variants={variants}
+        className="pointer-events-none absolute inset-0 z-[-5] max-w-[330px] scale-105 transform rounded-full bg-gradient-to-r from-transparent to-purple-600"
+        style={{ maskImage: "linear-gradient(to right, transparent, black)" }}
+        variants={rotationVariants}
         initial="initial"
         animate="animate"
       ></motion.div>
       <div
         className={clsx(
-          "o relative z-10",
+          "relative z-10",
           "flex flex-row items-center justify-center gap-x-4",
           "h-fit w-fit py-2.5 pl-3 pr-4",
           "rounded-[1000px] border-2 border-transparent border-opacity-20 shadow-md",

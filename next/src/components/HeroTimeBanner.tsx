@@ -54,10 +54,11 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         )}
       >
         <div>{leftIcon}</div>
-        <div className="flex flex-col font-inter leading-6 tracking-normal">
+        <div className="flex flex-col bg-gradient-to-r from-white via-white to-black bg-clip-text font-inter leading-6 tracking-normal text-transparent">
           <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
           <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
         </div>
+
         <GlowWrapper>
           <div className="relative z-10 flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
             {rightIcon}

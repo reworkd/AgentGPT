@@ -1,7 +1,10 @@
+import re
+from typing import Any, Dict
+
 from loguru import logger
 from networkx import topological_sort
 
-from reworkd_platform.schemas.workflow.base import WorkflowFull
+from reworkd_platform.schemas.workflow.base import Block, BlockIOBase, WorkflowFull
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.sockets import websockets
@@ -28,6 +31,8 @@ class ExecutionEngine:
                 "status": "running",
             },
         )
+
+        curr.block = replace_templates(curr.block, self.workflow.outputs)
 
         runner = get_block_runner(curr.block)
         outputs = await runner.run()
@@ -68,3 +73,29 @@ class ExecutionEngine:
                 work_queue=sorted_nodes,
             ),
         )
+
+
+TEMPLATE_PATTERN = r"\{\{(?P<id>[\w\d\-]+)\.(?P<key>[\w\d\-]+)\}\}"
+
+
+def replace_templates(block: Block, outputs: Dict[str, Any]) -> Block:
+    block_input = block.input.dict()
+
+    for key, value in block.input.dict().items():
+        matches = re.finditer(TEMPLATE_PATTERN, value)
+
+        for match in matches:
+            full_match = match.group(0)
+            block_id = match.group("id")
+            block_key = match.group("key")
+
+            matched_key = f"{{{{{block_id}.{block_key}}}}}"
+            if matched_key in outputs.keys():
+                value = value.replace(full_match, outputs[matched_key])
+            else:
+                raise RuntimeError(f"Unable to replace template: {full_match}")
+
+        block_input[key] = value
+
+    block.input = BlockIOBase(**block_input)
+    return block

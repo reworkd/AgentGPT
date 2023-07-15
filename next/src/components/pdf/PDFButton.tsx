@@ -3,7 +3,7 @@ import { pdf } from "@react-pdf/renderer";
 import WindowButton from "../WindowButton";
 import { FaFilePdf } from "react-icons/fa";
 import { i18n } from "next-i18next";
-import type { Message} from "../../types/message";
+import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL } from "../../types/message";
 import { MESSAGE_TYPE_TASK } from "../../types/task";
 
@@ -31,7 +31,7 @@ const PDFButton = ({ messages, name }: { messages: Message[]; name: string }) =>
           downloadPDF().catch(console.error);
         }}
         icon={<FaFilePdf size={12} />}
-        name={name}
+        text={name}
       />
     </>
   );

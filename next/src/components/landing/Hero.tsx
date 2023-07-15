@@ -6,17 +6,18 @@ import TextButton from "../TextButton";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaCalculator, FaChevronRight } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
 import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 import GlowWrapper from "../GlowWrapper";
+import Spline from "@splinetool/react-spline";
 
-const Hero: React.FC = () => {
+const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
 
   return (
-    <div className="relative grid h-screen grid-cols-1 place-items-center gap-2 lg:grid-cols-2">
+    <div className={clsx("grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2", className)}>
       <div className="z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
@@ -90,6 +91,9 @@ const Hero: React.FC = () => {
             </TextButton>
           </div>
         </FadeIn>
+      </div>
+      <div className="h-[500px] w-[500px]">
+        <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </div>
     </div>
   );

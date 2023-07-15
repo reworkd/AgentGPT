@@ -8,6 +8,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
   disabled?: boolean;
   right?: React.ReactNode;
+  handleFocusChange?: (focused: boolean) => void;
 }
 
 const Input = (props: Props) => {
@@ -43,6 +44,8 @@ const Input = (props: Props) => {
             value={props.value}
             onChange={props.onChange}
             disabled={props.disabled}
+            onFocus={() => props.handleFocusChange && props.handleFocusChange(true)}
+            onBlur={() => props.handleFocusChange && props.handleFocusChange(false)}
             {...(props.helpText ? { "aria-describedby": `${props.name}-description` } : {})}
             {...props.attributes}
           />

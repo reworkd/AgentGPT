@@ -11,8 +11,6 @@ TOPICS = Literal["workflow_task"]
 
 
 class AsyncProducer:
-    _producer: AIOKafkaProducer
-
     def __init__(self, settings: Settings):
         self._producer = settings.kafka_enabled and AIOKafkaProducer(
             bootstrap_servers=settings.kafka_bootstrap_servers,
@@ -21,6 +19,12 @@ class AsyncProducer:
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,
             ssl_context=create_default_context(cafile=settings.db_ca_path),
+        )
+
+        self._headers = (
+            [("host", settings.kafka_consumer_group.encode("utf-8"))]
+            if settings.environment == "development"
+            else None
         )
 
     @classmethod
@@ -39,4 +43,8 @@ class AsyncProducer:
             logger.warning("Kafka producer is not enabled")
             return
 
-        await self._producer.send(topic=topic, value=data.json().encode("utf-8"))
+        await self._producer.send(
+            topic=topic,
+            value=data.json().encode("utf-8"),
+            headers=self._headers,
+        )

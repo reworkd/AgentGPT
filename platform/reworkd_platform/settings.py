@@ -1,4 +1,5 @@
 import enum
+import platform
 from pathlib import Path
 from tempfile import gettempdir
 from typing import List, Optional, Literal, Union
@@ -27,6 +28,11 @@ SASL_MECHANISM = Literal[
     "SCRAM-SHA-256",
 ]
 
+ENVIRONMENT = Literal[
+    "development",
+    "production",
+]
+
 
 class Settings(BaseSettings):
     """
@@ -46,7 +52,7 @@ class Settings(BaseSettings):
     reload: bool = True
 
     # Current environment
-    environment: str = "development"
+    environment: ENVIRONMENT = "development"
 
     log_level: LogLevel = LogLevel.INFO
 
@@ -103,12 +109,19 @@ class Settings(BaseSettings):
     max_loops: int = 25  # Maximum number of loops to run
 
     @property
-    def db_url(self) -> URL:
+    def kafka_consumer_group(self) -> str:
         """
-        Assemble database URL from settings.
+        Kafka consumer group will be the name of the host in development
+        mode, making it easier to share a dev cluster.
+        """
 
-        :return: database URL.
-        """
+        if self.environment == "development":
+            return platform.node()
+
+        return "platform"
+
+    @property
+    def db_url(self) -> URL:
         return URL.build(
             scheme="mysql+aiomysql",
             host=self.db_host,

@@ -39,7 +39,7 @@ class ExecutionEngine:
 
         # Place outputs in workflow
         outputs_with_key = {
-            f"{{{curr.block.id}.{key}}}": value for key, value in outputs.dict().items()
+            get_template(curr.id, key): value for key, value in outputs.dict().items()
         }
         self.workflow.outputs.update(outputs_with_key)
 
@@ -78,6 +78,10 @@ class ExecutionEngine:
 TEMPLATE_PATTERN = r"\{\{(?P<id>[\w\d\-]+)\.(?P<key>[\w\d\-]+)\}\}"
 
 
+def get_template(key: str, value: str) -> str:
+    return f"{{{{{key}.{value}}}}}"
+
+
 def replace_templates(block: Block, outputs: Dict[str, Any]) -> Block:
     block_input = block.input.dict()
 
@@ -89,9 +93,10 @@ def replace_templates(block: Block, outputs: Dict[str, Any]) -> Block:
             block_id = match.group("id")
             block_key = match.group("key")
 
-            matched_key = f"{{{{{block_id}.{block_key}}}}}"
+            matched_key = get_template(block_id, block_key)
+
             if matched_key in outputs.keys():
-                value = value.replace(full_match, outputs[matched_key])
+                value = value.replace(full_match, str(outputs[matched_key]))
             else:
                 raise RuntimeError(f"Unable to replace template: {full_match}")
 

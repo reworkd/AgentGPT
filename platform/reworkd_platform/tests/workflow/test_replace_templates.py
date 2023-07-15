@@ -3,9 +3,13 @@ import re
 import pytest
 
 from reworkd_platform.schemas.workflow.base import Block
-from reworkd_platform.services.worker.exec import replace_templates
+from reworkd_platform.services.worker.exec import get_template, replace_templates
 
 TEMPLATE_PATTERN = r"\{\{(?P<id>[\w\d\-]+)\.(?P<key>[\w\d\-]+)\}\}"
+
+
+def test_get_template() -> None:
+    assert get_template("123", "curr") == "{{123.curr}}"
 
 
 @pytest.mark.parametrize(
@@ -33,7 +37,7 @@ def test_template_pattern(test_input: str, expected_output: dict) -> None:
         assert match is expected_output  # should be None for failed matches
 
 
-def test_replace_templates() -> None:
+def test_replace_string() -> None:
     block = Block(
         id="12-34-56",
         type="test_type",
@@ -43,6 +47,18 @@ def test_replace_templates() -> None:
 
     block = replace_templates(block, outputs)
     assert block.input.dict() == {"curr": "test_value"}
+
+
+def test_replace_single_template() -> None:
+    block = Block(
+        id="12-34-56",
+        type="test_type",
+        input={"message": "The status code is: {{12-34-56.code}}"},
+    )
+    outputs = {"{{12-34-56.code}}": "200"}
+
+    block = replace_templates(block, outputs)
+    assert block.input.dict() == {"message": "The status code is: 200"}
 
 
 def test_error_if_non_existent_template() -> None:

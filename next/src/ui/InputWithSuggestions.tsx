@@ -46,7 +46,7 @@ const InputWithSuggestions = (props: Props) => {
                   onClick={() => {
                     const eventMock = {
                       target: {
-                        value: `${props.value}{{${field.key}}}`,
+                        value: `${props.value}${field.key}`,
                       },
                     };
                     // @ts-ignore

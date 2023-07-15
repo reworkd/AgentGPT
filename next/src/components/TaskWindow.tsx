@@ -95,8 +95,7 @@ export const TaskWindow = ({ visibleOnMobile }: TaskWindowProps) => {
                 <Reorder.Item
                   key={task.id}
                   as='span'
-                  className="mb-2"
-                  >
+                >
                   <Task index={i} task={task}
                     onDragStart={onDragStart}
                     onDragEnter={onDragEnter}
@@ -149,31 +148,35 @@ const Task = ({ task, index, onDragStart, onDragEnter, onDragEnd }: TaskPropsInt
   };
 
   return (
+    <FadeIn>
     <div
+      key={task.id}
       className={` mb-1`}
       draggable={task.status === "started"}
       onDragStart={(e: React.DragEvent<HTMLDivElement>) => onDragStart(e, index)}
       onDragEnter={() => onDragEnter(index)}
       onDragEnd={onDragEnd}
       onDragOver={(e: React.DragEvent<HTMLDivElement>) => e.preventDefault()}
-      >
-      <FadeIn>
+    >
         <div
           className={clsx(
             "w-full animate-[rotate] rounded-md border-2 p-2 text-xs text-white",
             isAgentStopped && "opacity-50",
             getMessageContainerStyle(task)
-            )}
-            >
+          )}
+        >
           {getTaskStatusIcon(task, { isAgentStopped })}
           <span>{task.value}</span>
           <div className="flex justify-end">
-          {task.status === "started" &&
-            <RxDragHandleDots2
-            size={12}
-            className={"cursor-move mr-auto"}
-            />
-          }
+            {task.status === "started" &&
+              <span
+                className={"cursor-move mr-auto"}>
+
+                <RxDragHandleDots2
+                  size={12}
+                />
+              </span>
+            }
             <FaTimesCircle
               onClick={handleDeleteTask}
               className={clsx(
@@ -184,7 +187,7 @@ const Task = ({ task, index, onDragStart, onDragEnter, onDragEnd }: TaskPropsInt
             />
           </div>
         </div>
-      </FadeIn>
     </div>
+      </FadeIn>
   );
 };

@@ -31,7 +31,7 @@ RUN apk add --no-cache dos2unix netcat-openbsd \
 
 
 # Expose the port the app will run on
-EXPOSE 3000
+EXPOSE 3302
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 

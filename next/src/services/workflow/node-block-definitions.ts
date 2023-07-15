@@ -8,6 +8,8 @@ const IOFieldSchema = z.object({
   type: z.enum(["string"]),
 });
 
+export type IOField = z.infer<typeof IOFieldSchema>;
+
 export const NodeBlockDefinitionSchema = z.object({
   name: z.string(),
   type: z.string(),

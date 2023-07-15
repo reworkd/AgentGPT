@@ -2,7 +2,7 @@ import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
 import React from "react";
 import { FaBars } from "react-icons/fa";
-import type { NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
+import type { IOField, NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
 import {
   getNodeBlockDefinitionFromNode,
   getNodeBlockDefinitions,
@@ -11,11 +11,8 @@ import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import type { Edge, Node } from "reactflow";
 import TextButton from "../TextButton";
-import Input from "../../ui/input";
-import WindowButton from "../WindowButton";
-import { Menu as MenuPrimitive } from "@headlessui/react";
-import { MenuItems } from "../Menu";
 import { findParents } from "../../services/graph-utils";
+import InputWithSuggestions from "../../ui/InputWithSuggestions";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -88,11 +85,18 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     const outputFields = definition.output_fields;
     return outputFields.map((outputField) => {
       return {
-        key: `${ancestorNode.id}-${definition.type}-${outputFields.join("-")}`,
+        key: `${ancestorNode.id}-${outputField.name}`,
         value: `${definition.type}-${outputField.name}`,
       };
     });
   });
+
+  const handleAutocompleteClick = (inputField: IOField, field: { key: string; value: string }) => {
+    handleValueChange(
+      inputField.name,
+      `${selectedNode.data.block.input[inputField.name] || ""}{{${field.key}}}`
+    );
+  };
 
   return (
     <>
@@ -102,30 +106,14 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
       </div>
       {definition?.input_fields.map((inputField) => (
         <div key={definition?.type + inputField.name}>
-          <Input
+          <InputWithSuggestions
             label={inputField.name}
             name={inputField.name}
             helpText={inputField.description}
-            value={selectedNode.data.block.input[inputField.name]}
+            value={selectedNode.data.block.input[inputField.name] || ""}
             onChange={(e) => handleValueChange(inputField.name, e.target.value)}
+            suggestions={outputFields}
           />
-          {outputFields.length > 0 && (
-            <MenuPrimitive>
-              <div className="relative">
-                <MenuItems
-                  buttonPosition="top"
-                  show
-                  items={outputFields.map((field, i) => (
-                    <WindowButton
-                      key={`${inputField.name}-${field.key}`}
-                      icon={<></>}
-                      text={field.value}
-                    />
-                  ))}
-                />
-              </div>
-            </MenuPrimitive>
-          )}
         </div>
       ))}
     </>

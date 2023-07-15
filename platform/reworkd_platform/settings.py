@@ -1,4 +1,5 @@
 import enum
+import platform
 from pathlib import Path
 from tempfile import gettempdir
 from typing import List, Optional, Literal, Union
@@ -27,6 +28,11 @@ SASL_MECHANISM = Literal[
     "SCRAM-SHA-256",
 ]
 
+ENVIRONMENT = Literal[
+    "development",
+    "production",
+]
+
 
 class Settings(BaseSettings):
     """
@@ -46,7 +52,7 @@ class Settings(BaseSettings):
     reload: bool = True
 
     # Current environment
-    environment: str = "development"
+    environment: ENVIRONMENT = "development"
 
     log_level: LogLevel = LogLevel.INFO
 
@@ -101,6 +107,13 @@ class Settings(BaseSettings):
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     max_loops: int = 25  # Maximum number of loops to run
+
+    @property
+    def kafka_consumer_group(self) -> str:
+        if self.environment == "development":
+            return platform.node()
+
+        return "platform"
 
     @property
     def db_url(self) -> URL:

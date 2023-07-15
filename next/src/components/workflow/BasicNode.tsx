@@ -4,7 +4,7 @@ import clsx from "clsx";
 import type { WorkflowNode } from "../../types/workflow";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
 
-function BasicNode({ data }: NodeProps<WorkflowNode>) {
+function BasicNode({ data, selected }: NodeProps<WorkflowNode>) {
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
 
   return (
@@ -13,7 +13,7 @@ function BasicNode({ data }: NodeProps<WorkflowNode>) {
         "border-translucent rounded-md p-3 shadow-2xl shadow-black",
         "bg-stone-900 text-white shadow-stone-800",
         "transition-colors duration-300",
-        "hover:border-white",
+        selected ? "border-white" : "hover:border-gray-400",
         data.status === "running" && "border border-amber-500",
         data.status === "success" && "border border-green-500",
         !data.status && "border border-gray-500"

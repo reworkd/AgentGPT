@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import React from "react";
+import { motion } from "framer-motion";
 import GlowWrapper from "./GlowWrapper";
 
 type HeroTimeBannerProps = {
@@ -18,24 +19,40 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   rightIcon,
   onClick,
 }) => {
+  const variants = {
+    initial: {
+      rotate: 0,
+    },
+    animate: {
+      rotate: 360,
+      transition: {
+        duration: 10,
+        ease: "linear",
+        repeat: Infinity,
+      },
+    },
+  };
+
   return (
     <div className="relative">
-      <div
-        className="absolute inset-0 -z-10 max-w-[310px]"
-        style={{ backgroundImage: "conic-gradient(purple, transparent)" }}
-      ></div>
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-[-10] max-w-[330px] scale-105 transform rounded-full bg-purple-600 opacity-60"
+        variants={variants}
+        initial="initial"
+        animate="animate"
+      ></motion.div>
       <div
         className={clsx(
-          "z-10",
+          "o relative z-10",
           "flex flex-row items-center justify-center gap-x-4",
           "h-fit w-fit py-2.5 pl-3 pr-4",
           "rounded-[1000px] border-2 border-transparent border-opacity-20 shadow-md",
-          "animate-border-pulse bg-black",
+          "bg-black",
           "cursor-pointer"
         )}
       >
         <div>{leftIcon}</div>
-        <div className="flex flex-col bg-gradient-to-r from-white to-transparent bg-clip-text font-inter leading-6 tracking-normal text-transparent">
+        <div className="flex flex-col font-inter leading-6 tracking-normal">
           <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
           <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
         </div>

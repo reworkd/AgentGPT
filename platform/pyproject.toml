@@ -89,9 +89,7 @@ filterwarnings = [
     "ignore::ImportWarning",
 ]
 env = [
-    "REWORKD_PLATFORM_ENVIRONMENT=pytest",
     "REWORKD_PLATFORM_DB_BASE=reworkd_platform_test",
-    "REWORKD_PLATFORM_SENTRY_DSN=",
 ]
 
 [build-system]

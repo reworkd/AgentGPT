@@ -1,8 +1,8 @@
 import React from "react";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
   name: string;
+  label?: string;
   attributes?: { [key: string]: string | number | string[] };
   helpText?: string | React.ReactNode;
   icon?: React.ReactNode;
@@ -14,17 +14,21 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input = (props: Props) => {
   return (
     <div>
-      <label
-        htmlFor={props.name}
-        className="text-color-primary flex items-center gap-2 text-sm font-bold leading-6"
-      >
-        {props.icon}
-        <span>{props.label}</span>
+      {props.label && (
+        <label
+          htmlFor={props.name}
+          className="text-color-primary flex items-center gap-2 text-sm font-bold leading-6"
+        >
+          {props.icon}
+          <span>{props.label}</span>
 
-        {props.type == "range" && (
-          <span className="text-color-primary text-xs font-medium lg:text-sm">({props.value})</span>
-        )}
-      </label>
+          {props.type == "range" && (
+            <span className="text-color-primary text-xs font-medium lg:text-sm">
+              ({props.value})
+            </span>
+          )}
+        </label>
+      )}
       <div className="relative flex flex-col gap-1 rounded-md shadow-sm">
         {props.helpText && (
           <p

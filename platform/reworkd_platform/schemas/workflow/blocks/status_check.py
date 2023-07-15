@@ -11,7 +11,7 @@ class UrlStatusCheckBlockInput(BlockIOBase):
     url: str
 
 
-class UrlStatusCheckBlockOutput(BlockIOBase):
+class UrlStatusCheckBlockOutput(UrlStatusCheckBlockInput):
     code: Optional[int]
 
 
@@ -31,5 +31,5 @@ class UrlStatusCheckBlock(Block):
             logger.info(f"UrlStatusCheckBlock errored: {RequestException}")
 
         logger.info(f"UrlStatusCheckBlock Code: {code}")
-        output = UrlStatusCheckBlockOutput(code=code)
+        output = UrlStatusCheckBlockOutput(code=code, **self.input.dict())
         return output

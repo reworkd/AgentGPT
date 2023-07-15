@@ -9,7 +9,7 @@ class SlackWebhookInput(BlockIOBase):
     message: str
 
 
-class SlackWebhookOutput(BlockIOBase):
+class SlackWebhookOutput(SlackWebhookInput):
     url: str
     message: str
 

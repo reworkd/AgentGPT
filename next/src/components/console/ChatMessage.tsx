@@ -66,6 +66,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
       ) : (
         <>
           <span>{message.value}</span>
+          {message.type === "error" &&
+             <Status />
+          }
           {message.type === MESSAGE_TYPE_SYSTEM &&
             (message.value.toLowerCase().includes("shut") ||
               message.value.toLowerCase().includes("error")) && <FAQ />}
@@ -90,7 +93,6 @@ const FAQ = () => {
 const Status = () => {
   return (
     <p className="flex items-center gap-1">
-      {/* <br /> */}
       Check Agent GPT Status{" "}
       <a href="https://status.reworkd.ai" target="_blank" className="text-sky-500">
        <FiExternalLink />

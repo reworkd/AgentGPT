@@ -14,6 +14,7 @@ class AsyncProducer:
     def __init__(self, settings: Settings):
         self._producer = settings.kafka_enabled and AIOKafkaProducer(
             bootstrap_servers=settings.kafka_bootstrap_servers,
+            client_id=settings.kafka_consumer_group,
             sasl_mechanism=settings.kafka_ssal_mechanism,
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,

@@ -32,7 +32,8 @@ class AsyncConsumer(ABC):
         self._consumer = settings.kafka_enabled and AIOKafkaConsumer(
             *topics,
             bootstrap_servers=settings.kafka_bootstrap_servers,
-            group_id=self._group,
+            client_id=settings.kafka_consumer_group,
+            group_id=settings.kafka_consumer_group,
             sasl_mechanism=settings.kafka_ssal_mechanism,
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,

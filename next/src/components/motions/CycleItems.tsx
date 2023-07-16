@@ -33,9 +33,6 @@ const CycleItems = (props: MotionProps) => {
     if (sequenceKey !== props.selectedItem) {
       setSequenceKey();
     }
-    console.log(sequenceKey);
-    console.log(sequenceMap);
-    console.log(sequenceMap[sequenceKey]);
   }, [props.selectedItem, sequenceKey]);
 
   return (
@@ -43,9 +40,9 @@ const CycleItems = (props: MotionProps) => {
       {sequenceMap[sequenceKey].map((key) => (
         <motion.div
           className={props.className}
-          layoutId="cycle-items"
+          layoutId="cycle-item"
           key={key}
-          // transition={{ type: "spring", stiffness: 350, damping: 25 }}
+          transition={{ type: "spring", stiffness: 350, damping: 25 }}
         >
           {props.itemMap[key]}
         </motion.div>

@@ -56,7 +56,7 @@ export default function NavBar() {
                 />
               </div>
               <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
-                <div className="flex h-[28px] w-[28px] flex-row justify-start  rounded-full bg-white p-1.5">
+                <div className="flex h-[28px] w-[28px] flex-row justify-start gap-x-4  rounded-full bg-white p-1.5">
                   <CycleItems selectedItem={selectedLink} itemMap={itemMap} />
                 </div>
                 {navigation.map((item) => (

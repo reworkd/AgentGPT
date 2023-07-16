@@ -55,10 +55,19 @@ const WorkflowList: NextPage = () => {
         {selectedWorkflow != null && (
           <WorkflowCardDialog
             workflow={selectedWorkflow}
-            onClick={() => {
+            onEdit={() => {
               void router.push(`workflow/${selectedWorkflow.id}`);
             }}
-            handleClose={() => setSelectedWorkflow(null)}
+            onDelete={() => {
+              api
+                .delete(selectedWorkflow.id)
+                .then(async () => {
+                  await query.refetch();
+                  setSelectedWorkflow(null);
+                })
+                .catch(console.error);
+            }}
+            onClose={() => void setSelectedWorkflow(null)}
           />
         )}
       </LayoutGroup>

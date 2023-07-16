@@ -92,7 +92,8 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </FadeIn>
       </div>
-      <FadeIn className="h-[500px] w-[500px]" delay={0.5} duration={3}>
+      <FadeIn className="relative hidden h-[500px] w-[500px] lg:flex" delay={0.5} duration={3}>
+        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
         <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </FadeIn>
     </div>

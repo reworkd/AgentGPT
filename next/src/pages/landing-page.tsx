@@ -9,7 +9,7 @@ const HomePage = () => {
     <div className="min-w-screen flex min-h-screen flex-col justify-between px-4 lg:px-12 lg:py-4">
       <NavBar />
       <main>
-        <Hero className="ml-16" />
+        <Hero className="lg:ml-16" />
       </main>
       <footer className="flex flex-col items-center gap-4 pb-4 lg:flex-row lg:pb-0">
         <Backing className="flex-grow" />

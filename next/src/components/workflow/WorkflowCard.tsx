@@ -29,14 +29,20 @@ export default function WorkflowCard({ workflow, onClick }: Props) {
 
 type WorkflowCardDialogProps = {
   workflow: WorkflowMeta;
-  onClick: () => void;
-  handleClose: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onClose: () => void;
 };
 
-export function WorkflowCardDialog({ workflow, onClick, handleClose }: WorkflowCardDialogProps) {
+export function WorkflowCardDialog({
+  workflow,
+  onEdit,
+  onDelete,
+  onClose,
+}: WorkflowCardDialogProps) {
   return (
     <>
-      <motion.div key="modal" onClick={handleClose}>
+      <motion.div key="modal" onClick={onClose}>
         <motion.div className="relative left-0 top-0 z-20 grid h-full w-full place-items-center">
           <motion.div
             layoutId={`workflow-card-${workflow.id}`}
@@ -60,8 +66,9 @@ export function WorkflowCardDialog({ workflow, onClick, handleClose }: WorkflowC
             </motion.div>
 
             <motion.div layoutId={`workflow-card-buttons-${workflow.id}`} className="ml-auto">
-              <TextButton onClick={onClick}>Close</TextButton>
-              <PrimaryButton onClick={onClick}>Edit</PrimaryButton>
+              <TextButton onClick={onClose}>Close</TextButton>
+              <TextButton onClick={onDelete}>Delete</TextButton>
+              <PrimaryButton onClick={onEdit}>Edit</PrimaryButton>
             </motion.div>
           </motion.div>
         </motion.div>
@@ -70,7 +77,7 @@ export function WorkflowCardDialog({ workflow, onClick, handleClose }: WorkflowC
       <motion.div
         className="fixed left-0 top-0 z-10 h-full w-full bg-black"
         key="backdrop"
-        onClick={handleClose}
+        onClick={onClose}
         variants={{
           hidden: {
             opacity: 0,

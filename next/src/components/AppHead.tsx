@@ -22,13 +22,12 @@ const AppHead = () => {
       <meta property="og:image:width" content="1280" />
       <meta property="og:image:height" content="640" />
       <meta property="og:type" content="website" />
-      <meta
-        name="google-site-verification"
-        content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA"
-      />
-      <link rel="icon" href="/favicon.ico" />
+      <meta name="google-site-verification" content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA" />
+
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      <link rel="mask-icon" href="/favicon.svg" />
     </Head>
-  )
-}
+  );
+};
 
 export default AppHead;

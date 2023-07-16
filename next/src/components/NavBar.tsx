@@ -58,7 +58,9 @@ export default function NavBar() {
                     className={clsx(
                       "font-inter text-sm font-medium tracking-normal text-white/50 hover:text-white",
                       "flex items-center justify-center p-2",
-                      "px-4 text-center transition-colors duration-300"
+                      "px-4 text-center transition-colors duration-300",
+                      "relative flex flex-col items-center",
+                      "after-gradient after:absolute after:-bottom-[3px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-500 hover:after:opacity-100"
                     )}
                     onMouseEnter={() => setHoveredButtonIndex(i)}
                     onMouseLeave={() => setHoveredButtonIndex(0)}

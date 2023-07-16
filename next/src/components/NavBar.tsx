@@ -25,14 +25,15 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex flex-shrink-0 items-center font-extralight">
+              <div className="flex flex-shrink-0 items-center">
                 <Image
-                  src="wordmark.svg"
-                  width="132"
-                  height="20"
+                  src="/logos/dark-default-gradient.svg"
+                  width="32"
+                  height="32"
                   alt="Reworkd AI"
                   className="mr-2"
                 />
+                <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
               <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
                 <HomeIcon />

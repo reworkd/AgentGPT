@@ -40,7 +40,7 @@ const SignIn = ({ providers }: { providers: Provider }) => {
           >
             <div className="flex flex-col items-center justify-center gap-16">
               <Image
-                src="/logos/dark-default-solid.svg"
+                src="/logos/dark-default-gradient.svg"
                 width="150"
                 height="150"
                 alt="Reworkd AI"

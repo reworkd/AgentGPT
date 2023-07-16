@@ -40,9 +40,8 @@ class Base(DeclarativeBase):
         await session.flush()
         return self
 
-    async def delete(self: T, session: AsyncSession) -> T:
+    async def delete(self: T, session: AsyncSession) -> None:
         await session.delete(self)
-        return self
 
 
 class TrackedModel(Base):
@@ -58,10 +57,10 @@ class TrackedModel(Base):
     )
     delete_date = mapped_column(DateTime, name="delete_date", nullable=True)
 
-    def mark_deleted(self) -> "TrackedModel":
+    async def delete(self, session: AsyncSession) -> None:
         """Marks the model as deleted."""
         self.delete_date = datetime.now()
-        return self
+        await self.save(session)
 
 
 class UserMixin:

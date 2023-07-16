@@ -2,7 +2,7 @@ import asyncio
 from typing import Dict, List
 
 from fastapi import Depends
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
@@ -34,7 +34,13 @@ class WorkflowCRUD(BaseCrud):
         return WorkflowCRUD(session, user)
 
     async def get_all(self) -> List[Workflow]:
-        query = select(WorkflowModel).where(WorkflowModel.user_id == self.user.id)
+        query = select(WorkflowModel).where(
+            and_(
+                WorkflowModel.user_id == self.user.id,
+                WorkflowModel.delete_date.is_(None),
+            )
+        )
+
         return [
             workflow.to_schema()
             for workflow in (await self.session.execute(query)).scalars().all()
@@ -70,6 +76,14 @@ class WorkflowCRUD(BaseCrud):
                 description=description,
             ).save(self.session)
         ).to_schema()
+
+    async def delete(self, workflow_id: str) -> None:
+        """Soft a delete workflow"""
+        # TODO: Make sure workflow logic doesnt run on deleted workflows
+        # TODO: make sure users can only delete their own workflows
+
+        workflow = await WorkflowModel.get_or_404(self.session, workflow_id)
+        await workflow.delete(self.session)
 
     async def update(self, workflow_id: str, workflow_update: WorkflowUpdate) -> str:
         workflow, all_nodes, all_edges, all_blocks = await asyncio.gather(

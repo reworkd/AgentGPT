@@ -1,8 +1,7 @@
 import clsx from "clsx";
-import { useTransform, useTime } from "framer-motion";
+import { motion, useTime, useTransform } from "framer-motion";
 import type { ReactNode } from "react";
 import React from "react";
-import { motion } from "framer-motion";
 import GlowWrapper from "./GlowWrapper";
 
 type HeroTimeBannerProps = {
@@ -21,9 +20,11 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   onClick,
 }) => {
   const time = useTime();
-  const rotate = useTransform(time, (timeValue) => {
-    const baseRotation = (timeValue / 15000) * 360;
-    return baseRotation;
+  const background = useTransform(time, (timeValue) => {
+    const baseRotation = (timeValue / 7500) * 360;
+    const degree = Math.floor(baseRotation);
+    // console.log(`conic-gradient(white ${Math.floor(baseRotation)}deg, transparent)`);
+    return `conic-gradient(white ${degree}deg, transparent 0deg)`;
   });
 
   return (
@@ -33,8 +34,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         <motion.div
           className="h-80 w-80 rounded-full"
           style={{
-            background: "conic-gradient(transparent, transparent ,transparent, white)",
-            rotate: rotate,
+            background,
           }}
         />
       </div>

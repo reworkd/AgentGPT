@@ -92,8 +92,8 @@ const FAQ = () => {
 
 const Status = () => {
   return (
-    <p className="flex items-center gap-1">
-      Check Agent GPT Status{" "}
+    <p className="flex items-center gap-1 pl-8">
+      Check AgentGPT Status{" "}
       <a href="https://status.reworkd.ai" target="_blank" className="text-sky-500">
        <FiExternalLink />
       </a>

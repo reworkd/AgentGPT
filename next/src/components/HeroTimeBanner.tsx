@@ -34,7 +34,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   };
 
   return (
-    <div className="relative flex h-[60px] w-[236px] scale-105 transform items-center justify-center overflow-hidden rounded-[1000px]">
+    <div className="relative flex h-[60px] w-[237px] scale-105 transform items-center justify-center overflow-hidden rounded-[1000px]">
       <div className="absolute z-0">
         <div className="absolute h-80 w-80 rounded-full bg-white opacity-20" />
         <motion.div

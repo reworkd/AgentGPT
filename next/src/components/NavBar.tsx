@@ -47,7 +47,7 @@ export default function NavBar() {
                 />
                 <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
-              <div className="hidden h-[42px] items-center self-center rounded-full border-[0.5px] border-white/30 px-2 py-1 backdrop-blur-lg sm:flex">
+              <div className="hidden h-[42px] items-center self-center overflow-hidden rounded-full border-[0.5px] border-white/30 bg-neutral-100 bg-opacity-5 px-2 py-1 backdrop-blur-lg sm:flex">
                 <CycleIcons
                   hoveredItemIndex={hoveredButtonIndex}
                   icons={navigation.map((nav) => nav.icon)}
@@ -57,11 +57,12 @@ export default function NavBar() {
                     key={item.name}
                     href={item.href}
                     className={clsx(
-                      "font-inter text-sm font-medium tracking-normal text-white/50 hover:text-white",
+                      "font-inter text-sm tracking-normal text-white/50 hover:text-white",
                       "flex items-center justify-center p-2",
-                      "px-4 text-center transition-colors duration-300",
+                      "px-4 text-center transition-colors duration-700",
                       "relative flex flex-col items-center",
-                      "after-gradient after:absolute after:-bottom-[3px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-500 hover:after:opacity-100"
+                      "before:absolute before:-bottom-[17px] before:-z-20 before:h-6 before:w-7 before:bg-white/60 before:opacity-0 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
+                      "after-gradient after:absolute after:-bottom-[2.5px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100"
                     )}
                     onMouseEnter={() => setHoveredButtonIndex(i)}
                     onMouseLeave={() => setHoveredButtonIndex(0)}

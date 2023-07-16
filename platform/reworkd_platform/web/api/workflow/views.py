@@ -55,6 +55,15 @@ async def update_workflow(
     return await crud.update(workflow_id, workflow)
 
 
+@router.delete("/{workflow_id}")
+async def delete_workflow(
+    workflow_id: str,
+    crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+):
+    """Delete a workflow by id."""
+    await crud.delete(workflow_id)
+
+
 @router.post("/{workflow_id}/execute")
 async def trigger_workflow(
     workflow_id: str,

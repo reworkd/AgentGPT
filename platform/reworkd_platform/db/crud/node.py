@@ -78,7 +78,7 @@ class NodeCRUD:
     ) -> None:
         node_ids = {n.id for n in nodes}
         [
-            await node.mark_deleted().save(self.session)
+            await node.delete(self.session)
             for node in all_nodes.values()
             if node.id not in node_ids
         ]

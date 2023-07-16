@@ -4,10 +4,10 @@ import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
 import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
@@ -16,10 +16,17 @@ import Spline from "@splinetool/react-spline";
 
 const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
+  const [sliderIndex, setSliderIndex] = useState(0);
+  const totalCards = 2;
+
+  const handleSliderButton = (increment) => {
+    const newIndex = (sliderIndex + increment + totalCards) % totalCards;
+    setSliderIndex(newIndex);
+  };
 
   return (
-    <div className={clsx("grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2", className)}>
-      <div className="z-10 col-span-1">
+    <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
+      <div className="z-10 col-span-1 overflow-hidden">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
@@ -55,8 +62,13 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </div>
           </div>
           <div className="relative">
-            <div className="overflow:hidden absolute left-0 top-0 z-10 h-full w-full scale-105 rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%" />
-            <div className="z-20 flex gap-4">
+            <div className="absolute left-0 top-0 z-10 h-full w-full scale-105 overflow-hidden rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%" />
+            <motion.div
+              className="z-20 flex gap-5"
+              initial={{ x: `${sliderIndex === 0 ? "0" : "-100%"}` }}
+              animate={{ x: `${sliderIndex * -50}%` }}
+              transition={{ duration: 0.5 }}
+            >
               <HeroTimeBanner
                 title="Platformer"
                 subtitle="A Platformer game builder"
@@ -75,7 +87,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                   router.push("/").catch(console.error);
                 }}
               />
-            </div>
+            </motion.div>
           </div>
 
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
@@ -102,6 +114,21 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 <FaChevronRight size="12" />
               </>
             </TextButton>
+          </div>
+
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => handleSliderButton(-1)}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 hover:bg-zinc-500  focus:outline-none"
+            >
+              <FaChevronLeft size={16} />
+            </button>
+            <button
+              onClick={() => handleSliderButton(1)}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 hover:bg-zinc-500 focus:outline-none"
+            >
+              <FaChevronRight size={16} />
+            </button>
           </div>
         </FadeIn>
       </div>

@@ -46,7 +46,7 @@ export default function NavBar() {
                 />
                 <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
-              <div className="hidden h-[42px] items-center self-center rounded-full border border-white/30 px-2 py-1 sm:flex ">
+              <div className="hidden h-[42px] items-center self-center rounded-full border-[0.5px] border-white/30 bg-neutral-100 bg-opacity-5 px-2 py-1 backdrop-blur-lg sm:flex">
                 <CycleIcons
                   hoveredItemIndex={hoveredButtonIndex}
                   icons={navigation.map((nav) => nav.icon)}

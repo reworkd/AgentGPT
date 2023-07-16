@@ -5,17 +5,18 @@ import { useWorkflow } from "../../hooks/useWorkflow";
 
 import { useRouter } from "next/router";
 import DashboardLayout from "../../layout/dashboard";
-import Button from "../../ui/button";
 import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../../next-i18next.config";
 import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
 import { useAuth } from "../../hooks/useAuth";
+import PrimaryButton from "../../components/PrimaryButton";
+import { FaPlay, FaSave } from "react-icons/fa";
 
 const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const router = useRouter();
-  
+
   const {
     nodesModel,
     edgesModel,
@@ -44,22 +45,22 @@ const WorkflowPage: NextPage = () => {
       />
       <div className="relative h-full w-full">
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
-          <Button
-            className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
-            onClick={async () => {
-              await saveWorkflow();
+          <PrimaryButton
+            icon={<FaSave size="15" />}
+            onClick={() => {
+              saveWorkflow().catch(console.error);
             }}
           >
             Save
-          </Button>
-          <Button
-            className="rounded-md bg-purple-600 px-4 py-2 font-medium text-white transition-colors duration-150 hover:bg-purple-700"
-            onClick={async () => {
-              await executeWorkflow();
+          </PrimaryButton>
+          <PrimaryButton
+            icon={<FaPlay size="15" />}
+            onClick={() => {
+              executeWorkflow().catch(console.error);
             }}
           >
             Execute
-          </Button>
+          </PrimaryButton>
         </div>
       </div>
     </DashboardLayout>

@@ -9,6 +9,11 @@ class SlackWebhookInput(BlockIOBase):
     message: str
 
 
+class SlackWebhookOutput(SlackWebhookInput):
+    url: str
+    message: str
+
+
 class SlackWebhook(Block):
     type = "SlackWebhook"
     description = "Sends a message to a slack webhook"
@@ -26,4 +31,4 @@ class SlackWebhook(Block):
             logger.error(f"Failed to send message to webhook: {err}")
             raise
 
-        return BlockIOBase()
+        return SlackWebhookOutput(**self.input.dict())

@@ -21,10 +21,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
       <div className="z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
-            <span className="sm:hidden">Shape AI agents for your business</span>
-            <span className="hidden sm:inline">
-              Shape the future of AI agents for your business
-            </span>
+            <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div>
             <h1
@@ -78,7 +75,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               >
                 <>
                   <span>Contact Us</span>
-                  <FaChevronRight size="12" />
+                  <FaChevronRight size="10" className="text-gray-400" />
                 </>
               </PrimaryButton>
             </GlowWrapper>
@@ -95,9 +92,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </FadeIn>
       </div>
-      <div className="h-[500px] w-[500px]">
+      <FadeIn className="relative hidden h-[500px] w-[500px] lg:flex" delay={0.5} duration={3}>
+        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
         <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
-      </div>
+      </FadeIn>
     </div>
   );
 };

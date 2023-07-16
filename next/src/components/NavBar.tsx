@@ -3,21 +3,32 @@ import { FaBars, FaChevronRight, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
-import HomeIcon from "../../public/icons/home-28x28.svg";
 import { useRouter } from "next/router";
+import HomeIcon from "../../public/icons/home-default-regular.svg";
+import BarcodeIcon from "../../public/icons/barcode-default-regular.svg";
+import DocumentIcon from "../../public/icons/document-default-regular.svg";
+import LocationPinIcon from "../../public/icons/locationpin-default-regular.svg";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
+import CycleIcons from "./motions/CycleIcons";
+import React from "react";
+import MegaphoneIcon from "../../public/icons/megaphone-default-regular.svg";
 
 const navigation = [
-  { name: "Home", href: "#" },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI" },
-  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan" },
-  { name: "Roadmap", href: "https://github.com/orgs/reworkd/projects/3" },
-  { name: "Docs", href: "https://docs.reworkd.ai/" },
+  { name: "Home", href: "/", icon: <HomeIcon /> },
+  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <MegaphoneIcon /> },
+  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <BarcodeIcon /> },
+  {
+    name: "Roadmap",
+    href: "https://github.com/orgs/reworkd/projects/3",
+    icon: <LocationPinIcon />,
+  },
+  { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocumentIcon /> },
 ];
 
 export default function NavBar() {
   const router = useRouter();
+  const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (
     <FadeIn duration={3}>
@@ -25,26 +36,34 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex flex-shrink-0 items-center font-extralight">
+              <div className="flex flex-shrink-0 items-center">
                 <Image
-                  src="wordmark.svg"
-                  width="132"
-                  height="20"
+                  src="/logos/dark-default-gradient.svg"
+                  width="32"
+                  height="32"
                   alt="Reworkd AI"
                   className="mr-2"
                 />
+                <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
-              <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
-                <HomeIcon />
-                {navigation.map((item) => (
+              <div className="hidden h-[42px] items-center self-center rounded-full border-[0.5px] border-white/30 bg-neutral-100 bg-opacity-5 px-2 py-1 backdrop-blur-lg sm:flex">
+                <CycleIcons
+                  hoveredItemIndex={hoveredButtonIndex}
+                  icons={navigation.map((nav) => nav.icon)}
+                />
+                {navigation.map((item, i) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className={clsx(
                       "font-inter text-sm font-medium tracking-normal text-white/50 hover:text-white",
-                      "inline-flex items-center p-2",
-                      "transition-colors duration-300"
+                      "flex items-center justify-center p-2",
+                      "px-4 text-center transition-colors duration-300",
+                      "relative flex flex-col items-center",
+                      "after-gradient after:absolute after:-bottom-[3px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-500 hover:after:opacity-100"
                     )}
+                    onMouseEnter={() => setHoveredButtonIndex(i)}
+                    onMouseLeave={() => setHoveredButtonIndex(0)}
                   >
                     {item.name}
                   </a>
@@ -98,7 +117,6 @@ export default function NavBar() {
                     )}
                   >
                     {item.name}
-                    sad
                   </Disclosure.Button>
                 ))}
               </div>

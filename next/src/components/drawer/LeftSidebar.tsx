@@ -27,7 +27,7 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
     <Sidebar show={show} setShow={setShow} side="left">
       <div className="flex flex-row items-center justify-between">
         <Image
-          src="logos/dark-default-solid.svg"
+          src="/logos/dark-default-solid.svg"
           width="25"
           height="25"
           alt="Reworkd AI"

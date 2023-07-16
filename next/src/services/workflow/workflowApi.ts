@@ -9,10 +9,11 @@ const WorkflowMetaSchema = z.object({
   description: z.string(),
 });
 
-type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;
+export type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;
 
 export default class WorkflowApi {
   readonly accessToken?: string;
+
   constructor(accessToken?: string) {
     this.accessToken = accessToken;
   }

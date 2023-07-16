@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
@@ -53,15 +54,30 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </p>
             </div>
           </div>
-          <HeroTimeBanner
-            title="Platformer"
-            subtitle="A Platformer game builder"
-            leftIcon={<GamepadIcon />}
-            rightIcon={<SparkleIcon />}
-            onClick={() => {
-              router.push("/").catch(console.error);
-            }}
-          />
+          <div className="relative">
+            <div className="overflow:hidden absolute left-0 top-0 z-10 h-full w-full scale-105 rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%" />
+            <div className="z-20 flex gap-4">
+              <HeroTimeBanner
+                title="Platformer"
+                subtitle="A Platformer game builder"
+                leftIcon={<GamepadIcon />}
+                rightIcon={<SparkleIcon />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              />
+              <HeroTimeBanner
+                title="Platformer"
+                subtitle="A Platformer game builder"
+                leftIcon={<GamepadIcon />}
+                rightIcon={<SparkleIcon />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              />
+            </div>
+          </div>
+
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
             <GlowWrapper>
               <PrimaryButton

@@ -22,10 +22,10 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
     <div
       className={clsx(
         "flex flex-row items-center justify-center gap-x-4",
-        "h-fit w-fit py-2.5 pl-3 pr-4",
+        "h-fit max-h-20 w-fit overflow-x-hidden py-2.5 pl-3 pr-4",
         "rounded-[1000px] border-[1px] border-black border-opacity-20 shadow-md",
-        "animate-border-pulse bg-clip-text text-transparent",
-        "bg-gradient-to-r from-white to-transparent",
+        "animate-border-pulse bg-black bg-clip-text text-transparent",
+        "-z-10 bg-gradient-to-r from-white to-transparent",
         "cursor-pointer"
       )}
     >
@@ -35,7 +35,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
       </div>
       <GlowWrapper>
-        <div className="relative z-10 flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
+        <div className="relative flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
           {rightIcon}
         </div>
       </GlowWrapper>

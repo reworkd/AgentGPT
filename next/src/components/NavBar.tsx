@@ -45,7 +45,7 @@ export default function NavBar() {
                   className="mr-2"
                 />
               </div>
-              <div className="hidden h-[42px] items-center self-center rounded-[1000px] border border-white/30 px-2 py-1 sm:flex ">
+              <div className="hidden h-[42px] items-center self-center rounded-full border border-white/30 px-2 py-1 sm:flex ">
                 <CycleIcons
                   hoveredItemIndex={hoveredButtonIndex}
                   icons={navigation.map((nav) => nav.icon)}

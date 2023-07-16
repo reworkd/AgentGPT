@@ -10,7 +10,6 @@ interface CycleItemsProps extends PropsWithChildren {
 }
 
 const CycleIcons = (props: CycleItemsProps) => {
-  console.log(props.hoveredItemIndex);
   return (
     <GlowWrapper>
       <div className="flex h-[28px] w-[28px] flex-row justify-start gap-x-4 overflow-hidden rounded-full bg-white p-1.5">

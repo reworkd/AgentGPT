@@ -14,7 +14,7 @@ const Badge = ({ className, colorClass, children }: BadgeProps) => {
         className,
         colorClass || "bg-sky-500",
         "rounded-full font-semibold text-gray-100 transition-all hover:scale-110",
-        "px-1 py-1 text-xs",
+        "px-2 py-1 text-xs",
         "sm:px-3 sm:py-1 sm:text-sm"
       )}
     >

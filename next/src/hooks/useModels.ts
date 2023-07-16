@@ -1,7 +1,8 @@
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
-import { fetchAPI } from "../services/api-utils";
+
+import { get } from "../services/fetch-utils";
 
 const Model = z.object({
   name: z.string(),
@@ -17,7 +18,7 @@ export function useModels() {
   const { data: session } = useSession();
   const query = useQuery(
     ["llm"],
-    async () => await fetchAPI("/api/models", ModelList, session?.accessToken),
+    async () => await get("/api/models", ModelList, session?.accessToken),
     {
       enabled: !!session?.accessToken,
     }

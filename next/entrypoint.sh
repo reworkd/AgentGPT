@@ -1,4 +1,4 @@
-#!/bin/env sh
+#!/usr/bin/env sh
 
 cd /next
 dos2unix wait-for-db.sh

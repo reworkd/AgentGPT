@@ -1,20 +1,27 @@
 import clsx from "clsx";
+import Button from "../ui/button";
+import type { ReactNode } from "react";
+import React from "react";
+import GlowWrapper from "./GlowWrapper";
 
 type PrimaryButtonProps = {
-  children: string;
-  onClick: () => void;
+  children: ReactNode | string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
 };
-export default function PrimaryButton({ children, onClick }: PrimaryButtonProps) {
+
+export default function PrimaryButton({ children, onClick, icon }: PrimaryButtonProps) {
   return (
-    <button
-      type="button"
-      className={clsx(
-        "text-md rounded-lg bg-[#BF7DFF] px-4 py-3 text-white shadow-sm ",
-        "transition-colors duration-300 hover:border-blue-200 hover:bg-[#9124ff] hover:text-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      )}
+    <Button
       onClick={onClick}
+      className={clsx(
+        "rounded-full border-[1px] border-black",
+        "transition duration-200 ease-in-out hover:hover:bg-white/90 focus-visible:bg-white/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30",
+        "bg-white text-black"
+      )}
     >
+      {icon}
       {children}
-    </button>
+    </Button>
   );
 }

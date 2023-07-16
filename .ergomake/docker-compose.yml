@@ -16,15 +16,8 @@ services:
       dev.ergomake.env.replace-arg.NEXT_PUBLIC_BACKEND_URL: 'https://{{ services.platform.url }}'
       dev.ergomake.env.replace-arg.NEXTAUTH_URL: 'https://{{ services.next.url }}'
 
-  docs:
-    build: 
-      context: ../docs
-      dockerfile: ../.ergomake/docs.Dockerfile
-    ports:
-      - "3001:3001"
-
   platform:
-    build: 
+    build:
       context: ../platform
       dockerfile: ../.ergomake/platform.Dockerfile
     ports:
@@ -36,6 +29,7 @@ services:
       REWORKD_PLATFORM_DB_USER: "reworkd_platform"
       REWORKD_PLATFORM_DB_PASS: "reworkd_platform"
       REWORKD_PLATFORM_DB_BASE: "reworkd_platform"
+      REWORKD_PLATFORM_FF_MOCK_MODE_ENABLED: "true"
     labels:
       dev.ergomake.env.replace-arg.REWORKD_PLATFORM_FRONTEND_URL: 'https://{{ services.next.url }}'
 

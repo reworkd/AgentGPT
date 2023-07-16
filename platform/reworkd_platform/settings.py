@@ -1,7 +1,8 @@
 import enum
+import platform
 from pathlib import Path
 from tempfile import gettempdir
-from typing import List, Optional
+from typing import List, Optional, Literal, Union
 
 from pydantic import BaseSettings
 from yarl import URL
@@ -22,6 +23,17 @@ class LogLevel(str, enum.Enum):  # noqa: WPS600
     FATAL = "FATAL"
 
 
+SASL_MECHANISM = Literal[
+    "PLAIN",
+    "SCRAM-SHA-256",
+]
+
+ENVIRONMENT = Literal[
+    "development",
+    "production",
+]
+
+
 class Settings(BaseSettings):
     """
     Application settings.
@@ -40,7 +52,7 @@ class Settings(BaseSettings):
     reload: bool = True
 
     # Current environment
-    environment: str = "development"
+    environment: ENVIRONMENT = "development"
 
     log_level: LogLevel = LogLevel.INFO
 
@@ -58,7 +70,7 @@ class Settings(BaseSettings):
 
     # Variables for the database
     db_host: str = "localhost"
-    db_port: int = 3306
+    db_port: int = 3307
     db_user: str = "reworkd_platform"
     db_pass: str = "reworkd_platform"
     db_base: str = "reworkd_platform"
@@ -81,19 +93,35 @@ class Settings(BaseSettings):
     sentry_dsn: Optional[str] = None
     sentry_sample_rate: float = 1.0
 
-    kafka_bootstrap_servers: List[str] = ["reworkd_platform-kafka:9092"]
+    kafka_bootstrap_servers: Union[str, List[str]] = []
+    kafka_username: Optional[str] = None
+    kafka_password: Optional[str] = None
+    kafka_ssal_mechanism: SASL_MECHANISM = "PLAIN"
+
+    # Websocket settings
+    pusher_app_id: Optional[str] = None
+    pusher_key: Optional[str] = None
+    pusher_secret: Optional[str] = None
+    pusher_cluster: Optional[str] = None
 
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     max_loops: int = 25  # Maximum number of loops to run
 
     @property
-    def db_url(self) -> URL:
+    def kafka_consumer_group(self) -> str:
         """
-        Assemble database URL from settings.
+        Kafka consumer group will be the name of the host in development
+        mode, making it easier to share a dev cluster.
+        """
 
-        :return: database URL.
-        """
+        if self.environment == "development":
+            return platform.node()
+
+        return "platform"
+
+    @property
+    def db_url(self) -> URL:
         return URL.build(
             scheme="mysql+aiomysql",
             host=self.db_host,
@@ -101,6 +129,27 @@ class Settings(BaseSettings):
             user=self.db_user,
             password=self.db_pass,
             path=f"/{self.db_base}",
+        )
+
+    @property
+    def pusher_enabled(self) -> bool:
+        return all(
+            [
+                self.pusher_app_id,
+                self.pusher_key,
+                self.pusher_secret,
+                self.pusher_cluster,
+            ]
+        )
+
+    @property
+    def kafka_enabled(self) -> bool:
+        return all(
+            [
+                self.kafka_bootstrap_servers,
+                self.kafka_username,
+                self.kafka_password,
+            ]
         )
 
     class Config:

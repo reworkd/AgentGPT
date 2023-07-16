@@ -1,7 +1,7 @@
 import random
 from typing import Optional
 
-from reworkd_platform.schemas import LLM_Model
+from reworkd_platform.schemas.agent import LLM_Model
 
 PRIMARY_KEY_RATE = 0.7
 SECONDARY_KEY_RATE = 1 - PRIMARY_KEY_RATE

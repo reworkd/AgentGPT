@@ -21,33 +21,45 @@ function Menu({ icon, name, items, chevron, buttonPosition = "top" }: MenuProps)
           {name && <p className="text-gray/50 font-mono text-sm">{name}</p>}
           {chevron && <FaChevronDown size={15} className="ml-2" />}
         </MenuPrimitive.Button>
-        <Transition
-          enter="transition duration-100 ease-out"
-          enterFrom="transform scale-95 opacity-0"
-          enterTo="transform scale-100 opacity-100"
-          leave="transition duration-75 ease-out"
-          leaveFrom="transform scale-100 opacity-100"
-          leaveTo="transform scale-95 opacity-0"
-        >
-          <MenuPrimitive.Items
-            className={clsx(
-              "background-color-3 absolute right-0  z-20 max-h-48 w-fit overflow-hidden rounded-xl border-2 border-white/10 shadow-xl",
-              buttonPosition === "top" ? "top-full mt-1" : "bottom-full mb-9"
-            )}
-          >
-            {items.map((item) => {
-              const itemName = (item.props as { name: string }).name;
-              return (
-                <MenuPrimitive.Item key={itemName} as={Fragment}>
-                  <div className="w-full">{item}</div>
-                </MenuPrimitive.Item>
-              );
-            })}
-          </MenuPrimitive.Items>
-        </Transition>
+        <MenuItems buttonPosition={buttonPosition} items={items} />
       </div>
     </MenuPrimitive>
   );
 }
+
+type MenuItemsProps = {
+  buttonPosition: "top" | "bottom";
+  items: JSX.Element[];
+  show?: boolean;
+};
+
+export const MenuItems = ({ buttonPosition, items, show }: MenuItemsProps) => {
+  return (
+    <Transition
+      show={show ? true : undefined}
+      enter="transition duration-100 ease-out"
+      enterFrom="transform scale-95 opacity-0"
+      enterTo="transform scale-100 opacity-100"
+      leave="transition duration-75 ease-out"
+      leaveFrom="transform scale-100 opacity-100"
+      leaveTo="transform scale-95 opacity-0"
+    >
+      <MenuPrimitive.Items
+        className={clsx(
+          "background-color-3 absolute right-0 z-20  max-h-48 w-fit min-w-full overflow-hidden rounded-xl border-2 border-white/10 shadow-xl",
+          buttonPosition === "top" ? "top-full mt-1" : "bottom-full mb-9"
+        )}
+      >
+        {items.map((item, i) => {
+          return (
+            <MenuPrimitive.Item key={i} as={Fragment}>
+              <div className="w-full">{item}</div>
+            </MenuPrimitive.Item>
+          );
+        })}
+      </MenuPrimitive.Items>
+    </Transition>
+  );
+};
 
 export default Menu;

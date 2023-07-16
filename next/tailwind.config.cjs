@@ -18,19 +18,22 @@ module.exports = {
       boxShadow: {
         "3xl": "0 40px 70px -15px rgba(0, 0, 0, 0.40)" // Customize the shadow value according to your preferences.
       },
+      fontFamily: {
+        inter: ["Inter", ...defaultTheme.fontFamily.sans]
+      },
       colors: {
         blue: {
           base: {
-            dark: "hsl(210, 100%, 52%)",
-            light: "hsl(210, 100%, 50%)",
+            dark: "hsl(199, 89%, 48%)",
+            light: "hsl(199, 89%, 48%)",
           },
           hover: {
-            dark: "hsl(210, 70%, 45%)",
-            light: "hsl(210, 100%, 38%)",
+            dark: "hsl(199, 80%, 30%)",
+            light: "hsl(199, 90%, 40%)",
           },
           focusVisible: {
-            dark: "hsl(210, 70%, 40%)",
-            light: "hsl(210, 70%, 38%)",
+            dark: "hsl(208, 79%, 51%)",
+            light: "hsl(208, 79%, 55%)",
           },
         },
         amber: {

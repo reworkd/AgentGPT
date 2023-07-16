@@ -3,17 +3,19 @@ from typing import TypeVar
 from fastapi import Body, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from reworkd_platform.db.crud import AgentCRUD
+from reworkd_platform.db.crud.agent import AgentCRUD
 from reworkd_platform.db.dependencies import get_db_session
-from reworkd_platform.schemas import (
-    AgentRun,
-    AgentRunCreate,
-    AgentTaskAnalyze,
-    AgentTaskCreate,
-    AgentTaskExecute,
+from reworkd_platform.schemas.agent import (
     Loop_Step,
-    UserBase,
+    AgentRunCreate,
+    AgentRun,
+    AgentTaskAnalyze,
+    AgentTaskExecute,
+    AgentTaskCreate,
+    AgentSummarize,
+    AgentChat,
 )
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.pinecone.pinecone import PineconeMemory
 from reworkd_platform.services.vecs.dependencies import get_supabase_vecs
 from reworkd_platform.services.vecs.vecs import VecsMemory
@@ -24,7 +26,9 @@ from reworkd_platform.web.api.memory.memory_with_fallback import MemoryWithFallb
 from reworkd_platform.web.api.memory.null import NullAgentMemory
 from reworkd_platform.web.api.memory.weaviate import WeaviateMemory
 
-T = TypeVar("T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate)
+T = TypeVar(
+    "T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate, AgentSummarize, AgentChat
+)
 
 
 def agent_crud(
@@ -68,9 +72,8 @@ async def agent_start_validator(
     return AgentRun(**body.dict(), run_id=str(id_))
 
 
-async def validate(body: T, crud: AgentCRUD, type_: Loop_Step):
-    _id = (await crud.create_task(body.run_id, type_)).id
-    body.run_id = str(_id)
+async def validate(body: T, crud: AgentCRUD, type_: Loop_Step) -> T:
+    body.run_id = (await crud.create_task(body.run_id, type_)).id
     return body
 
 
@@ -103,3 +106,17 @@ async def agent_create_validator(
     crud: AgentCRUD = Depends(agent_crud),
 ) -> AgentTaskCreate:
     return await validate(body, crud, "create")
+
+
+async def agent_summarize_validator(
+    body: AgentSummarize = Body(),
+    crud: AgentCRUD = Depends(agent_crud),
+) -> AgentSummarize:
+    return await validate(body, crud, "summarize")
+
+
+async def agent_chat_validator(
+    body: AgentChat = Body(),
+    crud: AgentCRUD = Depends(agent_crud),
+) -> AgentChat:
+    return await validate(body, crud, "chat")

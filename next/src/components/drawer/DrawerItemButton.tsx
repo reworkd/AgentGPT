@@ -14,7 +14,7 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "cursor-pointer items-center rounded-md text-gray-200 hover:bg-white/5",
+        "text-color-primary hover:background-color-2 cursor-pointer items-center rounded-md",
         props.className
       )}
       onClick={onClick}
@@ -22,4 +22,8 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
       <span className="text-sm">{text}</span>
     </button>
   );
+};
+
+export const DrawerItemButtonLoader = () => {
+  return <div className="background-color-4 w-50 mx-1.5 h-7 animate-pulse rounded-md"></div>;
 };

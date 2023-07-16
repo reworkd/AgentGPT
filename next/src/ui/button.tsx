@@ -1,6 +1,5 @@
 import type { ForwardedRef } from "react";
 import React, { forwardRef, useState } from "react";
-import clsx from "clsx";
 import Ping from "../components/Ping";
 import Loader from "../components/loader";
 
@@ -33,11 +32,11 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
       ref={ref}
       type={props.type}
       disabled={loading || props.disabled}
-      className={clsx(props.className)}
+      className={props.className}
       onClick={onClick}
     >
       {props.ping && <Ping color="white" />}
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-x-2.5 px-3 py-2 font-inter text-sm font-normal leading-6">
         {loading ? <Loader /> : props.children}
       </div>
     </button>

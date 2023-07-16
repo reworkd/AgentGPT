@@ -1,13 +1,14 @@
-import React, { Dispatch, FC, Fragment, PropsWithChildren, SetStateAction, useRef } from "react";
+import type { Dispatch, FC, PropsWithChildren, ReactNode, SetStateAction } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 
 interface DialogProps extends PropsWithChildren {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  icon: React.ReactNode;
-  title: React.ReactNode;
-  actions?: React.ReactNode;
+  icon: ReactNode;
+  title: ReactNode;
+  actions?: ReactNode;
   inline?: boolean;
 }
 
@@ -52,15 +53,21 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
             >
               <HeadlessDialog.Panel
                 className={clsx(
-                  "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all",
+                  "relative w-full max-w-sm transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all",
                   props.inline || "sm:my-8 sm:w-full sm:max-w-lg"
                 )}
               >
+                <HeadlessDialog.Title
+                  as="h3"
+                  className="flex flex-row items-start px-4 py-3 font-semibold leading-6 text-gray-700"
+                >
+                  {props.title}
+                </HeadlessDialog.Title>
                 <div className={clsx("bg-white px-4 pb-4 pt-5", props.inline || "sm:p-6 sm:pb-4")}>
                   <div className={clsx(props.inline || "sm:flex sm:items-start")}>
                     <div
                       className={clsx(
-                        "mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100",
+                        "mx-auto flex flex-shrink-0 items-center justify-center",
                         props.inline || "sm:mx-0 sm:h-10 sm:w-10"
                       )}
                     >
@@ -72,22 +79,11 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                         props.inline || "sm:ml-4 sm:mt-0 sm:text-left"
                       )}
                     >
-                      <HeadlessDialog.Title
-                        as="h3"
-                        className="text-base font-semibold leading-6 text-gray-900"
-                      >
-                        {props.title}
-                      </HeadlessDialog.Title>
                       <div className="mt-2">{props.children}</div>
                     </div>
                   </div>
                 </div>
-                <div
-                  className={clsx(
-                    "bg-gray-50 px-4 py-3",
-                    props.inline || "sm:flex sm:flex-row-reverse sm:px-6"
-                  )}
-                >
+                <div className="flex flex-col gap-2 border-t-2 bg-gray-100 px-8 py-4">
                   {props.actions}
                 </div>
               </HeadlessDialog.Panel>

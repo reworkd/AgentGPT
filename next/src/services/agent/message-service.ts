@@ -15,56 +15,51 @@ export class MessageService {
     this.renderMessage = renderMessage;
   }
 
-  sendMessage(message: Message) {
+  sendMessage = (message: Message): Message => {
     this.renderMessage({ ...message });
-  }
+    return message;
+  };
 
-  updateMessage(message: Message) {
+  updateMessage = (message: Message): Message => {
     useMessageStore.getState().updateMessage(message);
-  }
+    return message;
+  };
 
-  startTaskMessage(task: Task) {
+  startTaskMessage = (task: Task) =>
     this.sendMessage({
       type: "system",
       value: `✨ Starting task: ${task.value}`,
     });
-  }
 
-  skipTaskMessage(task: Task) {
+  skipTaskMessage = (task: Task) =>
     this.sendMessage({
       type: "system",
       value: `🥺 Skipping task: ${task.value}`,
     });
-  }
 
-  startTask(task: string) {
-    this.renderMessage({
+  startTask = (task: string) =>
+    this.sendMessage({
       taskId: v1().toString(),
       value: task,
       status: "started",
       type: "task",
     });
-  }
 
-  sendGoalMessage(goal: string) {
-    this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: goal });
-  }
+  sendGoalMessage = (goal: string) => this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: goal });
 
-  sendManualShutdownMessage() {
-    this.renderMessage({
+  sendManualShutdownMessage = () =>
+    this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
     });
-  }
 
-  sendCompletedMessage() {
+  sendCompletedMessage = () =>
     this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: translate("ALL_TASKS_COMPLETETD", "errors"),
     });
-  }
 
-  sendAnalysisMessage(analysis: Analysis) {
+  sendAnalysisMessage = (analysis: Analysis) => {
     let message = "⏰ Generating response...";
     if (analysis.action == "search") {
       message = `🔍 Searching the web for "${analysis.arg}"...`;
@@ -79,13 +74,13 @@ export class MessageService {
       message = `💻 Writing code...`;
     }
 
-    this.sendMessage({
+    return this.sendMessage({
       type: MESSAGE_TYPE_SYSTEM,
       value: message,
     });
-  }
+  };
 
-  sendErrorMessage(e: unknown) {
+  sendErrorMessage = (e: unknown) => {
     let message = "An unknown error occurred. Please try again later.";
     if (typeof e == "string") message = e;
     else if (axios.isAxiosError(e) && e.message == "Network Error") {
@@ -122,8 +117,8 @@ export class MessageService {
           message = "ERROR_ACCESSING_OPENAI_API_KEY";
           break;
       }
-    }
+    } else if (e instanceof Error) message = e.message;
 
-    this.sendMessage({ type: "error", value: translate(message, "errors") });
-  }
+    return this.sendMessage({ type: "error", value: translate(message, "errors") });
+  };
 }

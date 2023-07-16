@@ -6,7 +6,7 @@ import { languages } from "../utils/languages";
 import TemplateCard from "../components/templates/TemplateCard";
 import FadeIn from "../components/motions/FadeIn";
 import SearchBar from "../components/templates/TemplateSearch";
-import SidebarLayout from "../layout/sidebar";
+import DashboardLayout from "../layout/dashboard";
 import { TEMPLATE_DATA } from "../components/templates/TemplateData";
 
 const Templates = () => {
@@ -21,7 +21,7 @@ const Templates = () => {
   });
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <div className="flex h-full w-full flex-col p-10">
         <FadeIn initialX={-45} initialY={0} delay={0.1}>
           <div>
@@ -40,7 +40,7 @@ const Templates = () => {
           </div>
         </FadeIn>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

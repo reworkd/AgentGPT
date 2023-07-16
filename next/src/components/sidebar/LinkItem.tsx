@@ -4,7 +4,7 @@ import Badge from "../Badge";
 
 const LinkItem = (props: {
   title: string;
-  icon: ReactNode;
+  children: ReactNode;
   href?: string;
   badge?: string;
   onClick: () => void;
@@ -13,7 +13,7 @@ const LinkItem = (props: {
     <a
       href={props.href}
       className={clsx(
-        "cursor-pointer text-neutral-400 hover:bg-neutral-800 hover:text-white",
+        "text-color-secondary hover:background-color-2 hover:text-color-primary cursor-pointer",
         "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-semibold leading-7"
       )}
       onClick={(e) => {
@@ -21,8 +21,8 @@ const LinkItem = (props: {
         props.onClick();
       }}
     >
-      <span className="flex h-[2em] w-[2em] shrink-0 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-sm font-medium text-neutral-400 group-hover:scale-110 group-hover:text-white">
-        {props.icon}
+      <span className="text-color-secondary group-hover:text-color-primary neutral-button-primary flex h-[2em] w-[2em] shrink-0 items-center justify-center rounded-lg border text-sm font-medium group-hover:scale-110">
+        {props.children}
       </span>
       <span>{props.title}</span>
       {props.badge && <Badge className="ml-auto">{props.badge}</Badge>}

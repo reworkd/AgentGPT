@@ -6,6 +6,6 @@ interface FadingHrProps {
 }
 
 const FadingHr: React.FC<FadingHrProps> = ({ className }) => {
-  return <div className={clsx(className, "fading-hr")}></div>;
+  return <div className={clsx(className, "fading-hr dark:fading-hr-dark")}></div>;
 };
 export default FadingHr;

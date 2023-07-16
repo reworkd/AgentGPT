@@ -5,22 +5,22 @@ import type AutonomousAgent from "../autonomous-agent";
 export default class CreateTaskWork implements AgentWork {
   taskValues: string[] = [];
 
-  constructor(private parent: AutonomousAgent, private task: Task, private result: string) {}
+  constructor(private parent: AutonomousAgent, private task: Task) {}
 
   run = async () => {
     this.taskValues = await this.parent.api.getAdditionalTasks(
       {
         current: this.task.value,
         remaining: this.parent.model.getRemainingTasks().map((task) => task.value),
-        completed: this.parent.model.getCompletedTasks(),
+        completed: this.parent.model.getCompletedTasks().map((task) => task.value),
       },
-      this.result
+      this.task.result || ""
     );
   };
 
   conclude = async () => {
     const TIMEOUT_LONG = 1000;
-    await this.parent.createTasks(this.taskValues);
+    this.parent.api.saveMessages(await this.parent.createTaskMessages(this.taskValues));
     await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
   };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import SidebarLayout from "../layout/sidebar";
+import DashboardLayout from "../layout/dashboard";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
@@ -30,7 +30,7 @@ import clsx from "clsx";
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
-  const { session } = useAuth();
+  const { session } = useAuth({ protectedRoute: true });
   const { models, getModel } = useModels();
 
   const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
@@ -65,9 +65,9 @@ const SettingsPage = () => {
   };
 
   return (
-    <SidebarLayout>
+    <DashboardLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
-        <div className="background-color-1 border-color-1 rounded-xl border-2">
+        <div className="background-color-1 border-color-1 m-2 rounded-xl border-2">
           <div className="border-color-1 align flex justify-between border-b-2 p-3 sm:p-5">
             <h1 className="text-color-primary text-3xl font-bold md:text-4xl">⚙ Settings</h1>
           </div>
@@ -83,49 +83,48 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-              <div className="flex flex-row items-end gap-2">
-                <Input
-                  label="API Key"
-                  name="api-key"
-                  placeholder="sk..."
-                  helpText={
-                    <span>
-                      You can optionally use your own API key here. You can find your API key in
-                      your{" "}
-                      <a className="link" href="https://platform.openai.com/account/api-keys">
-                        OpenAI dashboard.
-                      </a>
-                    </span>
-                  }
-                  type="text"
-                  value={settings.customApiKey}
-                  onChange={(e) => {
-                    setIsApiKeyValid(undefined);
-                    updateSettings("customApiKey", e.target.value);
-                  }}
-                  icon={<FaKey />}
-                  className="flex-grow-1 mr-2"
-                />
-                <Button
-                  onClick={validateApiKey}
-                  className={clsx(
-                    "transition-400 h-10 w-10 flex-1 rounded px-2 py-2 text-sm text-white duration-200",
-                    isApiKeyValid === undefined && "bg-gray-500 hover:bg-gray-700",
-                    isApiKeyValid === true && "bg-green-500 hover:bg-green-700",
-                    isApiKeyValid === false && "bg-red-500 hover:bg-red-700"
-                  )}
-                >
-                  {isApiKeyValid === undefined && "Test"}
-                  {isApiKeyValid === true && <FaCheckCircle />}
-                  {isApiKeyValid === false && <FaExclamationCircle />}
-                </Button>
-              </div>
+              <Input
+                label="API Key"
+                name="api-key"
+                placeholder="sk..."
+                helpText={
+                  <span>
+                    You can optionally use your own API key here. You can find your API key in your{" "}
+                    <a className="link" href="https://platform.openai.com/account/api-keys">
+                      OpenAI dashboard.
+                    </a>
+                  </span>
+                }
+                type="text"
+                value={settings.customApiKey}
+                onChange={(e) => {
+                  setIsApiKeyValid(undefined);
+                  updateSettings("customApiKey", e.target.value);
+                }}
+                icon={<FaKey />}
+                className="flex-grow-1 mr-2"
+                right={
+                  <Button
+                    onClick={validateApiKey}
+                    className={clsx(
+                      "transition-400 h-11 w-16 rounded text-sm text-white duration-200",
+                      isApiKeyValid === undefined && "bg-gray-500 hover:bg-gray-700",
+                      isApiKeyValid === true && "bg-green-500 hover:bg-green-700",
+                      isApiKeyValid === false && "bg-red-500 hover:bg-red-700"
+                    )}
+                  >
+                    {isApiKeyValid === undefined && "Test"}
+                    {isApiKeyValid === true && <FaCheckCircle />}
+                    {isApiKeyValid === false && <FaExclamationCircle />}
+                  </Button>
+                }
+              />
             </div>
 
             {!disableAdvancedSettings && (
-              <div className="mt-4 flex flex-col rounded-md p-4 ring-2 ring-amber-300/20">
+              <div className="mt-4 flex flex-col ">
                 <h1 className="text-color-primary pb-4 text-xl font-bold">Advanced Settings</h1>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-4">
                   <Combo<LLMModel>
                     label="Model"
                     value={model}
@@ -187,7 +186,7 @@ const SettingsPage = () => {
           </div>
         </div>
       </div>
-    </SidebarLayout>
+    </DashboardLayout>
   );
 };
 

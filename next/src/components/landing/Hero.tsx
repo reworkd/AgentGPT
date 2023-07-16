@@ -2,79 +2,99 @@ import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
-import Backing from "./Backing";
+import TextButton from "../TextButton";
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { FaChevronRight } from "react-icons/fa";
+import HeroTimeBanner from "../HeroTimeBanner";
+import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
+import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
+import GlowWrapper from "../GlowWrapper";
+import Spline from "@splinetool/react-spline";
 
-const Hero = () => {
+const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+    <div className={clsx("grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2", className)}>
       <div className="z-10 col-span-1">
-        <FadeIn duration={1.5} delay={0}>
-          <div className="mb-2">
-            <BannerBadge
-              onClick={() =>
-                window.open(
-                  "https://calendly.com/reworkdai/enterprise-customers?month=2023-06",
-                  "_blank"
-                )
-              }
-            >
+        <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
+          <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
+            <span className="sm:hidden">Shape AI agents for your business</span>
+            <span className="hidden sm:inline">
               Shape the future of AI agents for your business
-            </BannerBadge>
-          </div>
-          <h1
-            className={clsx(
-              "pb-2 text-left text-4xl md:text-6xl lg:text-7xl",
-              "bg-clip-text text-transparent",
-              "bg-gradient-to-br from-white to-neutral-600",
-              "leading-[1.1em] tracking-[-0.5px]"
-            )}
-          >
-            <div>
-              Autonomous AI
-              <br />
-              Agents At Your
-              <br />
-              Fingertips
+            </span>
+          </BannerBadge>
+          <div>
+            <h1
+              className={clsx(
+                "pb-2 text-left font-normal tracking-[.09rem]",
+                "text-3xl md:text-5xl lg:text-6xl xl:text-7xl",
+                "bg-clip-text text-transparent",
+                "bg-gradient-to-r from-white to-transparent"
+              )}
+            >
+              <div>
+                AI Agents at
+                <br />
+                Your Fingertips.
+              </div>
+            </h1>
+            <div className="w-4/5">
+              <p
+                className={clsx(
+                  "my-3 inline-block w-full font-inter",
+                  "text-left align-top font-light leading-[22px]",
+                  "tracking-[.08rem]",
+                  "bg-gradient-to-r bg-clip-text text-transparent",
+                  "from-white via-white via-50% to-neutral-600"
+                )}
+              >
+                Create and deploy AI agents on the web in seconds. Simply give them a name and goal.
+                Then experience a new way to accomplish any objective.
+              </p>
             </div>
-          </h1>
-
-          <p className="my-3 mb-9 inline-block w-full text-left align-top font-thin text-neutral-300">
-            The leading web-based autonomous agent platform. Automate business processes at scale.
-          </p>
-          <PrimaryButton
+          </div>
+          <HeroTimeBanner
+            title="Platformer"
+            subtitle="A Platformer game builder"
+            leftIcon={<GamepadIcon />}
+            rightIcon={<SparkleIcon />}
             onClick={() => {
               router.push("/").catch(console.error);
             }}
-          >
-            Get started
-          </PrimaryButton>
+          />
+          <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
+            <GlowWrapper>
+              <PrimaryButton
+                icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              >
+                <>
+                  <span>Contact Us</span>
+                  <FaChevronRight size="12" />
+                </>
+              </PrimaryButton>
+            </GlowWrapper>
+            <TextButton
+              onClick={() => {
+                router.push("/").catch(console.error);
+              }}
+            >
+              <>
+                <span>Explore AI Agents</span>
+                <FaChevronRight size="12" />
+              </>
+            </TextButton>
+          </div>
         </FadeIn>
       </div>
-
-      <FadeIn
-        initialY={50}
-        duration={1.5}
-        className="absolute bottom-10 right-0 z-10 flex w-screen justify-center"
-      >
-        <Backing />
-      </FadeIn>
-
-      <FadeIn duration={1.5} initialY={50} className="absolute inset-0 z-0">
-        <Image
-          src="/hero-background.png"
-          alt="Background Image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          quality={100}
-          className="brightness-[0.8] saturate-[0.9]"
-        />
-      </FadeIn>
+      <div className="h-[500px] w-[500px]">
+        <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
+      </div>
     </div>
   );
 };

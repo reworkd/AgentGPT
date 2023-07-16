@@ -1,14 +1,17 @@
 from typing import List, Optional
 
+from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
+from langchain import LLMChain
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
+from langchain.schema import HumanMessage
 from loguru import logger
 from pydantic import ValidationError
 
-from reworkd_platform.schemas import LLM_MODEL_MAX_TOKENS, ModelSettings
-from reworkd_platform.services.tokenizer.service import TokenService
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
 from reworkd_platform.web.api.agent.helpers import (
@@ -19,6 +22,7 @@ from reworkd_platform.web.api.agent.helpers import (
 from reworkd_platform.web.api.agent.model_settings import WrappedChatOpenAI
 from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
+    chat_prompt,
     create_tasks_prompt,
     start_goal_prompt,
 )
@@ -30,6 +34,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_tool_name,
     get_user_tools,
 )
+from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
@@ -54,7 +59,8 @@ class OpenAIAgentService(AgentService):
             [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
         )
 
-        self.calculate_max_tokens(
+        self.token_service.calculate_max_tokens(
+            self.model,
             prompt.format_prompt(
                 goal=goal,
                 language=self.settings.language,
@@ -90,7 +96,8 @@ class OpenAIAgentService(AgentService):
             language=self.settings.language,
         )
 
-        self.calculate_max_tokens(
+        self.token_service.calculate_max_tokens(
+            self.model,
             prompt.to_string(),
             str(functions),
         )
@@ -153,7 +160,9 @@ class OpenAIAgentService(AgentService):
             "result": result,
         }
 
-        self.calculate_max_tokens(prompt.format_prompt(**args).to_string())
+        self.token_service.calculate_max_tokens(
+            self.model, prompt.format_prompt(**args).to_string()
+        )
 
         completion = await call_model_with_handling(
             self.model, prompt, args, settings=self.settings, callbacks=self.callbacks
@@ -178,9 +187,53 @@ class OpenAIAgentService(AgentService):
 
         return unique_tasks
 
-    def calculate_max_tokens(self, *prompts: str) -> None:
-        max_allowed_tokens = LLM_MODEL_MAX_TOKENS.get(self.model.model_name, 4000)
-        prompt_tokens = sum([self.token_service.count(p) for p in prompts])
-        requested_tokens = max_allowed_tokens - prompt_tokens
+    async def summarize_task_agent(
+        self,
+        *,
+        goal: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
 
-        self.model.max_tokens = min(self.model.max_tokens, requested_tokens)
+        snippet_max_tokens = 7000  # Leave room for the rest of the prompt
+        text_tokens = self.token_service.tokenize("".join(results))
+        text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
+        logger.info(f"Summarizing text: {text}")
+
+        return summarize(
+            model=self.model,
+            language=self.settings.language,
+            goal=goal,
+            text=text,
+        )
+
+    async def chat(
+        self,
+        *,
+        message: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        self.model.model_name = "gpt-3.5-turbo-16k"
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                SystemMessagePromptTemplate(prompt=chat_prompt),
+                *[HumanMessage(content=result) for result in results],
+                HumanMessage(content=message),
+            ]
+        )
+
+        self.token_service.calculate_max_tokens(
+            self.model,
+            prompt.format_prompt(
+                language=self.settings.language,
+            ).to_string(),
+        )
+
+        chain = LLMChain(llm=self.model, prompt=prompt)
+
+        return StreamingResponse.from_chain(
+            chain,
+            {"language": self.settings.language},
+            media_type="text/event-stream",
+        )

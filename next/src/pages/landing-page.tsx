@@ -3,10 +3,12 @@ import NavBar from "../components/NavBar";
 import Hero from "../components/landing/Hero";
 import FooterLinks from "../components/landing/FooterLinks";
 import Backing from "../components/landing/Backing";
+import Image from "next/image";
 
 const HomePage = () => {
   return (
     <div className="min-w-screen flex min-h-screen flex-col justify-between px-4 lg:px-12 lg:py-4">
+      <Image src="/stars.svg" alt="stars" fill className="absolute" />
       <NavBar />
       <main>
         <Hero className="lg:ml-16" />

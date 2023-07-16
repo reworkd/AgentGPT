@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useTransform, useTime } from "framer-motion";
 import type { ReactNode } from "react";
 import React from "react";
 import { motion } from "framer-motion";
@@ -19,30 +20,22 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   rightIcon,
   onClick,
 }) => {
-  const rotationVariants = {
-    initial: {
-      rotate: 0,
-    },
-    animate: {
-      rotate: 360,
-      transition: {
-        duration: 15,
-        ease: "linear",
-        repeat: Infinity,
-      },
-    },
-  };
+  const time = useTime();
+  const rotate = useTransform(time, (timeValue) => {
+    const baseRotation = (timeValue / 15000) * 360;
+    return baseRotation;
+  });
 
   return (
     <div className="relative flex h-[60px] w-[237px] scale-105 transform items-center justify-center overflow-hidden rounded-[1000px]">
       <div className="absolute z-0">
-        <div className="absolute h-80 w-80 rounded-full bg-white opacity-20" />
+        <div className="absolute h-80 w-80 rounded-full bg-white opacity-10" />
         <motion.div
           className="h-80 w-80 rounded-full"
-          style={{ background: "conic-gradient(transparent, transparent ,transparent, white)" }}
-          variants={rotationVariants}
-          initial="initial"
-          animate="animate"
+          style={{
+            background: "conic-gradient(transparent, transparent ,transparent, white)",
+            rotate: rotate,
+          }}
         />
       </div>
       <div

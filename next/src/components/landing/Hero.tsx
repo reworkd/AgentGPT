@@ -92,9 +92,9 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </FadeIn>
       </div>
-      <div className="h-[500px] w-[500px]">
+      <FadeIn className="h-[500px] w-[500px]" delay={0.5} duration={3}>
         <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
-      </div>
+      </FadeIn>
     </div>
   );
 };

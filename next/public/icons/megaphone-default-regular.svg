@@ -1,0 +1,15 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon">
+<path id="shape" d="M9.70711 3.29289C9.89464 3.10536 10.149 3 10.4142 3H12.25C12.6642 3 13 3.33579 13 3.75V12.25C13 12.6642 12.6642 13 12.25 13H10.4142C10.149 13 9.89464 12.8946 9.70711 12.7071L7 10H2.25C2.11193 10 2 9.88807 2 9.75V6.25C2 6.11193 2.11193 6 2.25 6H7L9.70711 3.29289Z" stroke="url(#paint0_angular_295_510)" stroke-width="2"/>
+<path id="shape_2" d="M3 11H6V13C6 13.5523 5.55228 14 5 14H4C3.44772 14 3 13.5523 3 13V11Z" fill="black" fill-opacity="0.99"/>
+<path id="shape_3" d="M13 6H14C14.5523 6 15 6.44772 15 7V9C15 9.55228 14.5523 10 14 10H13V6Z" fill="black"/>
+</g>
+<defs>
+<radialGradient id="paint0_angular_295_510" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(6.5 7.5) rotate(65.556) scale(6.04152)">
+<stop offset="0.00335011"/>
+<stop offset="0.216976" stop-opacity="0.3"/>
+<stop offset="0.365828" stop-opacity="0.3"/>
+<stop offset="0.64645"/>
+</radialGradient>
+</defs>
+</svg>

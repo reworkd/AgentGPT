@@ -8,6 +8,7 @@ import nextI18NextConfig from "../../../next-i18next.config";
 import DashboardLayout from "../../layout/dashboard";
 import EmptyWorkflowButton from "../../components/workflow/EmptyWorkflow";
 import { useAuth } from "../../hooks/useAuth";
+import WorkflowCard from "../../components/workflow/WorkflowCard";
 
 const WorkflowList: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
@@ -24,17 +25,13 @@ const WorkflowList: NextPage = () => {
     <DashboardLayout>
       <div className="grid grid-cols-4 gap-2 p-16">
         {data.map((workflow) => (
-          <div
+          <WorkflowCard
             key={workflow.id}
-            className="flex flex-col gap-3 rounded-2xl bg-gray-50 p-6"
+            workflow={workflow}
             onClick={() => {
               void router.push(`workflow/${workflow.id}`);
             }}
-          >
-            <h1>{workflow.name}</h1>
-            <h1>#{workflow.id}</h1>
-            <p className="text-neutral-400">{workflow.description}</p>
-          </div>
+          />
         ))}
         <EmptyWorkflowButton
           onClick={() => {

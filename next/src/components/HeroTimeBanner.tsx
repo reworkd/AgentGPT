@@ -34,12 +34,12 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   };
 
   return (
-    <div className="relative flex h-[60px] w-[230px] scale-105 transform items-center justify-center overflow-hidden rounded-[1000px]">
+    <div className="relative flex h-[60px] w-[236px] scale-105 transform items-center justify-center overflow-hidden rounded-[1000px]">
       <div className="absolute z-0">
-        <div className="absolute h-80 w-80 rounded-full bg-white opacity-30" />
+        <div className="absolute h-80 w-80 rounded-full bg-white opacity-20" />
         <motion.div
           className="h-80 w-80 rounded-full"
-          style={{ background: "conic-gradient(transparent, transparent, white)" }}
+          style={{ background: "conic-gradient(transparent, transparent ,transparent, white)" }}
           variants={rotationVariants}
           initial="initial"
           animate="animate"

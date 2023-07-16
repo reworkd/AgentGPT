@@ -36,7 +36,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               )}
             >
               <div>
-                <span className="bg-gradient-to-r from-purple-700 to-purple-400 bg-clip-text pr-4 text-transparent">
+                <span className="bg-gradient-to-r from-purple-500 to-purple-100 bg-clip-text pr-4 text-transparent">
                   AI
                 </span>
                 Agents at

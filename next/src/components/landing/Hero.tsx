@@ -36,7 +36,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               )}
             >
               <div>
-                AI Agents at
+                <span className="bg-gradient-to-r from-purple-700 to-purple-400 bg-clip-text pr-4 text-transparent">
+                  AI
+                </span>
+                Agents at
                 <br />
                 Your Fingertips.
               </div>

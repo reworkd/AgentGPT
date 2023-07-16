@@ -49,7 +49,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
           "relative z-10",
           "flex flex-row items-center justify-center gap-x-2",
           "py-2 pl-3 pr-3",
-          "rounded-[1000px] border-2 border-transparent shadow-md",
+          "rounded-[1000px] shadow-md",
           "bg-black",
           "cursor-pointer"
         )}

@@ -77,8 +77,6 @@ class NodeCRUD:
         all_nodes: Dict[str, WorkflowNodeModel],
     ) -> None:
         node_ids = {n.id for n in nodes}
-        [
-            await node.delete(self.session)
-            for node in all_nodes.values()
-            if node.id not in node_ids
-        ]
+        for node in all_nodes.values():
+            if node.id not in node_ids:
+                await node.delete(self.session)

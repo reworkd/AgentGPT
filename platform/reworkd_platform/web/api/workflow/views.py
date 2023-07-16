@@ -59,7 +59,7 @@ async def update_workflow(
 async def delete_workflow(
     workflow_id: str,
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
-):
+) -> None:
     """Delete a workflow by id."""
     await crud.delete(workflow_id)
 

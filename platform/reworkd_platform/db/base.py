@@ -57,7 +57,7 @@ class TrackedModel(Base):
     )
     delete_date = mapped_column(DateTime, name="delete_date", nullable=True)
 
-    async def delete(self: T, session: AsyncSession) -> None:
+    async def delete(self, session: AsyncSession) -> None:
         """Marks the model as deleted."""
         self.delete_date = datetime.now()
         await self.save(session)

@@ -1,44 +1,56 @@
 import { motion, useCycle } from "framer-motion";
 import type { PropsWithChildren } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface MotionProps extends PropsWithChildren {
   className?: string;
-  selected: string;
+  selectedItem: string;
   itemMap: { [key: string]: React.ReactNode };
 }
 
 const CycleItems = (props: MotionProps) => {
   const sequenceMap = {};
   const itemKeys = Object.keys(props.itemMap);
+  const clonedItemKeys = [...itemKeys];
 
   for (const [index, key] of itemKeys.entries()) {
     if (index === 0) {
-      sequenceMap[key] = itemKeys;
+      sequenceMap[key] = [...clonedItemKeys];
       continue;
     }
 
-    const clonedItemKeys = [...itemKeys];
     const firstItem = clonedItemKeys.shift();
 
     if (firstItem) {
       clonedItemKeys.push(firstItem);
-      sequenceMap[key] = clonedItemKeys;
+      sequenceMap[key] = [...clonedItemKeys];
     }
   }
 
-  const [sequenceKey, setSequenceKey] = useCycle(...Object.keys(sequenceMap));
+  const [sequenceKey, setSequenceKey] = useCycle(...itemKeys);
+
+  useEffect(() => {
+    if (sequenceKey !== props.selectedItem) {
+      setSequenceKey();
+    }
+    console.log(sequenceKey);
+    console.log(sequenceMap);
+    console.log(sequenceMap[sequenceKey]);
+  }, [props.selectedItem, sequenceKey]);
 
   return (
-    <div>
-      {sequenceMap[sequenceKey].map((key) => {
-        return key === props.selected ? (
-          <motion.div className={props.className} layoutId="cycle-items">
-            {props.itemMap[key]}
-          </motion.div>
-        ) : null;
-      })}
-    </div>
+    <>
+      {sequenceMap[sequenceKey].map((key) => (
+        <motion.div
+          className={props.className}
+          layoutId="cycle-items"
+          key={key}
+          // transition={{ type: "spring", stiffness: 350, damping: 25 }}
+        >
+          {props.itemMap[key]}
+        </motion.div>
+      ))}
+    </>
   );
 };
 

@@ -11,24 +11,34 @@ import MegaphoneIcon from "../../public/icons/megaphone-default-regular.svg";
 import { useRouter } from "next/router";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
+import CycleItems from "./motions/CycleItems";
+import React from "react";
+
+const HOME = "Home";
+const BLOG = "Blog";
+const PRICING = "Pricing";
+const ROADMAP = "Roadmap";
+const DOCS = "Docs";
 
 const navigation = [
-  { name: "Home", href: "#" },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI" },
-  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan" },
-  { name: "Roadmap", href: "https://github.com/orgs/reworkd/projects/3" },
-  { name: "Docs", href: "https://docs.reworkd.ai/" },
+  { name: HOME, href: "#" },
+  { name: BLOG, href: "https://twitter.com/ReworkdAI" },
+  { name: PRICING, href: "https://agentgpt.reworkd.ai/plan" },
+  { name: ROADMAP, href: "https://github.com/orgs/reworkd/projects/3" },
+  { name: DOCS, href: "https://docs.reworkd.ai/" },
 ];
+
+const itemMap = {
+  [HOME]: <HomeIcon />,
+  [BLOG]: <MegaphoneIcon />,
+  [PRICING]: <BarcodeIcon />,
+  [ROADMAP]: <LocationPinIcon />,
+  [DOCS]: <DocumentIcon />,
+};
 
 export default function NavBar() {
   const router = useRouter();
-  const itemsMap = {
-    home: <HomeIcon />,
-    barcode: <BarcodeIcon />,
-    document: <DocumentIcon />,
-    locationPin: <LocationPinIcon />,
-    megaphone: <MegaphoneIcon />,
-  };
+  const [selectedLink, setSelectedLink] = React.useState(HOME);
 
   return (
     <FadeIn duration={3}>
@@ -46,7 +56,9 @@ export default function NavBar() {
                 />
               </div>
               <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
-                <HomeIcon />
+                <div className="flex h-[28px] w-[28px] flex-row justify-start  rounded-full bg-white p-1.5">
+                  <CycleItems selectedItem={selectedLink} itemMap={itemMap} />
+                </div>
                 {navigation.map((item) => (
                   <a
                     key={item.name}
@@ -56,6 +68,8 @@ export default function NavBar() {
                       "inline-flex items-center p-2",
                       "transition-colors duration-300"
                     )}
+                    onMouseEnter={() => setSelectedLink(item.name)}
+                    onMouseLeave={() => setSelectedLink(HOME)}
                   >
                     {item.name}
                   </a>

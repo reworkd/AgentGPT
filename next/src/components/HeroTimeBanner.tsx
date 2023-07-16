@@ -34,8 +34,8 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   };
 
   return (
-    <div className="relative flex items-center justify-start">
-      <div className="absolute z-0 flex h-full w-[235px] scale-105 transform items-center overflow-hidden rounded-[1000px]">
+    <div className="relative flex h-[60px] w-[230px] scale-105 transform items-center justify-center overflow-hidden rounded-[1000px]">
+      <div className="absolute z-0">
         <motion.div
           className="h-80 w-80 rounded-full"
           style={{ background: "conic-gradient(transparent, transparent, white)" }}
@@ -55,7 +55,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         )}
       >
         <div>{leftIcon}</div>
-        <div className="flex flex-col bg-gradient-to-r from-white via-white to-black bg-clip-text font-inter leading-6 tracking-normal text-transparent">
+        <div className="flex flex-col bg-gradient-to-r from-white via-black via-90% to-black bg-clip-text font-inter text-transparent">
           <h2 className="ml-2s text-[10px] font-semibold md:text-[12px]">{title}</h2>
           <p className="text-[8px] font-medium md:text-[10px]">{subtitle}</p>
         </div>

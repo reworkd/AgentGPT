@@ -21,10 +21,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
       <div className="z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
-            <span className="sm:hidden">Shape AI agents for your business</span>
-            <span className="hidden sm:inline">
-              Shape the future of AI agents for your business
-            </span>
+            <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div>
             <h1
@@ -75,7 +72,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               >
                 <>
                   <span>Contact Us</span>
-                  <FaChevronRight size="12" />
+                  <FaChevronRight size="10" className="text-gray-400" />
                 </>
               </PrimaryButton>
             </GlowWrapper>

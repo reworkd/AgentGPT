@@ -3,21 +3,32 @@ import { FaBars, FaChevronRight, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
-import HomeIcon from "../../public/icons/home-28x28.svg";
 import { useRouter } from "next/router";
+import HomeIcon from "../../public/icons/home-default-regular.svg";
+import BarcodeIcon from "../../public/icons/barcode-default-regular.svg";
+import DocumentIcon from "../../public/icons/document-default-regular.svg";
+import LocationPinIcon from "../../public/icons/locationpin-default-regular.svg";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
+import CycleIcons from "./motions/CycleIcons";
+import React from "react";
+import MegaphoneIcon from "../../public/icons/megaphone-default-regular.svg";
 
 const navigation = [
-  { name: "Home", href: "#" },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI" },
-  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan" },
-  { name: "Roadmap", href: "https://github.com/orgs/reworkd/projects/3" },
-  { name: "Docs", href: "https://docs.reworkd.ai/" },
+  { name: "Home", href: "/", icon: <HomeIcon /> },
+  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <MegaphoneIcon /> },
+  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <BarcodeIcon /> },
+  {
+    name: "Roadmap",
+    href: "https://github.com/orgs/reworkd/projects/3",
+    icon: <LocationPinIcon />,
+  },
+  { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocumentIcon /> },
 ];
 
 export default function NavBar() {
   const router = useRouter();
+  const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (
     <FadeIn duration={3}>
@@ -34,17 +45,22 @@ export default function NavBar() {
                   className="mr-2"
                 />
               </div>
-              <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
-                <HomeIcon />
-                {navigation.map((item) => (
+              <div className="hidden h-[42px] items-center self-center rounded-full border border-white/30 px-2 py-1 sm:flex ">
+                <CycleIcons
+                  hoveredItemIndex={hoveredButtonIndex}
+                  icons={navigation.map((nav) => nav.icon)}
+                />
+                {navigation.map((item, i) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className={clsx(
                       "font-inter text-sm font-medium tracking-normal text-white/50 hover:text-white",
-                      "inline-flex items-center p-2",
-                      "transition-colors duration-300"
+                      "flex items-center justify-center p-2",
+                      "px-4 text-center transition-colors duration-300"
                     )}
+                    onMouseEnter={() => setHoveredButtonIndex(i)}
+                    onMouseLeave={() => setHoveredButtonIndex(0)}
                   >
                     {item.name}
                   </a>
@@ -98,7 +114,6 @@ export default function NavBar() {
                     )}
                   >
                     {item.name}
-                    sad
                   </Disclosure.Button>
                 ))}
               </div>

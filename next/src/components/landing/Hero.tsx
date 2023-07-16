@@ -26,7 +26,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
-      <div className="z-10 col-span-1 overflow-hidden">
+      <div className="z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
@@ -61,11 +61,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </p>
             </div>
           </div>
-          <div className="relative">
-            <div className="absolute left-0 top-0 z-10 h-full w-full scale-105 overflow-hidden rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%" />
+          <div className="relative overflow-hidden">
+            <div className="absolute left-0 top-0 z-10 h-full w-full scale-105 rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%" />
             <motion.div
               className="z-20 flex gap-5"
-              initial={{ x: `${sliderIndex === 0 ? "0" : "-100%"}` }}
               animate={{ x: `${sliderIndex * -50}%` }}
               transition={{ duration: 0.5 }}
             >

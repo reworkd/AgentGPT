@@ -134,7 +134,7 @@ const SettingsPage = () => {
                     icon={<FaRobot />}
                   />
                   <Input
-                    label={t("TEMPERATURE")}
+                    label={`${t("TEMPERATURE")}`}
                     value={settings.customTemperature}
                     name="temperature"
                     type="range"
@@ -151,7 +151,7 @@ const SettingsPage = () => {
                     disabled={disableAdvancedSettings}
                   />
                   <Input
-                    label={t("LOOP")}
+                    label={`${t("LOOP")}`}
                     value={settings.customMaxLoops}
                     name="loop"
                     type="range"
@@ -166,7 +166,7 @@ const SettingsPage = () => {
                     disabled={disableAdvancedSettings}
                   />
                   <Input
-                    label={t("TOKENS")}
+                    label={`${t("TOKENS")}`}
                     value={settings.maxTokens}
                     name="tokens"
                     type="range"

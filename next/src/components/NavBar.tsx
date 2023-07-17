@@ -37,7 +37,7 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex items-center">
+              <div className="flex flex-shrink-0 items-center lg:flex-1">
                 <Image
                   src="/logos/dark-default-gradient.svg"
                   width="32"
@@ -70,7 +70,7 @@ export default function NavBar() {
                   ))}
                 </div>
               </div>
-              <div className="hidden justify-end gap-2 xmd:flex sm:items-center">
+              <div className="hidden justify-end gap-2 xmd:flex sm:items-center lg:flex-1">
                 <TextButton
                   onClick={() => {
                     router.push("/").catch(console.error);

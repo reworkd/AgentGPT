@@ -62,8 +62,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </p>
             </div>
           </div>
-          <div className="relative overflow-hidden">
-            <div className="relative z-10 h-full w-full rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%"></div>
+          <div className="relative flex items-center overflow-hidden">
             <motion.div
               className="z-20 flex gap-5"
               animate={{ x: `${sliderIndex * -50}%` }}
@@ -87,10 +86,14 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                   router.push("/").catch(console.error);
                 }}
               />
+              <div
+                id="tests"
+                className="absolute right-0 z-40 h-full w-40 rounded-full bg-gradient-to-r from-transparent to-black to-75% text-white"
+              />
             </motion.div>
             <button
               onClick={() => handleSliderButton(1)}
-              className="group absolute -right-4 z-30 -mt-12 mr-4 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
+              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
             >
               <FaChevronRight
                 size={10}

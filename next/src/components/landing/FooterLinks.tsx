@@ -23,7 +23,7 @@ const FooterLinks = () => {
       <FooterLink href="https://status.reworkd.ai">
         <div className="flex items-center gap-3">
           <p>Status</p>
-          <div className="h-[6px] w-[6px] animate-pulse items-center justify-center rounded-full bg-green-500 ring-[4px] ring-green-500 ring-opacity-40 group-hover:ring-opacity-60"></div>
+          <div className="h-[6px] w-[6px] animate-pulse items-center justify-center rounded-full bg-green-500 ring-[3px] ring-green-500 ring-opacity-60"></div>
         </div>
       </FooterLink>
       <FooterLink href="https://agentgpt.reworkd.ai/privacypolicy">Privacy</FooterLink>

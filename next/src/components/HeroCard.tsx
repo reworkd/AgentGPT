@@ -21,18 +21,20 @@ const HeroCard: React.FC<HeroTimeBannerProps> = ({
   return (
     <div
       className={clsx(
-        "flex flex-row items-center justify-center gap-x-4",
-        "h-fit max-h-20 overflow-hidden py-2.5 pl-3 pr-4",
-        "rounded-[1000px] border border-white/20 shadow-md",
+        "flex flex-row items-center justify-center",
+        "max-h-20 w-80 p-3",
+        "rounded-full border border-white/20",
         "bg-black bg-clip-text text-transparent",
         "-z-10 bg-gradient-to-r from-white to-transparent",
         "cursor-pointer"
       )}
     >
-      <div>{leftIcon}</div>
-      <div className="flex flex-col font-inter tracking-normal">
-        <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
-        <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
+      <div className="mr-auto flex gap-2">
+        <div>{leftIcon}</div>
+        <div className="flex flex-col font-inter tracking-normal">
+          <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
+          <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
+        </div>
       </div>
       <GlowWrapper>
         <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white">

@@ -60,8 +60,8 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                   "from-white via-white via-50% to-neutral-600"
                 )}
               >
-                Create and deploy AI agents on the web in seconds. Simply give them a name and goal.
-                Then experience a new way to accomplish any objective.
+                Create and deploy AI agents in seconds. Leverage agents to automate the workflows
+                you once spent countless human hours on. Experience a new way of working.
               </p>
             </div>
           </div>

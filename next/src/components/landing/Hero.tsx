@@ -1,25 +1,37 @@
+import { motion } from "framer-motion";
 import FadeIn from "../motions/FadeIn";
 import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
-import HeroTimeBanner from "../HeroTimeBanner";
+import HeroCard from "../HeroCard";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
-import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
+import PlaneIcon from "../../../public/icons/PlaneIcon.svg";
 import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
 
 const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
+  const [sliderIndex, setSliderIndex] = useState(0);
+  const totalCards = 3;
+
+  const handleSliderButton = (increment: number) => {
+    const newIndex = (sliderIndex + increment + totalCards) % totalCards;
+    setSliderIndex(newIndex);
+  };
 
   return (
-    <div className={clsx("grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2", className)}>
-      <div className="z-10 col-span-1">
-        <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
+    <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
+      <div className="relative z-10 col-span-1 max-w-full">
+        <FadeIn
+          duration={3}
+          initialY={50}
+          className="relative flex flex-col items-center gap-12 sm:items-start"
+        >
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
@@ -53,15 +65,52 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </p>
             </div>
           </div>
-          <HeroTimeBanner
-            title="Platformer"
-            subtitle="A Platformer game builder"
-            leftIcon={<GamepadIcon />}
-            rightIcon={<SparkleIcon />}
-            onClick={() => {
-              router.push("/").catch(console.error);
-            }}
-          />
+          <div className="relative flex w-full items-center overflow-hidden sm:max-w-[40em]">
+            <motion.div
+              className="z-20 flex gap-5"
+              animate={{ x: `${sliderIndex * -308}px` }}
+              transition={{ duration: 0.5, type: "spring", stiffness: 60 }}
+            >
+              <HeroCard
+                title="Platformer"
+                subtitle="A Platformer game builder"
+                leftIcon={<GamepadIcon />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              />
+              <HeroCard
+                title="TripAdvisor"
+                subtitle="A detailed trip planner"
+                leftIcon={<PlaneIcon />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              />
+              <HeroCard
+                title="TripAdvisor"
+                subtitle="A detailed trip planner"
+                leftIcon={<PlaneIcon />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
+              />
+            </motion.div>
+            <div
+              id="tests"
+              className="absolute right-0 z-20 h-full w-10 bg-gradient-to-r from-transparent to-black to-75% text-white sm:w-40"
+            />
+            <button
+              onClick={() => handleSliderButton(1)}
+              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
+            >
+              <FaChevronRight
+                size={10}
+                className="text-gray-400 transition-transform group-hover:translate-x-0.5"
+              />
+            </button>
+          </div>
+
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
             <GlowWrapper>
               <PrimaryButton
@@ -95,7 +144,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </FadeIn>
       </div>
-      <FadeIn className="relative hidden h-[500px] w-[500px] lg:flex" delay={0.5} duration={3}>
+      <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
         <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </FadeIn>

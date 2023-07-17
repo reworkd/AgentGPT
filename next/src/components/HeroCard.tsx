@@ -22,7 +22,7 @@ const HeroCard: React.FC<HeroTimeBannerProps> = ({
     <div
       className={clsx(
         "flex flex-row items-center justify-center",
-        "max-h-20 w-80 p-3",
+        "max-h-20 w-72 p-3",
         "rounded-full border border-white/20",
         "bg-black bg-clip-text text-transparent",
         "-z-10 bg-gradient-to-r from-white to-transparent",

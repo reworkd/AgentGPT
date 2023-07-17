@@ -18,17 +18,17 @@ import Spline from "@splinetool/react-spline";
 const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const [sliderIndex, setSliderIndex] = useState(0);
-  const totalCards = 2;
+  const totalCards = 3;
 
-  const handleSliderButton = (increment) => {
+  const handleSliderButton = (increment: number) => {
     const newIndex = (sliderIndex + increment + totalCards) % totalCards;
     setSliderIndex(newIndex);
   };
 
   return (
     <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
-      <div className="relative z-10 col-span-1">
-        <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
+      <div className="relative z-10 col-span-1 max-w-full">
+        <FadeIn duration={3} initialY={50} className="relative flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
@@ -62,11 +62,11 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </p>
             </div>
           </div>
-          <div className="relative flex items-center overflow-hidden">
+          <div className="relative flex w-full items-center overflow-hidden sm:max-w-[40em]">
             <motion.div
               className="z-20 flex gap-5"
-              animate={{ x: `${sliderIndex * -50}%` }}
-              transition={{ duration: 0.5 }}
+              animate={{ x: `${sliderIndex * -298}px` }}
+              transition={{ duration: 0.5, type: "spring", stiffness: 60 }}
             >
               <HeroCard
                 title="Platformer"
@@ -86,11 +86,20 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                   router.push("/").catch(console.error);
                 }}
               />
-              <div
-                id="tests"
-                className="absolute right-0 z-40 h-full w-40 rounded-full bg-gradient-to-r from-transparent to-black to-75% text-white"
+              <HeroCard
+                title="TripAdvisor"
+                subtitle="A detailed trip planner"
+                leftIcon={<PlaneIcon />}
+                rightIcon={<SparkleIcon />}
+                onClick={() => {
+                  router.push("/").catch(console.error);
+                }}
               />
             </motion.div>
+            <div
+              id="tests"
+              className="absolute right-0 z-20 h-full w-10 bg-gradient-to-r from-transparent to-black to-75% text-white sm:w-40"
+            />
             <button
               onClick={() => handleSliderButton(1)}
               className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
@@ -142,5 +151,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
     </div>
   );
 };
+
+const HeroExamples = [];
 
 export default Hero;

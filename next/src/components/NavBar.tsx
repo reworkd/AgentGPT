@@ -37,7 +37,7 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex flex-shrink-0 items-center lg:flex-1">
+              <div className="flex flex-shrink-0 cursor-pointer items-center lg:flex-1">
                 <Image
                   src="/logos/dark-default-gradient.svg"
                   width="32"

@@ -111,7 +111,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </button>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
+          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-start">
             <GlowWrapper>
               <PrimaryButton
                 icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
@@ -120,7 +120,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 }}
               >
                 <>
-                  <span>Contact Us</span>
+                  <span className="py-2 font-semibold">Contact Us</span>
                   <FaChevronRight
                     size="10"
                     className="text-gray-400 transition-transform group-hover:translate-x-1"
@@ -134,7 +134,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               }}
             >
               <>
-                <span>Explore AI Agents</span>
+                <span className="py-2">Explore AI Agents</span>
                 <FaChevronRight
                   size="12"
                   className="text-gray-400 transition-transform group-hover:translate-x-1"

@@ -4,14 +4,14 @@ import React from "react";
 import GlowWrapper from "./GlowWrapper";
 import SparkleIcon from "../../public/icons/sparkle-default-regular.svg";
 
-type HeroTimeBannerProps = {
+type HeroCardProps = {
   title: string;
   subtitle: string;
   leftIcon: ReactNode;
   onClick?: () => void;
 };
 
-const HeroCard: React.FC<HeroTimeBannerProps> = ({ title, subtitle, leftIcon, onClick }) => {
+const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick }) => {
   return (
     <div
       className={clsx(

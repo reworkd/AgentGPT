@@ -11,7 +11,7 @@ type HeroTimeBannerProps = {
   onClick?: () => void;
 };
 
-const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
+const HeroCard: React.FC<HeroTimeBannerProps> = ({
   title,
   subtitle,
   leftIcon,
@@ -23,7 +23,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
       className={clsx(
         "flex flex-row items-center justify-center gap-x-4",
         "h-fit max-h-20 overflow-hidden py-2.5 pl-3 pr-4",
-        "rounded-[1000px] border-2 border-white border-opacity-10 shadow-md",
+        "rounded-[1000px] border border-white/20 shadow-md",
         "bg-black bg-clip-text text-transparent",
         "-z-10 bg-gradient-to-r from-white to-transparent",
         "cursor-pointer"
@@ -35,7 +35,7 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
         <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
       </div>
       <GlowWrapper>
-        <div className="relative flex h-8 w-8 items-center justify-center rounded-[1000px] bg-white">
+        <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white">
           {rightIcon}
         </div>
       </GlowWrapper>
@@ -43,4 +43,4 @@ const HeroTimeBanner: React.FC<HeroTimeBannerProps> = ({
   );
 };
 
-export default HeroTimeBanner;
+export default HeroCard;

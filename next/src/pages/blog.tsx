@@ -22,7 +22,7 @@ interface Post {
   };
 }
 
-const posts = [
+const posts: Post[] = [
   {
     id: 1,
     title: "Boost your conversion rate",
@@ -82,9 +82,9 @@ const posts = [
   },
 ];
 
-const BlogPage = () => {
+const BlogPage: React.FC = () => {
   return (
-    <div className=" overflow-hidden">
+    <div className="overflow-hidden">
       <NavBar />
       <div className="flex min-h-screen justify-center">
         <div className="bg-stars animate-stars"></div>
@@ -105,7 +105,7 @@ const BlogPage = () => {
             </div>
           </main>
           <div className="flex-grow overflow-y-auto">
-            <div className="mx-auto max-w-2xl">
+            <div className="mx-auto mb-16 max-w-2xl">
               {posts.map((post) => (
                 <article key={post.id} className="flex flex-col items-start justify-between">
                   <div className="relative w-full">
@@ -160,7 +160,7 @@ const BlogPage = () => {
               ))}
             </div>
           </div>
-          <footer className="flex flex-col items-center gap-4 pb-4 lg:flex-row">
+          <footer className="flex flex-col items-center justify-center gap-4 pb-4 lg:flex-row">
             <FooterLinks />
             <div className="font-inter text-sm font-normal text-gray-300 lg:order-first">
               &copy; 2023 Reworkd AI, Inc.

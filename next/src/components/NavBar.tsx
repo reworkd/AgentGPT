@@ -37,7 +37,7 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex flex-1 flex-shrink-0 items-center">
+              <div className="flex items-center">
                 <Image
                   src="/logos/dark-default-gradient.svg"
                   width="32"
@@ -47,7 +47,7 @@ export default function NavBar() {
                 />
                 <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
-              <div className="hidden flex-1 items-center justify-center sm:flex">
+              <div className="hidden flex-1 items-center justify-center xmd:flex">
                 <div className="sds flex h-[42px] items-center self-center overflow-hidden rounded-full border-[0.5px] border-white/30 bg-opacity-5 px-2 py-1 backdrop-blur-lg">
                   <CycleIcons
                     hoveredItemIndex={hoveredButtonIndex}
@@ -70,7 +70,7 @@ export default function NavBar() {
                   ))}
                 </div>
               </div>
-              <div className="hidden flex-1 justify-end gap-2 sm:flex sm:items-center">
+              <div className="hidden justify-end gap-2 xmd:flex sm:items-center">
                 <TextButton
                   onClick={() => {
                     router.push("/").catch(console.error);
@@ -100,7 +100,7 @@ export default function NavBar() {
                   </PrimaryButton>
                 </GlowWrapper>
               </div>
-              <div className="-mr-2 flex items-center sm:hidden">
+              <div className="-mr-2 flex items-center xmd:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
@@ -113,7 +113,7 @@ export default function NavBar() {
               </div>
             </div>
 
-            <Disclosure.Panel className="sm:hidden">
+            <Disclosure.Panel className="xmd:hidden">
               <div className="space-y-1 pb-3 pt-2">
                 {navigation.map((item) => (
                   <Disclosure.Button

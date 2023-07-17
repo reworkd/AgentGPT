@@ -7,12 +7,12 @@ import Image from "next/image";
 
 const HomePage = () => {
   return (
-    <div className="min-w-screen grid min-h-screen place-items-center selection:bg-purple-700/25">
+    <div className="min-w-screen mx-4 grid min-h-screen place-items-center selection:bg-purple-700/25">
       <Image src="/stars.svg" alt="stars" fill className="absolute -z-50" />
 
       <div className="flex h-full max-w-[1440px] flex-col justify-between">
         <NavBar />
-        <main className="mx-auto px-16">
+        <main className="mx-auto sm:px-16">
           <Hero />
         </main>
         <footer className="flex flex-col items-center gap-4 pb-4 lg:flex-row">

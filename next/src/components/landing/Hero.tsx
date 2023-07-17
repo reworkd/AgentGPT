@@ -28,7 +28,11 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
       <div className="relative z-10 col-span-1 max-w-full">
-        <FadeIn duration={3} initialY={50} className="relative flex flex-col gap-12">
+        <FadeIn
+          duration={3}
+          initialY={50}
+          className="relative flex flex-col items-center gap-12 sm:items-start"
+        >
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
@@ -144,7 +148,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </FadeIn>
       </div>
-      <FadeIn className="relative hidden h-[500px] w-[500px] lg:flex" delay={0.5} duration={3}>
+      <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
         <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </FadeIn>

@@ -13,6 +13,7 @@ import PrimaryButton from "./PrimaryButton";
 import CycleIcons from "./motions/CycleIcons";
 import React from "react";
 import MegaphoneIcon from "../../public/icons/megaphone-default-regular.svg";
+import GlowWrapper from "./GlowWrapper";
 
 const navigation = [
   { name: "Home", href: "/", icon: <HomeIcon /> },
@@ -69,7 +70,7 @@ export default function NavBar() {
                   ))}
                 </div>
               </div>
-              <div className="hidden flex-1 justify-end sm:flex sm:items-center">
+              <div className="hidden flex-1 gap-2 justify-end sm:flex sm:items-center">
                 <TextButton
                   onClick={() => {
                     router.push("/").catch(console.error);
@@ -77,19 +78,27 @@ export default function NavBar() {
                 >
                   <>
                     <span>AI Agents</span>
-                    <FaChevronRight size="12" />
+                    <FaChevronRight
+                      size="12"
+                      className="transition-transform group-hover:translate-x-1"
+                    />
                   </>
                 </TextButton>
-                <PrimaryButton
-                  onClick={() => {
-                    router.push("/").catch(console.error);
-                  }}
-                >
-                  <>
-                    <span>Contact Us</span>
-                    <FaChevronRight size="12" />
-                  </>
-                </PrimaryButton>
+                <GlowWrapper>
+                  <PrimaryButton
+                    onClick={() => {
+                      router.push("/").catch(console.error);
+                    }}
+                  >
+                    <>
+                      <span>Contact Us</span>
+                      <FaChevronRight
+                        size="12"
+                        className="text-gray-400 transition-transform group-hover:translate-x-1"
+                      />
+                    </>
+                  </PrimaryButton>
+                </GlowWrapper>
               </div>
               <div className="-mr-2 flex items-center sm:hidden">
                 {/* Mobile menu button */}

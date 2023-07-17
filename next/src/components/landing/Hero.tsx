@@ -72,7 +72,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               >
                 <>
                   <span>Contact Us</span>
-                  <FaChevronRight size="10" className="text-gray-400" />
+                  <FaChevronRight
+                    size="10"
+                    className="text-gray-400 transition-transform group-hover:translate-x-1"
+                  />
                 </>
               </PrimaryButton>
             </GlowWrapper>
@@ -83,7 +86,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             >
               <>
                 <span>Explore AI Agents</span>
-                <FaChevronRight size="12" />
+                <FaChevronRight
+                  size="12"
+                  className="text-gray-400 transition-transform group-hover:translate-x-1"
+                />
               </>
             </TextButton>
           </div>

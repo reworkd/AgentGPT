@@ -26,7 +26,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
-      <div className="z-10 col-span-1">
+      <div className="relative z-10 col-span-1">
         <FadeIn duration={3} initialY={50} className="flex flex-col gap-12">
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
@@ -87,6 +87,12 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 }}
               />
             </motion.div>
+            <button
+              onClick={() => handleSliderButton(1)}
+              className="absolute right-0 z-30 -mt-12 mr-4 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 align-middle hover:bg-zinc-500 focus:outline-none"
+            >
+              <FaChevronRight size={16} />
+            </button>
           </div>
 
           <div className="flex flex-col items-center justify-center gap-4 gap-x-5 md:flex-row md:justify-start">
@@ -113,21 +119,6 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 <FaChevronRight size="12" />
               </>
             </TextButton>
-          </div>
-
-          <div className="mt-4 flex justify-center">
-            <button
-              onClick={() => handleSliderButton(-1)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 hover:bg-zinc-500  focus:outline-none"
-            >
-              <FaChevronLeft size={16} />
-            </button>
-            <button
-              onClick={() => handleSliderButton(1)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 hover:bg-zinc-500 focus:outline-none"
-            >
-              <FaChevronRight size={16} />
-            </button>
           </div>
         </FadeIn>
       </div>

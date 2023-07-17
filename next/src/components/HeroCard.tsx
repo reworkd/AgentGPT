@@ -2,22 +2,16 @@ import clsx from "clsx";
 import type { ReactNode } from "react";
 import React from "react";
 import GlowWrapper from "./GlowWrapper";
+import SparkleIcon from "../../public/icons/sparkle-default-regular.svg";
 
 type HeroTimeBannerProps = {
   title: string;
   subtitle: string;
   leftIcon: ReactNode;
-  rightIcon: ReactNode;
   onClick?: () => void;
 };
 
-const HeroCard: React.FC<HeroTimeBannerProps> = ({
-  title,
-  subtitle,
-  leftIcon,
-  rightIcon,
-  onClick,
-}) => {
+const HeroCard: React.FC<HeroTimeBannerProps> = ({ title, subtitle, leftIcon, onClick }) => {
   return (
     <div
       className={clsx(
@@ -29,7 +23,7 @@ const HeroCard: React.FC<HeroTimeBannerProps> = ({
         "cursor-pointer"
       )}
     >
-      <div className="mr-auto flex gap-2">
+      <div className="mr-auto flex gap-3">
         <div>{leftIcon}</div>
         <div className="flex flex-col font-inter tracking-normal">
           <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
@@ -37,8 +31,8 @@ const HeroCard: React.FC<HeroTimeBannerProps> = ({
         </div>
       </div>
       <GlowWrapper>
-        <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white">
-          {rightIcon}
+        <div className="group relative flex h-8 w-8 items-center justify-center rounded-full bg-white">
+          <SparkleIcon className="transition-transform group-hover:scale-110" />
         </div>
       </GlowWrapper>
     </div>

@@ -10,7 +10,6 @@ import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
 import HeroCard from "../HeroCard";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
-import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 import PlaneIcon from "../../../public/icons/PlaneIcon.svg";
 import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
@@ -69,14 +68,13 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <div className="relative flex w-full items-center overflow-hidden sm:max-w-[40em]">
             <motion.div
               className="z-20 flex gap-5"
-              animate={{ x: `${sliderIndex * -298}px` }}
+              animate={{ x: `${sliderIndex * -308}px` }}
               transition={{ duration: 0.5, type: "spring", stiffness: 60 }}
             >
               <HeroCard
                 title="Platformer"
                 subtitle="A Platformer game builder"
                 leftIcon={<GamepadIcon />}
-                rightIcon={<SparkleIcon />}
                 onClick={() => {
                   router.push("/").catch(console.error);
                 }}
@@ -85,7 +83,6 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 title="TripAdvisor"
                 subtitle="A detailed trip planner"
                 leftIcon={<PlaneIcon />}
-                rightIcon={<SparkleIcon />}
                 onClick={() => {
                   router.push("/").catch(console.error);
                 }}
@@ -94,7 +91,6 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 title="TripAdvisor"
                 subtitle="A detailed trip planner"
                 leftIcon={<PlaneIcon />}
-                rightIcon={<SparkleIcon />}
                 onClick={() => {
                   router.push("/").catch(console.error);
                 }}

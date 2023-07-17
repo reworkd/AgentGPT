@@ -11,6 +11,7 @@ import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import HeroTimeBanner from "../HeroTimeBanner";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
 import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
+import PlaneIcon from "../../../public/icons/PlaneIcon.svg";
 import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
 
@@ -62,7 +63,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </div>
           </div>
           <div className="relative overflow-hidden">
-            <div className="absolute left-0 top-0 z-10 h-full w-full scale-105 rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%" />
+            <div className="relative z-10 h-full w-full rounded-full bg-gradient-to-r from-transparent via-transparent to-black to-85%"></div>
             <motion.div
               className="z-20 flex gap-5"
               animate={{ x: `${sliderIndex * -50}%` }}
@@ -78,9 +79,9 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 }}
               />
               <HeroTimeBanner
-                title="Platformer"
-                subtitle="A Platformer game builder"
-                leftIcon={<GamepadIcon />}
+                title="TripAdvisor"
+                subtitle="A detailed trip planner"
+                leftIcon={<PlaneIcon />}
                 rightIcon={<SparkleIcon />}
                 onClick={() => {
                   router.push("/").catch(console.error);

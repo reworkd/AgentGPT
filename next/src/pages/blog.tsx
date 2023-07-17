@@ -24,15 +24,15 @@ interface Post {
 const posts: Post[] = [
   {
     id: 4,
-    title: "Asim S",
+    title: "Asim - CEO",
     href: "#",
     description:
-      "Asim is a visionary leader with expertise in marketing strategies and business development. He specializes in leveraging the power of digital marketing to drive growth and brand recognition. Asim is passionate about staying ahead of the curve in the ever-evolving marketing landscape.",
+      "Asim is a visionary leader with expertise in big tech and business development. He wanted to build agents to tackle the challenges of managing and understanding large tech stacks. Asim specializes in leveraging the power of AI to bring abundance to the world by making tasks easier and giving back time to companies. He is passionate about staying ahead of the curve in the ever-evolving marketing landscape and has a peculiar dislike for Spiderman and Black Panther.",
     imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "https://images.unsplash.com/photo-1688895061992-a842b5056e75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     date: "Jan 10, 2023",
     datetime: "2023-01-10",
-    category: { title: "Marketing", href: "#" },
+    category: { title: "Blog", href: "#" },
     author: {
       name: "Asim Patel",
       role: "CEO / Founder",
@@ -41,14 +41,15 @@ const posts: Post[] = [
         "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     },
   },
+
   {
     id: 5,
     title: "Adam W",
     href: "#",
     description:
-      "Adam is a seasoned technologist with a deep understanding of cutting-edge technologies. He leads the technical team and drives innovation in the development of high-performance web applications. Adam is passionate about leveraging technology to solve complex problems and deliver exceptional user experiences.",
+      "Adam dates crystal ball chicks with a deep understanding of cutting-edge technologies. He leads the technical team and drives innovation in the development of high-performance web applications. Adam is passionate about leveraging technology to solve complex problems and deliver exceptional user experiences.",
     imageUrl:
-      "https://images.unsplash.com/photo-1557683316-e10201644e2b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3600&q=80",
+      "https://images.unsplash.com/photo-1664366095115-9b4882d0d3b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
     date: "Feb 20, 2023",
     datetime: "2023-02-20",
     category: { title: "Tech", href: "#" },
@@ -65,9 +66,9 @@ const posts: Post[] = [
     title: "Srijan S",
     href: "#",
     description:
-      "Srijan is a strategic thinker and operations expert. As the COO, he ensures smooth business operations and efficient execution of projects. Srijan excels at streamlining processes, optimizing resources, and fostering collaboration across teams. His strong leadership skills drive organizational success.",
+      "This guy man dont even get me started on him Srijan is a strategic thinker and operations expert a some would say hes a spit on the something expert. As the COO, he ensures smooth business operations and efficient execution of projects. Srijan excels at streamlining processes, optimizing resources, and fostering collaboration across teams. His strong leadership skills drive organizational success.",
     imageUrl:
-      "https://images.unsplash.com/photo-1581091201117-8c7a6811e9c1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3600&q=80",
+      "https://images.unsplash.com/photo-1687986018999-08d83bc4cf56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
     date: "Mar 15, 2023",
     datetime: "2023-03-15",
     category: { title: "Operations", href: "#" },
@@ -86,7 +87,7 @@ const posts: Post[] = [
     description:
       "Joe is a skilled software developer with a passion for building innovative solutions. He specializes in developing robust and scalable applications using the latest technologies. Jasan loves tackling complex coding challenges and is dedicated to delivering high-quality software products.",
     imageUrl:
-      "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "https://images.unsplash.com/photo-1540273777513-7c4973aa2cd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     date: "Apr 5, 2023",
     datetime: "2023-04-05",
     category: { title: "Tech", href: "#" },
@@ -103,9 +104,9 @@ const posts: Post[] = [
     title: "Jasan - Software Developer",
     href: "#",
     description:
-      "Jasn is a passionate software developer with expertise in building cutting-edge applications. He loves exploring new technologies and enjoys working on projects that involve artificial intelligence and machine learning. Joe is dedicated to creating software solutions that make a positive impact.",
+      "Jasn is a passionate software developer with expertise in building cutting-edge applications Jatt in TEch Yyoyoyoyoy. He loves exploring new technologies and enjoys working on projects that involve artificial intelligence and machine learning. Joe is dedicated to creating software solutions that make a positive impact.",
     imageUrl:
-      "https://images.unsplash.com/photo-1560807707-9aa6ce70a7cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "https://images.unsplash.com/photo-1688880495039-9b58ae992edd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     date: "May 10, 2023",
     datetime: "2023-05-10",
     category: { title: "Tech", href: "#" },

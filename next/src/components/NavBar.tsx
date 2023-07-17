@@ -37,7 +37,7 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex flex-shrink-0 items-center">
+              <div className="flex flex-1 flex-shrink-0 items-center">
                 <Image
                   src="/logos/dark-default-gradient.svg"
                   width="32"
@@ -47,31 +47,30 @@ export default function NavBar() {
                 />
                 <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
-              <div className="hidden h-[42px] items-center self-center overflow-hidden rounded-full border-[0.5px] border-white/30 bg-neutral-100 bg-opacity-5 px-2 py-1 backdrop-blur-lg sm:flex">
-                <CycleIcons
-                  hoveredItemIndex={hoveredButtonIndex}
-                  icons={navigation.map((nav) => nav.icon)}
-                />
-                {navigation.map((item, i) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={clsx(
-                      "font-inter text-sm tracking-normal text-white/50 hover:text-white",
-                      "flex items-center justify-center p-2",
-                      "px-4 text-center transition-colors duration-700",
-                      "relative flex flex-col items-center",
-                      "before:absolute before:-bottom-[17px] before:-z-20 before:h-6 before:w-7 before:bg-white/60 before:opacity-0 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
-                      "after-gradient after:absolute after:-bottom-[2.5px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100"
-                    )}
-                    onMouseEnter={() => setHoveredButtonIndex(i)}
-                    onMouseLeave={() => setHoveredButtonIndex(0)}
-                  >
-                    {item.name}
-                  </a>
-                ))}
+              <div className="hidden flex-1 items-center justify-center sm:flex">
+                <div className="sds flex h-[42px] items-center self-center overflow-hidden rounded-full border-[0.5px] border-white/30 bg-neutral-100 bg-opacity-5 px-2 py-1 backdrop-blur-lg">
+                  <CycleIcons
+                    hoveredItemIndex={hoveredButtonIndex}
+                    icons={navigation.map((nav) => nav.icon)}
+                  />
+                  {navigation.map((item, i) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className={clsx(
+                        "relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal text-white/50 transition-colors duration-700 hover:text-white",
+                        "before:absolute before:-bottom-[17px] before:-z-20 before:h-6 before:w-7 before:bg-white/60 before:opacity-0 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
+                        "after-gradient after:absolute after:-bottom-[2.5px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100"
+                      )}
+                      onMouseEnter={() => setHoveredButtonIndex(i)}
+                      onMouseLeave={() => setHoveredButtonIndex(0)}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="hidden gap-2 sm:flex sm:items-center">
+              <div className="hidden flex-1 gap-2 justify-end sm:flex sm:items-center">
                 <TextButton
                   onClick={() => {
                     router.push("/").catch(console.error);

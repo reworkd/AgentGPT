@@ -152,6 +152,4 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-const HeroExamples = [];
-
 export default Hero;

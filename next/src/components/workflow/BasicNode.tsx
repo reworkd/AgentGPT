@@ -16,7 +16,7 @@ function BasicNode({ data, selected }: NodeProps<WorkflowNode>) {
         selected ? "border-white" : "hover:border-gray-400",
         data.status === "running" && "border border-amber-500",
         data.status === "success" && "border border-green-500",
-        !data.status && "border border-gray-500"
+        !data.status && "border-gradient"
       )}
     >
       <div className="flex items-center">

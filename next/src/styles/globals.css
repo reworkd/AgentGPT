@@ -6,6 +6,12 @@ body {
     background: black;
 }
 
+.border-gradient {
+    background: linear-gradient(black, black) padding-box,
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1)) border-box;
+    border: 1px solid transparent;
+}
+
 .radial-background-1 {
     background-image: radial-gradient(at 170% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% -30%, rgb(21, 94, 117) 0, transparent 50%);
 }

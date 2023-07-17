@@ -27,7 +27,7 @@ const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick 
         <div>{leftIcon}</div>
         <div className="flex flex-col font-inter tracking-normal">
           <h2 className="ml-2s text-[12px] font-semibold md:text-[15px]">{title}</h2>
-          <p className="text-[11px] font-medium md:text-[14px]">{subtitle}</p>
+          <p className="text-[11px] font-light md:text-[14px]">{subtitle}</p>
         </div>
       </div>
       <GlowWrapper>

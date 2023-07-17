@@ -3,9 +3,9 @@ from __future__ import annotations
 import uuid
 from typing import Any, Dict, List
 
-import pinecone
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
+from pinecone import Index  # import doesnt work on plane wifi
 from pydantic import BaseModel
 
 from reworkd_platform.settings import settings
@@ -33,7 +33,7 @@ class PineconeMemory(AgentMemory):
     """
 
     def __init__(self, index_name: str):
-        self.index = pinecone.Index(settings.pinecone_index_name)
+        self.index = Index(settings.pinecone_index_name)
         self.namespace = index_name
 
     @timed_function(level="DEBUG")

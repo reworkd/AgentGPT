@@ -120,7 +120,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 }}
               >
                 <>
-                  <span className="py-2 font-semibold">Contact Us</span>
+                  <span className="py-2 font-semibold">Join the Waitlist</span>
                   <FaChevronRight
                     size="10"
                     className="text-gray-400 transition-transform group-hover:translate-x-1"
@@ -134,7 +134,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               }}
             >
               <>
-                <span className="py-2">Explore AI Agents</span>
+                <span className="py-2">AI Agents</span>
                 <FaChevronRight
                   size="12"
                   className="text-gray-400 transition-transform group-hover:translate-x-1"

@@ -48,7 +48,7 @@ export default function NavBar() {
                 <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
               <div className="hidden flex-1 items-center justify-center sm:flex">
-                <div className="sds flex h-[42px] items-center self-center overflow-hidden rounded-full border-[0.5px] border-white/30 bg-neutral-100 bg-opacity-5 px-2 py-1 backdrop-blur-lg">
+                <div className="sds flex h-[42px] items-center self-center overflow-hidden rounded-full border-[0.5px] border-white/30 bg-opacity-5 px-2 py-1 backdrop-blur-lg">
                   <CycleIcons
                     hoveredItemIndex={hoveredButtonIndex}
                     icons={navigation.map((nav) => nav.icon)}
@@ -70,7 +70,7 @@ export default function NavBar() {
                   ))}
                 </div>
               </div>
-              <div className="hidden flex-1 gap-2 justify-end sm:flex sm:items-center">
+              <div className="hidden flex-1 justify-end gap-2 sm:flex sm:items-center">
                 <TextButton
                   onClick={() => {
                     router.push("/").catch(console.error);

@@ -11,7 +11,9 @@ const HomePage = () => {
       <Image src="/stars.svg" alt="stars" fill className="absolute -z-50" />
 
       <div className="flex h-full max-w-[1440px] flex-col justify-between">
-        <NavBar />
+        <div className="mt-2">
+          <NavBar />
+        </div>
         <main className="mx-auto sm:px-16">
           <Hero />
         </main>

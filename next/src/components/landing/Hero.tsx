@@ -7,8 +7,8 @@ import TextButton from "../TextButton";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import HeroTimeBanner from "../HeroTimeBanner";
+import { FaChevronRight } from "react-icons/fa";
+import HeroCard from "../HeroCard";
 import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
 import SparkleIcon from "../../../public/icons/sparkle-default-regular.svg";
 import PlaneIcon from "../../../public/icons/PlaneIcon.svg";
@@ -69,7 +69,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               animate={{ x: `${sliderIndex * -50}%` }}
               transition={{ duration: 0.5 }}
             >
-              <HeroTimeBanner
+              <HeroCard
                 title="Platformer"
                 subtitle="A Platformer game builder"
                 leftIcon={<GamepadIcon />}
@@ -78,7 +78,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                   router.push("/").catch(console.error);
                 }}
               />
-              <HeroTimeBanner
+              <HeroCard
                 title="TripAdvisor"
                 subtitle="A detailed trip planner"
                 leftIcon={<PlaneIcon />}
@@ -90,9 +90,12 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </motion.div>
             <button
               onClick={() => handleSliderButton(1)}
-              className="absolute right-0 z-30 -mt-12 mr-4 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 align-middle hover:bg-zinc-500 focus:outline-none"
+              className="group absolute -right-4 z-30 -mt-12 mr-4 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
             >
-              <FaChevronRight size={16} />
+              <FaChevronRight
+                size={10}
+                className="text-gray-400 transition-transform group-hover:translate-x-0.5"
+              />
             </button>
           </div>
 

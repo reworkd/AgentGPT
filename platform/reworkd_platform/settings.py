@@ -1,4 +1,3 @@
-import enum
 import platform
 from pathlib import Path
 from tempfile import gettempdir
@@ -11,16 +10,14 @@ from reworkd_platform.constants import ENV_PREFIX
 
 TEMP_DIR = Path(gettempdir())
 
-
-class LogLevel(str, enum.Enum):  # noqa: WPS600
-    """Possible log levels."""
-
-    NOTSET = "NOTSET"
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    FATAL = "FATAL"
+LOG_LEVEL = Literal[
+    "NOTSET",
+    "DEBUG",
+    "INFO",
+    "WARNING",
+    "ERROR",
+    "FATAL",
+]
 
 
 SASL_MECHANISM = Literal[
@@ -54,7 +51,7 @@ class Settings(BaseSettings):
     # Current environment
     environment: ENVIRONMENT = "development"
 
-    log_level: LogLevel = LogLevel.INFO
+    log_level: LOG_LEVEL = "INFO"
 
     # OpenAI
     openai_api_base: str = "https://api.openai.com/v1"

@@ -5,6 +5,7 @@ import GlowWrapper from "../GlowWrapper";
 
 interface CycleItemsProps extends PropsWithChildren {
   className?: string;
+  currentIndex: number;
   hoveredItemIndex: number;
   icons: React.ReactNode[];
 }
@@ -16,7 +17,7 @@ const CycleIcons = (props: CycleItemsProps) => {
         <motion.div
           className="flex gap-2"
           animate={{
-            x: -24 * props.hoveredItemIndex,
+            x: props.hoveredItemIndex ? -24 * props.hoveredItemIndex : -24 * props.currentIndex,
           }}
           transition={{ type: "spring", duration: 0.5, stiffness: 60, damping: 10 }}
         >

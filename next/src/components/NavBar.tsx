@@ -13,10 +13,9 @@ import PrimaryButton from "./PrimaryButton";
 import CycleIcons from "./motions/CycleIcons";
 import React from "react";
 import MegaphoneIcon from "../../public/icons/megaphone-default-regular.svg";
-import GlowWrapper from "./GlowWrapper";
 
 const navigation = [
-  { name: "Home", href: "/", icon: <HomeIcon /> },
+  { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
   { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <MegaphoneIcon /> },
   { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <BarcodeIcon /> },
   {
@@ -29,6 +28,7 @@ const navigation = [
 
 export default function NavBar() {
   const router = useRouter();
+  const currentIndex = navigation.findIndex((nav) => nav.href === router.pathname);
   const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (
@@ -50,6 +50,7 @@ export default function NavBar() {
               <div className="hidden flex-1 items-center justify-center xmd:flex">
                 <div className="border-gradient flex h-[42px] items-center self-center overflow-hidden rounded-full bg-opacity-5 px-2 py-1 backdrop-blur-lg">
                   <CycleIcons
+                    currentIndex={currentIndex}
                     hoveredItemIndex={hoveredButtonIndex}
                     icons={navigation.map((nav) => nav.icon)}
                   />
@@ -58,9 +59,10 @@ export default function NavBar() {
                       key={item.name}
                       href={item.href}
                       className={clsx(
-                        "relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal text-white/50 transition-colors duration-700 hover:text-white",
-                        "before:absolute before:-bottom-[17px] before:-z-20 before:h-6 before:w-7 before:bg-white/60 before:opacity-0 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
-                        "after-gradient after:absolute after:-bottom-[2.5px] after:h-[1px] after:w-14 after:px-2 after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100"
+                        "relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal  transition-colors duration-700 hover:text-white",
+                        "before:absolute before:-bottom-[17px] before:-z-20 before:h-6 before:w-7 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
+                        "after-gradient after:absolute after:-bottom-[2.5px] after:h-[1px] after:w-14 after:px-2  after:transition-opacity after:duration-700 hover:after:opacity-100",
+                        currentIndex !== i && "text-white/50 before:opacity-0 after:opacity-0"
                       )}
                       onMouseEnter={() => setHoveredButtonIndex(i)}
                       onMouseLeave={() => setHoveredButtonIndex(0)}
@@ -84,21 +86,19 @@ export default function NavBar() {
                     />
                   </>
                 </TextButton>
-                <GlowWrapper>
-                  <PrimaryButton
-                    onClick={() => {
-                      router.push("/").catch(console.error);
-                    }}
-                  >
-                    <>
-                      <span>Contact Us</span>
-                      <FaChevronRight
-                        size="12"
-                        className="text-gray-400 transition-transform group-hover:translate-x-1"
-                      />
-                    </>
-                  </PrimaryButton>
-                </GlowWrapper>
+                <PrimaryButton
+                  onClick={() => {
+                    router.push("/").catch(console.error);
+                  }}
+                >
+                  <>
+                    <span>Contact Us</span>
+                    <FaChevronRight
+                      size="12"
+                      className="text-gray-400 transition-transform group-hover:translate-x-1"
+                    />
+                  </>
+                </PrimaryButton>
               </div>
               <div className="-mr-2 flex items-center xmd:hidden">
                 {/* Mobile menu button */}

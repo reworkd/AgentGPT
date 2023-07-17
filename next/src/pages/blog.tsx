@@ -72,7 +72,7 @@ const posts: Post[] = [
     datetime: "2023-03-15",
     category: { title: "Operations", href: "#" },
     author: {
-      name: "Srijan Gupta",
+      name: "Srijan spitOnThe",
       role: "COO / Co-Founder",
       href: "#",
       imageUrl:

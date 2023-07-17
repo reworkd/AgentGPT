@@ -21,63 +21,100 @@ interface Post {
     imageUrl: string;
   };
 }
-
 const posts: Post[] = [
   {
-    id: 1,
-    title: "Boost your conversion rate",
+    id: 4,
+    title: "Asim - CEO",
     href: "#",
     description:
-      "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.",
+      "Asim is a visionary leader with expertise in marketing strategies and business development. He specializes in leveraging the power of digital marketing to drive growth and brand recognition. Asim is passionate about staying ahead of the curve in the ever-evolving marketing landscape.",
     imageUrl:
-      "https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80",
-    date: "Mar 16, 2020",
-    datetime: "2020-03-16",
+      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    date: "Jan 10, 2023",
+    datetime: "2023-01-10",
     category: { title: "Marketing", href: "#" },
     author: {
-      name: "Michael Foster",
-      role: "Co-Founder / CTO",
+      name: "Asim Patel",
+      role: "CEO",
       href: "#",
       imageUrl:
         "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     },
   },
   {
-    id: 2,
-    title: "Improve your website performance",
+    id: 5,
+    title: "Adam - CTO",
     href: "#",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat eget justo sed euismod. Suspendisse id nunc nec neque commodo consectetur. Nam rhoncus malesuada sagittis.",
+      "Adam is a seasoned technologist with a deep understanding of cutting-edge technologies. He leads the technical team and drives innovation in the development of high-performance web applications. Adam is passionate about leveraging technology to solve complex problems and deliver exceptional user experiences.",
     imageUrl:
       "https://images.unsplash.com/photo-1557683316-e10201644e2b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3600&q=80",
-    date: "May 25, 2021",
-    datetime: "2021-05-25",
-    category: { title: "Web Development", href: "#" },
+    date: "Feb 20, 2023",
+    datetime: "2023-02-20",
+    category: { title: "Tech", href: "#" },
     author: {
-      name: "Jessica Thompson",
-      role: "Lead Developer",
+      name: "Adam Johnson",
+      role: "CTO",
       href: "#",
       imageUrl:
-        "https://images.unsplash.com/photo-1547658712-52b7da6c3eb7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "https://images.unsplash.com/photo-1557683316-e10201644e2b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3600&q=80",
     },
   },
   {
-    id: 3,
-    title: "Master the art of social media marketing",
+    id: 6,
+    title: "Srijan - COO",
     href: "#",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat eget justo sed euismod. Suspendisse id nunc nec neque commodo consectetur. Nam rhoncus malesuada sagittis.",
+      "Srijan is a strategic thinker and operations expert. As the COO, he ensures smooth business operations and efficient execution of projects. Srijan excels at streamlining processes, optimizing resources, and fostering collaboration across teams. His strong leadership skills drive organizational success.",
     imageUrl:
       "https://images.unsplash.com/photo-1581091201117-8c7a6811e9c1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3600&q=80",
-    date: "Oct 12, 2021",
-    datetime: "2021-10-12",
-    category: { title: "Social Media", href: "#" },
+    date: "Mar 15, 2023",
+    datetime: "2023-03-15",
+    category: { title: "Operations", href: "#" },
     author: {
-      name: "Emily Collins",
-      role: "Social Media Manager",
+      name: "Srijan Gupta",
+      role: "COO",
       href: "#",
       imageUrl:
-        "https://images.unsplash.com/photo-1579791844743-5f43b31c3223?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "https://images.unsplash.com/photo-1581091201117-8c7a6811e9c1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+  },
+  {
+    id: 7,
+    title: "Jasan - Software Developer",
+    href: "#",
+    description:
+      "Jasan is a skilled software developer with a passion for building innovative solutions. He specializes in developing robust and scalable applications using the latest technologies. Jasan loves tackling complex coding challenges and is dedicated to delivering high-quality software products.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    date: "Apr 5, 2023",
+    datetime: "2023-04-05",
+    category: { title: "Tech", href: "#" },
+    author: {
+      name: "Jasan Lee",
+      role: "Software Developer",
+      href: "#",
+      imageUrl:
+        "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+  },
+  {
+    id: 8,
+    title: "Joe - Software Developer",
+    href: "#",
+    description:
+      "Joe is a passionate software developer with expertise in building cutting-edge applications. He loves exploring new technologies and enjoys working on projects that involve artificial intelligence and machine learning. Joe is dedicated to creating software solutions that make a positive impact.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1560807707-9aa6ce70a7cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    date: "May 10, 2023",
+    datetime: "2023-05-10",
+    category: { title: "Tech", href: "#" },
+    author: {
+      name: "Joe Smith",
+      role: "Software Developer",
+      href: "#",
+      imageUrl:
+        "https://images.unsplash.com/photo-1560807707-9aa6ce70a7cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     },
   },
 ];

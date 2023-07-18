@@ -84,7 +84,6 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             <button
               onClick={() => handleSliderButtonLeft(1)}
               className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
-              className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
             >
               <FaChevronLeft
                 size={10}

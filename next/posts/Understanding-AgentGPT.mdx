@@ -257,6 +257,24 @@ Using API tools in combination with prompt engineering techniques, we can create
 function calls and utilize the output of API requests to enhance the agent's capabilities. This enables agents to
 interact with the environment in a meaningful way beyond text-based interactions.
 
+### Engineering Robust Function Calls
+
+Again, we can achieve tooling through prompt engineering by _representing the tool we want to provide for the model_ as a **function**. _We can then tell the model that this function exists in a prompt, so our program can call it programmatically based on the model's response_. First, however, we should examine the main challenges in implementing tool interactions: consistency, context, and format.
+
+For example, responses tend to vary among chat completions that use the same prompt. Thus, getting the LLM to issue a function call consistently is challenging. A minor solution may include adjusting the **temperature** of the model (a parameter to control the randomness), but the best solution should leverage an LLM's reasoning abilities. Thus, _we can use the ReAct framework to help the llm understand when to issue function calls._
+
+In doing this, we will still run into another major issue. How will the LLMs understand what tools are at their disposal? We could include the available tools in a prompt, but this could significantly increase the number of tokens we would need to send to the model. While this may be fine for an application that runs on a couple of tools, it will increase costs as we add more tools to the system. Thus, _we would use vector databases to help the LLM look up relevant tools it needs._
+
+Finally, we need to generate function calls in a predictable format. This format should include provisions for the name of the function and the parameters it takes, and it must include delimiters that allow us to parse and execute the response for those parameters programmatically. _For instance, you can prompt the model to only return responses in JSON and then use built-in Python libraries to parse the stringified JSON._
+
+Recently, it became even easier to use this type of method as well. In late June, OpenAI released **gpt-4-0613** and **gpt-3.5-turbo-16k-0613** (whew, these names are getting long). They natively support function calls by using a model fine-tuned for JSON to return easy-to-use function calls. You can read more about it [here](https://platform.openai.com/docs/guides/gpt/function-calling).
+
+## The future of LLM-powered agents is bright!
+
+Large language models have been one of the most significant advances of the past decade. Capable of reasoning and talking like a human, they appear to be able to do anything. Despite this, several engineering challenges arise in building around an LLM, such as context limits, reasoning, and long-term retention.
+
+Using the methods described above, **AgentGPT** unlocks the full potential of powerful models such as GPT-4. _We can give any model superpowers using novel prompting methods, efficient vector databases, and abundant API tools_. It's only the start, and we hope you'll join us on this journey.
+
 ## Conclusion
 
 AgentGPT represents a powerful approach to building AI agents that reason, remember, and perform. By leveraging prompt
@@ -270,3 +288,7 @@ provide agents with access to a vast pool of knowledge and resources.
 AgentGPT is a step towards unlocking the full potential of LLMs and creating intelligent agents that can assist and
 collaborate with humans in various domains. The combination of language models, prompt engineering, external memory,
 and API interactions opens up exciting possibilities for AI agents in the future.
+
+## Extra Resources
+
+Are you interested in learning more about prompt engineering? We encourage you to check out other informational posts on our site, or you can check out the fantastic places below, or if you are interested in contributing, check out our [GitHub repo](https://github.com/reworkd/AgentGPT).

@@ -22,7 +22,7 @@ const Backing = (props: { className?: string }) => (
           <PanacheLogo />
         </a>
       </div>
-      <div className="tracking-wide">Backed By</div>
+      <div className="hidden tracking-wide sm:flex">Backed By</div>
       <a
         className="flex cursor-pointer flex-row items-center gap-1 font-medium text-white/95"
         href="https://www.ycombinator.com/companies/reworkd"

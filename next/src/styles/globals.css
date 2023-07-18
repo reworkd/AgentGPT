@@ -315,3 +315,23 @@ Not supports in Firefox and IE */
 .animate-border-pulse {
     animation: border-pulse-animation 2s infinite;
 }
+@keyframes moveBackground {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 100% 0;
+    }
+  }
+
+  .bg-stars {
+    animation: moveBackground 30s linear infinite;
+    background: url("/stars.svg");
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }

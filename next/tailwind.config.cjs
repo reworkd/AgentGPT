@@ -15,6 +15,25 @@ module.exports = {
             ...defaultTheme.screens
         },
         extend: {
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        color: theme('colors.gray.900'),  // Change color as per your need
+                        a: {
+                            color: theme('colors.blue.500'),  // Change color as per your need
+                            '&:hover': {
+                                color: theme('colors.blue.600'),  // Change color as per your need
+                            },
+                        },
+                        'h1,h2,h3,h4': {
+                            color: theme('colors.white'),  // This is where you change your heading color
+                        },
+                        'b,strong': {
+                            color: theme('colors.gray.500'),  // This is where you change your bold text color
+                        },
+                    },
+                },
+            }),
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))', // Add bg-gradient-radial for radial gradients
             },
@@ -120,6 +139,7 @@ module.exports = {
         },
     },
     plugins: [
+        require('@tailwindcss/typography'),
         require('@tailwindcss/forms'),
         require("tailwindcss-radix"),
     ]

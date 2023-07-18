@@ -16,7 +16,7 @@ import BlogsIcon from "../../public/icons/icon-blogs.svg";
 
 const navigation = [
   { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <BlogsIcon /> },
+  { name: "Blog", href: "/blog", icon: <BlogsIcon /> },
   { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <PricingIcon /> },
   {
     name: "Github",
@@ -28,7 +28,9 @@ const navigation = [
 
 export default function NavBar() {
   const router = useRouter();
-  const currentIndex = navigation.findIndex((nav) => nav.href === router.pathname);
+  const currentIndex = navigation.findIndex(
+    (nav) => router.pathname.includes(nav.href) || router.pathname === nav.href
+  );
   const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (

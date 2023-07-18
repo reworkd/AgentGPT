@@ -15,7 +15,7 @@ const postsDirectory = path.join(process.cwd(), "posts");
 export function getSortedPostsData(): SlugData[] {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData: SlugData[] = fileNames.map((fileName) => {
-    const id = fileName.replace(/\.md$/, "");
+    const id = fileName.replace(/\.mdx$/, "");
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const matterResult = matter(fileContents);
@@ -44,7 +44,7 @@ export interface PostData {
 }
 
 export function getPostData(slug: string): PostData {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
+  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
 

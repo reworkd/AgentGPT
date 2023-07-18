@@ -35,7 +35,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
-          <div>
+          <div className="flex flex-col items-center sm:items-start">
             <h1 className="bg-gradient-to-r from-white to-transparent bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 AI Agents at
@@ -43,12 +43,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 Your Fingertips.
               </div>
             </h1>
-            <div className="w-4/5">
-              <p className="my-3 inline-block w-full bg-gradient-to-r from-white via-white via-50% to-neutral-600 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent">
-                Create and deploy AI agents in seconds. Leverage agents to automate the workflows
-                you once spent countless human hours on. Experience a new way of working.
-              </p>
-            </div>
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-600 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5">
+              Create and deploy AI agents in seconds. Leverage agents to automate the workflows you
+              once spent countless human hours on. Experience a new way of working.
+            </p>
           </div>
           <div className="relative flex w-full items-center overflow-hidden sm:max-w-[40em]">
             <motion.div
@@ -130,8 +128,8 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
         </FadeIn>
       </div>
       <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
-        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
-        <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
+        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
+        <Spline scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode" />
       </FadeIn>
     </div>
   );

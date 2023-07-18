@@ -17,7 +17,7 @@ import Spline from "@splinetool/react-spline";
 const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const [sliderIndex, setSliderIndex] = useState(0);
-  const totalCards = 3;
+  const totalCards = roles.length;
 
   const handleSliderButton = (increment: number) => {
     const newIndex = (sliderIndex + increment + totalCards) % totalCards;
@@ -63,30 +63,17 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               animate={{ x: `${sliderIndex * -308}px` }}
               transition={{ duration: 0.5, type: "spring", stiffness: 60 }}
             >
-              <HeroCard
-                title="Platformer"
-                subtitle="A Platformer game builder"
-                leftIcon={<GamepadIcon />}
-                onClick={() => {
-                  router.push("/").catch(console.error);
-                }}
-              />
-              <HeroCard
-                title="TripAdvisor"
-                subtitle="A detailed trip planner"
-                leftIcon={<PlaneIcon />}
-                onClick={() => {
-                  router.push("/").catch(console.error);
-                }}
-              />
-              <HeroCard
-                title="TripAdvisor"
-                subtitle="A detailed trip planner"
-                leftIcon={<PlaneIcon />}
-                onClick={() => {
-                  router.push("/").catch(console.error);
-                }}
-              />
+              {roles.map((role, index) => (
+                <HeroCard
+                  key={role.title}
+                  title={role.title}
+                  subtitle={role.subtitle}
+                  leftIcon={role.icon}
+                  onClick={() => {
+                    router.push("/").catch(console.error);
+                  }}
+                />
+              ))}
             </motion.div>
             <div
               id="tests"
@@ -143,5 +130,28 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
     </div >
   );
 };
+
+const roles = [
+  {
+    title: "Researcher",
+    subtitle: "Report on key analytics",
+    icon: <GamepadIcon />,
+  },
+  {
+    title: "Marketer",
+    subtitle: "Advertise our new product",
+    icon: <PlaneIcon />,
+  },
+  {
+    title: "Validator",
+    subtitle: "Ensure data compliancy",
+    icon: <PlaneIcon />,
+  },
+  {
+    title: "Analyzer",
+    subtitle: "Analyze company metrics",
+    icon: <PlaneIcon />,
+  },
+];
 
 export default Hero;

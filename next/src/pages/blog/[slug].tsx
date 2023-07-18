@@ -23,10 +23,12 @@ export default function BlogPost({ postData }) {
 }
 
 export async function getStaticPaths() {
-  const allPostsData = getSortedPostsData();
+  // Fetch the list of blog post slugs or IDs dynamically
+  const slugs = await getSortedPostsData();
 
-  const paths = allPostsData.map(({ id }) => ({
-    params: { slug: id },
+  // Generate the paths based on the slugs
+  const paths = slugs.map((slug) => ({
+    params: { slug },
   }));
 
   return {

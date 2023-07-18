@@ -144,7 +144,7 @@ const roles = [
   {
     title: "Researcher",
     subtitle: "Report on key analytics",
-    icon: <PurpleHeroIcon c />,
+    icon: <PurpleHeroIcon c={true} />,
   },
   {
     title: "Marketer",

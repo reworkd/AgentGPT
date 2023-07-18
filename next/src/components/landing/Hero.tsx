@@ -148,7 +148,7 @@ const roles = [
   },
   {
     title: "Marketer",
-    subtitle: "Advertise our new product",
+    subtitle: "Create new campaigns",
     icon: <OrangeHeroIcon />,
   },
   {

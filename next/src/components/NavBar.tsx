@@ -95,7 +95,7 @@ export default function NavBar() {
                     <span>Contact Us</span>
                     <FaChevronRight
                       size="12"
-                      className="text-gray-400 transition-transform group-hover:translate-x-1"
+                      className="text-gray-700 transition-transform group-hover:translate-x-1"
                     />
                   </>
                 </PrimaryButton>

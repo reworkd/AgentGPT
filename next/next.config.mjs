@@ -25,6 +25,22 @@ const config = {
       use: ['@svgr/webpack'],
     })
     return config;
+  },
+  rewrites() {
+      return {
+          beforeFiles: [
+              {
+                  source: '/:path*',
+                  has: [
+                      {
+                          type: 'host',
+                          value: 'reworkd.ai',
+                      },
+                  ],
+                  destination: '/landing-page',
+              },
+          ]
+      }
   }
 };
 

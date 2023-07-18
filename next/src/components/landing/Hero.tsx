@@ -133,7 +133,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 }}
               >
                 <>
-                  <span className="py-2 font-semibold">Join the Waitlist</span>
+                  <span className="py-2 font-medium">Join the Waitlist</span>
                   <FaChevronRight
                     size="10"
                     className="text-gray-400 transition-transform group-hover:translate-x-1"

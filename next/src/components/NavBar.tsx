@@ -73,7 +73,7 @@ export default function NavBar() {
               <div className="hidden justify-end gap-2 xmd:flex sm:items-center lg:flex-1">
                 <TextButton
                   onClick={() => {
-                    router.push("/").catch(console.error);
+                    router.push("https://agentgpt.reworkd.ai/").catch(console.error);
                   }}
                 >
                   <>

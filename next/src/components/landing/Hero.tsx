@@ -122,7 +122,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </GlowWrapper>
             <TextButton
               onClick={() => {
-                router.push("/").catch(console.error);
+                router.push("https://agentgpt.reworkd.ai/").catch(console.error);
               }}
             >
               <>

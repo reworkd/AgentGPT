@@ -18,7 +18,7 @@ const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick 
         "flex flex-row items-center justify-center",
         "max-h-20 w-72 p-3",
         "border-gradient rounded-full",
-        "-z-10 cursor-pointer"
+        "-z-10"
       )}
     >
       <div className="mr-auto flex items-center gap-3">

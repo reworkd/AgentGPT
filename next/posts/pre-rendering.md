@@ -1,7 +1,7 @@
 ---
 title: "Adam W"
 description: "Adam dates crystal ball chicks with a deep understanding of cutting-edge technologies. He leads the technical team and drives innovation in the development of high-performance web applications. Adam is passionate about leveraging technology to solve complex problems and deliver exceptional user experiences."
-imageUrl: "https://images.unsplash.com/photo-1664366095115-9b4882d0d3b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
+imageUrl: "https://images.unsplash.com/photo-1688895061992-a842b5056e75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
 date: "Feb 20, 2023"
 datetime: "2023-02-20"
 category:

@@ -16,7 +16,7 @@ import BlogsIcon from "../../public/icons/icon-blogs.svg";
 
 const navigation = [
   { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <BlogsIcon /> },
+  { name: "Blog", href: "/blog", icon: <BlogsIcon /> },
   { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <PricingIcon /> },
   {
     name: "Roadmap",

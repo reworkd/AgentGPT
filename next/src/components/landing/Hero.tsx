@@ -7,7 +7,7 @@ import TextButton from "../TextButton";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import HeroCard from "../HeroCard";
 import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
 import GreenHeroIcon from "../../../public/icons/icon-hero-green.svg";
@@ -22,9 +22,18 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalCards = roles.length;
 
-  const handleSliderButton = (increment: number) => {
-    const newIndex = (sliderIndex + increment + totalCards) % totalCards;
-    setSliderIndex(newIndex);
+  const handleSliderButtonLeft = (decrement: number) => {
+    if (sliderIndex != 0) {
+      const newIndex = (sliderIndex - decrement + totalCards) % totalCards;
+      setSliderIndex(newIndex);
+    }
+  };
+
+  const handleSliderButtonRight = (increment: number) => {
+    if (sliderIndex != roles.length - 2) {
+      const newIndex = (sliderIndex + increment + totalCards) % totalCards;
+      setSliderIndex(newIndex);
+    }
   };
 
   return (
@@ -70,30 +79,42 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               Experience a new way of working.
             </p>
           </div>
-          <div className="relative hidden w-full items-center overflow-hidden sm:max-w-[40em] md:flex">
-            <motion.div
-              className="z-20 flex gap-5"
-              animate={{ x: `${sliderIndex * -308}px` }}
-              transition={{ duration: 0.5, type: "spring", stiffness: 60 }}
+
+          <div className="relative hidden w-full items-center sm:max-w-[40em] md:flex">
+            <button
+              onClick={() => handleSliderButtonLeft(1)}
+              className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
             >
-              {roles.map((role, index) => (
-                <HeroCard
-                  key={role.title}
-                  title={role.title}
-                  subtitle={role.subtitle}
-                  leftIcon={role.icon}
-                  onClick={() => {
-                    router.push("/").catch(console.error);
-                  }}
-                />
-              ))}
-            </motion.div>
+              <FaChevronLeft
+                size={10}
+                className="text-gray-400 transition-transform group-hover:translate-x-0.5"
+              />
+            </button>
+            <div className="relative hidden w-full items-center overflow-hidden sm:max-w-[40em] md:flex">
+              <motion.div
+                className="z-20 flex gap-5"
+                animate={{ x: `${sliderIndex * -308}px` }}
+                transition={{ duration: 0.5, type: "spring", stiffness: 60 }}
+              >
+                {roles.map((role, index) => (
+                  <HeroCard
+                    key={role.title}
+                    title={role.title}
+                    subtitle={role.subtitle}
+                    leftIcon={role.icon}
+                    onClick={() => {
+                      router.push("/").catch(console.error);
+                    }}
+                  />
+                ))}
+              </motion.div>
+            </div>
             <div
               id="tests"
               className="absolute right-0 z-20 h-full w-10 bg-gradient-to-r from-transparent to-black to-75% text-white sm:w-40"
             />
             <button
-              onClick={() => handleSliderButton(1)}
+              onClick={() => handleSliderButtonRight(1)}
               className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
             >
               <FaChevronRight
@@ -164,3 +185,4 @@ const roles = [
 ];
 
 export default Hero;
+

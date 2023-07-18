@@ -36,14 +36,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div>
-            <h1
-              className={clsx(
-                "pb-2 text-left font-normal tracking-[.09rem]",
-                "text-3xl md:text-5xl lg:text-6xl xl:text-7xl",
-                "bg-clip-text text-transparent",
-                "bg-gradient-to-r from-white to-transparent"
-              )}
-            >
+            <h1 className="bg-gradient-to-r from-white to-transparent bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 AI Agents at
                 <br />
@@ -51,15 +44,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </div>
             </h1>
             <div className="w-4/5">
-              <p
-                className={clsx(
-                  "my-3 inline-block w-full font-inter",
-                  "text-left align-top font-light leading-[22px]",
-                  "tracking-[.08rem]",
-                  "bg-gradient-to-r bg-clip-text text-transparent",
-                  "from-white via-white via-50% to-neutral-600"
-                )}
-              >
+              <p className="my-3 inline-block w-full bg-gradient-to-r from-white via-white via-50% to-neutral-600 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent">
                 Create and deploy AI agents in seconds. Leverage agents to automate the workflows
                 you once spent countless human hours on. Experience a new way of working.
               </p>

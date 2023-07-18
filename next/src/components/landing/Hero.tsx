@@ -36,7 +36,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div className="flex flex-col items-center sm:items-start">
-            <h1 className="bg-gradient-to-r from-white to-transparent bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
+            <h1 className="bg-gradient-to-br from-white to-white/50 bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 AI Agents at
                 <br />

@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
+    "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/node": "^18.11.18",

@@ -116,7 +116,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               <PrimaryButton
                 icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
                 onClick={() => {
-                  router.push("/").catch(console.error);
+                  window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
                 }}
               >
                 <>

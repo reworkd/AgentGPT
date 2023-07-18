@@ -88,7 +88,7 @@ export default function NavBar() {
                 </TextButton>
                 <PrimaryButton
                   onClick={() => {
-                    router.push("/").catch(console.error);
+                    window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
                   }}
                 >
                   <>

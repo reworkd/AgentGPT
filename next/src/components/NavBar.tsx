@@ -28,7 +28,9 @@ const navigation = [
 
 export default function NavBar() {
   const router = useRouter();
-  const currentIndex = navigation.findIndex((nav) => nav.href === router.pathname);
+  const currentIndex = navigation.findIndex(
+    (nav) => router.pathname.includes(nav.href) || router.pathname === nav.href
+  );
   const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (

@@ -4,14 +4,12 @@ import Link from "next/link";
 import FooterLinks from "../components/landing/FooterLinks";
 import FadeIn from "../components/motions/FadeIn";
 import AppHead from "../components/AppHead";
-import Image from "next/image";
 import React from "react";
 
 export default function BlogPage({ allPostsData }) {
   return (
     <div className="min-w-screen mx-6 grid min-h-screen place-items-center py-2 selection:bg-purple-700/25 lg:overflow-x-hidden lg:overflow-y-hidden">
       <AppHead title="Reworkd Blog" />
-      <Image src="/stars.svg" alt="stars" fill className="absolute -z-50" />
 
       <div className="flex h-full w-full max-w-[1440px] flex-col justify-between overflow-hidden">
         <NavBar />
@@ -26,68 +24,60 @@ export default function BlogPage({ allPostsData }) {
                     <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                       Reblogd
                     </h2>
-                    <p className="mt-2 text-lg leading-8 text-neutral-400">
-                      Learn exciting updates on Reworkd's Projects & Latest Developments in Tech.
-                    </p>
                   </div>
                 </div>
               </main>
               <div className="flex-grow overflow-y-auto">
                 <div className="mx-auto mb-8 max-w-2xl sm:mb-16">
-                  {allPostsData.map(
-                    ({ id, title, date, description, imageUrl, category, author }) => (
-                      <article key={id} className="flex flex-col items-start justify-between">
-                        <div className="relative w-full">
-                          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                  {allPostsData.map(({ id, title, date, imageUrl, category, author }) => (
+                    <article key={id} className="flex flex-col items-start justify-between">
+                      <div className="relative w-full">
+                        <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                        <img
+                          src={imageUrl}
+                          alt=""
+                          className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                        />
+                      </div>
+                      <div className="max-w-xl">
+                        <div className="mt-4 flex items-center gap-x-2 text-xs sm:mt-6 sm:text-sm">
+                          <time dateTime={date} className="text-gray-300">
+                            {date}
+                          </time>
+                          <a
+                            href={category.href}
+                            className="relative z-10 rounded-full bg-gray-300 px-2 py-0.5 font-medium text-gray-600 hover:bg-gray-400"
+                          >
+                            {category.title}
+                          </a>
+                        </div>
+                        <div className="group relative">
+                          <h3 className="mt-2 text-lg font-semibold leading-6 text-white group-hover:text-gray-400 sm:mt-4">
+                            <Link href={`/blog/${id}`}>
+                              <span className="absolute inset-0" />
+                              {title}
+                            </Link>
+                          </h3>
+                        </div>
+                        <div className="relative mb-10 mt-4 flex items-center gap-x-2 sm:mt-6">
                           <img
-                            src={imageUrl}
+                            src={author.imageUrl}
                             alt=""
-                            className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                            className="h-8 w-8 rounded-full bg-gray-100 sm:h-10 sm:w-10"
                           />
-                        </div>
-                        <div className="max-w-xl">
-                          <div className="mt-4 flex items-center gap-x-2 text-xs sm:mt-6 sm:text-sm">
-                            <time dateTime={date} className="text-gray-300">
-                              {date}
-                            </time>
-                            <a
-                              href={category.href}
-                              className="relative z-10 rounded-full bg-gray-300 px-2 py-0.5 font-medium text-gray-600 hover:bg-gray-400"
-                            >
-                              {category.title}
-                            </a>
-                          </div>
-                          <div className="group relative">
-                            <h3 className="mt-2 text-lg font-semibold leading-6 text-white group-hover:text-gray-400 sm:mt-4">
-                              <Link href={`/blog/${id}`}>
+                          <div className="text-sm leading-6">
+                            <p className="font-semibold text-white">
+                              <a href={author.href}>
                                 <span className="absolute inset-0" />
-                                {title}
-                              </Link>
-                            </h3>
-                            <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-300 sm:mt-3">
-                              {description}
+                                {author.name}
+                              </a>
                             </p>
-                          </div>
-                          <div className="relative mb-10 mt-4 flex items-center gap-x-2 sm:mt-6">
-                            <img
-                              src={author.imageUrl}
-                              alt=""
-                              className="h-8 w-8 rounded-full bg-gray-100 sm:h-10 sm:w-10"
-                            />
-                            <div className="text-sm leading-6">
-                              <p className="font-semibold text-white">
-                                <a href={author.href}>
-                                  <span className="absolute inset-0" />
-                                  {author.name}
-                                </a>
-                              </p>
-                              <p className="text-gray-300">{author.role}</p>
-                            </div>
+                            <p className="text-gray-300">{author.role}</p>
                           </div>
                         </div>
-                      </article>
-                    )
-                  )}
+                      </div>
+                    </article>
+                  ))}
                 </div>
               </div>
               <footer className="flex flex-col items-center justify-center gap-2 pb-2 sm:gap-4 sm:pb-4 lg:flex-row">

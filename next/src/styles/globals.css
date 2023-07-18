@@ -8,7 +8,6 @@ body {
 
 .resend-font-effect-hero {
     /* #Resend */
-    -webkit-text-stroke: 0.4px rgba(255, 255, 255, 0.3);
     -webkit-text-fill-color: transparent;
     text-shadow: -1px -1px 0 hsla(0, 0%, 100%, .15), 1px 1px 0 rgba(0, 0, 0, .1);
 }

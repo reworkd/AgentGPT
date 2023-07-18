@@ -74,7 +74,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 </span>
               </div>
             </h1>
-            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-light leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-[400] leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
               Leverage AI Agents to automate the workflows you once spent countless human hours on.
               Experience a new way of working.
             </p>
@@ -83,7 +83,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <div className="relative hidden w-full items-center sm:max-w-[40em] md:flex">
             <button
               onClick={() => handleSliderButtonLeft(1)}
-              className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
+              className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
             >
               <FaChevronLeft
                 size={10}
@@ -115,7 +115,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             />
             <button
               onClick={() => handleSliderButtonRight(1)}
-              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30"
+              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
             >
               <FaChevronRight
                 size={10}
@@ -133,7 +133,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 }}
               >
                 <>
-                  <span className="py-2 font-semibold">Join the Waitlist</span>
+                  <span className="py-2 font-medium">Join the Waitlist</span>
                   <FaChevronRight
                     size="10"
                     className="text-gray-400 transition-transform group-hover:translate-x-1"

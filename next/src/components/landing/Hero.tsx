@@ -39,12 +39,12 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
           className="hidden md:flex"
         />
-        <video autoPlay loop muted className="max-h-72 md:hidden">
+        <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
           <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
         </video>
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
-        <div className="relative flex flex-col items-center gap-12 md:items-start">
+        <div className="relative flex flex-col items-center gap-4 md:items-start md:gap-12">
           <BannerBadge
             href="https://www.ycombinator.com/launches/J1r-reworkd-ai-the-open-source-zapier-of-ai-agents"
             target="_blank"

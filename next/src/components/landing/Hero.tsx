@@ -26,13 +26,31 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
-      <div className="relative z-10 col-span-1 max-w-full">
+      <FadeIn
+        className="relative z-30 h-full w-full md:flex md:h-[30vw] md:w-[30vw]"
+        delay={0.5}
+        duration={3}
+      >
+        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
+        <Spline
+          scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
+          className="hidden md:flex"
+        />
+        <video autoPlay loop muted className="md:hidden">
+          <source src="/prod.webm" type="video/webm" />
+        </video>
+      </FadeIn>
+      <div className="relative z-10 col-span-1 max-w-full md:order-first">
         <FadeIn
           duration={3}
           initialY={50}
           className="relative flex flex-col items-center gap-12 sm:items-start"
         >
-          <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
+          <BannerBadge
+            href="https://calendly.com/reworkdai/enterprise-customers"
+            target="_blank"
+            className="hidden md:flex"
+          >
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div className="flex flex-col items-center sm:items-start">
@@ -57,7 +75,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               once spent countless human hours on. Experience a new way of working.
             </p>
           </div>
-          <div className="relative flex w-full items-center overflow-hidden sm:max-w-[40em]">
+          <div className="relative hidden w-full items-center overflow-hidden sm:max-w-[40em] md:flex">
             <motion.div
               className="z-20 flex gap-5"
               animate={{ x: `${sliderIndex * -308}px` }}
@@ -123,10 +141,6 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </FadeIn>
       </div >
-      <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
-        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
-        <Spline scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode" />
-      </FadeIn>
     </div >
   );
 };

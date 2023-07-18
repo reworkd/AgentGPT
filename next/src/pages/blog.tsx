@@ -25,16 +25,27 @@ export default function BlogPage({ allPostsData }) {
           </main>
           <div className="flex-grow overflow-y-auto">
             <div className="mx-auto mb-8 max-w-2xl sm:mb-16">
-              {allPostsData.map(({ id, title, date, description, author }) => (
+              {allPostsData.map(({ id, title, date, description, imageUrl, category, author }) => (
                 <article key={id} className="flex flex-col items-start justify-between">
                   <div className="relative w-full">
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                    <img
+                      src={imageUrl}
+                      alt=""
+                      className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                    />
                   </div>
                   <div className="max-w-xl">
                     <div className="mt-4 flex items-center gap-x-2 text-xs sm:mt-6 sm:text-sm">
                       <time dateTime={date} className="text-gray-300">
                         {date}
                       </time>
+                      <a
+                        href={category.href}
+                        className="relative z-10 rounded-full bg-gray-300 px-2 py-0.5 font-medium text-gray-600 hover:bg-gray-400"
+                      >
+                        {category.title}
+                      </a>
                     </div>
                     <div className="group relative">
                       <h3 className="mt-2 text-lg font-semibold leading-6 text-white group-hover:text-gray-400 sm:mt-4">
@@ -47,7 +58,7 @@ export default function BlogPage({ allPostsData }) {
                         {description}
                       </p>
                     </div>
-                    {/* <div className="relative mb-10 mt-4 flex items-center gap-x-2 sm:mt-6">
+                    <div className="relative mb-10 mt-4 flex items-center gap-x-2 sm:mt-6">
                       <img
                         src={author.imageUrl}
                         alt=""
@@ -62,7 +73,7 @@ export default function BlogPage({ allPostsData }) {
                         </p>
                         <p className="text-gray-300">{author.role}</p>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </article>
               ))}

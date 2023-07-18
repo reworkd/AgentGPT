@@ -1,25 +1,28 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+// Define the types for the data
+export interface SlugData {
+  id: string;
+  date: string;
 
-export function getBlogPostSlugs() {
-  const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+  [key: string]: string;
 }
 
-export function getSortedPostsData() {
+const postsDirectory = path.join(process.cwd(), "posts");
+
+export function getSortedPostsData(): SlugData[] {
   const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
-    const id = fileName.replace(/\.md$/, '');
+  const allPostsData: SlugData[] = fileNames.map((fileName) => {
+    const id = fileName.replace(/\.md$/, "");
     const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const fileContents = fs.readFileSync(fullPath, "utf8");
     const matterResult = matter(fileContents);
 
     return {
       id,
-      date: matterResult.data.date, 
+      date: matterResult.data.date as string,
       ...matterResult.data,
     };
   });
@@ -33,9 +36,16 @@ export function getSortedPostsData() {
   });
 }
 
-export function getPostData(slug) {
+export interface PostData {
+  slug: string;
+  content: string;
+
+  [key: string]: string;
+}
+
+export function getPostData(slug: string): PostData {
   const fullPath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
 
   return {

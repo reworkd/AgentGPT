@@ -59,7 +59,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
             </Button>
           </div>
           <hr className="my-2 border border-white/20" />
-          <div className="prose text-gray-200">
+          <div>
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>
         </>

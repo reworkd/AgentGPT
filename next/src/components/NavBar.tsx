@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react";
-import { FaBars, FaChevronRight, FaGithub, FaQuestion } from "react-icons/fa";
+import { FaBars, FaChevronRight, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import HomeIcon from "../../public/icons/icon-home.svg";
 import PricingIcon from "../../public/icons/icon-pricing.svg";
 import DocsIcon from "../../public/icons/icon-docs.svg";
+import RoadmapIcon from "../../public/icons/icon-roadmap.svg";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
 import CycleIcons from "./motions/CycleIcons";
@@ -20,7 +21,7 @@ const navigation = [
   {
     name: "Github",
     href: "https://github.com/reworkd/AgentGPT",
-    icon: <FaGithub className="text-neutral-800" />,
+    icon: <RoadmapIcon />,
   },
   { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocsIcon /> },
 ];
@@ -58,9 +59,7 @@ export default function NavBar() {
                       key={item.name}
                       href={item.href}
                       className={clsx(
-                        "relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal  transition-colors duration-700 hover:text-white",
-                        "before:absolute before:-bottom-[20px] before:-z-20 before:h-6 before:w-12 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
-                        "after-gradient after:absolute after:-bottom-[2.25px] after:h-[1px] after:w-16 after:px-2  after:transition-opacity after:duration-700 hover:after:opacity-100",
+                        "after-gradient relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal transition-colors duration-700 before:absolute before:-bottom-[20px] before:-z-20 before:h-6 before:w-12 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 after:absolute after:-bottom-[2.25px] after:h-[1px] after:w-16 after:px-2 after:transition-opacity after:duration-700  hover:text-white hover:before:opacity-100 hover:after:opacity-100",
                         currentIndex !== i && "text-white/50 before:opacity-0 after:opacity-0"
                       )}
                       onMouseEnter={() => setHoveredButtonIndex(i)}
@@ -119,10 +118,7 @@ export default function NavBar() {
                     key={item.name}
                     as="a"
                     href={item.href}
-                    className={clsx(
-                      "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800",
-                      "block border-l-4 py-2 pl-3 pr-4 text-base"
-                    )}
+                    className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
                   >
                     {item.name}
                   </Disclosure.Button>

@@ -4,10 +4,12 @@ import Hero from "../components/landing/Hero";
 import FooterLinks from "../components/landing/FooterLinks";
 import Backing from "../components/landing/Backing";
 import Image from "next/image";
+import AppHead from "../components/AppHead";
 
 const HomePage = () => {
   return (
     <div className="min-w-screen mx-6 grid min-h-screen place-items-center py-2 selection:bg-purple-700/25 lg:overflow-x-hidden lg:overflow-y-hidden">
+      <AppHead title="Reworkd" />
       <Image src="/stars.svg" alt="stars" fill className="absolute -z-50" />
 
       <div className="flex h-full max-w-[1440px] flex-col justify-between">

@@ -33,24 +33,24 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
       duration={3}
       className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}
     >
-      <div className="relative z-30 h-full w-full md:flex md:h-[30vw] md:w-[30vw]">
-        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
+      <div className="relative z-30 flex h-full w-full justify-center md:flex md:h-[30vw] md:w-[30vw]">
+        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25" />
         <Spline
           scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
           className="hidden md:flex"
         />
-        <video autoPlay loop muted className="md:hidden">
+        <video autoPlay loop muted className="max-h-72 md:hidden">
           <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
         </video>
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
         <div className="relative flex flex-col items-center gap-12 md:items-start">
           <BannerBadge
-            href="https://calendly.com/reworkdai/enterprise-customers"
+            href="https://www.ycombinator.com/launches/J1r-reworkd-ai-the-open-source-zapier-of-ai-agents"
             target="_blank"
             className="hidden md:flex"
           >
-            <span className="">Reworkd raises a 1.25M pre-seed</span>
+            <span className="tracking-wider text-gray-300">Reworkd raises $1.25M pre-seed</span>
           </BannerBadge>
           <div className="flex flex-col items-center md:items-start">
             <h1 className="resend-font-effect-hero bg-gradient-to-br from-white to-white/30 bg-clip-text pb-2 text-center text-5xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
@@ -65,7 +65,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 </span>
               </div>
             </h1>
-            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-light leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
               Leverage AI Agents to automate the workflows you once spent countless human hours on.
               Experience a new way of working.
             </p>

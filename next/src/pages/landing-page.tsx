@@ -22,7 +22,7 @@ const HomePage = () => {
           <footer className="flex flex-col items-center gap-2 pb-4 lg:flex-row">
             <Backing className="flex-grow" />
             <FooterLinks />
-            <div className="font-inter text-sm font-normal text-white/50 lg:order-first">
+            <div className="font-inter text-xs font-normal text-white/30 lg:order-first lg:text-sm">
               &copy; 2023 Reworkd AI, Inc.
             </div>
           </footer>

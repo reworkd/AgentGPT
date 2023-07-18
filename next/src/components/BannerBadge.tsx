@@ -7,20 +7,22 @@ import clsx from "clsx";
 type BadgeProps = PropsWithChildren<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 
 const BannerBadge = ({ children, className, ...props }: BadgeProps) => (
-  <a
-    className={clsx(
-      "animate-border-pulse group relative flex w-max cursor-pointer items-center gap-2 rounded-full border border-purple-300 bg-gradient-to-t from-purple-500/20 via-transparent to-transparent p-1 pl-2 pr-3 text-sm text-white transition-colors hover:bg-purple-300/10",
-      className
-    )}
-    {...props}
-  >
-    <IoSparkles className="mx-1" />
-    <span>{children}</span>
-    <FaChevronRight
-      size={10}
-      className="font-thin text-gray-400 transition-transform duration-300 group-hover:translate-x-1"
-    />
-  </a>
+  <div className="rounded-full bg-gradient-to-tl from-[#A02BFE] via-[#02FCF1] to-[#A02BFE] p-[0.75px] subpixel-antialiased">
+    <a
+      className={clsx(
+        "animate-border-pulse py group relative flex w-max cursor-pointer items-center gap-2 rounded-full bg-black px-4 py-2 text-sm text-white",
+        className
+      )}
+      {...props}
+    >
+      <IoSparkles />
+      <span>{children}</span>
+      <FaChevronRight
+        size={10}
+        className="font-thin text-gray-400 transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </a>
+  </div>
 );
 
 export default BannerBadge;

@@ -6,6 +6,13 @@ body {
     background: black;
 }
 
+.resend-font-effect-hero {
+    /* #Resend */
+    -webkit-text-stroke: 0.4px #ffffff80;
+    -webkit-text-fill-color: transparent;
+    text-shadow: -1px -1px 0 hsla(0, 0%, 100%, .2), 1px 1px 0 rgba(0, 0, 0, .1);
+}
+
 .border-gradient {
     background: linear-gradient(black, black) padding-box,
     linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)) border-box;

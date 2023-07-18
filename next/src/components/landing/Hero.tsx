@@ -54,7 +54,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div className="flex flex-col items-center sm:items-start">
-            <h1 className="bg-gradient-to-r from-white to-transparent bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
+            <h1 className="resend-font-effect-hero bg-gradient-to-br from-white to-white/30 bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 <span
                   className="bg-clip-text text-transparent bg-gradient-to-r from-[#1E26FF] to-[#FF04FF]"
@@ -70,7 +70,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 </span>
               </div>
             </h1>
-            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-600 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5">
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5">
               Create and deploy AI agents in seconds. Leverage agents to automate the workflows you
               once spent countless human hours on. Experience a new way of working.
             </p>

@@ -38,9 +38,18 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <div className="flex flex-col items-center sm:items-start">
             <h1 className="bg-gradient-to-r from-white to-transparent bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
-                AI Agents at
-                <br />
-                Your Fingertips.
+                <span
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-[#1E26FF] to-[#FF04FF]"
+                >
+                  AI
+                </span>{" "}
+                <span
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-white to-transparent"
+                >
+                  Agents at
+                  <br />
+                  Your Fingertips.
+                </span>
               </div>
             </h1>
             <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-600 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5">
@@ -126,12 +135,12 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </TextButton>
           </div>
         </FadeIn>
-      </div>
+      </div >
       <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
         <Spline scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode" />
       </FadeIn>
-    </div>
+    </div >
   );
 };
 

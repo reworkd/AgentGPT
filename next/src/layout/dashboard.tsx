@@ -106,9 +106,9 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           props.rightSidebar && rightSettings.desktop && "lg:pr-64"
         )}
       >
-        <DottedGridBackground className="min-w-screen min-h-screen">
+        <div className="bg-stars animate-stars">
           {props.children}
-        </DottedGridBackground>
+        </div>
       </main>
     </>
   );

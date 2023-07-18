@@ -74,7 +74,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 </span>
               </div>
             </h1>
-            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-light leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-[400] leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
               Leverage AI Agents to automate the workflows you once spent countless human hours on.
               Experience a new way of working.
             </p>

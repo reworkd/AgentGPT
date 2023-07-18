@@ -36,18 +36,20 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
           <div>
-            <h1
-              className={clsx(
-                "pb-2 text-left font-normal tracking-[.09rem]",
-                "text-3xl md:text-5xl lg:text-6xl xl:text-7xl",
-                "bg-clip-text text-transparent",
-                "bg-gradient-to-r from-white to-transparent"
-              )}
-            >
+            <h1 className="pb-2 text-left font-normal tracking-[.09rem] text-3xl md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
-                AI Agents at
-                <br />
-                Your Fingertips.
+                <span
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-[#1E26FF] to-[#FF04FF]"
+                >
+                  AI
+                </span>{" "}
+                <span
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-white to-transparent"
+                >
+                  Agents at
+                  <br />
+                  Your Fingertips.
+                </span>
               </div>
             </h1>
             <div className="w-4/5">
@@ -143,12 +145,12 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </TextButton>
           </div>
         </FadeIn>
-      </div>
+      </div >
       <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
         <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
       </FadeIn>
-    </div>
+    </div >
   );
 };
 

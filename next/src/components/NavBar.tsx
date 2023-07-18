@@ -4,26 +4,26 @@ import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import HomeIcon from "../../public/icons/home-default-regular.svg";
-import BarcodeIcon from "../../public/icons/barcode-default-regular.svg";
-import DocumentIcon from "../../public/icons/document-default-regular.svg";
-import LocationPinIcon from "../../public/icons/locationpin-default-regular.svg";
+import HomeIcon from "../../public/icons/icon-home.svg";
+import PricingIcon from "../../public/icons/icon-pricing.svg";
+import DocsIcon from "../../public/icons/icon-docs.svg";
+import RoadmapIcon from "../../public/icons/icon-roadmap.svg";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
 import CycleIcons from "./motions/CycleIcons";
 import React from "react";
-import MegaphoneIcon from "../../public/icons/megaphone-default-regular.svg";
+import BlogsIcon from "../../public/icons/icon-blogs.svg";
 
 const navigation = [
   { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <MegaphoneIcon /> },
-  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <BarcodeIcon /> },
+  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <BlogsIcon /> },
+  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <PricingIcon /> },
   {
     name: "Roadmap",
     href: "https://github.com/orgs/reworkd/projects/3",
-    icon: <LocationPinIcon />,
+    icon: <RoadmapIcon />,
   },
-  { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocumentIcon /> },
+  { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocsIcon /> },
 ];
 
 export default function NavBar() {
@@ -60,8 +60,8 @@ export default function NavBar() {
                       href={item.href}
                       className={clsx(
                         "relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal  transition-colors duration-700 hover:text-white",
-                        "before:absolute before:-bottom-[17px] before:-z-20 before:h-6 before:w-7 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
-                        "after-gradient after:absolute after:-bottom-[2.5px] after:h-[1px] after:w-14 after:px-2  after:transition-opacity after:duration-700 hover:after:opacity-100",
+                        "before:absolute before:-bottom-[20px] before:-z-20 before:h-6 before:w-12 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
+                        "after-gradient after:absolute after:-bottom-[2.25px] after:h-[1px] after:w-16 after:px-2  after:transition-opacity after:duration-700 hover:after:opacity-100",
                         currentIndex !== i && "text-white/50 before:opacity-0 after:opacity-0"
                       )}
                       onMouseEnter={() => setHoveredButtonIndex(i)}

@@ -35,8 +35,8 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <BannerBadge href="https://calendly.com/reworkdai/enterprise-customers" target="_blank">
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
-          <div>
-            <h1 className="pb-2 text-left font-normal tracking-[.09rem] text-3xl md:text-5xl lg:text-6xl xl:text-7xl">
+          <div className="flex flex-col items-center sm:items-start">
+            <h1 className="bg-gradient-to-r from-white to-transparent bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 <span
                   className="bg-clip-text text-transparent bg-gradient-to-r from-[#1E26FF] to-[#FF04FF]"
@@ -52,20 +52,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 </span>
               </div>
             </h1>
-            <div className="w-4/5">
-              <p
-                className={clsx(
-                  "my-3 inline-block w-full font-inter",
-                  "text-left align-top font-light leading-[22px]",
-                  "tracking-[.08rem]",
-                  "bg-gradient-to-r bg-clip-text text-transparent",
-                  "from-white via-white via-50% to-neutral-600"
-                )}
-              >
-                Create and deploy AI agents in seconds. Leverage agents to automate the workflows
-                you once spent countless human hours on. Experience a new way of working.
-              </p>
-            </div>
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-600 bg-clip-text text-left align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5">
+              Create and deploy AI agents in seconds. Leverage agents to automate the workflows you
+              once spent countless human hours on. Experience a new way of working.
+            </p>
           </div>
           <div className="relative flex w-full items-center overflow-hidden sm:max-w-[40em]">
             <motion.div
@@ -118,11 +108,11 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               <PrimaryButton
                 icon={<Image src="email-24x24.svg" width="24" height="24" alt="Email" />}
                 onClick={() => {
-                  router.push("/").catch(console.error);
+                  window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
                 }}
               >
                 <>
-                  <span className="py-2 font-semibold">Contact Us</span>
+                  <span className="py-2 font-semibold">Join the Waitlist</span>
                   <FaChevronRight
                     size="10"
                     className="text-gray-400 transition-transform group-hover:translate-x-1"
@@ -136,7 +126,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               }}
             >
               <>
-                <span className="py-2">Explore AI Agents</span>
+                <span className="py-2">AI Agents</span>
                 <FaChevronRight
                   size="12"
                   className="text-gray-400 transition-transform group-hover:translate-x-1"
@@ -147,8 +137,8 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
         </FadeIn>
       </div >
       <FadeIn className="relative z-30 hidden h-[30vw] w-[30vw] md:flex" delay={0.5} duration={3}>
-        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-80% opacity-25 blur-lg" />
-        <Spline scene="https://prod.spline.design/RefrpMARTVaJE6YZ/scene.splinecode" />
+        <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
+        <Spline scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode" />
       </FadeIn>
     </div >
   );

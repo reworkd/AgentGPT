@@ -17,11 +17,11 @@ const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick 
       className={clsx(
         "flex flex-row items-center justify-center",
         "max-h-20 w-72 p-3",
-        "rounded-full border border-white/20",
+        "border-gradient rounded-full",
         "-z-10 cursor-pointer"
       )}
     >
-      <div className="mr-auto flex gap-3">
+      <div className="mr-auto flex items-center gap-3">
         <div>{leftIcon}</div>
         <div className="flex flex-col font-inter leading-6 tracking-normal text-transparent">
           <h2

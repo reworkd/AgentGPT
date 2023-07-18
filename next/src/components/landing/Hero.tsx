@@ -15,6 +15,7 @@ import OrangeHeroIcon from "../../../public/icons/icon-hero-orange.svg";
 import BlueHeroIcon from "../../../public/icons/icon-hero-blue.svg";
 import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
+import { env } from "../../env/client.mjs";
 
 const Hero: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           className="hidden md:flex"
         />
         <video autoPlay loop muted className="md:hidden">
-          <source src="/prod.webm" type="video/webm" />
+          <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
         </video>
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">

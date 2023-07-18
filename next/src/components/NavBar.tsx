@@ -19,7 +19,7 @@ const navigation = [
   { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <PricingIcon /> },
   {
     name: "Github",
-    href: "https://github.com/orgs/reworkd/AgentGPT",
+    href: "https://github.com/reworkd/AgentGPT",
     icon: <FaGithub className="text-neutral-800" />,
   },
   { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocsIcon /> },

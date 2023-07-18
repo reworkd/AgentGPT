@@ -28,7 +28,9 @@ const navigation = [
 
 export default function NavBar() {
   const router = useRouter();
-  const currentIndex = navigation.findIndex((nav) => nav.href === router.pathname);
+  const currentIndex = navigation.findIndex(
+    (nav) => router.pathname.includes(nav.href) || router.pathname === nav.href
+  );
   const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (
@@ -39,12 +41,13 @@ export default function NavBar() {
             <div className="align-center flex h-16 flex-row justify-between">
               <div className="flex flex-shrink-0 cursor-pointer items-center lg:flex-1">
                 <Image
-                  src="/wordmark.svg"
-                  width="132"
-                  height="20"
+                  src="/logos/dark-default-solid.svg"
+                  width="25"
+                  height="25"
                   alt="Reworkd AI"
-                  className="mr-2"
+                  className="mb-1 mr-2"
                 />
+                <span className="text-xl font-light tracking-wider">Reworkd</span>
               </div>
               <div className="hidden flex-1 items-center justify-center xmd:flex">
                 <div className="border-gradient flex h-[42px] items-center self-center overflow-hidden rounded-full bg-opacity-5 px-2 py-1 backdrop-blur-lg">

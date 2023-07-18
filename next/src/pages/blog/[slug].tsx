@@ -1,6 +1,6 @@
-import NavBar from "../../../components/NavBar";
+import NavBar from "../../components/NavBar";
 import { useRouter } from "next/router";
-import { getPostData, getSortedPostsData } from "../../../lib/posts";
+import { getPostData, getSortedPostsData } from "../../lib/posts";
 
 export default function BlogPost({ postData }) {
   const router = useRouter();

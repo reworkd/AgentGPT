@@ -9,8 +9,10 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
 import HeroCard from "../HeroCard";
-import GamepadIcon from "../../../public/icons/gamepad-purple-solid.svg";
-import PlaneIcon from "../../../public/icons/PlaneIcon.svg";
+import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
+import GreenHeroIcon from "../../../public/icons/icon-hero-green.svg";
+import OrangeHeroIcon from "../../../public/icons/icon-hero-orange.svg";
+import BlueHeroIcon from "../../../public/icons/icon-hero-blue.svg";
 import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
 
@@ -44,7 +46,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
         <FadeIn
           duration={3}
           initialY={50}
-          className="relative flex flex-col items-center gap-12 sm:items-start"
+          className="relative flex flex-col items-center gap-12 md:items-start"
         >
           <BannerBadge
             href="https://calendly.com/reworkdai/enterprise-customers"
@@ -53,7 +55,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           >
             <span className="">Reworkd raises a 1.25M pre-seed</span>
           </BannerBadge>
-          <div className="flex flex-col items-center sm:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <h1 className="resend-font-effect-hero bg-gradient-to-br from-white to-white/30 bg-clip-text pb-2 text-center text-5xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 <span className="bg-gradient-to-r from-[#1E26FF] to-[#FF04FF] bg-clip-text text-transparent">
@@ -66,7 +68,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 </span>
               </div>
             </h1>
-            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5 sm:text-left">
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-light leading-[22px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
               Leverage AI Agents to automate workflows you once spent countless human hours on.
               Experience a new way of working.
             </p>
@@ -145,22 +147,22 @@ const roles = [
   {
     title: "Researcher",
     subtitle: "Report on key analytics",
-    icon: <GamepadIcon />,
+    icon: <PurpleHeroIcon c />,
   },
   {
     title: "Marketer",
     subtitle: "Advertise our new product",
-    icon: <PlaneIcon />,
+    icon: <OrangeHeroIcon />,
   },
   {
     title: "Validator",
     subtitle: "Ensure data compliancy",
-    icon: <PlaneIcon />,
+    icon: <GreenHeroIcon />,
   },
   {
     title: "Analyzer",
     subtitle: "Analyze company metrics",
-    icon: <PlaneIcon />,
+    icon: <BlueHeroIcon />,
   },
 ];
 

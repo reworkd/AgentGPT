@@ -5,6 +5,7 @@ import FooterLinks from "../components/landing/FooterLinks";
 import Backing from "../components/landing/Backing";
 import Image from "next/image";
 import AppHead from "../components/AppHead";
+import FadeIn from "../components/motions/FadeIn";
 
 const HomePage = () => {
   return (
@@ -17,13 +18,15 @@ const HomePage = () => {
         <main className="mx-auto sm:px-16">
           <Hero />
         </main>
-        <footer className="flex flex-col items-center gap-2 pb-4 lg:flex-row">
-          <Backing className="flex-grow" />
-          <FooterLinks />
-          <div className="font-inter text-sm font-normal text-white/50 lg:order-first">
-            &copy; 2023 Reworkd AI, Inc.
-          </div>
-        </footer>
+        <FadeIn initialY={30} duration={3}>
+          <footer className="flex flex-col items-center gap-2 pb-4 lg:flex-row">
+            <Backing className="flex-grow" />
+            <FooterLinks />
+            <div className="font-inter text-sm font-normal text-white/50 lg:order-first">
+              &copy; 2023 Reworkd AI, Inc.
+            </div>
+          </footer>
+        </FadeIn>
       </div>
     </div>
   );

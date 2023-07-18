@@ -27,12 +27,12 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
   };
 
   return (
-    <div className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}>
-      <FadeIn
-        className="relative z-30 h-full w-full md:flex md:h-[30vw] md:w-[30vw]"
-        delay={0.5}
-        duration={3}
-      >
+    <FadeIn
+      delay={0.75}
+      duration={3}
+      className={clsx("grid grid-cols-1 place-items-center gap-2 md:grid-cols-2", className)}
+    >
+      <div className="relative z-30 h-full w-full md:flex md:h-[30vw] md:w-[30vw]">
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25 blur-lg" />
         <Spline
           scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
@@ -41,13 +41,9 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
         <video autoPlay loop muted className="md:hidden">
           <source src="/prod.webm" type="video/webm" />
         </video>
-      </FadeIn>
+      </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
-        <FadeIn
-          duration={3}
-          initialY={50}
-          className="relative flex flex-col items-center gap-12 md:items-start"
-        >
+        <div className="relative flex flex-col items-center gap-12 md:items-start">
           <BannerBadge
             href="https://calendly.com/reworkdai/enterprise-customers"
             target="_blank"
@@ -137,9 +133,9 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
               </>
             </TextButton>
           </div>
-        </FadeIn>
+        </div>
       </div>
-    </div>
+    </FadeIn>
   );
 };
 

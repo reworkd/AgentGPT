@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react";
-import { FaBars, FaChevronRight, FaQuestion } from "react-icons/fa";
+import { FaBars, FaChevronRight, FaGithub, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import HomeIcon from "../../public/icons/icon-home.svg";
 import PricingIcon from "../../public/icons/icon-pricing.svg";
 import DocsIcon from "../../public/icons/icon-docs.svg";
-import RoadmapIcon from "../../public/icons/icon-roadmap.svg";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
 import CycleIcons from "./motions/CycleIcons";
@@ -19,9 +18,9 @@ const navigation = [
   { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <BlogsIcon /> },
   { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <PricingIcon /> },
   {
-    name: "Roadmap",
-    href: "https://github.com/orgs/reworkd/projects/3",
-    icon: <RoadmapIcon />,
+    name: "Github",
+    href: "https://github.com/orgs/reworkd/AgentGPT",
+    icon: <FaGithub className="text-neutral-800" />,
   },
   { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocsIcon /> },
 ];

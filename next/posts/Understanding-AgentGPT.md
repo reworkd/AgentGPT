@@ -1,17 +1,17 @@
 ---
-title: "Arthur Riechert"
-description: "Adam dates crystal ball chicks with a deep understanding of cutting-edge technologies. He leads the technical team and drives innovation in the development of high-performance web applications. Adam is passionate about leveraging technology to solve complex problems and deliver exceptional user experiences."
-imageUrl: "https://images.unsplash.com/photo-1688895061992-a842b5056e75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-date: "Feb 20, 2023"
-datetime: "2023-02-20"
+title: "Understanding AgentGPT: How we build AI agents that reason, remember, and perform."
+description: "How we build AI agents that reason, remember, and perform."
+imageUrl: "https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fef520689-ca1b-4489-98aa-41136f565840%2FCybrCo_Art_human-like_robot_typing_on_a_computer_in_a_dark_room_a0174b88-a5b9-4b82-98c6-734dbbde8d09.webp?id=f768fec9-bd6a-43ae-811d-1adb065c6c8e&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=2000&userId=&cache=v2"
+date: "July 17th, 2023"
+datetime: "2023-07-17"
 category:
   title: "Tech"
   href: "#"
 author:
-  name: "Adam Johnson"
-  role: "CTO / Co-Founder"
+  name: "Arthur Riechert"
+  role: "Writer"
   href: "#"
-  imageUrl: "https://images.unsplash.com/photo-1557683316-e10201644e2b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3600&q=80"
+  imageUrl: "https://pbs.twimg.com/profile_images/1676828916546248704/5YMDlr1U_400x400.jpg"
 ---
 
 # Understanding AgentGPT: How we build AI agents that reason, remember, and perform.
@@ -150,10 +150,6 @@ well as feed sub-steps into future plan-and-solve prompts.
 
 ![Screen Shot 2023-07-01 at 12.25.37 PM.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7273dc94-0e43-42c5-ba8f-aeaf4ddc944a%2FScreen_Shot_2023-07-01_at_12.25.37_PM.png?id=af381437-ef8f-47d6-942b-8ef459af453e&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=800&userId=&cache=v2)
 
-**\*\*\*\***\***\*\*\*\***Caption: Example of a Plan-and-Solve prompt courtesy of this paper:
-**\*\*\*\***\***\*\*\*\*** [_Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language
-Models_](https://arxiv.org/abs/2305.04091)
-
 While PS prompting helps evoke a reasoning response, it still misses a fundamental concept in reasoning, and that is
 proper handling for reflection and action. **Reflection**is _fundamental for any agent because it must rationalize an
 action, perform that action, and use feedback to adjust future actions._ Without it, the agent would be stateless and
@@ -171,9 +167,9 @@ memory. This issue is where vector databases come in, and we will look at those 
 
 ![Screen Shot 2023-07-03 at 3.12.56 AM.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7daa5245-cd1b-44d6-9b6b-71741f9ac6c3%2FScreen_Shot_2023-07-03_at_3.12.56_AM.png?id=4864c843-3dca-4046-9a08-8a8328db98b0&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=800&userId=&cache=v2)
 
-\***\*\*\*\***Caption: The ReAct framework allows us to generate a reasoning response, an action, and a reflection to
-steer the model’s response. This example is courtesy of the following
-paper: [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)\*
+> The ReAct framework allows us to generate a reasoning response, an action, and a reflection to
+> steer the model’s response. This example is courtesy of the following
+> paper: [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)\*
 
 ## How do we give agents a working memory? 🚀
 

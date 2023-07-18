@@ -4,6 +4,11 @@ import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
+export function getBlogPostSlugs() {
+    const fileNames = fs.readdirSync(postsDirectory);
+    return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+  }
+
 export function getSortedPostsData() {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {

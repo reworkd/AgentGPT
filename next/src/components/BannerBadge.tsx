@@ -15,7 +15,6 @@ const BannerBadge = ({ children, className, ...props }: BadgeProps) => (
       )}
       {...props}
     >
-      <IoSparkles />
       <span>{children}</span>
       <FaChevronRight
         size={10}

@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react";
-import { FaBars, FaChevronRight, FaQuestion } from "react-icons/fa";
+import { FaBars, FaChevronRight, FaTimes } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
@@ -39,13 +39,12 @@ export default function NavBar() {
             <div className="align-center flex h-16 flex-row justify-between">
               <div className="flex flex-shrink-0 cursor-pointer items-center lg:flex-1">
                 <Image
-                  src="/logos/dark-default-gradient.svg"
-                  width="32"
-                  height="32"
+                  src="/wordmark.svg"
+                  width="132"
+                  height="20"
                   alt="Reworkd AI"
                   className="mr-2"
                 />
-                <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
               <div className="hidden flex-1 items-center justify-center xmd:flex">
                 <div className="border-gradient flex h-[42px] items-center self-center overflow-hidden rounded-full bg-opacity-5 px-2 py-1 backdrop-blur-lg">
@@ -103,7 +102,7 @@ export default function NavBar() {
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <FaQuestion className="block h-6 w-6" aria-hidden="true" />
+                    <FaTimes className="block h-6 w-6" aria-hidden="true" />
                   ) : (
                     <FaBars className="block h-6 w-6" aria-hidden="true" />
                   )}

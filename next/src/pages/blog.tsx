@@ -1,12 +1,14 @@
 import { getSortedPostsData } from "../lib/posts";
 import NavBar from "../components/NavBar";
-import Link from "next/link";
 import FooterLinks from "../components/landing/FooterLinks";
 import FadeIn from "../components/motions/FadeIn";
 import AppHead from "../components/AppHead";
 import React from "react";
+import { useRouter } from "next/router";
 
 export default function BlogPage({ allPostsData }) {
+  const router = useRouter();
+
   return (
     <div className="min-w-screen mx-6 grid min-h-screen place-items-center py-2 selection:bg-purple-700/25 lg:overflow-x-hidden lg:overflow-y-hidden">
       <AppHead title="Reworkd Blog" />
@@ -28,9 +30,15 @@ export default function BlogPage({ allPostsData }) {
                 </div>
               </main>
               <div className="flex-grow overflow-y-auto">
-                <div className="mx-auto mb-8 max-w-2xl sm:mb-16">
+                <div className="mx-auto mb-8 max-w-2xl cursor-pointer sm:mb-16">
                   {allPostsData.map(({ id, title, date, imageUrl, category, author }) => (
-                    <article key={id} className="flex flex-col items-start justify-between">
+                    <article
+                      key={id}
+                      className="flex flex-col items-start justify-between rounded-lg p-3 transition-all duration-300 hover:bg-white/5"
+                      onClick={() => {
+                        router.push(`/blog/${id}`).catch(console.error);
+                      }}
+                    >
                       <div className="relative w-full">
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                         <img
@@ -44,19 +52,14 @@ export default function BlogPage({ allPostsData }) {
                           <time dateTime={date} className="text-gray-300">
                             {date}
                           </time>
-                          <a
-                            href={category.href}
-                            className="relative z-10 rounded-full bg-gray-300 px-2 py-0.5 font-medium text-gray-600 hover:bg-gray-400"
-                          >
+                          <p className="relative z-10 rounded-full bg-gray-300 px-2 py-0.5 font-medium text-gray-600">
                             {category.title}
-                          </a>
+                          </p>
                         </div>
                         <div className="group relative">
-                          <h3 className="mt-2 text-lg font-semibold leading-6 text-white group-hover:text-gray-400 sm:mt-4">
-                            <Link href={`/blog/${id}`}>
-                              <span className="absolute inset-0" />
-                              {title}
-                            </Link>
+                          <h3 className="mt-2 text-lg font-semibold leading-6 text-white sm:mt-4">
+                            <span className="absolute inset-0" />
+                            {title}
                           </h3>
                         </div>
                         <div className="relative mb-10 mt-4 flex items-center gap-x-2 sm:mt-6">
@@ -66,12 +69,12 @@ export default function BlogPage({ allPostsData }) {
                             className="h-8 w-8 rounded-full bg-gray-100 sm:h-10 sm:w-10"
                           />
                           <div className="text-sm leading-6">
-                            <p className="font-semibold text-white">
-                              <a href={author.href}>
+                            <div className="font-semibold text-white">
+                              <p>
                                 <span className="absolute inset-0" />
                                 {author.name}
-                              </a>
-                            </p>
+                              </p>
+                            </div>
                             <p className="text-gray-300">{author.role}</p>
                           </div>
                         </div>

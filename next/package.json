@@ -38,6 +38,7 @@
     "cookies-next": "^2.1.1",
     "framer-motion": "^10.12.8",
     "graphology": "^0.25.1",
+    "gray-matter": "^4.0.3",
     "html-to-image": "^1.11.11",
     "i18next": "^22.4.15",
     "lodash": "^4.17.21",
@@ -63,6 +64,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
+    "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/node": "^18.11.18",

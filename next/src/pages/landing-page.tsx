@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const HomePage = () => {
   return (
-    <div className="min-w-screen mx-4 grid min-h-screen place-items-center selection:bg-purple-700/25">
+    <div className="min-w-screen mx-4 grid min-h-screen place-items-center selection:bg-purple-700/25 lg:overflow-x-hidden lg:overflow-y-hidden">
       <Image src="/stars.svg" alt="stars" fill className="absolute -z-50" />
 
       <div className="flex h-full max-w-[1440px] flex-col justify-between">

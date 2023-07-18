@@ -56,14 +56,10 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <div className="flex flex-col items-center sm:items-start">
             <h1 className="resend-font-effect-hero bg-gradient-to-br from-white to-white/30 bg-clip-text pb-2 text-center text-3xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
-                <span
-                  className="bg-clip-text text-transparent bg-gradient-to-r from-[#1E26FF] to-[#FF04FF]"
-                >
+                <span className="bg-gradient-to-r from-[#1E26FF] to-[#FF04FF] bg-clip-text text-transparent">
                   AI
                 </span>{" "}
-                <span
-                  className="bg-clip-text text-transparent bg-gradient-to-r from-white to-transparent"
-                >
+                <span className="bg-gradient-to-r from-white to-transparent bg-clip-text text-transparent">
                   Agents at
                   <br />
                   Your Fingertips.
@@ -140,8 +136,8 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
             </TextButton>
           </div>
         </FadeIn>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 

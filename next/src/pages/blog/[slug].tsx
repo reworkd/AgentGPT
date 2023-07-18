@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { getPostData, getSortedPostsData } from "../../lib/posts";
 import ReactMarkdown from "react-markdown";
 import FadeIn from "../../components/motions/FadeIn";
+import FooterLinks from "../../components/landing/FooterLinks";
 
 export default function BlogPost({ postData }) {
   const router = useRouter();
@@ -31,14 +32,20 @@ export default function BlogPost({ postData }) {
               </div>
             </main>
             <div className="mx-auto mb-8 max-w-2xl sm:mb-16">
-              <article className="text-white">
+              <div className="text-white">
                 <h1>{postData.title}</h1>
                 <p>{postData.date}</p>
                 <ReactMarkdown>{postData.content}</ReactMarkdown>
-              </article>
+              </div>
             </div>
           </div>
         </div>
+        <footer className="flex flex-col items-center justify-center gap-2 pb-2 sm:gap-4 sm:pb-4 lg:flex-row">
+          <FooterLinks />
+          <div className="font-inter text-xs font-normal text-gray-300 sm:text-sm lg:order-first">
+            &copy; 2023 Reworkd AI, Inc.
+          </div>
+        </footer>
       </FadeIn>
     </div>
   );

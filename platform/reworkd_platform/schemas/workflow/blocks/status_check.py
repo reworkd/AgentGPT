@@ -1,6 +1,6 @@
 from typing import Optional
 
-import requests
+import aiohttp
 from loguru import logger
 from requests import RequestException
 
@@ -11,7 +11,7 @@ class UrlStatusCheckBlockInput(BlockIOBase):
     url: str
 
 
-class UrlStatusCheckBlockOutput(BlockIOBase):
+class UrlStatusCheckBlockOutput(UrlStatusCheckBlockInput):
     code: Optional[int]
 
 
@@ -22,13 +22,14 @@ class UrlStatusCheckBlock(Block):
     input: UrlStatusCheckBlockInput
 
     async def run(self) -> BlockIOBase:
-        logger.info("Starting UrlStatusCheckBlock")
+        logger.info(f"Starting UrlStatusCheckBlock with url: {self.input.url}")
         try:
-            response = requests.get(self.input.url)
-            code = response.status_code
+            async with aiohttp.ClientSession() as session:
+                async with session.get(self.input.url) as response:
+                    code = response.status
         except RequestException:
-            code = None
+            logger.info(f"UrlStatusCheckBlock errored: {RequestException}")
 
-        logger.info("UrlStatusCheckBlock Code:", code)
-        output = UrlStatusCheckBlockOutput(code=code)
+        logger.info(f"UrlStatusCheckBlock Code: {code}")
+        output = UrlStatusCheckBlockOutput(code=code, **self.input.dict())
         return output

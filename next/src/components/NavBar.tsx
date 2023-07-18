@@ -3,21 +3,33 @@ import { FaBars, FaChevronRight, FaQuestion } from "react-icons/fa";
 import FadeIn from "./motions/FadeIn";
 import clsx from "clsx";
 import Image from "next/image";
-import HomeIcon from "../../public/icons/home-28x28.svg";
 import { useRouter } from "next/router";
+import HomeIcon from "../../public/icons/icon-home.svg";
+import PricingIcon from "../../public/icons/icon-pricing.svg";
+import DocsIcon from "../../public/icons/icon-docs.svg";
+import RoadmapIcon from "../../public/icons/icon-roadmap.svg";
 import TextButton from "./TextButton";
 import PrimaryButton from "./PrimaryButton";
+import CycleIcons from "./motions/CycleIcons";
+import React from "react";
+import BlogsIcon from "../../public/icons/icon-blogs.svg";
 
 const navigation = [
-  { name: "Home", href: "#" },
-  { name: "Blog", href: "https://twitter.com/ReworkdAI" },
-  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan" },
-  { name: "Roadmap", href: "https://github.com/orgs/reworkd/projects/3" },
-  { name: "Docs", href: "https://docs.reworkd.ai/" },
+  { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
+  { name: "Blog", href: "https://twitter.com/ReworkdAI", icon: <BlogsIcon /> },
+  { name: "Pricing", href: "https://agentgpt.reworkd.ai/plan", icon: <PricingIcon /> },
+  {
+    name: "Roadmap",
+    href: "https://github.com/orgs/reworkd/projects/3",
+    icon: <RoadmapIcon />,
+  },
+  { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocsIcon /> },
 ];
 
 export default function NavBar() {
   const router = useRouter();
+  const currentIndex = navigation.findIndex((nav) => nav.href === router.pathname);
+  const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
 
   return (
     <FadeIn duration={3}>
@@ -25,32 +37,42 @@ export default function NavBar() {
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
-              <div className="flex flex-shrink-0 items-center font-extralight">
+              <div className="flex flex-shrink-0 cursor-pointer items-center lg:flex-1">
                 <Image
-                  src="wordmark.svg"
-                  width="132"
-                  height="20"
+                  src="/logos/dark-default-gradient.svg"
+                  width="32"
+                  height="32"
                   alt="Reworkd AI"
                   className="mr-2"
                 />
+                <span className="text-xl font-extralight tracking-wider">Reworkd</span>
               </div>
-              <div className="hidden h-[42px] items-center gap-x-4 self-center rounded-[1000px] border-[1px] border-white/50 px-2 py-1 sm:flex ">
-                <HomeIcon />
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={clsx(
-                      "font-inter text-sm font-medium tracking-normal text-white/50 hover:text-white",
-                      "inline-flex items-center p-2",
-                      "transition-colors duration-300"
-                    )}
-                  >
-                    {item.name}
-                  </a>
-                ))}
+              <div className="hidden flex-1 items-center justify-center xmd:flex">
+                <div className="border-gradient flex h-[42px] items-center self-center overflow-hidden rounded-full bg-opacity-5 px-2 py-1 backdrop-blur-lg">
+                  <CycleIcons
+                    currentIndex={currentIndex}
+                    hoveredItemIndex={hoveredButtonIndex}
+                    icons={navigation.map((nav) => nav.icon)}
+                  />
+                  {navigation.map((item, i) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className={clsx(
+                        "relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal  transition-colors duration-700 hover:text-white",
+                        "before:absolute before:-bottom-[20px] before:-z-20 before:h-6 before:w-12 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 hover:before:opacity-100",
+                        "after-gradient after:absolute after:-bottom-[2.25px] after:h-[1px] after:w-16 after:px-2  after:transition-opacity after:duration-700 hover:after:opacity-100",
+                        currentIndex !== i && "text-white/50 before:opacity-0 after:opacity-0"
+                      )}
+                      onMouseEnter={() => setHoveredButtonIndex(i)}
+                      onMouseLeave={() => setHoveredButtonIndex(0)}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="hidden sm:flex sm:items-center">
+              <div className="hidden justify-end gap-2 xmd:flex sm:items-center lg:flex-1">
                 <TextButton
                   onClick={() => {
                     router.push("/").catch(console.error);
@@ -58,21 +80,27 @@ export default function NavBar() {
                 >
                   <>
                     <span>AI Agents</span>
-                    <FaChevronRight size="12" />
+                    <FaChevronRight
+                      size="12"
+                      className="transition-transform group-hover:translate-x-1"
+                    />
                   </>
                 </TextButton>
                 <PrimaryButton
                   onClick={() => {
-                    router.push("/").catch(console.error);
+                    window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
                   }}
                 >
                   <>
                     <span>Contact Us</span>
-                    <FaChevronRight size="12" />
+                    <FaChevronRight
+                      size="12"
+                      className="text-gray-400 transition-transform group-hover:translate-x-1"
+                    />
                   </>
                 </PrimaryButton>
               </div>
-              <div className="-mr-2 flex items-center sm:hidden">
+              <div className="-mr-2 flex items-center xmd:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
@@ -85,7 +113,7 @@ export default function NavBar() {
               </div>
             </div>
 
-            <Disclosure.Panel className="sm:hidden">
+            <Disclosure.Panel className="xmd:hidden">
               <div className="space-y-1 pb-3 pt-2">
                 {navigation.map((item) => (
                   <Disclosure.Button
@@ -98,7 +126,6 @@ export default function NavBar() {
                     )}
                   >
                     {item.name}
-                    sad
                   </Disclosure.Button>
                 ))}
               </div>

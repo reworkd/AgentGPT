@@ -2,6 +2,7 @@ import { z } from "zod";
 import { get, post, put } from "../fetch-utils";
 import type { Workflow } from "../../types/workflow";
 import { WorkflowSchema } from "../../types/workflow";
+import { delete_ } from "../api-utils";
 
 const WorkflowMetaSchema = z.object({
   id: z.string(),
@@ -9,10 +10,11 @@ const WorkflowMetaSchema = z.object({
   description: z.string(),
 });
 
-type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;
+export type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;
 
 export default class WorkflowApi {
   readonly accessToken?: string;
+
   constructor(accessToken?: string) {
     this.accessToken = accessToken;
   }
@@ -27,6 +29,10 @@ export default class WorkflowApi {
 
   async update(id: string, data: Workflow) {
     return await put(`/api/workflow/${id}`, z.string(), data, this.accessToken);
+  }
+
+  async delete(id: string) {
+    await delete_(`/api/workflow/${id}`, this.accessToken);
   }
 
   async create(workflow: Omit<WorkflowMeta, "id">) {

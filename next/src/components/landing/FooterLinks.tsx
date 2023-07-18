@@ -18,7 +18,7 @@ const FooterLink: FC<FooterLinkProps> = ({ href, children }) => (
 
 const FooterLinks = () => {
   return (
-    <div className="flex cursor-pointer flex-row justify-center space-x-4">
+    <div className="hidden cursor-pointer flex-row justify-center space-x-4 lg:flex">
       <FooterLink href="https://www.ycombinator.com/companies/reworkd/jobs">Careers</FooterLink>
       <FooterLink href="https://status.reworkd.ai">
         <div className="flex items-center gap-3">

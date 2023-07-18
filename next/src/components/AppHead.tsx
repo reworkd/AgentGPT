@@ -1,12 +1,12 @@
 import Head from "next/head";
 
-const AppHead = () => {
+const AppHead = ({ title }: { title?: string }) => {
   // Do not translate. Head attributes won't have access to i18n.
   const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
 
   return (
     <Head>
-      <title>AgentGPT</title>
+      <title>{title ?? "AgentGPT"}</title>
       <meta name="description" content={description} />
       <meta name="twitter:site" content="@AgentGPT" />
       <meta name="twitter:card" content="summary_large_image" />

@@ -16,7 +16,7 @@ const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick 
     <div
       className={clsx(
         "flex flex-row items-center justify-center",
-        "max-h-20 w-72 p-3",
+        "max-h-16 w-72 p-3",
         "border-gradient rounded-full",
         "-z-10"
       )}

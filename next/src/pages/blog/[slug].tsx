@@ -5,7 +5,6 @@ import { getPostData, getSortedPostsData } from "../../lib/posts";
 export default function BlogPost({ postData }) {
   const router = useRouter();
 
-  // If the page is still loading, display a loading message or spinner
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
@@ -13,7 +12,7 @@ export default function BlogPost({ postData }) {
   return (
     <div>
       <NavBar />
-      <article>
+      <article className="text-white">
         <h1 className="text-white">hi</h1>
         <h1>{postData.title}</h1>
         <p>{postData.date}</p>
@@ -37,7 +36,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // Fetch the blog post data based on the slug
   const postData = await getPostData(params.slug);
 
   return {

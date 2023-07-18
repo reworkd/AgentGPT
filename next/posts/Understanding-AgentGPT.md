@@ -14,9 +14,9 @@ author:
   imageUrl: "https://pbs.twimg.com/profile_images/1676828916546248704/5YMDlr1U_400x400.jpg"
 ---
 
-# Understanding AgentGPT: How we build AI agents that reason, remember, and perform.
-
 ![CybrCo_Art_human-like_robot_typing_on_a_computer_in_a_dark_room_a0174b88-a5b9-4b82-98c6-734dbbde8d09.webp](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fef520689-ca1b-4489-98aa-41136f565840%2FCybrCo_Art_human-like_robot_typing_on_a_computer_in_a_dark_room_a0174b88-a5b9-4b82-98c6-734dbbde8d09.webp?id=f768fec9-bd6a-43ae-811d-1adb065c6c8e&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=2000&userId=&cache=v2)
+
+> Alt: A robotic agent types at a laptop in a dark room.
 
 ---
 
@@ -28,11 +28,11 @@ At **Reworkd**, we believe that the _true power of LLMs lies in agentic behavior
 LLMs' emergent abilities and providing an ecosystem that supports environmental interactions, we can draw out the full
 potential of models like GPT-4. Here's how AgentGPT works.
 
-## LLMs have a lot of limitations. 🧐
+## LLMs have a lot of limitations.
 
-The main products shipping LLMs are chatbots powered by *
-*[foundational models](https://www.techopedia.com/definition/34826/foundation-model#:~:text=Today%2C%20foundational%20models%20are%20used%20to%20train%20artificial,language%20processing%20%28NLP%29%20and%20natural%20language%20generation%20%28NLG%29.)
-** like ChatGPT, GPT-4, Claude, etc. These chat interfaces send user messages to the LLM and display completions.
+The main products shipping LLMs are chatbots powered by
+
+[Foundation Model - Techopedia](https://www.techopedia.com/definition/34826/foundation-model).
 
 If you have any familiarity working with OpenAI's API, a common formula you might use for chatting with the model may
 include:
@@ -56,10 +56,7 @@ available to the assistant.
 
 Another issue that standalone LLMs face is the need for human guidance. Fundamentally, LLMs are next-word predictors,
 and often, their internal structure is not inherently suited to higher-order thought processes, such as **reasoning**
-through complex tasks. This weakness doesn't mean they can't or don't reason. In fact, there are
-several [studies](https://arxiv.org/abs/2205.11916#:~:text=While%20these%20successes%20are%20often%20attributed%20to%20LLMs%27,%22Let%27s%20think%20step%20by%20step%22%20before%20each%20answer.)
-that shows they can. However, it does mean they face certain impediments. For example, the LLM itself can create a
-logical list of steps; however, it has _no built-in mechanisms for observation and reflection on that list._
+through complex tasks. This weakness doesn't mean they can't or don't reason. In fact, there are several [studies](https://arxiv.org/abs/2205.11916#:~:text=While%20these%20successes%20are%20often%20attributed%20to%20LLMs%27,%22Let%27s%20think%20step%20by%20step%22%20before%20each%20answer.) that shows they can. However, it does mean they face certain impediments. For example, the LLM itself can create a logical list of steps; however, it has _no built-in mechanisms for observation and reflection on that list._
 
 A pre-trained model is essentially a "black box" for the end user in which the final product that is shipped has
 _limited to no capability of actively updating its knowledge base and tends to act in unpredictable ways_. As a result,
@@ -72,9 +69,11 @@ By providing a platform to give LLMs agentic abilities, _AgentGPT aims to overco
 leveraging prompt engineering techniques, vector databases, and API tooling._ Here’s some interesting work that is being
 done with the agent concept:
 
-[https://twitter.com/DrJimFan/status/1673006745067847683](https://twitter.com/DrJimFan/status/1673006745067847683)
+[![Tweet by Dr. Jim Fan](https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-0&frame=false&hideCard=false&hideThread=false&id=1673006745067847683&lang=en&origin=https%3A%2F%2Fpublish.twitter.com%2F%3Fquery%3Dhttps3A2F2Ftwitter.com2FDrJimFan2Fstatus2F1673006745067847683%26widget%3DTweet&theme=light&widgetsVersion=82e1070%3A1619632193066&width=550px)](https://twitter.com/DrJimFan/status/1673006745067847683)
 
-## What are agents? 🥷
+> Alt: A Twitter post by Dr. Jim Fan
+
+## What are agents?
 
 In a general sense, [agents](https://zapier.com/blog/ai-agent/) are rational actors. They use thinking and reasoning to
 influence their environment. _This could be in the form of solving problems or pursuing specific goals. They might
@@ -89,8 +88,8 @@ interoperability between LLM completions and a diverse set of APIs_.
 
 **Reasoning and Planning.** If you were to simply take a general goal, such as "build a scaling e-commerce platform,"
 and
-give it to ChatGPT, you would likely get a response along the lines of "As an AI language model…." However, through *
-*prompt engineering**, we can get a model to _break down goals into digestible steps and reflect on them_ with a method
+give it to ChatGPT, you would likely get a response along the lines of "As an AI language model…." However, through
+**prompt engineering**, we can get a model to _break down goals into digestible steps and reflect on them_ with a method
 called chain of thought prompting.
 
 **Memory.** When dealing with memory, we divide the problem into **short-term** and **long-term**. In managing
@@ -102,7 +101,7 @@ decisions.
 Similarly, this issue also arises in **long-term memory** because it would be impossible to provide an appropriate
 corpus
 of writing to bridge the gap between GPT -4's cutoff date, 2021, till today. By using vector databases, we attempt to
-overcome this using specialized models for _information retrieval in high-dimensional vector spaces._
+overcome this using specialized models for _information retrieval in high-dimensional vector spaces_.
 
 **Tools**. Another challenge in using LLMs as general actors is their confinement to text outputs. Again, we can use
 prompt engineering techniques to solve this issue. We can generate predictable function calls from the LLM through
@@ -114,7 +113,7 @@ These three concepts have formed the backbone of multiple successful agent-based
 as [Microsoft Jarvis](https://github.com/microsoft/JARVIS), [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), [BabyAGI](https://github.com/yoheinakajima/babyagi),
 and of course, AgentGPT. With this brief overview in mind, let's dive deeper into each component.
 
-## How do we get agents to act intelligently? 🧠
+## How do we get agents to act intelligently?
 
 **Prompt engineering** has become highly popularized, and it's only natural given its ability to _increase the
 reliability of LLM responses_, opening a wide avenue of potential applications for generative AI. AgentGPT's ability to
@@ -148,7 +147,9 @@ We can expand on this concept by _modifying the prompt to extract important vari
 response with a cohesive format_. This method allows us to parse the final response and display it for the end user as
 well as feed sub-steps into future plan-and-solve prompts.
 
-![Screen Shot 2023-07-01 at 12.25.37 PM.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7273dc94-0e43-42c5-ba8f-aeaf4ddc944a%2FScreen_Shot_2023-07-01_at_12.25.37_PM.png?id=af381437-ef8f-47d6-942b-8ef459af453e&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=800&userId=&cache=v2)
+![Screen Shot 2023-07-01 at 12.25.37 PM.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F29d8c98c-21e6-4991-992d-62d95fd40dba%2FScreen_Shot_2023-07-01_at_12.25.37_PM.png?id=021895a6-149a-4282-aa8e-6719e7d7c47a&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=2000&userId=&cache=v2)
+
+> Alt: Picture of Plan & Solve
 
 While PS prompting helps evoke a reasoning response, it still misses a fundamental concept in reasoning, and that is
 proper handling for reflection and action. **Reflection**is _fundamental for any agent because it must rationalize an
@@ -165,13 +166,15 @@ Prompt engineering is largely effective in resolving challenges in short-term me
 behavior that you can see when AgentGPT is at work. However, prompt engineering does not resolve the issue of long-term
 memory. This issue is where vector databases come in, and we will look at those next.
 
-![Screen Shot 2023-07-03 at 3.12.56 AM.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7daa5245-cd1b-44d6-9b6b-71741f9ac6c3%2FScreen_Shot_2023-07-03_at_3.12.56_AM.png?id=4864c843-3dca-4046-9a08-8a8328db98b0&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=800&userId=&cache=v2)
+![Screen Shot 2023-07-03 at 3.12.56 AM.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F481f0812-00e5-4cb1-9ed6-4f2f9215eef5%2FScreen_Shot_2023-07-03_at_3.12.56_AM.png?id=8002f409-2913-4e68-b8b6-6100c4128cf5&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=2000&userId=&cache=v2)
+
+> Alt : ReAct (Reason + Act) Logic Picture
 
 > The ReAct framework allows us to generate a reasoning response, an action, and a reflection to
 > steer the model’s response. This example is courtesy of the following
 > paper: [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)\*
 
-## How do we give agents a working memory? 🚀
+## How do we give agents a working memory?
 
 While we have seen that _prompt engineering is largely effective in resolving issues with short-term memory and
 reasoning_, we cannot solve long-term memory solely through clever English. Since we are not allowed to update the model
@@ -198,9 +201,10 @@ Let's start with a little bit of vocabulary:
 - A **vector space** contains many of these vectors.
 - An **embedding** is the vectorized version of a text.
 
-Vector libraries like*
-*[Facebook AI Similarity Search](https://www.bing.com/ck/a?!&&p=a0f4167bc6cd7db9JmltdHM9MTY4ODM0MjQwMCZpZ3VpZD0zOTYwYjczZS1hNzg2LTY5Y2MtMjM2YS1hNDdmYTYwMjY4MjImaW5zaWQ9NTIwMQ&ptn=3&hsh=3&fclid=3960b73e-a786-69cc-236a-a47fa6026822&psq=faiss+github&u=a1aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rcmVzZWFyY2gvZmFpc3M&ntb=1) (
-FAISS)** give us access to valuable _tools to control these vectors and locate them efficiently in the vector space._
+### Vector libraries like
+
+[Facebook AI Similarity Search](https://www.bing.com/ck/a?!&&p=a0f4167bc6cd7db9JmltdHM9MTY4ODM0MjQwMCZpZ3VpZD0zOTYwYjczZS1hNzg2LTY5Y2MtMjM2YS1hNDdmYTYwMjY4MjImaW5zaWQ9NTIwMQ&ptn=3&hsh=3&fclid=3960b73e-a786-69cc-236a-a47fa6026822&psq=faiss+github&u=a1aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rcmVzZWFyY2gvZmFpc3M&ntb=1) (
+FAISS) give us access to valuable _tools to control these vectors and locate them efficiently in the vector space._
 
 Since the text is in a numerical embedding dictated by the model type (i.e., text-embedding-ada-002), there is some
 location in space that the text exists in, and it's based on the numbers that compose its vector. That means _similar
@@ -228,53 +232,41 @@ By using them, we can encode large amounts of information for future storage and
 needs extra knowledge to complete a task, we can prompt it to query the vector space to find relevant information. Thus,
 we can create long-term memory.
 
-![CybrCo_Art_A_human-like_robot_touching_a_flower_for_the_first_t_92e97d56-54fa-4bb0-8581-5a1e15fd94aa.webp](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F246f8a03-aa3a-4f53-b16f-090699dedf80%2FCybrCo_Art_A_human-like_robot_touching_a_flower_for_the_first_t_92e97d56-54fa-4bb0-8581-5a1e15fd94aa.webp?id=ec8c4626-8909-4b32-83a1-8e9e66715c97&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=1000&userId=&cache=v2)
+![CybrCo_Art_A_human-like_robot_touching_a_flower_for_the_first_t_92e97d56-54fa-4bb0-8581-5a1e15fd94aa.webp](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fad2521b3-1c6b-4f16-b719-d2b766570c61%2FCybrCo_Art_A_human-like_robot_touching_a_flower_for_the_first_t_92e97d56-54fa-4bb0-8581-5a1e15fd94aa.webp?id=8d261d10-f4e4-4798-bc33-8f40da67bb42&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=2000&userId=&cache=v2)
 
-## Providing tools for real-world actions 🛠️
+> Alt : Robot With A Rose In Hand
 
-The last major obstacle for creating agentic LLMs is the limitation of working purely with text. While we can utilize
-prompt engineering to simulate function calls and manipulate text, _an agent must be capable of interacting with the
-real world_ to perform tasks or provide meaningful assistance.
+## Tools to interact with the environment
 
-To enable this real-world interaction, we can leverage various APIs and external tools that provide specific
-functionality beyond text generation.
+While **prompt engineering** and **vector databases** resolve many of the limitations and challenges of LLMs, there is
+still the problem of agent interaction. _How can we extend the capabilities of an LLM to interact with the environment
+outside of text?_
 
-Some popular tools and APIs that can be integrated with AgentGPT to expand its capabilities include:
+APIs are the answer. By utilizing APIs, we can give our agents the ability to perform a wide range of actions and
+access external resources.
 
-- **Google Search API**: Allows the agent to perform web searches and retrieve information from the internet.
-- **Hugging Face**: Provides a library of pre-trained models for various NLP tasks, such as sentiment analysis, text
-  classification, and question-answering.
-- **Dall-E**: Enables the generation of images from textual descriptions.
-- **Wikipedia API**: Allows access to Wikipedia articles and information.
-- **Database APIs**: Provide access to external databases for storing and retrieving information.
+Here are a few examples:
 
-By integrating these tools and APIs into AgentGPT, we can enhance its ability to perform a wide range of real-world
-tasks, provide accurate information, and generate relevant outputs beyond text.
+- **Google Search API**: Allows agents to search the web and retrieve relevant information.
+- **Hugging Face**: Provides access to various NLP models and transformers for tasks such as summarization, translation,
+  sentiment analysis, and more.
+- **Dall-E**: Enables agents to generate images from textual descriptions.
+- **OpenAI's GPT API**: Allows agents to utilize the GPT-4 model for text completion and generation.
+
+Using API tools in combination with prompt engineering techniques, we can create prompts that generate predictable
+function calls and utilize the output of API requests to enhance the agent's capabilities. This enables agents to
+interact with the environment in a meaningful way beyond text-based interactions.
 
 ## Conclusion
 
-AgentGPT represents a significant step forward in leveraging the capabilities of large language models like GPT-4. By
-incorporating agentic behavior through prompt engineering, memory management using vector databases, and integration
-with external tools and APIs, we can create intelligent agents that reason, remember, and perform real-world actions.
+AgentGPT represents a powerful approach to building AI agents that reason, remember, and perform. By leveraging prompt
+engineering, vector databases, and API tools, we can overcome the limitations of standalone LLMs and create agents that
+demonstrate agentic behavior.
 
-While there are still challenges to overcome, such as context limits, cost constraints, and the need for human guidance,
-AgentGPT opens up exciting possibilities for AI-powered assistants, problem solvers, and decision makers. As researchers
-and engineers continue to refine and expand the capabilities of AgentGPT, we can look forward to a future where AI
-agents contribute meaningfully to our daily lives and help us navigate complex tasks with ease.
+With the ability to reason, plan, and reflect, AgentGPT agents can tackle complex tasks and interact with the
+environment in a meaningful way. By incorporating long-term memory through vector databases and utilizing APIs, we
+provide agents with access to a vast pool of knowledge and resources.
 
-![CybrCo_Logo_Small.png](https://petal-diplodocus-04a.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fc4da9e3c-1da4-4ad6-8751-b0b3b30c2048%2FCybrCo_Logo_Small.png?id=a9f6da2c-9d22-42ad-8917-1f56ad1251d0&table=block&spaceId=46c3481b-d8de-4c34-8647-2292d63a5f29&width=500&userId=&cache=v2)
-
-_About the Author: Adam Johnson is the CTO and Co-Founder of CybrCo, a leading technology company specializing in AI and
-web application development. With a passion for leveraging cutting-edge technologies to solve complex problems, Adam
-leads CybrCo's technical team and drives innovation in high-performance web applications. In his free time, he enjoys
-exploring the latest advancements in AI and contributing to the AI research community._
-
-_Image credits:_
-
-- _Featured image: [Unsplash](https://unsplash.com/photos/TOoYECb4zNQ)_
-- _Author image: [Unsplash](https://unsplash.com/photos/b8K8P6GvFj0)_
-- _ReAct prompt
-  framework: [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)_
-- _Pinecone and Weaviate logos: [Pinecone](https://www.pinecone.io/)
-  and [Weaviate](https://www.semi.technology/product/weaviate.html)_
-- _CybrCo logo: [CybrCo](https://www.cybrco.com/)_
+AgentGPT is a step towards unlocking the full potential of LLMs and creating intelligent agents that can assist and
+collaborate with humans in various domains. The combination of language models, prompt engineering, external memory,
+and API interactions opens up exciting possibilities for AI agents in the future.

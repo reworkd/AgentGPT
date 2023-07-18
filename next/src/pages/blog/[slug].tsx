@@ -4,6 +4,7 @@ import { getPostData, getSortedPostsData } from "../../lib/posts";
 import ReactMarkdown from "react-markdown";
 import FadeIn from "../../components/motions/FadeIn";
 import FooterLinks from "../../components/landing/FooterLinks";
+import MarkdownRenderer from "../../components/console/MarkdownRenderer";
 
 export default function BlogPost({ postData }) {
   const router = useRouter();
@@ -23,18 +24,15 @@ export default function BlogPost({ postData }) {
               <div className="bg-transparent py-8 sm:py-16">
                 <div className="mx-auto max-w-2xl text-center">
                   <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                    Reblogd
+                    ReblogD
                   </h2>
-                  <p className="mt-2 text-lg leading-8 text-white/60">
-                    Learn exciting updates on Reworkd's Projects & Latest Developments in Tech.
-                  </p>
                 </div>
               </div>
             </main>
             <div className="mx-auto mb-8 max-w-2xl sm:mb-16">
-              <div className="text-white">
-                <h1>{postData.title}</h1>
+              <div className="prose text-white">
                 <p>{postData.date}</p>
+                <h1>{postData.title}</h1>
                 <ReactMarkdown>{postData.content}</ReactMarkdown>
               </div>
             </div>

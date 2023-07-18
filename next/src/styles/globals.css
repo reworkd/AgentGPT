@@ -8,7 +8,7 @@ body {
 
 .border-gradient {
     background: linear-gradient(black, black) padding-box,
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1)) border-box;
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)) border-box;
     border: 1px solid transparent;
 }
 

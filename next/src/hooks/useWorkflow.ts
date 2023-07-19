@@ -1,13 +1,15 @@
 import type { Edge, Node } from "reactflow";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
-import { toReactFlowEdge, toReactFlowNode } from "../types/workflow";
+import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 import WorkflowApi from "../services/workflow/workflowApi";
 import useSocket from "./useSocket";
 import { z } from "zod";
 import type { Session } from "next-auth";
+import { useWorkflowStore } from "../stores/workflowStore";
 
 const eventSchema = z.object({
   nodeId: z.string(),
@@ -48,9 +50,19 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     async (data: Workflow) => await api.update(workflowId, data)
   );
 
-  const { data: workflow } = useQuery(
+  const workflowStore = useWorkflowStore();
+
+  useQuery(
     ["workflow", workflowId],
-    async () => await api.get(workflowId),
+    async () => {
+      const workflow = await api.get(workflowId);
+
+      workflowStore.setWorkflow(workflow);
+      setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
+      setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
+
+      return workflow;
+    },
     {
       enabled: !!workflowId && !!session?.accessToken,
     }
@@ -60,11 +72,6 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
   const edgesModel = useState<Edge<WorkflowEdge>[]>([]);
   const [nodes, setNodes] = nodesModel;
   const [edges, setEdges] = edgesModel;
-
-  useEffect(() => {
-    setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
-    setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
-  }, [setNodes, setEdges, workflow]);
 
   useEffect(() => {
     const selectedNodes = nodes.filter((n) => n.selected);
@@ -91,7 +98,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
       ...(nodes ?? []),
       {
         id: ref,
-        type: "custom",
+        type: getNodeType(block),
         position: { x: 0, y: 0 },
         data: {
           id: undefined,
@@ -120,6 +127,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
 
   const onSave = async () => {
     await updateWorkflow({
+      id: workflowId,
       nodes: nodes.map((n) => ({
         id: n.data.id,
         ref: n.data.ref,

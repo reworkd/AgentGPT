@@ -32,7 +32,6 @@ const createAgentInputSlice: StateCreator<AgentInputSlice> = (set) => {
     },
   };
 };
-
 export const useAgentInputStore = createSelectors(
   create<AgentInputSlice>()((...a) => ({
     ...createAgentInputSlice(...a),

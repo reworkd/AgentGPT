@@ -110,8 +110,33 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const IfBlockDefinition: NodeBlockDefinition = {
+  name: "If Block",
+  type: "IfBlock",
+  description: "Conditionally take a path",
+  image_url: "/tools/web.png",
+  input_fields: [],
+  output_fields: [],
+};
+
+const TriggerBlockDefinition: NodeBlockDefinition = {
+  name: "Manual Trigger",
+  type: "ManualTriggerBlock",
+  description: "Trigger a block manually",
+  image_url: "/tools/web.png",
+  input_fields: [],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition, SummaryWebhookBlockDefinition, TextInputWebhookBlockDefinition];
+  return [
+    UrlStatusCheckBlockDefinition,
+    SlackWebhookBlockDefinition,
+    IfBlockDefinition,
+    TriggerBlockDefinition,
+    SummaryWebhookBlockDefinition,
+    TextInputWebhookBlockDefinition
+  ];
 };
 
 export const getNodeBlockDefinitionFromNode = (node: Node<WorkflowNode>) => {

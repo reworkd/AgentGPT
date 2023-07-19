@@ -5,7 +5,7 @@ import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
 import type { FC } from "react";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -22,6 +22,12 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalCards = roles.length;
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handleWindowResize = () => {
+    setShowVideo(window.innerWidth <= 768);
+    console.log('resize')
+  };
 
   const handleSliderButtonLeft = (decrement: number) => {
     if (sliderIndex != 0) {
@@ -37,6 +43,14 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
     }
   };
 
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
   return (
     <FadeIn
       delay={0.75}
@@ -51,11 +65,13 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
             className="hidden md:flex"
           />
         </Suspense>
-        <Suspense>
-          <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
-            <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
-          </video>
-        </Suspense>
+        {showVideo && (
+          <Suspense>
+            <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
+              <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
+            </video>
+          </Suspense>
+        )}
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
         <div className="relative flex flex-col items-center gap-4 md:items-start md:gap-12">

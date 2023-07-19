@@ -54,10 +54,10 @@
       "group": "Essentials",
       "pages": ["essentials/roadmap", "essentials/FAQ", "essentials/usecases" ]
     },
-  
     {
       "group": "contributing",
-      "pages": ["contributing/contributing" ]
+      "pages": ["contributing/contributing"," contributing/pullrequests", "contributing/documentingmintlify", "contributing/blogs" ]
+  
     },
     {
       "group": "Other",

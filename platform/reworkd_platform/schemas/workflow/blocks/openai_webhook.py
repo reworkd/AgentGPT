@@ -26,7 +26,7 @@ class OpenAIWebhook(Block):
         logger.info(f"Starting {self.type}")
 
         try:
-            response = await create_llm(self.input.prompt)
+            response = await summarize_and_extract(self.input.prompt)
             logger.info(f"RESPONSE {response}")
         except Exception as err:
             logger.error(f"Failed to extract text with OpenAI: {err}")
@@ -39,7 +39,7 @@ async def summarize_and_extract(prompt: str) -> str:
         ModelSettings(), UserBase(id="", name=None, email="test@example.com"), streaming=False
     )
     template = """
-    You are a chatbot assistant that assists users in summarizing information from given text.
+    You are a chatbot assistant that assists users in summarizing and extracting information from given text.
 
     Question: {prompt}
 

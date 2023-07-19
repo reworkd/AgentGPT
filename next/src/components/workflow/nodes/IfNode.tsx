@@ -1,13 +1,13 @@
 import React, { memo } from "react";
 import { type NodeProps, Position } from "reactflow";
-import type { WorkflowNode } from "../../types/workflow";
-import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
+import type { WorkflowNode } from "../../../types/workflow";
+import { getNodeBlockDefinitions } from "../../../services/workflow/node-block-definitions";
 import AbstractNode from "./AbstractNode";
 
 function IfNode(props: NodeProps<WorkflowNode>) {
   const { data, selected } = props;
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
-  
+
   return (
     <AbstractNode
       selected={selected}

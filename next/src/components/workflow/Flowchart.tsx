@@ -1,4 +1,4 @@
-import type { ComponentProps, MouseEvent} from "react";
+import type { ComponentProps, MouseEvent } from "react";
 import { type FC, useCallback } from "react";
 import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
 import ReactFlow, {
@@ -12,10 +12,10 @@ import ReactFlow, {
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-import BasicNode from "./BasicNode";
+import BasicNode from "./nodes/BasicNode";
 import CustomEdge from "./BasicEdge";
 import type { EdgesModel, NodesModel } from "../../types/workflow";
-import IfNode from "./IfNode";
+import IfNode from "./nodes/IfNode";
 
 const nodeTypes = {
   if: IfNode,

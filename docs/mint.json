@@ -52,7 +52,12 @@
     },
     {
       "group": "Essentials",
-      "pages": ["essentials/roadmap", "essentials/FAQ", "essentials/usecases", "essentials/contributing"]
+      "pages": ["essentials/roadmap", "essentials/FAQ", "essentials/usecases" ]
+    },
+  
+    {
+      "group": "contributing",
+      "pages": ["contributing/contributing" ]
     },
     {
       "group": "Other",

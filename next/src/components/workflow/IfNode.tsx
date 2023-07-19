@@ -7,7 +7,7 @@ import AbstractNode from "./AbstractNode";
 function IfNode(props: NodeProps<WorkflowNode>) {
   const { data, selected } = props;
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
-  console.log(props);
+  
   return (
     <AbstractNode
       selected={selected}

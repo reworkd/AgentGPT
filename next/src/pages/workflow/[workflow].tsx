@@ -11,7 +11,7 @@ import nextI18NextConfig from "../../../next-i18next.config";
 import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
 import { useAuth } from "../../hooks/useAuth";
 import PrimaryButton from "../../components/PrimaryButton";
-import { FaPlay, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 
 const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
@@ -52,14 +52,6 @@ const WorkflowPage: NextPage = () => {
             }}
           >
             Save
-          </PrimaryButton>
-          <PrimaryButton
-            icon={<FaPlay size="15" />}
-            onClick={() => {
-              executeWorkflow().catch(console.error);
-            }}
-          >
-            Execute
           </PrimaryButton>
         </div>
       </div>

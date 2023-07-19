@@ -77,8 +77,22 @@ const IfBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const TriggerBlockDefinition: NodeBlockDefinition = {
+  name: "Manual Trigger",
+  type: "ManualTriggerBlock",
+  description: "Trigger a block manually",
+  image_url: "/tools/web.png",
+  input_fields: [],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition, IfBlockDefinition];
+  return [
+    UrlStatusCheckBlockDefinition,
+    SlackWebhookBlockDefinition,
+    IfBlockDefinition,
+    TriggerBlockDefinition,
+  ];
 };
 
 export const getNodeBlockDefinitionFromNode = (node: Node<WorkflowNode>) => {

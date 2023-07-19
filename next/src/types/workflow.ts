@@ -27,6 +27,7 @@ const WorkflowEdgeSchema = z.object({
   status: z.enum(["running", "success", "failure"]).optional(),
 });
 export const WorkflowSchema = z.object({
+  id: z.string(),
   nodes: z.array(WorkflowNodeSchema),
   edges: z.array(WorkflowEdgeSchema),
 });
@@ -57,6 +58,8 @@ export const toReactFlowEdge = (edge: WorkflowEdge) =>
 
 export const getNodeType = (block: NodeBlock) => {
   switch (block.type) {
+    case "ManualTriggerBlock":
+      return "trigger";
     case "IfBlock":
       return "if";
     default:

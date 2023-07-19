@@ -43,7 +43,7 @@ export const toReactFlowNode = (node: WorkflowNode) =>
     id: node.id ?? node.ref,
     data: node,
     position: { x: node.pos_x, y: node.pos_y },
-    type: "custom",
+    type: getNodeType(node.block),
   } as Node<WorkflowNode>);
 
 export const toReactFlowEdge = (edge: WorkflowEdge) =>
@@ -54,3 +54,12 @@ export const toReactFlowEdge = (edge: WorkflowEdge) =>
       ...edge,
     },
   } as Edge<WorkflowEdge>);
+
+export const getNodeType = (block: NodeBlock) => {
+  switch (block.type) {
+    case "IfBlock":
+      return "if";
+    default:
+      return "custom";
+  }
+};

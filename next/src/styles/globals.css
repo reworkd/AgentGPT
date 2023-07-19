@@ -13,9 +13,10 @@ body {
 }
 
 .border-gradient {
+    /* Mark as important to override react flow styling */
     background: linear-gradient(black, black) padding-box,
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.15)) border-box;
-    border: 1px solid transparent;
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.15)) border-box !important;
+    border: 1px solid transparent !important;
 }
 
 .radial-background-1 {
@@ -314,16 +315,17 @@ Not supports in Firefox and IE */
 .animate-border-pulse {
     animation: border-pulse-animation 2s infinite;
 }
+
 @keyframes moveBackground {
     from {
-      background-position: 0 0;
+        background-position: 0 0;
     }
     to {
-      background-position: 100% 0;
+        background-position: 100% 0;
     }
-  }
+}
 
-  .bg-stars {
+.bg-stars {
     animation: moveBackground 30s linear infinite;
     background: url("/stars.svg");
     background-size: cover;
@@ -333,4 +335,4 @@ Not supports in Firefox and IE */
     left: 0;
     right: 0;
     z-index: -1;
-  }
+}

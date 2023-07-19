@@ -68,8 +68,17 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const IfBlockDefinition: NodeBlockDefinition = {
+  name: "If Block",
+  type: "IfBlock",
+  description: "Conditionally take a path",
+  image_url: "/tools/web.png",
+  input_fields: [],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition];
+  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition, IfBlockDefinition];
 };
 
 export const getNodeBlockDefinitionFromNode = (node: Node<WorkflowNode>) => {

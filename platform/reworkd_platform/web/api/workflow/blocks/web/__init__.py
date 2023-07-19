@@ -4,6 +4,7 @@ from reworkd_platform.schemas.workflow.blocks.status_check import UrlStatusCheck
 from reworkd_platform.schemas.workflow.blocks.openai_webhook import OpenAIWebhook
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 
+
 def get_block_runner(block: Block) -> Block:
     if block.type == "UrlStatusCheck":
         return UrlStatusCheckBlock(**block.dict())

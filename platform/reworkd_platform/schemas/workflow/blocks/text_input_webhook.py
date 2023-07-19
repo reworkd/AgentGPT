@@ -18,7 +18,6 @@ class TextInputWebhook(Block):
     input: TextInputWebhookInput
 
     async def run(self) -> BlockIOBase:
-        logger.info(f"Starting {self.type}") 
-        
+        logger.info(f"Starting {self.type}")
 
-        return TextInputWebhookOutput(result = self.input.text) 
+        return TextInputWebhookOutput(result=self.input.text)

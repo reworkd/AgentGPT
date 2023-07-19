@@ -12,8 +12,10 @@ from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 class OpenAIWebhookInput(BlockIOBase):
     prompt: str
 
+
 class OpenAIWebhookOutput(OpenAIWebhookInput):
     result: str
+
 
 class OpenAIWebhook(Block):
     type = "OpenAIWebhook"
@@ -30,10 +32,13 @@ class OpenAIWebhook(Block):
             logger.error(f"Failed to extract text with OpenAI: {err}")
             raise
 
-        return OpenAIWebhookOutput(**self.input.dict(),result=response)
-    
-def create_llm(prompt):
-    llm = create_model(ModelSettings(), UserBase(id = "", email = "test@example.com"), streaming=False)
+        return OpenAIWebhookOutput(**self.input.dict(), result=response)
+
+
+def create_llm(prompt: str) -> str:
+    llm = create_model(
+        ModelSettings(), UserBase(id="", name=None, email="test@example.com"), streaming=False
+    )
     template = """
     You are a chatbot assistant that assists users in summarizing information from given text.
 
@@ -42,8 +47,8 @@ def create_llm(prompt):
     Answer:"""
 
     chain = LLMChain(
-        llm=llm,
-        prompt = PromptTemplate(template=template, input_variables=["prompt"]))
-    
+        llm=llm, prompt=PromptTemplate(template=template, input_variables=["prompt"])
+    )
+
     result = chain.run(prompt)
     return result

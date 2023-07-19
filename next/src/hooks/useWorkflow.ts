@@ -1,9 +1,10 @@
 import type { Edge, Node } from "reactflow";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import type { Dispatch, SetStateAction} from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
-import { toReactFlowEdge, toReactFlowNode } from "../types/workflow";
+import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 import WorkflowApi from "../services/workflow/workflowApi";
 import useSocket from "./useSocket";
 import { z } from "zod";
@@ -91,7 +92,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
       ...(nodes ?? []),
       {
         id: ref,
-        type: "custom",
+        type: getNodeType(block),
         position: { x: 0, y: 0 },
         data: {
           id: undefined,

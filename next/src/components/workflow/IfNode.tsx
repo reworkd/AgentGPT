@@ -4,16 +4,31 @@ import type { WorkflowNode } from "../../types/workflow";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
 import AbstractNode from "./AbstractNode";
 
-function BasicNode({ data, selected }: NodeProps<WorkflowNode>) {
+function IfNode(props: NodeProps<WorkflowNode>) {
+  const { data, selected } = props;
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
-
+  
   return (
     <AbstractNode
       selected={selected}
       status={data.status}
       handles={[
         { position: Position.Top, type: "target" },
-        { position: Position.Bottom, type: "source" },
+        {
+          id: "true",
+          position: Position.Bottom,
+          type: "source",
+          text: "True",
+          className: "!left-[20%] !-bottom-4",
+        },
+
+        {
+          id: "false",
+          position: Position.Bottom,
+          text: "False",
+          className: "!left-[80%] !-bottom-4",
+          type: "source",
+        },
       ]}
     >
       <div className="flex items-center">
@@ -26,4 +41,4 @@ function BasicNode({ data, selected }: NodeProps<WorkflowNode>) {
   );
 }
 
-export default memo(BasicNode);
+export default memo(IfNode);

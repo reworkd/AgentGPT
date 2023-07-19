@@ -41,7 +41,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+          {message.type !== "error" &&
           <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+       }
         </>
       )}
 
@@ -92,7 +94,7 @@ const FAQ = () => {
 
 const Status = () => {
   return (
-    <p className="flex items-center gap-1 pl-8">
+    <p className="flex items-center gap-1 pl-6">
       Check AgentGPT Status{" "}
       <a href="https://status.reworkd.ai" target="_blank" className="text-sky-500">
        <FiExternalLink />

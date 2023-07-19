@@ -4,10 +4,11 @@ import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import React, { useState } from "react";
+import type { FC } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import HeroCard from "../HeroCard";
 import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
 import GreenHeroIcon from "../../../public/icons/icon-hero-green.svg";
@@ -17,10 +18,15 @@ import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
 import { env } from "../../env/client.mjs";
 
-const Hero: React.FC<{ className?: string }> = ({ className }) => {
+const Hero: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalCards = roles.length;
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handleWindowResize = () => {
+    setShowVideo(window.innerWidth <= 768);
+  };
 
   const handleSliderButtonLeft = (decrement: number) => {
     if (sliderIndex != 0) {
@@ -36,6 +42,14 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
     }
   };
 
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
   return (
     <FadeIn
       delay={0.75}
@@ -44,13 +58,20 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
     >
       <div className="relative z-30 flex h-full w-full justify-center md:flex md:h-[30vw] md:w-[30vw]">
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25" />
-        <Spline
-          scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
-          className="hidden md:flex"
-        />
-        <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
-          <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
-        </video>
+        {showVideo ? (
+          <Suspense>
+            <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
+              <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
+            </video>
+          </Suspense>
+        ) : (
+          <Suspense>
+            <Spline
+              scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
+              className="hidden md:flex"
+            />
+          </Suspense>
+        )}
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
         <div className="relative flex flex-col items-center gap-4 md:items-start md:gap-12">
@@ -83,7 +104,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <div className="relative hidden w-full items-center sm:max-w-[40em] md:flex">
             <button
               onClick={() => handleSliderButtonLeft(1)}
-              className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
+              className="group absolute left-0 z-30 flex h-6 w-8 -translate-x-5 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black opacity-75 hover:border-white/30"
             >
               <FaChevronLeft
                 size={10}
@@ -109,13 +130,11 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 ))}
               </motion.div>
             </div>
-            <div
-              id="tests"
-              className="absolute right-0 z-20 h-full w-10 bg-gradient-to-r from-transparent to-black to-75% text-white sm:w-40"
-            />
+            <div className="absolute left-0 z-20 h-full w-6 -translate-x-0.5 bg-gradient-to-l from-transparent to-black" />
+            <div className="absolute right-0 z-20 h-full w-40 translate-x-0.5 bg-gradient-to-r from-transparent to-black to-75%" />
             <button
               onClick={() => handleSliderButtonRight(1)}
-              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
+              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black opacity-75 hover:border-white/30"
             >
               <FaChevronRight
                 size={10}
@@ -165,7 +184,7 @@ const roles = [
   {
     title: "Researcher",
     subtitle: "Report on key analytics",
-    icon: <PurpleHeroIcon c={true} />,
+    icon: <PurpleHeroIcon />,
   },
   {
     title: "Marketer",
@@ -185,4 +204,3 @@ const roles = [
 ];
 
 export default Hero;
-

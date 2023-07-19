@@ -27,6 +27,7 @@ const WorkflowEdgeSchema = z.object({
   status: z.enum(["running", "success", "failure"]).optional(),
 });
 export const WorkflowSchema = z.object({
+  id: z.string(),
   nodes: z.array(WorkflowNodeSchema),
   edges: z.array(WorkflowEdgeSchema),
 });

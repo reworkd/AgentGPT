@@ -4,7 +4,8 @@ import BannerBadge from "../BannerBadge";
 import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
-import React, { useState } from "react";
+import type { FC } from "react";
+import { Suspense, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -17,7 +18,7 @@ import GlowWrapper from "../GlowWrapper";
 import Spline from "@splinetool/react-spline";
 import { env } from "../../env/client.mjs";
 
-const Hero: React.FC<{ className?: string }> = ({ className }) => {
+const Hero: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalCards = roles.length;
@@ -44,13 +45,17 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
     >
       <div className="relative z-30 flex h-full w-full justify-center md:flex md:h-[30vw] md:w-[30vw]">
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25" />
-        <Spline
-          scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
-          className="hidden md:flex"
-        />
-        <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
-          <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
-        </video>
+        <Suspense>
+          <Spline
+            scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
+            className="hidden md:flex"
+          />
+        </Suspense>
+        <Suspense>
+          <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
+            <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
+          </video>
+        </Suspense>
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
         <div className="relative flex flex-col items-center gap-4 md:items-start md:gap-12">
@@ -163,7 +168,7 @@ const roles = [
   {
     title: "Researcher",
     subtitle: "Report on key analytics",
-    icon: <PurpleHeroIcon c={true} />,
+    icon: <PurpleHeroIcon />,
   },
   {
     title: "Marketer",

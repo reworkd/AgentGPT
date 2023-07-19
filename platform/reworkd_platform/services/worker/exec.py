@@ -27,7 +27,7 @@ class ExecutionEngine:
             self.workflow.workflow_id,
             "my-event",
             {
-                "nodeId": curr.id,
+                "nodeId": curr.id, 
                 "status": "running",
             },
         )

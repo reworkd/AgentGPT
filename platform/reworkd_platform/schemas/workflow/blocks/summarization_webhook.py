@@ -9,18 +9,18 @@ from lanarky.responses import StreamingResponse
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 
 
-class OpenAIWebhookInput(BlockIOBase):
+class SummaryWebhookInput(BlockIOBase):
     prompt: str
 
 
-class OpenAIWebhookOutput(OpenAIWebhookInput):
+class SummaryWebhookOutput(SummaryWebhookInput):
     result: str
 
 
-class OpenAIWebhook(Block):
-    type = "OpenAIWebhook"
+class SummaryWebhook(Block):
+    type = "SummaryWebhook"
     description = "Extract key details from text using OpenAI"
-    input: OpenAIWebhookInput
+    input: SummaryWebhookInput
 
     async def run(self) -> BlockIOBase:
         logger.info(f"Starting {self.type}")
@@ -32,7 +32,7 @@ class OpenAIWebhook(Block):
             logger.error(f"Failed to extract text with OpenAI: {err}")
             raise
 
-        return OpenAIWebhookOutput(**self.input.dict(), result=response)
+        return SummaryWebhookOutput(**self.input.dict(), result=response)
 
 async def summarize_and_extract(prompt: str) -> str:
     llm = create_model(

@@ -1,7 +1,7 @@
 from reworkd_platform.schemas.workflow.base import Block
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.status_check import UrlStatusCheckBlock
-from reworkd_platform.schemas.workflow.blocks.openai_webhook import OpenAIWebhook
+from reworkd_platform.schemas.workflow.blocks.summarization_webhook import SummaryWebhook
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 
 
@@ -12,7 +12,7 @@ def get_block_runner(block: Block) -> Block:
         return SlackWebhook(**block.dict())
     if block.type == "TextInputWebhook":
         return TextInputWebhook(**block.dict())
-    if block.type == "OpenAIWebhook":
-        return OpenAIWebhook(**block.dict())
+    if block.type == "SummaryWebhook":
+        return SummaryWebhook(**block.dict())
     else:
         raise ValueError(f"Unknown block type: {block.type}")

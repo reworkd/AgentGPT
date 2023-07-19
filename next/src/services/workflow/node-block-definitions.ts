@@ -68,15 +68,15 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const OpenAIWebhookBlockDefinition: NodeBlockDefinition = {
-  name: "OpenAI Webhook",
-  type: "OpenAIWebhook",
-  description: "Extract key details from text using OpenAI",
+const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Summary Agent",
+  type: "SummaryWebhook",
+  description: "Summarize or extract key details from text using OpenAI",
   image_url: "/tools/web.png",
   input_fields: [
     {
       name: "prompt",
-      description: "What details would you like to extract?",
+      description: "What do you want to do with the text?",
       type: "string"
     }
   ],
@@ -111,7 +111,7 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
 };
 
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition, OpenAIWebhookBlockDefinition, TextInputWebhookBlockDefinition];
+  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition, SummaryWebhookBlockDefinition, TextInputWebhookBlockDefinition];
 };
 
 export const getNodeBlockDefinitionFromNode = (node: Node<WorkflowNode>) => {

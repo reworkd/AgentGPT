@@ -12,14 +12,15 @@ import ReactFlow, {
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-import BasicNode from "./nodes/BasicNode";
+
 import CustomEdge from "./BasicEdge";
 import type { EdgesModel, NodesModel } from "../../types/workflow";
-import IfNode from "./nodes/IfNode";
+import { BasicNode, IfNode, TriggerNode } from "./nodes";
 
 const nodeTypes = {
   if: IfNode,
   custom: BasicNode,
+  trigger: TriggerNode,
 };
 
 const edgeTypes = {

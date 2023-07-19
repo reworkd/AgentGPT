@@ -68,6 +68,48 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Summary Agent",
+  type: "SummaryWebhook",
+  description: "Summarize or extract key details from text using OpenAI",
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "prompt",
+      description: "What do you want to do with the text?",
+      type: "string"
+    }
+  ],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
+const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Text Input",
+  type: "TextInputWebhook",
+  description: "",
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "text",
+      description: "What text would you like to extract information from?",
+      type: "string"
+    }
+  ],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
 const IfBlockDefinition: NodeBlockDefinition = {
   name: "If Block",
   type: "IfBlock",
@@ -92,6 +134,8 @@ export const getNodeBlockDefinitions = () => {
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
     TriggerBlockDefinition,
+    SummaryWebhookBlockDefinition,
+    TextInputWebhookBlockDefinition
   ];
 };
 

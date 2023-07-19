@@ -22,9 +22,7 @@ function AbstractNode(props: NodeProps) {
   return (
     <div
       className={clsx(
-        "border-translucent rounded-md p-3 shadow-2xl shadow-black",
-        "bg-stone-900 text-white shadow-stone-800",
-        "transition-colors duration-300",
+        "border-translucent rounded-md bg-stone-900 p-3 text-white shadow-2xl shadow-stone-800 transition-colors duration-300",
         props.selected ? "border-white" : "hover:border-gray-400",
         props.status === "running" && "border border-amber-500",
         props.status === "success" && "border border-green-500",

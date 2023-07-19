@@ -34,9 +34,12 @@ class SummaryWebhook(Block):
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
 
+
 async def summarize_and_extract(prompt: str) -> str:
     llm = create_model(
-        ModelSettings(), UserBase(id="", name=None, email="test@example.com"), streaming=False
+        ModelSettings(),
+        UserBase(id="", name=None, email="test@example.com"),
+        streaming=False,
     )
     template = """
     You are a chatbot assistant that assists users in summarizing and extracting information from given text.

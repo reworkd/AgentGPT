@@ -2,7 +2,9 @@ from reworkd_platform.schemas.workflow.base import Block
 from reworkd_platform.schemas.workflow.blocks.manual_trigger import ManualTriggerBlock
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.status_check import UrlStatusCheckBlock
-from reworkd_platform.schemas.workflow.blocks.summarization_webhook import SummaryWebhook
+from reworkd_platform.schemas.workflow.blocks.summarization_webhook import (
+    SummaryWebhook,
+)
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 
 

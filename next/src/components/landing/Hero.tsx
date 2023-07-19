@@ -7,7 +7,7 @@ import TextButton from "../TextButton";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import HeroCard from "../HeroCard";
 import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
 import GreenHeroIcon from "../../../public/icons/icon-hero-green.svg";
@@ -83,7 +83,7 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
           <div className="relative hidden w-full items-center sm:max-w-[40em] md:flex">
             <button
               onClick={() => handleSliderButtonLeft(1)}
-              className="group absolute left-0 -translate-x-5 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
+              className="group absolute left-0 z-30 flex h-6 w-8 -translate-x-5 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black opacity-75 hover:border-white/30"
             >
               <FaChevronLeft
                 size={10}
@@ -109,13 +109,11 @@ const Hero: React.FC<{ className?: string }> = ({ className }) => {
                 ))}
               </motion.div>
             </div>
-            <div
-              id="tests"
-              className="absolute right-0 z-20 h-full w-10 bg-gradient-to-r from-transparent to-black to-75% text-white sm:w-40"
-            />
+            <div className="absolute left-0 z-20 h-full w-6 -translate-x-0.5 bg-gradient-to-l from-transparent to-black" />
+            <div className="absolute right-0 z-20 h-full w-40 translate-x-0.5 bg-gradient-to-r from-transparent to-black to-75%" />
             <button
               onClick={() => handleSliderButtonRight(1)}
-              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black hover:border-white/30 opacity-75"
+              className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black opacity-75 hover:border-white/30"
             >
               <FaChevronRight
                 size={10}
@@ -185,4 +183,3 @@ const roles = [
 ];
 
 export default Hero;
-

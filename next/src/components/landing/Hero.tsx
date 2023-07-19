@@ -26,7 +26,6 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
 
   const handleWindowResize = () => {
     setShowVideo(window.innerWidth <= 768);
-    console.log('resize')
   };
 
   const handleSliderButtonLeft = (decrement: number) => {
@@ -59,17 +58,18 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
     >
       <div className="relative z-30 flex h-full w-full justify-center md:flex md:h-[30vw] md:w-[30vw]">
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25" />
-        <Suspense>
-          <Spline
-            scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
-            className="hidden md:flex"
-          />
-        </Suspense>
-        {showVideo && (
+        {showVideo ? (
           <Suspense>
             <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
               <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
             </video>
+          </Suspense>
+        ) : (
+          <Suspense>
+            <Spline
+              scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
+              className="hidden md:flex"
+            />
           </Suspense>
         )}
       </div>

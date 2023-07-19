@@ -5,7 +5,7 @@ import clsx from "clsx";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";
 import type { FC } from "react";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -22,6 +22,11 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalCards = roles.length;
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handleWindowResize = () => {
+    setShowVideo(window.innerWidth <= 768);
+  };
 
   const handleSliderButtonLeft = (decrement: number) => {
     if (sliderIndex != 0) {
@@ -37,6 +42,14 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
     }
   };
 
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
   return (
     <FadeIn
       delay={0.75}
@@ -45,17 +58,20 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
     >
       <div className="relative z-30 flex h-full w-full justify-center md:flex md:h-[30vw] md:w-[30vw]">
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25" />
-        <Suspense>
-          <Spline
-            scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
-            className="hidden md:flex"
-          />
-        </Suspense>
-        <Suspense>
-          <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
-            <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
-          </video>
-        </Suspense>
+        {showVideo ? (
+          <Suspense>
+            <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
+              <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
+            </video>
+          </Suspense>
+        ) : (
+          <Suspense>
+            <Spline
+              scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
+              className="hidden md:flex"
+            />
+          </Suspense>
+        )}
       </div>
       <div className="relative z-10 col-span-1 max-w-full md:order-first">
         <div className="relative flex flex-col items-center gap-4 md:items-start md:gap-12">

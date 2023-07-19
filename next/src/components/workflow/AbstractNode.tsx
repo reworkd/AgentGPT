@@ -4,8 +4,16 @@ import type { HandleType, Position } from "reactflow";
 import { Handle } from "reactflow";
 import clsx from "clsx";
 
+interface Handle {
+  position: Position;
+  type: HandleType;
+  className?: string;
+  id?: string;
+  text?: string;
+}
+
 interface NodeProps extends PropsWithChildren {
-  handles: [Position, HandleType][];
+  handles: Handle[];
   selected: boolean;
   status?: string;
 }
@@ -24,14 +32,19 @@ function AbstractNode(props: NodeProps) {
       )}
     >
       {props.children}
-      {props.handles.map(([position, type]) => (
+      {props.handles.map(({ position, type, text, className, id }, i) => (
         <Handle
-          key={position}
+          key={`${i}-${id || ""}`}
+          {...(id ? { id } : {})} /* Only specify id if provided */
           type={type}
           position={position}
-          className="bg-black"
-          style={{ width: "0.5em", height: "0.5em" }}
-        />
+          className={clsx(
+            "border-gradient !hover:border-white grid !h-fit !w-fit place-items-center !rounded-md !bg-black p-1 text-xs font-light",
+            className
+          )}
+        >
+          {text}
+        </Handle>
       ))}
     </div>
   );

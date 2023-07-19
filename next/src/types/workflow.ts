@@ -57,6 +57,8 @@ export const toReactFlowEdge = (edge: WorkflowEdge) =>
 
 export const getNodeType = (block: NodeBlock) => {
   switch (block.type) {
+    case "ManualTriggerBlock":
+      return "trigger";
     case "IfBlock":
       return "if";
     default:

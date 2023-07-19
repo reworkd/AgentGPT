@@ -26,7 +26,7 @@ class OpenAIWebhook(Block):
         logger.info(f"Starting {self.type}")
 
         try:
-            response = create_llm(self.input.prompt)
+            response = await create_llm(self.input.prompt)
             logger.info(f"RESPONSE {response}")
         except Exception as err:
             logger.error(f"Failed to extract text with OpenAI: {err}")
@@ -34,8 +34,7 @@ class OpenAIWebhook(Block):
 
         return OpenAIWebhookOutput(**self.input.dict(), result=response)
 
-
-def create_llm(prompt: str) -> str:
+async def summarize_and_extract(prompt: str) -> str:
     llm = create_model(
         ModelSettings(), UserBase(id="", name=None, email="test@example.com"), streaming=False
     )
@@ -50,5 +49,5 @@ def create_llm(prompt: str) -> str:
         llm=llm, prompt=PromptTemplate(template=template, input_variables=["prompt"])
     )
 
-    result = chain.run(prompt)
+    result = await chain.arun(prompt)
     return result

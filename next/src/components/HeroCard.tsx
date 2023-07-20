@@ -24,7 +24,7 @@ const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick 
           </p>
         </div>
       </div>
-      <GlowWrapper>
+      <GlowWrapper className="opacity-60">
         <div
           className="group relative flex h-8 w-8 items-center justify-center rounded-full bg-white"
           onClick={() => {

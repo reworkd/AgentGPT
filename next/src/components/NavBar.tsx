@@ -13,6 +13,7 @@ import PrimaryButton from "./PrimaryButton";
 import CycleIcons from "./motions/CycleIcons";
 import React from "react";
 import BlogsIcon from "../../public/icons/icon-blogs.svg";
+import GlowWrapper from "./GlowWrapper";
 
 const navigation = [
   { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
@@ -86,19 +87,21 @@ export default function NavBar() {
                     />
                   </>
                 </TextButton>
-                <PrimaryButton
-                  onClick={() => {
-                    window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
-                  }}
-                >
-                  <>
-                    <span>Contact Us</span>
-                    <FaChevronRight
-                      size="12"
-                      className="text-gray-700 transition-transform group-hover:translate-x-1"
-                    />
-                  </>
-                </PrimaryButton>
+                <GlowWrapper className="opacity-40">
+                  <PrimaryButton
+                    onClick={() => {
+                      window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
+                    }}
+                  >
+                    <>
+                      <span>Contact Us</span>
+                      <FaChevronRight
+                        size="12"
+                        className="text-gray-700 transition-transform group-hover:translate-x-1"
+                      />
+                    </>
+                  </PrimaryButton>
+                </GlowWrapper>
               </div>
               <div className="-mr-2 flex items-center xmd:hidden">
                 {/* Mobile menu button */}

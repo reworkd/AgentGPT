@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import React, { useCallback, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 import "highlight.js/styles/default.css";
 import clsx from "clsx";
 import { FiClipboard } from "react-icons/fi";

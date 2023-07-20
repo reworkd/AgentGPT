@@ -1,11 +1,15 @@
-import NavBar from "../../components/NavBar";
 import { useRouter } from "next/router";
-import { getPostData, getSortedPostsData } from "../../lib/posts";
-import ReactMarkdown from "react-markdown";
-import FadeIn from "../../components/motions/FadeIn";
-import FooterLinks from "../../components/landing/FooterLinks";
-import AppHead from "../../components/AppHead";
 import React from "react";
+import ReactMarkdown from "react-markdown";
+
+import AppHead from "../../components/AppHead";
+import FooterLinks from "../../components/landing/FooterLinks";
+import FadeIn from "../../components/motions/FadeIn";
+import NavBar from "../../components/NavBar";
+import { getPostData, getSortedPostsData } from "../../lib/posts";
+
+
+
 
 export default function BlogPost({
   postData,

@@ -1,8 +1,8 @@
+import clsx from "clsx";
 import type { PropsWithChildren } from "react";
 import React, { memo } from "react";
 import type { HandleType, Position } from "reactflow";
 import { Handle } from "reactflow";
-import clsx from "clsx";
 
 interface Handle {
   position: Position;

@@ -1,6 +1,6 @@
+import { Combobox } from "@headlessui/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { Combobox } from "@headlessui/react";
 import { HiCheck, HiChevronDown } from "react-icons/hi2";
 
 function classNames(...classes) {

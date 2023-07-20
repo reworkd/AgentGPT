@@ -1,8 +1,9 @@
-import type { Message } from "../../../types/message";
 import { v1 } from "uuid";
-import { streamText } from "../../stream-utils";
-import { toApiModelSettings } from "../../../utils/interfaces";
+
 import type AgentWork from "./agent-work";
+import type { Message } from "../../../types/message";
+import { toApiModelSettings } from "../../../utils/interfaces";
+import { streamText } from "../../stream-utils";
 import type AutonomousAgent from "../autonomous-agent";
 
 export default class SummarizeWork implements AgentWork {

@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import type { TemplateModel } from "./TemplateData";
 import { useRouter } from "next/router";
+
+import type { TemplateModel } from "./TemplateData";
 import { useAgentInputStore } from "../../stores/agentInputStore";
 
 type TemplateCardProps = {

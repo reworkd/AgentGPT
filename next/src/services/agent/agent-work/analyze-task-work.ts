@@ -1,9 +1,9 @@
-import type { Analysis } from "../analysis";
-import type { Task } from "../../../types/task";
-import type AutonomousAgent from "../autonomous-agent";
 import type AgentWork from "./agent-work";
 import ExecuteTaskWork from "./execute-task-work";
 import type { Message } from "../../../types/message";
+import type { Task } from "../../../types/task";
+import type { Analysis } from "../analysis";
+import type AutonomousAgent from "../autonomous-agent";
 
 export default class AnalyzeTaskWork implements AgentWork {
   analysis: Analysis | undefined = undefined;

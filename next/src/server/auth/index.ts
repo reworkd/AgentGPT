@@ -1,14 +1,16 @@
+import type { IncomingMessage, ServerResponse } from "http";
+
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import merge from "lodash/merge";
+import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
+import type { AuthOptions } from "next-auth";
+import type { Adapter } from "next-auth/adapters";
+
 import { authOptions as prodOptions } from "./auth";
 import { options as devOptions } from "./local-auth";
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
-import type { AuthOptions } from "next-auth";
-import { getServerSession } from "next-auth";
-import merge from "lodash/merge";
-import type { IncomingMessage, ServerResponse } from "http";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "../db";
-import type { Adapter } from "next-auth/adapters";
 import { env } from "../../env/server.mjs";
+import { prisma } from "../db";
 
 const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
   adapter: PrismaAdapter(prisma),

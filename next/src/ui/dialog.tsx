@@ -1,7 +1,7 @@
-import type { Dispatch, FC, PropsWithChildren, ReactNode, SetStateAction } from "react";
-import { Fragment, useRef } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
+import type { Dispatch, FC, PropsWithChildren, ReactNode, SetStateAction } from "react";
+import { Fragment, useRef } from "react";
 
 interface DialogProps extends PropsWithChildren {
   open: boolean;

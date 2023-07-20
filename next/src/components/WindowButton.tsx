@@ -1,6 +1,7 @@
-import React from "react";
-import Ping from "./Ping";
 import clsx from "clsx";
+import React from "react";
+
+import Ping from "./Ping";
 
 type WindowButtonProps = {
   ping?: boolean; // Toggles the ping animation

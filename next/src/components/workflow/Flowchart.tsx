@@ -14,8 +14,8 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 
 import CustomEdge from "./BasicEdge";
-import type { EdgesModel, NodesModel } from "../../types/workflow";
 import { BasicNode, IfNode, TriggerNode } from "./nodes";
+import type { EdgesModel, NodesModel } from "../../types/workflow";
 
 const nodeTypes = {
   if: IfNode,

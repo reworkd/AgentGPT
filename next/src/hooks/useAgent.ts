@@ -1,7 +1,9 @@
-import { api } from "../utils/api";
+import type { Agent as PrismaAgent } from "@prisma/client";
+
 import { useAuth } from "./useAuth";
 import type { CreateAgentProps, SaveAgentProps } from "../server/api/routers/agentRouter";
-import type { Agent as PrismaAgent } from "@prisma/client";
+import { api } from "../utils/api";
+
 
 export type AgentUtils = {
   createAgent: (data: CreateAgentProps) => Promise<PrismaAgent | undefined>;

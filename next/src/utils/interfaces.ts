@@ -1,6 +1,7 @@
+import type { Session } from "next-auth";
+
 import type { Analysis } from "../services/agent/analysis";
 import type { GPTModelNames, ModelSettings } from "../types";
-import type { Session } from "next-auth";
 
 export interface ApiModelSettings {
   language: string;

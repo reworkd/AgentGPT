@@ -1,3 +1,4 @@
+import type { IconType } from "react-icons";
 import {
   FaCog,
   FaDiscord,
@@ -9,7 +10,7 @@ import {
   FaTwitter,
   FaWater,
 } from "react-icons/fa";
-import type { IconType } from "react-icons";
+
 import { env } from "../../env/client.mjs";
 
 type LinkMetadata = {

@@ -1,7 +1,8 @@
-import Button from "../ui/button";
+import clsx from "clsx";
 import type { ReactNode } from "react";
 import React from "react";
-import clsx from "clsx";
+
+import Button from "../ui/button";
 
 type PrimaryButtonProps = {
   className?: string;

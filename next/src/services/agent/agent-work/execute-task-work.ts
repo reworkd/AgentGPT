@@ -1,12 +1,13 @@
-import type { Task } from "../../../types/task";
-import type { Analysis } from "../analysis";
-import type { Message } from "../../../types/message";
 import { v1 } from "uuid";
-import { streamText } from "../../stream-utils";
-import { toApiModelSettings } from "../../../utils/interfaces";
+
 import type AgentWork from "./agent-work";
-import type AutonomousAgent from "../autonomous-agent";
 import CreateTaskWork from "./create-task-work";
+import type { Message } from "../../../types/message";
+import type { Task } from "../../../types/task";
+import { toApiModelSettings } from "../../../utils/interfaces";
+import { streamText } from "../../stream-utils";
+import type { Analysis } from "../analysis";
+import type AutonomousAgent from "../autonomous-agent";
 
 export default class ExecuteTaskWork implements AgentWork {
   result = "";

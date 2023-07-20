@@ -1,10 +1,11 @@
-import type { RequestBody } from "../../utils/interfaces";
-import type { Analysis } from "./analysis";
 import type { Session } from "next-auth";
-import { useAgentStore } from "../../stores";
-import * as apiUtils from "../api-utils";
+
+import type { Analysis } from "./analysis";
 import type { AgentUtils } from "../../hooks/useAgent";
+import { useAgentStore } from "../../stores";
 import type { Message } from "../../types/message";
+import type { RequestBody } from "../../utils/interfaces";
+import * as apiUtils from "../api-utils";
 
 type ApiProps = Pick<RequestBody, "model_settings" | "goal"> & {
   name: string;

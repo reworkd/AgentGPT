@@ -1,6 +1,7 @@
+import React from "react";
+
 import type { GPTModelNames } from "../../types";
 import { GPT_35_TURBO_16K, GPT_4 } from "../../types";
-import React from "react";
 
 export const ChatWindowTitle = ({ model }: { model: GPTModelNames }) => {
   if (model === GPT_4) {

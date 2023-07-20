@@ -1,22 +1,23 @@
-import { motion } from "framer-motion";
-import FadeIn from "../motions/FadeIn";
-import BannerBadge from "../BannerBadge";
+import Spline from "@splinetool/react-spline";
 import clsx from "clsx";
-import PrimaryButton from "../PrimaryButton";
-import TextButton from "../TextButton";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import type { FC } from "react";
 import { Suspense, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import HeroCard from "../HeroCard";
-import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
+
+import BlueHeroIcon from "../../../public/icons/icon-hero-blue.svg";
 import GreenHeroIcon from "../../../public/icons/icon-hero-green.svg";
 import OrangeHeroIcon from "../../../public/icons/icon-hero-orange.svg";
-import BlueHeroIcon from "../../../public/icons/icon-hero-blue.svg";
-import GlowWrapper from "../GlowWrapper";
-import Spline from "@splinetool/react-spline";
+import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
 import { env } from "../../env/client.mjs";
+import BannerBadge from "../BannerBadge";
+import GlowWrapper from "../GlowWrapper";
+import HeroCard from "../HeroCard";
+import FadeIn from "../motions/FadeIn";
+import PrimaryButton from "../PrimaryButton";
+import TextButton from "../TextButton";
 
 const Hero: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();

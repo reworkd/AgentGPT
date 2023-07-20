@@ -1,5 +1,5 @@
-import { createTRPCRouter } from "./trpc";
 import { agentRouter } from "./routers/agentRouter";
+import { createTRPCRouter } from "./trpc";
 
 export const appRouter = createTRPCRouter({
   agent: agentRouter,

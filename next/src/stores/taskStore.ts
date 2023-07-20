@@ -1,9 +1,10 @@
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
+
+import { createSelectors } from "./helpers";
 import type { Message } from "../types/message";
 import type { Task } from "../types/task";
 import { isTask, TASK_STATUS_COMPLETED, TASK_STATUS_EXECUTING } from "../types/task";
-import { createSelectors } from "./helpers";
 
 export const isExistingTask = (message: Message): boolean =>
   isTask(message) &&

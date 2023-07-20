@@ -1,9 +1,10 @@
 import React from "react";
-import Dialog from "./Dialog";
 import { FaCog } from "react-icons/fa";
-import { Switch } from "../Switch";
+
+import Dialog from "./Dialog";
 import type { ActiveTool } from "../../hooks/useTools";
 import { useTools } from "../../hooks/useTools";
+import { Switch } from "../Switch";
 
 export const ToolsDialog: React.FC<{
   show: boolean;

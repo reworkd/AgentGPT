@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
+import React, { useEffect, useState } from "react";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
+
 import Dialog from "./Dialog";
 
 export default function HelpDialog() {

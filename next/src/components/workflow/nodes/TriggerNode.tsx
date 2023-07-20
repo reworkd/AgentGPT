@@ -1,12 +1,13 @@
+import { useSession } from "next-auth/react";
 import React, { memo } from "react";
 import { type NodeProps, Position } from "reactflow";
-import type { WorkflowNode } from "../../../types/workflow";
-import { getNodeBlockDefinitions } from "../../../services/workflow/node-block-definitions";
+
 import AbstractNode from "./AbstractNode";
-import PrimaryButton from "../../PrimaryButton";
-import { useWorkflowStore } from "../../../stores/workflowStore";
+import { getNodeBlockDefinitions } from "../../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../../services/workflow/workflowApi";
-import { useSession } from "next-auth/react";
+import { useWorkflowStore } from "../../../stores/workflowStore";
+import type { WorkflowNode } from "../../../types/workflow";
+import PrimaryButton from "../../PrimaryButton";
 
 function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const { data: session } = useSession();

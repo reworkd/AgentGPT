@@ -1,19 +1,21 @@
+import clsx from "clsx";
+import { AnimatePresence } from "framer-motion";
+import { useTranslation } from "next-i18next";
+import React from "react";
+import { FaBars, FaTimesCircle } from "react-icons/fa";
+import { v1 } from "uuid";
+
 import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
-import { FaBars, FaTimesCircle } from "react-icons/fa";
-import React from "react";
 import { useAgentStore } from "../../stores";
 import { useTaskStore } from "../../stores/taskStore";
-import { useTranslation } from "next-i18next";
-import { v1 } from "uuid";
 import type { Task as TaskType } from "../../types/task";
 import { MESSAGE_TYPE_TASK, TASK_STATUS_STARTED } from "../../types/task";
-import FadeIn from "../motions/FadeIn";
-import clsx from "clsx";
-import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
-import { AnimatePresence } from "framer-motion";
-import Input from "../Input";
 import Button from "../Button";
+import Input from "../Input";
+import FadeIn from "../motions/FadeIn";
+import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
+
 
 const TaskSidebar = ({ show, setShow }: DisplayProps) => {
   const [customTask, setCustomTask] = React.useState("");

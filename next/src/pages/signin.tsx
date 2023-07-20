@@ -1,18 +1,18 @@
-import React, { useState } from "react";
 import clsx from "clsx";
 import type { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
-import type { ClientSafeProvider } from "next-auth/react";
-import { getProviders, signIn, useSession } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../server/auth/auth";
-
-import FadeIn from "../components/motions/FadeIn";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import type { LiteralUnion } from "next-auth/react/types";
+import { getServerSession } from "next-auth/next";
 import type { BuiltInProviderType } from "next-auth/providers";
+import { getProviders, signIn, useSession } from "next-auth/react";
+import type { ClientSafeProvider } from "next-auth/react";
+import type { LiteralUnion } from "next-auth/react/types";
+import React, { useState } from "react";
+import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
+
+import FadeIn from "../components/motions/FadeIn";
+import { authOptions } from "../server/auth/auth";
 import Input from "../ui/input";
 
 const SignIn = ({ providers }: { providers: Provider }) => {

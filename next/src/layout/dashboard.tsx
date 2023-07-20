@@ -1,12 +1,13 @@
-import type { ReactNode } from "react";
-import { useState } from "react";
 import clsx from "clsx";
-import DottedGridBackground from "../components/DottedGridBackground";
+import { useState } from "react";
+import type { ReactNode } from "react";
+
 import AppHead from "../components/AppHead";
-import { useTheme } from "../hooks/useTheme";
+import DottedGridBackground from "../components/DottedGridBackground";
 import LeftSidebar from "../components/drawer/LeftSidebar";
 import type { DisplayProps } from "../components/drawer/Sidebar";
 import { SidebarControlButton } from "../components/drawer/Sidebar";
+import { useTheme } from "../hooks/useTheme";
 
 type SidebarSettings = {
   mobile: boolean;

@@ -12,7 +12,7 @@ interface CycleItemsProps extends PropsWithChildren {
 
 const CycleIcons = (props: CycleItemsProps) => {
   return (
-    <GlowWrapper>
+    <GlowWrapper className="opacity-75">
       <div className="flex h-[28px] w-[28px] flex-row justify-start gap-x-4 overflow-hidden rounded-full bg-white p-1.5">
         <motion.div
           className="flex gap-2"

@@ -22,6 +22,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
     document.documentElement.lang = i18n.language;
   }, [i18n]);
 
+  const preferredTheme = localStorage.getItem('theme');
+  useEffect(() => {
+    if (preferredTheme) {
+      document.documentElement.setAttribute('data-theme', preferredTheme);
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  }, [preferredTheme]);
+
   return (
     <SessionProvider session={session}>
       <GoogleAnalytics trackPageViews />

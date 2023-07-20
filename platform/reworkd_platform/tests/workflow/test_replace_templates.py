@@ -3,7 +3,10 @@ import re
 import pytest
 
 from reworkd_platform.schemas.workflow.base import Block
-from reworkd_platform.services.worker.exec import get_template, replace_templates
+from reworkd_platform.services.worker.execution_engine import (
+    get_template,
+    replace_templates,
+)
 
 TEMPLATE_PATTERN = r"\{\{(?P<id>[\w\d\-]+)\.(?P<key>[\w\d\-]+)\}\}"
 

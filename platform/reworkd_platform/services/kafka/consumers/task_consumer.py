@@ -4,7 +4,7 @@ from reworkd_platform.services.kafka.consumers.base import AsyncConsumer
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.base import AsyncProducer
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
-from reworkd_platform.services.worker.exec import ExecutionEngine
+from reworkd_platform.services.worker.execution_engine import ExecutionEngine
 from reworkd_platform.settings import settings
 
 

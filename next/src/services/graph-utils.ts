@@ -20,7 +20,11 @@ export const findParents = (
   nodes.forEach((node) => graph.addNode(node.id, node.data));
 
   // Add your edges to the graph
-  edges.forEach((edge) => graph.addEdge(edge.source, edge.target));
+  edges.forEach((edge) => {
+    if (!graph.hasEdge(edge.source, edge.target)) {
+      graph.addEdge(edge.source, edge.target);
+    }
+  });
 
   // Get all parents of the given node
   // Perform DFS to find all ancestors

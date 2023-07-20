@@ -1,4 +1,4 @@
-from typing import Dict, List, Set
+from typing import Dict, List, Optional, Set, Tuple, Union
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,17 +10,20 @@ from reworkd_platform.schemas.workflow.base import EdgeUpsert
 class EdgeCRUD:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
-        self.source_target_map: Dict[str, Set[str]] = {}
+        self.source_to_target_and_handle_map: Dict[
+            str, Set[Tuple[str, Optional[str]]]
+        ] = {}
 
-    def add_edge(self, source: str, target: str) -> bool:
-        if source not in self.source_target_map:
-            self.source_target_map[source] = set()
+    def add_edge(self, e: Union[WorkflowEdgeModel, EdgeUpsert]) -> bool:
+        if e.source not in self.source_to_target_and_handle_map:
+            self.source_to_target_and_handle_map[e.source] = set()
 
-        targets = self.source_target_map[source]
-        if target in targets:
+        target_handle_pair = (e.target, e.source_handle)
+        targets = self.source_to_target_and_handle_map[e.source]
+        if target_handle_pair in targets:
             return False
 
-        targets.add(target)
+        targets.add(target_handle_pair)
         return True
 
     async def get_edges(self, workflow_id: str) -> Dict[str, WorkflowEdgeModel]:
@@ -37,6 +40,7 @@ class EdgeCRUD:
         await WorkflowEdgeModel(
             workflow_id=workflow_id,
             source=edge_upsert.source,
+            source_handle=edge_upsert.source_handle,
             target=edge_upsert.target,
         ).save(self.session)
 

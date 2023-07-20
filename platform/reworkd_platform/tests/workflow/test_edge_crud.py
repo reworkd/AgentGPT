@@ -8,19 +8,31 @@ from reworkd_platform.schemas.workflow.base import EdgeUpsert
 class TestEdgeCRUD:
     def test_add_edge_to_empty_map(self, mocker: MockFixture):
         edge_crud = EdgeCRUD(mocker.Mock())
-        assert edge_crud.add_edge("source", "target")
-        assert edge_crud.source_target_map == {"source": {"target"}}
+        edge_upsert = EdgeUpsert(
+            id=None, source="source", source_handle=None, target="target"
+        )
+        assert edge_crud.add_edge(edge_upsert)
+        assert edge_crud.source_to_target_and_handle_map == {
+            "source": {("target", None)}
+        }
 
     def test_add_edge_to_non_empty_map(self, mocker: MockFixture):
         edge_crud = EdgeCRUD(mocker.Mock())
-        edge_crud.source_target_map = {"source": {"target1"}}
+        edge_crud.source_to_target_and_handle_map = {"source": {("target1", None)}}
 
-        assert edge_crud.add_edge("source", "target2")
-        assert edge_crud.source_target_map == {"source": {"target1", "target2"}}
+        edge_upsert = EdgeUpsert(
+            id=None, source="source", source_handle=None, target="target2"
+        )
+        assert edge_crud.add_edge(edge_upsert)
+        assert edge_crud.source_to_target_and_handle_map == {
+            "source": {("target1", None), ("target2", None)}
+        }
 
     @pytest.mark.asyncio
     async def test_delete_old_edges_not_present_in_edges_to_keep(self, mocker):
-        edge_to_keep = EdgeUpsert(id="0", source="source", target="target")
+        edge_to_keep = EdgeUpsert(
+            id="0", source="source", source_handle=None, target="target"
+        )
         mock_session = mocker.Mock()
         mock_edge = mocker.Mock(id="1")
         mock_all_edges = {"1": mock_edge, "0": edge_to_keep}
@@ -35,6 +47,12 @@ class TestEdgeCRUD:
 
     def test_add_edge_with_existing_source_and_target(self, mocker: MockFixture):
         edge_crud = EdgeCRUD(mocker.Mock())
-        edge_crud.source_target_map = {"source": {"target"}}
-        assert not edge_crud.add_edge("source", "target")
-        assert edge_crud.source_target_map == {"source": {"target"}}
+        edge_crud.source_to_target_and_handle_map = {"source": {("target", None)}}
+
+        edge_upsert = EdgeUpsert(
+            id=None, source="source", source_handle=None, target="target"
+        )
+        assert not edge_crud.add_edge(edge_upsert)
+        assert edge_crud.source_to_target_and_handle_map == {
+            "source": {("target", None)}
+        }

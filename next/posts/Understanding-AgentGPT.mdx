@@ -20,11 +20,11 @@ author:
 
 ---
 
-The invention of the **Generative Pre-trained Transformer (GPT)** is one of the recent decade's most important
-advancements in AI technology. The GPTs powering today's **Large Language Models (LLMs)** demonstrate a _remarkable
+The invention of the _Generative Pre-trained Transformer (GPT)_ is one of the recent decade's most important
+advancements in AI technology. The GPTs powering today's _Large Language Models (LLMs)_ demonstrate a _remarkable
 ability for reasoning, understanding, and planning_. However, their true potential has yet to be fully realized.
 
-At **Reworkd**, we believe that the _true power of LLMs lies in agentic behavior_. By engineering a system that draws on
+At _Reworkd_, we believe that the _true power of LLMs lies in agentic behavior_. By engineering a system that draws on
 LLMs' emergent abilities and providing an ecosystem that supports environmental interactions, we can draw out the full
 potential of models like GPT-4. Here's how AgentGPT works.
 
@@ -45,7 +45,7 @@ This method works fine when the scope of conversations is small; however, _as yo
 chat history, the size and complexity of completions balloons_, and you will quickly run into a wall: the dreaded
 context limit.
 
-A **context limit** is the maximum number of **tokens** (a token usually represents a single word) that can be input
+A _context limit_ is the maximum number of _tokens_ (a token usually represents a single word) that can be input
 into
 the model for a single response. They are necessary because the _computational cost as we add additional tokens tends to
 increase quadratically_. However, they are often the bane of prompt engineers.
@@ -55,7 +55,7 @@ messages to ensure it fits the token limit. While this approach works, it ultima
 available to the assistant.
 
 Another issue that standalone LLMs face is the need for human guidance. Fundamentally, LLMs are next-word predictors,
-and often, their internal structure is not inherently suited to higher-order thought processes, such as **reasoning**
+and often, their internal structure is not inherently suited to higher-order thought processes, such as _reasoning_
 through complex tasks. This weakness doesn't mean they can't or don't reason. In fact, there are several [studies](https://arxiv.org/abs/2205.11916#:~:text=While%20these%20successes%20are%20often%20attributed%20to%20LLMs%27,%22Let%27s%20think%20step%20by%20step%22%20before%20each%20answer.) that shows they can. However, it does mean they face certain impediments. For example, the LLM itself can create a logical list of steps; however, it has _no built-in mechanisms for observation and reflection on that list._
 
 A pre-trained model is essentially a "black box" for the end user in which the final product that is shipped has
@@ -80,32 +80,32 @@ influence their environment. _This could be in the form of solving problems or p
 interact with humans or utilize tools._ Ultimately, we can apply this concept to LLMs to instill more intelligent and
 logical behavior.
 
-In AgentGPT, large language models essentially function as the **brain** of each agent. As a result, we can produce
+In AgentGPT, large language models essentially function as the _brain_ of each agent. As a result, we can produce
 powerful agents by cleverly _manipulating the English language_ and engineering a _framework that supports
 interoperability between LLM completions and a diverse set of APIs_.
 
 ### Engineering this system consists of 3 parts.
 
-**Reasoning and Planning.** If you were to simply take a general goal, such as "build a scaling e-commerce platform,"
+_Reasoning and Planning._ If you were to simply take a general goal, such as "build a scaling e-commerce platform,"
 and
 give it to ChatGPT, you would likely get a response along the lines of "As an AI language model…." However, through
-**prompt engineering**, we can get a model to _break down goals into digestible steps and reflect on them_ with a method
+_prompt engineering_, we can get a model to _break down goals into digestible steps and reflect on them_ with a method
 called chain of thought prompting.
 
-**Memory.** When dealing with memory, we divide the problem into **short-term** and **long-term**. In managing
+_Memory._ When dealing with memory, we divide the problem into _short-term_ and _long-term_. In managing
 short-term
 memory, we can use prompting techniques such as _few-shot prompting to steer LLM responses_. However, _cost and context
 limits make it tricky to generate completions without limiting the breadth of information_ a model can use to make
 decisions.
 
-Similarly, this issue also arises in **long-term memory** because it would be impossible to provide an appropriate
+Similarly, this issue also arises in _long-term memory_ because it would be impossible to provide an appropriate
 corpus
 of writing to bridge the gap between GPT -4's cutoff date, 2021, till today. By using vector databases, we attempt to
 overcome this using specialized models for _information retrieval in high-dimensional vector spaces_.
 
-**Tools**. Another challenge in using LLMs as general actors is their confinement to text outputs. Again, we can use
+_Tools_. Another challenge in using LLMs as general actors is their confinement to text outputs. Again, we can use
 prompt engineering techniques to solve this issue. We can generate predictable function calls from the LLM through
-few-shot and chain-of-thought methods, utilizing API tools like **Google Search**, **Hugging Face**, **Dall-E**, etc. In
+few-shot and chain-of-thought methods, utilizing API tools like _Google Search_, _Hugging Face_, _Dall-E_, etc. In
 addition, we can use fine-tuned LLMs that only return responses in specialized formatting, like JSON. This is the
 approach OpenAI took when they recently released the function calling feature for their API.
 
@@ -115,7 +115,7 @@ and of course, AgentGPT. With this brief overview in mind, let's dive deeper int
 
 ## How do we get agents to act intelligently?
 
-**Prompt engineering** has become highly popularized, and it's only natural given its ability to _increase the
+_Prompt engineering_ has become highly popularized, and it's only natural given its ability to _increase the
 reliability of LLM responses_, opening a wide avenue of potential applications for generative AI. AgentGPT's ability to
 think and reason is a result of novel prompting methods.
 
@@ -126,13 +126,13 @@ to use the English language. _You can think of it like lawyering, where every nu
 
 These are the main concepts and building blocks for more advanced prompting techniques:
 
-1. **Zero-Shot** involves sending the raw command directly to the LLM with little to no formatting.
-2. **Few-Shot** gives context for completions in the form of example responses.
-3. **Chain-of-Thought** guides the model in reasoning through generating and reasoning over a complex task.
+1. _Zero-Shot_ involves sending the raw command directly to the LLM with little to no formatting.
+2. _Few-Shot_ gives context for completions in the form of example responses.
+3. _Chain-of-Thought_ guides the model in reasoning through generating and reasoning over a complex task.
 
 ### How AgentGPT Uses Prompt Engineering
 
-AgentGPT uses an advanced form of chain-of-thought prompting called **Plan-and-Solve** to generate the steps you see
+AgentGPT uses an advanced form of chain-of-thought prompting called _Plan-and-Solve_ to generate the steps you see
 when
 operating the agents.
 
@@ -140,7 +140,7 @@ Traditionally, chain-of-thought prompting utilized few-shot techniques to provid
 process. However, as is becomes a theme, it becomes more costly as the complexity of a task increases because we will
 need to provide more context.
 
-**Plan-and-solve (PS):** By virtue of being a zero-shot method, it provides a _prompting framework for LLM-guided
+_Plan-and-solve (PS):_ By virtue of being a zero-shot method, it provides a _prompting framework for LLM-guided
 reasoning using "trigger" words_. These keywords trigger a reasoning response from the model.
 
 We can expand on this concept by _modifying the prompt to extract important variables and steps to generate a final
@@ -152,15 +152,15 @@ well as feed sub-steps into future plan-and-solve prompts.
 > Alt: Picture of Plan & Solve
 
 While PS prompting helps evoke a reasoning response, it still misses a fundamental concept in reasoning, and that is
-proper handling for reflection and action. **Reflection**is _fundamental for any agent because it must rationalize an
+proper handling for reflection and action. _Reflection_is \_fundamental for any agent because it must rationalize an
 action, perform that action, and use feedback to adjust future actions._ Without it, the agent would be stateless and
 unchanging.
 
 AgentGPT uses a prompting framework called Reasoning and Acting ([ReAct](https://arxiv.org/pdf/2210.03629.pdf)) to
-expand on the capabilities of the Plan-and-Solve concept. **ReAct** aims to _enable a framework for the model to access
+expand on the capabilities of the Plan-and-Solve concept. _ReAct_ aims to _enable a framework for the model to access
 fresh knowledge through external knowledge bases and make observations of actions it has taken_. Using those
 observations, the LLM can make educated decisions on the next set of steps to complete while performing actions to query
-knowledge bases such as **Google Search** or **Wikipedia API**.
+knowledge bases such as _Google Search_ or _Wikipedia API_.
 
 Prompt engineering is largely effective in resolving challenges in short-term memory as well as instilling the reasoning
 behavior that you can see when AgentGPT is at work. However, prompt engineering does not resolve the issue of long-term
@@ -190,16 +190,16 @@ vector databases.
 
 ### Vector Databases Demystified
 
-**[Vector databases](https://aws.amazon.com/what-is/vector-databases/)** have been hyped up for a while now, and the
+_[Vector databases](https://aws.amazon.com/what-is/vector-databases/)_ have been hyped up for a while now, and the
 hype
 is very deserved. They are an efficient way of storing and retrieving vectors by allowing us to use some fun new
 _algorithms to query billions - even trillions - of data records in milliseconds._
 
 Let's start with a little bit of vocabulary:
 
-- A **vector** in the context of an LLM is a representation of a piece of text that a model like GPT-4 encodes.
-- A **vector space** contains many of these vectors.
-- An **embedding** is the vectorized version of a text.
+- A _vector_ in the context of an LLM is a representation of a piece of text that a model like GPT-4 encodes.
+- A _vector space_ contains many of these vectors.
+- An _embedding_ is the vectorized version of a text.
 
 ### Vector libraries like
 
@@ -213,7 +213,7 @@ hand, less similar texts will be further away_. For example, texts about cooking
 physics.
 
 There are several different algorithms for querying the vector space, but the most relevant to this discussion is the
-cosine similarity search. **[Cosine similarity](https://www.geeksforgeeks.org/cosine-similarity/)** measures the cosine
+cosine similarity search. _[Cosine similarity](https://www.geeksforgeeks.org/cosine-similarity/)_ measures the cosine
 of the angle between two non-zero vectors. _It is a measure of orientation, meaning that it's used to determine how
 similar two documents (or whatever the vectors represent) are_. Cosine similarity can range from -1 to 1, with -1
 meaning the vectors are diametrically opposed (completely opposite), 0 meaning the vectors are orthogonal (or
@@ -223,7 +223,7 @@ FAISS is helpful in managing these vector spaces, but it is not a database. _Vec
 lack [CRUD](https://www.freecodecamp.org/news/crud-operations-explained/) operations, which makes them alone unviable
 for long-term memory_, and that's where cloud services such as Pinecone and Weaviate step in.
 
-**Pinecone** and **Weaviate** essentially do all the hard work of managing our vectors. They provide an API that allows
+_Pinecone_ and _Weaviate_ essentially do all the hard work of managing our vectors. They provide an API that allows
 you
 to upload embeddings, perform various types of searches, and store those vectors for later. _They provide the typical
 CRUD functions we need to instill memory into LLMs in easily-accessible Python modules._
@@ -238,7 +238,7 @@ we can create long-term memory.
 
 ## Tools to interact with the environment
 
-While **prompt engineering** and **vector databases** resolve many of the limitations and challenges of LLMs, there is
+While _prompt engineering_ and _vector databases_ resolve many of the limitations and challenges of LLMs, there is
 still the problem of agent interaction. _How can we extend the capabilities of an LLM to interact with the environment
 outside of text?_
 
@@ -247,11 +247,11 @@ access external resources.
 
 Here are a few examples:
 
-- **Google Search API**: Allows agents to search the web and retrieve relevant information.
-- **Hugging Face**: Provides access to various NLP models and transformers for tasks such as summarization, translation,
+- _Google Search API_: Allows agents to search the web and retrieve relevant information.
+- _Hugging Face_: Provides access to various NLP models and transformers for tasks such as summarization, translation,
   sentiment analysis, and more.
-- **Dall-E**: Enables agents to generate images from textual descriptions.
-- **OpenAI's GPT API**: Allows agents to utilize the GPT-4 model for text completion and generation.
+- _Dall-E_: Enables agents to generate images from textual descriptions.
+- _OpenAI's GPT API_: Allows agents to utilize the GPT-4 model for text completion and generation.
 
 Using API tools in combination with prompt engineering techniques, we can create prompts that generate predictable
 function calls and utilize the output of API requests to enhance the agent's capabilities. This enables agents to
@@ -259,21 +259,21 @@ interact with the environment in a meaningful way beyond text-based interactions
 
 ### Engineering Robust Function Calls
 
-Again, we can achieve tooling through prompt engineering by _representing the tool we want to provide for the model_ as a **function**. _We can then tell the model that this function exists in a prompt, so our program can call it programmatically based on the model's response_. First, however, we should examine the main challenges in implementing tool interactions: consistency, context, and format.
+Again, we can achieve tooling through prompt engineering by _representing the tool we want to provide for the model_ as a _function_. _We can then tell the model that this function exists in a prompt, so our program can call it programmatically based on the model's response_. First, however, we should examine the main challenges in implementing tool interactions: consistency, context, and format.
 
-For example, responses tend to vary among chat completions that use the same prompt. Thus, getting the LLM to issue a function call consistently is challenging. A minor solution may include adjusting the **temperature** of the model (a parameter to control the randomness), but the best solution should leverage an LLM's reasoning abilities. Thus, _we can use the ReAct framework to help the llm understand when to issue function calls._
+For example, responses tend to vary among chat completions that use the same prompt. Thus, getting the LLM to issue a function call consistently is challenging. A minor solution may include adjusting the _temperature_ of the model (a parameter to control the randomness), but the best solution should leverage an LLM's reasoning abilities. Thus, _we can use the ReAct framework to help the llm understand when to issue function calls._
 
 In doing this, we will still run into another major issue. How will the LLMs understand what tools are at their disposal? We could include the available tools in a prompt, but this could significantly increase the number of tokens we would need to send to the model. While this may be fine for an application that runs on a couple of tools, it will increase costs as we add more tools to the system. Thus, _we would use vector databases to help the LLM look up relevant tools it needs._
 
 Finally, we need to generate function calls in a predictable format. This format should include provisions for the name of the function and the parameters it takes, and it must include delimiters that allow us to parse and execute the response for those parameters programmatically. _For instance, you can prompt the model to only return responses in JSON and then use built-in Python libraries to parse the stringified JSON._
 
-Recently, it became even easier to use this type of method as well. In late June, OpenAI released **gpt-4-0613** and **gpt-3.5-turbo-16k-0613** (whew, these names are getting long). They natively support function calls by using a model fine-tuned for JSON to return easy-to-use function calls. You can read more about it [here](https://platform.openai.com/docs/guides/gpt/function-calling).
+Recently, it became even easier to use this type of method as well. In late June, OpenAI released _gpt-4-0613_ and _gpt-3.5-turbo-16k-0613_ (whew, these names are getting long). They natively support function calls by using a model fine-tuned for JSON to return easy-to-use function calls. You can read more about it [here](https://platform.openai.com/docs/guides/gpt/function-calling).
 
 ## The future of LLM-powered agents is bright!
 
 Large language models have been one of the most significant advances of the past decade. Capable of reasoning and talking like a human, they appear to be able to do anything. Despite this, several engineering challenges arise in building around an LLM, such as context limits, reasoning, and long-term retention.
 
-Using the methods described above, **AgentGPT** unlocks the full potential of powerful models such as GPT-4. _We can give any model superpowers using novel prompting methods, efficient vector databases, and abundant API tools_. It's only the start, and we hope you'll join us on this journey.
+Using the methods described above, _AgentGPT_ unlocks the full potential of powerful models such as GPT-4. _We can give any model superpowers using novel prompting methods, efficient vector databases, and abundant API tools_. It's only the start, and we hope you'll join us on this journey.
 
 ## Conclusion
 

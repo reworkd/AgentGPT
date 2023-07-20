@@ -40,7 +40,7 @@ export default function BlogPost({
               <div className="mx-auto mb-8 max-w-2xl sm:mb-16">
                 <div className="text-white">
                   <p>{postData.date}</p>
-                  <ReactMarkdown className="prose text-white">{postData.content}</ReactMarkdown>
+                  <ReactMarkdown className="prose text-white font-light">{postData.content}</ReactMarkdown>
                 </div>
               </div>
             </div>

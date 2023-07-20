@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import type { PropsWithChildren } from "react";
-import React from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 import GlowWrapper from "../GlowWrapper";
 
@@ -8,7 +7,7 @@ interface CycleItemsProps extends PropsWithChildren {
   className?: string;
   currentIndex: number;
   hoveredItemIndex: number;
-  icons: React.ReactNode[];
+  icons: ReactNode[];
 }
 
 const CycleIcons = (props: CycleItemsProps) => {

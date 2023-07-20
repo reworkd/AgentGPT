@@ -2,9 +2,10 @@ import { Disclosure } from "@headlessui/react";
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import { FaBars, FaChevronRight, FaTimes } from "react-icons/fa";
 
+import GlowWrapper from "./GlowWrapper";
 import CycleIcons from "./motions/CycleIcons";
 import FadeIn from "./motions/FadeIn";
 import PrimaryButton from "./PrimaryButton";
@@ -14,14 +15,6 @@ import DocsIcon from "../../public/icons/icon-docs.svg";
 import HomeIcon from "../../public/icons/icon-home.svg";
 import PricingIcon from "../../public/icons/icon-pricing.svg";
 import RoadmapIcon from "../../public/icons/icon-roadmap.svg";
-import TextButton from "./TextButton";
-import PrimaryButton from "./PrimaryButton";
-import CycleIcons from "./motions/CycleIcons";
-import React from "react";
-import BlogsIcon from "../../public/icons/icon-blogs.svg";
-import GlowWrapper from "./GlowWrapper";
-
-
 
 const navigation = [
   { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
@@ -40,7 +33,7 @@ export default function NavBar() {
   const currentIndex = navigation.findIndex(
     (nav) => router.pathname.includes(nav.href) || router.pathname === nav.href
   );
-  const [hoveredButtonIndex, setHoveredButtonIndex] = React.useState(0);
+  const [hoveredButtonIndex, setHoveredButtonIndex] = useState(0);
 
   return (
     <FadeIn duration={3}>

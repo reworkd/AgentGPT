@@ -14,7 +14,7 @@ import {
   TASK_STATUS_STARTED,
 } from "../../types/task";
 import { FaCheck } from "react-icons/fa";
-import { FiClipboard } from "react-icons/fi";
+import { FiClipboard, FiExternalLink } from "react-icons/fi";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -41,7 +41,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
         <>
           <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+          {message.type !== "error" &&
           <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
+       }
         </>
       )}
 
@@ -66,6 +68,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
       ) : (
         <>
           <span>{message.value}</span>
+          {message.type === "error" &&
+             <Status />
+          }
           {message.type === MESSAGE_TYPE_SYSTEM &&
             (message.value.toLowerCase().includes("shut") ||
               message.value.toLowerCase().includes("error")) && <FAQ />}
@@ -82,6 +87,17 @@ const FAQ = () => {
       If you are facing issues, please head over to our{" "}
       <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
         FAQ
+      </a>
+    </p>
+  );
+};
+
+const Status = () => {
+  return (
+    <p className="flex items-center gap-1 pl-6">
+      Check AgentGPT Status{" "}
+      <a href="https://status.reworkd.ai" target="_blank" className="text-sky-500">
+       <FiExternalLink />
       </a>
     </p>
   );

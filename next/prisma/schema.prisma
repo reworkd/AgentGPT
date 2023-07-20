@@ -149,14 +149,15 @@ model Workflow {
 }
 
 model WorkflowEdge {
-  id          String @id @default(cuid())
-  workflow_id String
-  source      String @db.VarChar(36)
-  target      String @db.VarChar(36)
+  id            String  @id @default(cuid())
+  workflow_id   String
+  source        String  @db.VarChar(36)
+  source_handle String? @db.VarChar(36)
+  target        String  @db.VarChar(36)
 
   workflow Workflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
 
-  @@unique([workflow_id, source, target])
+  @@unique([workflow_id, source, target, source_handle])
   @@map("workflow_edge")
 }
 

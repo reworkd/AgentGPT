@@ -2,7 +2,7 @@ import asyncio
 from typing import Dict, List
 
 from fastapi import Depends
-from sqlalchemy import select, and_
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
@@ -114,7 +114,7 @@ class WorkflowCRUD(BaseCrud):
 
         # Mark edges as added
         for edge_model in all_edges.values():
-            self.edge_service.add_edge(edge_model.source, edge_model.target)
+            self.edge_service.add_edge(edge_model)
 
         # Modify the edges' source and target to their corresponding IDs
         for e in workflow_update.edges:
@@ -123,7 +123,7 @@ class WorkflowCRUD(BaseCrud):
 
         # update edges
         for e in workflow_update.edges:
-            if self.edge_service.add_edge(e.source, e.target):
+            if self.edge_service.add_edge(e):
                 await self.edge_service.create_edge(e, workflow_id)
 
         # Delete edges

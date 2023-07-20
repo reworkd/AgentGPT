@@ -13,14 +13,15 @@ export const generateEnv = (envValues) => {
         envValues,
         isDockerCompose,
         dbPort,
-        platformUrl
+        platformUrl,
+        isDockerCompose ? "/etc/ssl/certs/ca-certificates.crt" : ""
     );
 
     const envFileContent = generateEnvFileContent(envDefinition);
     saveEnvFile(envFileContent);
 };
 
-const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
+const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl, certPath) => {
     return {
         "Deployment Environment": {
             NODE_ENV: "development",
@@ -62,7 +63,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
             REWORKD_PLATFORM_DATABASE_NAME: "reworkd_platform",
             REWORKD_PLATFORM_DATABASE_URL:
                 "mysql://${REWORKD_PLATFORM_DATABASE_USER}:${REWORKD_PLATFORM_DATABASE_PASSWORD}@${REWORKD_PLATFORM_DATABASE_HOST}:${REWORKD_PLATFORM_DATABASE_PORT}/${REWORKD_PLATFORM_DATABASE_NAME}",
-            REWORKD_PLATFORM_DB_CA_PATH: "/etc/ssl/certs/ca-certificates.crt"
+            REWORKD_PLATFORM_DB_CA_PATH: certPath,
         },
         "Database (Frontend)": {
             DATABASE_USER: "reworkd_platform",

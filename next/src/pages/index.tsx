@@ -72,6 +72,15 @@ const Home: NextPage = () => {
     nameInputRef?.current?.focus();
   }, []);
 
+  useEffect(() => {
+    const preferredTheme = localStorage.getItem('theme');
+    if (preferredTheme) {
+      document.documentElement.setAttribute('data-theme', preferredTheme);
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  }, []);
+
   const setAgentRun = (newName: string, newGoal: string) => {
     setNameInput(newName);
     setGoalInput(newGoal);

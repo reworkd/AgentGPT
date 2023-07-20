@@ -12,8 +12,6 @@ import { useWorkflowStore } from "../stores/workflowStore";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
 import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 
-
-
 const eventSchema = z.object({
   nodeId: z.string(),
   status: z.enum(["running", "success", "failure"]),
@@ -55,7 +53,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
 
   const workflowStore = useWorkflowStore();
 
-  useQuery(
+  const { refetch: refetchWorkflow } = useQuery(
     ["workflow", workflowId],
     async () => {
       const workflow = await api.get(workflowId);
@@ -68,6 +66,8 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     },
     {
       enabled: !!workflowId && !!session?.accessToken,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
     }
   );
 
@@ -144,6 +144,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
         target: e.target,
       })),
     });
+    await refetchWorkflow();
   };
 
   const onExecute = async () => await api.execute(workflowId);

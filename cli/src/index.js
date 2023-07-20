@@ -34,7 +34,7 @@ const handleNewEnv = () => {
 const handleRunOption = (runOption) => {
   if (runOption === "docker-compose") {
     try {
-      const dockerComposeUp = spawn("docker-compose", ["down"], {
+      spawn("docker-compose", ["down"], {
         stdio: "inherit",
       });
     }
@@ -42,19 +42,18 @@ const handleRunOption = (runOption) => {
       console.log(e.message);
     }
   }
-}
 
-if (runOption === "manual") {
-  console.log(
-    "Please go into the ./next folder and run `npm install && npm run dev`."
-  );
-  console.log(
-    "Please also go into the ./platform folder and run `poetry install && poetry run python -m reworkd_platform`."
-  );
-  console.log(
-    "Please use or update the MySQL database configuration in the env file(s)."
-  );
-}
+  if (runOption === "manual") {
+    console.log(
+      "Please go into the ./next folder and run `npm install && npm run dev`."
+    );
+    console.log(
+      "Please also go into the ./platform folder and run `poetry install && poetry run python -m reworkd_platform`."
+    );
+    console.log(
+      "Please use or update the MySQL database configuration in the env file(s)."
+    );
+  }
 };
 
 printTitle();

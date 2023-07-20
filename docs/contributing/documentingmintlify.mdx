@@ -1,0 +1,56 @@
+---
+title: "Documentating"
+description: "Learn how to contribute to AgentGPT's documentation."
+icon: "book"
+---
+
+# Contributing to Agent GPT Documentation
+
+To contribute to the Agent GPT documentation, we utilize a powerful tool named Mintlify, which aids in constructing a robust and user-friendly documentation library. Visit [Mintlify here](https://mintlify.com/docs/introduction) for more information.
+
+## What is Mintlify?
+
+Mintlify is a dynamic platform that simplifies the process of building and managing high-quality documentation. Its intuitive design and features make it an ideal choice for maintaining up-to-date, clear, and interactive documentation.
+
+## Running Mintlify Locally
+
+You can run Mintlify locally to preview changes in real-time and ensure that the documentation is error-free. Here's how to do it:
+
+Navigate to the 'docs' directory in the Agent GPT repository:
+
+```bash
+cd docs
+```
+
+Then, run the following command to start a local instance of the Mintlify application:
+
+```bash
+mintlify dev
+```
+
+Once the documentation website has loaded, you can start editing by accessing the appropriate files under the 'docs' directory. The navigation bar is preconfigured to display grouped tabs. Each tab contains files pertaining to a specific category.
+
+To add a new file, save it in the corresponding folder and update the navigation section in 'mint.json':
+
+```bash
+{
+  "group": "Development",
+  "pages": ["development/YOUR-NEW-FILE"]
+}
+```
+
+```bash
+{
+  "group": "YOUR-NEW-SECTION",
+  "pages": ["YOUR-NEW-SECTION/YOUR-NEW-FILE"]
+}
+```
+
+## What We Want Documented
+
+We appreciate your contributions to the Agent GPT documentation. Here's what we're looking for:
+
+- Documentation that assists new users in getting started with Agent GPT.
+- Explanation of any new processes or features within the system.
+- In-depth guides on features that have multiple moving parts or are core functionalities of Agent GPT.
+  Remember, the key to good documentation is clarity, relevance, and accuracy. Your contributions help make Agent GPT a more accessible and user-friendly platform for all. Thank you for your support!

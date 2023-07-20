@@ -55,7 +55,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
 
   const workflowStore = useWorkflowStore();
 
-  useQuery(
+  const { refetch: refetchWorkflow } = useQuery(
     ["workflow", workflowId],
     async () => {
       const workflow = await api.get(workflowId);
@@ -68,6 +68,8 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     },
     {
       enabled: !!workflowId && !!session?.accessToken,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
     }
   );
 
@@ -141,9 +143,11 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
       edges: edges.map((e) => ({
         id: e.id,
         source: e.source,
+        source_handle: e.sourceHandle || undefined,
         target: e.target,
       })),
     });
+    await refetchWorkflow();
   };
 
   const onExecute = async () => await api.execute(workflowId);

@@ -23,6 +23,7 @@ const WorkflowNodeSchema = z.object({
 const WorkflowEdgeSchema = z.object({
   id: z.string(),
   source: z.string(),
+  source_handle: z.string().optional().nullable(),
   target: z.string(),
   status: z.enum(["running", "success", "failure"]).optional(),
 });
@@ -50,6 +51,7 @@ export const toReactFlowNode = (node: WorkflowNode) =>
 export const toReactFlowEdge = (edge: WorkflowEdge) =>
   ({
     ...edge,
+    sourceHandle: edge.source_handle,
     type: "custom",
     data: {
       ...edge,

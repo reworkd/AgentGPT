@@ -1,4 +1,4 @@
-import type { ComponentProps, MouseEvent} from "react";
+import type { ComponentProps, MouseEvent } from "react";
 import { type FC, useCallback } from "react";
 import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
 import ReactFlow, {

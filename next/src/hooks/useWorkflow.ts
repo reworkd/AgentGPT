@@ -1,5 +1,5 @@
 import type { Edge, Node } from "reactflow";
-import type { Dispatch, SetStateAction} from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -131,6 +131,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
       edges: edges.map((e) => ({
         id: e.id,
         source: e.source,
+        source_handle: e.sourceHandle || undefined,
         target: e.target,
       })),
     });

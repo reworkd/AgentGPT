@@ -12,8 +12,6 @@ import { useWorkflowStore } from "../stores/workflowStore";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
 import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 
-
-
 const eventSchema = z.object({
   nodeId: z.string(),
   status: z.enum(["running", "success", "failure"]),

@@ -1,7 +1,8 @@
-import React from "react";
-import { MacWindowInternal } from "../console/MacWindowHeader";
 import clsx from "clsx";
+import React from "react";
 import { FaGithub } from "react-icons/fa";
+
+import { MacWindowInternal } from "../console/MacWindowHeader";
 import PrimaryButton from "../PrimaryButton";
 
 interface TerminalProps {

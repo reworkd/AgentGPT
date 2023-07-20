@@ -1,8 +1,10 @@
-import FadeIn from "../motions/FadeIn";
-import { ChatMessage } from "./ChatMessage";
-import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
-import { ExampleAgentButton } from "./ExampleAgentButton";
 import React from "react";
+
+import { ChatMessage } from "./ChatMessage";
+import { ExampleAgentButton } from "./ExampleAgentButton";
+import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
+import FadeIn from "../motions/FadeIn";
+
 
 type ExampleAgentsProps = {
   setAgentRun?: (name: string, goal: string) => void;

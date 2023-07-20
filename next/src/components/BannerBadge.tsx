@@ -1,8 +1,8 @@
+import clsx from "clsx";
 import type { PropsWithChildren } from "react";
 import React from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
-import clsx from "clsx";
 
 type BadgeProps = PropsWithChildren<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 

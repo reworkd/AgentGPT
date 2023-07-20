@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { PropsWithChildren } from "react";
 import React from "react";
+
 import GlowWrapper from "../GlowWrapper";
 
 interface CycleItemsProps extends PropsWithChildren {

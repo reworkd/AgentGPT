@@ -1,18 +1,19 @@
-import type { DisplayProps } from "./Sidebar";
-import Sidebar from "./Sidebar";
 import React from "react";
 import { FaBars } from "react-icons/fa";
+import type { Edge, Node } from "reactflow";
+
+import type { DisplayProps } from "./Sidebar";
+import Sidebar from "./Sidebar";
+import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
+import { findParents } from "../../services/graph-utils";
 import type { IOField, NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
 import {
   getNodeBlockDefinitionFromNode,
   getNodeBlockDefinitions,
 } from "../../services/workflow/node-block-definitions";
-import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
-import type { Edge, Node } from "reactflow";
-import TextButton from "../TextButton";
-import { findParents } from "../../services/graph-utils";
 import InputWithSuggestions from "../../ui/InputWithSuggestions";
+import TextButton from "../TextButton";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;

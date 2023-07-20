@@ -1,11 +1,12 @@
-import React from "react";
-import NavBar from "../components/NavBar";
-import Hero from "../components/landing/Hero";
-import FooterLinks from "../components/landing/FooterLinks";
-import Backing from "../components/landing/Backing";
 import Image from "next/image";
+import React from "react";
+
 import AppHead from "../components/AppHead";
+import Backing from "../components/landing/Backing";
+import FooterLinks from "../components/landing/FooterLinks";
+import Hero from "../components/landing/Hero";
 import FadeIn from "../components/motions/FadeIn";
+import NavBar from "../components/NavBar";
 
 const HomePage = () => {
   return (

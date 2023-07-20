@@ -1,8 +1,8 @@
+import { Menu as MenuPrimitive, Transition } from "@headlessui/react";
+import clsx from "clsx";
 import type { ReactNode } from "react";
 import { Fragment } from "react";
-import { Menu as MenuPrimitive, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
-import clsx from "clsx";
 
 interface MenuProps {
   icon?: ReactNode;

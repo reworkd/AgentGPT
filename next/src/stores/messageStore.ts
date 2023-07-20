@@ -1,6 +1,7 @@
-import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
+
+import { createSelectors } from "./helpers";
 import type { Message } from "../types/message";
 
 const resetters: (() => void)[] = [];

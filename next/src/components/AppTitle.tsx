@@ -1,7 +1,8 @@
-import PopIn from "./motions/popin";
-import Badge from "./Badge";
-import React from "react";
 import { useTranslation } from "next-i18next";
+import React from "react";
+
+import Badge from "./Badge";
+import PopIn from "./motions/popin";
 
 const AppTitle = () => {
   const { i18n } = useTranslation();

@@ -1,6 +1,7 @@
-import React from "react";
-import Label from "./Label";
 import clsx from "clsx";
+import React from "react";
+
+import Label from "./Label";
 import type { toolTipProperties } from "../types";
 
 interface InputProps {

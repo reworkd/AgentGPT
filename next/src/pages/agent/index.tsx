@@ -1,21 +1,22 @@
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
-import Button from "../../components/Button";
-import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { api } from "../../utils/api";
-import ChatWindow from "../../components/console/ChatWindow";
-import type { Message } from "../../types/message";
-import Toast from "../../components/toast";
-import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
-import { env } from "../../env/client.mjs";
 import { useTranslation } from "next-i18next";
-import { languages } from "../../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { useState } from "react";
+import { FaBackspace, FaShare, FaTrash } from "react-icons/fa";
+
 import nextI18NextConfig from "../../../next-i18next.config";
-import DashboardLayout from "../../layout/dashboard";
-import FadeIn from "../../components/motions/FadeIn";
+import Button from "../../components/Button";
 import { ChatMessage } from "../../components/console/ChatMessage";
+import ChatWindow from "../../components/console/ChatWindow";
+import FadeIn from "../../components/motions/FadeIn";
+import Toast from "../../components/toast";
+import { env } from "../../env/client.mjs";
+import DashboardLayout from "../../layout/dashboard";
+import type { Message } from "../../types/message";
+import { api } from "../../utils/api";
+import { languages } from "../../utils/languages";
 
 const AgentPage: NextPage = () => {
   const [t] = useTranslation();

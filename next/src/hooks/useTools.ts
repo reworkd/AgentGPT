@@ -1,9 +1,10 @@
-import { z } from "zod";
-import { useSession } from "next-auth/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAgentStore } from "../stores";
+import { useSession } from "next-auth/react";
+import { z } from "zod";
 
 import { get } from "../services/fetch-utils";
+import { useAgentStore } from "../stores";
+
 
 const Tool = z.object({
   name: z.string(),

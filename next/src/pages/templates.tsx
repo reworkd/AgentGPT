@@ -1,13 +1,14 @@
-import React, { useState } from "react";
 import type { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { useState } from "react";
+
 import nextI18NextConfig from "../../next-i18next.config.js";
-import { languages } from "../utils/languages";
-import TemplateCard from "../components/templates/TemplateCard";
 import FadeIn from "../components/motions/FadeIn";
+import TemplateCard from "../components/templates/TemplateCard";
+import { TEMPLATE_DATA } from "../components/templates/TemplateData";
 import SearchBar from "../components/templates/TemplateSearch";
 import DashboardLayout from "../layout/dashboard";
-import { TEMPLATE_DATA } from "../components/templates/TemplateData";
+import { languages } from "../utils/languages";
 
 const Templates = () => {
   const [searchQuery, setSearchQuery] = useState("");

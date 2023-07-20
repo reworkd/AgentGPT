@@ -1,7 +1,8 @@
 import type { ForwardedRef } from "react";
 import React, { forwardRef, useState } from "react";
-import Ping from "../components/Ping";
+
 import Loader from "../components/loader";
+import Ping from "../components/Ping";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;

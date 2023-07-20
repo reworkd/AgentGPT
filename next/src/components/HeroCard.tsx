@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React from "react";
+
 import GlowWrapper from "./GlowWrapper";
 import SparkleIcon from "../../public/icons/sparkle-default-regular.svg";
 

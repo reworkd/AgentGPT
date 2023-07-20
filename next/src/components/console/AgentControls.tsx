@@ -1,9 +1,10 @@
-import Button from "../Button";
-import { ImSpinner2 } from "react-icons/im";
-import { FaPause, FaPlay, FaStop, FaUndo } from "react-icons/fa";
 import clsx from "clsx";
 import React from "react";
+import { FaPause, FaPlay, FaStop, FaUndo } from "react-icons/fa";
+import { ImSpinner2 } from "react-icons/im";
+
 import type { AgentLifecycle } from "../../services/agent/agent-run-model";
+import Button from "../Button";
 
 type AgentControlsProps = {
   disablePlay: boolean;

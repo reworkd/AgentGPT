@@ -1,6 +1,6 @@
-import { z } from "zod";
-import type { Edge, Node } from "reactflow";
 import type { Dispatch, SetStateAction } from "react";
+import type { Edge, Node } from "reactflow";
+import { z } from "zod";
 
 const NodeBlockSchema = z.object({
   type: z.string(),

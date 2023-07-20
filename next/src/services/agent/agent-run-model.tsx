@@ -1,7 +1,8 @@
 import { v4 } from "uuid";
-import type { Task, TaskStatus } from "../../types/task";
-import { useTaskStore } from "../../stores/taskStore";
+
 import { useAgentStore } from "../../stores";
+import { useTaskStore } from "../../stores/taskStore";
+import type { Task, TaskStatus } from "../../types/task";
 
 /*
  * Abstraction over model used by Autonomous Agent to encapsulate the data required for a given run

@@ -1,6 +1,7 @@
-import { z } from "zod";
-import type { WorkflowNode } from "../../types/workflow";
 import type { Node } from "reactflow";
+import { z } from "zod";
+
+import type { WorkflowNode } from "../../types/workflow";
 
 const IOFieldSchema = z.object({
   name: z.string(),

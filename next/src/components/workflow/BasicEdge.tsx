@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import type { EdgeProps } from "reactflow";
 import { BaseEdge, getBezierPath } from "reactflow";
+
 import type { WorkflowEdge } from "../../types/workflow";
 
 const edgeColors = {

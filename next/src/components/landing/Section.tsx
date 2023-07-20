@@ -1,6 +1,7 @@
-import React from "react";
-import Highlight from "../../ui/highlight";
 import clsx from "clsx";
+import React from "react";
+
+import Highlight from "../../ui/highlight";
 
 const Sections = () => {
   return (

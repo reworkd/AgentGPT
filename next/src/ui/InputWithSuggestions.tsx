@@ -1,8 +1,8 @@
+import { Menu as MenuPrimitive } from "@headlessui/react";
 import React from "react";
+
 import Input from "./input";
 import { MenuItems } from "../components/Menu";
-import { Menu as MenuPrimitive } from "@headlessui/react";
-
 import WindowButton from "../components/WindowButton";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {

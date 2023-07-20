@@ -1,6 +1,7 @@
 import Graph from "graphology";
-import type { WorkflowEdge, WorkflowNode } from "../types/workflow";
 import type { Edge, Node } from "reactflow";
+
+import type { WorkflowEdge, WorkflowNode } from "../types/workflow";
 
 export const findParents = (
   nodes: Node<WorkflowNode>[],

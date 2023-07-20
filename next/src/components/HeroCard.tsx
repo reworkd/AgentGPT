@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React from "react";
+
 import GlowWrapper from "./GlowWrapper";
 import SparkleIcon from "../../public/icons/sparkle-default-regular.svg";
 
@@ -24,7 +25,7 @@ const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick 
           </p>
         </div>
       </div>
-      <GlowWrapper>
+      <GlowWrapper className="opacity-60">
         <div
           className="group relative flex h-8 w-8 items-center justify-center rounded-full bg-white"
           onClick={() => {

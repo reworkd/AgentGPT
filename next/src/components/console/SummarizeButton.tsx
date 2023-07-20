@@ -1,7 +1,8 @@
+import clsx from "clsx";
+import React from "react";
+
 import { useAgentStore } from "../../stores";
 import { useTaskStore } from "../../stores/taskStore";
-import React from "react";
-import clsx from "clsx";
 import Button from "../Button";
 
 const Summarize = () => {

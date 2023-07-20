@@ -1,6 +1,7 @@
+import clsx from "clsx";
 import { motion, useMotionTemplate } from "framer-motion";
 import React from "react";
-import clsx from "clsx";
+
 import { useMouseMovement } from "../hooks/useMouseMovement";
 
 const colors = {

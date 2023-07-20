@@ -1,14 +1,9 @@
 import axios from "axios";
-import DashboardLayout from "../layout/dashboard";
-import Combo from "../ui/combox";
-import Input from "../ui/input";
-import type { Language } from "../utils/languages";
-import { languages } from "../utils/languages";
-import React, { useState } from "react";
+import clsx from "clsx";
+import type { GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../next-i18next.config.js";
-import type { GetStaticProps } from "next";
+import React, { useState } from "react";
 import {
   FaCheckCircle,
   FaCoins,
@@ -19,13 +14,21 @@ import {
   FaSyncAlt,
   FaThermometerFull,
 } from "react-icons/fa";
-import { useSettings } from "../hooks/useSettings";
+
+import nextI18NextConfig from "../../next-i18next.config.js";
 import { useAuth } from "../hooks/useAuth";
 import type { LLMModel } from "../hooks/useModels";
 import { useModels } from "../hooks/useModels";
+import { useSettings } from "../hooks/useSettings";
+import DashboardLayout from "../layout/dashboard";
 import type { GPTModelNames } from "../types";
 import Button from "../ui/button";
-import clsx from "clsx";
+import Combo from "../ui/combox";
+import Input from "../ui/input";
+import type { Language } from "../utils/languages";
+import { languages } from "../utils/languages";
+
+
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");

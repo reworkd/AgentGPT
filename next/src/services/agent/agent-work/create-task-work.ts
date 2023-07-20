@@ -1,5 +1,5 @@
-import type { Task } from "../../../types/task";
 import type AgentWork from "./agent-work";
+import type { Task } from "../../../types/task";
 import type AutonomousAgent from "../autonomous-agent";
 
 export default class CreateTaskWork implements AgentWork {

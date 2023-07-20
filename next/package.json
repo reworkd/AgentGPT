@@ -9,7 +9,7 @@
     "build": "next build --no-lint",
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "lint": "cross-env SKIP_ENV_VALIDATION=1 next lint",
+    "lint": "cross-env SKIP_ENV_VALIDATION=1 next lint --fix",
     "start": "next start",
     "prepare": "cd .. && husky install next/.husky",
     "test": "cross-env SKIP_ENV_VALIDATION=1 jest"
@@ -78,6 +78,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.43.0",
     "eslint-config-next": "13.4.1",
+    "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.3",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",

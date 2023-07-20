@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import type { ForwardedRef } from "react";
 import React, { forwardRef, useState } from "react";
+
 import Loader from "./loader";
-import clsx from "clsx";
 import Ping from "./Ping";
 
 export interface ButtonProps {

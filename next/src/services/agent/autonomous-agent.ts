@@ -1,17 +1,18 @@
 import type { Session } from "next-auth";
+
 import type { AgentApi } from "./agent-api";
-import type { ModelSettings } from "../../types";
-import type { MessageService } from "./message-service";
 import type { AgentRunModel } from "./agent-run-model";
-import { useAgentStore } from "../../stores";
-import { isRetryableError } from "../../types/errors";
-import AnalyzeTaskWork from "./agent-work/analyze-task-work";
-import StartGoalWork from "./agent-work/start-task-work";
 import type AgentWork from "./agent-work/agent-work";
-import { withRetries } from "../api-utils";
-import type { Message } from "../../types/message";
-import SummarizeWork from "./agent-work/summarize-work";
+import AnalyzeTaskWork from "./agent-work/analyze-task-work";
 import ChatWork from "./agent-work/chat-work";
+import StartGoalWork from "./agent-work/start-task-work";
+import SummarizeWork from "./agent-work/summarize-work";
+import type { MessageService } from "./message-service";
+import { useAgentStore } from "../../stores";
+import type { ModelSettings } from "../../types";
+import { isRetryableError } from "../../types/errors";
+import type { Message } from "../../types/message";
+import { withRetries } from "../api-utils";
 
 class AutonomousAgent {
   model: AgentRunModel;

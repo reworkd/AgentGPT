@@ -1,17 +1,18 @@
-import { useTranslation } from "next-i18next";
+import clsx from "clsx";
 import * as htmlToImage from "html-to-image";
-import WindowButton from "../WindowButton";
-import { FaImage } from "react-icons/fa";
-import PDFButton from "../pdf/PDFButton";
-import PopIn from "../motions/popin";
-import Expand from "../motions/expand";
-import Menu from "../Menu";
-import { CgExport } from "react-icons/cg";
+import { useTranslation } from "next-i18next";
 import type { PropsWithChildren, ReactNode } from "react";
 import React from "react";
-import type { Message } from "../../types/message";
+import { CgExport } from "react-icons/cg";
+import { FaImage } from "react-icons/fa";
 import { FiClipboard } from "react-icons/fi";
-import clsx from "clsx";
+
+import type { Message } from "../../types/message";
+import Menu from "../Menu";
+import Expand from "../motions/expand";
+import PopIn from "../motions/popin";
+import PDFButton from "../pdf/PDFButton";
+import WindowButton from "../WindowButton";
 
 export const messageListId = "chat-window-message-list";
 

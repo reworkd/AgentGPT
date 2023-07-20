@@ -1,6 +1,7 @@
-import YCLogo from "../../../public/logos/yc-default-solid.svg";
-import PanacheLogo from "../../../public/logos/panache-default-solid.svg";
 import clsx from "clsx";
+
+import PanacheLogo from "../../../public/logos/panache-default-solid.svg";
+import YCLogo from "../../../public/logos/yc-default-solid.svg";
 
 const Backing = (props: { className?: string }) => (
   <div

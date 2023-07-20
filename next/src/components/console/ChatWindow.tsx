@@ -1,15 +1,16 @@
-import type { ReactNode } from "react";
-import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "next-i18next";
-import HideShow from "../motions/HideShow";
 import clsx from "clsx";
+import { useTranslation } from "next-i18next";
+import React, { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { FaArrowCircleDown, FaCommentDots } from "react-icons/fa";
+import { ImSpinner2 } from "react-icons/im";
+
 import type { HeaderProps } from "./MacWindowHeader";
 import { MacWindowHeader, messageListId } from "./MacWindowHeader";
-import { FaArrowCircleDown, FaCommentDots } from "react-icons/fa";
 import { useAgentStore } from "../../stores";
-import { ImSpinner2 } from "react-icons/im";
-import Input from "../Input";
 import Button from "../Button";
+import Input from "../Input";
+import HideShow from "../motions/HideShow";
 
 interface ChatControls {
   value: string;

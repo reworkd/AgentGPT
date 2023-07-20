@@ -1,8 +1,8 @@
-import { FaBars } from "react-icons/fa";
-import type { ReactNode } from "react";
-import { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
+import type { ReactNode } from "react";
+import { Fragment } from "react";
+import { FaBars } from "react-icons/fa";
 
 export type DisplayProps = {
   show: boolean;

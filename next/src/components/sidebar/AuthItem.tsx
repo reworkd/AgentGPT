@@ -1,11 +1,12 @@
-import type { FC } from "react";
-import React, { useState } from "react";
+import clsx from "clsx";
 import type { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
-import clsx from "clsx";
-import { get_avatar } from "../../utils/user";
+import type { FC } from "react";
+import React, { useState } from "react";
 import { FaEllipsisH, FaSignInAlt } from "react-icons/fa";
+
 import Dialog from "../../ui/dialog";
+import { get_avatar } from "../../utils/user";
 import { ThemeMenu } from "../ThemeMenu";
 
 const AuthItem: FC<{

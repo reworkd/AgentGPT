@@ -1,17 +1,18 @@
 import Image from "next/image";
-import { FaBars } from "react-icons/fa";
-import FadingHr from "../FadingHr";
-import { DrawerItemButton, DrawerItemButtonLoader } from "./DrawerItemButton";
-import { PAGE_LINKS, SOCIAL_LINKS } from "../sidebar/links";
-import LinkItem from "../sidebar/LinkItem";
-import LinkIconItem from "../sidebar/LinkIconItem";
-import AuthItem from "../sidebar/AuthItem";
 import { useRouter } from "next/router";
-import { useAuth } from "../../hooks/useAuth";
 import { useTranslation } from "next-i18next";
-import { api } from "../../utils/api";
+import { FaBars } from "react-icons/fa";
+
+import { DrawerItemButton, DrawerItemButtonLoader } from "./DrawerItemButton";
 import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
+import { useAuth } from "../../hooks/useAuth";
+import { api } from "../../utils/api";
+import FadingHr from "../FadingHr";
+import AuthItem from "../sidebar/AuthItem";
+import LinkIconItem from "../sidebar/LinkIconItem";
+import LinkItem from "../sidebar/LinkItem";
+import { PAGE_LINKS, SOCIAL_LINKS } from "../sidebar/links";
 
 const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const router = useRouter();

@@ -1,9 +1,12 @@
+import React from "react";
+import { FaAdjust, FaMoon, FaSun } from "react-icons/fa";
+
+import Menu from "./Menu";
+import WindowButton from "./WindowButton";
 import { useTheme } from "../hooks/useTheme";
 import type { Theme } from "../types";
-import { FaAdjust, FaMoon, FaSun } from "react-icons/fa";
-import WindowButton from "./WindowButton";
-import React from "react";
-import Menu from "./Menu";
+
+
 
 export const ThemeMenu = () => {
   const { theme, setTheme } = useTheme();

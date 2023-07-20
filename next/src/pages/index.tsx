@@ -1,45 +1,47 @@
-import React, { useEffect, useRef } from "react";
-import { useTranslation } from "next-i18next";
+import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import { type GetStaticProps, type NextPage } from "next";
-import Button from "../components/Button";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { useEffect, useRef } from "react";
 import { FaCog, FaRobot, FaStar } from "react-icons/fa";
-import AutonomousAgent from "../services/agent/autonomous-agent";
+
+import nextI18NextConfig from "../../next-i18next.config.js";
+import AppTitle from "../components/AppTitle";
+import Button from "../components/Button";
+import AgentControls from "../components/console/AgentControls";
+import { ChatMessage } from "../components/console/ChatMessage";
+import ChatWindow from "../components/console/ChatWindow";
+import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
+import ExampleAgents from "../components/console/ExampleAgents";
+import Summarize from "../components/console/SummarizeButton";
 import HelpDialog from "../components/dialog/HelpDialog";
-import { useAuth } from "../hooks/useAuth";
+import { SignInDialog } from "../components/dialog/SignInDialog";
+import { ToolsDialog } from "../components/dialog/ToolsDialog";
+import Input from "../components/Input";
+import FadeIn from "../components/motions/FadeIn";
 import { useAgent } from "../hooks/useAgent";
-import { isEmptyOrBlank } from "../utils/whitespace";
+import { useAuth } from "../hooks/useAuth";
+import AutonomousAgent from "../services/agent/autonomous-agent";
+import { MessageService } from "../services/agent/message-service";
 import {
   resetAllAgentSlices,
   resetAllMessageSlices,
   useAgentStore,
   useMessageStore,
 } from "../stores";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { languages } from "../utils/languages";
-import nextI18NextConfig from "../../next-i18next.config.js";
-import { SignInDialog } from "../components/dialog/SignInDialog";
-import { ToolsDialog } from "../components/dialog/ToolsDialog";
-import DashboardLayout from "../layout/dashboard";
-import AppTitle from "../components/AppTitle";
-import FadeIn from "../components/motions/FadeIn";
-import Input from "../components/Input";
-import Expand from "../components/motions/expand";
-import ChatWindow from "../components/console/ChatWindow";
-import { AnimatePresence, motion } from "framer-motion";
-import { useSettings } from "../hooks/useSettings";
-import { useRouter } from "next/router";
 import { useAgentInputStore } from "../stores/agentInputStore";
-import { MessageService } from "../services/agent/message-service";
+import { languages } from "../utils/languages";
+import { isEmptyOrBlank } from "../utils/whitespace";
+
+import DashboardLayout from "../layout/dashboard";
+import Expand from "../components/motions/expand";
+import { useSettings } from "../hooks/useSettings";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
 import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
-import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
 import { AgentApi } from "../services/agent/agent-api";
 import { toApiModelSettings } from "../utils/interfaces";
-import ExampleAgents from "../components/console/ExampleAgents";
-import Summarize from "../components/console/SummarizeButton";
-import AgentControls from "../components/console/AgentControls";
-import { ChatMessage } from "../components/console/ChatMessage";
-import clsx from "clsx";
 import TaskSidebar from "../components/drawer/TaskSidebar";
 
 const Home: NextPage = () => {

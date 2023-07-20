@@ -1,5 +1,6 @@
-import { env } from "../env/client.mjs";
 import type { z } from "zod";
+
+import { env } from "../env/client.mjs";
 
 export const get = async <T extends z.ZodTypeAny>(
   path: string,

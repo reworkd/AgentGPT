@@ -1,5 +1,6 @@
-import type { WorkflowMeta } from "../../services/workflow/workflowApi";
 import { motion } from "framer-motion";
+
+import type { WorkflowMeta } from "../../services/workflow/workflowApi";
 import Input from "../../ui/input";
 import PrimaryButton from "../PrimaryButton";
 import TextButton from "../TextButton";

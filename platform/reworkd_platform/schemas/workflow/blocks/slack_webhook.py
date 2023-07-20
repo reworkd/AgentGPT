@@ -20,7 +20,7 @@ class SlackWebhook(Block):
     input: SlackWebhookInput
 
     async def run(self) -> BlockIOBase:
-        logger.info(f"Starting {self.type}")
+        logger.info(f"Starting {self.type} with {self.input.message}")
 
         try:
             response = requests.post(

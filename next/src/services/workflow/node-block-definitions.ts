@@ -1,6 +1,7 @@
-import { z } from "zod";
-import type { WorkflowNode } from "../../types/workflow";
 import type { Node } from "reactflow";
+import { z } from "zod";
+
+import type { WorkflowNode } from "../../types/workflow";
 
 const IOFieldSchema = z.object({
   name: z.string(),
@@ -68,6 +69,48 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Summary Agent",
+  type: "SummaryWebhook",
+  description: "Summarize or extract key details from text using OpenAI",
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "prompt",
+      description: "What do you want to do with the text?",
+      type: "string"
+    }
+  ],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
+const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
+  name: "Text Input",
+  type: "TextInputWebhook",
+  description: "",
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "text",
+      description: "What text would you like to extract information from?",
+      type: "string"
+    }
+  ],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
 const IfBlockDefinition: NodeBlockDefinition = {
   name: "If Block",
   type: "IfBlock",
@@ -77,8 +120,24 @@ const IfBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const TriggerBlockDefinition: NodeBlockDefinition = {
+  name: "Manual Trigger",
+  type: "ManualTriggerBlock",
+  description: "Trigger a block manually",
+  image_url: "/tools/web.png",
+  input_fields: [],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = () => {
-  return [UrlStatusCheckBlockDefinition, SlackWebhookBlockDefinition, IfBlockDefinition];
+  return [
+    UrlStatusCheckBlockDefinition,
+    SlackWebhookBlockDefinition,
+    IfBlockDefinition,
+    TriggerBlockDefinition,
+    SummaryWebhookBlockDefinition,
+    TextInputWebhookBlockDefinition
+  ];
 };
 
 export const getNodeBlockDefinitionFromNode = (node: Node<WorkflowNode>) => {

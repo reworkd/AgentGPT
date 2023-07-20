@@ -1,9 +1,10 @@
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
-import { createSelectors } from "./helpers";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { Theme } from "../types";
+
+import { createSelectors } from "./helpers";
 import { handleTheme } from "../hooks/useTheme";
+import type { Theme } from "../types";
 
 const resetters: (() => void)[] = [];
 

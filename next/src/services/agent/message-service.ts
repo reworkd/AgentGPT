@@ -1,12 +1,13 @@
-import { translate } from "../../utils/translations";
-import type { Analysis } from "./analysis";
 import axios from "axios";
-import { isPlatformError, isValueError } from "../../types/errors";
+import { v1 } from "uuid";
+
+import type { Analysis } from "./analysis";
 import { useMessageStore } from "../../stores";
+import { isPlatformError, isValueError } from "../../types/errors";
 import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
-import { v1 } from "uuid";
 import type { Task } from "../../types/task";
+import { translate } from "../../utils/translations";
 
 export class MessageService {
   private readonly renderMessage: (message: Message) => void;

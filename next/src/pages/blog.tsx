@@ -1,10 +1,12 @@
-import { getSortedPostsData } from "../lib/posts";
-import NavBar from "../components/NavBar";
+import { useRouter } from "next/router";
+import React from "react";
+
+import AppHead from "../components/AppHead";
 import FooterLinks from "../components/landing/FooterLinks";
 import FadeIn from "../components/motions/FadeIn";
-import AppHead from "../components/AppHead";
-import React from "react";
-import { useRouter } from "next/router";
+import NavBar from "../components/NavBar";
+import { getSortedPostsData } from "../lib/posts";
+
 
 export default function BlogPage({ allPostsData }) {
   const router = useRouter();

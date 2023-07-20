@@ -1,8 +1,9 @@
-import React from "react";
-import Image from "next/image";
 import clsx from "clsx";
-import { SOCIAL_LINKS } from "../sidebar/links";
+import Image from "next/image";
+import React from "react";
+
 import BannerBadge from "../BannerBadge";
+import { SOCIAL_LINKS } from "../sidebar/links";
 
 interface Props {
   className?: string;

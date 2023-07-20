@@ -1,18 +1,18 @@
 import { motion } from "framer-motion";
-import type { PropsWithChildren } from "react";
-import React from "react";
+import type { PropsWithChildren, ReactNode } from "react";
+
 import GlowWrapper from "../GlowWrapper";
 
 interface CycleItemsProps extends PropsWithChildren {
   className?: string;
   currentIndex: number;
   hoveredItemIndex: number;
-  icons: React.ReactNode[];
+  icons: ReactNode[];
 }
 
 const CycleIcons = (props: CycleItemsProps) => {
   return (
-    <GlowWrapper>
+    <GlowWrapper className="opacity-75">
       <div className="flex h-[28px] w-[28px] flex-row justify-start gap-x-4 overflow-hidden rounded-full bg-white p-1.5">
         <motion.div
           className="flex gap-2"

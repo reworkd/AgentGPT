@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Session } from "next-auth";
+
 import { env } from "../env/client.mjs";
 
 export const post = async <T>(url: string, body: unknown, session?: Session) => {

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { z } from "zod";
 
 import type { Workflow } from "../../types/workflow";
@@ -11,7 +12,13 @@ const WorkflowMetaSchema = z.object({
   description: z.string(),
 });
 
+const PresignedPostSchema = z.object({
+  url: z.string(),
+  fields: z.record(z.string()),
+});
+
 export type WorkflowMeta = z.infer<typeof WorkflowMetaSchema>;
+export type PresignedPost = z.infer<typeof PresignedPostSchema>;
 
 export default class WorkflowApi {
   readonly accessToken?: string;
@@ -28,8 +35,14 @@ export default class WorkflowApi {
     return await get(`/api/workflow/${id}`, WorkflowSchema, this.accessToken);
   }
 
-  async update(id: string, data: Workflow) {
-    return await put(`/api/workflow/${id}`, z.string(), data, this.accessToken);
+  async update(id: string, { file, ...data }: Workflow & { file?: File }) {
+    const post = await put(`/api/workflow/${id}`, PresignedPostSchema, data, this.accessToken);
+
+    if (file) {
+      return await this.uploadFile(post, file);
+    }
+
+    return 200;
   }
 
   async delete(id: string) {
@@ -42,5 +55,23 @@ export default class WorkflowApi {
 
   async execute(id: string) {
     return await post(`/api/workflow/${id}/execute`, z.string(), {}, this.accessToken);
+  }
+
+  async uploadFile(req: PresignedPost, file: File) {
+    const { url, fields } = req;
+
+    const formData = new FormData();
+    Object.entries(fields).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    formData.append("file", file);
+
+    const uploadResponse = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": file.type,
+      },
+    });
+
+    return uploadResponse.status;
   }
 }

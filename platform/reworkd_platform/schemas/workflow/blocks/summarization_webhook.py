@@ -13,12 +13,15 @@ import os
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 
+
 class SummaryWebhookInput(BlockIOBase):
     prompt: str
     filename: str
 
+
 class SummaryWebhookOutput(SummaryWebhookInput):
     result: str
+
 
 class SummaryWebhook(Block):
     type = "SummaryWebhook"
@@ -30,8 +33,8 @@ class SummaryWebhook(Block):
 
         # write code to take s3_presigned_url, fetch pdf and convert to text
         # then pass that text to the summarize_and_extract function
-        response = fetch_file(self.input.filename)
-        pdf_text = convert_pdf_to_string(response)
+        bytesIO_file = fetch_file(self.input.filename)
+        pdf_text = convert_pdf_to_string(bytesIO_file)
 
         try:
             response = await summarize_and_extract(self.input.prompt, pdf_text)
@@ -42,18 +45,20 @@ class SummaryWebhook(Block):
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
 
-def fetch_file(filename):
+
+def fetch_file(filename: str) -> BytesIO:
     session = boto3.Session(profile_name="dev")
-    REGION = 'us-east-1'
-    bucket_name = 'test-pdf-123'
+    REGION = "us-east-1"
+    bucket_name = "test-pdf-123"
     s3_client = session.client("s3", region_name=REGION)
     response = s3_client.get_object(Bucket=bucket_name, Key=filename)
-    response_body = response['Body'].read()
+    response_body = response["Body"].read()
     bytesIO_file = BytesIO(response_body)
 
     return bytesIO_file
 
-def convert_pdf_to_string(bytesIO_file):
+
+def convert_pdf_to_string(bytesIO_file: BytesIO) -> str:
     pdf_reader = pypdf.PdfReader(bytesIO_file)
     extracted_text = ""
 
@@ -70,6 +75,7 @@ def convert_pdf_to_string(bytesIO_file):
 
     return extracted_text
 
+
 async def summarize_and_extract(prompt: str, text: str) -> str:
     llm = create_model(
         ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=5000),
@@ -83,8 +89,8 @@ async def summarize_and_extract(prompt: str, text: str) -> str:
 
     Answer:"""
 
-    lang_prompt = PromptTemplate(template=template, input_variables={'prompt', 'text'})
+    lang_prompt = PromptTemplate(template=template, input_variables=["prompt", "text"])
     chain = LLMChain(llm=llm, prompt=lang_prompt)
 
-    result = await chain.arun(prompt=prompt,text=text)
+    result = await chain.arun(prompt=prompt, text=text)
     return result

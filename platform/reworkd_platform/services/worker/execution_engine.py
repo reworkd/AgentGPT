@@ -1,5 +1,5 @@
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, cast
 
 from loguru import logger
 from networkx import topological_sort
@@ -10,7 +10,10 @@ from reworkd_platform.schemas.workflow.base import (
     Node,
     WorkflowFull,
 )
-from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import IfCondition
+from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
+    IfCondition,
+    IfOutput,
+)
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.sockets import websockets
@@ -51,7 +54,9 @@ class ExecutionEngine:
 
         # Handle if nodes
         if isinstance(runner, IfCondition):
-            self.workflow.queue = self.get_pruned_queue(runner, outputs.dict().result)
+            self.workflow.queue = self.get_pruned_queue(
+                runner, (cast(IfOutput, outputs)).result
+            )
 
         websockets.emit(
             self.workflow.workflow_id,
@@ -68,7 +73,7 @@ class ExecutionEngine:
 
     @classmethod
     def create_execution_plan(
-        cls, producer: WorkflowTaskProducer, workflow: WorkflowFull
+            cls, producer: WorkflowTaskProducer, workflow: WorkflowFull
     ) -> "ExecutionEngine":
         node_map = {n.id: n for n in workflow.nodes}
 

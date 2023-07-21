@@ -13,6 +13,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.98.0"
+boto3 = "^1.26.153"
 uvicorn = { version = "^0.22.0", extras = ["standard"] }
 pydantic = { version = "^1.10.11", extras = ["dotenv"] }
 yarl = "^1.9.2"
@@ -38,6 +39,7 @@ grpcio = "^1.54.2"
 pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
 networkx = "^3.1"
 pusher = "^3.3.2"
+pypdf2 = "^3.0.1"
 
 
 [tool.poetry.dev-dependencies]

@@ -73,7 +73,7 @@ class ExecutionEngine:
 
     @classmethod
     def create_execution_plan(
-            cls, producer: WorkflowTaskProducer, workflow: WorkflowFull
+        cls, producer: WorkflowTaskProducer, workflow: WorkflowFull
     ) -> "ExecutionEngine":
         node_map = {n.id: n for n in workflow.nodes}
 

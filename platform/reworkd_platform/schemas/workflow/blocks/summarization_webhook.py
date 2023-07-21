@@ -30,7 +30,8 @@ class SummaryWebhook(Block):
 
         # write code to take s3_presigned_url, fetch pdf and convert to text
         # then pass that text to the summarize_and_extract function
-        pdf_text = download_file(self.input.filename)
+        response = fetch_file(self.input.filename)
+        pdf_text = convert_pdf_to_string(response)
 
         try:
             response = await summarize_and_extract(self.input.prompt, pdf_text)
@@ -41,23 +42,19 @@ class SummaryWebhook(Block):
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
 
-def download_file(filename):
+def fetch_file(filename):
     session = boto3.Session(profile_name="dev")
     REGION = 'us-east-1'
     bucket_name = 'test-pdf-123'
     s3_client = session.client("s3", region_name=REGION)
     response = s3_client.get_object(Bucket=bucket_name, Key=filename)
     response_body = response['Body'].read()
-    logger.info(f"response {type(response_body)}")
     bytesIO_file = BytesIO(response_body)
-    logger.info(f"bytestype {type(bytesIO_file)}")
-    logger.info(f"bytes {bytesIO_file}")
 
-    # Read file
+    return bytesIO_file
+
+def convert_pdf_to_string(bytesIO_file):
     pdf_reader = pypdf.PdfReader(bytesIO_file)
-    logger.info(f"bytes {pdf_reader}")
-
-    # Initialize an empty string to store the extracted text
     extracted_text = ""
 
     # Iterate over each page in the PDF
@@ -70,8 +67,6 @@ def download_file(filename):
 
         # Append the extracted text to the overall string
         extracted_text += page_text
-    
-    logger.info(f"text {extracted_text}")
 
     return extracted_text
 

@@ -14,7 +14,7 @@ import BlogsIcon from "../../public/icons/icon-blogs.svg";
 import DocsIcon from "../../public/icons/icon-docs.svg";
 import HomeIcon from "../../public/icons/icon-home.svg";
 import PricingIcon from "../../public/icons/icon-pricing.svg";
-import RoadmapIcon from "../../public/icons/icon-roadmap.svg";
+import GithubIcon from "../../public/icons/icon-github.svg";
 
 const navigation = [
   { name: "Home", href: "/landing-page", icon: <HomeIcon /> },
@@ -23,7 +23,7 @@ const navigation = [
   {
     name: "Github",
     href: "https://github.com/reworkd/AgentGPT",
-    icon: <RoadmapIcon />,
+    icon: <GithubIcon />,
   },
   { name: "Docs", href: "https://docs.reworkd.ai/", icon: <DocsIcon /> },
 ];

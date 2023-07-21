@@ -13,7 +13,7 @@ class IfOutput(BlockIOBase):
 
 class IfCondition(Block):
     type = "If"
-    description = "Sends a message to a slack webhook"
+    description = "Conditionally take a path"
     input: IfInput
 
     async def run(self) -> BlockIOBase:

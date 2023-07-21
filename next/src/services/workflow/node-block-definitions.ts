@@ -78,8 +78,8 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "prompt",
       description: "What do you want to do with the text?",
-      type: "string"
-    }
+      type: "string",
+    },
   ],
   output_fields: [
     {
@@ -99,8 +99,8 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "text",
       description: "What text would you like to extract information from?",
-      type: "string"
-    }
+      type: "string",
+    },
   ],
   output_fields: [
     {
@@ -112,8 +112,8 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
 };
 
 const IfBlockDefinition: NodeBlockDefinition = {
-  name: "If Block",
-  type: "IfBlock",
+  name: "If Condition",
+  type: "IfCondition",
   description: "Conditionally take a path",
   image_url: "/tools/web.png",
   input_fields: [],
@@ -136,7 +136,7 @@ export const getNodeBlockDefinitions = () => {
     IfBlockDefinition,
     TriggerBlockDefinition,
     SummaryWebhookBlockDefinition,
-    TextInputWebhookBlockDefinition
+    TextInputWebhookBlockDefinition,
   ];
 };
 

@@ -12,8 +12,6 @@ import { useWorkflowStore } from "../stores/workflowStore";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
 import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 
-
-
 const eventSchema = z.object({
   nodeId: z.string(),
   status: z.enum(["running", "success", "failure"]),
@@ -50,7 +48,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
   const api = new WorkflowApi(session?.accessToken);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
   const { mutateAsync: updateWorkflow } = useMutation(
-    async (data: Workflow) => await api.update(workflowId, data)
+    async (data: Workflow & { file?: File }) => await api.update(workflowId, data)
   );
 
   const workflowStore = useWorkflowStore();
@@ -130,7 +128,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     );
   };
 
-  const onSave = async () => {
+  const onSave = async (file?: File) => {
     await updateWorkflow({
       id: workflowId,
       nodes: nodes.map((n) => ({
@@ -146,6 +144,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
         source_handle: e.sourceHandle || undefined,
         target: e.target,
       })),
+      file,
     });
     await refetchWorkflow();
   };

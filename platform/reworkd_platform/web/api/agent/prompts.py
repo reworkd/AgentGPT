@@ -106,6 +106,18 @@ summarize_prompt = PromptTemplate(
     input_variables=["goal", "language", "text"],
 )
 
+summarize_pdf_prompt = PromptTemplate(
+    template="""You must answer in the "{language}" language. 
+
+    For the given text: "{text}", you have the following objective "{query}".
+    
+    Be as clear, informative, and descriptive as necessary.
+    You will not make up information or add any information outside of the above text. 
+    Only use the given information and nothing more.
+    """,
+    input_variables=["query", "language", "text"],
+)
+
 summarize_with_sources_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language. 
 

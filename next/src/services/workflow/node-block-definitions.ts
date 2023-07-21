@@ -78,8 +78,13 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "prompt",
       description: "What do you want to do with the text?",
-      type: "string",
+      type: "string"
     },
+    {
+      name: "filename",
+      description: "reference a file that you want to summarize",
+      type: "string"
+    }
   ],
   output_fields: [
     {

@@ -1,10 +1,19 @@
 import re
-from typing import Any, Dict
+from typing import Any, Dict, List, cast
 
 from loguru import logger
 from networkx import topological_sort
 
-from reworkd_platform.schemas.workflow.base import Block, BlockIOBase, WorkflowFull
+from reworkd_platform.schemas.workflow.base import (
+    Block,
+    BlockIOBase,
+    Node,
+    WorkflowFull,
+)
+from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
+    IfCondition,
+    IfOutput,
+)
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.sockets import websockets
@@ -43,6 +52,12 @@ class ExecutionEngine:
         }
         self.workflow.outputs.update(outputs_with_key)
 
+        # Handle if nodes
+        if isinstance(runner, IfCondition):
+            self.workflow.queue = self.get_pruned_queue(
+                runner, (cast(IfOutput, outputs)).result
+            )
+
         websockets.emit(
             self.workflow.workflow_id,
             "my-event",
@@ -71,8 +86,28 @@ class ExecutionEngine:
                 workflow_id=workflow.id,
                 user_id=workflow.user_id,
                 work_queue=sorted_nodes,
+                edges=workflow.edges,
             ),
         )
+
+    def get_pruned_queue(self, if_condition: IfCondition, branch: bool) -> List[Node]:
+        """
+        Prune the queue of nodes to only include nodes that are reachable from the
+        current branch of the if condition.
+        """
+        source_handle = "true" if branch else "false"
+
+        if_node_edges = [
+            edge for edge in self.workflow.edges if edge.source == if_condition.id
+        ]
+
+        node_ids_to_prune = [
+            edge.target for edge in if_node_edges if edge.source_handle != source_handle
+        ]
+
+        return [
+            node for node in self.workflow.queue if node.id not in node_ids_to_prune
+        ]
 
 
 TEMPLATE_PATTERN = r"\{\{(?P<id>[\w\d\-]+)\.(?P<key>[\w\d\-]+)\}\}"

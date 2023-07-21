@@ -1,10 +1,10 @@
+import axios from "axios";
 import { z } from "zod";
 
 import type { Workflow } from "../../types/workflow";
 import { WorkflowSchema } from "../../types/workflow";
 import { delete_ } from "../api-utils";
 import { get, post, put } from "../fetch-utils";
-import axios from "axios";
 
 const WorkflowMetaSchema = z.object({
   id: z.string(),
@@ -60,15 +60,13 @@ export default class WorkflowApi {
   async uploadFile(req: PresignedPost, file: File) {
     const { url, fields } = req;
 
-    // Create a new form data instance to hold the file and the S3 fields
     const formData = new FormData();
-    formData.append("file", file);
-
     Object.entries(fields).forEach(([key, value]) => {
       formData.append(key, value);
     });
+    formData.append("file", file);
 
-    const uploadResponse = await axios.put(url, formData, {
+    const uploadResponse = await axios.post(url, formData, {
       headers: {
         "Content-Type": file.type,
       },

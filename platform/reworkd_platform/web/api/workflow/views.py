@@ -56,7 +56,7 @@ async def update_workflow(
     await crud.update(workflow_id, workflow)
     return SimpleStorageService().upload_url(
         bucket_name="test-pdf-123",
-        object_name="test-uploaded",
+        object_name=workflow_id,
     )
 
 

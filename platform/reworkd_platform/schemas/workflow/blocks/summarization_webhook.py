@@ -1,17 +1,16 @@
-import requests
-from loguru import logger
-from reworkd_platform.web.api.agent.model_settings import create_model
-from reworkd_platform.schemas.user import UserBase
-from reworkd_platform.schemas.agent import ModelSettings
-from langchain import LLMChain, PromptTemplate
-from langchain.document_loaders import UnstructuredPDFLoader
-from lanarky.responses import StreamingResponse
 from io import BytesIO
-import PyPDF2 as pypdf
+
 import boto3
-import os
-from reworkd_platform.web.api.agent.prompts import summarize_pdf_prompt
+from PyPDF2 import PdfReader
+from langchain import LLMChain
+from loguru import logger
+
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.agent.prompts import summarize_pdf_prompt
 
 
 class SummaryWebhookInput(BlockIOBase):
@@ -59,7 +58,7 @@ def fetch_file(filename: str) -> BytesIO:
 
 
 def convert_pdf_to_string(bytesIO_file: BytesIO) -> str:
-    pdf_reader = pypdf.PdfReader(bytesIO_file)
+    pdf_reader = PdfReader(bytesIO_file)
     extracted_text = ""
 
     for page in pdf_reader.pages:
@@ -70,8 +69,15 @@ def convert_pdf_to_string(bytesIO_file: BytesIO) -> str:
 
 
 async def summarize_and_extract(prompt: str, text: str) -> str:
+    max_tokens = TokenService.create().get_completion_space(
+        "gpt-3.5-turbo-16k",
+        summarize_pdf_prompt.format_prompt(
+            query=prompt, text=text, language="English"
+        ).to_string(),
+    )
+
     llm = create_model(
-        ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=5000),
+        ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=max_tokens),
         UserBase(id="", name=None, email="test@example.com"),
         streaming=False,
     )

@@ -1,11 +1,9 @@
 from typing import Dict
 
-from boto3 import client as boto3_client, setup_default_session
+from boto3 import client as boto3_client
 from pydantic import BaseModel
 
 REGION = "us-east-1"
-
-setup_default_session(profile_name="dev")
 
 
 class PresignedPost(BaseModel):

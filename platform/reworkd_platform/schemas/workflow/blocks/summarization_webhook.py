@@ -10,7 +10,7 @@ from io import BytesIO
 import PyPDF2 as pypdf
 import boto3
 import os
-
+from reworkd_platform.web.api.agent.prompts import summarize_pdf_prompt
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 
 
@@ -62,15 +62,8 @@ def convert_pdf_to_string(bytesIO_file: BytesIO) -> str:
     pdf_reader = pypdf.PdfReader(bytesIO_file)
     extracted_text = ""
 
-    # Iterate over each page in the PDF
-    for page_num in range(len(pdf_reader.pages)):
-        # Get the current page
-        page = pdf_reader.pages[page_num]
-
-        # Extract the text from the page
+    for page in pdf_reader.pages:
         page_text = page.extract_text()
-
-        # Append the extracted text to the overall string
         extracted_text += page_text
 
     return extracted_text
@@ -82,15 +75,7 @@ async def summarize_and_extract(prompt: str, text: str) -> str:
         UserBase(id="", name=None, email="test@example.com"),
         streaming=False,
     )
-    template = """
-    You are a chatbot assistant that assists users in summarizing and extracting information from given text.
 
-    Question: {prompt}. Here is the text: {text}
-
-    Answer:"""
-
-    lang_prompt = PromptTemplate(template=template, input_variables=["prompt", "text"])
-    chain = LLMChain(llm=llm, prompt=lang_prompt)
-
-    result = await chain.arun(prompt=prompt, text=text)
+    chain = LLMChain(llm=llm, prompt=summarize_pdf_prompt)
+    result = await chain.arun(query=prompt, language="English", text=text)
     return result

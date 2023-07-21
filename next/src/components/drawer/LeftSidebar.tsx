@@ -43,7 +43,7 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
         </button>
       </div>
       <FadingHr className="my-2" />
-      <div className="mb-2 mr-2 flex-1 overflow-y-auto">
+      <div className="mb-2 mr-2 flex-1 overflow-y-auto overflow-x-hidden overflow-ellipsis">
         {status === "unauthenticated" && (
           <div className="text-color-primary p-1 font-mono text-sm">
             <a className="link" onClick={() => void signIn()}>

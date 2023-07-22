@@ -49,6 +49,7 @@ class WorkflowEdgeModel(Base):
     workflow_id = mapped_column(String, ForeignKey("workflow.id"))
 
     source = mapped_column(String)
+    source_handle = mapped_column(String, nullable=True)
     target = mapped_column(String)
 
     workflow = relationship("WorkflowModel", back_populates="edges")
@@ -57,6 +58,7 @@ class WorkflowEdgeModel(Base):
         return Edge(
             id=self.id,
             source=self.source,
+            source_handle=self.source_handle,
             target=self.target,
         )
 

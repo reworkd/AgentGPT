@@ -40,7 +40,10 @@ pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
 networkx = "^3.1"
 pusher = "^3.3.2"
 pypdf2 = "^3.0.1"
+<<<<<<< HEAD
 pypdf = "^3.12.2"
+=======
+>>>>>>> origin/main
 
 
 [tool.poetry.dev-dependencies]

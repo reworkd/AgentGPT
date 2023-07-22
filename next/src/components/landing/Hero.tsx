@@ -4,14 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type { FC } from "react";
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import BlueHeroIcon from "../../../public/icons/icon-hero-blue.svg";
 import GreenHeroIcon from "../../../public/icons/icon-hero-green.svg";
 import OrangeHeroIcon from "../../../public/icons/icon-hero-orange.svg";
 import PurpleHeroIcon from "../../../public/icons/icon-hero-purple.svg";
-import { env } from "../../env/client.mjs";
 import BannerBadge from "../BannerBadge";
 import GlowWrapper from "../GlowWrapper";
 import HeroCard from "../HeroCard";
@@ -44,10 +43,10 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleWindowResize);
+    window.addEventListener("resize", handleWindowResize);
 
     return () => {
-      window.removeEventListener('resize', handleWindowResize);
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
 
@@ -60,11 +59,13 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
       <div className="relative z-30 flex h-full w-full justify-center md:flex md:h-[30vw] md:w-[30vw]">
         <div className="absolute -z-10 h-full w-full bg-gradient-radial from-[#1152FA] via-[#882BFE] to-70% opacity-25" />
         {showVideo ? (
-          <Suspense>
-            <video autoPlay loop muted className="max-h-72 md:hidden" disableRemotePlayback>
-              <source src={`${env.NEXT_PUBLIC_CDN}/orb-v1-medium.webm`} type="video/webm" />
-            </video>
-          </Suspense>
+          <Image
+            src="/prod_square.png"
+            alt="A 3D blob that seems to represent most AI companies"
+            width="500"
+            height="500"
+            className="w-52"
+          />
         ) : (
           <Suspense>
             <Spline

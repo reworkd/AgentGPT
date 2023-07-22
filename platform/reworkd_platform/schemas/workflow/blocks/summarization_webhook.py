@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import requests
 from loguru import logger
 from reworkd_platform.web.api.agent.model_settings import create_model
@@ -18,6 +19,22 @@ from langchain.vectorstores import Pinecone
 from langchain.chains.question_answering import load_qa_chain
 import pinecone
 from langchain.embeddings import OpenAIEmbeddings
+=======
+from io import BytesIO
+
+import boto3
+from PyPDF2 import PdfReader
+from langchain import LLMChain
+from loguru import logger
+
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.schemas.user import UserBase
+from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.agent.prompts import summarize_pdf_prompt
+
+>>>>>>> origin/main
 
 class SummaryWebhookInput(BlockIOBase):
     prompt: str
@@ -36,6 +53,7 @@ class SummaryWebhook(Block):
     async def run(self) -> BlockIOBase:
         logger.info(f"Starting {self.type}")
 
+<<<<<<< HEAD
         # bytesIOfile = fetch_file(self.input.filename)
         # extracted_text = convert_pdf_to_string(bytesIOfile)
         download_file(self.input.filename)
@@ -44,6 +62,15 @@ class SummaryWebhook(Block):
         try:
             response = await chunk_pdf_to_pinecone(filepath="reworkd_platform/schemas/workflow/blocks/placeholder_workflow_id/downloaded_file.pdf",prompt=self.input.prompt)
             # response = await summarize_and_extract(self.input.prompt, pdf_text)
+=======
+        # write code to take s3_presigned_url, fetch pdf and convert to text
+        # then pass that text to the summarize_and_extract function
+        bytesIO_file = fetch_file(self.input.filename)
+        pdf_text = convert_pdf_to_string(bytesIO_file)
+
+        try:
+            response = await summarize_and_extract(self.input.prompt, pdf_text)
+>>>>>>> origin/main
             logger.info(f"RESPONSE {response}")
         except Exception as err:
             logger.error(f"Failed to extract text with OpenAI: {err}")
@@ -63,6 +90,7 @@ def fetch_file(filename: str) -> BytesIO:
 
     return bytesIO_file
 
+<<<<<<< HEAD
 def download_file(filename: str):
     session = boto3.Session(profile_name="dev")
     REGION = "us-east-1"
@@ -114,10 +142,35 @@ async def chunk_pdf_to_pinecone(filepath: str, prompt: str) -> str:
 
     llm = create_model(
         ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=5000),
+=======
+
+def convert_pdf_to_string(bytesIO_file: BytesIO) -> str:
+    pdf_reader = PdfReader(bytesIO_file)
+    extracted_text = ""
+
+    for page in pdf_reader.pages:
+        page_text = page.extract_text()
+        extracted_text += page_text
+
+    return extracted_text
+
+
+async def summarize_and_extract(prompt: str, text: str) -> str:
+    max_tokens = TokenService.create().get_completion_space(
+        "gpt-3.5-turbo-16k",
+        summarize_pdf_prompt.format_prompt(
+            query=prompt, text=text, language="English"
+        ).to_string(),
+    )
+
+    llm = create_model(
+        ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=max_tokens),
+>>>>>>> origin/main
         UserBase(id="", name=None, email="test@example.com"),
         streaming=False,
     )
 
+<<<<<<< HEAD
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
     return result
@@ -132,3 +185,8 @@ async def summarize_and_extract(prompt: str, text: str) -> str:
     chain = LLMChain(llm=llm, prompt=summarize_pdf_prompt)
     result = await chain.arun(query=prompt, language="English", text=text)
     return result
+=======
+    chain = LLMChain(llm=llm, prompt=summarize_pdf_prompt)
+    result = await chain.arun(query=prompt, language="English", text=text)
+    return result
+>>>>>>> origin/main

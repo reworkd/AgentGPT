@@ -31,6 +31,7 @@ class Block(BaseModel):
 class EdgeUpsert(BaseModel):
     id: Optional[str]
     source: str
+    source_handle: Optional[str]
     target: str
 
 
@@ -53,6 +54,7 @@ class Node(BaseModel):
 class Edge(BaseModel):
     id: str
     source: str
+    source_handle: Optional[str]
     target: str
 
 

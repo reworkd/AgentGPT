@@ -47,8 +47,13 @@ const AuthItem: FC<{
 
         <span className="sr-only">Your profile</span>
         <div>
-          <p aria-hidden="true">{user?.name}</p>
-          <p aria-hidden="true" className="text-xs font-thin">
+          <p aria-hidden="true" className="max-w-[6.5rem] overflow-hidden text-ellipsis">
+            {user?.name}
+          </p>
+          <p
+            aria-hidden="true"
+            className="max-w-[6.5rem] overflow-hidden text-ellipsis text-xs font-thin"
+          >
             {user?.email}
           </p>
         </div>
@@ -84,7 +89,7 @@ const AuthItem: FC<{
             </>
           }
         >
-          <p className="text-sm text-gray-600">{user?.name}</p>
+          <p className="max-w-full text-sm text-gray-600">{user?.name}</p>
           <p className="text-sm text-gray-400">{user?.email}</p>
         </Dialog>
       </div>

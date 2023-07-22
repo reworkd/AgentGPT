@@ -3,8 +3,8 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import merge from "lodash/merge";
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
 import type { AuthOptions } from "next-auth";
+import { getServerSession } from "next-auth";
 import type { Adapter } from "next-auth/adapters";
 
 import { authOptions as prodOptions } from "./auth";
@@ -16,7 +16,10 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
   adapter: PrismaAdapter(prisma),
   callbacks: {
     async session({ session, user }) {
-      if (session.user) session.user.id = user.id;
+      if (session.user) {
+        session.user.id = user.id;
+        session.user.superAdmin = user.superAdmin;
+      }
 
       session.accessToken = (
         await prisma.session.findFirstOrThrow({

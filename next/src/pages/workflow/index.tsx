@@ -14,9 +14,9 @@ import type { WorkflowMeta } from "../../services/workflow/workflowApi";
 import WorkflowApi from "../../services/workflow/workflowApi";
 import { languages } from "../../utils/languages";
 
-
 const WorkflowList: NextPage = () => {
-  const { session } = useAuth({ protectedRoute: true });
+  const { session } = useAuth({ protectedRoute: true, isAllowed: (s) => s.user.superAdmin });
+
   const router = useRouter();
 
   const api = new WorkflowApi(session?.accessToken);

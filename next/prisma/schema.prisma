@@ -44,6 +44,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  superAdmin    Boolean   @default(false) @map("super_admin")
 
   createDate DateTime @default(now())
 
@@ -58,14 +59,15 @@ model User {
 }
 
 model Organization {
-  id          String     @id @default(cuid())
-  name        String     @unique
-  description String?
-  UserRole    UserRole[]
+  id   String @id @default(cuid())
+  name String @unique
 
+  created_by  String
   create_date DateTime  @default(now())
   update_date DateTime? @updatedAt
   delete_date DateTime?
+
+  UserRole UserRole[]
 
   @@index([name])
   @@map("organization")
@@ -73,34 +75,21 @@ model Organization {
 
 enum RoleName {
   ADMIN
-  OWNER
   MEMBER
 }
 
-model Role {
-  id          String     @id @default(cuid())
-  name        RoleName
-  description String?
-  UserRole    UserRole[]
-
-  @@index([name])
-  @@map("role")
-}
-
 model UserRole {
-  id              String  @id @default(cuid())
+  id              String   @id @default(cuid())
   user_id         String
-  organization_id String?
-  role_id         String
+  organization_id String
+  role            RoleName
 
   user         User          @relation(fields: [user_id], references: [id], onDelete: NoAction)
-  role         Role          @relation(fields: [role_id], references: [id], onDelete: NoAction)
-  Organization Organization? @relation(fields: [organization_id], references: [id], onDelete: NoAction)
+  organization Organization? @relation(fields: [organization_id], references: [id], onDelete: NoAction)
 
-  @@unique([user_id, organization_id, role_id])
+  @@unique([user_id, organization_id])
   @@index([user_id])
   @@index([organization_id])
-  @@index([role_id])
   @@map("user_role")
 }
 

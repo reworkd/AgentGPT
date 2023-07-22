@@ -8,6 +8,7 @@ import { appWithTranslation, useTranslation } from "next-i18next";
 import { useEffect } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import Script from 'next/script';
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -26,6 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <GoogleAnalytics trackPageViews />
       <Analytics />
+      <Script src="/theme.js" strategy="beforeInteractive" />
       <Component {...pageProps} />
     </SessionProvider>
   );

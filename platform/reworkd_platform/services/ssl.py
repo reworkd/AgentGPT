@@ -1,5 +1,5 @@
 from ssl import create_default_context, SSLContext
-from typing import List
+from typing import List, Optional
 
 from reworkd_platform.settings import Settings
 
@@ -7,7 +7,9 @@ MACOS_CERT_PATH = "/etc/ssl/cert.pem"
 DOCKER_CERT_PATH = "/etc/ssl/certs/ca-certificates.crt"
 
 
-def get_ssl_context(settings: Settings, paths: List[str] = None) -> SSLContext:
+def get_ssl_context(
+    settings: Settings, paths: Optional[List[str]] = None
+) -> SSLContext:
     if settings.db_ca_path:
         return create_default_context(cafile=settings.db_ca_path)
 

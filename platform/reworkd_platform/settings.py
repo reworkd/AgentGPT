@@ -72,7 +72,7 @@ class Settings(BaseSettings):
     db_pass: str = "reworkd_platform"
     db_base: str = "reworkd_platform"
     db_echo: bool = False
-    db_ca_path: str = "/etc/ssl/cert.pem"
+    db_ca_path: Optional[str] = None
 
     # Variables for Weaviate db.
     vector_db_url: Optional[str] = None

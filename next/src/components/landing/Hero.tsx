@@ -69,7 +69,7 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
         ) : (
           <Suspense>
             <Spline
-              scene="https://prod.spline.design/mXSxjCAUYzLpjDfY/scene.splinecode"
+              scene="https://draft.spline.design/n2h-XebGYJ95sdSw/scene.splinecode"
               className="hidden md:flex"
             />
           </Suspense>

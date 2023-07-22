@@ -1,12 +1,12 @@
 import asyncio
 import json
-import ssl
 from abc import ABC, abstractmethod
 from typing import Any, Protocol
 
 from aiokafka import AIOKafkaConsumer, ConsumerRecord
 from loguru import logger
 
+from reworkd_platform.services.ssl import get_ssl_context
 from reworkd_platform.settings import Settings
 
 
@@ -38,7 +38,7 @@ class AsyncConsumer(ABC):
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,
-            ssl_context=ssl.create_default_context(cafile=settings.db_ca_path),
+            ssl_context=get_ssl_context(settings),
             enable_auto_commit=True,
             auto_offset_reset="earliest",
             value_deserializer=deserializer.deserialize,

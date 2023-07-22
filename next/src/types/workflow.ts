@@ -62,7 +62,7 @@ export const getNodeType = (block: NodeBlock) => {
   switch (block.type) {
     case "ManualTriggerBlock":
       return "trigger";
-    case "IfBlock":
+    case "IfCondition":
       return "if";
     default:
       return "custom";

@@ -8,6 +8,7 @@ from reworkd_platform.schemas.workflow.base import (
     WorkflowFull,
     WorkflowUpdate,
 )
+from reworkd_platform.services.aws.s3 import PresignedPost, SimpleStorageService
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.networkx import validate_connected_and_acyclic
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
@@ -46,13 +47,17 @@ async def update_workflow(
     workflow_id: str,
     workflow: WorkflowUpdate,
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
-) -> str:
+) -> PresignedPost:
     try:
         validate_connected_and_acyclic(workflow.to_graph())
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
 
-    return await crud.update(workflow_id, workflow)
+    await crud.update(workflow_id, workflow)
+    return SimpleStorageService().upload_url(
+        bucket_name="test-pdf-123",
+        object_name=workflow_id,
+    )
 
 
 @router.delete("/{workflow_id}")

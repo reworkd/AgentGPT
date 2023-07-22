@@ -22,7 +22,7 @@
     "configstore": "^6.0.0",
     "dotenv": "^16.3.1",
     "figlet": "^1.6.0",
-    "inquirer": "^9.2.7",
+    "inquirer": "^9.2.8",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "node-fetch": "^3.3.1",

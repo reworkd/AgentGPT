@@ -1,5 +1,5 @@
-import type AutonomousAgent from "../autonomous-agent";
 import type AgentWork from "./agent-work";
+import type AutonomousAgent from "../autonomous-agent";
 
 export default class StartGoalWork implements AgentWork {
   tasksValues: string[] = [];

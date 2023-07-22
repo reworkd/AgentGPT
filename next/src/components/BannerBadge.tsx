@@ -1,34 +1,28 @@
+import clsx from "clsx";
 import type { PropsWithChildren } from "react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { IoSparkles } from "react-icons/io5";
-import clsx from "clsx";
+import { FaChevronRight } from "react-icons/fa";
 
 type BadgeProps = PropsWithChildren<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 
-const BannerBadge = ({ children, className, ...props }: BadgeProps) => {
-  return (
+const BannerBadge = ({ children, className, ...props }: BadgeProps) => (
+  <div
+    className={clsx(
+      "rounded-full bg-gradient-to-tl from-[#A02BFE] via-[#02FCF1] to-[#A02BFE] p-[1px] subpixel-antialiased",
+      className
+    )}
+  >
     <a
-      className={clsx(
-        "group pr-3 transition-colors hover:bg-purple-300/10",
-        "relative flex w-max cursor-pointer items-center gap-1 rounded-full",
-        "border border-purple-300 p-1 pl-2 text-sm text-purple-300",
-        "animate-border-pulse",
-        className
-      )}
+      className="animate-border-pulse py group relative flex w-max cursor-pointer items-center gap-2 rounded-full bg-black px-4 py-2 text-xs text-white"
       {...props}
     >
-      <IoSparkles className="mx-1" />
       <span>{children}</span>
-      <FaArrowRight
-        className={clsx(
-          "text-purple-300",
-          "transition-transform duration-300",
-          "group-hover:translate-x-1"
-        )}
+      <FaChevronRight
+        size={10}
+        className="font-thin text-gray-400 transition-transform duration-300 group-hover:translate-x-1"
       />
     </a>
-  );
-};
+  </div>
+);
 
 export default BannerBadge;

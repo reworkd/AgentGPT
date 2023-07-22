@@ -1,5 +1,5 @@
-import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { z } from "zod";
 
 import { get } from "../services/fetch-utils";

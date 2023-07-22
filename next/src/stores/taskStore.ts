@@ -1,9 +1,10 @@
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
+
+import { createSelectors } from "./helpers";
 import type { Message } from "../types/message";
 import type { Task } from "../types/task";
 import { isTask, TASK_STATUS_COMPLETED, TASK_STATUS_EXECUTING } from "../types/task";
-import { createSelectors } from "./helpers";
 
 export const isExistingTask = (message: Message): boolean =>
   isTask(message) &&
@@ -34,19 +35,11 @@ export const createTaskSlice: StateCreator<TaskSlice, [], [], TaskSlice> = (set)
       }));
     },
     updateTask: (updatedTask) => {
-      const { taskId, info, status: newStatus } = updatedTask;
-
-      if (!isExistingTask(updatedTask) || taskId === undefined) {
-        return;
-      }
-
       set((state) => {
         const updatedTasks = state.tasks.map((task) => {
-          if (task.taskId === taskId) {
+          if (task.id === updatedTask.id && task.taskId == updatedTask.taskId) {
             return {
-              ...task,
-              status: newStatus,
-              info,
+              ...updatedTask,
             };
           }
           return task;

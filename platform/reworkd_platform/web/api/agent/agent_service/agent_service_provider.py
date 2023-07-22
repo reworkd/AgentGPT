@@ -2,7 +2,8 @@ from typing import Any, Callable, Coroutine
 
 from fastapi import Depends
 
-from reworkd_platform.schemas import AgentRun, UserBase
+from reworkd_platform.schemas.agent import AgentRun
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.tokenizer.dependencies import get_token_service
 from reworkd_platform.services.tokenizer.token_service import TokenService
 from reworkd_platform.settings import settings

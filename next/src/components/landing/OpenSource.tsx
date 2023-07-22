@@ -1,7 +1,8 @@
-import React from "react";
-import { MacWindowInternal } from "../console/MacWindowHeader";
 import clsx from "clsx";
+import React from "react";
 import { FaGithub } from "react-icons/fa";
+
+import { MacWindowInternal } from "../console/MacWindowHeader";
 import PrimaryButton from "../PrimaryButton";
 
 interface TerminalProps {
@@ -71,15 +72,15 @@ const OpenSource = () => {
           <h3 className="my-4 text-6xl font-medium tracking-tight">Proudly Open Source</h3>
           <p className="mb-8 font-extralight leading-7 text-gray-400">
             We think the power of AI should be available to everyone and should be driven by
-            community. This is why we are proudly open source. We'd love to hear your feedback at
-            every step of the journey.
+            community. This is why we are proudly open source. We&apos;d love to hear your feedback
+            at every step of the journey.
           </p>
           <div className="mt-6 flex flex-row gap-4">
             <a href="https://github.com/reworkd" target="_blank">
               <PrimaryButton>View on Github</PrimaryButton>
             </a>
             <a href="https://github.com/orgs/reworkd/projects/3" target="_blank">
-              <PrimaryButton outline>Public Roadmap</PrimaryButton>
+              <PrimaryButton>Public Roadmap</PrimaryButton>
             </a>
           </div>
         </div>

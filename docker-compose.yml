@@ -56,7 +56,7 @@ services:
 
   weaviate:
     image: semitechnologies/weaviate:1.19.6
-    restart: on-failure:0
+    restart: on-failure:0 # this should be 'no' or at least have ':1'
     ports:
       - "8080:8080"
     environment:
@@ -67,11 +67,6 @@ services:
       CLUSTER_HOSTNAME: 'node1'
     volumes:
       - weaviate:/var/lib/weaviate
-
-  docs:
-    build: ./docs
-    ports:
-      - "3001:3001"
 
 volumes:
   weaviate:

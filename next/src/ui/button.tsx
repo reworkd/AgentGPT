@@ -1,7 +1,8 @@
 import type { ForwardedRef } from "react";
 import React, { forwardRef, useState } from "react";
-import Ping from "../components/Ping";
+
 import Loader from "../components/loader";
+import Ping from "../components/Ping";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
@@ -36,7 +37,7 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
       onClick={onClick}
     >
       {props.ping && <Ping color="white" />}
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-x-2.5 px-4 py-1 font-inter text-sm leading-6">
         {loading ? <Loader /> : props.children}
       </div>
     </button>

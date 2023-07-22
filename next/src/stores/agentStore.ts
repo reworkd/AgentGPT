@@ -1,15 +1,18 @@
-import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type AutonomousAgent from "../services/agent/autonomous-agent";
+
+import { createSelectors } from "./helpers";
 import type { ActiveTool } from "../hooks/useTools";
 import type { AgentLifecycle } from "../services/agent/agent-run-model";
+import type AutonomousAgent from "../services/agent/autonomous-agent";
 
 interface AgentSlice {
   agent: AutonomousAgent | null;
   lifecycle: AgentLifecycle;
   setLifecycle: (AgentLifecycle) => void;
+  summarized: boolean;
+  setSummarized: (boolean) => void;
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
@@ -17,7 +20,8 @@ interface AgentSlice {
 
 const initialAgentState = {
   agent: null,
-  lifecycle: "stopped" as const,
+  lifecycle: "offline" as const,
+  summarized: false,
   isAgentThinking: false,
   isAgentPaused: undefined,
 };
@@ -36,6 +40,11 @@ const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
     setLifecycle: (lifecycle: AgentLifecycle) => {
       set(() => ({
         lifecycle: lifecycle,
+      }));
+    },
+    setSummarized: (summarized: boolean) => {
+      set(() => ({
+        summarized: summarized,
       }));
     },
     setIsAgentThinking: (isThinking: boolean) => {
@@ -83,3 +92,5 @@ export const useAgentStore = createSelectors(
     )
   )
 );
+
+export const resetAllAgentSlices = () => resetters.forEach((resetter) => resetter());

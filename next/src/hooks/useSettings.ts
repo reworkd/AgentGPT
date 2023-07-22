@@ -1,12 +1,13 @@
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 
-import { getDefaultModelSettings } from "../utils/constants";
-import type { ModelSettings } from "../types";
 import { useModelSettingsStore } from "../stores";
-import { useRouter } from "next/router";
+import type { ModelSettings } from "../types";
+import { getDefaultModelSettings } from "../utils/constants";
 import type { Language } from "../utils/languages";
 import { findLanguage } from "../utils/languages";
-import { useTranslation } from "next-i18next";
+
 
 export type SettingsModel = {
   settings: ModelSettings;

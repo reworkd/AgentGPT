@@ -1,0 +1,50 @@
+---
+title: Introduction
+description: "Welcome to AgentGPT"
+---
+
+AgentGPT is an autonomous AI Agent platform that empowers users to create and deploy customizable autonomous AI agents directly in the web. Simply assign a name and goal to your AI agent, and watch as it embarks on an exciting journey to accomplish the assigned objective.
+
+<CardGroup cols={2}>
+  <Card title="How It Works" icon="chart-mixed" href="/essentials/usecases">
+    Understand how AgentGPT achieves goals by chaining language models.
+  </Card>
+  <Card title="Our Philosophy" icon="globe" href="/other/philosophy">
+    Learn about our mission to make AI accessible and community-driven.
+  </Card>
+</CardGroup>
+
+## Join the community
+
+We'd love to hear your feedback and engage with you on various platforms.
+
+<CardGroup cols={2}>
+  <Card
+    title="AgentGPT Website"
+    icon="browser"
+    href="https://agentgpt.reworkd.ai/"
+  >
+    Explore our official website.
+  </Card>
+  <Card title="Github" icon="github" href="https://github.com/reworkd/AgentGPT">
+    Contribute and stay updated on our Github repository.
+  </Card>
+  <Card title="Discord" icon="discord" href="https://discord.gg/jdSBAnmdnY">
+    Join our vibrant community on Discord.
+  </Card>
+  <Card
+    title="Google Survey"
+    icon="google"
+    href="https://docs.google.com/forms/d/e/1FAIpQLSfPUfwatxhnH4K-mFD-uOexz0vqUh6PDA8N6tpuowVKIEM_nA/viewform"
+  >
+    Help us improve with your valuable feedback.
+  </Card>
+</CardGroup>
+
+## What's next?
+
+The entire AgentGPT team is incredibly excited for the road to follow. We have a ton of exciting features planned for the future, and we hope you'll join us on this journey.
+
+<Card title="Roadmap" icon="map" href="/essentials/roadmap">
+  Have a glimpse of what's to come in our roadmap.
+</Card>

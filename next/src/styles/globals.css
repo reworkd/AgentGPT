@@ -6,8 +6,25 @@ body {
     background: black;
 }
 
+.resend-font-effect-hero {
+    /* #Resend */
+    -webkit-text-fill-color: transparent;
+    text-shadow: -1px -1px 0 hsla(0, 0%, 100%, .15), 1px 1px 0 rgba(0, 0, 0, .1);
+}
+
+.border-gradient {
+    /* Mark as important to override react flow styling */
+    background: linear-gradient(black, black) padding-box,
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.15)) border-box !important;
+    border: 1px solid transparent !important;
+}
+
 .radial-background-1 {
     background-image: radial-gradient(at 170% 0%, rgb(49, 46, 129) 0, transparent 69%), radial-gradient(at 0% -30%, rgb(21, 94, 117) 0, transparent 50%);
+}
+
+.after-gradient::after {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .8) 47.92%, rgba(255, 255, 255, 0));
 }
 
 .lower-gradient {
@@ -88,7 +105,7 @@ tr:nth-child(even) {
     .background {
         background-image: radial-gradient(
                 circle,
-                rgba(58, 58, 58, 0.75) 2px,
+                rgba(58, 58, 58, 0.5) 2px,
                 transparent 0px
         );
         background-size: 30px 30px;
@@ -98,7 +115,7 @@ tr:nth-child(even) {
     .background-dark {
         background-image: radial-gradient(
                 circle,
-                rgba(58, 58, 58, 0.75) 2px,
+                rgba(58, 58, 58, 0.5) 2px,
                 transparent 0px
         );
         background-size: 30px 30px;
@@ -127,6 +144,10 @@ tr:nth-child(even) {
 
     .background-color-6 {
         @apply dark:bg-shade-800-dark bg-blue-base-light
+    }
+
+    .background-color-7 {
+        @apply dark:bg-shade-500-dark bg-shade-800-light;
     }
 
     /* border styles */
@@ -163,7 +184,7 @@ tr:nth-child(even) {
     }
 
     .border-focusVisible-1 {
-        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2;
+        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2 focus-visible:ring-offset-0;
     }
 
     .border-focusVisible-1[type=range] {
@@ -213,7 +234,7 @@ tr:nth-child(even) {
     }
 
     .neutral-button-primary {
-        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
+        @apply border border-shade-400-light dark:border-shade-400-dark text-color-primary hover:background-color-2 hover:bg-shade-500-light dark:hover:bg-shade-600-dark;
     }
 
     .button-disabled {
@@ -245,7 +266,7 @@ input[type=range]::-ms-track {
 }
 
 input[type=range] {
-    @apply background-color-4 rounded-md;
+    @apply background-color-7 rounded-md;
     height: 0.5rem;
 }
 
@@ -281,16 +302,37 @@ Not supports in Firefox and IE */
 
 @keyframes border-pulse-animation {
     0% {
-      border-color: rgba(216, 180, 254, 0.3);
+        border-color: rgba(216, 180, 254, 0.3);
     }
     50% {
-      border-color: rgba(216, 180, 254, 0.4);
+        border-color: rgba(216, 180, 254, 0.4);
     }
     100% {
-      border-color: rgba(216, 180, 254, 0.3);
+        border-color: rgba(216, 180, 254, 0.3);
     }
-  }
-  
-  .animate-border-pulse {
+}
+
+.animate-border-pulse {
     animation: border-pulse-animation 2s infinite;
-  }
+}
+
+@keyframes moveBackground {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 0;
+    }
+}
+
+.bg-stars {
+    animation: moveBackground 30s linear infinite;
+    background: url("/stars.svg");
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}

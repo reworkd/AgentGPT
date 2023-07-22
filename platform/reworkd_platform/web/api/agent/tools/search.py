@@ -6,7 +6,10 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
-from reworkd_platform.web.api.agent.tools.utils import CitedSnippet, summarize
+from reworkd_platform.web.api.agent.tools.utils import (
+    CitedSnippet,
+    summarize_with_sources,
+)
 
 # Search google via serper.dev. Adapted from LangChain
 # https://github.com/hwchase17/langchain/blob/master/langchain/utilities
@@ -39,6 +42,7 @@ class Search(Tool):
     )
     public_description = "Search google for information about current events."
     arg_description = "The query argument to search for. This value is always populated and cannot be an empty string."
+    image_url = "/tools/google.png"
 
     @staticmethod
     def available() -> bool:
@@ -81,4 +85,4 @@ class Search(Tool):
         if len(snippets) == 0:
             return stream_string("No good Google Search Result was found", True)
 
-        return summarize(self.model, self.language, goal, task, snippets)
+        return summarize_with_sources(self.model, self.language, goal, task, snippets)

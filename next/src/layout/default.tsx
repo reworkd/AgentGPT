@@ -1,7 +1,9 @@
-import { type ReactNode } from "react";
-import Head from "next/head";
-import DottedGridBackground from "../components/DottedGridBackground";
 import clsx from "clsx";
+import Head from "next/head";
+import { type ReactNode } from "react";
+
+import DottedGridBackground from "../components/DottedGridBackground";
+
 
 interface LayoutProps {
   children: ReactNode;

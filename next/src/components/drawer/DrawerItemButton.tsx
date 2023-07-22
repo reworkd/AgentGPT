@@ -1,5 +1,5 @@
-import React from "react";
 import clsx from "clsx";
+import React from "react";
 
 interface DrawerItemProps {
   text: string;
@@ -22,4 +22,8 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
       <span className="text-sm">{text}</span>
     </button>
   );
+};
+
+export const DrawerItemButtonLoader = () => {
+  return <div className="background-color-4 w-50 mx-1.5 h-7 animate-pulse rounded-md"></div>;
 };

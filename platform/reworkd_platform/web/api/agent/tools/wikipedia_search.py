@@ -13,6 +13,7 @@ class Wikipedia(Tool):
     )
     public_description = "Search Wikipedia for historical information."
     arg_description = "A simple query string of just the noun in question."
+    image_url = "/tools/wikipedia.png"
 
     async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
         wikipedia_client = WikipediaAPIWrapper(
@@ -21,5 +22,5 @@ class Wikipedia(Tool):
 
         # TODO: Make the below async
         wikipedia_search = wikipedia_client.run(input_str)
-        # return summarize(self.model, self.language, goal, task, [wikipedia_search])
+        # return summarize_with_sources(self.model, self.language, goal, task, [wikipedia_search])
         return stream_string("Wikipedia is currently not working")

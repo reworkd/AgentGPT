@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Session } from "next-auth";
+
 import { env } from "../env/client.mjs";
 
 export const post = async <T>(url: string, body: unknown, session?: Session) => {
@@ -19,6 +20,19 @@ export const get = async <T>(url: string, session?: Session) => {
 
   return (
     await axios.get(url, {
+      headers,
+    })
+  ).data as T;
+};
+
+export const delete_ = async <T>(url: string, accessToken?: string) => {
+  const headers: Record<string, string> = {};
+  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+
+  url = getUrl(url);
+
+  return (
+    await axios.delete(url, {
       headers,
     })
   ).data as T;

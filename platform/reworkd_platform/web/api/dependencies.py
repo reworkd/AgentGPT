@@ -8,7 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from reworkd_platform.db.crud.user import UserCrud
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.models.user import User
-from reworkd_platform.schemas import UserBase
+from reworkd_platform.schemas.user import UserBase
 
 
 def user_crud(

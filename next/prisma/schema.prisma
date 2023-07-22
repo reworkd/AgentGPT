@@ -197,14 +197,15 @@ model Workflow {
 }
 
 model WorkflowEdge {
-  id          String @id @default(cuid())
-  workflow_id String
-  source      String @db.VarChar(36)
-  target      String @db.VarChar(36)
+  id            String  @id @default(cuid())
+  workflow_id   String
+  source        String  @db.VarChar(36)
+  source_handle String? @db.VarChar(36)
+  target        String  @db.VarChar(36)
 
   workflow Workflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
 
-  @@unique([workflow_id, source, target])
+  @@unique([workflow_id, source, target, source_handle])
   @@map("workflow_edge")
 }
 
@@ -218,8 +219,22 @@ model WorkflowNode {
   update_date DateTime? @updatedAt
   delete_date DateTime?
 
-  workflow Workflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
+  workflow  Workflow    @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
+  NodeBlock NodeBlock[]
 
   @@unique([workflow_id, ref])
   @@map("workflow_node")
+}
+
+model NodeBlock {
+  id      String @id @default(cuid())
+  node_id String
+
+  type  String
+  input Json
+
+  workflow_node WorkflowNode @relation(fields: [node_id], references: [id], onDelete: Cascade)
+
+  @@index([node_id])
+  @@map("node_block")
 }

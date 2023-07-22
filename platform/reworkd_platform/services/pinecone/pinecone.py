@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from reworkd_platform.settings import settings
 from reworkd_platform.timer import timed_function
 from reworkd_platform.web.api.memory.memory import AgentMemory
+from loguru import logger
 
 OPENAI_EMBEDDING_DIM = 1536
 
@@ -72,6 +73,18 @@ class PineconeMemory(AgentMemory):
         )
 
         return [row.id for row in rows]
+    
+
+    # @timed_function(level="DEBUG")
+    # def add_documents(self, documents: List[Document]) -> List[str]:
+    #     if len(documents) == 0:
+    #         return []
+        
+    #     self.__enter__()
+    #     docsearch = Pinecone.from_texts([doc.page_content for doc in documents], index_name=self.index, embedding=self.embeddings)
+    #     logger.info('docsearch', docsearch)
+
+    #     return docsearch
 
     @timed_function(level="DEBUG")
     def get_similar_tasks(

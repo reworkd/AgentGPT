@@ -1,5 +1,5 @@
 from reworkd_platform.schemas.workflow.base import Block
-from reworkd_platform.schemas.workflow.blocks.agents.WebInteractionAgent import (
+from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent import (
     WebInteractionAgent,
 )
 from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import IfCondition

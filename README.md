@@ -52,7 +52,9 @@ Before you get started, please make sure you have the following installed:
 - [Node.js](https://nodejs.org/en/download)
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
-- An [OpenAI API key](https://beta.openai.com/signup/)
+- An [OpenAI API key](https://platform.openai.com/signup)
+- A [Serper API Key](https://serper.dev/signup) (optional)
+- A [Replicate API Token](https://replicate.com/signin) (optional)
 
 ## Getting Started :rocket:
 1. **Open your editor**
@@ -60,7 +62,7 @@ Before you get started, please make sure you have the following installed:
 2. **Open the Terminal** - Typically, you can do this from a 'Terminal' tab or by using a shortcut
    (e.g., `Ctrl + ~` for Windows or `Control + ~` for Mac in VS Code).
 
-4. **Clone the Repository and Navigate into the Directory** - Once your terminal is open, you can clone the repository and move into the directory by running the commands below.
+3. **Clone the Repository and Navigate into the Directory** - Once your terminal is open, you can clone the repository and move into the directory by running the commands below.
 
    **For Mac/Linux users** :apple: :penguin:
    ```bash
@@ -74,7 +76,7 @@ Before you get started, please make sure you have the following installed:
    cd AgentGPT
    ./setup.bat
    ```
-5. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
+4. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
 
 Happy hacking! :tada:
 

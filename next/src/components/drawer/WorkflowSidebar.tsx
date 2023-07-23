@@ -12,7 +12,7 @@ import {
   getNodeBlockDefinitions,
 } from "../../services/workflow/node-block-definitions";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
-import InputWithSuggestions from "../../ui/InputWithSuggestions";
+import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
 import TextButton from "../TextButton";
 
 type WorkflowControls = {
@@ -105,18 +105,37 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
         <p className="text-lg font-bold">{definition?.type}</p>
         <p className="mb-3 text-sm font-thin">{definition?.description}</p>
       </div>
-      {definition?.input_fields.map((inputField) => (
+      <hr className="border-neutral-500" />
+      <div className="font-bold">Inputs</div>
+      {definition?.input_fields.map((inputField: IOField) => (
         <div key={definition?.type + inputField.name}>
-          <InputWithSuggestions
-            label={inputField.name}
-            name={inputField.name}
-            helpText={inputField.description}
+          <WorkflowSidebarInput
+            inputField={inputField}
             value={selectedNode.data.block.input[inputField.name] || ""}
-            onChange={(e) => handleValueChange(inputField.name, e.target.value)}
+            onChange={(val) => handleValueChange(inputField.name, val)}
             suggestions={outputFields}
           />
         </div>
       ))}
+      {definition?.input_fields.length == 0 && (
+        <p className="text-sm font-thin">This node does not take any input.</p>
+      )}
+      <hr className="border-neutral-500" />
+      <div className="font-bold">Outputs</div>
+      <div className="flex flex-col gap-2">
+        {definition?.output_fields.map((outputField: IOField) => (
+          <div key={definition?.type + outputField.name}>
+            <p>
+              <span className="text-sm font-bold">{outputField.name}:</span>{" "}
+              <span className="text-sm font-thin">{outputField.type}</span>
+            </p>
+            <p className="text-sm font-thin">{outputField.description}</p>
+          </div>
+        ))}
+        {definition?.output_fields.length == 0 && (
+          <p className="text-sm font-thin">This node does not have any output.</p>
+        )}
+      </div>
     </>
   );
 };

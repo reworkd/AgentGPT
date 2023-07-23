@@ -2,7 +2,7 @@ import asyncio
 from typing import Dict, List
 
 from fastapi import Depends
-from sqlalchemy import and_, select
+from sqlalchemy import and_, select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
@@ -36,7 +36,13 @@ class WorkflowCRUD(BaseCrud):
     async def get_all(self) -> List[Workflow]:
         query = select(WorkflowModel).where(
             and_(
-                WorkflowModel.user_id == self.user.id,
+                or_(
+                    WorkflowModel.user_id == self.user.id,
+                    and_(
+                        WorkflowModel.organization_id == self.user.organization_id,
+                        WorkflowModel.organization_id.is_not(None),
+                    ),
+                ),
                 WorkflowModel.delete_date.is_(None),
             )
         )
@@ -53,6 +59,8 @@ class WorkflowCRUD(BaseCrud):
             self.node_service.get_nodes(workflow_id),
             self.edge_service.get_edges(workflow_id),
         )
+
+        self.validate_permissions(workflow)
 
         # get node blocks
         blocks = await self.node_service.get_node_blocks(
@@ -71,7 +79,7 @@ class WorkflowCRUD(BaseCrud):
         return (
             await WorkflowModel(
                 user_id=self.user.id,
-                organization_id=None,  # TODO: add organization_id
+                organization_id=self.user.organization_id,
                 name=name,
                 description=description,
             ).save(self.session)
@@ -80,9 +88,9 @@ class WorkflowCRUD(BaseCrud):
     async def delete(self, workflow_id: str) -> None:
         """Soft a delete workflow"""
         # TODO: Make sure workflow logic doesnt run on deleted workflows
-        # TODO: make sure users can only delete their own workflows
-
         workflow = await WorkflowModel.get_or_404(self.session, workflow_id)
+
+        self.validate_permissions(workflow)
         await workflow.delete(self.session)
 
     async def update(self, workflow_id: str, workflow_update: WorkflowUpdate) -> str:
@@ -94,6 +102,8 @@ class WorkflowCRUD(BaseCrud):
                 [node.id for node in workflow_update.nodes if node.id]
             ),
         )
+
+        self.validate_permissions(workflow)
 
         # TODO: use co-routines to make this faster
         # Map from ref to id so edges can use id's instead of refs
@@ -130,3 +140,12 @@ class WorkflowCRUD(BaseCrud):
         await self.edge_service.delete_old_edges(workflow_update.edges, all_edges)
 
         return "OK"
+
+    def validate_permissions(self, workflow: WorkflowModel) -> None:
+        if (
+            workflow.user_id == self.user.id
+            or workflow.organization_id == self.user.organization_id
+        ):
+            return
+
+        raise Exception("User does not have permission to update this workflow")

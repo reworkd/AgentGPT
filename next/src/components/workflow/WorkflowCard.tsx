@@ -20,6 +20,7 @@ export default function WorkflowCard({ workflow, onClick }: Props) {
       <motion.div layoutId={`workflow-card-text-${workflow.id}`}>
         <h1 className="text-color-primary font-bold">{workflow.name}</h1>
         <p className="text-color-secondary">{workflow.description}</p>
+        <p className="text-color-secondary">Org: {workflow.organization_id}</p>
       </motion.div>
 
       <motion.div layoutId={`workflow-card-input-${workflow.id}`} />

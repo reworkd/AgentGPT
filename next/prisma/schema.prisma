@@ -67,30 +67,36 @@ model Organization {
   update_date DateTime? @updatedAt
   delete_date DateTime?
 
-  UserRole UserRole[]
+  user_roles UserRole[]
 
   @@index([name])
   @@map("organization")
 }
 
-enum RoleName {
-  ADMIN
-  MEMBER
-}
-
 model UserRole {
-  id              String   @id @default(cuid())
+  id              String @id @default(cuid())
   user_id         String
   organization_id String
-  role            RoleName
+  role_id         String
 
   user         User          @relation(fields: [user_id], references: [id], onDelete: NoAction)
   organization Organization? @relation(fields: [organization_id], references: [id], onDelete: NoAction)
+  role         Role          @relation(fields: [role_id], references: [id], onDelete: NoAction)
 
   @@unique([user_id, organization_id])
   @@index([user_id])
   @@index([organization_id])
+  @@index([role_id])
   @@map("user_role")
+}
+
+model Role {
+  id   String @id @default(cuid())
+  name String @unique
+
+  user_roles UserRole[]
+
+  @@map("role")
 }
 
 model VerificationToken {

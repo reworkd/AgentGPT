@@ -6,8 +6,9 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string(),
-  type: z.enum(["string", "array"]),
+  type: z.enum(["string", "array", "enum"]),
   items: z.object({ type: z.string() }).optional(),
+  enum: z.array(z.string()).optional(),
 });
 
 export type IOField = z.infer<typeof IOFieldSchema>;
@@ -127,7 +128,14 @@ const IfBlockDefinition: NodeBlockDefinition = {
   type: "IfCondition",
   description: "Conditionally take a path",
   image_url: "/tools/web.png",
-  input_fields: [],
+  input_fields: [
+    {
+      name: "operator",
+      description: "The type of equality to check for",
+      type: "string",
+      enum: ["=", "!="],
+    },
+  ],
   output_fields: [],
 };
 

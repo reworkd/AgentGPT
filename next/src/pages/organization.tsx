@@ -51,61 +51,67 @@ const OrganizationManagement = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="px-4 sm:px-6 lg:px-8">
-                        <div className="sm:flex sm:items-center">
+                    <div className="p-4">
+                        <div className="sm:flex mb-6 sm:items-center">
                             <div className="sm:flex-auto">
-                            <h1 className="text-gray-300 font-light">Manage members</h1>
-                            <p className="mt-2 font-light text-white/50 text-sm">
-                                A list of all the users in your account including their name, title, email and role.
-                            </p>
-                            </div>
-                            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                            <button
-                                type="button"
-                                className="block rounded bg-purple-400/20 px-3 py-2 text-center text-sm text-white shadow-sm hover:bg-purple-400/20 focus:ring-purple-400/30"
-                            >
-                                Invite people
-                            </button>
+                                <h1 className="text-gray-300 font-light">Manage members</h1>
+                                <p className="mt-2 font-light text-white/50 text-sm">
+                                A list of all the users in your account including their name, title, email, and role.
+                                </p>
                             </div>
                         </div>
+                        <div className="flex justify-between mt-4 sm:mt-0">
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                className="bg-gray-900 flex-grow max-w-sm text-white border border-white/20 rounded mt-1 focus:ring-white focus:border-white"
+                            />
+                            <button
+                            type="button"
+                            className="block rounded bg-purple-400/20 px-3 py-1 text-center text-sm text-white shadow-sm hover:bg-purple-400/20 focus:ring-purple-400/30"
+                            >
+                            Invite people
+                            </button>
+                        </div>
+
                         <div className="mt-8 flow-root">
                             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                <table className="min-w-full divide-y divide-gray-300">
-                                <tbody className="divide-y divide-gray-200 bg-white">
-                                    {/* {people.map((person) => (
-                                    <tr key={person.email}>
-                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                                        <div className="flex items-center">
-                                            <div className="h-11 w-11 flex-shrink-0">
-                                            <img className="h-11 w-11 rounded-full" src={person.image} alt="" />
+                                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                    <table className="min-w-full divide-y divide-gray-300">
+                                    <tbody className="divide-y divide-gray-200 bg-white">
+                                        {/* {people.map((person) => (
+                                        <tr key={person.email}>
+                                            <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                                            <div className="flex items-center">
+                                                <div className="h-11 w-11 flex-shrink-0">
+                                                <img className="h-11 w-11 rounded-full" src={person.image} alt="" />
+                                                </div>
+                                                <div className="ml-4">
+                                                <div className="font-medium text-gray-900">{person.name}</div>
+                                                <div className="mt-1 text-gray-500">{person.email}</div>
+                                                </div>
                                             </div>
-                                            <div className="ml-4">
-                                            <div className="font-medium text-gray-900">{person.name}</div>
-                                            <div className="mt-1 text-gray-500">{person.email}</div>
-                                            </div>
-                                        </div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                        <div className="text-gray-900">{person.title}</div>
-                                        <div className="mt-1 text-gray-500">{person.department}</div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                            Active
-                                        </span>
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{person.role}</td>
-                                        <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                            Edit<span className="sr-only">, {person.name}</span>
-                                        </a>
-                                        </td>
-                                    </tr>
-                                    ))} */}
-                                </tbody>
-                                </table>
-                            </div>
+                                            </td>
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            <div className="text-gray-900">{person.title}</div>
+                                            <div className="mt-1 text-gray-500">{person.department}</div>
+                                            </td>
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Active
+                                            </span>
+                                            </td>
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{person.role}</td>
+                                            <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                                Edit<span className="sr-only">, {person.name}</span>
+                                            </a>
+                                            </td>
+                                        </tr>
+                                        ))} */}
+                                    </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

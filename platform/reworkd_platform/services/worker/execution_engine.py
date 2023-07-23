@@ -1,4 +1,5 @@
 import re
+from collections import deque
 from typing import Any, Dict, List, cast
 
 from loguru import logger
@@ -55,7 +56,7 @@ class ExecutionEngine:
         # Handle if nodes
         if isinstance(runner, IfCondition):
             self.workflow.queue = self.get_pruned_queue(
-                runner, (cast(IfOutput, outputs)).result
+                curr, (cast(IfOutput, outputs)).result
             )
 
         websockets.emit(
@@ -70,6 +71,8 @@ class ExecutionEngine:
 
         if self.workflow.queue:
             await self.start()
+        else:
+            logger.info("Workflow complete")
 
     @classmethod
     def create_execution_plan(
@@ -90,7 +93,22 @@ class ExecutionEngine:
             ),
         )
 
-    def get_pruned_queue(self, if_condition: IfCondition, branch: bool) -> List[Node]:
+    def bfs_keep(self, node_ids_to_keep: List[str]) -> List[Node]:
+        visited = set(node_ids_to_keep)
+        queue = deque(node_ids_to_keep)
+
+        while queue:
+            node_id = queue.popleft()
+
+            edges = [edge for edge in self.workflow.edges if edge.source == node_id]
+            for edge in edges:
+                if edge.target not in visited:
+                    visited.add(edge.target)
+                    queue.append(edge.target)
+
+        return [node for node in self.workflow.queue if node.id in visited]
+
+    def get_pruned_queue(self, if_node: Node, branch: bool) -> List[Node]:
         """
         Prune the queue of nodes to only include nodes that are reachable from the
         current branch of the if condition.
@@ -98,16 +116,14 @@ class ExecutionEngine:
         source_handle = "true" if branch else "false"
 
         if_node_edges = [
-            edge for edge in self.workflow.edges if edge.source == if_condition.id
+            edge for edge in self.workflow.edges if edge.source == if_node.id
         ]
 
-        node_ids_to_prune = [
-            edge.target for edge in if_node_edges if edge.source_handle != source_handle
+        node_ids_to_keep = [
+            edge.target for edge in if_node_edges if edge.source_handle == source_handle
         ]
 
-        return [
-            node for node in self.workflow.queue if node.id not in node_ids_to_prune
-        ]
+        return self.bfs_keep(node_ids_to_keep)
 
 
 TEMPLATE_PATTERN = r"\{\{(?P<id>[\w\d\-]+)\.(?P<key>[\w\d\-]+)\}\}"

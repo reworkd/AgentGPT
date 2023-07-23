@@ -18,7 +18,7 @@ function BasicNode({ data, selected }: NodeProps<WorkflowNode>) {
       ]}
     >
       <div className="flex items-center">
-        <div className="ml-2">
+        <div className="ml-2 max-w-[15em]">
           <div className="text-lg font-bold text-gray-100">{definition?.name}</div>
           <div className="text-md text-sm font-thin">{definition?.description}</div>
         </div>

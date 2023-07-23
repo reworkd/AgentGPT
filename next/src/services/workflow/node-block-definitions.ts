@@ -6,7 +6,8 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string(),
-  type: z.enum(["string"]),
+  type: z.enum(["string", "array"]),
+  items: z.object({ type: z.string() }).optional(),
 });
 
 export type IOField = z.infer<typeof IOFieldSchema>;
@@ -78,13 +79,13 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "prompt",
       description: "What do you want to do with the text?",
-      type: "string"
+      type: "string",
     },
     {
       name: "filename",
       description: "reference a file that you want to summarize",
-      type: "string"
-    }
+      type: "string",
+    },
   ],
   output_fields: [
     {
@@ -134,11 +135,34 @@ const TriggerBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const WebInteractionAgent: NodeBlockDefinition = {
+  name: "Web Interaction Agent",
+  type: "WebInteractionAgent",
+  description:
+    "Takes a URL, dynamically interacts with the site given guidance, and returns some results.",
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "URL",
+      description: "The website the agent will interact with",
+      type: "string",
+    },
+    {
+      name: "Variable 2",
+      description: "The second thing to compare",
+      type: "array",
+      items: { type: "string" },
+    },
+  ],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = () => {
   return [
     UrlStatusCheckBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
+    WebInteractionAgent,
     TriggerBlockDefinition,
     SummaryWebhookBlockDefinition,
     TextInputWebhookBlockDefinition,

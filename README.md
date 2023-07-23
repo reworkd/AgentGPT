@@ -53,8 +53,8 @@ Before you get started, please make sure you have the following installed:
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
 - An [OpenAI API key](https://platform.openai.com/signup)
-- A [Serper API Key](https://serper.dev/signup)
-- A [Replicate API Token](https://replicate.com/signin)
+- A [Serper API Key](https://serper.dev/signup) (optional)
+- A [Replicate API Token](https://replicate.com/signin) (optional)
 
 ## Getting Started :rocket:
 1. **Open your editor**

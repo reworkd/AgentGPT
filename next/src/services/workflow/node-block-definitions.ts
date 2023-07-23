@@ -6,7 +6,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string(),
-  type: z.enum(["string", "array"]),
+  type: z.enum(["string", "array", "enum"]),
   items: z.object({ type: z.string() }).optional(),
 });
 

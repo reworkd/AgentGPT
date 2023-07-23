@@ -1,8 +1,11 @@
 import clsx from "clsx";
 import type { PropsWithChildren } from "react";
 import React, { memo } from "react";
+import { FaCircle } from "react-icons/fa";
 import type { HandleType, Position } from "reactflow";
 import { Handle } from "reactflow";
+
+import type { NodeBlockDefinition } from "../../../services/workflow/node-block-definitions";
 
 interface Handle {
   position: Position;
@@ -21,11 +24,11 @@ interface NodeProps extends PropsWithChildren {
 const AbstractNode = (props: NodeProps) => (
   <div
     className={clsx(
-      "border-translucent rounded-md bg-stone-900 p-3 text-white shadow-2xl shadow-stone-800 transition-colors duration-300",
-      props.selected ? "border-white" : "hover:border-gray-400",
+      !props.status && "border border-white/20",
+      "border-translucent w-[17em]  rounded-md p-3 text-white shadow-xl shadow-stone-800 transition-colors duration-300",
+      props.selected ? "bg-zinc-800" : "bg-zinc-950 hover:bg-zinc-900",
       props.status === "running" && "border border-amber-500",
-      props.status === "success" && "border border-green-500",
-      !props.status && "border-gradient"
+      props.status === "success" && "border border-green-500"
     )}
   >
     {props.children}
@@ -47,3 +50,17 @@ const AbstractNode = (props: NodeProps) => (
 );
 
 export default memo(AbstractNode);
+
+export const NodeTitle = ({ definition }: { definition?: NodeBlockDefinition }) => {
+  if (!definition) return <></>;
+
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center gap-1">
+        <FaCircle size={12} />
+        <div className="text-xs font-bold text-gray-100">{definition?.name}</div>
+      </div>
+      <div className="text-md text-sm font-thin">{definition?.description}</div>
+    </div>
+  );
+};

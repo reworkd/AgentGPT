@@ -27,7 +27,7 @@ export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   name: "URL Status Check",
   type: "UrlStatusCheck",
-  description: "Check the status of a URL",
+  description: "Check if a website exists",
   image_url: "/tools/web.png",
   input_fields: [
     {
@@ -151,8 +151,7 @@ const TriggerBlockDefinition: NodeBlockDefinition = {
 const WebInteractionAgent: NodeBlockDefinition = {
   name: "Web Interaction Agent",
   type: "WebInteractionAgent",
-  description:
-    "Takes a URL, dynamically interacts with the site given guidance, and returns some results.",
+  description: "Dynamically interact with a website",
   image_url: "/tools/web.png",
   input_fields: [
     {
@@ -169,7 +168,7 @@ const WebInteractionAgent: NodeBlockDefinition = {
   output_fields: [],
 };
 
-export const getNodeBlockDefinitions = () => {
+export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     UrlStatusCheckBlockDefinition,
     SlackWebhookBlockDefinition,

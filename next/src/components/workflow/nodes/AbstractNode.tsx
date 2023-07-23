@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import type { PropsWithChildren } from "react";
 import React, { memo } from "react";
-import { FaCircle } from "react-icons/fa";
 import type { HandleType, Position } from "reactflow";
 import { Handle } from "reactflow";
 
@@ -57,7 +56,7 @@ export const NodeTitle = ({ definition }: { definition?: NodeBlockDefinition }) 
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-1">
-        <FaCircle size={12} />
+        <definition.icon size={12} />
         <div className="text-xs font-bold text-gray-100">{definition?.name}</div>
       </div>
       <div className="text-md text-sm font-thin">{definition?.description}</div>

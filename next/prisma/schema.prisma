@@ -48,11 +48,11 @@ model User {
 
   createDate DateTime @default(now())
 
-  accounts Account[]
-  sessions Session[]
-  runs     Run[]
-  Agent    Agent[]
-  UserRole UserRole[]
+  accounts      Account[]
+  sessions      Session[]
+  runs          Run[]
+  Agent         Agent[]
+  organizations OrganizationUser[]
 
   @@index([email])
   @@index([createDate])
@@ -67,36 +67,28 @@ model Organization {
   update_date DateTime? @updatedAt
   delete_date DateTime?
 
-  user_roles UserRole[]
+  users OrganizationUser[]
 
   @@index([name])
   @@map("organization")
 }
 
-model UserRole {
-  id              String @id @default(cuid())
+model OrganizationUser {
+  id              String    @id @default(cuid())
   user_id         String
   organization_id String
-  role_id         String
+  role            String    @default("member")
+  create_date     DateTime  @default(now())
+  update_date     DateTime? @updatedAt
+  delete_date     DateTime?
 
-  user         User          @relation(fields: [user_id], references: [id], onDelete: NoAction)
-  organization Organization? @relation(fields: [organization_id], references: [id], onDelete: NoAction)
-  role         Role          @relation(fields: [role_id], references: [id], onDelete: NoAction)
+  user         User         @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: NoAction)
 
   @@unique([user_id, organization_id])
   @@index([user_id])
   @@index([organization_id])
-  @@index([role_id])
-  @@map("user_role")
-}
-
-model Role {
-  id   String @id @default(cuid())
-  name String @unique
-
-  user_roles UserRole[]
-
-  @@map("role")
+  @@map("organization_user")
 }
 
 model VerificationToken {

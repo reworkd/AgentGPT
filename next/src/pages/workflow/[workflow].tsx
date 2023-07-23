@@ -16,19 +16,12 @@ import { languages } from "../../utils/languages";
 
 const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
-  const router = useRouter();
+  const { query } = useRouter();
 
   const [file, setFile] = useState<File>();
 
-  const {
-    nodesModel,
-    edgesModel,
-    selectedNode,
-    saveWorkflow,
-    executeWorkflow,
-    createNode,
-    updateNode,
-  } = useWorkflow(router.query.workflow as string, session);
+  const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode } =
+    useWorkflow(query.workflow as string, session);
 
   return (
     <DashboardLayout

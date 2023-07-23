@@ -21,12 +21,24 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
         session.user.superAdmin = user.superAdmin;
       }
 
-      session.accessToken = (
-        await prisma.session.findFirstOrThrow({
+      const [token, orgs] = await Promise.all([
+        prisma.session.findFirstOrThrow({
           where: { userId: user.id },
           orderBy: { expires: "desc" },
-        })
-      ).sessionToken;
+        }),
+        prisma.organizationUser.findMany({
+          where: { user_id: user.id },
+          include: { organization: true },
+        }),
+      ]);
+
+      session.accessToken = token.sessionToken;
+      session.user.organizations = orgs.map((row) => ({
+        role: row.role,
+        name: row.organization.name,
+        organizationUserId: row.id,
+        id: row.organization.id,
+      }));
 
       return session;
     },

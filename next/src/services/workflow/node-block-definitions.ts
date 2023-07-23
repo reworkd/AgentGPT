@@ -37,6 +37,11 @@ const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   ],
   output_fields: [
     {
+      name: "url",
+      description: "The URL to check",
+      type: "string",
+    },
+    {
       name: "code",
       description: "The HTTP status code",
       type: "string",
@@ -148,8 +153,8 @@ const WebInteractionAgent: NodeBlockDefinition = {
       type: "string",
     },
     {
-      name: "Variable 2",
-      description: "The second thing to compare",
+      name: "Requirements",
+      description: "The steps the agent should take",
       type: "array",
       items: { type: "string" },
     },

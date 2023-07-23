@@ -94,19 +94,18 @@ class ExecutionEngine:
         )
 
     def bfs_keep(self, node_ids_to_keep: List[str]) -> List[Node]:
-        visited = set(node_ids_to_keep)  # Initialize visited set with nodes to keep
-        queue = deque(node_ids_to_keep)  # Use a deque for efficient popleft operation
+        visited = set(node_ids_to_keep)
+        queue = deque(node_ids_to_keep)
 
         while queue:
             node_id = queue.popleft()
-            # Get all edges from the current node
+
             edges = [edge for edge in self.workflow.edges if edge.source == node_id]
             for edge in edges:
                 if edge.target not in visited:
                     visited.add(edge.target)
                     queue.append(edge.target)
 
-        # Return kept queue
         return [node for node in self.workflow.queue if node.id in visited]
 
     def get_pruned_queue(self, if_node: Node, branch: bool) -> List[Node]:

@@ -2,7 +2,7 @@ from reworkd_platform.schemas.workflow.base import Block
 from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent import (
     WebInteractionAgent,
 )
-from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import IfCondition
+from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.manual_trigger import ManualTriggerBlock
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.status_check import UrlStatusCheckBlock

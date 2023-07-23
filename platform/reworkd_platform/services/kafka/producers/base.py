@@ -1,10 +1,10 @@
-from ssl import create_default_context
 from typing import Literal
 
 from aiokafka import AIOKafkaProducer
 from loguru import logger
 from pydantic import BaseModel
 
+from reworkd_platform.services.ssl import get_ssl_context
 from reworkd_platform.settings import Settings
 
 TOPICS = Literal["workflow_task"]
@@ -19,7 +19,7 @@ class AsyncProducer:
             security_protocol="SASL_SSL",
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,
-            ssl_context=create_default_context(cafile=settings.db_ca_path),
+            ssl_context=get_ssl_context(settings),
         )
 
         self._headers = (

@@ -1,7 +1,10 @@
-# Parent exception class for all expected backend exceptions
-# Will be caught and handled by the platform_exception_handler
-# Shoutout https://platformatic.dev/
 class PlatformaticError(Exception):
+    """
+    Parent exception class for all expected backend exceptions
+    Will be caught and handled by the platform_exception_handler
+    Shoutout to https://platformatic.dev/
+    """
+
     detail: str
     code: int
     should_log: bool = True

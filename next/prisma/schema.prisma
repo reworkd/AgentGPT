@@ -82,8 +82,8 @@ model OrganizationUser {
   update_date     DateTime? @updatedAt
   delete_date     DateTime?
 
-  user         User         @relation(fields: [user_id], references: [id], onDelete: NoAction)
-  organization Organization @relation(fields: [organization_id], references: [id], onDelete: NoAction)
+  user         User         @relation(fields: [user_id], references: [id])
+  organization Organization @relation(fields: [organization_id], references: [id])
 
   @@unique([user_id, organization_id])
   @@index([user_id])

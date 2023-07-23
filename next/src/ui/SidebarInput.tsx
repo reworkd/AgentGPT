@@ -1,5 +1,6 @@
 import React from "react";
 
+import Combo from "./combox";
 import InputWithSuggestions from "./InputWithSuggestions";
 import type { IOField } from "../services/workflow/node-block-definitions";
 
@@ -11,6 +12,17 @@ interface SidebarInputProps {
 }
 
 const SidebarInput = ({ inputField, value, onChange, suggestions }: SidebarInputProps) => {
+  if (inputField.type === "string" && inputField.enum) {
+    return (
+      <Combo
+        label={inputField.name}
+        items={inputField.enum}
+        value={value}
+        valueMapper={(e) => e}
+        onChange={(e) => onChange(e)}
+      />
+    );
+  }
   if (inputField.type === "string") {
     return (
       <>

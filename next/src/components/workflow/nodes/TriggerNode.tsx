@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import React, { memo } from "react";
 import { type NodeProps, Position } from "reactflow";
 
-import AbstractNode from "./AbstractNode";
+import AbstractNode, { NodeTitle } from "./AbstractNode";
 import { getNodeBlockDefinitions } from "../../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../../services/workflow/workflowApi";
 import { useWorkflowStore } from "../../../stores/workflowStore";
@@ -23,12 +23,11 @@ function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
       handles={[{ position: Position.Bottom, type: "source" }]}
     >
       <div className="flex flex-col">
-        <div className="text-lg font-bold text-gray-100">{definition?.name}</div>
-        <div className="text-md text-sm font-thin">{definition?.description}</div>
+        <NodeTitle definition={definition} />
         {workflow?.id && (
           <PrimaryButton
             onClick={async () => void (await api.execute(workflow?.id))}
-            className="mt-2 bg-orange-500 text-lg font-light"
+            className="mt-3 bg-orange-500 text-lg font-medium"
           >
             <span className="text-xs">Execute</span>
           </PrimaryButton>

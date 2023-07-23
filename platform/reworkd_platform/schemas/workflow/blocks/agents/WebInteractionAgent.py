@@ -17,7 +17,7 @@ class WebInteractionAgent(Block):
     description = "Navigate a website"
     input: WebInteractionInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self) -> WebInteractionOutput:
         logger.info(f"Starting {self.type}")
 
         # Rohan 🙏

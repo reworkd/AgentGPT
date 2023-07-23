@@ -21,7 +21,7 @@ class UrlStatusCheckBlock(Block):
     image_url = ""
     input: UrlStatusCheckBlockInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self) -> UrlStatusCheckBlockOutput:
         logger.info(f"Starting UrlStatusCheckBlock with url: {self.input.url}")
         try:
             async with aiohttp.ClientSession() as session:

@@ -16,6 +16,6 @@ class IfCondition(Block):
     description = "Conditionally take a path"
     input: IfInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self) -> IfOutput:
         logger.info(f"Starting {self.type}")
-        return IfOutput(result=False)
+        return IfOutput(result=True)

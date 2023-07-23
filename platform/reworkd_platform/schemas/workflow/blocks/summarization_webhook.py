@@ -1,9 +1,9 @@
 from io import BytesIO
 
 import boto3
-from PyPDF2 import PdfReader
 from langchain import LLMChain
 from loguru import logger
+from PyPDF2 import PdfReader
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
@@ -27,7 +27,7 @@ class SummaryWebhook(Block):
     description = "Extract key details from text using OpenAI"
     input: SummaryWebhookInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self) -> SummaryWebhookOutput:
         logger.info(f"Starting {self.type}")
 
         # write code to take s3_presigned_url, fetch pdf and convert to text

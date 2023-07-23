@@ -165,7 +165,7 @@ type NodeBlockProps = {
 const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
   return (
     <div
-      className="flex cursor-pointer flex-row gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10"
+      className="flex cursor-pointer flex-row gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10 "
       onClick={() => {
         const input: Record<string, string> = {};
         for (const field of definition.input_fields) {
@@ -175,9 +175,7 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
         createNode({ input: input, type: definition.type });
       }}
     >
-      <div className="h-[30px] w-[30px]">
-        <img src={definition.image_url} alt={definition.type} width={30} />
-      </div>
+      <definition.icon size={20} className="mt-1" />
       <div>
         <h3 className="font-medium">{definition.type}</h3>
         <p className="text-sm font-thin">{definition.description}</p>

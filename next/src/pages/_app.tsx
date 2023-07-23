@@ -27,11 +27,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
   }, [i18n]);
 
   return (
-    <SessionProvider session={session}>
-      <GoogleAnalytics trackPageViews />
-      <Analytics />
-      <Component {...pageProps} />
-    </SessionProvider>
+    // Force dark mode for now due to light flickering
+    <div className="dark">
+      <SessionProvider session={session}>
+        <GoogleAnalytics trackPageViews />
+        <Analytics />
+        <Component {...pageProps} />
+      </SessionProvider>
+    </div>
   );
 };
 

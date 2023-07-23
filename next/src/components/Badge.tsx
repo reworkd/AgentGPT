@@ -12,10 +12,8 @@ const Badge = ({ className, colorClass, children }: BadgeProps) => {
     <div
       className={clsx(
         className,
-        colorClass || "bg-sky-500",
-        "rounded-full font-semibold text-gray-100 transition-all hover:scale-110",
-        "px-2 py-1 text-xs",
-        "sm:px-3 sm:py-1 sm:text-sm"
+        colorClass || "bg-blue-600",
+        "rounded-full font-semibold text-gray-100 transition-all hover:scale-110 px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm"
       )}
     >
       {children}

@@ -61,6 +61,7 @@ export const options = (
                 image: undefined,
                 emailVerified: null,
                 superAdmin: false,
+                organizations: [],
               });
         },
       }),

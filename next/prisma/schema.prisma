@@ -44,16 +44,51 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  superAdmin    Boolean   @default(false) @map("super_admin")
 
   createDate DateTime @default(now())
 
-  accounts Account[]
-  sessions Session[]
-  runs     Run[]
-  Agent    Agent[]
+  accounts      Account[]
+  sessions      Session[]
+  runs          Run[]
+  Agent         Agent[]
+  organizations OrganizationUser[]
 
   @@index([email])
   @@index([createDate])
+}
+
+model Organization {
+  id   String @id @default(cuid())
+  name String @unique
+
+  created_by  String
+  create_date DateTime  @default(now())
+  update_date DateTime? @updatedAt
+  delete_date DateTime?
+
+  users OrganizationUser[]
+
+  @@index([name])
+  @@map("organization")
+}
+
+model OrganizationUser {
+  id              String    @id @default(cuid())
+  user_id         String
+  organization_id String
+  role            String    @default("member")
+  create_date     DateTime  @default(now())
+  update_date     DateTime? @updatedAt
+  delete_date     DateTime?
+
+  user         User         @relation(fields: [user_id], references: [id])
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([user_id, organization_id])
+  @@index([user_id])
+  @@index([organization_id])
+  @@map("organization_user")
 }
 
 model VerificationToken {

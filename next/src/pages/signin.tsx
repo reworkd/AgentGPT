@@ -5,14 +5,15 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { getServerSession } from "next-auth/next";
 import type { BuiltInProviderType } from "next-auth/providers";
-import { getProviders, signIn, useSession } from "next-auth/react";
 import type { ClientSafeProvider } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 import type { LiteralUnion } from "next-auth/react/types";
 import React, { useState } from "react";
 import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
 
 import FadeIn from "../components/motions/FadeIn";
 import { authOptions } from "../server/auth/auth";
+import Checkbox from "../ui/checkbox";
 import Input from "../ui/input";
 
 const SignIn = ({ providers }: { providers: Provider }) => {
@@ -69,8 +70,10 @@ const SignIn = ({ providers }: { providers: Provider }) => {
 
 const InsecureSignin = () => {
   const [usernameValue, setUsernameValue] = useState("");
+  const adminState = useState(false);
+
   return (
-    <div>
+    <div className="flex flex-col">
       <Input
         value={usernameValue}
         onChange={(e) => setUsernameValue(e.target.value)}
@@ -78,15 +81,19 @@ const InsecureSignin = () => {
         type="text"
         name="Username Field"
       />
+      <Checkbox model={adminState} label="Admin" className="mt-2" />
       <button
         onClick={() => {
           if (!usernameValue) return;
 
-          signIn("credentials", { callbackUrl: "/", name: usernameValue }).catch(console.error);
+          signIn("credentials", {
+            callbackUrl: "/",
+            name: usernameValue,
+            superAdmin: adminState[0],
+          }).catch(console.error);
         }}
         className={clsx(
-          "mb-4 mt-4 flex items-center rounded-md bg-white px-10 py-3 text-sm font-semibold text-black sm:text-base",
-          "transition-colors duration-300 hover:bg-gray-200",
+          "mb-4 mt-4 flex items-center rounded-md bg-white px-10 py-3 text-sm font-semibold text-black transition-colors duration-300 hover:bg-gray-200 sm:text-base",
           !usernameValue && "cursor-not-allowed"
         )}
       >

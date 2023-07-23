@@ -10,6 +10,8 @@ const WorkflowMetaSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
+  user_id: z.string(),
+  organization_id: z.string().nullable(),
 });
 
 const PresignedPostSchema = z.object({
@@ -22,21 +24,34 @@ export type PresignedPost = z.infer<typeof PresignedPostSchema>;
 
 export default class WorkflowApi {
   readonly accessToken?: string;
+  readonly organizationId?: string;
 
-  constructor(accessToken?: string) {
+  constructor(accessToken?: string, organizationId?: string) {
     this.accessToken = accessToken;
+    this.organizationId = organizationId;
   }
 
   async getAll() {
-    return await get("/api/workflow", z.array(WorkflowMetaSchema), this.accessToken);
+    return await get(
+      "/api/workflow",
+      z.array(WorkflowMetaSchema),
+      this.accessToken,
+      this.organizationId
+    );
   }
 
   async get(id: string) {
-    return await get(`/api/workflow/${id}`, WorkflowSchema, this.accessToken);
+    return await get(`/api/workflow/${id}`, WorkflowSchema, this.accessToken, this.organizationId);
   }
 
   async update(id: string, { file, ...data }: Workflow & { file?: File }) {
-    const post = await put(`/api/workflow/${id}`, PresignedPostSchema, data, this.accessToken);
+    const post = await put(
+      `/api/workflow/${id}`,
+      PresignedPostSchema,
+      data,
+      this.accessToken,
+      this.organizationId
+    );
 
     if (file) {
       return await this.uploadFile(post, file);
@@ -49,8 +64,14 @@ export default class WorkflowApi {
     await delete_(`/api/workflow/${id}`, this.accessToken);
   }
 
-  async create(workflow: Omit<WorkflowMeta, "id">) {
-    return await post("/api/workflow", WorkflowMetaSchema, workflow, this.accessToken);
+  async create(workflow: Omit<WorkflowMeta, "id" | "user_id" | "organization_id">) {
+    return await post(
+      "/api/workflow",
+      WorkflowMetaSchema,
+      workflow,
+      this.accessToken,
+      this.organizationId
+    );
   }
 
   async execute(id: string) {

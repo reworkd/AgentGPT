@@ -3,7 +3,7 @@ import type { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
 import type { FC } from "react";
 import React, { useState } from "react";
-import { FaEllipsisH, FaSignInAlt } from "react-icons/fa";
+import { FaBuilding, FaEllipsisH, FaSignInAlt } from "react-icons/fa";
 
 import Dialog from "../../ui/dialog";
 import { get_avatar } from "../../utils/user";
@@ -18,6 +18,8 @@ const AuthItem: FC<{
   const [showDialog, setShowDialog] = useState(false);
   const user = session?.user;
 
+  const organization = user?.organizations?.at(0)?.name;
+
   return (
     <div className="flex items-center justify-between">
       <div
@@ -30,13 +32,17 @@ const AuthItem: FC<{
           user ? setShowDialog(true) : void signIn();
         }}
       >
-        {user && (
-          <img
-            className="h-9 w-9 rounded-md bg-neutral-800"
-            src={get_avatar(user)}
-            alt="user avatar"
-          />
-        )}
+        <div className="relative">
+          {user && (
+            <img
+              className="h-9 w-9 rounded-md bg-neutral-800"
+              src={get_avatar(user)}
+              alt="user avatar"
+            />
+          )}
+          {organization && <FaBuilding className="absolute -right-1 -top-1 text-white" />}
+        </div>
+
         {!user && (
           <h1 className="ml-2 flex h-9 w-9 flex-grow items-center gap-2 text-center">
             <FaSignInAlt />
@@ -53,10 +59,10 @@ const AuthItem: FC<{
             aria-hidden="true"
             className="max-w-[6.5rem] overflow-hidden text-ellipsis text-xs font-thin"
           >
-            {user?.email}
+            {organization || user?.email}
           </p>
         </div>
-        {user && <FaEllipsisH className="ml-auto">Test</FaEllipsisH>}
+        {user && <FaEllipsisH className="ml-auto" />}
 
         <Dialog
           inline

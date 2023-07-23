@@ -18,8 +18,8 @@ const WorkflowList: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true, isAllowed: (s) => s.user.superAdmin });
 
   const router = useRouter();
-
-  const api = new WorkflowApi(session?.accessToken);
+  const org = session?.user?.organizations?.at(0)?.id;
+  const api = new WorkflowApi(session?.accessToken, org);
   const query = useQuery(["workflows"], async () => await api.getAll(), {
     enabled: !!session,
   });

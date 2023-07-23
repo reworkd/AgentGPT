@@ -7,7 +7,6 @@ from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
 )
 
 
-# Testing successful cases
 @pytest.mark.parametrize(
     "value_one,operator,value_two,expected_result",
     [
@@ -45,7 +44,6 @@ async def test_if_condition_success(value_one, operator, value_two, expected_res
     assert result == IfOutput(result=expected_result)
 
 
-# Testing error cases
 @pytest.mark.parametrize(
     "value_one,operator,value_two",
     [

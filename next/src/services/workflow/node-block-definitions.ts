@@ -153,8 +153,8 @@ const WebInteractionAgent: NodeBlockDefinition = {
       type: "string",
     },
     {
-      name: "Requirements",
-      description: "The steps the agent should take",
+      name: "Goals",
+      description: "The actions the agent should take on the site",
       type: "array",
       items: { type: "string" },
     },

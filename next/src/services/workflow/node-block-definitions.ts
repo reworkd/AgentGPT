@@ -148,15 +148,14 @@ const WebInteractionAgent: NodeBlockDefinition = {
   image_url: "/tools/web.png",
   input_fields: [
     {
-      name: "URL",
+      name: "url",
       description: "The website the agent will interact with",
       type: "string",
     },
     {
-      name: "Goals",
+      name: "goals",
       description: "The actions the agent should take on the site",
-      type: "array",
-      items: { type: "string" },
+      type: "string",
     },
   ],
   output_fields: [],

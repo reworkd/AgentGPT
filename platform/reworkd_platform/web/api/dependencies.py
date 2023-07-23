@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status, Header
+from fastapi import Depends, Header
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.exc import NoResultFound
@@ -9,6 +9,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from reworkd_platform.db.crud.user import UserCrud
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.schemas.user import UserBase, OrganizationRole
+from reworkd_platform.web.api.http_responses import forbidden
 
 
 def user_crud(
@@ -27,10 +28,10 @@ async def get_current_user(
     try:
         session = await crud.get_user_session(session_token)
     except NoResultFound:
-        raise _forbidden("Invalid session token")
+        raise forbidden("Invalid session token")
 
     if session.expires <= datetime.utcnow():
-        raise _forbidden("Session token expired")
+        raise forbidden("Session token expired")
 
     organization = None
     if x_organization_id and (
@@ -48,7 +49,3 @@ async def get_current_user(
         email=session.user.email,
         organization=organization,
     )
-
-
-def _forbidden(detail: str = "Forbidden") -> HTTPException:
-    return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=detail)

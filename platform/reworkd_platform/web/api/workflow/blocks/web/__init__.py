@@ -1,4 +1,7 @@
 from reworkd_platform.schemas.workflow.base import Block
+from reworkd_platform.schemas.workflow.blocks.agents.WebInteractionAgent import (
+    WebInteractionAgent,
+)
 from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.manual_trigger import ManualTriggerBlock
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
@@ -12,6 +15,8 @@ from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInpu
 def get_block_runner(block: Block) -> Block:
     if block.type == "IfCondition":
         return IfCondition(**block.dict())
+    if block.type == "WebInteractionAgent":
+        return WebInteractionAgent(**block.dict())
     if block.type == "ManualTriggerBlock":
         return ManualTriggerBlock(**block.dict())
     if block.type == "UrlStatusCheck":

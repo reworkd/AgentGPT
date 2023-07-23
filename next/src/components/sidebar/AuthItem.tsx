@@ -7,7 +7,6 @@ import { FaEllipsisH, FaSignInAlt } from "react-icons/fa";
 
 import Dialog from "../../ui/dialog";
 import { get_avatar } from "../../utils/user";
-import { ThemeMenu } from "../ThemeMenu";
 
 const AuthItem: FC<{
   session: Session | null;
@@ -92,9 +91,6 @@ const AuthItem: FC<{
           <p className="max-w-full text-sm text-gray-600">{user?.name}</p>
           <p className="text-sm text-gray-400">{user?.email}</p>
         </Dialog>
-      </div>
-      <div className="ml-2 mt-2">
-        <ThemeMenu />
       </div>
     </div>
   );

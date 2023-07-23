@@ -12,7 +12,7 @@ import {
   getNodeBlockDefinitions,
 } from "../../services/workflow/node-block-definitions";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
-import SidebarInput from "../../ui/SidebarInput";
+import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
 import TextButton from "../TextButton";
 
 type WorkflowControls = {
@@ -109,7 +109,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
       <div className="font-bold">Inputs</div>
       {definition?.input_fields.map((inputField: IOField) => (
         <div key={definition?.type + inputField.name}>
-          <SidebarInput
+          <WorkflowSidebarInput
             inputField={inputField}
             value={selectedNode.data.block.input[inputField.name] || ""}
             onChange={(val) => handleValueChange(inputField.name, val)}

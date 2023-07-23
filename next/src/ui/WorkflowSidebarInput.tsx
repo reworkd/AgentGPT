@@ -11,7 +11,7 @@ interface SidebarInputProps {
   suggestions: { key: string; value: string }[];
 }
 
-const SidebarInput = ({ inputField, value, onChange, suggestions }: SidebarInputProps) => {
+const WorkflowSidebarInput = ({ inputField, value, onChange, suggestions }: SidebarInputProps) => {
   if (inputField.type === "string" && inputField.enum) {
     return (
       <Combo
@@ -38,11 +38,7 @@ const SidebarInput = ({ inputField, value, onChange, suggestions }: SidebarInput
     );
   }
 
-  if (inputField.type === "enum") {
-    return <></>;
-  }
-
   return <></>;
 };
 
-export default SidebarInput;
+export default WorkflowSidebarInput;

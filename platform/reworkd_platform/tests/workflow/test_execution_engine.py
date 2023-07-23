@@ -102,11 +102,11 @@ test_cases = [
     "nodes,edges,expected_size_true,expected_size_false", test_cases
 )
 def test_get_pruned_queue(
-        nodes: List[Node],
-        edges: List[Edge],
-        expected_size_true: int,
-        expected_size_false: int,
-        mocker: MockFixture,
+    nodes: List[Node],
+    edges: List[Edge],
+    expected_size_true: int,
+    expected_size_false: int,
+    mocker: MockFixture,
 ):
     mock_producer = mocker.MagicMock()
     mock_workflow = mocker.MagicMock()

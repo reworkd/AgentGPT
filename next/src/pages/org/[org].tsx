@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -9,7 +10,6 @@ import DashboardLayout from "../../layout/dashboard";
 import { OrganizationApi } from "../../services/api/org";
 import Table from "../../ui/table";
 import { languages } from "../../utils/languages";
-import { useRouter } from "next/router";
 
 const columnHelper = createColumnHelper<{
   id: string;

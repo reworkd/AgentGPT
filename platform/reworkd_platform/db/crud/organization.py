@@ -5,6 +5,7 @@ from fastapi import Depends
 from pydantic import BaseModel
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import aliased
 
 from reworkd_platform.db.crud.base import BaseCrud
 from reworkd_platform.db.dependencies import get_db_session
@@ -36,7 +37,7 @@ class OrganizationCrud(BaseCrud):
         cls,
         session: AsyncSession = Depends(get_db_session),
         user: UserBase = Depends(get_current_user),
-    ):
+    ) -> "OrganizationCrud":
         return cls(session, user)
 
     async def create_organization(self, name: str) -> Organization:
@@ -46,6 +47,8 @@ class OrganizationCrud(BaseCrud):
         ).save(self.session)
 
     async def get_by_name(self, name: str) -> Optional[OrganizationUsers]:
+        owner = aliased(OrganizationUser, name="owner")
+
         query = (
             select(
                 Organization,
@@ -56,12 +59,18 @@ class OrganizationCrud(BaseCrud):
                 OrganizationUser,
                 and_(
                     Organization.id == OrganizationUser.organization_id,
-                    OrganizationUser.user_id == self.user.id,
                 ),
             )
             .join(
                 User,
                 User.id == OrganizationUser.user_id,
+            )
+            .join(  # Owner
+                owner,
+                and_(
+                    OrganizationUser.organization_id == Organization.id,
+                    OrganizationUser.user_id == self.user.id,
+                ),
             )
             .filter(Organization.name == name)
         )

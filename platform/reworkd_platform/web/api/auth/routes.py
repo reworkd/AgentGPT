@@ -14,19 +14,19 @@ async def organizations(
     raise HTTPException(status_code=404)
 
 
-@router.post("/organization")
-async def create_organization():
-    """Create an organization"""
-    pass
-
-
-@router.get("/organization/{organization_id}")
-async def organization(organization_id: str):
-    """Get an organization by ID"""
-    pass
-
-
-@router.put("/organization/{organization_id}")
-async def update_organization(organization_id: str):
-    """Update an organization by ID"""
-    pass
+# @router.post("/organization")
+# async def create_organization():
+#     """Create an organization"""
+#     pass
+#
+#
+# @router.get("/organization/{organization_id}")
+# async def organization(organization_id: str):
+#     """Get an organization by ID"""
+#     pass
+#
+#
+# @router.put("/organization/{organization_id}")
+# async def update_organization(organization_id: str):
+#     """Update an organization by ID"""
+#     pass

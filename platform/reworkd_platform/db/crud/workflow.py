@@ -141,7 +141,7 @@ class WorkflowCRUD(BaseCrud):
 
         return "OK"
 
-    def validate_permissions(self, workflow: WorkflowModel):
+    def validate_permissions(self, workflow: WorkflowModel) -> None:
         if (
             workflow.user_id == self.user.id
             or workflow.organization_id == self.user.organization_id

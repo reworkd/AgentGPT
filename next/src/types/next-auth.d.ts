@@ -19,7 +19,6 @@ declare module "next-auth" {
       id: string;
       name: string;
       role: string;
-      organization_user_id: string;
     }[];
   }
 }

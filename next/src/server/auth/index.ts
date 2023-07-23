@@ -16,11 +16,6 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
   adapter: PrismaAdapter(prisma),
   callbacks: {
     async session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        session.user.superAdmin = user.superAdmin;
-      }
-
       const [token, orgs] = await Promise.all([
         prisma.session.findFirstOrThrow({
           where: { userId: user.id },
@@ -33,11 +28,12 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
       ]);
 
       session.accessToken = token.sessionToken;
+      session.user.id = user.id;
+      session.user.superAdmin = user.superAdmin;
       session.user.organizations = orgs.map((row) => ({
-        role: row.role,
-        name: row.organization.name,
-        organizationUserId: row.id,
         id: row.organization.id,
+        name: row.organization.name,
+        role: row.role,
       }));
 
       return session;

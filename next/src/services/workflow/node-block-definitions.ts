@@ -153,14 +153,20 @@ const IfBlockDefinition: NodeBlockDefinition = {
       name: "operator",
       description: "The type of equality to check for",
       type: "string",
-      enum: ["=", "!="],
+      enum: ["==", "!="],
     },
     {
       name: "value_two",
       type: "string",
     },
   ],
-  output_fields: [],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result of the condition",
+      type: "string",
+    },
+  ],
 };
 
 const TriggerBlockDefinition: NodeBlockDefinition = {

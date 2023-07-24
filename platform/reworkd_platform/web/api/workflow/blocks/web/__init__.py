@@ -8,6 +8,9 @@ from reworkd_platform.schemas.workflow.blocks.summarization_webhook import (
     SummaryWebhook,
 )
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
+from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
+    APITriggerBlock,
+)
 from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
     ManualTriggerBlock,
 )
@@ -21,6 +24,8 @@ def get_block_runner(block: Block) -> Block:
         return IfCondition(**block.dict())
     if block.type == "WebInteractionAgent":
         return WebInteractionAgent(**block.dict())
+    if block.type == "APITriggerBlock":
+        return APITriggerBlock(**block.dict())
     if block.type == "ManualTriggerBlock":
         return ManualTriggerBlock(**block.dict())
     if block.type == "UrlStatusCheck":

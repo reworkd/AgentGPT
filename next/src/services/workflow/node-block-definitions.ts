@@ -15,7 +15,7 @@ import type { WorkflowNode } from "../../types/workflow";
 
 const IOFieldSchema = z.object({
   name: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   type: z.enum(["string", "array", "enum"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
@@ -146,13 +146,27 @@ const IfBlockDefinition: NodeBlockDefinition = {
   icon: FaCodeBranch,
   input_fields: [
     {
+      name: "value_one",
+      type: "string",
+    },
+    {
       name: "operator",
       description: "The type of equality to check for",
       type: "string",
-      enum: ["=", "!="],
+      enum: ["==", "!="],
+    },
+    {
+      name: "value_two",
+      type: "string",
     },
   ],
-  output_fields: [],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result of the condition",
+      type: "string",
+    },
+  ],
 };
 
 const TriggerBlockDefinition: NodeBlockDefinition = {

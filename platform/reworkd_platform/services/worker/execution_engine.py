@@ -11,7 +11,7 @@ from reworkd_platform.schemas.workflow.base import (
     Node,
     WorkflowFull,
 )
-from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
+from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import (
     IfCondition,
     IfOutput,
 )

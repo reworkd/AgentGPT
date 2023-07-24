@@ -1,4 +1,5 @@
 import type { IconType } from "react-icons";
+import { FaBolt } from "react-icons/all";
 import {
   FaCodeBranch,
   FaCopy,
@@ -174,6 +175,22 @@ const IfBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const APITriggerBlockDefinition: NodeBlockDefinition = {
+  name: "APITrigger",
+  type: "APITriggerBlock",
+  description: "Trigger a workflow through an API call.",
+  icon: FaBolt,
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "input",
+      description: "Input string to be used in downstream tasks",
+      type: "string",
+    },
+  ],
+  output_fields: [],
+};
+
 const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   name: "Manual Trigger",
   type: "ManualTriggerBlock",
@@ -207,6 +224,7 @@ const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
 
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
+    APITriggerBlockDefinition,
     UrlStatusCheckBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,

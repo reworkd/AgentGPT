@@ -132,22 +132,3 @@ async def execute_query_on_pinecone(prompt: str, docsearch: Pinecone) -> str:
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
     return result
-
-
-async def summarize_and_extract(prompt: str, text: str) -> str:
-    max_tokens = TokenService.create().get_completion_space(
-        "gpt-3.5-turbo-16k",
-        summarize_pdf_prompt.format_prompt(
-            query=prompt, text=text, language="English"
-        ).to_string(),
-    )
-
-    llm = create_model(
-        ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=max_tokens),
-        UserBase(id="", name=None, email="test@example.com"),
-        streaming=False,
-    )
-
-    chain = LLMChain(llm=llm, prompt=summarize_pdf_prompt)
-    result = await chain.arun(query=prompt, language="English", text=text)
-    return result

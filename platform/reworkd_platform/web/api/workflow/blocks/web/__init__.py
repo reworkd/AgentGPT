@@ -3,12 +3,14 @@ from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent impor
     WebInteractionAgent,
 )
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
-from reworkd_platform.schemas.workflow.blocks.manual_trigger import ManualTriggerBlock
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.summarization_webhook import (
     SummaryWebhook,
 )
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
+from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
+    ManualTriggerBlock,
+)
 from reworkd_platform.schemas.workflow.blocks.url_status_check import (
     UrlStatusCheckBlock,
 )

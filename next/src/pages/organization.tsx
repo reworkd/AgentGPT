@@ -13,11 +13,11 @@ const OrganizationManagement = () => {
         <DashboardLayout> 
             <div className="flex justify-center items-center w-full h-screen bg-zinc-900">
                 <div className="max-w-4xl w-full font-mono justify-starts">
-                    <div className="h-20 border-b p-4 my-6 border-white/10">
+                    <div className="border-b p-4 my-2 border-white/10">
                         <h1 className="text-3xl font-semibold text-gray-300">Organization</h1>
-                        <span className="text-lg text-white/50 font-sm">Manage your Organization settings</span>
+                        <span className="text-lg text-white/50">Manage your Organization settings</span>
                     </div>
-                    <div className=" border-b border-white/10 p-4 mb-6">
+                    <div className=" border-b border-white/10 p-4 mb-2">
                         <h2 className="text-2xl text-gray-300">Logo</h2>
                         <div className="w-40 h-40 rounded-lg bg-white my-4"></div>
                         <span className="text-white/50 text-lg">Pick a logo for your Oraganization</span>
@@ -30,7 +30,6 @@ const OrganizationManagement = () => {
                                 Organization Name
                                 </label>
                                 <Input
-                            
                                 type="text"
                                 id="organizationName"
                                 placeholder="Enter organization name"
@@ -47,8 +46,7 @@ const OrganizationManagement = () => {
                                 />
                             </div>
                             <PrimaryButton
-                                className="block font-mono py-2 text-lg px-4 mt-6 rounded "
-                                // onClick={handleUpload}
+                                className="py-2 px-4 mt-6"
                                 >
                                 Update
                             </PrimaryButton>

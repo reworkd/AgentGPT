@@ -52,7 +52,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
   const api = new WorkflowApi(session?.accessToken, session?.user?.organizations?.[0]?.id);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
   const { mutateAsync: updateWorkflow } = useMutation(
-    async (data: Workflow & { file?: File }) => await api.update(workflowId, data)
+    async (data: Workflow) => await api.update(workflowId, data)
   );
 
   const workflowStore = useWorkflowStore();
@@ -146,7 +146,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     );
   };
 
-  const onSave = async (file?: File) => {
+  const onSave = async () => {
     await updateWorkflow({
       id: workflowId,
       nodes: nodes.map((n) => ({
@@ -162,7 +162,6 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
         source_handle: e.sourceHandle || undefined,
         target: e.target,
       })),
-      file,
     });
 
     // #TODO: WHY IS THIS NEEDED?

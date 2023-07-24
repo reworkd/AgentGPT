@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Dict
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.schemas.workflow.base import (
@@ -61,6 +62,26 @@ async def update_workflow(
         bucket_name="test-pdf-123",
         object_name=workflow_id,
     )
+
+
+class Filenames(BaseModel):
+    files: List[str]
+
+
+@router.put("/{workflow_id}/block/{block_id}/upload")
+def upload_block(
+    workflow_id: str,
+    block_id: str,
+    body: Filenames,
+) -> Dict[str, PresignedPost]:
+    """Upload a file to a block"""
+    return {
+        file: SimpleStorageService().upload_url(
+            bucket_name="test-pdf-123",
+            object_name=f"{workflow_id}/{block_id}/{file}",
+        )
+        for file in body.files
+    }
 
 
 @router.delete("/{workflow_id}")

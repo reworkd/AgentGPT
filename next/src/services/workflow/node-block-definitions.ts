@@ -2,6 +2,7 @@ import type { IconType } from "react-icons";
 import {
   FaCodeBranch,
   FaCopy,
+  FaFileUpload,
   FaGlobeAmericas,
   FaPlay,
   FaRobot,
@@ -16,7 +17,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum"]),
+  type: z.enum(["string", "array", "enum", "file"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -101,16 +102,6 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
       description: "What do you want to do with the text?",
       type: "string",
     },
-    {
-      name: "filename1",
-      description: "reference a file that you want to summarize",
-      type: "string",
-    },
-    {
-      name: "filename2",
-      description: "reference a file that you want to summarize",
-      type: "string",
-    }
   ],
   output_fields: [
     {
@@ -205,6 +196,22 @@ const WebInteractionAgent: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const FileUploadBlockDefinition: NodeBlockDefinition = {
+  name: "File Upload",
+  type: "FileUploadBlock",
+  description: "Upload a file",
+  icon: FaFileUpload,
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "file",
+      description: "The file to upload",
+      type: "file",
+    },
+  ],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     UrlStatusCheckBlockDefinition,
@@ -214,6 +221,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     TriggerBlockDefinition,
     SummaryWebhookBlockDefinition,
     TextInputWebhookBlockDefinition,
+    FileUploadBlockDefinition,
   ];
 };
 

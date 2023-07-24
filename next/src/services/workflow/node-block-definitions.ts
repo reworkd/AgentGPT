@@ -102,10 +102,15 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
       type: "string",
     },
     {
-      name: "filename",
+      name: "filename1",
       description: "reference a file that you want to summarize",
       type: "string",
     },
+    {
+      name: "filename2",
+      description: "reference a file that you want to summarize",
+      type: "string",
+    }
   ],
   output_fields: [
     {

@@ -1,6 +1,6 @@
 import pytest
 
-from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
+from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import (
     IfCondition,
     IfInput,
     IfOutput,

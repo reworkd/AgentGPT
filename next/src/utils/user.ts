@@ -1,6 +1,8 @@
-import type { User } from "next-auth";
-
-export const get_avatar = (user?: User) =>
+export const get_avatar = (user?: {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}) =>
   user?.image ||
   "https://avatar.vercel.sh/" +
     (user?.email || "") +

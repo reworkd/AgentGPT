@@ -11,7 +11,7 @@ from reworkd_platform.schemas.workflow.base import (
     Node,
     WorkflowFull,
 )
-from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
+from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import (
     IfCondition,
     IfOutput,
 )
@@ -35,7 +35,7 @@ class ExecutionEngine:
 
         websockets.emit(
             self.workflow.workflow_id,
-            "my-event",
+            "workflow:node:status",
             {
                 "nodeId": curr.id,
                 "status": "running",
@@ -61,7 +61,7 @@ class ExecutionEngine:
 
         websockets.emit(
             self.workflow.workflow_id,
-            "my-event",
+            "workflow:node:status",
             {
                 "nodeId": curr.id,
                 "status": "success",

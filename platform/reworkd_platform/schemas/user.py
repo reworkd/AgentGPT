@@ -13,6 +13,7 @@ class UserBase(BaseModel):
     id: str
     name: Optional[str]
     email: Optional[str]
+    image: Optional[str] = Field(default=None)
     organization: Optional[OrganizationRole] = Field(default=None)
 
     @property

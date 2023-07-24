@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 import { FaBars } from "react-icons/fa";
 import type { Edge, Node } from "reactflow";
@@ -13,7 +14,7 @@ import {
 } from "../../services/workflow/node-block-definitions";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
-import TextButton from "../TextButton";
+import PrimaryButton from "../PrimaryButton";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -41,16 +42,32 @@ const WorkflowSidebar = ({ show, setShow, controls }: WorkflowSidebarProps) => {
 
   return (
     <Sidebar show={show} setShow={setShow} side="right">
-      <div className="text-color-primary flex h-screen flex-col gap-2">
+      <div className="text-color-primary mx-2 flex h-screen flex-col gap-2">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
             onClick={() => setShow(!show)}
           >
-            <FaBars size="15" className="z-20 m-2" />
+            <FaBars size="15" className="z-20 mr-2" />
           </button>
-          <TextButton onClick={() => setTab("inspect")}>Inspect</TextButton>
-          <TextButton onClick={() => setTab("create")}>Create</TextButton>
+          <div className="rounded-full bg-white/10 p-0.5">
+            <PrimaryButton
+              className={clsx(
+                tab != "inspect" && "border-transparent bg-white/0 text-white hover:text-black"
+              )}
+              onClick={() => setTab("inspect")}
+            >
+              Inspect
+            </PrimaryButton>
+            <PrimaryButton
+              className={clsx(
+                tab != "create" && "border-transparent bg-white/0 text-white hover:text-black"
+              )}
+              onClick={() => setTab("create")}
+            >
+              Create
+            </PrimaryButton>
+          </div>
           <div />
         </div>
         {tab === "inspect" && <InspectSection {...controls} />}
@@ -69,7 +86,11 @@ type InspectSectionProps = {
 
 const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSectionProps) => {
   if (selectedNode == undefined)
-    return <div>No components selected. Click on a component to select it</div>;
+    return (
+      <div className="text-sm font-light">
+        No components selected. Click on a component to select it
+      </div>
+    );
 
   const definition = getNodeBlockDefinitionFromNode(selectedNode);
 
@@ -127,7 +148,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
           <div key={definition?.type + outputField.name}>
             <p>
               <span className="text-sm font-bold">{outputField.name}:</span>{" "}
-              <span className="text-sm font-thin">{outputField.type}</span>
+              <span className="text-sm">{outputField.type}</span>
             </p>
             <p className="text-sm font-thin">{outputField.description}</p>
           </div>
@@ -165,7 +186,7 @@ type NodeBlockProps = {
 const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
   return (
     <div
-      className="flex cursor-pointer flex-row gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10 "
+      className="flex cursor-pointer flex-col gap-2 rounded-md border border-white/20 p-2 hover:bg-white/10 "
       onClick={() => {
         const input: Record<string, string> = {};
         for (const field of definition.input_fields) {
@@ -175,11 +196,11 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
         createNode({ input: input, type: definition.type });
       }}
     >
-      <definition.icon size={20} className="mt-1" />
-      <div>
+      <div className="flex items-center gap-2">
+        <definition.icon size={17} />
         <h3 className="font-medium">{definition.type}</h3>
-        <p className="text-sm font-thin">{definition.description}</p>
       </div>
+      <p className="text-sm font-thin">{definition.description}</p>
     </div>
   );
 };

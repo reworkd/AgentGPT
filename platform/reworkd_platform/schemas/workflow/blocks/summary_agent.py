@@ -22,37 +22,43 @@ import pinecone
 from langchain.embeddings import OpenAIEmbeddings
 import tempfile
 from reworkd_platform.services.aws.s3 import SimpleStorageService
+from langchain.chains import ConversationalRetrievalChain
 
 
-class SummaryWebhookInput(BlockIOBase):
-    prompt: str
+class SummaryAgentInput(BlockIOBase):
+    company_context: str
     filename1: str
     filename2: str
 
 
-class SummaryWebhookOutput(SummaryWebhookInput):
+class SummaryAgentOutput(SummaryAgentInput):
     result: str
 
 
-class SummaryWebhook(Block):
-    type = "SummaryWebhook"
+class SummaryAgent(Block):
+    type = "SummaryAgent"
     description = "Extract key details from text using OpenAI"
-    input: SummaryWebhookInput
+    input: SummaryAgentInput
 
     async def run(self) -> BlockIOBase:
         try:
-            input_files = [self.input.filename1, self.input.filename2]
+            input_files = (
+                [self.input.filename1]
+                if self.input.filename2 == ""
+                else [self.input.filename1, self.input.filename2]
+            )
+
             docsearch = await build_pinecone_docsearch(input_files)
 
             response = await execute_query_on_pinecone(
-                prompt=self.input.prompt, docsearch=docsearch
+                company_context=self.input.company_context, docsearch=docsearch
             )
 
         except Exception as err:
             logger.error(f"Failed to extract text with OpenAI: {err}")
             raise
 
-        return SummaryWebhookOutput(**self.input.dict(), result=response)
+        return SummaryAgentOutput(**self.input.dict(), result=response)
 
 
 async def build_pinecone_docsearch(input_files: list[str]) -> Pinecone:
@@ -104,12 +110,15 @@ def chunk_documents_to_pinecone(
     files: list[str], embeddings: Embeddings, temp_dir: tempfile.TemporaryDirectory[str]
 ) -> Pinecone:
     index_name = "prod"
+    index = pinecone.Index(index_name)
+    index.delete(delete_all=True)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
     texts = []
     for file in files:
         filepath = os.path.join(temp_dir.name, file)
         pdf_data = PyPDFLoader(filepath).load()
         texts.extend(text_splitter.split_documents(pdf_data))
+        logger.info(f"Wrote data for {file} to pinecone")
 
     docsearch = Pinecone.from_texts(
         [t.page_content for t in texts], embeddings, index_name=index_name
@@ -118,17 +127,23 @@ def chunk_documents_to_pinecone(
     return docsearch
 
 
-async def execute_query_on_pinecone(prompt: str, docsearch: Pinecone) -> str:
-    docs = docsearch.similarity_search(prompt)
+async def execute_query_on_pinecone(company_context: str, docsearch: Pinecone) -> str:
+    docs = docsearch.similarity_search(company_context, k=7)
+    i = 0
+
+    prompt = f"""
+    Help extract information relevant to a company with the following details: {company_context} from the following documents. Include information relevant to the market, strategies, and products, and specific numbers. Here are the documents: {docs}. After each point, reference the source you got each piece of information from (document and page #). Prioritize information from document sources.
+    """
 
     max_tokens = TokenService.create().get_completion_space("gpt-3.5-turbo-16k", prompt)
 
     llm = create_model(
-        ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=5000),
+        ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=10000),
         UserBase(id="", name=None, email="test@example.com"),
         streaming=False,
     )
 
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
+    logger.info(f"Result: {result}")
     return result

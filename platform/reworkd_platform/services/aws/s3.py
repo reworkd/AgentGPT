@@ -40,9 +40,6 @@ class SimpleStorageService:
         )["Body"].read()
 
     def download_file(
-        self,
-        bucket_name: str,
-        object_name: str,
-        local_filename: str
+        self, bucket_name: str, object_name: str, local_filename: str
     ) -> None:
         return self._client.download_file(bucket_name, object_name, local_filename)

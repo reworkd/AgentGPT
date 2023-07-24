@@ -81,23 +81,25 @@ def enter() -> Embeddings:
     return embeddings
 
 
-def download_all_files_from_s3(files: list[str]) -> str:
+def download_all_files_from_s3(files: list[str]) -> tempfile.TemporaryDirectory[str]:
     temp_dir = tempfile.TemporaryDirectory()
     s3_service = SimpleStorageService()
     for file in files:
-        download_file_from_s3(file, temp_dir,s3_service)
+        download_file_from_s3(file, temp_dir, s3_service)
 
     return temp_dir
 
 
-def download_file_from_s3(filename: str, temp_dir: tempfile.TemporaryDirectory, s3_service) -> None:
+def download_file_from_s3(
+    filename: str, temp_dir: tempfile.TemporaryDirectory[str], s3_service: SimpleStorageService
+) -> None:
     bucket_name = "test-pdf-123"
     local_filename = os.path.join(temp_dir.name, filename)
     s3_service.download_file(bucket_name, filename, local_filename)
 
 
 def chunk_documents_to_pinecone(
-    files: list[str], embeddings: Embeddings, temp_dir: str
+    files: list[str], embeddings: Embeddings, temp_dir: tempfile.TemporaryDirectory[str]
 ) -> Pinecone:
     index_name = "prod"
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)

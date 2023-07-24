@@ -22,20 +22,7 @@ from langchain.vectorstores import Pinecone
 from langchain.chains.question_answering import load_qa_chain
 import pinecone
 from langchain.embeddings import OpenAIEmbeddings
-
-# Llama Imports
-import camelot
-from llama_index import Document, ListIndex
-from llama_index import SimpleDirectoryReader
-from llama_index import VectorStoreIndex, ServiceContext, LLMPredictor
-from llama_index.query_engine import PandasQueryEngine, RetrieverQueryEngine
-from llama_index.retrievers import RecursiveRetriever
-from llama_index.schema import IndexNode
-
-from langchain.chat_models import ChatOpenAI
-from llama_hub.file.pymu_pdf.base import PyMuPDFReader
-from pathlib import Path
-from typing import List
+import tempfile
 
 
 class SummaryWebhookInput(BlockIOBase):
@@ -68,24 +55,11 @@ class SummaryWebhook(Block):
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
 
-def get_tables(path: str, pages: List[int]):
-    table_dfs = []
-    for page in pages:
-        table_list = camelot.read_pdf(path, pages=str(page))
-        table_df = table_list[0].df
-        table_df = (
-            table_df.rename(columns=table_df.iloc[0])
-            .drop(table_df.index[0])
-            .reset_index(drop=True)
-        )
-        table_dfs.append(table_df)
-    return table_dfs
-
 async def build_pinecone_docsearch(input_files: list[str]) -> Pinecone:
-    download_all_files_from_s3(input_files)
+    temp_dir = download_all_files_from_s3(input_files)
     start_pinecone()
     embeddings = enter()
-    docsearch = chunk_documents_to_pinecone(files=input_files, embeddings=embeddings)
+    docsearch = chunk_documents_to_pinecone(files=input_files, embeddings=embeddings, temp_dir=temp_dir)
 
     return docsearch
 
@@ -96,7 +70,6 @@ def start_pinecone() -> None:
     )
 
 
-@timed_function(level="DEBUG")
 def enter() -> Embeddings:
     embeddings: Embeddings = OpenAIEmbeddings(
         client=None,  # Meta private value but mypy will complain its missing
@@ -107,27 +80,27 @@ def enter() -> Embeddings:
 
 
 def download_all_files_from_s3(files: list[str]) -> None:
+    temp_dir = tempfile.TemporaryDirectory()
     for file in files:
-        download_file_from_s3(file)
+        download_file_from_s3(file,temp_dir)
 
+    return temp_dir
 
-def download_file_from_s3(filename: str) -> None:
+def download_file_from_s3(filename: str, temp_dir: tempfile) -> None:
     session = boto3.Session(profile_name="dev")
     REGION = "us-east-1"
     bucket_name = "test-pdf-123"
     s3_client = session.client("s3", region_name=REGION)
-    directory = f"reworkd_platform/schemas/workflow/blocks/placeholder_workflow_id/"
-    os.makedirs(directory, exist_ok=True)
-    local_filename = os.path.join(directory, filename)
+    os.makedirs(temp_dir.name, exist_ok=True)
+    local_filename = os.path.join(temp_dir.name, filename)
     s3_client.download_file(bucket_name, filename, local_filename)
 
 
-def chunk_documents_to_pinecone(files: list[str], embeddings: Embeddings) -> Pinecone:
+def chunk_documents_to_pinecone(files: list[str], embeddings: Embeddings, temp_dir: tempfile) -> Pinecone:
     index_name = "prod"
-    dir_path = "reworkd_platform/schemas/workflow/blocks/placeholder_workflow_id/"
+    dir_path = temp_dir.name
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
     texts = []
-
     for file in files:
         filepath = os.path.join(dir_path, file)
         pdf_data = PyPDFLoader(filepath).load()
@@ -153,7 +126,6 @@ async def execute_query_on_pinecone(prompt: str, docsearch: Pinecone) -> str:
 
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
-    logger.info(f"chain result {result}")
     return result
 
 

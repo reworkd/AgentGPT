@@ -5,6 +5,7 @@ from pusher import Pusher
 from pusher.errors import PusherBadRequest
 from requests import ReadTimeout
 
+from reworkd_platform.schemas import UserBase
 from reworkd_platform.settings import Settings, settings as app_settings
 
 
@@ -20,9 +21,29 @@ class WebsocketService:
 
     def emit(self, channel: str, event: str, data: Dict[str, Any]) -> None:
         try:
-            self._client and self._client.trigger(channel, event, data)
+            self._client and self._client.trigger("presence-" + channel, event, data)
         except (PusherBadRequest, ReadTimeout) as e:
             logger.warning(f"Failed to emit event: {data}")
+
+    def authenticate(
+        self, user: UserBase, channel: str, socket_id: str
+    ) -> Dict[str, Any]:
+        if not self._client:
+            return {}
+
+        # TODO: should probably make sure the user is allowed to authenticate to each channel
+        return self._client.authenticate(
+            channel=channel,
+            socket_id=socket_id,
+            custom_data={
+                "user_id": user.id,
+                "user_info": {
+                    "name": user.name,
+                    "email": user.email,
+                    "image": user.image,
+                },
+            },
+        )
 
 
 websockets = WebsocketService(settings=app_settings)

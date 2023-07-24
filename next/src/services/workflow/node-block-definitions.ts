@@ -110,7 +110,7 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
       name: "filename2",
       description: "reference a file that you want to summarize",
       type: "string",
-    }
+    },
   ],
   output_fields: [
     {
@@ -174,7 +174,7 @@ const IfBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const TriggerBlockDefinition: NodeBlockDefinition = {
+const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   name: "Manual Trigger",
   type: "ManualTriggerBlock",
   description: "Trigger a block manually",
@@ -211,7 +211,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
     WebInteractionAgent,
-    TriggerBlockDefinition,
+    ManualTriggerBlockDefinition,
     SummaryWebhookBlockDefinition,
     TextInputWebhookBlockDefinition,
   ];

@@ -91,7 +91,9 @@ def download_all_files_from_s3(files: list[str]) -> tempfile.TemporaryDirectory[
 
 
 def download_file_from_s3(
-    filename: str, temp_dir: tempfile.TemporaryDirectory[str], s3_service: SimpleStorageService
+    filename: str,
+    temp_dir: tempfile.TemporaryDirectory[str],
+    s3_service: SimpleStorageService,
 ) -> None:
     bucket_name = "test-pdf-123"
     local_filename = os.path.join(temp_dir.name, filename)

@@ -1,6 +1,5 @@
 from io import BytesIO
 from reworkd_platform.services.tokenizer.token_service import TokenService
-import boto3
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings.base import Embeddings
 import requests
@@ -13,7 +12,6 @@ from langchain import LLMChain, PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from lanarky.responses import StreamingResponse
 from io import BytesIO
-import boto3
 import os
 from reworkd_platform.web.api.agent.prompts import summarize_pdf_prompt
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
@@ -23,6 +21,7 @@ from langchain.chains.question_answering import load_qa_chain
 import pinecone
 from langchain.embeddings import OpenAIEmbeddings
 import tempfile
+from reworkd_platform.services.aws.s3 import SimpleStorageService
 
 
 class SummaryWebhookInput(BlockIOBase):
@@ -81,6 +80,7 @@ def enter() -> Embeddings:
 
 def download_all_files_from_s3(files: list[str]) -> None:
     temp_dir = tempfile.TemporaryDirectory()
+    s3_service = SimpleStorageService()
     for file in files:
         download_file_from_s3(file,temp_dir)
 
@@ -146,15 +146,3 @@ async def summarize_and_extract(prompt: str, text: str) -> str:
     chain = LLMChain(llm=llm, prompt=summarize_pdf_prompt)
     result = await chain.arun(query=prompt, language="English", text=text)
     return result
-
-
-def fetch_file_from_s3(filename: str) -> BytesIO:
-    session = boto3.Session(profile_name="dev")
-    REGION = "us-east-1"
-    bucket_name = "test-pdf-123"
-    s3_client = session.client("s3", region_name=REGION)
-    response = s3_client.get_object(Bucket=bucket_name, Key=filename)
-    response_body = response["Body"].read()
-    bytesIO_file = BytesIO(response_body)
-
-    return bytesIO_file

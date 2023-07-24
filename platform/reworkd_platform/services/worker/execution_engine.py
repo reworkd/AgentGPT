@@ -17,7 +17,7 @@ from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import (
 )
 from reworkd_platform.services.kafka.event_schemas import WorkflowTaskEvent
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
-from reworkd_platform.services.sockets import websockets
+from reworkd_platform.services.worker.workflow_status import websocket_status
 from reworkd_platform.web.api.workflow.blocks.web import get_block_runner
 
 
@@ -29,18 +29,10 @@ class ExecutionEngine:
     async def start(self) -> None:
         await self.producer.send(event=self.workflow)
 
+    @websocket_status
     async def loop(self) -> None:
         curr = self.workflow.queue.pop(0)
         logger.info(f"Running task: {curr}")
-
-        websockets.emit(
-            self.workflow.workflow_id,
-            "workflow:node:status",
-            {
-                "nodeId": curr.id,
-                "status": "running",
-            },
-        )
 
         curr.block = replace_templates(curr.block, self.workflow.outputs)
 
@@ -58,16 +50,6 @@ class ExecutionEngine:
             self.workflow.queue = self.get_pruned_queue(
                 curr, (cast(IfOutput, outputs)).result
             )
-
-        websockets.emit(
-            self.workflow.workflow_id,
-            "workflow:node:status",
-            {
-                "nodeId": curr.id,
-                "status": "success",
-                "remaining": len(self.workflow.queue),
-            },
-        )
 
         if self.workflow.queue:
             await self.start()

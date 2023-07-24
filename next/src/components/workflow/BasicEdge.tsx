@@ -7,7 +7,7 @@ import type { WorkflowEdge } from "../../types/workflow";
 const edgeColors = {
   running: "yellow",
   success: "green",
-  failure: "red",
+  error: "red",
 };
 
 const CustomEdge = ({

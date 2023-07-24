@@ -131,7 +131,6 @@ async def execute_query_on_pinecone(prompt: str, docsearch: Pinecone) -> str:
 
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
-    logger.info(f"Result: {result}")
     return result
 
 

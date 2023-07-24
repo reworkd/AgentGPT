@@ -14,7 +14,7 @@ const OrganizationManagement = () => {
             <div className="flex justify-center items-center w-full h-screen bg-zinc-900">
                 <div className="max-w-4xl w-full font-mono justify-starts">
                     <div className="border-b p-4 my-2 border-white/10">
-                        <h1 className="text-3xl font-semibold text-gray-300">Organization</h1>
+                        <h1 className="text-5xl mb-4 tracking-wide font-semibold text-gray-300">Organization</h1>
                         <span className="text-lg text-white/50">Manage your Organization settings</span>
                     </div>
                     <div className=" border-b border-white/10 p-4 mb-2">

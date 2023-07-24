@@ -27,11 +27,13 @@ const PresenceMemberEventSchema = z.object({
 
 type PresenceInfo = z.infer<typeof PresenceInfoSchema>;
 
-export default function useSocket<T extends z.Schema>(
+export default function useSocket<T extends z.Schema, R extends z.Schema>(
   channelName: string,
   accessToken: string | undefined,
-  eventSchema: T,
-  callback: (data: z.infer<T>) => void
+  callbacks: {
+    event: string;
+    callback: (data: unknown) => Promise<void> | void;
+  }[]
 ) {
   const [members, setMembers] = useState<Record<string, PresenceInfo>>({});
 
@@ -51,9 +53,10 @@ export default function useSocket<T extends z.Schema>(
     });
 
     const channel = pusher.subscribe("presence-" + channelName);
-    channel.bind("my-event", async (data) => {
-      const obj = (await eventSchema.parse(data)) as z.infer<T>;
-      callback(obj);
+    callbacks.map(({ event, callback }) => {
+      channel.bind(event, async (data) => {
+        await callback(data);
+      });
     });
 
     channel.bind("pusher:subscription_succeeded", async (data) => {

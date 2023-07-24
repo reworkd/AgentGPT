@@ -21,7 +21,7 @@ class WebsocketService:
 
     def emit(self, channel: str, event: str, data: Dict[str, Any]) -> None:
         try:
-            self._client and self._client.trigger(channel, event, data)
+            self._client and self._client.trigger("presence-" + channel, event, data)
         except (PusherBadRequest, ReadTimeout) as e:
             logger.warning(f"Failed to emit event: {data}")
 

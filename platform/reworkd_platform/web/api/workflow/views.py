@@ -11,6 +11,7 @@ from reworkd_platform.schemas.workflow.base import (
 from reworkd_platform.services.aws.s3 import PresignedPost, SimpleStorageService
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.networkx import validate_connected_and_acyclic
+from reworkd_platform.services.sockets import websockets
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
 
 router = APIRouter()
@@ -54,6 +55,8 @@ async def update_workflow(
         raise HTTPException(status_code=422, detail=str(e))
 
     await crud.update(workflow_id, workflow)
+    websockets.emit(workflow_id, "workflow:updated", {"user_id": crud.user.id})
+
     return SimpleStorageService().upload_url(
         bucket_name="test-pdf-123",
         object_name=workflow_id,

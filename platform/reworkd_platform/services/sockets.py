@@ -28,8 +28,11 @@ class WebsocketService:
     def authenticate(
         self, user: UserBase, channel: str, socket_id: str
     ) -> Dict[str, Any]:
+        if not self._client:
+            return {}
+
         # TODO: should probably make sure the user is allowed to authenticate to each channel
-        return self._client and self._client.authenticate(
+        return self._client.authenticate(
             channel=channel,
             socket_id=socket_id,
             custom_data={

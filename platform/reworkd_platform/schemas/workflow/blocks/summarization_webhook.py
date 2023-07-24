@@ -54,11 +54,14 @@ class SummaryWebhook(Block):
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
 
+
 async def build_pinecone_docsearch(input_files: list[str]) -> Pinecone:
     temp_dir = download_all_files_from_s3(input_files)
     start_pinecone()
     embeddings = enter()
-    docsearch = chunk_documents_to_pinecone(files=input_files, embeddings=embeddings, temp_dir=temp_dir)
+    docsearch = chunk_documents_to_pinecone(
+        files=input_files, embeddings=embeddings, temp_dir=temp_dir
+    )
 
     return docsearch
 
@@ -78,31 +81,29 @@ def enter() -> Embeddings:
     return embeddings
 
 
-def download_all_files_from_s3(files: list[str]) -> None:
+def download_all_files_from_s3(files: list[str]) -> str:
     temp_dir = tempfile.TemporaryDirectory()
     s3_service = SimpleStorageService()
     for file in files:
-        download_file_from_s3(file,temp_dir)
+        download_file_from_s3(file, temp_dir,s3_service)
 
     return temp_dir
 
-def download_file_from_s3(filename: str, temp_dir: tempfile) -> None:
-    session = boto3.Session(profile_name="dev")
-    REGION = "us-east-1"
+
+def download_file_from_s3(filename: str, temp_dir: tempfile.TemporaryDirectory, s3_service) -> None:
     bucket_name = "test-pdf-123"
-    s3_client = session.client("s3", region_name=REGION)
-    os.makedirs(temp_dir.name, exist_ok=True)
     local_filename = os.path.join(temp_dir.name, filename)
-    s3_client.download_file(bucket_name, filename, local_filename)
+    s3_service.download_file(bucket_name, filename, local_filename)
 
 
-def chunk_documents_to_pinecone(files: list[str], embeddings: Embeddings, temp_dir: tempfile) -> Pinecone:
+def chunk_documents_to_pinecone(
+    files: list[str], embeddings: Embeddings, temp_dir: str
+) -> Pinecone:
     index_name = "prod"
-    dir_path = temp_dir.name
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
     texts = []
     for file in files:
-        filepath = os.path.join(dir_path, file)
+        filepath = os.path.join(temp_dir.name, file)
         pdf_data = PyPDFLoader(filepath).load()
         texts.extend(text_splitter.split_documents(pdf_data))
 
@@ -126,6 +127,7 @@ async def execute_query_on_pinecone(prompt: str, docsearch: Pinecone) -> str:
 
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
+    logger.info(f"Result: {result}")
     return result
 
 

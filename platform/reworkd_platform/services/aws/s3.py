@@ -30,11 +30,19 @@ class SimpleStorageService:
         )
 
     def fetch_file(
-            self,
-            bucket_name: str,
-            object_name: str,
+        self,
+        bucket_name: str,
+        object_name: str,
     ) -> bytes:
         return self._client.get_object(
             Bucket=bucket_name,
             Key=object_name,
         )["Body"].read()
+
+    def download_file(
+        self,
+        bucket_name: str,
+        object_name: str,
+        local_filename: str
+    ) -> None:
+        return self._client.download_file(bucket_name, object_name, local_filename)

@@ -10,30 +10,35 @@ from reworkd_platform.schemas.workflow.blocks.conditions.ifcondition import (
 @pytest.mark.parametrize(
     "value_one,operator,value_two,expected_result",
     [
-        (1, "==", 1, True),
-        (1, "!=", 2, True),
-        (1, "<", 2, True),
-        (2, ">", 1, True),
-        (2, "<=", 2, True),
-        (1, ">=", 1, True),
+        # Ints
+        ("1", "==", "1", True),
+        ("1", "!=", "2", True),
+        ("1", "<", "2", True),
+        ("2", ">", "1", True),
+        ("2", "<=", "2", True),
+        ("1", ">=", "1", True),
+        # Floats
+        ("1.5", "==", "1.5", True),
+        ("1.5", "!=", "2.5", True),
+        ("1.5", "<", "2.5", True),
+        ("2.5", ">", "1.5", True),
+        ("2.5", "<=", "2.5", True),
+        ("1.5", ">=", "1.5", True),
+        # Strings
         ("a", "==", "a", True),
         ("a", "!=", "b", True),
         ("a", "<", "b", True),
         ("b", ">", "a", True),
         ("a", "<=", "a", True),
         ("b", ">=", "a", True),
-        (1.5, "==", 1.5, True),
-        (1.5, "!=", 2.5, True),
-        (1.5, "<", 2.5, True),
-        (2.5, ">", 1.5, True),
-        (2.5, "<=", 2.5, True),
-        (1.5, ">=", 1.5, True),
-        (True, "==", True, True),
-        (True, "!=", False, True),
-        (False, "<", True, True),
-        (True, ">", False, True),
-        (False, "<=", False, True),
-        (True, ">=", True, True),
+        # Edge cases
+        ("", "==", "", True),
+        (" ", "!=", "", True),
+        (" ", "<", "a", True),
+        ("b", ">", " ", True),
+        (" ", "<=", " ", True),
+        ("b", ">=", " ", True),
+        ("1.5", "==", "1.50", True),  # Tests precision handling
     ],
 )
 async def test_if_condition_success(value_one, operator, value_two, expected_result):
@@ -47,11 +52,10 @@ async def test_if_condition_success(value_one, operator, value_two, expected_res
 @pytest.mark.parametrize(
     "value_one,operator,value_two",
     [
-        (1, "invalid_operator", 2),
-        ("a", "==", 1),
-        (1.5, "==", "a"),
-        (True, "==", 1),
-        (1, "==", "a"),
+        ("1", "invalid_operator", "2"),
+        ("1", "==", "a"),
+        ("1.5", "==", "a"),
+        ("1", "==", ""),
     ],
 )
 async def test_if_condition_errors(value_one, operator, value_two):

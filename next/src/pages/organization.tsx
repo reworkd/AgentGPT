@@ -4,19 +4,20 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
+import { FaEllipsisH } from "react-icons/fa";
 
 const OrganizationManagement = () => {
     return (
         <DashboardLayout> 
-            <div className="flex justify-center items-center w-full h-screen bg-gray-800">
+            <div className="flex justify-center items-center w-full h-screen bg-gray-900">
                 <div className="max-w-4xl w-full justify-starts">
-                    <div className="h-20 border-b-[1px] p-4 mb-6 border-white/10">
+                    <div className="h-20 border-b-[1px] p-4 my-6 border-white/10">
                         <h1 className="text-3xl font-semibold text-gray-300">Organization</h1>
                         <span className="font-light text-sm text-white/50 font-sm">Manage your Organization settings</span>
                     </div>
                     <div className=" border-b-[1px] border-white/10 p-4 mb-6">
                         <h2 className="text-lg text-gray-300 font-light">Logo</h2>
-                        <div className="w-20 h-20 rounded-sm bg-gray-400 my-4"></div>
+                        <div className="w-20 h-20 rounded-sm bg-purple-400 my-4"></div>
                         <span className="font-light text-white/50 text-sm">Pick a logo for your Oraganization</span>
                     </div>
                     <div className="border-b-[1px] border-white/10 p-4 mb-6">
@@ -45,7 +46,8 @@ const OrganizationManagement = () => {
                                 />
                             </div>
                             <button
-                                className="block bg-purple-400/20 text-white py-2 text-sm px-4 mt-4 rounded shadow-sm hover:bg-purple-400/20 focus:outline-none focus:ring-2 focus:ring-purple-400/30"
+                                className="block bg-purple-400 text-white py-2 text-sm px-4 mt-4 rounded shadow-sm hover:bg-purple-300 transition duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400/30"
+                                // onClick={handleUpload}
                                 >
                                 Update
                             </button>
@@ -68,14 +70,14 @@ const OrganizationManagement = () => {
                             />
                             <button
                             type="button"
-                            className="block rounded bg-purple-400/20 px-3 py-1 text-center text-sm text-white shadow-sm hover:bg-purple-400/20 focus:ring-purple-400/30"
+                            className="block rounded bg-purple-400 px-3 py-1 text-center text-sm text-white shadow-sm hover:bg-purple-300 transition duration-300 focus:ring-purple-400/30"
                             >
-                            Invite people
+                            Invite 
                             </button>
                         </div>
                         <div className="mt-8 flow-root">
                             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                <div className="inline-block min-w-full  py-2 align-middle sm:px-6 lg:px-8">
                                     <table className="min-w-full bg-transparent ">
                                     <tbody>
                                          {/* {people.map((person) => ( */}
@@ -84,23 +86,25 @@ const OrganizationManagement = () => {
                                             <div className="flex items-center">
                                                 <div className="h-11 w-11">
                                                 {/* <img className="h-11 w-11 rounded-full" src={person.image} alt="" /> */}
-                                                <img className="h-11 w-11 rounded-full bg-black"  alt="" />
+                                                <img className="h-11 w-11 rounded-full bg-white"  alt="" />
                                                 
                                                 </div>
                                                 <div className="ml-4">
                                                 {/* <div className="font-medium text-gray-900">{person.name}</div> */}
-                                                <div className="font-medium text-gray-900">Jaskaran</div>
+                                                <div className="font-light text-white/50">Jaskaran</div>
                                                 {/* <div className="mt-1 text-gray-500">{person.email}</div> */}
-                                                <div className="mt-1 text-gray-500">JasKaran@gmail.com</div>
+                                                <div className="mt-1 font-light text-gray-500">JasKaran@gmail.com</div>
                                                 </div>
                                             </div>
                                             </td>
-                                            {/* <td className="px-3 py-4 text-sm text-gray-300">{person.role}</td> */}
-                                            <td className="px-3 py-4 border-b border-transparent text-sm text-gray-300">Admin</td>
+                                            {/* <td className="px-3 py-4 text-sm text-white/50">{person.role}</td> */}
+                                            <td className="px-3 py-4 border-b border-transparent text-sm text-white/50">Admin</td>
                                             <td className="border-b border-transparent relative py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                            <a href="#" className="text-white/50 text-lg">
                                                 {/* Edit<span className="sr-only">, {person.name}</span> */}
-                                                Edit<span></span>
+                                                <FaEllipsisH 
+                                                    onClick={() => console.log("clicked")}
+                                                />
                                             </a>
                                             </td>
                                         {/* </tr> */}

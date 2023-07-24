@@ -2,12 +2,12 @@ import uuid
 from datetime import datetime
 from typing import Optional, Type, TypeVar
 
-from fastapi import HTTPException
 from sqlalchemy import DateTime, String, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from reworkd_platform.db.meta import meta
+from reworkd_platform.web.api.http_responses import not_found
 
 T = TypeVar("T", bound="Base")
 
@@ -33,7 +33,7 @@ class Base(DeclarativeBase):
         if model := await cls.get(session, id_):
             return model
 
-        raise HTTPException(status_code=404, detail=f"{cls.__name__}[{id_}] not found")
+        raise not_found(detail=f"{cls.__name__}[{id_}] not found")
 
     async def save(self: T, session: AsyncSession) -> T:
         session.add(self)

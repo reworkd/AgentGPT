@@ -17,6 +17,7 @@ from reworkd_platform.schemas.workflow.base import (
     WorkflowUpdate,
 )
 from reworkd_platform.web.api.dependencies import get_current_user
+from reworkd_platform.web.api.http_responses import forbidden
 
 
 class WorkflowCRUD(BaseCrud):
@@ -148,4 +149,4 @@ class WorkflowCRUD(BaseCrud):
         ):
             return
 
-        raise Exception("User does not have permission to update this workflow")
+        raise forbidden()

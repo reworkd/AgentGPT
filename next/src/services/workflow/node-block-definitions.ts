@@ -1,3 +1,13 @@
+import type { IconType } from "react-icons";
+import {
+  FaCodeBranch,
+  FaCopy,
+  FaGlobeAmericas,
+  FaPlay,
+  FaRobot,
+  FaSlack,
+  FaTerminal,
+} from "react-icons/fa";
 import type { Node } from "reactflow";
 import { z } from "zod";
 
@@ -20,6 +30,7 @@ export const NodeBlockDefinitionSchema = z.object({
   image_url: z.string(),
   input_fields: z.array(IOFieldSchema),
   output_fields: z.array(IOFieldSchema),
+  icon: z.custom<IconType>(),
 });
 
 export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
@@ -27,8 +38,9 @@ export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   name: "URL Status Check",
   type: "UrlStatusCheck",
-  description: "Check the status of a URL",
+  description: "Check if a website exists",
   image_url: "/tools/web.png",
+  icon: FaGlobeAmericas,
   input_fields: [
     {
       name: "url",
@@ -55,6 +67,7 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   type: "SlackWebhook",
   description: "Sends a message to a slack webhook",
   image_url: "/tools/web.png",
+  icon: FaSlack,
   input_fields: [
     {
       name: "url",
@@ -81,6 +94,7 @@ const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
   type: "SummaryWebhook",
   description: "Summarize or extract key details from text using OpenAI",
   image_url: "/tools/web.png",
+  icon: FaCopy,
   input_fields: [
     {
       name: "prompt",
@@ -107,6 +121,7 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   type: "TextInputWebhook",
   description: "",
   image_url: "/tools/web.png",
+  icon: FaTerminal,
   input_fields: [
     {
       name: "text",
@@ -128,6 +143,7 @@ const IfBlockDefinition: NodeBlockDefinition = {
   type: "IfCondition",
   description: "Conditionally take a path",
   image_url: "/tools/web.png",
+  icon: FaCodeBranch,
   input_fields: [
     {
       name: "operator",
@@ -143,6 +159,7 @@ const TriggerBlockDefinition: NodeBlockDefinition = {
   name: "Manual Trigger",
   type: "ManualTriggerBlock",
   description: "Trigger a block manually",
+  icon: FaPlay,
   image_url: "/tools/web.png",
   input_fields: [],
   output_fields: [],
@@ -151,9 +168,9 @@ const TriggerBlockDefinition: NodeBlockDefinition = {
 const WebInteractionAgent: NodeBlockDefinition = {
   name: "Web Interaction Agent",
   type: "WebInteractionAgent",
-  description:
-    "Takes a URL, dynamically interacts with the site given guidance, and returns some results.",
+  description: "Dynamically interact with a website",
   image_url: "/tools/web.png",
+  icon: FaRobot,
   input_fields: [
     {
       name: "url",
@@ -169,7 +186,7 @@ const WebInteractionAgent: NodeBlockDefinition = {
   output_fields: [],
 };
 
-export const getNodeBlockDefinitions = () => {
+export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     UrlStatusCheckBlockDefinition,
     SlackWebhookBlockDefinition,

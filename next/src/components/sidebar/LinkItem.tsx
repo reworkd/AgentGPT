@@ -7,7 +7,7 @@ const LinkItem = (props: {
   title: string;
   children: ReactNode;
   href?: string;
-  badge?: string;
+  badge?: { text: string; className?: string };
   onClick: () => void;
 }) => (
   <li>
@@ -26,7 +26,9 @@ const LinkItem = (props: {
         {props.children}
       </span>
       <span className="font-light">{props.title}</span>
-      {props.badge && <Badge className="ml-auto">{props.badge}</Badge>}
+      {props.badge && (
+        <Badge className={clsx("ml-auto", props.badge.className)}>{props.badge.text}</Badge>
+      )}
     </a>
   </li>
 );

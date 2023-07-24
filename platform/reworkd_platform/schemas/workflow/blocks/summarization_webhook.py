@@ -23,6 +23,20 @@ from langchain.chains.question_answering import load_qa_chain
 import pinecone
 from langchain.embeddings import OpenAIEmbeddings
 
+# Llama Imports
+import camelot
+from llama_index import Document, ListIndex
+from llama_index import SimpleDirectoryReader
+from llama_index import VectorStoreIndex, ServiceContext, LLMPredictor
+from llama_index.query_engine import PandasQueryEngine, RetrieverQueryEngine
+from llama_index.retrievers import RecursiveRetriever
+from llama_index.schema import IndexNode
+
+from langchain.chat_models import ChatOpenAI
+from llama_hub.file.pymu_pdf.base import PyMuPDFReader
+from pathlib import Path
+from typing import List
+
 
 class SummaryWebhookInput(BlockIOBase):
     prompt: str
@@ -40,6 +54,8 @@ class SummaryWebhook(Block):
     input: SummaryWebhookInput
 
     async def run(self) -> BlockIOBase:
+        test_llama()
+
         try:
             input_files = [self.input.filename1, self.input.filename2]
             docsearch = await build_pinecone_docsearch(input_files)
@@ -54,6 +70,37 @@ class SummaryWebhook(Block):
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
 
+def test_llama():
+    download_file_from_s3("watches_and_jewelry.pdf")
+    dir_path = "reworkd_platform/schemas/workflow/blocks/placeholder_workflow_id/"
+    filepath = os.path.join(dir_path, "watches_and_jewelry.pdf")
+
+    reader = SimpleDirectoryReader(
+        input_files=[filepath]
+    )
+
+    docs = reader.load_data()
+    logger.info(f"here's the docs - {docs}")
+    logger.info(f"Loaded {len(docs)} docs")
+
+    # reader = PyMuPDFReader()
+    # docs = reader.load(Path(filepath))
+    # table_dfs = get_tables(filepath, pages=[1,2,3,4,5,6,7,8,9,10])
+    # logger.info(f"table_dfs - index 1 {table_dfs[0]}")
+    # logger.info(f"table_dfs - index 2 {table_dfs[1]}")
+
+def get_tables(path: str, pages: List[int]):
+    table_dfs = []
+    for page in pages:
+        table_list = camelot.read_pdf(path, pages=str(page))
+        table_df = table_list[0].df
+        table_df = (
+            table_df.rename(columns=table_df.iloc[0])
+            .drop(table_df.index[0])
+            .reset_index(drop=True)
+        )
+        table_dfs.append(table_df)
+    return table_dfs
 
 async def build_pinecone_docsearch(input_files: list[str]) -> Pinecone:
     download_all_files_from_s3(input_files)

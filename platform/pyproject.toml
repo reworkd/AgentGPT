@@ -26,7 +26,7 @@ sentry-sdk = "^1.25.0"
 loguru = "^0.7.0"
 aiokafka = "^0.8.1"
 requests = "2.28.0"
-langchain = "^0.0.199"
+langchain = "0.0.218"
 openai = "^0.27.7"
 wikipedia = "^1.4.0"
 replicate = "^0.8.3"
@@ -40,6 +40,12 @@ pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
 networkx = "^3.1"
 pusher = "^3.3.2"
 pypdf2 = "^3.0.1"
+llama-index = "^0.7.11.post1"
+camelot-py = "^0.11.0"
+opencv-python = "^4.8.0.74"
+llama-hub = "^0.0.14"
+pymupdf = "^1.22.5"
+ghostscript = "^0.7"
 
 
 [tool.poetry.dev-dependencies]

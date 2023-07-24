@@ -40,12 +40,6 @@ pinecone-client = { version = "^2.2.2", extras = ["grpc"] }
 networkx = "^3.1"
 pusher = "^3.3.2"
 pypdf2 = "^3.0.1"
-llama-index = "^0.7.11.post1"
-camelot-py = "^0.11.0"
-opencv-python = "^4.8.0.74"
-llama-hub = "^0.0.14"
-pymupdf = "^1.22.5"
-ghostscript = "^0.7"
 
 
 [tool.poetry.dev-dependencies]

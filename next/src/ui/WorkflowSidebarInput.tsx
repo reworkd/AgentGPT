@@ -44,10 +44,7 @@ const WorkflowSidebarInput = ({ inputField, value, onChange, suggestions }: Side
         label={inputField.name}
         helpText={inputField.description}
         onChange={(e) => {
-          // TODO: decouple this, this is jank af
-          if (e.target.files) {
-            onChange(e.target.files[0] || "");
-          }
+          onChange(e.target.value);
         }}
       />
     );

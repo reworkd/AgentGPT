@@ -9,7 +9,7 @@ const OrganizationManagement = () => {
     return (
         <DashboardLayout> 
             <div className="flex justify-center items-center w-full h-screen bg-gray-800">
-                <div className="max-w-3xl w-full justify-starts">
+                <div className="max-w-4xl w-full justify-starts">
                     <div className="h-20 border-b-[1px] p-4 mb-6 border-white/10">
                         <h1 className="text-3xl font-semibold text-gray-300">Organization</h1>
                         <span className="font-light text-sm text-white/50 font-sm">Manage your Organization settings</span>
@@ -29,7 +29,7 @@ const OrganizationManagement = () => {
                                 <input
                                 type="text"
                                 id="organizationName"
-                                className="w-full py-2 px-3 bg-gray-900 text-white border border-white/20 rounded mt-1 focus:ring-white focus:border-white"
+                                className="w-full py-2 px-3 bg-gray-900 text-white border text-sm border-white/20 rounded mt-1 focus:ring-white focus:border-white"
                                 placeholder="Enter organization name"
                                 />
                             </div>
@@ -40,7 +40,7 @@ const OrganizationManagement = () => {
                                 <input
                                 type="text"
                                 id="organizationUrl"
-                                className="w-full py-2 px-3 bg-gray-900 text-white border border-white/20 rounded mt-1 focus:ring-white focus:border-white"
+                                className="w-full py-2 px-3 bg-gray-900 text-white text-sm border border-white/20 rounded mt-1 focus:ring-white focus:border-white"
                                 placeholder="Enter organization URL"
                                 />
                             </div>
@@ -64,7 +64,7 @@ const OrganizationManagement = () => {
                             <input
                                 type="text"
                                 placeholder="Search..."
-                                className="bg-gray-900 flex-grow max-w-sm text-white border border-white/20 rounded mt-1 focus:ring-white focus:border-white"
+                                className="bg-gray-900 text-sm flex-grow max-w-sm text-white border border-white/20 rounded mt-1 focus:ring-white focus:border-white"
                             />
                             <button
                             type="button"
@@ -73,42 +73,38 @@ const OrganizationManagement = () => {
                             Invite people
                             </button>
                         </div>
-
                         <div className="mt-8 flow-root">
                             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                    <table className="min-w-full divide-y divide-gray-300">
-                                    <tbody className="divide-y divide-gray-200 bg-white">
-                                        {/* {people.map((person) => (
-                                        <tr key={person.email}>
-                                            <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                                    <table className="min-w-full bg-transparent ">
+                                    <tbody>
+                                         {/* {people.map((person) => ( */}
+                                        {/* <tr key={person.email}> */}
+                                            <td className="py-5 border-b border-transparent pl-4 pr-3 text-sm sm:pl-0">
                                             <div className="flex items-center">
-                                                <div className="h-11 w-11 flex-shrink-0">
-                                                <img className="h-11 w-11 rounded-full" src={person.image} alt="" />
+                                                <div className="h-11 w-11">
+                                                {/* <img className="h-11 w-11 rounded-full" src={person.image} alt="" /> */}
+                                                <img className="h-11 w-11 rounded-full bg-black"  alt="" />
+                                                
                                                 </div>
                                                 <div className="ml-4">
-                                                <div className="font-medium text-gray-900">{person.name}</div>
-                                                <div className="mt-1 text-gray-500">{person.email}</div>
+                                                {/* <div className="font-medium text-gray-900">{person.name}</div> */}
+                                                <div className="font-medium text-gray-900">Jaskaran</div>
+                                                {/* <div className="mt-1 text-gray-500">{person.email}</div> */}
+                                                <div className="mt-1 text-gray-500">JasKaran@gmail.com</div>
                                                 </div>
                                             </div>
                                             </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            <div className="text-gray-900">{person.title}</div>
-                                            <div className="mt-1 text-gray-500">{person.department}</div>
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                                Active
-                                            </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{person.role}</td>
-                                            <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            {/* <td className="px-3 py-4 text-sm text-gray-300">{person.role}</td> */}
+                                            <td className="px-3 py-4 border-b border-transparent text-sm text-gray-300">Admin</td>
+                                            <td className="border-b border-transparent relative py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                             <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                Edit<span className="sr-only">, {person.name}</span>
+                                                {/* Edit<span className="sr-only">, {person.name}</span> */}
+                                                Edit<span></span>
                                             </a>
                                             </td>
-                                        </tr>
-                                        ))} */}
+                                        {/* </tr> */}
+                                        {/* ))}  */}
                                     </tbody>
                                     </table>
                                 </div>

@@ -35,7 +35,7 @@ class ExecutionEngine:
 
         websockets.emit(
             self.workflow.workflow_id,
-            "my-event",
+            "workflow:node:status",
             {
                 "nodeId": curr.id,
                 "status": "running",
@@ -61,7 +61,7 @@ class ExecutionEngine:
 
         websockets.emit(
             self.workflow.workflow_id,
-            "my-event",
+            "workflow:node:status",
             {
                 "nodeId": curr.id,
                 "status": "success",

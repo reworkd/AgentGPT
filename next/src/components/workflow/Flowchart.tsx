@@ -81,9 +81,15 @@ const FlowChart: FC<FlowChartProps> = ({
       fitViewOptions={fitViewOptions}
       {...props}
     >
+      <Background
+        variant={BackgroundVariant.Lines}
+        lineWidth={1}
+        gap={80}
+        className="bg-neutral-800"
+        color="#FFFFFF10"
+      />
       {props.minimap && <MiniMap nodeStrokeWidth={3} />}
       {props.controls && <Controls />}
-      <Background variant={BackgroundVariant.Lines} lineWidth={0} />
     </ReactFlow>
   );
 };

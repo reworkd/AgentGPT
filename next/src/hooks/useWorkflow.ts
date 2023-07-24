@@ -82,17 +82,22 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     else setSelectedNode(selectedNodes[0]);
   }, [nodes]);
 
-  useSocket(workflowId, eventSchema, ({ nodeId, status, remaining }) => {
-    updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
-    updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
+  const members = useSocket(
+    workflowId,
+    session?.accessToken,
+    eventSchema,
+    ({ nodeId, status, remaining }) => {
+      updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
+      updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
 
-    if (remaining === 0) {
-      setTimeout(() => {
-        updateValue(setNodes, "status", undefined);
-        updateValue(setEdges, "status", undefined);
-      }, 1000);
+      if (remaining === 0) {
+        setTimeout(() => {
+          updateValue(setNodes, "status", undefined);
+          updateValue(setEdges, "status", undefined);
+        }, 1000);
+      }
     }
-  });
+  );
 
   const createNode: createNodeType = (block: NodeBlock) => {
     const ref = nanoid(11);
@@ -160,6 +165,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     executeWorkflow: onExecute,
     createNode,
     updateNode,
+    members,
   };
 };
 

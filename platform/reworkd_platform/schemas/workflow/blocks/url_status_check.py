@@ -13,6 +13,7 @@ class UrlStatusCheckBlockInput(BlockIOBase):
 
 class UrlStatusCheckBlockOutput(UrlStatusCheckBlockInput):
     code: Optional[int]
+    message: Optional[str]
 
 
 class UrlStatusCheckBlock(Block):

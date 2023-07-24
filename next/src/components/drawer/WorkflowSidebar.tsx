@@ -127,7 +127,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
           <div key={definition?.type + outputField.name}>
             <p>
               <span className="text-sm font-bold">{outputField.name}:</span>{" "}
-              <span className="text-sm font-thin">{outputField.type}</span>
+              <span className="text-sm">{outputField.type}</span>
             </p>
             <p className="text-sm font-thin">{outputField.description}</p>
           </div>

@@ -129,7 +129,6 @@ def chunk_documents_to_pinecone(
 
 async def execute_query_on_pinecone(company_context: str, docsearch: Pinecone) -> str:
     docs = docsearch.similarity_search(company_context, k=7)
-    i = 0
 
     prompt = f"""
     Help extract information relevant to a company with the following details: {company_context} from the following documents. Include information relevant to the market, strategies, and products, and specific numbers. Here are the documents: {docs}. After each point, reference the source you got each piece of information from (document and page #). Prioritize information from document sources.
@@ -145,5 +144,4 @@ async def execute_query_on_pinecone(company_context: str, docsearch: Pinecone) -
 
     chain = load_qa_chain(llm)
     result = await chain.arun(input_documents=docs, question=prompt)
-    logger.info(f"Result: {result}")
     return result

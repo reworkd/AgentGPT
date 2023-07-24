@@ -25,7 +25,7 @@ const WorkflowEdgeSchema = z.object({
   source: z.string(),
   source_handle: z.string().optional().nullable(),
   target: z.string(),
-  status: z.enum(["running", "success", "failure"]).optional(),
+  status: z.enum(["running", "success", "error"]).optional(),
 });
 export const WorkflowSchema = z.object({
   id: z.string(),

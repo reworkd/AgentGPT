@@ -14,7 +14,7 @@ import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow
 
 const StatusEventSchema = z.object({
   nodeId: z.string(),
-  status: z.enum(["running", "success", "failure"]),
+  status: z.enum(["running", "success", "error"]),
   remaining: z.number().optional(),
 });
 
@@ -95,7 +95,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
         updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
         updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
 
-        if (remaining === 0) {
+        if (status === "error" || remaining === 0) {
           setTimeout(() => {
             updateValue(setNodes, "status", undefined);
             updateValue(setEdges, "status", undefined);

@@ -13,7 +13,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from lanarky.responses import StreamingResponse
 from io import BytesIO
 import os
-from reworkd_platform.web.api.agent.prompts import summarize_pdf_prompt
+from reworkd_platform.web.api.agent.prompts import summarize_pdf_with_company_context_prompt
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.settings import settings
 from langchain.vectorstores import Pinecone
@@ -22,7 +22,6 @@ import pinecone
 from langchain.embeddings import OpenAIEmbeddings
 import tempfile
 from reworkd_platform.services.aws.s3 import SimpleStorageService
-from langchain.chains import ConversationalRetrievalChain
 
 
 class SummaryAgentInput(BlockIOBase):
@@ -118,7 +117,6 @@ def chunk_documents_to_pinecone(
         filepath = os.path.join(temp_dir.name, file)
         pdf_data = PyPDFLoader(filepath).load()
         texts.extend(text_splitter.split_documents(pdf_data))
-        logger.info(f"Wrote data for {file} to pinecone")
 
     docsearch = Pinecone.from_texts(
         [t.page_content for t in texts], embeddings, index_name=index_name
@@ -143,5 +141,5 @@ async def execute_query_on_pinecone(company_context: str, docsearch: Pinecone) -
     )
 
     chain = load_qa_chain(llm)
-    result = await chain.arun(input_documents=docs, question=prompt)
+    result = await chain.arun(input_documents=docs, question=prompt,max_tokens=max_tokens)
     return result

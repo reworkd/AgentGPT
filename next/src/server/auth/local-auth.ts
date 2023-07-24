@@ -3,7 +3,7 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { getCookie, setCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { AuthOptions } from "next-auth";
-import type { Adapter } from "next-auth/adapters";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import { v4 } from "uuid";
 import { z } from "zod";
@@ -61,8 +61,7 @@ export const options = (
                 image: undefined,
                 emailVerified: null,
                 superAdmin: false,
-                organizations: [],
-              });
+              } as AdapterUser);
         },
       }),
     ],

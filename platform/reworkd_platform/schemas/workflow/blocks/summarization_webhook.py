@@ -54,8 +54,6 @@ class SummaryWebhook(Block):
     input: SummaryWebhookInput
 
     async def run(self) -> BlockIOBase:
-        test_llama()
-
         try:
             input_files = [self.input.filename1, self.input.filename2]
             docsearch = await build_pinecone_docsearch(input_files)
@@ -69,25 +67,6 @@ class SummaryWebhook(Block):
             raise
 
         return SummaryWebhookOutput(**self.input.dict(), result=response)
-
-def test_llama():
-    download_file_from_s3("watches_and_jewelry.pdf")
-    dir_path = "reworkd_platform/schemas/workflow/blocks/placeholder_workflow_id/"
-    filepath = os.path.join(dir_path, "watches_and_jewelry.pdf")
-
-    reader = SimpleDirectoryReader(
-        input_files=[filepath]
-    )
-
-    docs = reader.load_data()
-    logger.info(f"here's the docs - {docs}")
-    logger.info(f"Loaded {len(docs)} docs")
-
-    # reader = PyMuPDFReader()
-    # docs = reader.load(Path(filepath))
-    # table_dfs = get_tables(filepath, pages=[1,2,3,4,5,6,7,8,9,10])
-    # logger.info(f"table_dfs - index 1 {table_dfs[0]}")
-    # logger.info(f"table_dfs - index 2 {table_dfs[1]}")
 
 def get_tables(path: str, pages: List[int]):
     table_dfs = []

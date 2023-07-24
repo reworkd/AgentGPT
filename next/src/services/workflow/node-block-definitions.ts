@@ -184,7 +184,7 @@ const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
-const WebInteractionAgent: NodeBlockDefinition = {
+const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
   name: "Web Interaction Agent",
   type: "WebInteractionAgent",
   description: "Dynamically interact with a website",
@@ -210,7 +210,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     UrlStatusCheckBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
-    WebInteractionAgent,
+    WebInteractionAgentBlockDefinition,
     ManualTriggerBlockDefinition,
     SummaryWebhookBlockDefinition,
     TextInputWebhookBlockDefinition,

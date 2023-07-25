@@ -53,7 +53,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
             >
               <HeadlessDialog.Panel
                 className={clsx(
-                  "background-color-2 relative w-full max-w-sm transform overflow-hidden rounded-lg border border-white/10 text-left shadow-xl transition-all",
+                  "background-color-2 border-color-1 relative w-full max-w-sm transform overflow-hidden rounded-lg border text-left shadow-xl transition-all",
                   props.inline || "sm:my-8 sm:w-full sm:max-w-lg"
                 )}
               >
@@ -88,7 +88,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                     </div>
                   </div>
                 </div>
-                <div className="background-color-1 flex flex-col gap-2 border-t border-white/10 px-8 py-4">
+                <div className="background-color-1 border-color-1 flex flex-col gap-2 border-t px-8 py-4">
                   {props.actions}
                 </div>
               </HeadlessDialog.Panel>

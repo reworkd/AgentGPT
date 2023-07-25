@@ -1,8 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import type { InputHTMLAttributes, ReactNode } from "react";
 import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useMutation } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+
 import WorkflowApi from "../services/workflow/workflowApi";
 import { useWorkflowStore } from "../stores/workflowStore";
 
@@ -40,7 +41,7 @@ const Dropzone = (props: Props) => {
       )}
       <label
         htmlFor="dropzone-file"
-        className="background-color-7 border-style-1 mt-1 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 hover:bg-neutral-600"
+        className="background-color-7 border-style-1 mt-1 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border hover:bg-neutral-600"
       >
         <div className="flex flex-col items-center justify-center pb-6 pt-5">
           <FaCloudUploadAlt size="60" className="text-gray-400" />

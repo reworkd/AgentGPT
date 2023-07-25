@@ -152,11 +152,11 @@ tr:nth-child(even) {
 
     /* border styles */
     .border-color-1 {
-        @apply dark:border-shade-400-dark border-shade-600-light
+        @apply dark:border-shade-500-dark border-shade-600-light
     }
 
     .border-color-2 {
-        @apply dark:border-shade-300-dark border-shade-700-light
+        @apply dark:border-shade-400-dark border-shade-700-light
     }
 
     .border-color-success {
@@ -168,7 +168,7 @@ tr:nth-child(even) {
     }
 
     .border-style-1 {
-        @apply border-color-1 rounded-xl border-2;
+        @apply border-color-2 rounded-xl border;
     }
 
     .border-hover-1 {
@@ -184,7 +184,7 @@ tr:nth-child(even) {
     }
 
     .border-focusVisible-1 {
-        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border-2 focus-visible:ring-offset-0;
+        @apply focus-visible:border-blue-focusVisible-light dark:focus-visible:border-blue-focusVisible-dark focus:ring-0 border focus-visible:ring-offset-0;
     }
 
     .border-focusVisible-1[type=range] {

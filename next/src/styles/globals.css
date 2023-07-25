@@ -156,7 +156,7 @@ tr:nth-child(even) {
     }
 
     .border-color-2 {
-        @apply dark:border-shade-400-dark border-blue-base-light
+        @apply dark:border-shade-300-dark border-shade-700-light
     }
 
     .border-color-success {

@@ -1,5 +1,5 @@
-import os
 import tempfile
+from os import path
 
 import pinecone
 from langchain.chains.question_answering import load_qa_chain
@@ -51,46 +51,43 @@ class SummaryWebhook(Block):
 
 
 async def build_pinecone_docsearch(s3_folder: str) -> Pinecone:
-    with tempfile.TemporaryDirectory() as temp_dir:
-        download_all_files_from_s3(s3_folder, temp_dir)
-        start_pinecone()
-
-        docsearch = chunk_documents_to_pinecone(
-            embeddings=(
-                OpenAIEmbeddings(
-                    client=None,  # Meta private value but mypy will complain its missing
-                    openai_api_key=settings.openai_api_key,
-                )
-            ),
-            temp_dir=str(temp_dir),
-        )
-
-    return docsearch
-
-
-def start_pinecone() -> None:
     pinecone.init(
         api_key=settings.pinecone_api_key, environment=settings.pinecone_environment
     )
+
+    print("pinecone init")
+    dir_ = tempfile.TemporaryDirectory()
+
+    download_all_files_from_s3(s3_folder, dir_.name)
+    docsearch = chunk_documents_to_pinecone(
+        embeddings=(
+            OpenAIEmbeddings(
+                client=None,  # Meta private value but mypy will complain its missing
+                openai_api_key=settings.openai_api_key,
+            )
+        ),
+        temp_dir=dir_.name,
+    )
+    dir_.cleanup()
+
+    return docsearch
 
 
 def download_all_files_from_s3(
     s3_folder: str,
     download_dir: str,
 ) -> None:
-    s3 = SimpleStorageService()
-    for file in s3.list_files(bucket_name="test-pdf-123", prefix=s3_folder):
-        download_file_from_s3(file, download_dir, s3)
+    files = SimpleStorageService().list_files(
+        bucket_name="test-pdf-123", prefix=s3_folder
+    )
 
-
-def download_file_from_s3(
-    filename: str,
-    temp_dir: str,
-    s3_service: SimpleStorageService,
-) -> None:
-    bucket_name = "test-pdf-123"
-    local_file_path = os.path.join(temp_dir, filename.split("/")[-1])
-    s3_service.download_file(bucket_name, filename, local_file_path)
+    for file in files:
+        SimpleStorageService().download_file(
+            bucket_name="test-pdf-123",
+            object_name=file,
+            local_filename=path.join(download_dir, file.split("/")[-1]),
+        )
+        pass
 
 
 def chunk_documents_to_pinecone(

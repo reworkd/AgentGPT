@@ -13,9 +13,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from lanarky.responses import StreamingResponse
 from io import BytesIO
 import os
-from reworkd_platform.web.api.agent.prompts import (
-    summarize_pdf_with_company_context_prompt,
-)
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.settings import settings
 from langchain.vectorstores import Pinecone

@@ -128,7 +128,7 @@ async def execute_query_on_pinecone(company_context: str, docsearch: Pinecone) -
     docs = docsearch.similarity_search(company_context, k=7)
 
     prompt = f"""
-    Help extract information relevant to a company with the following details: {company_context} from the following documents. Include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got each piece of information from (including document name and page #). If there's multiple sources, include information from all sources.
+    Help extract information relevant to a company with the following details: {company_context} from the following documents. Include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got each piece of information from (including document name and page #). If there's multiple sources, include information from all sources. Include info from the whole doc, not only the first pages.
     """
 
     max_tokens = TokenService.create().get_completion_space("gpt-3.5-turbo-16k", prompt)

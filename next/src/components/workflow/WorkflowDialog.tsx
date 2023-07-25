@@ -9,13 +9,11 @@ import TextButton from "../TextButton";
 const WorkflowDialog = ({
   workflow,
   openWorkflow,
-  saveWorkflow,
   showDialog,
   setShowDialog,
 }: {
   workflow: WorkflowMeta | null;
   openWorkflow: () => void;
-  saveWorkflow: (workflow: WorkflowMeta) => void;
   showDialog: boolean;
   setShowDialog: (boolean) => void;
 }) => {
@@ -30,36 +28,17 @@ const WorkflowDialog = ({
     setDescription(workflow.description);
   }, [workflow]);
 
-  const handleEdit = () => {
-    if (!workflow || name === "" || description === "") {
-      setIsError(true);
-      return;
-    }
-
-    const workflowMeta = { ...workflow, name, description };
-    setIsError(false);
-    saveWorkflow(workflowMeta);
-    setShowDialog(false);
-  };
-
   return (
     <Dialog
       inline
       open={showDialog}
       setOpen={setShowDialog}
-      title="Edit existing workflow"
+      title="View existing workflow"
       icon={<></>}
       actions={
         <>
           <PrimaryButton onClick={() => openWorkflow()}>Open</PrimaryButton>
-          <div className="flex w-full justify-between">
-            <TextButton className="flex-1" onClick={() => setShowDialog(false)}>
-              Close
-            </TextButton>
-            <TextButton className="flex-1" onClick={handleEdit}>
-              Save
-            </TextButton>
-          </div>
+          <TextButton onClick={() => setShowDialog(false)}>Close</TextButton>
         </>
       }
     >
@@ -69,6 +48,7 @@ const WorkflowDialog = ({
           label="Name"
           className="rounded-sm"
           placeholder="My new workflow"
+          disabled
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -76,6 +56,7 @@ const WorkflowDialog = ({
           name="description"
           label="Description"
           placeholder="An explanation of what the workflow does"
+          disabled
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

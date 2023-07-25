@@ -102,7 +102,7 @@ const OpenAIAgentBlockDefinition: NodeBlockDefinition = {
       name: "company_name",
       description: "enter name of company",
       type: "string",
-    }
+    },
   ],
   output_fields: [
     {
@@ -269,7 +269,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     IfBlockDefinition,
     WebInteractionAgentBlockDefinition,
     ManualTriggerBlockDefinition,
-    SummaryWebhookBlockDefinition,
+    SummaryAgentBlockDefinition,
     OpenAIAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,

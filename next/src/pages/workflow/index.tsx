@@ -43,10 +43,6 @@ const WorkflowList: NextPage = () => {
       .catch(console.error);
   };
 
-  const saveWorkflow = (workflow: WorkflowMeta) => {
-    // TODO
-  };
-
   return (
     <DashboardLayout>
       <LayoutGroup>
@@ -73,7 +69,6 @@ const WorkflowList: NextPage = () => {
         openWorkflow={() => {
           void router.push(`workflow/${selectedWorkflow?.id || ""}`);
         }}
-        saveWorkflow={saveWorkflow}
         showDialog={showWorkflowDialog}
         setShowDialog={setShowWorkflowDialog}
       />

@@ -1,10 +1,11 @@
 from typing import Dict, List
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.schemas.workflow.base import (
+    BlockIOBase,
     Workflow,
     WorkflowCreate,
     WorkflowFull,
@@ -117,7 +118,7 @@ class APITriggerInput(BaseModel):
 @router.post("/{workflow_id}/api")
 async def trigger_workflow_api(
     workflow_id: str,
-    body: APITriggerInput = Body(...),
+    body: APITriggerInput,
     producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
 ) -> str:
@@ -134,7 +135,7 @@ async def trigger_workflow_api(
         forbidden("API trigger not defined for this workflow")
 
     # Place input from API call into trigger input
-    plan.workflow.queue[0].block.input = body
+    plan.workflow.queue[0].block.input = BlockIOBase(**body.dict())
 
     await plan.start()
     return "OK"

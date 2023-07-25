@@ -125,16 +125,6 @@ const SummaryAgentBlockDefinition: NodeBlockDefinition = {
       description: "reference a company's context so we can retrieve relevant info from docs",
       type: "string",
     },
-    {
-      name: "filename1",
-      description: "file to extract info from",
-      type: "string",
-    },
-    {
-      name: "filename2",
-      description: "file to extract info from",
-      type: "string",
-    },
   ],
   output_fields: [
     {

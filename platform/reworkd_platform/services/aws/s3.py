@@ -1,6 +1,7 @@
+from contextlib import closing
 from typing import Dict, List
 
-from boto3 import client as boto3_client, resource as boto3_resource
+import boto3
 from pydantic import BaseModel
 
 REGION = "us-east-1"
@@ -12,29 +13,31 @@ class PresignedPost(BaseModel):
 
 
 class SimpleStorageService:
-    def __init__(
-        self,
-    ) -> None:
-        self._client = boto3_client("s3", region_name=REGION)
-
     def upload_url(
         self,
         bucket_name: str,
         object_name: str,
     ) -> PresignedPost:
-        return PresignedPost(
-            **self._client.generate_presigned_post(
-                Bucket=bucket_name,
-                Key=object_name,
+        with closing(boto3.client(service_name="s3")) as client:
+            return PresignedPost(
+                **client.generate_presigned_post(
+                    Bucket=bucket_name,
+                    Key=object_name,
+                )
             )
-        )
 
-    @staticmethod
-    def list_files(bucket_name: str, prefix: str) -> List[str]:
-        bucket = boto3_resource("s3", region_name=REGION).Bucket(bucket_name)
-        return [obj.key for obj in bucket.objects.filter(Prefix=prefix)]
+    def list_files(self, bucket_name: str, prefix: str) -> List[str]:
+        files: List[str] = []
+
+        with closing(boto3.client(service_name="s3")) as client:
+            response = client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+            if "Contents" in response:
+                files = [item["Key"] for item in response["Contents"]]
+
+        return files
 
     def download_file(
         self, bucket_name: str, object_name: str, local_filename: str
     ) -> None:
-        return self._client.download_file(bucket_name, object_name, local_filename)
+        with closing(boto3.client(service_name="s3")) as client:
+            return client.download_file(bucket_name, object_name, local_filename)

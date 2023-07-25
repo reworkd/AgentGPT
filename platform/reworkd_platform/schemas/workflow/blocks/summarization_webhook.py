@@ -78,10 +78,9 @@ def download_all_files_from_s3(
     s3_folder: str,
     download_dir: str,
 ) -> None:
-    s3_service = SimpleStorageService()
-
-    for file in s3_service.list_files(bucket_name="test-pdf-123", prefix=s3_folder):
-        download_file_from_s3(file, download_dir, s3_service)
+    s3 = SimpleStorageService()
+    for file in s3.list_files(bucket_name="test-pdf-123", prefix=s3_folder):
+        download_file_from_s3(file, download_dir, s3)
 
 
 def download_file_from_s3(

@@ -44,20 +44,14 @@ export default class WorkflowApi {
     return await get(`/api/workflow/${id}`, WorkflowSchema, this.accessToken, this.organizationId);
   }
 
-  async update(id: string, { file, ...data }: Workflow & { file?: File }) {
-    const post = await put(
+  async update(id: string, data: Workflow) {
+    return await put(
       `/api/workflow/${id}`,
       PresignedPostSchema,
       data,
       this.accessToken,
       this.organizationId
     );
-
-    if (file) {
-      return await this.uploadFile(post, file);
-    }
-
-    return 200;
   }
 
   async delete(id: string) {
@@ -76,6 +70,21 @@ export default class WorkflowApi {
 
   async execute(id: string) {
     return await post(`/api/workflow/${id}/execute`, z.string(), {}, this.accessToken);
+  }
+
+  async upload(workflow_id: string, block_ref: string, files: File[]) {
+    const posts = await put(
+      `/api/workflow/${workflow_id}/block/${block_ref}/upload`,
+      z.record(PresignedPostSchema),
+      { files: files.map((file) => file.name) },
+      this.accessToken,
+      this.organizationId
+    );
+
+    await Promise.all(
+      // @ts-ignore
+      Object.entries(posts).map(([filename, post], i) => this.uploadFile(post, files[i]))
+    );
   }
 
   async uploadFile(req: PresignedPost, file: File) {

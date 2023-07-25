@@ -1,6 +1,7 @@
 import React from "react";
 
 import Combo from "./combox";
+import Dropzone from "./dropzone";
 import InputWithSuggestions from "./InputWithSuggestions";
 import type { IOField } from "../services/workflow/node-block-definitions";
 
@@ -35,6 +36,17 @@ const WorkflowSidebarInput = ({ inputField, value, onChange, suggestions }: Side
           suggestions={suggestions}
         />
       </>
+    );
+  }
+  if (inputField.type === "file") {
+    return (
+      <Dropzone
+        label={inputField.name}
+        helpText={inputField.description}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+      />
     );
   }
 

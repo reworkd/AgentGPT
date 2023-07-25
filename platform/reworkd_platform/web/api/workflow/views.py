@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Dict
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.schemas.workflow.base import (
@@ -11,6 +12,7 @@ from reworkd_platform.schemas.workflow.base import (
 from reworkd_platform.services.aws.s3 import PresignedPost, SimpleStorageService
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.networkx import validate_connected_and_acyclic
+from reworkd_platform.services.sockets import websockets
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
 
 router = APIRouter()
@@ -54,10 +56,32 @@ async def update_workflow(
         raise HTTPException(status_code=422, detail=str(e))
 
     await crud.update(workflow_id, workflow)
+    websockets.emit(workflow_id, "workflow:updated", {"user_id": crud.user.id})
+
     return SimpleStorageService().upload_url(
         bucket_name="test-pdf-123",
         object_name=workflow_id,
     )
+
+
+class Filenames(BaseModel):
+    files: List[str]
+
+
+@router.put("/{workflow_id}/block/{block_id}/upload")
+def upload_block(
+    workflow_id: str,
+    block_id: str,
+    body: Filenames,
+) -> Dict[str, PresignedPost]:
+    """Upload a file to a block"""
+    return {
+        file: SimpleStorageService().upload_url(
+            bucket_name="test-pdf-123",
+            object_name=f"{workflow_id}/{block_id}/{file}",
+        )
+        for file in body.files
+    }
 
 
 @router.delete("/{workflow_id}")

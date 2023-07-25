@@ -3,6 +3,7 @@ from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent impor
     WebInteractionAgent,
 )
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
+from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 from reworkd_platform.schemas.workflow.blocks.manual_trigger import ManualTriggerBlock
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.summarization_webhook import (
@@ -29,5 +30,7 @@ def get_block_runner(block: Block) -> Block:
         return TextInputWebhook(**block.dict())
     if block.type == "SummaryWebhook":
         return SummaryWebhook(**block.dict())
+    if block.type == "FileUploadBlock":
+        return DoNothingBlock(**block.dict())
     else:
         raise ValueError(f"Unknown block type: {block.type}")

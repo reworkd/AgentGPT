@@ -2,7 +2,6 @@ import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useState } from "react";
 import { FaSave } from "react-icons/fa";
 
 import nextI18NextConfig from "../../../next-i18next.config";
@@ -13,14 +12,13 @@ import { useAuth } from "../../hooks/useAuth";
 import { useWorkflow } from "../../hooks/useWorkflow";
 import DashboardLayout from "../../layout/dashboard";
 import { languages } from "../../utils/languages";
+import { get_avatar } from "../../utils/user";
 
 const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const { query } = useRouter();
 
-  const [file, setFile] = useState<File>();
-
-  const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode } =
+  const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode, members } =
     useWorkflow(query.workflow as string, session);
 
   return (
@@ -33,15 +31,6 @@ const WorkflowPage: NextPage = () => {
         edges: edgesModel[0],
       })}
     >
-      <input
-        className="fixed z-20 block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
-        id="file_input"
-        type="file"
-        onChange={(e) => {
-          setFile(e.target.files?.[0]);
-        }}
-      />
-
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
@@ -49,11 +38,21 @@ const WorkflowPage: NextPage = () => {
         className="min-h-screen flex-1"
       />
       <div className="relative h-full w-full">
+        <div className="absolute bottom-4 left-12 flex flex-row">
+          {Object.entries(members).map(([id, user]) => (
+            <img
+              className="h-6 w-6 rounded-full bg-neutral-800 ring-2 ring-gray-200/20"
+              key={id}
+              src={get_avatar(user)}
+              alt="user avatar"
+            />
+          ))}
+        </div>
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <PrimaryButton
             icon={<FaSave size="15" />}
             onClick={() => {
-              saveWorkflow(file).catch(console.error);
+              saveWorkflow().catch(console.error);
             }}
           >
             Save

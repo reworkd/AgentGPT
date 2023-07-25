@@ -1,26 +1,15 @@
 from io import BytesIO
 from reworkd_platform.services.tokenizer.token_service import TokenService
-from langchain.document_loaders import PyPDFLoader
-from langchain.embeddings.base import Embeddings
 import requests
 from reworkd_platform.timer import timed_function
 from loguru import logger
-from reworkd_platform.web.api.agent.model_settings import create_model
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.schemas.agent import ModelSettings
-from langchain import LLMChain, PromptTemplate
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from lanarky.responses import StreamingResponse
 from io import BytesIO
 import os
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.settings import settings
-from langchain.vectorstores import Pinecone
-from langchain.chains.question_answering import load_qa_chain
-import pinecone
-from langchain.embeddings import OpenAIEmbeddings
 import openai
-from reworkd_platform.settings import settings
 
 
 class OpenAIContextAgentInput(BlockIOBase):
@@ -39,7 +28,6 @@ class OpenAIContextAgent(Block):
     async def run(self) -> BlockIOBase:
         try:
             response = await execute_prompt(company=self.input.company_name)
-            logger.info(f"OpenAI response: {response}")
 
         except Exception as err:
             logger.error(f"Failed to extract text with OpenAI: {err}")
@@ -50,7 +38,6 @@ class OpenAIContextAgent(Block):
 
 async def execute_prompt(company: str) -> str:
     openai.api_key = settings.openai_api_key
-    logger.info(f"company: {company}")
 
     prompt = f"""
     Write a one-sentence description of "{company}".

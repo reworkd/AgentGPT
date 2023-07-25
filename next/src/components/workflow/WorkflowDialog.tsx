@@ -21,7 +21,6 @@ const WorkflowDialog = ({
 }) => {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [isError, setIsError] = React.useState(false);
 
   useEffect(() => {
     if (!workflow) return;
@@ -75,11 +74,6 @@ const WorkflowDialog = ({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        {isError && (
-          <p className="text-sm font-semibold text-red-500">
-            Please provide a name and a description
-          </p>
-        )}
       </div>
     </Dialog>
   );

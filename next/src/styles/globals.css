@@ -172,7 +172,7 @@ tr:nth-child(even) {
     }
 
     .border-hover-1 {
-        @apply hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus:ring-0 border-2;
+        @apply hover:border-blue-hover-light dark:hover:border-blue-hover-dark focus:ring-0 border;
     }
 
     .border-hover-success {

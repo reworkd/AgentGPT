@@ -37,7 +37,7 @@ class ExecutionEngine:
         curr.block = replace_templates(curr.block, self.workflow.outputs)
 
         runner = get_block_runner(curr.block)
-        outputs = await runner.run()
+        outputs = await runner.run(self.workflow.workflow_id)
 
         # Place outputs in workflow
         outputs_with_key = {

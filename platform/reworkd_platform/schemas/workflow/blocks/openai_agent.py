@@ -1,15 +1,8 @@
-from io import BytesIO
-from reworkd_platform.services.tokenizer.token_service import TokenService
-import requests
-from reworkd_platform.timer import timed_function
+import openai
 from loguru import logger
-from reworkd_platform.schemas.user import UserBase
-from reworkd_platform.schemas.agent import ModelSettings
-from io import BytesIO
-import os
+
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.settings import settings
-import openai
 
 
 class OpenAIContextAgentInput(BlockIOBase):
@@ -25,7 +18,7 @@ class OpenAIContextAgent(Block):
     description = "Extract key details from text using OpenAI"
     input: OpenAIContextAgentInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> BlockIOBase:
         try:
             response = await execute_prompt(company=self.input.company_name)
 
@@ -42,9 +35,9 @@ async def execute_prompt(company: str) -> str:
     prompt = f"""
     Write a one-sentence description of "{company}".
     Define their market, sector, and primary products.
-    
+
     Be as clear, informative, and descriptive as necessary.
-    You will not make up information or add any information outside of the above text. 
+    You will not make up information or add any information outside of the above text.
     Only use the given information and nothing more.
     """
 

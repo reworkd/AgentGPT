@@ -45,7 +45,7 @@ async def test_if_condition_success(value_one, operator, value_two, expected_res
     block = IfCondition(
         input=IfInput(value_one=value_one, operator=operator, value_two=value_two)
     )
-    result = await block.run()
+    result = await block.run(curr.workflow_id)
     assert result == IfOutput(result=expected_result)
 
 
@@ -63,4 +63,4 @@ async def test_if_condition_errors(value_one, operator, value_two):
         input=IfInput(value_one=value_one, operator=operator, value_two=value_two)
     )
     with pytest.raises(ValueError):
-        await block.run()
+        await block.run(curr.workflow_id)

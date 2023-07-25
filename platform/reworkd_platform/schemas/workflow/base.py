@@ -24,7 +24,7 @@ class Block(BaseModel):
     type: str
     input: BlockIOBase
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> BlockIOBase:
         raise NotImplementedError("Base workflow Node class must be inherited")
 
 

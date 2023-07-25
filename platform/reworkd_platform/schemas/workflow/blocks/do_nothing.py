@@ -7,5 +7,5 @@ class DoNothingBlock(Block):
     image_url = ""
     input: BlockIOBase
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id) -> BlockIOBase:
         return BlockIOBase()

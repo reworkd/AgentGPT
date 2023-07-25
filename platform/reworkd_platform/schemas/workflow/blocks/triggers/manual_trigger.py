@@ -1,10 +1,5 @@
-from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 
 
-class ManualTriggerBlock(Block):
-    type = "ManualTriggerBlock"
-    description = "Manually run the workflow"
-    image_url = ""
-
-    async def run(self) -> BlockIOBase:
-        return BlockIOBase()
+class ManualTriggerBlock(DoNothingBlock):
+    pass

@@ -1,4 +1,3 @@
-import requests
 from loguru import logger
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
@@ -17,7 +16,7 @@ class TextInputWebhook(Block):
     description = "Enter Text to extract key details from"
     input: TextInputWebhookInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> BlockIOBase:
         logger.info(f"Starting {self.type}")
 
         return TextInputWebhookOutput(result=self.input.text)

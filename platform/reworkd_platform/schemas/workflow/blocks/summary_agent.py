@@ -34,7 +34,7 @@ class SummaryAgent(Block):
     description = "Extract key details from text using OpenAI"
     input: SummaryAgentInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> BlockIOBase:
         try:
             input_files = ["market_report.pdf"]
 

@@ -14,5 +14,5 @@ class APITriggerBlock(Block):
     description = "Trigger the workflow through an API call"
     image_url = ""
 
-    async def run(self) -> APITriggerOutput:
+    async def run(self, workflow_id: str) -> APITriggerOutput:
         return APITriggerOutput(**self.input.dict())

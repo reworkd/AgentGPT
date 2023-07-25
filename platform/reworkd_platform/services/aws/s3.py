@@ -1,6 +1,6 @@
-from typing import Dict
+from typing import Dict, List
 
-from boto3 import client as boto3_client
+from boto3 import client as boto3_client, resource as boto3_resource
 from pydantic import BaseModel
 
 REGION = "us-east-1"
@@ -28,6 +28,11 @@ class SimpleStorageService:
                 Key=object_name,
             )
         )
+
+    @staticmethod
+    def list_files(bucket_name: str, prefix: str) -> List[str]:
+        bucket = boto3_resource("s3", region_name=REGION).Bucket(bucket_name)
+        return [obj.key for obj in bucket.objects.filter(Prefix=prefix)]
 
     def download_file(
         self, bucket_name: str, object_name: str, local_filename: str

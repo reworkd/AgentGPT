@@ -18,7 +18,7 @@ uvicorn = { version = "^0.22.0", extras = ["standard"] }
 pydantic = { version = "^1.10.11", extras = ["dotenv"] }
 yarl = "^1.9.2"
 ujson = "^5.8.0"
-sqlalchemy = {version = "^2.0.19", extras = ["mypy", "asyncio"]}
+sqlalchemy = { version = "^2.0.19", extras = ["mypy", "asyncio"] }
 aiomysql = "^0.1.1"
 mysqlclient = "^2.2.0"
 httptools = "^0.5.0"
@@ -41,6 +41,7 @@ pusher = "^3.3.2"
 python-multipart = "^0.0.6"
 pypdf = "^3.13.0"
 llama-index = "^0.7.11.post1"
+reportlab = "^4.0.4"
 
 
 [tool.poetry.dev-dependencies]

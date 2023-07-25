@@ -1,4 +1,5 @@
 import type { IconType } from "react-icons";
+import { FaBolt } from "react-icons/all";
 import {
   FaCodeBranch,
   FaCopy,
@@ -165,7 +166,23 @@ const IfBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const TriggerBlockDefinition: NodeBlockDefinition = {
+const APITriggerBlockDefinition: NodeBlockDefinition = {
+  name: "APITrigger",
+  type: "APITriggerBlock",
+  description: "Trigger a workflow through an API call.",
+  icon: FaBolt,
+  image_url: "/tools/web.png",
+  input_fields: [
+    {
+      name: "input",
+      description: "Input string to be used in downstream tasks",
+      type: "string",
+    },
+  ],
+  output_fields: [],
+};
+
+const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   name: "Manual Trigger",
   type: "ManualTriggerBlock",
   description: "Trigger a block manually",
@@ -175,7 +192,7 @@ const TriggerBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
-const WebInteractionAgent: NodeBlockDefinition = {
+const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
   name: "Web Interaction Agent",
   type: "WebInteractionAgent",
   description: "Dynamically interact with a website",
@@ -214,11 +231,12 @@ const FileUploadBlockDefinition: NodeBlockDefinition = {
 
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
+    APITriggerBlockDefinition,
     UrlStatusCheckBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
-    WebInteractionAgent,
-    TriggerBlockDefinition,
+    WebInteractionAgentBlockDefinition,
+    ManualTriggerBlockDefinition,
     SummaryWebhookBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,

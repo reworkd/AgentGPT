@@ -78,7 +78,7 @@ class SummaryAgent(Block):
     async def execute_query_on_pinecone(
         self, company_context: str, docsearch: Pinecone
     ) -> str:
-        docs = docsearch.similarity_search(company_context, k=7, fetch_k=15)
+        docs = docsearch.similarity_search(company_context, k=7)
 
         prompt = f"""
         Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, cite the source.

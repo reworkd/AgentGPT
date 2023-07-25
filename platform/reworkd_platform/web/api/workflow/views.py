@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.schemas.workflow.base import (
     Workflow,
+    WorkflowCreate,
     WorkflowFull,
     WorkflowUpdate,
 )
@@ -27,13 +28,11 @@ async def get_all(crud: WorkflowCRUD = Depends(WorkflowCRUD.inject)) -> List[Wor
 
 @router.post("")
 async def create_workflow(
+    body: WorkflowCreate,
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
 ) -> Workflow:
     """Create a new workflow."""
-    return await crud.create(
-        name="Test workflow",
-        description="Test workflow description",
-    )
+    return await crud.create(body)
 
 
 @router.get("/{workflow_id}")

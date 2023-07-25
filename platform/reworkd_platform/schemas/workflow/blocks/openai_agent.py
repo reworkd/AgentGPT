@@ -47,18 +47,19 @@ class OpenAIContextAgent(Block):
 
         return OpenAIContextAgentOutput(**self.input.dict(), result=response)
 
+
 async def execute_prompt(company: str) -> str:
     openai.api_key = settings.openai_api_key
     logger.info(f"company: {company}")
 
-    prompt = f'''
+    prompt = f"""
     Write a one-sentence description of "{company}".
     Define their market, sector, and primary products.
     
     Be as clear, informative, and descriptive as necessary.
     You will not make up information or add any information outside of the above text. 
     Only use the given information and nothing more.
-    '''
+    """
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -67,9 +68,9 @@ async def execute_prompt(company: str) -> str:
         max_tokens=500,
         top_p=1,
         frequency_penalty=0,
-        presence_penalty=0
+        presence_penalty=0,
     )
 
-    response_message_content = response['choices'][0]['message']['content']
+    response_message_content = response["choices"][0]["message"]["content"]
 
     return response_message_content

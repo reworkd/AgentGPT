@@ -1,6 +1,7 @@
 import type { IconType } from "react-icons";
 import {
   FaBolt,
+  FaBook,
   FaCodeBranch,
   FaCopy,
   FaFileUpload,
@@ -157,6 +158,33 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const DiffPDFBlockDefinition: NodeBlockDefinition = {
+  name: "Diff PDF",
+  type: "DiffPDF",
+  description: "Create a PDF that will display the diff between an original and updated string",
+  image_url: "/tools/web.png",
+  icon: FaBook,
+  input_fields: [
+    {
+      name: "original",
+      description: "The original version of the text",
+      type: "string",
+    },
+    {
+      name: "updated",
+      description: "The updated version of the text",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "pdf_url",
+      description: "The URL to access the diff PDF.",
+      type: "string",
+    },
+  ],
+};
+
 const IfBlockDefinition: NodeBlockDefinition = {
   name: "If Condition",
   type: "IfCondition",
@@ -255,6 +283,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     APITriggerBlockDefinition,
     UrlStatusCheckBlockDefinition,
+    DiffPDFBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
     WebInteractionAgentBlockDefinition,

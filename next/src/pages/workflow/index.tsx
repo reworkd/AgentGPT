@@ -43,6 +43,16 @@ const WorkflowList: NextPage = () => {
       .catch(console.error);
   };
 
+  const handleDeleteWorkflow = (workflow: WorkflowMeta) => {
+    api
+      .delete(workflow.id)
+      .then(async () => {
+        await query.refetch();
+        setSelectedWorkflow(null);
+      })
+      .catch(console.error);
+  };
+
   return (
     <DashboardLayout>
       <LayoutGroup>
@@ -66,6 +76,9 @@ const WorkflowList: NextPage = () => {
       </LayoutGroup>
       <WorkflowDialog
         workflow={selectedWorkflow}
+        deleteWorkflow={() => {
+          if (selectedWorkflow) handleDeleteWorkflow(selectedWorkflow);
+        }}
         openWorkflow={() => {
           void router.push(`workflow/${selectedWorkflow?.id || ""}`);
         }}

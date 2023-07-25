@@ -9,11 +9,13 @@ import TextButton from "../TextButton";
 const WorkflowDialog = ({
   workflow,
   openWorkflow,
+  deleteWorkflow,
   showDialog,
   setShowDialog,
 }: {
   workflow: WorkflowMeta | null;
   openWorkflow: () => void;
+  deleteWorkflow: () => void;
   showDialog: boolean;
   setShowDialog: (boolean) => void;
 }) => {
@@ -38,7 +40,20 @@ const WorkflowDialog = ({
       actions={
         <>
           <PrimaryButton onClick={() => openWorkflow()}>Open</PrimaryButton>
-          <TextButton onClick={() => setShowDialog(false)}>Close</TextButton>
+          <div className="flex">
+            <TextButton
+              className="flex-1"
+              onClick={() => {
+                deleteWorkflow();
+                setShowDialog(false);
+              }}
+            >
+              Delete
+            </TextButton>
+            <TextButton className="flex-1" onClick={() => setShowDialog(false)}>
+              Close
+            </TextButton>
+          </div>
         </>
       }
     >

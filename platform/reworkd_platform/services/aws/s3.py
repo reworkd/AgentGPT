@@ -1,4 +1,5 @@
-from typing import Dict
+import os
+from typing import Dict, List
 
 from boto3 import client as boto3_client
 from pydantic import BaseModel
@@ -32,6 +33,21 @@ class SimpleStorageService:
     def download_file(
         self, bucket_name: str, object_name: str, local_filename: str
     ) -> None:
-        return self._client.download_file(
+        self._client.download_file(
             Bucket=bucket_name, Key=object_name, Filename=local_filename
         )
+
+    def download_folder(self, bucket_name: str, prefix: str, path: str) -> List[str]:
+        files = self._client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+        local_files: List[str] = []
+
+        if "Contents" not in files:
+            return local_files
+
+        for file in files["Contents"]:
+            object_name = file["Key"]
+            local_filename = os.path.join(path, object_name.split("/")[-1])
+            self.download_file(bucket_name, object_name, local_filename)
+            local_files.append(local_filename)
+
+        return local_files

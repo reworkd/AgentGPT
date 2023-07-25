@@ -11,6 +11,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name?: string;
   helpText?: string | React.ReactNode;
   icon?: ReactNode;
+  node_ref?: string | undefined;
 }
 
 const Dropzone = (props: Props) => {
@@ -19,12 +20,8 @@ const Dropzone = (props: Props) => {
   const workflow = useWorkflowStore.getState();
 
   const { mutateAsync: uploadFiles } = useMutation(async (files: File[]) => {
-    if (!files.length || !workflow?.workflow?.id) return;
-    await new WorkflowApi(session?.accessToken).upload(
-      workflow.workflow.id,
-      workflow.workflow.id,
-      files
-    );
+    if (!files.length || !workflow?.workflow?.id || !props.node_ref) return;
+    await new WorkflowApi(session?.accessToken).upload(workflow.workflow.id, props.node_ref, files);
   });
 
   return (

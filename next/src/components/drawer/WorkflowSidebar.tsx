@@ -132,7 +132,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
         <div key={definition?.type + inputField.name}>
           <WorkflowSidebarInput
             inputField={inputField}
-            value={selectedNode.data.block.input[inputField.name] || ""}
+            node={selectedNode}
             onChange={(val) => handleValueChange(inputField.name, val)}
             suggestions={outputFields}
           />

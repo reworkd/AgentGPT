@@ -50,7 +50,7 @@ async def update_workflow(
     workflow_id: str,
     workflow: WorkflowUpdate,
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
-) -> PresignedPost:
+) -> None:
     try:
         validate_connected_and_acyclic(workflow.to_graph())
     except ValueError as e:
@@ -58,11 +58,6 @@ async def update_workflow(
 
     await crud.update(workflow_id, workflow)
     websockets.emit(workflow_id, "workflow:updated", {"user_id": crud.user.id})
-
-    return SimpleStorageService().upload_url(
-        bucket_name="test-pdf-123",
-        object_name=workflow_id,
-    )
 
 
 class Filenames(BaseModel):

@@ -1,3 +1,5 @@
+from typing import Any
+
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 
 
@@ -7,5 +9,5 @@ class DoNothingBlock(Block):
     image_url = ""
     input: BlockIOBase
 
-    async def run(self, workflow_id) -> BlockIOBase:
+    async def run(self, *args: Any, **kwargs: Any) -> BlockIOBase:
         return BlockIOBase()

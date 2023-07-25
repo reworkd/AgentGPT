@@ -4,21 +4,23 @@ import Combo from "./combox";
 import Dropzone from "./dropzone";
 import InputWithSuggestions from "./InputWithSuggestions";
 import type { IOField } from "../services/workflow/node-block-definitions";
+import { WorkflowNode } from "../types/workflow";
+import { Node } from "reactflow";
 
 interface SidebarInputProps {
   inputField: IOField;
-  value: string;
   onChange: (value: string) => void;
   suggestions: { key: string; value: string }[];
+  node: Node<WorkflowNode> | undefined;
 }
 
-const WorkflowSidebarInput = ({ inputField, value, onChange, suggestions }: SidebarInputProps) => {
+const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: SidebarInputProps) => {
   if (inputField.type === "string" && inputField.enum) {
     return (
       <Combo
         label={inputField.name}
         items={inputField.enum}
-        value={value}
+        value={node?.data?.block?.input[inputField.name] || ""}
         valueMapper={(e) => e}
         onChange={(e) => onChange(e)}
       />
@@ -31,7 +33,7 @@ const WorkflowSidebarInput = ({ inputField, value, onChange, suggestions }: Side
           label={inputField.name}
           name={inputField.name}
           helpText={inputField.description}
-          value={value}
+          value={node?.data?.block?.input[inputField.name] || ""}
           onChange={(e) => onChange(e.target.value)}
           suggestions={suggestions}
         />
@@ -46,6 +48,7 @@ const WorkflowSidebarInput = ({ inputField, value, onChange, suggestions }: Side
         onChange={(e) => {
           onChange(e.target.value);
         }}
+        node_ref={node?.data.ref}
       />
     );
   }

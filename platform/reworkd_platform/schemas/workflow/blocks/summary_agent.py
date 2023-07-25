@@ -1,6 +1,5 @@
 import os
 import tempfile
-from typing import List
 
 import pinecone
 from langchain.chains.question_answering import load_qa_chain
@@ -9,7 +8,6 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Pinecone
-from loguru import logger
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
@@ -35,40 +33,28 @@ class SummaryAgent(Block):
     input: SummaryAgentInput
 
     async def run(self, workflow_id: str) -> BlockIOBase:
-        try:
-            input_files = ["market_report.pdf"]
-
-            with tempfile.TemporaryDirectory() as temp_dir:
-                self.download_all_files_from_s3(input_files, temp_dir)
-
-                docsearch = self.chunk_documents_to_pinecone(
-                    files=input_files,
-                    embeddings=(
-                        OpenAIEmbeddings(
-                            client=None,
-                            # Meta private value but mypy will complain its missing
-                            openai_api_key=settings.openai_api_key,
-                        )
-                    ),
-                    path=temp_dir,
-                )
-
-            response = await self.execute_query_on_pinecone(
-                company_context=self.input.company_context, docsearch=docsearch
+        with tempfile.TemporaryDirectory() as temp_dir:
+            files = SimpleStorageService().download_folder(
+                bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
             )
 
-        except Exception as err:
-            logger.error(f"Failed to extract text with OpenAI: {err}")
-            raise
+            docsearch = self.chunk_documents_to_pinecone(
+                files=files,
+                embeddings=(
+                    OpenAIEmbeddings(
+                        client=None,
+                        # Meta private value but mypy will complain its missing
+                        openai_api_key=settings.openai_api_key,
+                    )
+                ),
+                path=temp_dir,
+            )
+
+        response = await self.execute_query_on_pinecone(
+            company_context=self.input.company_context, docsearch=docsearch
+        )
 
         return SummaryAgentOutput(**self.input.dict(), result=response)
-
-    def download_all_files_from_s3(self, files: List[str], path: str) -> None:
-        s3_service = SimpleStorageService()
-        for file in files:
-            bucket_name = "test-pdf-123"
-            local_filename = os.path.join(path, file)
-            s3_service.download_file(bucket_name, file, local_filename)
 
     def chunk_documents_to_pinecone(
         self, files: list[str], embeddings: Embeddings, path: str
@@ -99,7 +85,7 @@ class SummaryAgent(Block):
         """
 
         llm = create_model(
-            ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=10000),
+            ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=2000),
             UserBase(id="", name=None, email="test@example.com"),
             streaming=False,
         )

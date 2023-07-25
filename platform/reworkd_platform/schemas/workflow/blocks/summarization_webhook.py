@@ -1,6 +1,5 @@
 import os
 import tempfile
-from typing import List, Tuple
 
 import pinecone
 from langchain.chains.question_answering import load_qa_chain
@@ -38,9 +37,8 @@ class SummaryWebhook(Block):
 
     async def run(self) -> BlockIOBase:
         try:
-            s3_folder = "f5957ef2-fca6-449a-9545-8e62b67116d6"
+            s3_folder = "f5957ef2-fca6-449a-9545-8e62b67116d6"  # TODO: Change this to the correct folder (should be workflow folder)
             docsearch = await build_pinecone_docsearch(s3_folder)
-
             response = await execute_query_on_pinecone(
                 prompt=self.input.prompt, docsearch=docsearch
             )
@@ -53,16 +51,19 @@ class SummaryWebhook(Block):
 
 
 async def build_pinecone_docsearch(s3_folder: str) -> Pinecone:
-    temp_dir, file_paths = download_all_files_from_s3(s3_folder)
-    start_pinecone()
-    embeddings1: Embeddings = OpenAIEmbeddings(
-        client=None,  # Meta private value but mypy will complain its missing
-        openai_api_key=settings.openai_api_key,
-    )
-    embeddings = embeddings1
-    docsearch = chunk_documents_to_pinecone(
-        embeddings=embeddings, temp_dir=str(temp_dir)
-    )
+    with tempfile.TemporaryDirectory() as temp_dir:
+        download_all_files_from_s3(s3_folder, temp_dir)
+        start_pinecone()
+
+        docsearch = chunk_documents_to_pinecone(
+            embeddings=(
+                OpenAIEmbeddings(
+                    client=None,  # Meta private value but mypy will complain its missing
+                    openai_api_key=settings.openai_api_key,
+                )
+            ),
+            temp_dir=str(temp_dir),
+        )
 
     return docsearch
 
@@ -75,24 +76,21 @@ def start_pinecone() -> None:
 
 def download_all_files_from_s3(
     s3_folder: str,
-) -> Tuple[tempfile.TemporaryDirectory[str], List[str]]:
-    temp_dir = tempfile.TemporaryDirectory()
+    download_dir: str,
+) -> None:
     s3_service = SimpleStorageService()
 
-    file_paths = []
     for file in s3_service.list_files(bucket_name="test-pdf-123", prefix=s3_folder):
-        file_paths.append(download_file_from_s3(file, temp_dir, s3_service))
-
-    return temp_dir, file_paths
+        download_file_from_s3(file, download_dir, s3_service)
 
 
 def download_file_from_s3(
     filename: str,
-    temp_dir: tempfile.TemporaryDirectory[str],
+    temp_dir: str,
     s3_service: SimpleStorageService,
 ) -> None:
     bucket_name = "test-pdf-123"
-    local_file_path = os.path.join(temp_dir.name, filename.split("/")[-1])
+    local_file_path = os.path.join(temp_dir, filename.split("/")[-1])
     s3_service.download_file(bucket_name, filename, local_file_path)
 
 

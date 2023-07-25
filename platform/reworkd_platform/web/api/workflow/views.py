@@ -1,6 +1,6 @@
-from typing import List, Dict
+from typing import Dict, List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException
 from pydantic import BaseModel
 
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
@@ -14,6 +14,7 @@ from reworkd_platform.services.kafka.producers.task_producer import WorkflowTask
 from reworkd_platform.services.networkx import validate_connected_and_acyclic
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
+from reworkd_platform.web.api.http_responses import forbidden
 
 router = APIRouter()
 
@@ -107,4 +108,34 @@ async def trigger_workflow(
         workflow=workflow,
     ).start()
 
+    return "OK"
+
+
+class APITriggerInput(BaseModel):
+    message: str
+
+
+@router.post("/{workflow_id}/api")
+async def trigger_workflow_api(
+    workflow_id: str,
+    body: APITriggerInput = Body(...),
+    producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
+    crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+) -> str:
+    """Trigger a workflow that takes an APITrigger as an input."""
+    # TODO: Validate user API key has access to run workflow
+    workflow = await crud.get(workflow_id)
+
+    plan = ExecutionEngine.create_execution_plan(
+        producer=producer,
+        workflow=workflow,
+    )
+
+    if plan.workflow.queue[0].block.type == "APITriggerBlock":
+        forbidden("API trigger not defined for this workflow")
+
+    # Place input from API call into trigger input
+    plan.workflow.queue[0].block.input = body
+
+    await plan.start()
     return "OK"

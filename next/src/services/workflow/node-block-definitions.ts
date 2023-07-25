@@ -172,16 +172,10 @@ const APITriggerBlockDefinition: NodeBlockDefinition = {
   description: "Trigger a workflow through an API call.",
   icon: FaBolt,
   image_url: "/tools/web.png",
-  input_fields: [
-    {
-      name: "input",
-      description: "Input string to be used in downstream tasks",
-      type: "string",
-    },
-  ],
+  input_fields: [],
   output_fields: [
     {
-      name: "input",
+      name: "message",
       description: "Input string to the API call",
       type: "string",
     },

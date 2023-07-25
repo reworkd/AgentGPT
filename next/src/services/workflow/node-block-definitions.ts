@@ -1,6 +1,6 @@
 import type { IconType } from "react-icons";
-import { FaBolt } from "react-icons/all";
 import {
+  FaBolt,
   FaCodeBranch,
   FaCopy,
   FaFileUpload,

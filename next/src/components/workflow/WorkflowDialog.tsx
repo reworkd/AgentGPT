@@ -13,7 +13,7 @@ const WorkflowDialog = ({
   showDialog,
   setShowDialog,
 }: {
-  workflow?: WorkflowMeta;
+  workflow: WorkflowMeta | null;
   openWorkflow: () => void;
   editWorkflow: (workflow: WorkflowMeta) => void;
   createWorkflow: (name: string, description: string) => void;

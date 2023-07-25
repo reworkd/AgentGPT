@@ -179,7 +179,13 @@ const APITriggerBlockDefinition: NodeBlockDefinition = {
       type: "string",
     },
   ],
-  output_fields: [],
+  output_fields: [
+    {
+      name: "input",
+      description: "Input string to the API call",
+      type: "string",
+    },
+  ],
 };
 
 const ManualTriggerBlockDefinition: NodeBlockDefinition = {

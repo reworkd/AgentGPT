@@ -9,14 +9,13 @@ import TextButton from "../TextButton";
 const WorkflowDialog = ({
   workflow,
   openWorkflow,
-  editWorkflow,
+  saveWorkflow,
   showDialog,
   setShowDialog,
 }: {
   workflow: WorkflowMeta | null;
   openWorkflow: () => void;
-  editWorkflow: (workflow: WorkflowMeta) => void;
-  createWorkflow: (name: string, description: string) => void;
+  saveWorkflow: (workflow: WorkflowMeta) => void;
   showDialog: boolean;
   setShowDialog: (boolean) => void;
 }) => {
@@ -39,7 +38,7 @@ const WorkflowDialog = ({
 
     const workflowMeta = { ...workflow, name, description };
     setIsError(false);
-    editWorkflow(workflowMeta);
+    saveWorkflow(workflowMeta);
     setShowDialog(false);
   };
 
@@ -53,8 +52,14 @@ const WorkflowDialog = ({
       actions={
         <>
           <PrimaryButton onClick={() => openWorkflow()}>Open</PrimaryButton>
-          <TextButton onClick={handleEdit}>Edit</TextButton>
-          <TextButton onClick={() => setShowDialog(false)}>Close</TextButton>
+          <div className="flex w-full justify-between">
+            <TextButton className="flex-1" onClick={() => setShowDialog(false)}>
+              Close
+            </TextButton>
+            <TextButton className="flex-1" onClick={handleEdit}>
+              Save
+            </TextButton>
+          </div>
         </>
       }
     >

@@ -58,6 +58,11 @@ class Edge(BaseModel):
     target: str
 
 
+class WorkflowCreate(BaseModel):
+    name: str
+    description: str
+
+
 class Workflow(BaseModel):
     id: str
     user_id: str

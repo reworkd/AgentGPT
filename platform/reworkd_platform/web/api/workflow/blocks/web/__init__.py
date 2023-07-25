@@ -5,9 +5,8 @@ from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent impor
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
-from reworkd_platform.schemas.workflow.blocks.summarization_webhook import (
-    SummaryWebhook,
-)
+from reworkd_platform.schemas.workflow.blocks.summary_agent import SummaryAgent
+from reworkd_platform.schemas.workflow.blocks.openai_agent import OpenAIContextAgent
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
     APITriggerBlock,
@@ -35,8 +34,10 @@ def get_block_runner(block: Block) -> Block:
         return SlackWebhook(**block.dict())
     if block.type == "TextInputWebhook":
         return TextInputWebhook(**block.dict())
-    if block.type == "SummaryWebhook":
-        return SummaryWebhook(**block.dict())
+    if block.type == "SummaryAgent":
+        return SummaryAgent(**block.dict())
+    if block.type == "OpenAIAgent":
+        return OpenAIContextAgent(**block.dict())
     if block.type == "FileUploadBlock":
         return DoNothingBlock(**block.dict())
     else:

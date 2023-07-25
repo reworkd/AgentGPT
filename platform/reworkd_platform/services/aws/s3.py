@@ -32,4 +32,6 @@ class SimpleStorageService:
     def download_file(
         self, bucket_name: str, object_name: str, local_filename: str
     ) -> None:
-        return self._client.download_file(bucket_name, object_name, local_filename)
+        return self._client.download_file(
+            Bucket=bucket_name, Key=object_name, Filename=local_filename
+        )

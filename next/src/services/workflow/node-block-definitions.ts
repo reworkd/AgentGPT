@@ -91,16 +91,48 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const SummaryWebhookBlockDefinition: NodeBlockDefinition = {
+const OpenAIAgentBlockDefinition: NodeBlockDefinition = {
+  name: "OpenAI Agent",
+  type: "OpenAIAgent",
+  description: "Retrieve industry details",
+  image_url: "/tools/web.png",
+  icon: FaCopy,
+  input_fields: [
+    {
+      name: "company_name",
+      description: "enter name of company",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
+const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
-  type: "SummaryWebhook",
+  type: "SummaryAgent",
   description: "Summarize or extract key details from text using OpenAI",
   image_url: "/tools/web.png",
   icon: FaCopy,
   input_fields: [
     {
-      name: "prompt",
-      description: "What do you want to do with the text?",
+      name: "company_context",
+      description: "reference a company's context so we can retrieve relevant info from docs",
+      type: "string",
+    },
+    {
+      name: "filename1",
+      description: "file to extract info from",
+      type: "string",
+    },
+    {
+      name: "filename2",
+      description: "file to extract info from",
       type: "string",
     },
   ],
@@ -122,7 +154,7 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   input_fields: [
     {
       name: "text",
-      description: "What text would you like to extract information from?",
+      description: "Enter text",
       type: "string",
     },
   ],
@@ -237,7 +269,8 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     IfBlockDefinition,
     WebInteractionAgentBlockDefinition,
     ManualTriggerBlockDefinition,
-    SummaryWebhookBlockDefinition,
+    SummaryAgentBlockDefinition,
+    OpenAIAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
   ];

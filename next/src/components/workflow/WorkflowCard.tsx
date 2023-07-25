@@ -14,12 +14,12 @@ export default function WorkflowCard({ workflow, onClick }: Props) {
   return (
     <motion.div
       layoutId={`workflow-card-${workflow.id}`}
-      className="background-color-1 border-color-1 flex cursor-pointer flex-col gap-3 rounded-2xl border p-6"
+      className="background-color-1 hover:background-color-2 border-color-1 hover:border-color-2 flex cursor-pointer flex-col gap-3 rounded-md border p-6 transition-colors duration-300"
       onClick={onClick}
     >
       <motion.div layoutId={`workflow-card-text-${workflow.id}`}>
         <h1 className="text-color-primary font-bold">{workflow.name}</h1>
-        <p className="text-color-secondary">{workflow.description}</p>
+        <p className="text-color-secondary text-sm">{workflow.description}</p>
         {workflow.organization_id && (
           <p className="text-color-secondary">Org: {workflow.organization_id}</p>
         )}
@@ -38,6 +38,7 @@ type WorkflowCardDialogProps = {
   onClose: () => void;
 };
 
+// Note, this is currently not being used.
 export function WorkflowCardDialog({
   workflow,
   onEdit,

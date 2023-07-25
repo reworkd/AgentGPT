@@ -25,7 +25,7 @@ const Switch = ({ value, disabled = false, onChange }: SwitchProps) => {
       className={clsx(
         "group",
         "radix-state-checked:bg-sky-600 radix-state-unchecked:bg-zinc-500 dark:radix-state-unchecked:bg-zinc-500",
-        "relative inline-flex h-4 w-7 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out",
+        "relative inline-flex h-4 w-7 flex-shrink-0 rounded-full border border-transparent transition-colors duration-200 ease-in-out",
         "focus:outline-none focus-visible:ring focus-visible:ring-sky-500 focus-visible:ring-opacity-75",
         disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer "
       )}

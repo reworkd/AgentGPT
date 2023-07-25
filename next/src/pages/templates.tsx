@@ -27,14 +27,14 @@ const Templates = () => {
         <FadeIn initialX={-45} initialY={0} delay={0.1}>
           <div>
             <h1 className="text-4xl font-bold text-white">Templates</h1>
-            <h2 className="mb-4 text-xl font-thin text-white">
+            <h2 className="text-xl font-thin text-white">
               Customizable and ready to deploy agents
             </h2>
           </div>
         </FadeIn>
-        <FadeIn initialY={45} delay={0.1}>
+        <FadeIn initialY={45} delay={0.1} className="mt-4">
           <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
-          <div className="grid grid-cols-1 justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-3 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredData.map((model) => (
               <TemplateCard key={model.name + model.description} model={model} />
             ))}

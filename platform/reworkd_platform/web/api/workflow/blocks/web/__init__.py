@@ -5,6 +5,7 @@ from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent impor
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 from reworkd_platform.schemas.workflow.blocks.openai_agent import OpenAIContextAgent
+from reworkd_platform.schemas.workflow.blocks.pdf.diff_pdf import DiffPDF
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.summary_agent import SummaryAgent
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
@@ -22,6 +23,8 @@ from reworkd_platform.schemas.workflow.blocks.url_status_check import (
 def get_block_runner(block: Block) -> Block:
     if block.type == "IfCondition":
         return IfCondition(**block.dict())
+    if block.type == "DiffPDF":
+        return DiffPDF(**block.dict())
     if block.type == "WebInteractionAgent":
         return WebInteractionAgent(**block.dict())
     if block.type == "APITriggerBlock":

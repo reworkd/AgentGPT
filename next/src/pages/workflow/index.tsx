@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
 
 import nextI18NextConfig from "../../../next-i18next.config";
+import CreateWorkflowDialog from "../../components/workflow/CreateWorkflowDialog";
 import EmptyWorkflowButton from "../../components/workflow/EmptyWorkflow";
 import WorkflowCard, { WorkflowCardDialog } from "../../components/workflow/WorkflowCard";
 import { useAuth } from "../../hooks/useAuth";
@@ -26,6 +27,19 @@ const WorkflowList: NextPage = () => {
 
   const data = query.data ?? [];
   const [selectedWorkflow, setSelectedWorkflow] = useState<WorkflowMeta | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
+
+  const handleCreateWorkflow = (name: string, description: string) => {
+    api
+      .create({
+        name: name,
+        description: description,
+      })
+      .then((workflow) => {
+        void router.push(`workflow/${workflow.id}`);
+      })
+      .catch(console.error);
+  };
 
   return (
     <DashboardLayout>
@@ -42,15 +56,7 @@ const WorkflowList: NextPage = () => {
           ))}
           <EmptyWorkflowButton
             onClick={() => {
-              api
-                .create({
-                  name: "New Workflow",
-                  description: "New Workflow",
-                })
-                .then((workflow) => {
-                  void router.push(`workflow/${workflow.id}`);
-                })
-                .catch(console.error);
+              setShowDialog(true);
             }}
           />
         </div>
@@ -73,6 +79,11 @@ const WorkflowList: NextPage = () => {
           />
         )}
       </LayoutGroup>
+      <CreateWorkflowDialog
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        createWorkflow={handleCreateWorkflow}
+      />
     </DashboardLayout>
   );
 };

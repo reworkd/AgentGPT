@@ -72,7 +72,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
     href: "/organization",
     icon: FaBusinessTime,
     className: "transition-transform group-hover:scale-110",
-    enabled: true,
+    enabled: (user) => !!user && user.organizations.length > 0
   }
 ];
 

@@ -92,10 +92,10 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const OpenAIAgentBlockDefinition: NodeBlockDefinition = {
-  name: "OpenAI Agent",
-  type: "OpenAIAgent",
-  description: "Retrieve industry details",
+const CompanyContextAgentBlockDefinition: NodeBlockDefinition = {
+  name: "Company Context Agent",
+  type: "CompanyContextAgent",
+  description: "Retrieve market, industry, and product summary of a specific company",
   image_url: "/tools/web.png",
   icon: FaCopy,
   input_fields: [
@@ -311,7 +311,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     WebInteractionAgentBlockDefinition,
     ManualTriggerBlockDefinition,
     SummaryAgentBlockDefinition,
-    OpenAIAgentBlockDefinition,
+    CompanyContextAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
     GenericLLMAgentBlockDefinition

@@ -4,7 +4,9 @@ from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent impor
 )
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
-from reworkd_platform.schemas.workflow.blocks.openai_agent import OpenAIContextAgent
+from reworkd_platform.schemas.workflow.blocks.company_context_agent import (
+    CompanyContextAgent,
+)
 from reworkd_platform.schemas.workflow.blocks.pdf.diff_pdf import DiffPDF
 from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.summary_agent import SummaryAgent
@@ -42,8 +44,8 @@ def get_block_runner(block: Block) -> Block:
         return TextInputWebhook(**block.dict())
     if block.type == "SummaryAgent":
         return SummaryAgent(**block.dict())
-    if block.type == "OpenAIAgent":
-        return OpenAIContextAgent(**block.dict())
+    if block.type == "CompanyContextAgent":
+        return CompanyContextAgent(**block.dict())
     if block.type == "FileUploadBlock":
         return DoNothingBlock(**block.dict())
     if block.type == "GenericLLMAgent":

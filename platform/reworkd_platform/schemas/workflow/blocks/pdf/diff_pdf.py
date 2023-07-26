@@ -7,6 +7,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.services.aws.s3 import SimpleStorageService
 
 
 class DiffPDFInput(BlockIOBase):
@@ -27,9 +28,19 @@ class DiffPDF(Block):
         with io.BytesIO() as diff_pdf_file:
             diffs = get_diff(self.input.original, self.input.updated)
             diff_pdf_file = get_diff_pdf(diffs, diff_pdf_file)
-            print(diff_pdf_file)
 
-            return DiffPDFOutput(file_url="# TODO: Save file to S3 and return the URL")
+            # Package PDF
+            s3_service = SimpleStorageService()
+            await s3_service.upload_pdf_to_bucket(
+                bucket_name="test-pdf-123",
+                object_name="pdfs/output.pdf",
+                file=diff_pdf_file,
+            )
+            file_url = s3_service.download_url(
+                bucket_name="test-pdf-123", object_name="pdfs/output.pdf"
+            )
+
+            return DiffPDFOutput(file_url=file_url)
 
 
 def get_diff(original: str, updated: str) -> List[str]:

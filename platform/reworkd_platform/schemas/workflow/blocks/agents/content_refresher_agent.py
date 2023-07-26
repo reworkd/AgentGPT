@@ -8,6 +8,7 @@ from scrapingbee import ScrapingBeeClient
 from bs4 import BeautifulSoup
 import anthropic
 
+
 class ContentRefresherInput(BlockIOBase):
     url: str
 
@@ -38,7 +39,8 @@ class ContentRefresherAgent(Block):
         logger.info(source_urls)
 
         source_contents = [
-            get_page_content(url) for url in source_urls[:3] # TODO: remove limit of 3 sources
+            get_page_content(url)
+            for url in source_urls[:3]  # TODO: remove limit of 3 sources
         ]  # TODO: async/multithread the LLM calls
         source_contents = [
             content for content in source_contents if content is not None
@@ -71,7 +73,7 @@ claude = anthropic.Anthropic(
 )
 
 
-def get_page_content(url):
+def get_page_content(url: str) -> str:
     page = requests.get(url)
     if page.status_code != 200:
         page = scraper.get(url)
@@ -95,14 +97,13 @@ def get_page_content(url):
     )
     line_nums = response.completion.strip()
     if len(line_nums) == 0:
-        return None
+        return ''
 
     pgraphs = pgraphs.split("\n")
     content = []
     for line_num in line_nums.split(","):
         if "-" in line_num:
-            start, end = line_num.split("-")
-            start, end = int(start), int(end)
+            start, end = map(int, line_num.split("-"))
             for i in range(start, end + 1):
                 text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
                 content.append(text)
@@ -110,11 +111,10 @@ def get_page_content(url):
             text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
             content.append(text)
 
-    content = "\n".join(content)
-    return content
+    return "\n".join(content)
 
 
-def find_content_kws(content):
+def find_content_kws(content: str) -> str:
     # Claude: find search keywords that content focuses on
     prompt = f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Format them so we can use them to query a search engine effectively."
     response = claude.completions.create(
@@ -127,12 +127,12 @@ def find_content_kws(content):
     return response_message
 
 
-def search_results(search_query):
+def search_results(search_query: str) -> list[str]:
     # use SERP API
     response = requests.post(
         f"https://google.serper.dev/search",
         headers={
-            "X-API-KEY": settings.serp_api_key,
+            "X-API-KEY": settings.serp_api_key or '',
             "Content-Type": "application/json",
         },
         params={
@@ -145,7 +145,7 @@ def search_results(search_query):
     return urls
 
 
-def find_new_info(target, source):
+def find_new_info(target: str, source: str) -> str:
     # Claude: info mentioned in source that is not mentioned in target
     prompt = f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article."
     response = claude.completions.create(
@@ -159,7 +159,7 @@ def find_new_info(target, source):
     return new_info
 
 
-def add_info(target, info):
+def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles."
     response = claude.completions.create(
@@ -173,8 +173,10 @@ def add_info(target, info):
 
 
 if __name__ == "main":
-    print('MAIN')
+    print("MAIN")
     agent = ContentRefresherAgent(
+        id="test",
+        type="ContentRefresherAgent",
         input=ContentRefresherInput(
             url="https://www.science.org/content/article/embattled-physicist-files-patent-unprecedented-ambient-superconductor"
         )

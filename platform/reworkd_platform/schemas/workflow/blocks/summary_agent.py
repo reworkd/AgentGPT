@@ -93,9 +93,7 @@ class SummaryAgent(Block):
 
         return response_message_content
 
-    def read_and_preprocess_tables(
-        self, relevant_table_metadata: defaultdict(list)
-    ) -> list[str]:
+    def read_and_preprocess_tables(self, relevant_table_metadata: defaultdict(list)) -> list[str]:
         processed = []
         parsed_dfs_from_file = []
         for source in relevant_table_metadata.keys():
@@ -105,11 +103,9 @@ class SummaryAgent(Block):
                 filtered_page_numbers.sort()
                 start_page = filtered_page_numbers[0]
                 end_page = filtered_page_numbers[-1]
-
-                pages_to_read = ",".join(str(page) for page in filtered_page_numbers)
-                parsed_dfs_from_file = tabula.read_pdf(
-                    source, pages=f"{start_page}-{end_page}"
-                )
+            
+                pages_to_read = ','.join(str(page) for page in filtered_page_numbers)
+                parsed_dfs_from_file = tabula.read_pdf(source, pages=f"{start_page}-{end_page}")
                 for df in parsed_dfs_from_file:
                     if not df.empty:
                         df_name = self.name_table(str(df.iloc[:5]))
@@ -148,16 +144,12 @@ class SummaryAgent(Block):
         docs = docsearch.similarity_search(company_context, k=7)
         relevant_table_metadata = defaultdict(list)
         for doc in docs:
-            doc_source = doc.metadata["source"]
-            page_number = int(doc.metadata["page"])
+            doc_source = doc.metadata['source']
+            page_number = int(doc.metadata['page'])
             relevant_table_metadata[doc_source].append(page_number)
 
         processed_tables = self.read_and_preprocess_tables(relevant_table_metadata)
         logger.info(f"relevant processed tables: {processed_tables}")
-
-        prompt = f"""
-        Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from. Include relevant quantitative metrics/trends from these tables to back your claims as well, do not make anything up: {processed_tables}.
-        """
 
         prompt = f"""Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from.
 

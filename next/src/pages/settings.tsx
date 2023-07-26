@@ -28,8 +28,6 @@ import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
 
-
-
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
@@ -70,7 +68,7 @@ const SettingsPage = () => {
   return (
     <DashboardLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
-        <div className="background-color-1 border-color-1 m-2 rounded-xl border-2">
+        <div className="background-color-1 border-color-1 m-2 rounded-xl border">
           <div className="border-color-1 align flex justify-between border-b-2 p-3 sm:p-5">
             <h1 className="text-color-primary text-3xl font-bold md:text-4xl">⚙ Settings</h1>
           </div>

@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa";
 
 export type DisplayProps = {
   show: boolean;
-  setShow: (boolean) => void;
+  setShow: (boolean: boolean) => void;
 };
 
 export type SidebarProps = DisplayProps & {

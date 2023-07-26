@@ -1,17 +1,18 @@
 from collections import defaultdict
 import os
 import tempfile
-
+from typing import Any
 import tabula
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
+from langchain.docstore.document import Document
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Pinecone
 import pinecone
-from llama_index.query_engine import PandasQueryEngine
 from loguru import logger
+import pandas as pd
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
@@ -39,14 +40,8 @@ class SummaryAgent(Block):
 
     async def run(self, workflow_id: str) -> BlockIOBase:
         with tempfile.TemporaryDirectory() as temp_dir:
-            # files = SimpleStorageService().download_folder(
-            #     bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
-            # )
-
             files = SimpleStorageService().download_folder(
-                bucket_name="test-pdf-123",
-                prefix="f5957ef2-fca6-449a-9545-8e62b67116d6/",
-                path=temp_dir,
+                bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
             )
 
             docsearch = self.chunk_documents_to_pinecone(
@@ -64,11 +59,10 @@ class SummaryAgent(Block):
             response = await self.execute_query_on_pinecone(
                 company_context=self.input.company_context, docsearch=docsearch
             )
-            logger.info(f"response: {response}")
 
         return SummaryAgentOutput(**self.input.dict(), result=response)
 
-    def load_pdf(self, filepath) -> list[str]:
+    def load_pdf(self, filepath: str) -> list[Document]:
         pdf_data = PyPDFLoader(filepath).load()
         return pdf_data
 
@@ -93,9 +87,11 @@ class SummaryAgent(Block):
 
         return response_message_content
 
-    def read_and_preprocess_tables(self, relevant_table_metadata: defaultdict(list)) -> list[str]:
+    def read_and_preprocess_tables(
+        self, relevant_table_metadata: dict[str, list[int]]
+    ) -> list[str]:
         processed = []
-        parsed_dfs_from_file = []
+        parsed_dfs_from_file: list[Any] | dict[str, Any] = []
         for source in relevant_table_metadata.keys():
             page_numbers = relevant_table_metadata[source]
             filtered_page_numbers = list(filter(lambda x: x != 0, page_numbers))
@@ -103,15 +99,27 @@ class SummaryAgent(Block):
                 filtered_page_numbers.sort()
                 start_page = filtered_page_numbers[0]
                 end_page = filtered_page_numbers[-1]
-            
-                pages_to_read = ','.join(str(page) for page in filtered_page_numbers)
-                parsed_dfs_from_file = tabula.read_pdf(source, pages=f"{start_page}-{end_page}")
-                for df in parsed_dfs_from_file:
-                    if not df.empty:
-                        df_name = self.name_table(str(df.iloc[:5]))
-                        processed_df = "\n".join([df.to_csv(index=False)])
-                        processed_df_with_title = "\n".join([df_name, processed_df])
-                        processed.append(processed_df_with_title)
+
+                parsed_dfs_from_file = tabula.read_pdf(
+                    source, pages=f"{start_page}-{end_page}"
+                )
+                if isinstance(parsed_dfs_from_file, list):
+                    for df in parsed_dfs_from_file:
+                        if not df.empty:
+                            df_name = self.name_table(str(df.iloc[:5]))
+                            processed_df = "\n".join([df.to_csv(index=False)])
+                            processed_df_with_title = "\n".join([df_name, processed_df])
+                            processed.append(processed_df_with_title)
+                elif isinstance(parsed_dfs_from_file, dict):
+                    for key, df in parsed_dfs_from_file.items():
+                        if not df.empty:
+                            df_name = self.name_table(str(df.iloc[:5]))
+                            processed_df = "\n".join([df.to_csv(index=False)])
+                            processed_df_with_title = "\n".join([df_name, processed_df])
+                            processed.append(processed_df_with_title)
+                else:
+                    # Handle unexpected case
+                    raise ValueError("Unexpected type encountered.")
 
         return processed
 
@@ -144,12 +152,15 @@ class SummaryAgent(Block):
         docs = docsearch.similarity_search(company_context, k=7)
         relevant_table_metadata = defaultdict(list)
         for doc in docs:
-            doc_source = doc.metadata['source']
-            page_number = int(doc.metadata['page'])
+            doc_source = doc.metadata["source"]
+            page_number = int(doc.metadata["page"])
             relevant_table_metadata[doc_source].append(page_number)
 
         processed_tables = self.read_and_preprocess_tables(relevant_table_metadata)
-        logger.info(f"relevant processed tables: {processed_tables}")
+
+        prompt = f"""
+        Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from. Include relevant quantitative metrics/trends from these tables to back your claims as well, do not make anything up: {processed_tables}.
+        """
 
         prompt = f"""Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from.
 

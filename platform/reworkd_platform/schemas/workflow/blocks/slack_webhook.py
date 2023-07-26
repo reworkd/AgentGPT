@@ -2,6 +2,7 @@ import requests
 from loguru import logger
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.settings import settings
 
 
 class SlackWebhookInput(BlockIOBase):
@@ -24,7 +25,37 @@ class SlackWebhook(Block):
 
         try:
             response = requests.post(
-                self.input.url, json={"message": self.input.message}
+                "https://hooks.slack.com/services/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",
+                json={
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": self.input.message,
+                            },
+                        },
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "You can view the workflow here:",
+                            },
+                            "accessory": {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "View Workflow",
+                                    "emoji": True,
+                                },
+                                "value": "click_me_123",
+                                "url": settings.frontend_url
+                                + f"/workflow/{workflow_id}",
+                                "action_id": "button-action",
+                            },
+                        },
+                    ],
+                },
             )
             response.raise_for_status()
         except requests.exceptions.RequestException as err:

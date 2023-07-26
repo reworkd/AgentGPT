@@ -73,10 +73,14 @@ class SummaryAgent(Block):
     async def execute_query_on_pinecone(self, context: str, docsearch: Pinecone) -> str:
         docs = docsearch.similarity_search(context, k=7)
 
-        prompt = f"""
-        Help extract information relevant to a company with the following details: {context} from the following documents. Include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got each piece of information from (cite the source). If there's multiple sources, include information from all sources.
-        """
+        prompt = f"""Help extract information relevant to a company with the following details: {context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from.
+        Cite sources for sentences using the corresponding source, including the page number from original source document. Incorporate the source using a markdown link directly at the end of the sentence that the source is used in. Do not separately list sources at the end of the writing.
 
+        Example: "So this is a cited sentence at the end of a paragraph[1](Luxury Watch Market Size Report, 2023, page 17).
+        This is another sentence in the same paragraph[1](Luxury Watch Market Size Report, 2023, page 56)."
+
+        Format you response as slack markdown.
+        """
         llm = create_model(
             ModelSettings(model="gpt-3.5-turbo-16k", max_tokens=2000),
             UserBase(id="", name=None, email="test@example.com"),

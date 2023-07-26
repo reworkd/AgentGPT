@@ -12,6 +12,9 @@ from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInpu
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
     APITriggerBlock,
 )
+from reworkd_platform.schemas.workflow.blocks.generic_llm_agent import (
+    GenericLLMAgent
+)
 from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
     ManualTriggerBlock,
 )
@@ -43,5 +46,7 @@ def get_block_runner(block: Block) -> Block:
         return OpenAIContextAgent(**block.dict())
     if block.type == "FileUploadBlock":
         return DoNothingBlock(**block.dict())
+    if block.type == "GenericLLMAgentBlockDefinition":
+        return GenericLLMAgent(**block.dict())
     else:
         raise ValueError(f"Unknown block type: {block.type}")

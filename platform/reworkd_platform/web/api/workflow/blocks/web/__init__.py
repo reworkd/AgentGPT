@@ -12,9 +12,7 @@ from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInpu
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
     APITriggerBlock,
 )
-from reworkd_platform.schemas.workflow.blocks.generic_llm_agent import (
-    GenericLLMAgent
-)
+from reworkd_platform.schemas.workflow.blocks.generic_llm_agent import GenericLLMAgent
 from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
     ManualTriggerBlock,
 )

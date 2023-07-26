@@ -101,7 +101,6 @@ class SummaryAgent(Block):
                 start_page = filtered_page_numbers[0]
                 end_page = filtered_page_numbers[-1]
 
-
                 parsed_dfs_from_file = tabula.read_pdf(
                     source, pages=f"{start_page}-{end_page}"
                 )
@@ -146,7 +145,6 @@ class SummaryAgent(Block):
             embeddings,
             index_name=index_name,
         )
-
 
         return docsearch
 

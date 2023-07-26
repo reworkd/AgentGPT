@@ -42,6 +42,7 @@ python-multipart = "^0.0.6"
 pypdf = "^3.13.0"
 llama-index = "^0.7.11.post1"
 reportlab = "^4.0.4"
+tabula = "^1.0.5"
 
 
 [tool.poetry.dev-dependencies]

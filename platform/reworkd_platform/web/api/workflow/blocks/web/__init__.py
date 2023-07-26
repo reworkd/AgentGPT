@@ -46,7 +46,7 @@ def get_block_runner(block: Block) -> Block:
         return OpenAIContextAgent(**block.dict())
     if block.type == "FileUploadBlock":
         return DoNothingBlock(**block.dict())
-    if block.type == "GenericLLMAgentBlockDefinition":
+    if block.type == "GenericLLMAgent":
         return GenericLLMAgent(**block.dict())
     else:
         raise ValueError(f"Unknown block type: {block.type}")

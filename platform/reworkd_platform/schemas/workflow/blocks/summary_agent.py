@@ -92,6 +92,7 @@ class SummaryAgent(Block):
     ) -> list[str]:
         processed = []
         parsed_dfs_from_file: list[Any] | dict[str, Any] = []
+
         for source in relevant_table_metadata.keys():
             page_numbers = relevant_table_metadata[source]
             filtered_page_numbers = list(filter(lambda x: x != 0, page_numbers))
@@ -130,6 +131,7 @@ class SummaryAgent(Block):
         index = pinecone.Index(index_name)
         index.delete(delete_all=True)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+
         texts = []
         for file in files:
             filepath = os.path.join(path, file)

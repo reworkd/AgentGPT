@@ -114,6 +114,28 @@ const CompanyContextAgentBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
+  name: "Generic LLM Agent",
+  type: "GenericLLMAgent",
+  description: "OpenAI agent",
+  image_url: "/tools/web.png",
+  icon: FaCopy,
+  input_fields: [
+    {
+      name: "prompt",
+      description: "Enter a prompt",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "result",
+      description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
 const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
   type: "SummaryAgent",
@@ -292,6 +314,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     CompanyContextAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
+    GenericLLMAgentBlockDefinition
   ];
 };
 

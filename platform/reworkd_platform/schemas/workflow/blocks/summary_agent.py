@@ -158,10 +158,6 @@ class SummaryAgent(Block):
 
         processed_tables = self.read_and_preprocess_tables(relevant_table_metadata)
 
-        prompt = f"""
-        Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from. Include relevant quantitative metrics/trends from these tables to back your claims as well, do not make anything up: {processed_tables}.
-        """
-
         prompt = f"""Help extract information relevant to a company with the following details: {company_context} from the following documents. Start with the company background info. Then, include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got the information from.
 
         Also list any interesting quantitative metrics or trends based on the following tables: {processed_tables}. Include which table you got information from.

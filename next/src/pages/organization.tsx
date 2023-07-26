@@ -6,6 +6,7 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
 import PrimaryButton from "../components/PrimaryButton";
 import Input from "../ui/input";
+import { FaEllipsisH } from "react-icons/fa";
 
 const OrganizationManagement = () => {
   return (
@@ -21,7 +22,7 @@ const OrganizationManagement = () => {
             </span>
           </div>
           <div className="border-b border-white/10 p-4 mb-2">
-            <h2 className="text-2xl text-white">Logo</h2>
+            <h2 className="text-2xl font-semibold tracking-wide text-white">Logo</h2>
             <div className="w-20 h-20 rounded-lg bg-white my-2"></div>
             <span className="text-white/70 text-sm font-extralight">
               Pick a logo for your Oraganization
@@ -29,7 +30,7 @@ const OrganizationManagement = () => {
           </div>
           <div className="border-b border-white/10 p-4 mb-6">
             <div className="max-w-sm">
-              <h2 className="text-2xl text-white">General </h2>
+              <h2 className="text-2xl font-semibold tracking-wide text-white">General </h2>
               <div className="mt-4">
                 <Input
                   label="Organization Name"
@@ -46,6 +47,24 @@ const OrganizationManagement = () => {
               </div>
               <PrimaryButton className="px-4 mt-6">Update</PrimaryButton>
             </div>
+          </div>
+          <div className="p-4">
+            <div className="flex justify-between mb-6 sm:items-center">
+              <Input
+                label="Manage members"
+                name="manageMembers"
+                placeholder="Search..."
+                helpText={
+                  <span>
+                    A list of all the users in your account including their name, title, email, and role.
+                  </span>
+                }
+              />
+              <PrimaryButton className="px-3">Invite People</PrimaryButton>
+            </div>
+            <div className="mt-8 flow-root">
+              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"></div>
+            </div>           
           </div>
         </div>
       </div>

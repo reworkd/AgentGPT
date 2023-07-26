@@ -12,6 +12,9 @@ from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInpu
 from reworkd_platform.schemas.workflow.blocks.url_status_check import (
     UrlStatusCheckBlock,
 )
+from reworkd_platform.schemas.workflow.blocks.agents.content_refresher_agent import (
+    ContentRefresherAgent,
+)
 
 
 def get_block_runner(block: Block) -> Block:
@@ -19,6 +22,8 @@ def get_block_runner(block: Block) -> Block:
         return IfCondition(**block.dict())
     if block.type == "WebInteractionAgent":
         return WebInteractionAgent(**block.dict())
+    if block.type == "ContentRefresherAgent":
+        return ContentRefresherAgent(**block.dict())
     if block.type == "ManualTriggerBlock":
         return ManualTriggerBlock(**block.dict())
     if block.type == "UrlStatusCheck":

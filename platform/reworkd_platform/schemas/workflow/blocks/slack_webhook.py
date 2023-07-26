@@ -25,7 +25,7 @@ class SlackWebhook(Block):
 
         try:
             response = requests.post(
-                "https://hooks.slack.com/services/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",
+                self.input.url,
                 json={
                     "blocks": [
                         {

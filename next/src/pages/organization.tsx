@@ -6,7 +6,6 @@ import nextI18NextConfig from "../../next-i18next.config.js";
 import { languages } from "../utils/languages";
 import PrimaryButton from "../components/PrimaryButton";
 import Input from "../ui/input";
-import { FaEllipsisH } from "react-icons/fa";
 
 const OrganizationManagement = () => {
   return (
@@ -28,7 +27,7 @@ const OrganizationManagement = () => {
               Pick a logo for your Oraganization
             </span>
           </div>
-          <div className="border-b border-white/10 p-4 mb-6">
+          <div className="border-b border-white/10 p-4 mb-2">
             <div className="max-w-sm">
               <h2 className="text-2xl font-semibold tracking-wide text-white">General </h2>
               <div className="mt-4">
@@ -49,9 +48,10 @@ const OrganizationManagement = () => {
             </div>
           </div>
           <div className="p-4">
-            <div className="flex justify-between mb-6 sm:items-center">
+            <h2 className="text-2xl mb-4 font-semibold tracking-wide text-white">Manage</h2>
+            <div className="flex justify-between sm:items-center">
               <Input
-                label="Manage members"
+                label="Members"
                 name="manageMembers"
                 placeholder="Search..."
                 helpText={

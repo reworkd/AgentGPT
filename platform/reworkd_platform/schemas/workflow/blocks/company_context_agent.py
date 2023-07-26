@@ -5,18 +5,18 @@ from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.settings import settings
 
 
-class OpenAIContextAgentInput(BlockIOBase):
+class CompanyContextAgentInput(BlockIOBase):
     company_name: str
 
 
-class OpenAIContextAgentOutput(OpenAIContextAgentInput):
+class CompanyContextAgentOutput(CompanyContextAgentInput):
     result: str
 
 
-class OpenAIContextAgent(Block):
+class CompanyContextAgent(Block):
     type = "OpenAIAgent"
     description = "Extract key details from text using OpenAI"
-    input: OpenAIContextAgentInput
+    input: CompanyContextAgentInput
 
     async def run(self, workflow_id: str) -> BlockIOBase:
         try:
@@ -26,7 +26,7 @@ class OpenAIContextAgent(Block):
             logger.error(f"Failed to extract text with OpenAI: {err}")
             raise
 
-        return OpenAIContextAgentOutput(**self.input.dict(), result=response)
+        return CompanyContextAgentOutput(**self.input.dict(), result=response)
 
 
 async def execute_prompt(company: str) -> str:

@@ -1,17 +1,12 @@
-from collections import defaultdict
 import os
 import tempfile
 
-import tabula
+import pinecone
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Pinecone
-import pinecone
-from llama_index.query_engine import PandasQueryEngine
-from loguru import logger
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
@@ -19,13 +14,12 @@ from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.model_settings import create_model
-import openai
+
+INDEX_NAME = "prod"
 
 
 class SummaryAgentInput(BlockIOBase):
     company_context: str
-    filename1: str
-    filename2: str
 
 
 class SummaryAgentOutput(SummaryAgentInput):
@@ -39,56 +33,31 @@ class SummaryAgent(Block):
 
     async def run(self, workflow_id: str) -> BlockIOBase:
         with tempfile.TemporaryDirectory() as temp_dir:
-            # files = SimpleStorageService().download_folder(
-            #     bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
-            # )
-
             files = SimpleStorageService().download_folder(
-                bucket_name="test-pdf-123",
-                prefix="f5957ef2-fca6-449a-9545-8e62b67116d6/",
-                path=temp_dir,
+                bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
             )
 
             docsearch = self.chunk_documents_to_pinecone(
                 files=files,
-                embeddings=(
-                    OpenAIEmbeddings(
-                        client=None,
-                        # Meta private value but mypy will complain its missing
-                        openai_api_key=settings.openai_api_key,
-                    )
-                ),
                 path=temp_dir,
             )
 
-            response = await self.execute_query_on_pinecone(
-                company_context=self.input.company_context, docsearch=docsearch
-            )
-            logger.info(f"response: {response}")
+        response = await self.execute_query_on_pinecone(
+            context=self.input.company_context, docsearch=docsearch
+        )
 
         return SummaryAgentOutput(**self.input.dict(), result=response)
 
-    def load_pdf(self, filepath) -> list[str]:
-        pdf_data = PyPDFLoader(filepath).load()
-        return pdf_data
-
-    def name_table(self, table: str) -> str:
-        openai.api_key = settings.openai_api_key
-
-        prompt = f"""
-        Write a title for the table that is less than 9 words: {table}
-        """
-
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=1,
-            max_tokens=500,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
+    def chunk_documents_to_pinecone(self, files: list[str], path: str) -> Pinecone:
+        index = pinecone.Index(INDEX_NAME)
+        index.delete(delete_all=True)  # TODO put this in a namespace
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+        embedding = OpenAIEmbeddings(
+            client=None,
+            openai_api_key=settings.openai_api_key,
         )
 
+<<<<<<< HEAD
         response_message_content = response["choices"][0]["message"]["content"]
 
         return response_message_content
@@ -122,20 +91,22 @@ class SummaryAgent(Block):
         index = pinecone.Index(index_name)
         index.delete(delete_all=True)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+=======
+        # TODO do this async in parallel
+>>>>>>> parent of 0fea00c (read and extract info from pdf tables)
         texts = []
         for file in files:
             filepath = os.path.join(path, file)
-            # table_data = self.read_and_preprocess_tables(filepath)
-            pdf_data = self.load_pdf(filepath)
+            pdf_data = PyPDFLoader(filepath).load()
             texts.extend(text_splitter.split_documents(pdf_data))
-            # texts.extend(text_splitter.create_documents(table_data))
 
-        docsearch = Pinecone.from_documents(
-            [t for t in texts],
-            embeddings,
-            index_name=index_name,
+        return Pinecone.from_texts(
+            [t.page_content for t in texts],
+            embedding,
+            index_name=INDEX_NAME,
         )
 
+<<<<<<< HEAD
         return docsearch
 
     async def execute_query_on_pinecone(
@@ -160,6 +131,13 @@ class SummaryAgent(Block):
         Example: "This is a cited sentence. (Source: Luxury Watch Market Size Report, Page 17).
 
         Format your response as slack markdown.
+=======
+    async def execute_query_on_pinecone(self, context: str, docsearch: Pinecone) -> str:
+        docs = docsearch.similarity_search(context, k=7)
+
+        prompt = f"""
+        Help extract information relevant to a company with the following details: {context} from the following documents. Include information relevant to the market, strategies, and products. Here are the documents: {docs}. After each point, reference the source you got each piece of information from (cite the source). If there's multiple sources, include information from all sources.
+>>>>>>> parent of 0fea00c (read and extract info from pdf tables)
         """
 
         llm = create_model(

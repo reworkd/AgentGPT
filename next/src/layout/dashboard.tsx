@@ -15,7 +15,7 @@ type SidebarSettings = {
 
 type DashboardLayoutProps = {
   children: ReactNode;
-  rightSidebar: ReactNode;
+  rightSidebar?: ReactNode;
 };
 
 const defaultState: SidebarSettings = {

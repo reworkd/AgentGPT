@@ -87,6 +87,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
   const definition = getNodeBlockDefinitionFromNode(selectedNode);
 
   const handleValueChange = (name: string, value: string) => {
+    console.log("handleValueChange", name, value);
     const updatedNode = { ...selectedNode };
     updatedNode.data.block.input[name] = value;
     updateNode(updatedNode);
@@ -97,12 +98,10 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     if (definition == undefined) return [];
 
     const outputFields = definition.output_fields;
-    return outputFields.map((outputField) => {
-      return {
-        key: `{{${ancestorNode.id}.${outputField.name}}}`,
-        value: `${definition.type}.${outputField.name}`,
-      };
-    });
+    return outputFields.map((outputField) => ({
+      key: `{{${ancestorNode.id}.${outputField.name}}}`,
+      value: `${definition.type}.${outputField.name}`,
+    }));
   });
 
   const handleAutocompleteClick = (inputField: IOField, field: { key: string; value: string }) => {

@@ -6,7 +6,7 @@ from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfC
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 from reworkd_platform.schemas.workflow.blocks.openai_agent import OpenAIContextAgent
 from reworkd_platform.schemas.workflow.blocks.pdf.diff_doc import DiffDoc
-from reworkd_platform.schemas.workflow.blocks.slack_webhook import SlackWebhook
+from reworkd_platform.schemas.workflow.blocks.slack.slack_webhook import SlackWebhook
 from reworkd_platform.schemas.workflow.blocks.summary_agent import SummaryAgent
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (

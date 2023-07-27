@@ -179,7 +179,7 @@ const DiffDocBlockDefinition: NodeBlockDefinition = {
   ],
   output_fields: [
     {
-      name: "pdf_url",
+      name: "file_url",
       description: "The URL to access the diff PDF.",
       type: "string",
     },

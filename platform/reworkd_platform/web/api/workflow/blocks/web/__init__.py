@@ -21,6 +21,7 @@ from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
 from reworkd_platform.schemas.workflow.blocks.url_status_check import (
     UrlStatusCheckBlock,
 )
+from reworkd_platform.schemas.workflow.blocks.google_sheets_upload import (GoogleSheetsUpload)
 
 
 def get_block_runner(block: Block) -> Block:
@@ -48,5 +49,7 @@ def get_block_runner(block: Block) -> Block:
         return DoNothingBlock(**block.dict())
     if block.type == "GenericLLMAgent":
         return GenericLLMAgent(**block.dict())
+    if block.type == "GoogleSheetsUpload":
+        return GoogleSheetsUpload(**block.dict())
     else:
         raise ValueError(f"Unknown block type: {block.type}")

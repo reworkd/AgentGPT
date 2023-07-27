@@ -9,7 +9,7 @@ import {
   FaPlay,
   FaRobot,
   FaSlack,
-  FaTerminal,
+  FaTerminal
 } from "react-icons/fa";
 import type { Node } from "reactflow";
 import { z } from "zod";
@@ -301,6 +301,27 @@ const FileUploadBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const GoogleSheetsBlockDefinition: NodeBlockDefinition = {
+  name: "Google Sheets Upload",
+  type: "GoogleSheetsUpload",
+  description: "Upload Google Sheets",
+  image_url: "/tools/web.png",
+  icon: FaBook,
+  input_fields: [
+    {
+      name: "sheet1_url",
+      description: "first spreadsheet to upload",
+      type: "string",
+    },
+    {
+      name: "sheet2_url",
+      description: "second spreadsheet to upload",
+      type: "string",
+    }
+  ],
+  output_fields: [],
+};
+
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     APITriggerBlockDefinition,
@@ -314,7 +335,8 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     CompanyContextAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
-    GenericLLMAgentBlockDefinition
+    GenericLLMAgentBlockDefinition,
+    GoogleSheetsBlockDefinition
   ];
 };
 

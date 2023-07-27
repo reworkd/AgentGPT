@@ -18,6 +18,16 @@ const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const { query } = useRouter();
 
+  const handleClick = async () => {
+    try {
+      await saveWorkflow();
+      window.alert('Workflow saved successfully!');
+    } catch (error) {
+      window.alert('An error occurred while saving the workflow. ' + error);
+    }
+  };
+
+
   const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode, members } =
     useWorkflow(query.workflow as string, session);
 
@@ -53,9 +63,7 @@ const WorkflowPage: NextPage = () => {
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <PrimaryButton
             icon={<FaSave size="15" />}
-            onClick={() => {
-              saveWorkflow().catch(console.error);
-            }}
+            onClick={handleClick}
           >
             Save
           </PrimaryButton>

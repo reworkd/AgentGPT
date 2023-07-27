@@ -47,7 +47,7 @@ export default class WorkflowApi {
   async update(id: string, data: Workflow) {
     return await put(
       `/api/workflow/${id}`,
-      PresignedPostSchema,
+      z.any(),
       data,
       this.accessToken,
       this.organizationId

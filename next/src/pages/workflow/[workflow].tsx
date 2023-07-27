@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FaSave } from "react-icons/fa";
 
 import nextI18NextConfig from "../../../next-i18next.config";
-import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
+import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import PrimaryButton from "../../components/PrimaryButton";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
@@ -21,16 +21,18 @@ const WorkflowPage: NextPage = () => {
   const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode, members } =
     useWorkflow(query.workflow as string, session);
 
+  const rightSideBar = (
+    <WorkflowSidebar
+      createNode={createNode}
+      updateNode={updateNode}
+      selectedNode={selectedNode}
+      nodes={nodesModel[0]}
+      edges={edgesModel[0]}
+    />
+  );
+
   return (
-    <DashboardLayout
-      rightSidebar={getWorkflowSidebar({
-        createNode,
-        selectedNode,
-        updateNode,
-        nodes: nodesModel[0],
-        edges: edgesModel[0],
-      })}
-    >
+    <DashboardLayout rightSidebar={rightSideBar}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}

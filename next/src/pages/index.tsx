@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { type GetStaticProps, type NextPage } from "next";
-import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useEffect, useRef } from "react";
@@ -19,10 +18,16 @@ import Summarize from "../components/console/SummarizeButton";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
+import TaskSidebar from "../components/drawer/TaskSidebar";
 import Input from "../components/Input";
+import Expand from "../components/motions/expand";
 import FadeIn from "../components/motions/FadeIn";
 import { useAgent } from "../hooks/useAgent";
 import { useAuth } from "../hooks/useAuth";
+import { useSettings } from "../hooks/useSettings";
+import DashboardLayout from "../layout/dashboard";
+import { AgentApi } from "../services/agent/agent-api";
+import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import { MessageService } from "../services/agent/message-service";
 import {
@@ -32,24 +37,16 @@ import {
   useMessageStore,
 } from "../stores";
 import { useAgentInputStore } from "../stores/agentInputStore";
+import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
+import { toApiModelSettings } from "../utils/interfaces";
 import { languages } from "../utils/languages";
 import { isEmptyOrBlank } from "../utils/whitespace";
-
-import DashboardLayout from "../layout/dashboard";
-import Expand from "../components/motions/expand";
-import { useSettings } from "../hooks/useSettings";
-import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
-import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
-import { AgentApi } from "../services/agent/agent-api";
-import { toApiModelSettings } from "../utils/interfaces";
-import TaskSidebar from "../components/drawer/TaskSidebar";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
   const addMessage = useMessageStore.use.addMessage();
   const messages = useMessageStore.use.messages();
   const tasks = useTaskStore.use.tasks();
-  const { query } = useRouter();
 
   const setAgent = useAgentStore.use.setAgent();
   const agentLifecycle = useAgentStore.use.lifecycle();
@@ -161,7 +158,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <DashboardLayout rightSidebar={TaskSidebar}>
+    <DashboardLayout rightSidebar={<TaskSidebar />}>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 

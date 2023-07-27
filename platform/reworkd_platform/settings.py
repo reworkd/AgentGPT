@@ -102,6 +102,11 @@ class Settings(BaseSettings):
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     max_loops: int = 25  # Maximum number of loops to run
 
+    # Settings for slack
+    slack_client_id: str = ""
+    slack_client_secret: str = ""
+    slack_redirect_uri: str = ""
+
     @property
     def kafka_consumer_group(self) -> str:
         """

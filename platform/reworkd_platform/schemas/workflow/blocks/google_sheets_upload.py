@@ -6,7 +6,7 @@ from tabula.io import read_pdf
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.docstore.document import Document
+from llama_index.readers.schema.base import Document
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Pinecone
@@ -63,7 +63,7 @@ class GoogleSheetsUpload(Block):
         loader.load_google_sheets(spreadsheet_ids)
         return loader.document_pool
 
-    def get_google_sheets_ids(self, urls):
+    def get_google_sheets_ids(self, urls: list[str]) -> list[str]:
         sheet_ids = []
         pattern = r"/d/([a-zA-Z0-9-_]+)"
 

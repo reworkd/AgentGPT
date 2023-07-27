@@ -46,6 +46,7 @@ tabula = "^1.0.5"
 aws-secretsmanager-caching = "^1.1.1.5"
 botocore = "^1.29.153"
 stripe = "^5.4.0"
+tabula-py = "^2.7.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^2.0.2"

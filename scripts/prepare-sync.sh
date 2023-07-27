@@ -1,4 +1,6 @@
 cd "$(dirname "$0")" || exit 1
+git reset --hard
+
 git fetch origin
 
 git checkout main

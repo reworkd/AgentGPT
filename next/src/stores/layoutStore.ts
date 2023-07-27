@@ -14,7 +14,7 @@ interface LayoutSlice {
 
 const initialState = {
   layout: {
-    showRightSidebar: true,
+    showRightSidebar: false,
   },
 };
 

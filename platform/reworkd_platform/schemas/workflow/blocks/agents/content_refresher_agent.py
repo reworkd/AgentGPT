@@ -170,16 +170,3 @@ def add_info(target: str, info: str) -> str:
     )
     response_message = response.completion.strip()
     return response_message
-
-
-if __name__ == "main":
-    print("MAIN")
-    agent = ContentRefresherAgent(
-        id="test",
-        type="ContentRefresherAgent",
-        input=ContentRefresherInput(
-            url="https://www.science.org/content/article/embattled-physicist-files-patent-unprecedented-ambient-superconductor"
-        )
-    )
-    output = agent.run()
-    print(output)

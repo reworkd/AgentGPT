@@ -2,7 +2,7 @@ from collections import defaultdict
 import os
 import tempfile
 from typing import Any
-import tabula
+from tabula.io import read_pdf
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
@@ -58,6 +58,8 @@ class SummaryAgent(Block):
                 company_context=self.input.company_context, docsearch=docsearch
             )
 
+        logger.info(f"SummaryAgent response: {response}")
+
         return SummaryAgentOutput(**self.input.dict(), result=response)
 
     def load_pdf(self, filepath: str) -> list[Document]:
@@ -99,7 +101,7 @@ class SummaryAgent(Block):
                 start_page = filtered_page_numbers[0]
                 end_page = filtered_page_numbers[-1]
 
-                parsed_dfs_from_file = tabula.read_pdf(
+                parsed_dfs_from_file = read_pdf(
                     source, pages=f"{start_page}-{end_page}"
                 )
                 if isinstance(parsed_dfs_from_file, list):

@@ -2,8 +2,9 @@ import io
 import os
 from typing import Dict, List
 
-import aiohttp
+from aiohttp import ClientError
 from boto3 import client as boto3_client
+from loguru import logger
 from pydantic import BaseModel
 
 REGION = "us-east-1"

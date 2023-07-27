@@ -44,20 +44,13 @@ class SimpleStorageService:
         object_name: str,
         file: io.BytesIO,
     ) -> None:
-        pre_signed_post = self.upload_url(bucket_name, object_name)
-
-        # Prepare the data for aiohttp format
-        data = aiohttp.FormData()
-        for key, value in pre_signed_post.fields.items():
-            data.add_field(key, value)
-        data.add_field("file", file, filename=object_name)
-
-        async with aiohttp.ClientSession() as session:
-            response = await session.post(pre_signed_post.url, data=data)
-
-        # Raise an exception if the upload failed
-        if response.status != 204:
-            raise Exception(f"S3 upload failed: {await response.text()}")
+        try:
+            self._client.put_object(
+                Bucket=bucket_name, Key=object_name, Body=file.getvalue()
+            )
+        except ClientError as e:
+            logger.error(e)
+            raise e
 
     def download_file(
         self, bucket_name: str, object_name: str, local_filename: str

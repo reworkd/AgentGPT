@@ -25,8 +25,6 @@ import openai
 
 class SummaryAgentInput(BlockIOBase):
     company_context: str
-    filename1: str
-    filename2: str
 
 
 class SummaryAgentOutput(SummaryAgentInput):

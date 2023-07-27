@@ -4,6 +4,10 @@ from fastapi import APIRouter, Depends, HTTPException, Form
 
 from reworkd_platform.db.crud.organization import OrganizationCrud, OrganizationUsers
 from reworkd_platform.schemas import UserBase
+from reworkd_platform.services.oauth_installers import (
+    installer_factory,
+    OAuthInstaller,
+)
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.web.api.dependencies import get_current_user
 
@@ -44,3 +48,24 @@ async def pusher_authentication(
     user: UserBase = Depends(get_current_user),
 ) -> Dict[str, str]:
     return websockets.authenticate(user, channel_name, socket_id)
+
+
+@router.get("/{provider}")
+async def oauth_install(
+    user: UserBase = Depends(get_current_user),
+    installer: OAuthInstaller = Depends(installer_factory),
+) -> str:
+    """Install an OAuth App"""
+    url = await installer.install(user)
+    print(url)
+    return url
+
+
+@router.get("/{provider}/callback")
+async def oauth_callback(
+    code: str,
+    state: str,
+    installer: OAuthInstaller = Depends(installer_factory),
+) -> None:
+    """Callback for OAuth App"""
+    return await installer.install_callback(code, state)

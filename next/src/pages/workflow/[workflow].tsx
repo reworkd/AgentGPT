@@ -1,6 +1,7 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FaSave } from "react-icons/fa";
 
@@ -17,6 +18,15 @@ import { get_avatar } from "../../utils/user";
 const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const { query } = useRouter();
+
+  const handleClick = () => {
+    saveWorkflow().catch((error) => {
+      if (error) {
+        window.alert('Error: ' + error.message);
+      }
+    });
+  };
+
 
   const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode, members } =
     useWorkflow(query.workflow as string, session);
@@ -53,9 +63,7 @@ const WorkflowPage: NextPage = () => {
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <PrimaryButton
             icon={<FaSave size="15" />}
-            onClick={() => {
-              saveWorkflow().catch(console.error);
-            }}
+            onClick={handleClick}
           >
             Save
           </PrimaryButton>

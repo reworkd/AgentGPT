@@ -41,6 +41,10 @@ pusher = "^3.3.2"
 python-multipart = "^0.0.6"
 llama-index = "^0.7.11.post1"
 reportlab = "^4.0.4"
+tabula = "^1.0.5"
+aws-secretsmanager-caching = "^1.1.1.5"
+botocore = "^1.29.153"
+stripe = "^5.4.0"
 python-docx = "^0.8.11"
 
 

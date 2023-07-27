@@ -21,7 +21,9 @@ from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
 from reworkd_platform.schemas.workflow.blocks.url_status_check import (
     UrlStatusCheckBlock,
 )
-from reworkd_platform.schemas.workflow.blocks.google_sheets_upload import (GoogleSheetsUpload)
+from reworkd_platform.schemas.workflow.blocks.google_sheets_upload import (
+    GoogleSheetsUpload,
+)
 
 
 def get_block_runner(block: Block) -> Block:

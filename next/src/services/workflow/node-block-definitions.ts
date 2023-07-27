@@ -9,7 +9,7 @@ import {
   FaPlay,
   FaRobot,
   FaSlack,
-  FaTerminal
+  FaTerminal,
 } from "react-icons/fa";
 import type { Node } from "reactflow";
 import { z } from "zod";

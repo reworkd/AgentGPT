@@ -180,10 +180,11 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const DiffPDFBlockDefinition: NodeBlockDefinition = {
-  name: "Diff PDF",
-  type: "DiffPDF",
-  description: "Create a PDF that will display the diff between an original and updated string",
+const DiffDocBlockDefinition: NodeBlockDefinition = {
+  name: "Diff Doc",
+  type: "DiffDoc",
+  description:
+    "Create a document that will display the diff between an original and updated string",
   image_url: "/tools/web.png",
   icon: FaBook,
   input_fields: [
@@ -200,7 +201,7 @@ const DiffPDFBlockDefinition: NodeBlockDefinition = {
   ],
   output_fields: [
     {
-      name: "pdf_url",
+      name: "file_url",
       description: "The URL to access the diff PDF.",
       type: "string",
     },
@@ -305,7 +306,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     APITriggerBlockDefinition,
     UrlStatusCheckBlockDefinition,
-    DiffPDFBlockDefinition,
+    DiffDocBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
     WebInteractionAgentBlockDefinition,

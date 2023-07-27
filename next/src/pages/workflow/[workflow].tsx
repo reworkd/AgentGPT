@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FaSave } from "react-icons/fa";
 
@@ -24,11 +23,7 @@ const WorkflowPage: NextPage = () => {
       await saveWorkflow();
       window.alert('Workflow saved successfully!');
     } catch (error) {
-      if (error) {
-        window.alert('An error occurred while saving the workflow. ' + error);
-      } else {
-        window.alert('An error occurred while saving the workflow.');
-      }
+      window.alert('An error occurred while saving the workflow. ' + error);
     }
   };
 

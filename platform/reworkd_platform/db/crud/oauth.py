@@ -1,14 +1,24 @@
 import secrets
 from typing import Optional
 
+from fastapi import Depends
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
+from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.db.models.auth import OauthInstallation
 from reworkd_platform.schemas import UserBase
 
 
 class OAuthCrud(BaseCrud):
+    @classmethod
+    async def inject(
+        cls,
+        session: AsyncSession = Depends(get_db_session),
+    ) -> "OAuthCrud":
+        return cls(session)
+
     async def create_installation(
         self, user: UserBase, provider: str
     ) -> OauthInstallation:

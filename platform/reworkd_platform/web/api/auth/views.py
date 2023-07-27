@@ -56,9 +56,7 @@ async def oauth_install(
     installer: OAuthInstaller = Depends(installer_factory),
 ) -> str:
     """Install an OAuth App"""
-    url = await installer.install(user)
-    print(url)
-    return url
+    return await installer.install(user)
 
 
 @router.get("/{provider}/callback")

@@ -1,8 +1,4 @@
-from typing import TypeVar
-
 from sqlalchemy.ext.asyncio import AsyncSession
-
-T = TypeVar("T", bound="BaseCrud")
 
 
 class BaseCrud:

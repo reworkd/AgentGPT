@@ -76,6 +76,12 @@ def installer_factory(
     provider: str = Path(description="OAuth Provider"),
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> OAuthInstaller:
+    """Factory for OAuth installers
+    Args:
+        provider (str): OAuth Provider (can be slack, github, etc.) (injected)
+        crud (OAuthCrud): OAuth Crud (injected)
+    """
+
     if provider in integrations:
         return integrations[provider](crud, platform_settings)
     raise NotImplementedError()

@@ -46,6 +46,7 @@ aws-secretsmanager-caching = "^1.1.1.5"
 botocore = "^1.29.153"
 stripe = "^5.4.0"
 python-docx = "^0.8.11"
+pypdf = "^3.13.0"
 
 
 [tool.poetry.dev-dependencies]

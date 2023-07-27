@@ -4,6 +4,7 @@ import type { Node } from "reactflow";
 import Combo from "./combox";
 import Dropzone from "./dropzone";
 import InputWithSuggestions from "./InputWithSuggestions";
+import OauthIntegration from "./OauthIntegration";
 import type { IOField } from "../services/workflow/node-block-definitions";
 import type { WorkflowNode } from "../types/workflow";
 
@@ -51,6 +52,10 @@ const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: Sideb
         node_ref={node?.data.ref}
       />
     );
+  }
+
+  if (inputField.type === "oauth") {
+    return <OauthIntegration></OauthIntegration>;
   }
 
   return <></>;

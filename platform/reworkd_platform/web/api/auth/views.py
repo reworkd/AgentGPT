@@ -1,6 +1,7 @@
 from typing import Annotated, Dict
 
 from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi.responses import RedirectResponse
 
 from reworkd_platform.db.crud.organization import OrganizationCrud, OrganizationUsers
 from reworkd_platform.schemas import UserBase
@@ -9,6 +10,7 @@ from reworkd_platform.services.oauth_installers import (
     OAuthInstaller,
 )
 from reworkd_platform.services.sockets import websockets
+from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
 
 router = APIRouter()
@@ -52,11 +54,12 @@ async def pusher_authentication(
 
 @router.get("/{provider}")
 async def oauth_install(
+    redirect: str = settings.frontend_url,  # TODO: seems like a bug that fastapi wont inject here
     user: UserBase = Depends(get_current_user),
     installer: OAuthInstaller = Depends(installer_factory),
 ) -> str:
     """Install an OAuth App"""
-    return await installer.install(user)
+    return await installer.install(user, redirect)
 
 
 @router.get("/{provider}/callback")
@@ -64,6 +67,8 @@ async def oauth_callback(
     code: str,
     state: str,
     installer: OAuthInstaller = Depends(installer_factory),
-) -> None:
+) -> RedirectResponse:
     """Callback for OAuth App"""
-    return await installer.install_callback(code, state)
+    creds = await installer.install_callback(code, state)
+
+    return RedirectResponse(url=creds.redirect_uri)

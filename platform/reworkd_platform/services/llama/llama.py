@@ -9,11 +9,6 @@ from llama_index.readers.schema.base import Document
 REGION = "us-east-1"
 
 
-class PresignedPost(BaseModel):
-    url: str
-    fields: Dict[str, str]
-
-
 class LlamaLoader:
     def __init__(self) -> None:
         self.document_pool: list[Document] = []

@@ -58,8 +58,6 @@ class SummaryAgent(Block):
                 company_context=self.input.company_context, docsearch=docsearch
             )
 
-        logger.info(f"SummaryAgent response: {response}")
-
         return SummaryAgentOutput(**self.input.dict(), result=response)
 
     def load_pdf(self, filepath: str) -> list[Document]:

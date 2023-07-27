@@ -19,12 +19,17 @@ const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const { query } = useRouter();
 
-  const handleClick = () => {
-    saveWorkflow().catch((error) => {
+  const handleClick = async () => {
+    try {
+      await saveWorkflow();
+      window.alert('Workflow saved successfully!');
+    } catch (error) {
       if (error) {
-        window.alert('Error: ' + error.message);
+        window.alert('An error occurred while saving the workflow. ' + error);
+      } else {
+        window.alert('An error occurred while saving the workflow.');
       }
-    });
+    }
   };
 
 

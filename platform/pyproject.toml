@@ -43,7 +43,9 @@ pypdf = "^3.13.0"
 llama-index = "^0.7.11.post1"
 reportlab = "^4.0.4"
 tabula = "^1.0.5"
-
+aws-secretsmanager-caching = "^1.1.1.5"
+botocore = "^1.29.153"
+stripe = "^5.4.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^2.0.2"

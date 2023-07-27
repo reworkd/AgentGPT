@@ -25,8 +25,6 @@ import openai
 
 class SummaryAgentInput(BlockIOBase):
     company_context: str
-    filename1: str
-    filename2: str
 
 
 class SummaryAgentOutput(SummaryAgentInput):
@@ -84,6 +82,8 @@ class SummaryAgent(Block):
         )
 
         response_message_content = response["choices"][0]["message"]["content"]
+
+        logger.info(f"response: {response_message_content}")
 
         return response_message_content
 

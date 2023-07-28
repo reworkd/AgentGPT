@@ -45,17 +45,17 @@ const welcome = () => {
                         className="m-4"
                     />
                 </motion.div>
-                <FadeIn duration={2} delay={1.5}>
+                <FadeIn duration={2} delay={.5}>
                     <h1 className="text-white font-semibold tracking-widest text-4xl mb-6">
                         Welcome to Reworkd
                     </h1>
                 </FadeIn >
-                <FadeIn duration={2} delay={2.5}>
+                <FadeIn duration={2} delay={1}>
                     <p className="text-white/50 max-w-lg text-center font-light mb-8">
                          Reworkd allows you to leverage AI Agents to automate business workflows you once spent countless human hours on. Experience a new way of working.
                     </p>
                 </FadeIn>
-                <FadeIn duration={2} delay={3.5}>
+                <FadeIn duration={2} delay={1.5}>
                     <PrimaryButton className="px-16" onClick={handleButtonClick}>
                         Get Started
                     </PrimaryButton>

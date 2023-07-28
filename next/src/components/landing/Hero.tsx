@@ -82,7 +82,7 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
             target="_blank"
             className="hidden md:flex"
           >
-            <span className="tracking-wider text-gray-300">Reworkd raises $1.25M pre-seed</span>
+            <span className="tracking-wider text-gray-300">Reworkd raises a $1.25M pre-seed</span>
           </BannerBadge>
           <div className="flex flex-col items-center md:items-start">
             <h1 className="resend-font-effect-hero bg-gradient-to-br from-white to-white/30 bg-clip-text pb-2 text-center text-5xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
@@ -168,7 +168,7 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
               }}
             >
               <>
-                <span className="py-2">AI Agents</span>
+                <span className="py-2">Try demo</span>
                 <FaChevronRight
                   size="12"
                   className="text-gray-400 transition-transform group-hover:translate-x-1"

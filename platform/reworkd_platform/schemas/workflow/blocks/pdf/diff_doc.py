@@ -7,6 +7,7 @@ from docx.shared import RGBColor
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
+from reworkd_platform.settings import settings
 
 
 class DiffDocInput(BlockIOBase):
@@ -32,12 +33,12 @@ class DiffDoc(Block):
 
             s3_service = SimpleStorageService()
             await s3_service.upload_to_bucket(
-                bucket_name="test-pdf-123",
+                bucket_name=settings.s3_bucket_name,
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
                 file=diff_doc_file,
             )
-            file_url = s3_service.download_url(
-                bucket_name="test-pdf-123",
+            file_url = s3_service.create_presigned_download_url(
+                bucket_name=settings.s3_bucket_name,
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
             )
 

@@ -10,6 +10,7 @@ from pydantic import BaseModel
 REGION = "us-east-1"
 
 
+# noinspection SpellCheckingInspection
 class PresignedPost(BaseModel):
     url: str
     fields: Dict[str, str]
@@ -21,7 +22,7 @@ class SimpleStorageService:
     ) -> None:
         self._client = boto3_client("s3", region_name=REGION)
 
-    def upload_url(
+    def create_presigned_upload_url(
         self,
         bucket_name: str,
         object_name: str,
@@ -33,7 +34,7 @@ class SimpleStorageService:
             )
         )
 
-    def download_url(self, bucket_name: str, object_name: str) -> str:
+    def create_presigned_download_url(self, bucket_name: str, object_name: str) -> str:
         return self._client.generate_presigned_url(
             "get_object",
             Params={"Bucket": bucket_name, "Key": object_name},

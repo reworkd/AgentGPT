@@ -14,11 +14,8 @@ def test_create_signed_post(mocker):
     )
 
     assert (
-        SimpleStorageService()
-        .upload_url(
-            bucket_name="test-pdf-123",
-            object_name="test",
+        SimpleStorageService().create_presigned_upload_url(
+            bucket_name="test_bucket", object_name="json"
         )
-        .dict()
         == post_url
     )

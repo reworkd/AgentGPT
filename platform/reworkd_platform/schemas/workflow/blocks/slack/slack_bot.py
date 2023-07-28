@@ -16,7 +16,7 @@ class SlackWebhookOutput(SlackWebhookInput):
     message: str
 
 
-class SlackWebhook(Block):
+class SlackMessageBlock(Block):
     type = "SlackWebhook"
     description = "Sends a message to a slack webhook"
     input: SlackWebhookInput

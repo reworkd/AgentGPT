@@ -17,6 +17,7 @@ from reworkd_platform.services.kafka.producers.task_producer import WorkflowTask
 from reworkd_platform.services.networkx import validate_connected_and_acyclic
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
+from reworkd_platform.settings import settings
 from reworkd_platform.web.api.http_responses import forbidden
 
 router = APIRouter()
@@ -73,8 +74,8 @@ def upload_block(
 ) -> Dict[str, PresignedPost]:
     """Upload a file to a block"""
     return {
-        file: SimpleStorageService().upload_url(
-            bucket_name="test-pdf-123",
+        file: SimpleStorageService().create_presigned_upload_url(
+            bucket_name=settings.s3_bucket_name,
             object_name=f"{workflow_id}/{block_id}/{file}",
         )
         for file in body.files

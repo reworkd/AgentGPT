@@ -6,7 +6,6 @@ from typing import Any
 import openai
 import pinecone
 from langchain.chains.question_answering import load_qa_chain
-from langchain.docstore.document import Document
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
@@ -38,7 +37,9 @@ class SummaryAgent(Block):
     async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         with tempfile.TemporaryDirectory() as temp_dir:
             files = SimpleStorageService().download_folder(
-                bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
+                bucket_name=settings.s3_bucket_name,
+                prefix=f"{workflow_id}/",
+                path=temp_dir,
             )
 
             docsearch = self.chunk_documents_to_pinecone(
@@ -58,10 +59,6 @@ class SummaryAgent(Block):
             )
 
         return SummaryAgentOutput(**self.input.dict(), result=response)
-
-    def load_pdf(self, filepath: str) -> list[Document]:
-        pdf_data = PyPDFLoader(filepath).load()
-        return pdf_data
 
     def name_table(self, table: str) -> str:
         openai.api_key = settings.openai_api_key
@@ -133,7 +130,8 @@ class SummaryAgent(Block):
         for file in files:
             filepath = os.path.join(path, file)
             # table_data = self.read_and_preprocess_tables(filepath)
-            pdf_data = self.load_pdf(filepath)
+            data = PyPDFLoader(filepath).load()
+            pdf_data = data
             texts.extend(text_splitter.split_documents(pdf_data))
             # texts.extend(text_splitter.create_documents(table_data))
 

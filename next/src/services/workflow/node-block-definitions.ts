@@ -342,8 +342,8 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     CompanyContextAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
-    GenericLLMAgentBlockDefinition
-    ContentRefresherAgent
+    GenericLLMAgentBlockDefinition,
+    ContentRefresherAgent,
   ];
 };
 

@@ -21,19 +21,21 @@ class OAuthInstaller(ABC):
         self.settings = settings
 
     @abstractmethod
-    async def install(self, user: UserBase) -> str:
+    async def install(self, user: UserBase, redirect_uri: str) -> str:
         raise NotImplementedError()
 
     @abstractmethod
-    async def install_callback(self, code: str, state: str) -> None:
+    async def install_callback(self, code: str, state: str) -> OauthCredentials:
         raise NotImplementedError()
 
 
 class SlackInstaller(OAuthInstaller):
     PROVIDER = "slack"
 
-    async def install(self, user: UserBase) -> str:
-        installation = await self.crud.create_installation(user, self.PROVIDER)
+    async def install(self, user: UserBase, redirect_uri: str) -> str:
+        installation = await self.crud.create_installation(
+            user, self.PROVIDER, redirect_uri
+        )
 
         return AuthorizeUrlGenerator(
             client_id=self.settings.slack_client_id,
@@ -43,7 +45,7 @@ class SlackInstaller(OAuthInstaller):
             state=installation.state,
         )
 
-    async def install_callback(self, code: str, state: str) -> None:
+    async def install_callback(self, code: str, state: str) -> OauthCredentials:
         installation = await self.crud.get_installation_by_state(state)
         if not installation:
             raise forbidden()
@@ -55,16 +57,11 @@ class SlackInstaller(OAuthInstaller):
             state=state,
         )
 
-        # We should handle token rotation / refresh tokens eventually
-        # TODO: encode token
-        await OauthCredentials(
-            installation_id=installation.id,
-            provider="slack",
-            token_type=oauth_response["token_type"],
-            access_token=oauth_response["access_token"],
-            scope=oauth_response["scope"],
-            data=oauth_response.data,
-        ).save(self.crud.session)
+        installation.token_type = oauth_response["token_type"]
+        installation.access_token = oauth_response["access_token"]
+        installation.scope = oauth_response["scope"]
+        installation.data = oauth_response.data
+        return await installation.save(self.crud.session)
 
 
 integrations = {
@@ -76,6 +73,12 @@ def installer_factory(
     provider: str = Path(description="OAuth Provider"),
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> OAuthInstaller:
+    """Factory for OAuth installers
+    Args:
+        provider (str): OAuth Provider (can be slack, github, etc.) (injected)
+        crud (OAuthCrud): OAuth Crud (injected)
+    """
+
     if provider in integrations:
         return integrations[provider](crud, platform_settings)
     raise NotImplementedError()

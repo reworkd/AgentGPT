@@ -109,6 +109,9 @@ class Settings(BaseSettings):
     slack_client_secret: str = ""
     slack_redirect_uri: str = ""
 
+    # Settings for s3
+    s3_bucket_name: str = "changeme"
+
     @property
     def kafka_consumer_group(self) -> str:
         """

@@ -1,3 +1,5 @@
+from typing import Any
+
 from loguru import logger
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
@@ -17,7 +19,7 @@ class WebInteractionAgent(Block):
     description = "Navigate a website"
     input: WebInteractionInput
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         logger.info(f"Starting {self.type}")
 
         # Rohan 🙏

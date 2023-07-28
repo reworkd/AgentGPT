@@ -1,12 +1,13 @@
 import difflib
 import io
-from typing import List
+from typing import List, Any
 
 from docx import Document
 from docx.shared import RGBColor
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
+from reworkd_platform.settings import settings
 
 
 class DiffDocInput(BlockIOBase):
@@ -25,19 +26,17 @@ class DiffDoc(Block):
     )
     input: DiffDocInput
 
-    async def run(self, workflow_id: str) -> DiffDocOutput:
+    async def run(self, workflow_id: str, **kwargs: Any) -> DiffDocOutput:
         with io.BytesIO() as diff_doc_file:
             diffs = get_diff(self.input.original, self.input.updated)
             diff_doc_file = get_diff_doc(diffs, diff_doc_file)
 
-            s3_service = SimpleStorageService()
+            s3_service = SimpleStorageService(settings.s3_bucket_name)
             await s3_service.upload_to_bucket(
-                bucket_name="test-pdf-123",
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
                 file=diff_doc_file,
             )
-            file_url = s3_service.download_url(
-                bucket_name="test-pdf-123",
+            file_url = s3_service.create_presigned_download_url(
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
             )
 

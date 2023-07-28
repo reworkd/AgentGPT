@@ -81,7 +81,7 @@ export default function NavBar() {
                   }}
                 >
                   <>
-                    <span>AI Agents</span>
+                    <span>Try demo</span>
                     <FaChevronRight
                       size="12"
                       className="transition-transform group-hover:translate-x-1"
@@ -95,7 +95,7 @@ export default function NavBar() {
                     }}
                   >
                     <>
-                      <span>Contact Us</span>
+                      <span>Join the Waitlist</span>
                       <FaChevronRight
                         size="12"
                         className="text-gray-700 transition-transform group-hover:translate-x-1"

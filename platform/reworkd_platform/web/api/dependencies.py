@@ -49,3 +49,12 @@ async def get_current_user(
         email=session.user.email,
         organization=organization,
     )
+
+
+async def get_organization(
+    user: UserBase = Depends(get_current_user),
+) -> OrganizationRole:
+    if not user.organization:
+        raise forbidden("User is not part of an organization")
+
+    return user.organization

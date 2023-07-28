@@ -49,13 +49,11 @@ class OAuthCrud(BaseCrud):
     async def get_installation_by_organization_id(
         self, organization_id: str, provider: str
     ) -> Optional[OauthCredentials]:
-        if organization_id is None:
-            return None
-
         query = select(OauthCredentials).filter(
             OauthCredentials.organization_id == organization_id,
             OauthCredentials.provider == provider,
             OauthCredentials.access_token.isnot(None),
+            OauthCredentials.organization_id.isnot(None),
         )
 
         return (await self.session.execute(query)).scalars().first()

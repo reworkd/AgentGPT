@@ -42,6 +42,7 @@ class AsyncProducer:
     async def produce(self, topic: TOPICS, data: BaseModel) -> None:
         if not self._producer:
             logger.warning("Kafka producer is not enabled")
+            logger.info(f"Would have produced {data.json()}")
             return
 
         await self._producer.send(

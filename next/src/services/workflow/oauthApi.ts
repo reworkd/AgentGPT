@@ -7,22 +7,36 @@ import { get } from "../fetch-utils";
 export default class OauthApi {
   readonly accessToken?: string;
   readonly organizationId?: string;
-  readonly redirectUri: string;
 
-  constructor(accessToken?: string, organizationId?: string, redirectUri?: string) {
+  constructor(accessToken?: string, organizationId?: string) {
     this.accessToken = accessToken;
     this.organizationId = organizationId;
-    this.redirectUri = `${env.NEXT_PUBLIC_VERCEL_URL}${redirectUri || ""}`;
   }
 
-  static fromSession(session: Session | null, redirectUri?: string) {
-    return new OauthApi(session?.accessToken, session?.user?.organizations[0]?.id, redirectUri);
+  static fromSession(session: Session | null) {
+    return new OauthApi(session?.accessToken, session?.user?.organizations[0]?.id);
   }
 
-  async install(provider: string) {
+  async install(provider: string, redirectUri?: string) {
+    const url = `${env.NEXT_PUBLIC_VERCEL_URL}${redirectUri || ""}`;
+
     return await get(
-      `/api/auth/${provider}?redirect=${encodeURIComponent(this.redirectUri)}`,
+      `/api/auth/${provider}?redirect=${encodeURIComponent(url)}`,
       z.string().url(),
+      this.accessToken,
+      this.organizationId
+    );
+  }
+  // TODO: decouple this
+  async get_info(provider: string) {
+    return await get(
+      `/api/auth/${provider}/info`,
+      z
+        .object({
+          name: z.string(),
+          id: z.string(),
+        })
+        .array(),
       this.accessToken,
       this.organizationId
     );

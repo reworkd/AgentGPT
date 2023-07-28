@@ -3,6 +3,7 @@ from typing import Dict, List
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.schemas.workflow.base import (
     BlockIOBase,
@@ -94,13 +95,17 @@ async def trigger_workflow(
     workflow_id: str,
     producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+    creds: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> str:
     """Trigger a workflow by id."""
     workflow = await crud.get(workflow_id)
 
+    print(crud.user)
+
     await ExecutionEngine.create_execution_plan(
         producer=producer,
         workflow=workflow,
+        credentials=await creds.get_all(crud.user),
     ).start()
 
     return "OK"
@@ -116,6 +121,7 @@ async def trigger_workflow_api(
     body: APITriggerInput,
     producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+    creds: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> str:
     """Trigger a workflow that takes an APITrigger as an input."""
     # TODO: Validate user API key has access to run workflow
@@ -124,6 +130,7 @@ async def trigger_workflow_api(
     plan = ExecutionEngine.create_execution_plan(
         producer=producer,
         workflow=workflow,
+        credentials=await creds.get_all(crud.user),
     )
 
     if plan.workflow.queue[0].block.type == "APITriggerBlock":

@@ -1,8 +1,8 @@
 import secrets
-from typing import Optional
+from typing import Optional, Dict
 
 from fastapi import Depends
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud
@@ -34,3 +34,45 @@ class OAuthCrud(BaseCrud):
         query = select(OauthCredentials).filter(OauthCredentials.state == state)
 
         return (await self.session.execute(query)).scalar_one_or_none()
+
+    async def get_installation_by_user_id(
+        self, user_id: str, provider: str
+    ) -> Optional[OauthCredentials]:
+        query = select(OauthCredentials).filter(
+            OauthCredentials.user_id == user_id,
+            OauthCredentials.provider == provider,
+            OauthCredentials.access_token.isnot(None),
+        )
+
+        return (await self.session.execute(query)).scalars().first()
+
+    async def get_installation_by_organization_id(
+        self, organization_id: str, provider: str
+    ) -> Optional[OauthCredentials]:
+        if organization_id is None:
+            return None
+
+        query = select(OauthCredentials).filter(
+            OauthCredentials.organization_id == organization_id,
+            OauthCredentials.provider == provider,
+            OauthCredentials.access_token.isnot(None),
+        )
+
+        return (await self.session.execute(query)).scalars().first()
+
+    async def get_all(self, user: UserBase) -> Dict[str, str]:
+        query = (
+            select(
+                OauthCredentials.provider, func.any_value(OauthCredentials.access_token)
+            )
+            .filter(
+                OauthCredentials.access_token.isnot(None),
+                OauthCredentials.organization_id == user.organization_id,
+            )
+            .group_by(OauthCredentials.provider)
+        )
+
+        return {
+            provider: token
+            for provider, token in (await self.session.execute(query)).all()
+        }

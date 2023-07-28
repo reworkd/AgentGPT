@@ -55,7 +55,9 @@ const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: Sideb
   }
 
   if (inputField.type === "oauth") {
-    return <OauthIntegration></OauthIntegration>;
+    return (
+      <OauthIntegration value={node?.data?.block?.input[inputField.name]} onChange={onChange} />
+    );
   }
 
   return <></>;

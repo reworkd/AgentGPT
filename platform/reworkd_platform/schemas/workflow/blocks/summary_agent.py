@@ -1,18 +1,18 @@
-from collections import defaultdict
 import os
 import tempfile
+from collections import defaultdict
 from typing import Any
-from tabula.io import read_pdf
+
+import openai
+import pinecone
 from langchain.chains.question_answering import load_qa_chain
+from langchain.docstore.document import Document
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.docstore.document import Document
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Pinecone
-import pinecone
-from loguru import logger
-import pandas as pd
+from tabula.io import read_pdf
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
@@ -20,7 +20,6 @@ from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.model_settings import create_model
-import openai
 
 
 class SummaryAgentInput(BlockIOBase):
@@ -36,7 +35,7 @@ class SummaryAgent(Block):
     description = "Extract key details from text using OpenAI"
     input: SummaryAgentInput
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         with tempfile.TemporaryDirectory() as temp_dir:
             files = SimpleStorageService().download_folder(
                 bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir

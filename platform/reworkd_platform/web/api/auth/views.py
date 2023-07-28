@@ -1,8 +1,11 @@
-from typing import Annotated, Dict
+from typing import Annotated, Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.responses import RedirectResponse
+from pydantic import BaseModel
+from slack_sdk import WebClient
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.crud.organization import OrganizationCrud, OrganizationUsers
 from reworkd_platform.schemas import UserBase
 from reworkd_platform.services.oauth_installers import (
@@ -12,6 +15,7 @@ from reworkd_platform.services.oauth_installers import (
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
+from reworkd_platform.web.api.http_responses import forbidden
 
 router = APIRouter()
 
@@ -72,3 +76,29 @@ async def oauth_callback(
     creds = await installer.install_callback(code, state)
 
     return RedirectResponse(url=creds.redirect_uri)
+
+
+class Channel(BaseModel):
+    name: str
+    id: str
+
+
+@router.get("/slack/info")
+async def slack_channels(
+    user: UserBase = Depends(get_current_user),
+    crud: OAuthCrud = Depends(OAuthCrud.inject),
+) -> List[Channel]:
+    """Install an OAuth App"""
+    creds = await crud.get_installation_by_organization_id(
+        user.organization_id, "slack"
+    )
+    if not creds:
+        raise forbidden()
+
+    client = WebClient(token=creds.access_token)
+    channels = [
+        Channel(name=c["name"], id=c["id"])
+        for c in client.conversations_list().data["channels"]
+    ]
+
+    return channels

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Session } from "next-auth";
 import { z } from "zod";
 
 import type { Workflow } from "../../types/workflow";
@@ -29,6 +30,10 @@ export default class WorkflowApi {
   constructor(accessToken?: string, organizationId?: string) {
     this.accessToken = accessToken;
     this.organizationId = organizationId;
+  }
+
+  static fromSession(session: Session | null) {
+    return new WorkflowApi(session?.accessToken, session?.user?.organizations[0]?.id);
   }
 
   async getAll() {
@@ -69,7 +74,13 @@ export default class WorkflowApi {
   }
 
   async execute(id: string) {
-    return await post(`/api/workflow/${id}/execute`, z.string(), {}, this.accessToken);
+    return await post(
+      `/api/workflow/${id}/execute`,
+      z.string(),
+      {},
+      this.accessToken,
+      this.organizationId
+    );
   }
 
   async upload(workflow_id: string, block_ref: string, files: File[]) {

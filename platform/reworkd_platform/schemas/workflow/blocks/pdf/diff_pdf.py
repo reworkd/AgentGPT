@@ -1,7 +1,7 @@
 import difflib
 import io
 import re
-from typing import List
+from typing import List, Any
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -23,7 +23,7 @@ class DiffPDF(Block):
     description = "Create a PDF that shows the difference between two bodies of text"
     input: DiffPDFInput
 
-    async def run(self, workflow_id: str) -> DiffPDFOutput:
+    async def run(self, workflow_id: str, **kwargs: Any) -> DiffPDFOutput:
         with io.BytesIO() as diff_pdf_file:
             diffs = get_diff(self.input.original, self.input.updated)
             diff_pdf_file = get_diff_pdf(diffs, diff_pdf_file)

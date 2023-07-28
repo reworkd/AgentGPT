@@ -56,7 +56,7 @@ class AsyncConsumer(ABC):
             msg: ConsumerRecord
             async for msg in consumer:
                 tp = TopicPartition(topic=msg.topic, partition=msg.partition)
-                await consumer.commit(tp)
+                await consumer.committed(tp)
 
                 if self.should_skip(msg):
                     logger.info(f"Skipping message: {msg.headers}")

@@ -1,6 +1,6 @@
 import difflib
 import io
-from typing import List
+from typing import List, Any
 
 from docx import Document
 from docx.shared import RGBColor
@@ -25,7 +25,7 @@ class DiffDoc(Block):
     )
     input: DiffDocInput
 
-    async def run(self, workflow_id: str) -> DiffDocOutput:
+    async def run(self, workflow_id: str, **kwargs: Any) -> DiffDocOutput:
         with io.BytesIO() as diff_doc_file:
             diffs = get_diff(self.input.original, self.input.updated)
             diff_doc_file = get_diff_doc(diffs, diff_doc_file)

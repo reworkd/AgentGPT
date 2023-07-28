@@ -180,10 +180,11 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const DiffPDFBlockDefinition: NodeBlockDefinition = {
-  name: "Diff PDF",
-  type: "DiffPDF",
-  description: "Create a PDF that will display the diff between an original and updated string",
+const DiffDocBlockDefinition: NodeBlockDefinition = {
+  name: "Diff Doc",
+  type: "DiffDoc",
+  description:
+    "Create a document that will display the diff between an original and updated string",
   image_url: "/tools/web.png",
   icon: FaBook,
   input_fields: [
@@ -200,7 +201,7 @@ const DiffPDFBlockDefinition: NodeBlockDefinition = {
   ],
   output_fields: [
     {
-      name: "pdf_url",
+      name: "file_url",
       description: "The URL to access the diff PDF.",
       type: "string",
     },
@@ -301,11 +302,38 @@ const FileUploadBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const ContentRefresherAgent: NodeBlockDefinition = {
+  name: "Content Refresher Agent",
+  type: "ContentRefresherAgent",
+  description: "Refresh the content on an existing page",
+  image_url: "/tools/web.png",
+  icon: FaRobot,
+  input_fields: [
+    {
+      name: "url",
+      description: "The page whose content the agent will refresh",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "original_content",
+      description: "The original content of the page",
+      type: "string",
+    },
+    {
+      name: "refreshed_content",
+      description: "The refreshed content for the page",
+      type: "string",
+    },
+  ],
+};
+
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     APITriggerBlockDefinition,
     UrlStatusCheckBlockDefinition,
-    DiffPDFBlockDefinition,
+    DiffDocBlockDefinition,
     SlackWebhookBlockDefinition,
     IfBlockDefinition,
     WebInteractionAgentBlockDefinition,
@@ -315,6 +343,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
     GenericLLMAgentBlockDefinition,
+    ContentRefresherAgent,
   ];
 };
 

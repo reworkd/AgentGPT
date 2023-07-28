@@ -74,8 +74,9 @@ def upload_block(
 ) -> Dict[str, PresignedPost]:
     """Upload a file to a block"""
     return {
-        file: SimpleStorageService().create_presigned_upload_url(
-            bucket_name=settings.s3_bucket_name,
+        file: SimpleStorageService(
+            bucket=settings.s3_bucket_name
+        ).create_presigned_upload_url(
             object_name=f"{workflow_id}/{block_id}/{file}",
         )
         for file in body.files

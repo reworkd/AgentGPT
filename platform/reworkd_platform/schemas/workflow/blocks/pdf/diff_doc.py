@@ -31,14 +31,12 @@ class DiffDoc(Block):
             diffs = get_diff(self.input.original, self.input.updated)
             diff_doc_file = get_diff_doc(diffs, diff_doc_file)
 
-            s3_service = SimpleStorageService()
+            s3_service = SimpleStorageService(settings.s3_bucket_name)
             await s3_service.upload_to_bucket(
-                bucket_name=settings.s3_bucket_name,
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
                 file=diff_doc_file,
             )
             file_url = s3_service.create_presigned_download_url(
-                bucket_name=settings.s3_bucket_name,
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
             )
 

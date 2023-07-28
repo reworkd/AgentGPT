@@ -110,7 +110,7 @@ class Settings(BaseSettings):
     slack_redirect_uri: str = ""
 
     # Settings for s3
-    s3_bucket_name: str = "workflow_io_bucket"
+    s3_bucket_name: str = "changeme"
 
     @property
     def kafka_consumer_group(self) -> str:

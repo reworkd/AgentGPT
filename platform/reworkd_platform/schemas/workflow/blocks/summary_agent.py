@@ -36,8 +36,9 @@ class SummaryAgent(Block):
 
     async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         with tempfile.TemporaryDirectory() as temp_dir:
-            files = SimpleStorageService().download_folder(
-                bucket_name=settings.s3_bucket_name,
+            files = SimpleStorageService(
+                bucket=settings.s3_bucket_name
+            ).download_folder(
                 prefix=f"{workflow_id}/",
                 path=temp_dir,
             )

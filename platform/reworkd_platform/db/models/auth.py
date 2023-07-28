@@ -30,6 +30,6 @@ class OauthCredentials(TrackedModel):
 
     # Post-installation
     token_type = mapped_column(String, nullable=True)
-    access_token = mapped_column(String, nullable=True)
+    access_token_enc = mapped_column(String, nullable=True)
     scope = mapped_column(String, nullable=True)
     data = mapped_column(JSON, nullable=True)

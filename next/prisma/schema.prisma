@@ -108,10 +108,9 @@ model OAuthCredentials {
   redirect_uri    String
 
   // Post install
-  token_type   String?
-  access_token String?
-  scope        String?
-  data         Json?
+  token_type       String?
+  access_token_enc String?
+  scope            String?
 
   create_date DateTime  @default(now())
   update_date DateTime? @updatedAt

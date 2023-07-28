@@ -1,4 +1,5 @@
 import re
+from typing import Any
 
 import anthropic
 import requests
@@ -24,7 +25,7 @@ class ContentRefresherAgent(Block):
     description = "Refresh the content on an existing page"
     input: ContentRefresherInput
 
-    async def run(self, workflow_id: str) -> ContentRefresherOutput:
+    async def run(self, workflow_id: str, **kwargs: Any) -> ContentRefresherOutput:
         logger.info(f"Starting {self.type}")
         target_url = self.input.url
 

@@ -12,10 +12,16 @@ class WorkflowTaskEvent(BaseModel):
     queue: List[Node]
     edges: List[Edge]
     outputs: Dict[str, Any]
+    credentials: Dict[str, str]
 
     @classmethod
     def from_workflow(
-        cls, workflow_id: str, user_id: str, work_queue: List[Node], edges: List[Edge]
+        cls,
+        workflow_id: str,
+        user_id: str,
+        work_queue: List[Node],
+        edges: List[Edge],
+        credentials: Dict[str, str],
     ) -> "WorkflowTaskEvent":
         return cls(
             workflow_id=workflow_id,
@@ -23,4 +29,5 @@ class WorkflowTaskEvent(BaseModel):
             queue=work_queue,
             edges=edges,
             outputs={},
+            credentials=credentials,
         )

@@ -19,7 +19,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum", "file"]),
+  type: z.enum(["string", "array", "enum", "file", "oauth"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -66,7 +66,7 @@ const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
 };
 
 const SlackWebhookBlockDefinition: NodeBlockDefinition = {
-  name: "Slack Message Webhook",
+  name: "Slack Message",
   type: "SlackWebhook",
   description: "Sends a message to a slack webhook",
   image_url: "/tools/web.png",
@@ -75,7 +75,7 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "url",
       description: "The Slack WebHook URL",
-      type: "string",
+      type: "oauth",
     },
     {
       name: "message",

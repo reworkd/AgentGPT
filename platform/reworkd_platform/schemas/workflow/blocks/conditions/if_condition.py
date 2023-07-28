@@ -1,4 +1,4 @@
-from typing import Literal, TypeVar
+from typing import Literal, TypeVar, Any
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 
@@ -20,7 +20,7 @@ class IfCondition(Block):
     description = "Conditionally take a path"
     input: IfInput
 
-    async def run(self, workflow_id: str) -> IfOutput:
+    async def run(self, workflow_id: str, **kwargs: Any) -> IfOutput:
         value_one = self.input.value_one
         value_two = self.input.value_two
         operator = self.input.operator

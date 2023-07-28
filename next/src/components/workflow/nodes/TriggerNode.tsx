@@ -12,7 +12,7 @@ import PrimaryButton from "../../PrimaryButton";
 function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const { data: session } = useSession();
   const workflow = useWorkflowStore().workflow;
-  const api = new WorkflowApi(session?.accessToken);
+  const api = WorkflowApi.fromSession(session);
 
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
 

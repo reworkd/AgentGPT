@@ -22,8 +22,15 @@ const WorkflowPage: NextPage = () => {
     try {
       await saveWorkflow();
       window.alert('Workflow saved successfully!');
-    } catch (error) {
-      window.alert('An error occurred while saving the workflow. ' + error);
+    } catch (error: any) {
+      if (error.name === "TypeError" && error.message === "Failed to fetch") {
+        window.alert('An error occurred while saving the workflow. Please refresh and re-attempt to save.');
+        return;
+      } else if (error.name === "Error" && error.message === "Unprocessable Entity") {
+        window.alert('Invalid workflow. Make sure to clear unconnected nodes and remove cycles.');
+        return;
+      }
+      window.alert('An error occurred while saving the workflow.');
     }
   };
 

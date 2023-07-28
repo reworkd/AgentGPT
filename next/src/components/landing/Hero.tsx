@@ -184,8 +184,8 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
 
 const roles = [
   {
-    title: "Researcher",
-    subtitle: "Report on key analytics",
+    title: "Web Navigator",
+    subtitle: "List competitor products",
     icon: <PurpleHeroIcon />,
   },
   {

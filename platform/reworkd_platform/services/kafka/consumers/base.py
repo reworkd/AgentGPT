@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Protocol
 
 from aiokafka import AIOKafkaConsumer, ConsumerRecord, TopicPartition
+from kafka.errors import IllegalStateError
 from loguru import logger
 
 from reworkd_platform.services.ssl import get_ssl_context
@@ -50,9 +51,10 @@ class AsyncConsumer(ABC):
             return self
 
         consumer: AIOKafkaConsumer = self._consumer
-        await consumer.start()
 
         async def consumer_loop() -> None:
+            await consumer.start()
+
             msg: ConsumerRecord
             async for msg in consumer:
                 tp = TopicPartition(topic=msg.topic, partition=msg.partition)
@@ -67,6 +69,8 @@ class AsyncConsumer(ABC):
                 except Exception as e:
                     logger.exception(e)
 
+            await consumer.stop()
+
         asyncio.get_event_loop().create_task(consumer_loop())
         return self
 
@@ -74,7 +78,10 @@ class AsyncConsumer(ABC):
         if not self._consumer:
             return
 
-        await self._consumer.stop()
+        try:
+            await self._consumer.stop()
+        except IllegalStateError:
+            logger.warning("Kafka consumer is already stopped")
 
     def should_skip(self, record: ConsumerRecord) -> bool:
         """

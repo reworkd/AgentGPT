@@ -5,7 +5,7 @@ export default function EmptyWorkflowButton({ onClick }: Props) {
   return (
     <button
       type="button"
-      className="background-color-1 hover:background-color-3 relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400"
+      className="background-color-1 hover:background-color-2 border-color-1 hover:border-color-2 relative block w-full rounded-lg border border-dashed p-12 text-center transition-colors duration-300"
       onClick={onClick}
     >
       <svg

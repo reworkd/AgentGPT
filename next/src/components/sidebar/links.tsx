@@ -1,6 +1,7 @@
 import { User } from "next-auth";
 import type { IconType } from "react-icons";
 import {
+  FaBusinessTime,
   FaCog,
   FaDiscord,
   FaFileCode,
@@ -66,6 +67,13 @@ export const PAGE_LINKS: LinkMetadata[] = [
     className: "transition-transform group-hover:rotate-90",
     enabled: true,
   },
+  {
+    name: "Organization",
+    href: "/organization",
+    icon: FaBusinessTime,
+    className: "transition-transform group-hover:scale-110",
+    enabled: (user) => !!user && user.organizations.length > 0
+  }
 ];
 
 export const SOCIAL_LINKS: LinkMetadata[] = [

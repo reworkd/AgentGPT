@@ -29,7 +29,7 @@ Then update the backend:
 - open platform/reworkd_platform/schemas/workflow/blocks
     - add a new file for your block
     - define the block's input and output types as classes
-    - add a class for the block with 
+    - add a class for the block with
         - attributes: type, description, image_url, and input
         - async method: `run`
 - install dependencies for your block with `poetry add`
@@ -37,3 +37,7 @@ Then update the backend:
     - import your block
     - add an if branch to get_block_runner
 - `docker compose down; docker compose up --build`
+
+## Node types
+- Triggers: Designate how workflows are run
+- Actions: Performs a concrete piece of "work"

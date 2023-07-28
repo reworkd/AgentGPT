@@ -6,8 +6,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
 
 import nextI18NextConfig from "../../../next-i18next.config";
+import CreateWorkflowDialog from "../../components/workflow/CreateWorkflowDialog";
 import EmptyWorkflowButton from "../../components/workflow/EmptyWorkflow";
-import WorkflowCard, { WorkflowCardDialog } from "../../components/workflow/WorkflowCard";
+import WorkflowCard from "../../components/workflow/WorkflowCard";
+import WorkflowDialog from "../../components/workflow/WorkflowDialog";
 import { useAuth } from "../../hooks/useAuth";
 import DashboardLayout from "../../layout/dashboard";
 import type { WorkflowMeta } from "../../services/workflow/workflowApi";
@@ -26,6 +28,30 @@ const WorkflowList: NextPage = () => {
 
   const data = query.data ?? [];
   const [selectedWorkflow, setSelectedWorkflow] = useState<WorkflowMeta | null>(null);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [showWorkflowDialog, setShowWorkflowDialog] = useState(false);
+
+  const handleCreateWorkflow = (name: string, description: string) => {
+    api
+      .create({
+        name: name,
+        description: description,
+      })
+      .then((workflow) => {
+        void router.push(`workflow/${workflow.id}`);
+      })
+      .catch(console.error);
+  };
+
+  const handleDeleteWorkflow = (workflow: WorkflowMeta) => {
+    api
+      .delete(workflow.id)
+      .then(async () => {
+        await query.refetch();
+        setSelectedWorkflow(null);
+      })
+      .catch(console.error);
+  };
 
   return (
     <DashboardLayout>
@@ -37,42 +63,33 @@ const WorkflowList: NextPage = () => {
               workflow={workflow}
               onClick={() => {
                 setSelectedWorkflow(workflow);
+                setShowWorkflowDialog(true);
               }}
             />
           ))}
           <EmptyWorkflowButton
             onClick={() => {
-              api
-                .create({
-                  name: "New Workflow",
-                  description: "New Workflow",
-                })
-                .then((workflow) => {
-                  void router.push(`workflow/${workflow.id}`);
-                })
-                .catch(console.error);
+              setShowCreateDialog(true);
             }}
           />
         </div>
-        {selectedWorkflow != null && (
-          <WorkflowCardDialog
-            workflow={selectedWorkflow}
-            onEdit={() => {
-              void router.push(`workflow/${selectedWorkflow.id}`);
-            }}
-            onDelete={() => {
-              api
-                .delete(selectedWorkflow.id)
-                .then(async () => {
-                  await query.refetch();
-                  setSelectedWorkflow(null);
-                })
-                .catch(console.error);
-            }}
-            onClose={() => void setSelectedWorkflow(null)}
-          />
-        )}
       </LayoutGroup>
+      <WorkflowDialog
+        workflow={selectedWorkflow}
+        deleteWorkflow={() => {
+          if (selectedWorkflow) handleDeleteWorkflow(selectedWorkflow);
+        }}
+        openWorkflow={() => {
+          void router.push(`workflow/${selectedWorkflow?.id || ""}`);
+        }}
+        showDialog={showWorkflowDialog}
+        setShowDialog={setShowWorkflowDialog}
+      />
+      <CreateWorkflowDialog
+        showDialog={showCreateDialog}
+        setShowDialog={setShowCreateDialog}
+        createWorkflow={handleCreateWorkflow}
+      />
     </DashboardLayout>
   );
 };

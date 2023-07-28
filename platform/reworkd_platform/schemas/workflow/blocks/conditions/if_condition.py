@@ -20,7 +20,7 @@ class IfCondition(Block):
     description = "Conditionally take a path"
     input: IfInput
 
-    async def run(self) -> IfOutput:
+    async def run(self, workflow_id: str) -> IfOutput:
         value_one = self.input.value_one
         value_two = self.input.value_two
         operator = self.input.operator

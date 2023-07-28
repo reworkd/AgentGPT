@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import React from "react";
+import React, { FC } from "react";
 import { FaBars } from "react-icons/fa";
 import type { Edge, Node } from "reactflow";
 
-import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
 import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import { findParents } from "../../services/graph-utils";
@@ -12,6 +11,7 @@ import {
   getNodeBlockDefinitionFromNode,
   getNodeBlockDefinitions,
 } from "../../services/workflow/node-block-definitions";
+import { useLayoutStore } from "../../stores/layoutStore";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
 import PrimaryButton from "../PrimaryButton";
@@ -24,29 +24,21 @@ type WorkflowControls = {
   updateNode: updateNodeType;
 };
 
-type WorkflowSidebarProps = DisplayProps & {
-  controls: WorkflowControls;
-};
-
-// Wrapper HOC to curry the createNode function
-export const getWorkflowSidebar = (controls: WorkflowControls) => {
-  const WorkflowSidebarHOC = ({ show, setShow }: DisplayProps) => (
-    <WorkflowSidebar show={show} setShow={setShow} controls={controls} />
-  );
-  WorkflowSidebarHOC.displayName = "WorkflowSidebarHOC";
-  return WorkflowSidebarHOC;
-};
-
-const WorkflowSidebar = ({ show, setShow, controls }: WorkflowSidebarProps) => {
+const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
   const [tab, setTab] = React.useState<"inspect" | "create">("inspect");
+  const { layout, setLayout } = useLayoutStore();
+
+  const setShow = (show: boolean) => {
+    setLayout({ showRightSidebar: show });
+  };
 
   return (
-    <Sidebar show={show} setShow={setShow} side="right">
+    <Sidebar show={layout.showRightSidebar} setShow={setShow} side="right">
       <div className="text-color-primary mx-2 flex h-screen flex-col gap-2">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
-            onClick={() => setShow(!show)}
+            onClick={() => setShow(!layout.showRightSidebar)}
           >
             <FaBars size="15" className="z-20 mr-2" />
           </button>
@@ -95,6 +87,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
   const definition = getNodeBlockDefinitionFromNode(selectedNode);
 
   const handleValueChange = (name: string, value: string) => {
+    console.log("handleValueChange", name, value);
     const updatedNode = { ...selectedNode };
     updatedNode.data.block.input[name] = value;
     updateNode(updatedNode);
@@ -105,12 +98,10 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     if (definition == undefined) return [];
 
     const outputFields = definition.output_fields;
-    return outputFields.map((outputField) => {
-      return {
-        key: `{{${ancestorNode.id}.${outputField.name}}}`,
-        value: `${definition.type}.${outputField.name}`,
-      };
-    });
+    return outputFields.map((outputField) => ({
+      key: `{{${ancestorNode.id}.${outputField.name}}}`,
+      value: `${definition.type}.${outputField.name}`,
+    }));
   });
 
   const handleAutocompleteClick = (inputField: IOField, field: { key: string; value: string }) => {
@@ -132,7 +123,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
         <div key={definition?.type + inputField.name}>
           <WorkflowSidebarInput
             inputField={inputField}
-            value={selectedNode.data.block.input[inputField.name] || ""}
+            node={selectedNode}
             onChange={(val) => handleValueChange(inputField.name, val)}
             suggestions={outputFields}
           />

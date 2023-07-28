@@ -24,7 +24,7 @@ class Block(BaseModel):
     type: str
     input: BlockIOBase
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> BlockIOBase:
         raise NotImplementedError("Base workflow Node class must be inherited")
 
 
@@ -56,6 +56,11 @@ class Edge(BaseModel):
     source: str
     source_handle: Optional[str]
     target: str
+
+
+class WorkflowCreate(BaseModel):
+    name: str
+    description: str
 
 
 class Workflow(BaseModel):

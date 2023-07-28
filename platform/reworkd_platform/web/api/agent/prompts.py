@@ -106,6 +106,21 @@ summarize_prompt = PromptTemplate(
     input_variables=["goal", "language", "text"],
 )
 
+company_context_prompt = PromptTemplate(
+    template="""You must answer in the "{language}" language. 
+
+    Create a short description on "{company_name}".
+    Find out what sector it is in and what are their primary products.
+    
+    Be as clear, informative, and descriptive as necessary.
+    You will not make up information or add any information outside of the above text. 
+    Only use the given information and nothing more. 
+    
+    If there is no information provided, say "There is nothing to summarize".  
+    """,
+    input_variables=["company_name", "language"],
+)
+
 summarize_pdf_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language. 
 

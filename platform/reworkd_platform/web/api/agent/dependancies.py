@@ -17,8 +17,6 @@ from reworkd_platform.schemas.agent import (
 )
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.pinecone.pinecone import PineconeMemory
-from reworkd_platform.services.vecs.dependencies import get_supabase_vecs
-from reworkd_platform.services.vecs.vecs import VecsMemory
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.web.api.memory.memory import AgentMemory
@@ -48,9 +46,6 @@ def get_agent_memory(
     if PineconeMemory.should_use():
         return MemoryWithFallback(PineconeMemory(user.id), NullAgentMemory())
 
-    if settings.supabase_vecs_url:
-        vecs = get_supabase_vecs(request)
-        return MemoryWithFallback(VecsMemory(vecs, user.id), NullAgentMemory())
     elif settings.vector_db_url:
         return MemoryWithFallback(WeaviateMemory(user.id), NullAgentMemory())
     else:

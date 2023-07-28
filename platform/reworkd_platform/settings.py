@@ -80,9 +80,6 @@ class Settings(BaseSettings):
     vector_db_url: Optional[str] = None
     vector_db_api_key: Optional[str] = None
 
-    # Variables for Supabase PG_Vector DB
-    supabase_vecs_url: Optional[str] = None
-
     # Variables for Pinecone DB
     pinecone_api_key: Optional[str] = None
     pinecone_index_name: Optional[str] = None
@@ -106,6 +103,11 @@ class Settings(BaseSettings):
     # Application Settings
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     max_loops: int = 25  # Maximum number of loops to run
+
+    # Settings for slack
+    slack_client_id: str = ""
+    slack_client_secret: str = ""
+    slack_redirect_uri: str = ""
 
     @property
     def kafka_consumer_group(self) -> str:

@@ -42,10 +42,11 @@ from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import (
     ],
 )
 async def test_if_condition_success(value_one, operator, value_two, expected_result):
+    workflow_id = "123"
     block = IfCondition(
         input=IfInput(value_one=value_one, operator=operator, value_two=value_two)
     )
-    result = await block.run()
+    result = await block.run(workflow_id)
     assert result == IfOutput(result=expected_result)
 
 
@@ -59,8 +60,9 @@ async def test_if_condition_success(value_one, operator, value_two, expected_res
     ],
 )
 async def test_if_condition_errors(value_one, operator, value_two):
+    workflow_id = "123"
     block = IfCondition(
         input=IfInput(value_one=value_one, operator=operator, value_two=value_two)
     )
     with pytest.raises(ValueError):
-        await block.run()
+        await block.run(workflow_id)

@@ -1,13 +1,12 @@
 import clsx from "clsx";
-import { useState } from "react";
 import type { ReactNode } from "react";
+import { useState } from "react";
 
 import AppHead from "../components/AppHead";
 import DottedGridBackground from "../components/DottedGridBackground";
 import LeftSidebar from "../components/drawer/LeftSidebar";
-import type { DisplayProps } from "../components/drawer/Sidebar";
 import { SidebarControlButton } from "../components/drawer/Sidebar";
-import { useTheme } from "../hooks/useTheme";
+import { useLayoutStore } from "../stores/layoutStore";
 
 type SidebarSettings = {
   mobile: boolean;
@@ -16,28 +15,31 @@ type SidebarSettings = {
 
 type DashboardLayoutProps = {
   children: ReactNode;
-  rightSidebar?: ({ show, setShow }: DisplayProps) => JSX.Element;
+  rightSidebar?: ReactNode;
 };
+
+const defaultState: SidebarSettings = {
+  mobile: false,
+  desktop: true,
+};
+
+const setMobile =
+  (settings: SidebarSettings, setSettings: (SidebarSettings) => void) => (open: boolean) =>
+    setSettings({
+      mobile: open,
+      desktop: settings.desktop,
+    });
+
+const setDesktop =
+  (settings: SidebarSettings, setSettings: (SidebarSettings) => void) => (open: boolean) =>
+    setSettings({
+      mobile: settings.mobile,
+      desktop: open,
+    });
+
 const DashboardLayout = (props: DashboardLayoutProps) => {
-  const [leftSettings, setLeftSettings] = useState({ mobile: false, desktop: true });
-  const [rightSettings, setRightSettings] = useState({ mobile: false, desktop: true });
-
-  const setMobile =
-    (settings: SidebarSettings, setSettings: (SidebarSettings) => void) => (open: boolean) =>
-      setSettings({
-        mobile: open,
-        desktop: settings.desktop,
-      });
-
-  const setDesktop =
-    (settings: SidebarSettings, setSettings: (SidebarSettings) => void) => (open: boolean) =>
-      setSettings({
-        mobile: settings.mobile,
-        desktop: open,
-      });
-
-  //add event listener to detect OS theme changes
-  useTheme();
+  const [leftSettings, setLeftSettings] = useState(defaultState);
+  const { layout, setLayout } = useLayoutStore();
 
   return (
     <>
@@ -72,31 +74,12 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
       {/* Mobile */}
       {props.rightSidebar && (
         <>
-          <props.rightSidebar
-            show={rightSettings.mobile}
-            setShow={setMobile(rightSettings, setRightSettings)}
+          <div className="lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">{props.rightSidebar}</div>
+          <SidebarControlButton
+            side="right"
+            show={layout.showRightSidebar}
+            setShow={(show) => setLayout({ showRightSidebar: show })}
           />
-          <div className={rightSettings.mobile ? "hidden" : "lg:hidden"}>
-            <SidebarControlButton
-              side="right"
-              show={rightSettings.mobile}
-              setShow={setMobile(rightSettings, setRightSettings)}
-            />
-          </div>
-          {/* Desktop sidebar */}
-          <div className="hidden lg:visible lg:inset-y-0  lg:flex lg:w-64 lg:flex-col">
-            <props.rightSidebar
-              show={rightSettings.desktop}
-              setShow={setDesktop(rightSettings, setRightSettings)}
-            />
-          </div>
-          <div className={rightSettings.desktop ? "hidden" : "hidden lg:block"}>
-            <SidebarControlButton
-              side="right"
-              show={rightSettings.desktop}
-              setShow={setDesktop(rightSettings, setRightSettings)}
-            />
-          </div>
         </>
       )}
 
@@ -104,7 +87,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
         className={clsx(
           "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
           leftSettings.desktop && "lg:pl-64",
-          props.rightSidebar && rightSettings.desktop && "lg:pr-64"
+          props.rightSidebar && layout.showRightSidebar && "lg:pr-64"
         )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">

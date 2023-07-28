@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -43,7 +44,10 @@ const Input = (props: Props) => {
             type={props.type}
             name={props.name}
             id={props.name}
-            className="border-hover-1 text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md shadow-sm transition-colors sm:text-sm sm:leading-6"
+            className={clsx(
+              "text-color-primary background-color-7 placeholder:text-color-tertiary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md p-1 shadow-sm transition-colors sm:text-sm sm:leading-6",
+              props.disabled ? "cursor-not-allowed opacity-40" : "border-hover-1"
+            )}
             placeholder={props.placeholder}
             value={props.value}
             onChange={props.onChange}

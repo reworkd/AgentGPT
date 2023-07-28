@@ -19,7 +19,7 @@ class SlackWebhook(Block):
     description = "Sends a message to a slack webhook"
     input: SlackWebhookInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> BlockIOBase:
         logger.info(f"Starting {self.type} with {self.input.message}")
 
         try:

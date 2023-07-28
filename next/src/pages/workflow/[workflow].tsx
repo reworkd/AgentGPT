@@ -2,11 +2,10 @@ import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useState } from "react";
 import { FaSave } from "react-icons/fa";
 
 import nextI18NextConfig from "../../../next-i18next.config";
-import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
+import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import PrimaryButton from "../../components/PrimaryButton";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
@@ -19,30 +18,31 @@ const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const { query } = useRouter();
 
-  const [file, setFile] = useState<File>();
+  const handleClick = async () => {
+    try {
+      await saveWorkflow();
+      window.alert('Workflow saved successfully!');
+    } catch (error) {
+      window.alert('An error occurred while saving the workflow. ' + error);
+    }
+  };
+
 
   const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode, members } =
     useWorkflow(query.workflow as string, session);
 
-  return (
-    <DashboardLayout
-      rightSidebar={getWorkflowSidebar({
-        createNode,
-        selectedNode,
-        updateNode,
-        nodes: nodesModel[0],
-        edges: edgesModel[0],
-      })}
-    >
-      <input
-        className="fixed z-20 block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
-        id="file_input"
-        type="file"
-        onChange={(e) => {
-          setFile(e.target.files?.[0]);
-        }}
-      />
+  const rightSideBar = (
+    <WorkflowSidebar
+      createNode={createNode}
+      updateNode={updateNode}
+      selectedNode={selectedNode}
+      nodes={nodesModel[0]}
+      edges={edgesModel[0]}
+    />
+  );
 
+  return (
+    <DashboardLayout rightSidebar={rightSideBar}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
@@ -63,9 +63,7 @@ const WorkflowPage: NextPage = () => {
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <PrimaryButton
             icon={<FaSave size="15" />}
-            onClick={() => {
-              saveWorkflow(file).catch(console.error);
-            }}
+            onClick={handleClick}
           >
             Save
           </PrimaryButton>

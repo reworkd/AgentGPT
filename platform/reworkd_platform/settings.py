@@ -60,6 +60,8 @@ class Settings(BaseSettings):
 
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
+    scrapingbee_api_key: Optional[str] = None
+    anthropic_api_key: Optional[str] = None
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
@@ -106,6 +108,9 @@ class Settings(BaseSettings):
     slack_client_id: str = ""
     slack_client_secret: str = ""
     slack_redirect_uri: str = ""
+
+    # Settings for s3
+    s3_bucket_name: str = "changeme"
 
     @property
     def kafka_consumer_group(self) -> str:

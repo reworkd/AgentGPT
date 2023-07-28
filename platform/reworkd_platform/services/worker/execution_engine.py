@@ -37,7 +37,9 @@ class ExecutionEngine:
         curr.block = replace_templates(curr.block, self.workflow.outputs)
 
         runner = get_block_runner(curr.block)
-        outputs = await runner.run(self.workflow.workflow_id)
+        outputs = await runner.run(
+            self.workflow.workflow_id, credentials=self.workflow.credentials
+        )
 
         # Place outputs in workflow
         outputs_with_key = {
@@ -58,7 +60,10 @@ class ExecutionEngine:
 
     @classmethod
     def create_execution_plan(
-        cls, producer: WorkflowTaskProducer, workflow: WorkflowFull
+        cls,
+        producer: WorkflowTaskProducer,
+        workflow: WorkflowFull,
+        credentials: Dict[str, str],
     ) -> "ExecutionEngine":
         node_map = {n.id: n for n in workflow.nodes}
 
@@ -72,6 +77,7 @@ class ExecutionEngine:
                 user_id=workflow.user_id,
                 work_queue=sorted_nodes,
                 edges=workflow.edges,
+                credentials=credentials,
             ),
         )
 

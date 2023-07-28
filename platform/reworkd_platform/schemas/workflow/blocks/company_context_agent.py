@@ -1,3 +1,5 @@
+from typing import Any
+
 import openai
 from loguru import logger
 
@@ -18,7 +20,7 @@ class CompanyContextAgent(Block):
     description = "Extract key details from text using OpenAI"
     input: CompanyContextAgentInput
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         try:
             response = await execute_prompt(company=self.input.company_name)
 

@@ -302,6 +302,33 @@ const FileUploadBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const ContentRefresherAgent: NodeBlockDefinition = {
+  name: "Content Refresher Agent",
+  type: "ContentRefresherAgent",
+  description: "Refresh the content on an existing page",
+  image_url: "/tools/web.png",
+  icon: FaRobot,
+  input_fields: [
+    {
+      name: "url",
+      description: "The page whose content the agent will refresh",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "original_content",
+      description: "The original content of the page",
+      type: "string",
+    },
+    {
+      name: "refreshed_content",
+      description: "The refreshed content for the page",
+      type: "string",
+    },
+  ],
+};
+
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
     APITriggerBlockDefinition,
@@ -316,6 +343,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
     GenericLLMAgentBlockDefinition
+    ContentRefresherAgent
   ];
 };
 

@@ -49,6 +49,8 @@ stripe = "^5.4.0"
 tabula-py = "^2.7.0"
 slack-sdk = "^3.21.3"
 python-docx = "^0.8.11"
+scrapingbee = "^1.2.0"
+anthropic = "^0.3.6"
 
 
 [tool.poetry.dev-dependencies]

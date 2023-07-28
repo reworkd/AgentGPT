@@ -1,4 +1,7 @@
 from reworkd_platform.schemas.workflow.base import Block
+from reworkd_platform.schemas.workflow.blocks.agents.content_refresher_agent import (
+    ContentRefresherAgent,
+)
 from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent import (
     WebInteractionAgent,
 )
@@ -32,6 +35,8 @@ def get_block_runner(block: Block) -> Block:
         return WebInteractionAgent(**block.dict())
     if block.type == "APITriggerBlock":
         return APITriggerBlock(**block.dict())
+    if block.type == "ContentRefresherAgent":
+        return ContentRefresherAgent(**block.dict())
     if block.type == "ManualTriggerBlock":
         return ManualTriggerBlock(**block.dict())
     if block.type == "UrlStatusCheck":

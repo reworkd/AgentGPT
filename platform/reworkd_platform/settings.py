@@ -60,6 +60,8 @@ class Settings(BaseSettings):
 
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
+    scrapingbee_api_key: Optional[str] = None
+    anthropic_api_key: Optional[str] = None
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"

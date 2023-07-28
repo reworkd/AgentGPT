@@ -139,7 +139,7 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
 const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
   type: "SummaryAgent",
-  description: "Summarize or extract key details from text using OpenAI",
+  description: "Summarize or extract key details from uploaded document",
   image_url: "/tools/web.png",
   icon: FaCopy,
   input_fields: [

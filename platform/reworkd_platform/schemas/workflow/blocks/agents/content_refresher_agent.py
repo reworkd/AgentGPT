@@ -1,12 +1,13 @@
-from loguru import logger
-from reworkd_platform.settings import settings
-from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
-
 import re
-import requests
-from scrapingbee import ScrapingBeeClient
-from bs4 import BeautifulSoup
+
 import anthropic
+import requests
+from bs4 import BeautifulSoup
+from loguru import logger
+from scrapingbee import ScrapingBeeClient
+
+from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.settings import settings
 
 
 class ContentRefresherInput(BlockIOBase):
@@ -23,7 +24,7 @@ class ContentRefresherAgent(Block):
     description = "Refresh the content on an existing page"
     input: ContentRefresherInput
 
-    async def run(self) -> BlockIOBase:
+    async def run(self, workflow_id: str) -> ContentRefresherOutput:
         logger.info(f"Starting {self.type}")
         target_url = self.input.url
 
@@ -83,7 +84,7 @@ def get_page_content(url: str) -> str:
     pgraphs = html.find_all("p")
     pgraphs = "\n".join(
         [
-            f"{i+1}. " + re.sub(r"\s+", " ", p.text).strip()
+            f"{i + 1}. " + re.sub(r"\s+", " ", p.text).strip()
             for i, p in enumerate(pgraphs)
         ]
     )
@@ -97,7 +98,7 @@ def get_page_content(url: str) -> str:
     )
     line_nums = response.completion.strip()
     if len(line_nums) == 0:
-        return ''
+        return ""
 
     pgraphs = pgraphs.split("\n")
     content = []
@@ -132,7 +133,7 @@ def search_results(search_query: str) -> list[str]:
     response = requests.post(
         f"https://google.serper.dev/search",
         headers={
-            "X-API-KEY": settings.serp_api_key or '',
+            "X-API-KEY": settings.serp_api_key or "",
             "Content-Type": "application/json",
         },
         params={

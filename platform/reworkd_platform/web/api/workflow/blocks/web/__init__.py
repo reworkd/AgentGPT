@@ -1,4 +1,7 @@
 from reworkd_platform.schemas.workflow.base import Block
+from reworkd_platform.schemas.workflow.blocks.agents.content_refresher_agent import (
+    ContentRefresherAgent,
+)
 from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent import (
     WebInteractionAgent,
 )
@@ -20,9 +23,6 @@ from reworkd_platform.schemas.workflow.blocks.triggers.manual_trigger import (
 )
 from reworkd_platform.schemas.workflow.blocks.url_status_check import (
     UrlStatusCheckBlock,
-)
-from reworkd_platform.schemas.workflow.blocks.agents.content_refresher_agent import (
-    ContentRefresherAgent,
 )
 
 

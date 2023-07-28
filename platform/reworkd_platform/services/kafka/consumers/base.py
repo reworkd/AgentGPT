@@ -3,7 +3,7 @@ import json
 from abc import ABC, abstractmethod
 from typing import Any, Protocol
 
-from aiokafka import AIOKafkaConsumer, ConsumerRecord
+from aiokafka import AIOKafkaConsumer, ConsumerRecord, TopicPartition
 from loguru import logger
 
 from reworkd_platform.services.ssl import get_ssl_context
@@ -39,8 +39,8 @@ class AsyncConsumer(ABC):
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,
             ssl_context=get_ssl_context(settings),
-            enable_auto_commit=True,
-            auto_offset_reset="earliest",
+            enable_auto_commit=False,
+            auto_offset_reset="latest",
             value_deserializer=deserializer.deserialize,
         )
 
@@ -53,7 +53,11 @@ class AsyncConsumer(ABC):
         await consumer.start()
 
         async def consumer_loop() -> None:
+            msg: ConsumerRecord
             async for msg in consumer:
+                tp = TopicPartition(topic=msg.topic, partition=msg.partition)
+                await consumer.commit(tp)
+
                 if self.should_skip(msg):
                     logger.info(f"Skipping message: {msg.headers}")
                     continue

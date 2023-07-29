@@ -57,6 +57,7 @@ class SlackInstaller(OAuthInstaller):
             client_secret=self.settings.slack_client_secret,
             code=code,
             state=state,
+            redirect_uri=self.settings.slack_redirect_uri,
         )
 
         OAuthInstaller.store_access_token(creds, oauth_response["access_token"])

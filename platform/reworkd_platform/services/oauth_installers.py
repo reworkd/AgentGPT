@@ -1,6 +1,5 @@
 # from slack.web import WebClient
 from abc import ABC, abstractmethod
-from typing import TypeVar
 
 from fastapi import Depends, Path
 from slack_sdk import WebClient
@@ -9,10 +8,9 @@ from slack_sdk.oauth import AuthorizeUrlGenerator
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.models.auth import OauthCredentials
 from reworkd_platform.schemas import UserBase
+from reworkd_platform.services.security import encryption_service
 from reworkd_platform.settings import Settings, settings as platform_settings
 from reworkd_platform.web.api.http_responses import forbidden
-
-T = TypeVar("T", bound="OAuthInstaller")
 
 
 class OAuthInstaller(ABC):
@@ -27,6 +25,10 @@ class OAuthInstaller(ABC):
     @abstractmethod
     async def install_callback(self, code: str, state: str) -> OauthCredentials:
         raise NotImplementedError()
+
+    @staticmethod
+    def store_access_token(creds: OauthCredentials, access_token: str) -> None:
+        creds.access_token_enc = encryption_service.encrypt(access_token)
 
 
 class SlackInstaller(OAuthInstaller):
@@ -46,8 +48,8 @@ class SlackInstaller(OAuthInstaller):
         )
 
     async def install_callback(self, code: str, state: str) -> OauthCredentials:
-        installation = await self.crud.get_installation_by_state(state)
-        if not installation:
+        creds = await self.crud.get_installation_by_state(state)
+        if not creds:
             raise forbidden()
 
         oauth_response = WebClient().oauth_v2_access(
@@ -55,13 +57,13 @@ class SlackInstaller(OAuthInstaller):
             client_secret=self.settings.slack_client_secret,
             code=code,
             state=state,
+            redirect_uri=self.settings.slack_redirect_uri,
         )
 
-        installation.token_type = oauth_response["token_type"]
-        installation.access_token = oauth_response["access_token"]
-        installation.scope = oauth_response["scope"]
-        installation.data = oauth_response.data
-        return await installation.save(self.crud.session)
+        OAuthInstaller.store_access_token(creds, oauth_response["access_token"])
+        creds.token_type = oauth_response["token_type"]
+        creds.scope = oauth_response["scope"]
+        return await creds.save(self.crud.session)
 
 
 integrations = {

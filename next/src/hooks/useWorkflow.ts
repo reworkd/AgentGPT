@@ -57,7 +57,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
 
   const workflowStore = useWorkflowStore();
 
-  const { refetch: refetchWorkflow } = useQuery(
+  const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
     async () => {
       const workflow = await api.get(workflowId);
@@ -179,6 +179,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     createNode,
     updateNode,
     members,
+    isLoading,
   };
 };
 

@@ -20,6 +20,7 @@ import { useLayoutStore } from "../../stores/layoutStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
+import Loader from "../../components/loader";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -53,7 +54,8 @@ const WorkflowPage: NextPage = () => {
     saveWorkflow,
     createNode,
     updateNode,
-    members, //force separate lines
+    members,
+    isLoading,
   } = useWorkflow(router.query.w as string, session);
 
   const { data: workflows } = useQuery(
@@ -154,6 +156,12 @@ const WorkflowPage: NextPage = () => {
           edges={edgesModel[0]}
         />
       </div>
+
+      {isLoading && (
+        <div className="fixed left-1/2 top-1/2 z-50">
+          <Loader size={60} color="black" className="-translate-x-1/2 -translate-y-1/2" />
+        </div>
+      )}
 
       <FlowChart
         controls={true}

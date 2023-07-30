@@ -4,6 +4,9 @@ import React from "react";
 import Input from "./input";
 import { MenuItems } from "../components/Menu";
 import WindowButton from "../components/WindowButton";
+import {useWorkflowStore} from "../../src/stores/workflowStore"
+import type { Node } from "reactflow";
+import type { WorkflowNode } from "../types/workflow";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -15,10 +18,26 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   right?: React.ReactNode;
   suggestions: { key: string; value: string }[];
   value: string;
+  currentNode: Node<WorkflowNode> | undefined;
 }
 
 const InputWithSuggestions = (props: Props) => {
   const [focused, setFocused] = React.useState(false);
+  const { workflow,setInputs } = useWorkflowStore();
+  const handleClick = (field) => () => {
+    const eventMock = {
+      target: {
+        value: `${field.value}`,
+      },
+    };
+
+    // @ts-ignore
+    setInputs(workflow, props.currentNode, "brickster");
+    console.log('Updated Workflow:', workflow);
+    // @ts-ignore
+    props.onChange && props.onChange(eventMock);
+  };
+  
 
   return (
     <>
@@ -43,15 +62,7 @@ const InputWithSuggestions = (props: Props) => {
                   key={`${props.name}-${field.key}`}
                   icon={<></>}
                   text={field.value}
-                  onClick={() => {
-                    const eventMock = {
-                      target: {
-                        value: `${props.value}${field.key}`,
-                      },
-                    };
-                    // @ts-ignore
-                    props.onChange && props.onChange(eventMock);
-                  }}
+                  onClick={handleClick(field)}
                 />
               ))}
             />

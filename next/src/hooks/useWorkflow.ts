@@ -63,6 +63,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
       const workflow = await api.get(workflowId);
 
       workflowStore.setWorkflow(workflow);
+      console.log(workflow)
       setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
       setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
 

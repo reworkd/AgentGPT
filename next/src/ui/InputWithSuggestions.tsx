@@ -32,8 +32,7 @@ const InputWithSuggestions = (props: Props) => {
     };
 
     // @ts-ignore
-    setInputs(workflow, props.currentNode, "brickster");
-    console.log('Updated Workflow:', workflow);
+    setInputs(workflow, props.currentNode, {field:"company_context",value:`${field.key}`})
     // @ts-ignore
     props.onChange && props.onChange(eventMock);
   };

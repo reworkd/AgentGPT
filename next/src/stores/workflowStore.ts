@@ -1,6 +1,5 @@
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
-import createNodesSlice from './nodeStore';
 import { createSelectors } from "./helpers";
 
 interface Workflow {
@@ -46,21 +45,18 @@ const createWorkflowSlice: StateCreator<WorkflowSlice> = (set, get) => {
           ...workflow,
           nodes: workflow.nodes.map((node) => {
             if (node.id === nodeToUpdate.id) {
-              console.log('made it through node nest');
-              console.log(node);
-              console.log(updatedInput);
               if (node.block.input) {
-                Object.keys(node.block.input).reduce((acc, field) => {
+                const updatedInputs = Object.keys(node.block.input).reduce((acc, field) => {
                   if (field === updatedInput.field) {
-                    console.log('Input updated:', updatedInput);
                     acc[field] = updatedInput.value;
                   }
                   return acc;
-                }, {});
+                }, { ...node.block.input });
                 return {
                   ...node,
                   block: {
                     ...node.block,
+                    input: updatedInputs,
                   },
                 };
               }
@@ -69,9 +65,10 @@ const createWorkflowSlice: StateCreator<WorkflowSlice> = (set, get) => {
           }),
         },
       }));
-    }
+    },
   };
 };
+
 
 export const useWorkflowStore = createSelectors(
   create<WorkflowSlice>()((...a) => ({

@@ -172,7 +172,6 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
 
   return {
     selectedNode,
-    setSelectedNode,
     nodesModel,
     edgesModel,
     saveWorkflow: onSave,

@@ -1,5 +1,5 @@
 import type { ComponentProps, MouseEvent } from "react";
-import { type FC, useCallback } from "react";
+import { forwardRef, useCallback, useImperativeHandle } from "react";
 import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
 import ReactFlow, {
   addEdge,
@@ -9,6 +9,8 @@ import ReactFlow, {
   BackgroundVariant,
   Controls,
   MiniMap,
+  ReactFlowProvider,
+  useReactFlow,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -41,57 +43,76 @@ interface FlowChartProps extends ComponentProps<typeof ReactFlow> {
   edgesModel: EdgesModel;
 }
 
-const FlowChart: FC<FlowChartProps> = ({
-  onSave,
-  // workflow,
-  nodesModel,
-  edgesModel,
-  ...props
-}) => {
-  const [nodes, setNodes] = nodesModel;
-  const [edges, setEdges] = edgesModel;
+export interface FlowChartHandles {
+  fitView: () => void;
+}
 
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds ?? [])),
-    [setNodes]
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds ?? [])),
-    [setEdges]
-  );
+const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
+  ({ onSave, nodesModel, edgesModel, ...props }, ref) => {
+    const [nodes, setNodes] = nodesModel;
+    const [edges, setEdges] = edgesModel;
+    const flow = useReactFlow();
 
-  const onConnect = useCallback(
-    (connection: Connection) => {
-      setEdges((eds) => addEdge(connection, eds ?? []));
-    },
-    [setEdges]
-  );
+    const onNodesChange = useCallback(
+      (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds ?? [])),
+      [setNodes]
+    );
+    const onEdgesChange = useCallback(
+      (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds ?? [])),
+      [setEdges]
+    );
 
+    const onConnect = useCallback(
+      (connection: Connection) => {
+        setEdges((eds) => addEdge(connection, eds ?? []));
+      },
+      [setEdges]
+    );
+
+    useImperativeHandle(ref, () => ({
+      fitView: () => {
+        flow?.fitView(fitViewOptions);
+      },
+    }));
+
+    return (
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        proOptions={{ hideAttribution: true }}
+        fitViewOptions={fitViewOptions}
+        fitView
+        {...props}
+      >
+        <Background
+          variant={BackgroundVariant.Lines}
+          lineWidth={1}
+          gap={80}
+          className="bg-neutral-50"
+          color="#e5e7eb"
+        />
+        {props.minimap && <MiniMap nodeStrokeWidth={3} />}
+        {props.controls && <Controls />}
+      </ReactFlow>
+    );
+  }
+);
+
+FlowChart.displayName = "FlowChart";
+
+const WrappedFlowchart = forwardRef<FlowChartHandles, FlowChartProps>((props, ref) => {
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      proOptions={{ hideAttribution: true }}
-      fitView
-      fitViewOptions={fitViewOptions}
-      {...props}
-    >
-      <Background
-        variant={BackgroundVariant.Lines}
-        lineWidth={1}
-        gap={80}
-        className="bg-neutral-800"
-        color="#FFFFFF10"
-      />
-      {props.minimap && <MiniMap nodeStrokeWidth={3} />}
-      {props.controls && <Controls />}
-    </ReactFlow>
+    <ReactFlowProvider>
+      {/* @ts-ignore*/}
+      <FlowChart ref={ref} {...props} />
+    </ReactFlowProvider>
   );
-};
+});
 
-export default FlowChart;
+WrappedFlowchart.displayName = "WrappedFlowchart";
+export default WrappedFlowchart;

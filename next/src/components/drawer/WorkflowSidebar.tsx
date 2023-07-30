@@ -1,9 +1,8 @@
-import clsx from "clsx";
 import React, { FC } from "react";
 import { FaBars } from "react-icons/fa";
 import type { Edge, Node } from "reactflow";
 
-import Sidebar from "./Sidebar";
+import { SidebarTransition } from "./Sidebar";
 import type { createNodeType, updateNodeType } from "../../hooks/useWorkflow";
 import { findParents } from "../../services/graph-utils";
 import type { IOField, NodeBlockDefinition } from "../../services/workflow/node-block-definitions";
@@ -14,7 +13,6 @@ import {
 import { useLayoutStore } from "../../stores/layoutStore";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
-import PrimaryButton from "../PrimaryButton";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -25,7 +23,6 @@ type WorkflowControls = {
 };
 
 const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
-  const [tab, setTab] = React.useState<"inspect" | "create">("inspect");
   const { layout, setLayout } = useLayoutStore();
 
   const setShow = (show: boolean) => {
@@ -33,8 +30,12 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
   };
 
   return (
-    <Sidebar show={layout.showRightSidebar} setShow={setShow} side="right">
-      <div className="text-color-primary mx-2 flex h-screen flex-col gap-2">
+    <SidebarTransition
+      show={layout.showRightSidebar}
+      side="right"
+      className="rounded-l-lg bg-black p-6"
+    >
+      <div className="text-color-primary flex h-[80vh] w-64 flex-col gap-2  bg-black">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
@@ -42,30 +43,11 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
           >
             <FaBars size="15" className="z-20 mr-2" />
           </button>
-          <div className="rounded-full bg-white/10 p-0.5">
-            <PrimaryButton
-              className={clsx(
-                tab != "inspect" && "border-transparent bg-white/0 text-white hover:text-black"
-              )}
-              onClick={() => setTab("inspect")}
-            >
-              Inspect
-            </PrimaryButton>
-            <PrimaryButton
-              className={clsx(
-                tab != "create" && "border-transparent bg-white/0 text-white hover:text-black"
-              )}
-              onClick={() => setTab("create")}
-            >
-              Create
-            </PrimaryButton>
-          </div>
           <div />
         </div>
-        {tab === "inspect" && <InspectSection {...controls} />}
-        {tab === "create" && <CreateSection createNode={controls.createNode} />}
+        <InspectSection {...controls} />
       </div>
-    </Sidebar>
+    </SidebarTransition>
   );
 };
 
@@ -87,7 +69,6 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
   const definition = getNodeBlockDefinitionFromNode(selectedNode);
 
   const handleValueChange = (name: string, value: string) => {
-    console.log("handleValueChange", name, value);
     const updatedNode = { ...selectedNode };
     updatedNode.data.block.input[name] = value;
     updateNode(updatedNode);

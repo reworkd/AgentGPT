@@ -1,3 +1,5 @@
+from typing import Union
+
 from cryptography.fernet import Fernet
 
 from reworkd_platform.settings import settings
@@ -10,7 +12,7 @@ class EncryptionService:
     def encrypt(self, text: str) -> bytes:
         return self.fernet.encrypt(text.encode("utf-8"))
 
-    def decrypt(self, encoded_bytes: bytes) -> str:
+    def decrypt(self, encoded_bytes: Union[bytes, str]) -> str:
         return self.fernet.decrypt(encoded_bytes).decode("utf-8")
 
 

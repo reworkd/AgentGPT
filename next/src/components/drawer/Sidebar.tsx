@@ -12,12 +12,18 @@ export type DisplayProps = {
 export type SidebarProps = DisplayProps & {
   children: ReactNode;
   side: "left" | "right";
+  className?: string;
 };
 
-const Sidebar = ({ show, children, side }: SidebarProps) => {
+const Sidebar = ({ show, children, side, className }: SidebarProps) => {
   return (
     <SidebarTransition show={show} side={side}>
-      <nav className="background-color-1 flex flex-1 flex-col overflow-x-hidden px-2.5 py-2 ring-1 ring-white/10">
+      <nav
+        className={clsx(
+          "background-color-1 flex flex-1 flex-col overflow-x-hidden px-2.5 py-2 ring-1 ring-white/10",
+          className
+        )}
+      >
         {children}
       </nav>
     </SidebarTransition>
@@ -28,9 +34,10 @@ type SidebarTransitionProps = {
   side: "left" | "right";
   children: ReactNode;
   show: boolean;
+  className?: string;
 };
 
-const SidebarTransition = ({ children, show, side }: SidebarTransitionProps) => {
+export const SidebarTransition = ({ children, show, side, className }: SidebarTransitionProps) => {
   return (
     <Transition.Root show={show} as={Fragment}>
       <div className="relative z-30">
@@ -55,7 +62,11 @@ const SidebarTransition = ({ children, show, side }: SidebarTransitionProps) => 
             leaveFrom="translate-x-0"
             leaveTo={side === "left" ? "-translate-x-full" : "translate-x-full"}
           >
-            <div className="flex h-screen max-h-screen w-64 max-w-xs flex-1">{children}</div>
+            <div
+              className={clsx("flex max-w-xs flex-1", className || "h-screen max-h-screen w-64")}
+            >
+              {children}
+            </div>
           </Transition.Child>
         </div>
       </div>

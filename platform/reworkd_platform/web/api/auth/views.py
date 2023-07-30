@@ -87,11 +87,14 @@ class Channel(BaseModel):
 
 @router.get("/slack/info")
 async def slack_channels(
-    org: OrganizationRole = Depends(get_organization),
+    role: OrganizationRole = Depends(get_organization),
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> List[Channel]:
     """Install an OAuth App"""
-    creds = await crud.get_installation_by_organization_id(org.id, "slack")
+    creds = await crud.get_installation_by_organization_id(
+        role.organization_id, "slack"
+    )
+
     if not creds:
         raise not_found()
 

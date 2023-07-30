@@ -17,7 +17,7 @@ from reworkd_platform.services.security import encryption_service
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user, get_organization
-from reworkd_platform.web.api.http_responses import forbidden
+from reworkd_platform.web.api.http_responses import not_found
 
 router = APIRouter()
 
@@ -91,8 +91,9 @@ async def slack_channels(
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> List[Channel]:
     """Install an OAuth App"""
-    if not (creds := await crud.get_installation_by_organization_id(org.id, "slack")):
-        raise forbidden()
+    creds = await crud.get_installation_by_organization_id(org.id, "slack")
+    if not creds:
+        raise not_found()
 
     token = encryption_service.decrypt(creds.access_token_enc)
     client = WebClient(token=token)

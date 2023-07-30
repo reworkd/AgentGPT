@@ -2,7 +2,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { Fragment } from "react";
 import type { IconType } from "react-icons";
-import { FaCheck, FaChevronDown, FaLock } from "react-icons/fa";
+import { FaCheck, FaChevronDown } from "react-icons/fa";
 
 interface Props<T> {
   value?: T;
@@ -11,14 +11,16 @@ interface Props<T> {
   valueMapper?: (item?: T) => string | undefined;
   icon: IconType;
   disabled?: boolean;
+  defaultValue: T;
 }
 
 export default function Select<T>(props: Props<T>) {
-  const icon = props.disabled ? FaLock : FaChevronDown;
-  const value = props.valueMapper?.(props.value);
-
   return (
-    <Listbox value={props.value} onChange={props.onChange} disabled={props.disabled}>
+    <Listbox
+      value={props.value || props.defaultValue}
+      onChange={props.onChange}
+      disabled={props.disabled}
+    >
       {({ open }) => (
         <>
           <div className="relative">
@@ -30,7 +32,9 @@ export default function Select<T>(props: Props<T>) {
             >
               <span className="flex flex-row items-center">
                 {props.icon({})}
-                <span className="ml-2 block flex-grow truncate capitalize">{value}</span>
+                <span className="ml-2 block flex-grow truncate capitalize">
+                  {props.valueMapper?.(props.value || props.defaultValue)}
+                </span>
                 <FaChevronDown className="h-5 w-5 pl-2 text-gray-400" aria-hidden="true" />
               </span>
             </Listbox.Button>

@@ -9,6 +9,7 @@ import { FaBuilding, FaHome, FaRobot, FaSave } from "react-icons/fa";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
+import Loader from "../../components/loader";
 import PrimaryButton from "../../components/PrimaryButton";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
@@ -20,7 +21,6 @@ import { useLayoutStore } from "../../stores/layoutStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
-import Loader from "../../components/loader";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -61,7 +61,9 @@ const WorkflowPage: NextPage = () => {
   const { data: workflows } = useQuery(
     ["workflows"],
     async () => {
-      return await WorkflowApi.fromSession(session).getAll();
+      const flows = await WorkflowApi.fromSession(session).getAll();
+      if (!router.query.w && flows?.[0]) await changeQueryParams({ w: flows[0].id });
+      return flows;
     },
     {
       enabled: !!session,
@@ -117,19 +119,20 @@ const WorkflowPage: NextPage = () => {
           <Select<{ id: string; name: string }>
             value={session?.user.organizations?.[0]}
             items={session?.user.organizations}
-            valueMapper={(org) => org?.name || "Select an organization"}
+            valueMapper={(org) => org?.name}
             icon={FaBuilding}
+            defaultValue={{ id: "default", name: "Select an org" }}
             disabled
           />
           <Select<{ id: string; name: string }>
             value={workflows?.find((w) => w.id === router.query.w)}
             onChange={async (e) => {
-              if (!e) return;
-              await changeQueryParams({ w: e.id });
+              if (e) await changeQueryParams({ w: e.id });
             }}
             items={workflows}
-            valueMapper={(item) => item?.name || "Select an workflow"}
+            valueMapper={(item) => item?.name}
             icon={FaRobot}
+            defaultValue={{ id: "default", name: "Select an workflow" }}
           />
         </div>
         <div className="flex flex-row items-center gap-2">

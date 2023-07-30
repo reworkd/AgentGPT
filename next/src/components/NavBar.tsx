@@ -37,7 +37,7 @@ export default function NavBar() {
 
   return (
     <FadeIn duration={3}>
-      <Disclosure as="nav" className="z-50 w-full bg-transparent text-white">
+      <Disclosure as="nav" className="z-50 w-full bg-transparent text-black dark:text-white">
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
@@ -47,7 +47,7 @@ export default function NavBar() {
                   width="25"
                   height="25"
                   alt="Reworkd AI"
-                  className="mb-1 mr-2"
+                  className="mb-1 mr-2 invert dark:invert-0"
                 />
                 <span className="text-xl font-light tracking-wider">Reworkd</span>
               </div>
@@ -63,7 +63,7 @@ export default function NavBar() {
                       key={item.name}
                       href={item.href}
                       className={clsx(
-                        "after-gradient relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal transition-colors duration-700 before:absolute before:-bottom-[20px] before:-z-20 before:h-6 before:w-12 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 after:absolute after:-bottom-[2.25px] after:h-[1px] after:w-16 after:px-2 after:transition-opacity after:duration-700  hover:text-white",
+                        "after-gradient relative flex flex-col items-center justify-center p-2 px-4 text-center font-inter text-sm tracking-normal text-white transition-colors duration-700 before:absolute before:-bottom-[20px] before:-z-20 before:h-6 before:w-12 before:bg-white/60 before:blur-lg before:transition-opacity before:duration-700 after:absolute after:-bottom-[2.25px] after:h-[1px] after:w-16 after:px-2 after:transition-opacity after:duration-700 hover:text-white",
                         currentIndex !== i && "text-white/50 before:opacity-0 after:opacity-0"
                       )}
                       onMouseEnter={() => setHoveredButtonIndex(i)}

@@ -52,7 +52,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
   const api = new WorkflowApi(session?.accessToken, session?.user?.organizations?.[0]?.id);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
   const { mutateAsync: updateWorkflow } = useMutation(
-    async (data: Workflow) => await api.update(workflowId, data)
+    async (data: Workflow) => void (await api.update(workflowId, data))
   );
 
   const workflowStore = useWorkflowStore();

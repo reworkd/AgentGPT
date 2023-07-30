@@ -29,7 +29,10 @@ const isError = (error: unknown): error is Error =>
   error instanceof Error && error.name === "Error";
 
 const WorkflowPage: NextPage = () => {
-  const { session } = useAuth({ protectedRoute: true });
+  const { session } = useAuth({
+    protectedRoute: true,
+    isAllowed: (session) => !!session?.user.organizations.length,
+  });
   const router = useRouter();
 
   const handleClick = async () => {

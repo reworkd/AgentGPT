@@ -22,6 +22,10 @@ class JSONDeserializer(Deserializer):
 
 
 class AsyncConsumer(ABC):
+    MAX_POLL_INTERVAL_MS = 5 * 60 * 1000
+    SESSION_TIMEOUT_MS = 2 * 60 * 1000
+    HEARTBEAT_INTERVAL_MS = SESSION_TIMEOUT_MS // 3
+
     def __init__(
         self,
         *topics: Any,
@@ -43,6 +47,9 @@ class AsyncConsumer(ABC):
             enable_auto_commit=False,
             auto_offset_reset="latest",
             value_deserializer=deserializer.deserialize,
+            max_poll_interval_ms=self.MAX_POLL_INTERVAL_MS,
+            session_timeout_ms=self.SESSION_TIMEOUT_MS,
+            heartbeat_interval_ms=self.HEARTBEAT_INTERVAL_MS,
         )
 
     async def start(self) -> "AsyncConsumer":

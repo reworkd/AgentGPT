@@ -14,7 +14,7 @@ import {
 import { useLayoutStore } from "../../stores/layoutStore";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
-import {useWorkflowStore} from '../../stores/workflowStore';
+import { useWorkflowStore } from '../../stores/workflowStore';
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -75,11 +75,16 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
   const handleValueChange = (name: string, value: string) => {
     if (!value.includes(".result")) {
       // @ts-ignore
-      setInputs(workflow, selectedNode, {field:name, value:value})
+      setInputs(workflow, selectedNode, { field: name, value: value })
+      const updatedNode = { ...selectedNode };
+      updatedNode.data.block.input[name] = value;
+      updateNode(updatedNode);
     }
-    const updatedNode = { ...selectedNode };
-    updatedNode.data.block.input[name] = value;
-    updateNode(updatedNode);
+    else {
+      const updatedNode = { ...selectedNode };
+      updatedNode.data.block.input[name] = value;
+      updateNode(updatedNode);
+    }
   };
 
   const outputFields = findParents(nodes, edges, selectedNode).flatMap((ancestorNode) => {

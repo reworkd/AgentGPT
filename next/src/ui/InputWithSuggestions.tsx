@@ -24,7 +24,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 const InputWithSuggestions = (props: Props) => {
   const [focused, setFocused] = React.useState(false);
   const { workflow,setInputs } = useWorkflowStore();
-  const handleClick = (field) => () => {
+  const handleClick = (field,label) => () => {
     const eventMock = {
       target: {
         value: `${field.value}`,
@@ -32,7 +32,7 @@ const InputWithSuggestions = (props: Props) => {
     };
 
     // @ts-ignore
-    setInputs(workflow, props.currentNode, {field:"company_context",value:`${field.key}`})
+    setInputs(workflow, props.currentNode, {field: label, value:`${field.key}`})
     // @ts-ignore
     props.onChange && props.onChange(eventMock);
   };
@@ -61,7 +61,7 @@ const InputWithSuggestions = (props: Props) => {
                   key={`${props.name}-${field.key}`}
                   icon={<></>}
                   text={field.value}
-                  onClick={handleClick(field)}
+                  onClick={handleClick(field,props.label)}
                 />
               ))}
             />

@@ -69,7 +69,6 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
   const definition = getNodeBlockDefinitionFromNode(selectedNode);
 
   const handleValueChange = (name: string, value: string) => {
-    console.log("handleValueChange", name, value);
     const updatedNode = { ...selectedNode };
     updatedNode.data.block.input[name] = value;
     updateNode(updatedNode);

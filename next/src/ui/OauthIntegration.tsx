@@ -29,8 +29,6 @@ const OauthIntegration: FC<{
     {
       enabled: !!session,
       retry: false,
-      // refetchOnMount: false,
-      // refetchOnWindowFocus: false,
     }
   );
 

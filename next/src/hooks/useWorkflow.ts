@@ -52,12 +52,12 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
   const api = new WorkflowApi(session?.accessToken, session?.user?.organizations?.[0]?.id);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
   const { mutateAsync: updateWorkflow } = useMutation(
-    async (data: Workflow) => await api.update(workflowId, data)
+    async (data: Workflow) => void (await api.update(workflowId, data))
   );
 
   const workflowStore = useWorkflowStore();
 
-  const { refetch: refetchWorkflow } = useQuery(
+  const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
     async () => {
       const workflow = await api.get(workflowId);
@@ -172,7 +172,6 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
 
   return {
     selectedNode,
-    setSelectedNode,
     nodesModel,
     edgesModel,
     saveWorkflow: onSave,
@@ -180,6 +179,7 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     createNode,
     updateNode,
     members,
+    isLoading,
   };
 };
 

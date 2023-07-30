@@ -92,7 +92,7 @@ const WorkflowPage: NextPage = () => {
       query: updatedParams,
     };
 
-    await router.push(newURL, undefined, { shallow: true });
+    await router.replace(newURL, undefined, { shallow: true });
   };
 
   return (

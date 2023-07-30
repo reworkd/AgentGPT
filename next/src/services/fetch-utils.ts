@@ -16,7 +16,6 @@ export const get = async <T extends z.ZodTypeAny>(
   accessToken?: string,
   organizationId?: string
 ): Promise<z.infer<T>> => {
-  console.log("get", path, schema, accessToken, organizationId);
   const response = await fetch(`${env.NEXT_PUBLIC_BACKEND_URL}${path}`, {
     method: "GET",
     headers: getHeaders(accessToken, organizationId),

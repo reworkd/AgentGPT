@@ -3,7 +3,8 @@ import json
 from abc import ABC, abstractmethod
 from typing import Any, Protocol
 
-from aiokafka import AIOKafkaConsumer, ConsumerRecord
+from aiokafka import AIOKafkaConsumer, ConsumerRecord, TopicPartition
+from kafka.errors import IllegalStateError
 from loguru import logger
 
 from reworkd_platform.services.ssl import get_ssl_context
@@ -21,6 +22,10 @@ class JSONDeserializer(Deserializer):
 
 
 class AsyncConsumer(ABC):
+    MAX_POLL_INTERVAL_MS = 5 * 60 * 1000
+    SESSION_TIMEOUT_MS = 2 * 60 * 1000
+    HEARTBEAT_INTERVAL_MS = SESSION_TIMEOUT_MS // 3
+
     def __init__(
         self,
         *topics: Any,
@@ -39,9 +44,12 @@ class AsyncConsumer(ABC):
             sasl_plain_username=settings.kafka_username,
             sasl_plain_password=settings.kafka_password,
             ssl_context=get_ssl_context(settings),
-            enable_auto_commit=True,
-            auto_offset_reset="earliest",
+            enable_auto_commit=False,
+            auto_offset_reset="latest",
             value_deserializer=deserializer.deserialize,
+            max_poll_interval_ms=self.MAX_POLL_INTERVAL_MS,
+            session_timeout_ms=self.SESSION_TIMEOUT_MS,
+            heartbeat_interval_ms=self.HEARTBEAT_INTERVAL_MS,
         )
 
     async def start(self) -> "AsyncConsumer":
@@ -50,10 +58,16 @@ class AsyncConsumer(ABC):
             return self
 
         consumer: AIOKafkaConsumer = self._consumer
-        await consumer.start()
 
         async def consumer_loop() -> None:
+            await consumer.start()
+
+            msg: ConsumerRecord
             async for msg in consumer:
+                print(f"Consuming: {msg.topic}/{msg.partition}/{msg.offset}")
+                tp = TopicPartition(topic=msg.topic, partition=msg.partition)
+                await consumer.commit({tp: msg.offset + 1})
+
                 if self.should_skip(msg):
                     logger.info(f"Skipping message: {msg.headers}")
                     continue
@@ -63,6 +77,8 @@ class AsyncConsumer(ABC):
                 except Exception as e:
                     logger.exception(e)
 
+            await consumer.stop()
+
         asyncio.get_event_loop().create_task(consumer_loop())
         return self
 
@@ -70,7 +86,10 @@ class AsyncConsumer(ABC):
         if not self._consumer:
             return
 
-        await self._consumer.stop()
+        try:
+            await self._consumer.stop()
+        except IllegalStateError:
+            logger.warning("Kafka consumer is already stopped")
 
     def should_skip(self, record: ConsumerRecord) -> bool:
         """

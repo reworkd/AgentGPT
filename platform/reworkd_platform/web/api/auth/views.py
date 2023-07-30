@@ -13,10 +13,11 @@ from reworkd_platform.services.oauth_installers import (
     installer_factory,
     OAuthInstaller,
 )
+from reworkd_platform.services.security import encryption_service
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user, get_organization
-from reworkd_platform.web.api.http_responses import forbidden
+from reworkd_platform.web.api.http_responses import not_found
 
 router = APIRouter()
 
@@ -86,14 +87,19 @@ class Channel(BaseModel):
 
 @router.get("/slack/info")
 async def slack_channels(
-    org: OrganizationRole = Depends(get_organization),
+    role: OrganizationRole = Depends(get_organization),
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> List[Channel]:
     """Install an OAuth App"""
-    if not (creds := await crud.get_installation_by_organization_id(org.id, "slack")):
-        raise forbidden()
+    creds = await crud.get_installation_by_organization_id(
+        role.organization_id, "slack"
+    )
 
-    client = WebClient(token=creds.access_token)
+    if not creds:
+        raise not_found()
+
+    token = encryption_service.decrypt(creds.access_token_enc)
+    client = WebClient(token=token)
     channels = [
         Channel(name=c["name"], id=c["id"])
         for c in client.conversations_list(types=["public_channel"])["channels"]

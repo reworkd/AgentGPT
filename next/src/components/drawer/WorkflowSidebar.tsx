@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import React, { FC } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import type { Edge, Node } from "reactflow";
 
@@ -25,7 +26,7 @@ type WorkflowControls = {
 };
 
 const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
-  const [tab, setTab] = React.useState<"inspect" | "create">("inspect");
+  const [tab, setTab] = useState<"inspect" | "create">("inspect");
   const { layout, setLayout } = useLayoutStore();
 
   const setShow = (show: boolean) => {

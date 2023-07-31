@@ -1,5 +1,6 @@
 import pytest
-from cryptography.fernet import Fernet, InvalidToken
+from cryptography.fernet import Fernet
+from fastapi import HTTPException
 
 from reworkd_platform.services.security import EncryptionService
 
@@ -24,5 +25,5 @@ def test_invalid_key():
     original_text = "Hello, world!"
     encrypted = Fernet(key).encrypt(original_text.encode())
 
-    with pytest.raises(InvalidToken):
+    with pytest.raises(HTTPException):
         different_service.decrypt(encrypted)

@@ -199,7 +199,7 @@ const WorkflowPage: NextPage = () => {
 
       {!showLoader && !showCreateForm && !nodesModel[0].length && (
         <div className="fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]">
-          Double Click to create a node
+          Double Click on the canvas to add a node
         </div>
       )}
 

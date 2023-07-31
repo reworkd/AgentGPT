@@ -1,4 +1,3 @@
-# from slack.web import WebClient
 from abc import ABC, abstractmethod
 
 from fastapi import Depends, Path

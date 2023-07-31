@@ -96,15 +96,15 @@ export const MacWindowHeader = (props: HeaderProps) => {
   ];
 
   return (
-    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-2">
       <PopIn delay={0.4}>
-        <div className="h-3 w-3 rounded-full bg-red-500" />
+        <MacButton className="bg-red-500 hover:bg-red-400" />
       </PopIn>
       <PopIn delay={0.5}>
-        <div className="h-3 w-3 rounded-full bg-yellow-500" />
+        <MacButton className="bg-yellow-500 hover:bg-yellow-400" />
       </PopIn>
       <PopIn delay={0.6}>
-        <div className="h-3 w-3 rounded-full bg-green-500" />
+        <MacButton className="bg-green-500 hover:bg-green-400" />
       </PopIn>
       <Expand
         delay={0.75}
@@ -116,6 +116,10 @@ export const MacWindowHeader = (props: HeaderProps) => {
     </div>
   );
 };
+
+const MacButton = ({ className }: { className: string }) => (
+  <div className={`h-3 w-3 rounded-full transition-colors duration-300 ${className}`} />
+);
 
 interface MacWindowInternalProps extends PropsWithChildren {
   className?: string;

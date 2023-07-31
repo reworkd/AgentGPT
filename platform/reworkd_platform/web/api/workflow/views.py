@@ -102,7 +102,7 @@ def get_block_info(
 
 
 @router.delete("/{workflow_id}/block/{node_ref}")
-def get_block_info(
+def delete_block_info(
     workflow_id: str,
     node_ref: str,
 ) -> Dict[str, Any]:

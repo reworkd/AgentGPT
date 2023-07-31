@@ -18,7 +18,7 @@ from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.agent.model_factory import create_model
 
 
 class SummaryAgentInput(BlockIOBase):

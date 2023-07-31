@@ -1,0 +1,76 @@
+---
+title: Update Docs Site
+description: Learn how to update or create a page on AgentGPT Documentation Site
+icon: "pen-to-square"
+---
+
+# Mintlify
+
+[Mintlify](https://mintlify.com/) is a platform that is used to create beautiful and engaging documentation that converts users. Using MDX, you can create documentation that is powerful, well-designed, and optimized for a better user experience. It performs well, has easy navigation, and provides built-in analytical tools to help you understand how users engage with your documentation.
+
+# Getting Started
+
+To run the documentation site locally;
+
+1. **Open your editor**
+2. **Open the Terminal** - Typically, you can do this from a 'Terminal' tab or by using a shortcut
+   (e.g., `Ctrl + ~` for Windows or `Control + ~` for Mac in VS Code).
+3. Clone the [AgentGPT](https://github.com/reworkd/AgentGPT) repository and Navigate into the docs directory
+
+```bash
+git clone https://github.com/reworkd/AgentGPT.git
+cd AgentGPT
+```
+
+4.Install Mintlify on your OS
+
+<CodeGroup>
+
+```bash npm
+npm i -g mintlify
+```
+
+```bash yarn
+yarn global add mintlify
+```
+
+</CodeGroup>
+
+5. Run `mintlify install`
+
+6. Move into the docs directory (where the `mintlify.json` file is located) and run the following command
+
+```
+mintlify dev
+```
+
+The documentation website will be available on `http://localhost:3000`
+
+# How to create a new page
+
+At the core of every Mintlify site is the `mintlify.json` which contains the configuration settings for the site. This file is found at the root directory of the documentation site. You can add a new page or update an existing page by editing the `mintlify.json` file.
+
+To add a new page;
+
+1. At the root directory, select the appropriate folder, i.e. **development**, **essentials** or **other**, and create a new file with the **.mdx** extenstion. Edit the file content.
+2. Open the `mintlify.json` file.
+3. Locate the navigation property. The value for the **navigation** property is an array of objects each consisting of the **group** and **pages** property. The **group** value is the name of the directory where the new page resides.
+4. Update the pages' value with the file name in the form `"directory/file_name"`. For example, to create a new **todo** page under the **development** directory, enter the following;
+
+```
+   ...
+
+   {
+      "group": "Development",
+      "pages": [...,"development/todo"]
+   },
+   ...
+```
+
+# How to update a page
+
+To update a page in the documentation's site;
+
+1. At the root of the **docs** directory, locate the appropriate directory i.e. where the page is located in the navigation section on the website.
+2. Edit the content of the file.
+3. Save the new changes to the file.

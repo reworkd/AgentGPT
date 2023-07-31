@@ -19,7 +19,7 @@ from reworkd_platform.web.api.agent.helpers import (
     openai_error_handler,
     parse_with_handling,
 )
-from reworkd_platform.web.api.agent.model_settings import WrappedChatOpenAI
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
 from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
     chat_prompt,

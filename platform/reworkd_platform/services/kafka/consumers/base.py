@@ -22,6 +22,10 @@ class JSONDeserializer(Deserializer):
 
 
 class AsyncConsumer(ABC):
+    MAX_POLL_INTERVAL_MS = 5 * 60 * 1000
+    SESSION_TIMEOUT_MS = 2 * 60 * 1000
+    HEARTBEAT_INTERVAL_MS = SESSION_TIMEOUT_MS // 3
+
     def __init__(
         self,
         *topics: Any,
@@ -43,6 +47,9 @@ class AsyncConsumer(ABC):
             enable_auto_commit=False,
             auto_offset_reset="latest",
             value_deserializer=deserializer.deserialize,
+            max_poll_interval_ms=self.MAX_POLL_INTERVAL_MS,
+            session_timeout_ms=self.SESSION_TIMEOUT_MS,
+            heartbeat_interval_ms=self.HEARTBEAT_INTERVAL_MS,
         )
 
     async def start(self) -> "AsyncConsumer":
@@ -57,8 +64,9 @@ class AsyncConsumer(ABC):
 
             msg: ConsumerRecord
             async for msg in consumer:
+                print(f"Consuming: {msg.topic}/{msg.partition}/{msg.offset}")
                 tp = TopicPartition(topic=msg.topic, partition=msg.partition)
-                await consumer.committed(tp)
+                await consumer.commit({tp: msg.offset + 1})
 
                 if self.should_skip(msg):
                     logger.info(f"Skipping message: {msg.headers}")

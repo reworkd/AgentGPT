@@ -101,9 +101,6 @@ async def trigger_workflow(
 ) -> str:
     """Trigger a workflow by id."""
     workflow = await crud.get(workflow_id)
-
-    print(crud.user)
-
     await ExecutionEngine.create_execution_plan(
         producer=producer,
         workflow=workflow,

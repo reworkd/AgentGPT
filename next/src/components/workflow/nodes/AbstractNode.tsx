@@ -24,7 +24,7 @@ const AbstractNode = (props: NodeProps) => (
   <div
     className={clsx(
       !props.status && "border border-white/20",
-      "border-translucent w-[17em]  rounded-md p-3 text-white shadow-xl shadow-stone-800 transition-colors duration-300",
+      "border-translucent  w-[17em] rounded-md p-3 text-white shadow-xl shadow-stone-800 transition-colors duration-300",
       props.selected ? "bg-zinc-800" : "bg-zinc-950 hover:bg-zinc-900",
       props.status === "running" && "border border-amber-500",
       props.status === "success" && "border border-green-500",

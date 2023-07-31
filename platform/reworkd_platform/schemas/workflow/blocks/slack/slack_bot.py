@@ -4,6 +4,7 @@ from loguru import logger
 from slack_sdk import WebClient
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.services.security import encryption_service
 
 
 class SlackWebhookInput(BlockIOBase):
@@ -32,6 +33,7 @@ class SlackMessageBlock(Block):
         if not credentials or not (token := credentials.get("slack", None)):
             raise ValueError("No credentials provided")
 
+        token = encryption_service.decrypt(token)
         WebClient(token=token).chat_postMessage(
             channel=self.input.url,
             text=self.input.message,

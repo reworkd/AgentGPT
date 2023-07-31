@@ -4,8 +4,8 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useEffect, useState } from "react";
-import { FaBuilding, FaHome, FaRobot, FaSave } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaBuilding, FaHome, FaPlus, FaRobot, FaSave } from "react-icons/fa";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
@@ -50,6 +50,8 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  const workflowId = router.query.w as string;
+
   const {
     nodesModel,
     edgesModel,
@@ -59,13 +61,13 @@ const WorkflowPage: NextPage = () => {
     updateNode,
     members,
     isLoading,
-  } = useWorkflow(router.query.w as string, session);
+  } = useWorkflow(workflowId, session);
 
   const { data: workflows } = useQuery(
     ["workflows"],
     async () => {
       const flows = await WorkflowApi.fromSession(session).getAll();
-      if (!router.query.w && flows?.[0]) await changeQueryParams({ w: flows[0].id });
+      // if (!workflowId && flows?.[0]) await changeQueryParams({ w: flows[0].id });
       return flows;
     },
     {
@@ -93,6 +95,18 @@ const WorkflowPage: NextPage = () => {
     };
 
     await router.replace(newURL, undefined, { shallow: true });
+  };
+
+  const showLoader = isLoading && !!workflowId;
+  const showCreateForm = !workflowId;
+
+  const onCreate = async (name: string) => {
+    const data = await WorkflowApi.fromSession(session).create({
+      name: name,
+      description: "",
+    });
+
+    await changeQueryParams({ w: data.id });
   };
 
   return (
@@ -137,6 +151,14 @@ const WorkflowPage: NextPage = () => {
             icon={FaRobot}
             defaultValue={{ id: "default", name: "Select an workflow" }}
           />
+          {showCreateForm || (
+            <a
+              className="rounded-sm p-1 ring-2 ring-black"
+              onClick={() => void router.replace("/workflow")}
+            >
+              <FaPlus size="20" />
+            </a>
+          )}
         </div>
         <div className="flex flex-row items-center gap-2">
           {Object.entries(members).map(([id, user]) => (
@@ -163,9 +185,21 @@ const WorkflowPage: NextPage = () => {
         />
       </div>
 
-      {isLoading && (
+      {showCreateForm && (
+        <div className="fixed right-1/2 top-1/2 z-10 -translate-y-1/2 translate-x-1/2">
+          <CreateWorkflow onSubmit={onCreate} />
+        </div>
+      )}
+
+      {showLoader && (
         <div className="fixed left-1/2 top-1/2 z-50">
           <Loader size={60} color="black" className="-translate-x-1/2 -translate-y-1/2" />
+        </div>
+      )}
+
+      {!showLoader && !showCreateForm && !nodesModel[0].length && (
+        <div className="fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]">
+          Double Click to create a node
         </div>
       )}
 
@@ -191,4 +225,50 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
       ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
     },
   };
+};
+
+const CreateWorkflow = ({ onSubmit }: { onSubmit: (name: string) => Promise<void> }) => {
+  const [workflowName, setWorkflowName] = useState("");
+
+  function submit() {
+    if (!workflowName) {
+      window.alert("Please enter a workflow name.");
+      return;
+    }
+
+    onSubmit(workflowName).catch(console.error);
+  }
+
+  return (
+    <div className="border-2 border-dashed border-black p-4 backdrop-blur-[2px] sm:rounded-lg">
+      <div className="px-4 py-5 sm:p-6">
+        <h3 className="text-base font-semibold leading-6 text-gray-900">Create a new workflow</h3>
+        <div className="mt-2 max-w-xl text-sm text-gray-500">
+          <p>Enter a short yet descriptive name for your workflow.</p>
+        </div>
+        <div className="mt-5 sm:flex sm:items-center">
+          <div className="w-full sm:max-w-xs">
+            <label htmlFor="email" className="sr-only">
+              Email
+            </label>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black/50 sm:text-sm sm:leading-6"
+              placeholder="PDF Summary to Slack"
+              value={workflowName}
+              onChange={(e) => setWorkflowName(e.target.value)}
+            />
+          </div>
+          <button
+            className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto"
+            onClick={submit}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };

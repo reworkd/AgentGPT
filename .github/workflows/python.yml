@@ -16,8 +16,11 @@ jobs:
       run:
         working-directory: platform
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - with:
+          python-version: '3.x'
+          cache: 'poetry'
       - run: |
           pip install -U pip
           pip install poetry
@@ -33,8 +36,11 @@ jobs:
       run:
         working-directory: platform
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - with:
+          python-version: '3.x'
+          cache: 'poetry'
       - run: |
           pip install -U pip
           pip install poetry
@@ -65,8 +71,11 @@ jobs:
         ports:
           - 3306:3306
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - with:
+          python-version: '3.x'
+          cache: 'poetry'
       - run: |
           pip install -U pip
           pip install poetry

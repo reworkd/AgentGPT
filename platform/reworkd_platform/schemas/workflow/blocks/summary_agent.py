@@ -53,6 +53,7 @@ class SummaryAgent(Block):
                     )
                 ),
                 path=temp_dir,
+                workflow_id=workflow_id
             )
 
             response = await self.execute_query_on_pinecone(
@@ -120,7 +121,7 @@ class SummaryAgent(Block):
         return processed
 
     def chunk_documents_to_pinecone(
-        self, files: list[str], embeddings: Embeddings, path: str
+        self, files: list[str], embeddings: Embeddings, path: str,workflow_id: str
     ) -> Pinecone:
         index_name = "prod"
         index = pinecone.Index(index_name)
@@ -130,16 +131,15 @@ class SummaryAgent(Block):
         texts = []
         for file in files:
             filepath = os.path.join(path, file)
-            # table_data = self.read_and_preprocess_tables(filepath)
             data = PyPDFLoader(filepath).load()
             pdf_data = data
             texts.extend(text_splitter.split_documents(pdf_data))
-            # texts.extend(text_splitter.create_documents(table_data))
 
         docsearch = Pinecone.from_documents(
             [t for t in texts],
             embeddings,
             index_name=index_name,
+            namespace=workflow_id,
         )
 
         return docsearch

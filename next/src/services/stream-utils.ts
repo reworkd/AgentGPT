@@ -70,3 +70,20 @@ export const streamText = async (
 
   await processStream(reader, onStart, onText, shouldClose);
 };
+
+export const streamTextWithoutAgentBody = async (
+  url: string,
+  body: any,
+  accessToken: string,
+  onStart: () => void,
+  onText: (text: string) => void,
+  shouldClose: () => boolean
+) => {
+  const reader = await fetchData(url, body, accessToken);
+  if (!reader) {
+    console.error("Reader is undefined!");
+    return;
+  }
+
+  await processStream(reader, onStart, onText, shouldClose);
+};

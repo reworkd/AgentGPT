@@ -5,12 +5,14 @@ from typing import Any, Dict, List
 
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
+from langchain.document_loaders import PyPDFLoader
 from pinecone import Index  # import doesnt work on plane wifi
 from pydantic import BaseModel
-
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from reworkd_platform.settings import settings
 from reworkd_platform.timer import timed_function
 from reworkd_platform.web.api.memory.memory import AgentMemory
+import os
 
 OPENAI_EMBEDDING_DIM = 1536
 
@@ -96,3 +98,20 @@ class PineconeMemory(AgentMemory):
     @staticmethod
     def should_use() -> bool:
         return False
+
+    @timed_function(level="DEBUG")
+    def chunk_pdf_files_to_pinecone(
+        self, files: list[str], path: str
+    ) -> List[str]:
+        index_name = "prod"
+        index = self.Index(index_name)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+        texts = []
+        for file in files:
+            filepath = os.path.join(path, file)
+            pdf_data = PyPDFLoader(filepath).load()
+            texts.extend(text_splitter.split_documents(pdf_data))
+        print(texts)
+        tasks = self.add_tasks(texts)
+        print(index.describe_index_stats())
+        return tasks

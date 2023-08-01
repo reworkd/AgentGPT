@@ -125,12 +125,12 @@ const WorkflowPage: NextPage = () => {
       <div className="fixed top-0 z-10 flex w-full flex-row items-start justify-between p-4">
         <div className="flex flex-row items-center gap-2">
           <a
-            className="rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
+            className="group rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
             onClick={() => void router.push("/home")}
           >
             <Image
               src="/logos/light-default-solid.svg"
-              className="h-6 w-6 hover:invert"
+              className="h-6 w-6 group-hover:invert"
               width="24"
               height="24"
               alt="Reworkd AI"

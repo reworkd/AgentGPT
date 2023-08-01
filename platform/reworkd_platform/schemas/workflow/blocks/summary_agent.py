@@ -2,6 +2,7 @@ import os
 import tempfile
 from collections import defaultdict
 from typing import Any
+from loguru import logger
 
 import openai
 import pinecone
@@ -57,9 +58,10 @@ class SummaryAgent(Block):
             )
 
             response = await self.execute_query_on_pinecone(
-                company_context=self.input.company_context, docsearch=docsearch
+                company_context=self.input.company_context, docsearch=docsearch, workflow_id=workflow_id
             )
 
+        logger.info(f"SummaryAgent response: {response}")
         return SummaryAgentOutput(**self.input.dict(), result=response)
 
     def name_table(self, table: str) -> str:
@@ -129,6 +131,7 @@ class SummaryAgent(Block):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
 
         texts = []
+        logger.info(f"texts: {texts}")
         for file in files:
             filepath = os.path.join(path, file)
             data = PyPDFLoader(filepath).load()
@@ -139,13 +142,13 @@ class SummaryAgent(Block):
             [t for t in texts],
             embeddings,
             index_name=index_name,
-            namespace=workflow_id,
+            # namespace=workflow_id,
         )
 
         return docsearch
 
     async def execute_query_on_pinecone(
-        self, company_context: str, docsearch: Pinecone
+        self, company_context: str, docsearch: Pinecone, workflow_id: str
     ) -> str:
         docs = docsearch.similarity_search(company_context, k=7)
         relevant_table_metadata = defaultdict(list)

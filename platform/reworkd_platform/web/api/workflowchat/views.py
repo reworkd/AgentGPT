@@ -16,7 +16,7 @@ from reworkd_platform.schemas import (
     UserBase,
 )
 from reworkd_platform.services.langchain.callbacks import CallbackHandler
-from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.agent.model_factory import create_model
 from reworkd_platform.web.api.agent.prompts import chat_prompt
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.dependencies import get_current_user

@@ -49,8 +49,7 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
-  const workflowId = router.query.w as string;
-
+  const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
     edgesModel,
@@ -86,8 +85,8 @@ const WorkflowPage: NextPage = () => {
     await router.replace(newURL, undefined, { shallow: true });
   };
 
-  const showLoader = isLoading && !!workflowId;
-  const showCreateForm = !workflowId;
+  const showLoader = !router.isReady || (isLoading && !!workflowId);
+  const showCreateForm = !workflowId && router.isReady;
 
   const onCreate = async (name: string) => {
     const data = await WorkflowApi.fromSession(session).create({

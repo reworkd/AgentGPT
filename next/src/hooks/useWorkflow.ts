@@ -48,25 +48,26 @@ const updateValue = <
     })
   );
 
-export const useWorkflow = (workflowId: string, session: Session | null) => {
+export const useWorkflow = (workflowId: string | undefined, session: Session | null) => {
   const api = new WorkflowApi(session?.accessToken, session?.user?.organizations?.[0]?.id);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
-  const { mutateAsync: updateWorkflow } = useMutation(
-    async (data: Workflow) => void (await api.update(workflowId, data))
-  );
+
+  const { mutateAsync: updateWorkflow } = useMutation(async (data: Workflow) => {
+    if (!workflowId) return;
+    await api.update(workflowId, data);
+  });
 
   const workflowStore = useWorkflowStore();
 
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
     async () => {
-      const workflow = await api.get(workflowId);
+      if (!workflowId) return;
 
+      const workflow = await api.get(workflowId);
       workflowStore.setWorkflow(workflow);
       setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
       setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
-
-      return workflow;
     },
     {
       enabled: !!workflowId && !!session?.accessToken,
@@ -147,6 +148,8 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
   };
 
   const onSave = async () => {
+    if (!workflowId) return;
+
     await updateWorkflow({
       id: workflowId,
       nodes: nodes.map((n) => ({
@@ -168,7 +171,10 @@ export const useWorkflow = (workflowId: string, session: Session | null) => {
     await refetchWorkflow();
   };
 
-  const onExecute = async () => await api.execute(workflowId);
+  const onExecute = async () => {
+    if (!workflowId) return;
+    await api.execute(workflowId);
+  };
 
   return {
     selectedNode,

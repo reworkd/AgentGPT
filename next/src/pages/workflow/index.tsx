@@ -4,7 +4,7 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
 
@@ -17,7 +17,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { useWorkflow } from "../../hooks/useWorkflow";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../services/workflow/workflowApi";
-import { useLayoutStore } from "../../stores/layoutStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
@@ -65,21 +64,11 @@ const WorkflowPage: NextPage = () => {
 
   const { data: workflows } = useQuery(
     ["workflows"],
-    async () => {
-      const flows = await WorkflowApi.fromSession(session).getAll();
-      // if (!workflowId && flows?.[0]) await changeQueryParams({ w: flows[0].id });
-      return flows;
-    },
+    async () => await WorkflowApi.fromSession(session).getAll(),
     {
       enabled: !!session,
     }
   );
-
-  const layout = useLayoutStore();
-  useEffect(() => {
-    layout.setLayout({ showRightSidebar: !!selectedNode });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedNode]);
 
   const [open, setOpen] = useState(false);
 
@@ -181,7 +170,7 @@ const WorkflowPage: NextPage = () => {
           <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
           <button
             className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
-            onClick={handleClick}
+            onClick={() => void handleClick().catch(console.error)}
           >
             Save
           </button>

@@ -39,7 +39,7 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
-            onClick={() => setShow(!layout.showRightSidebar)}
+            onClick={() => setShow(false)}
           >
             <FaBars size="15" className="z-20 mr-2" />
           </button>

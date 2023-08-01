@@ -5,14 +5,12 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useEffect, useState } from "react";
-import { FaPlus, FaSave } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
-import { RxHome } from "react-icons/rx";
+import { RxHome, RxPlus } from "react-icons/rx";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import Loader from "../../components/loader";
-import PrimaryButton from "../../components/PrimaryButton";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
@@ -124,22 +122,22 @@ const WorkflowPage: NextPage = () => {
         }
       />
 
-      <div className="fixed top-0 z-10 m-4 flex w-full flex-row items-center justify-between">
-        <div className="flex flex-row items-center gap-4">
+      <div className="fixed top-0 z-10 flex w-full flex-row items-start justify-between p-4">
+        <div className="flex flex-row items-center gap-2">
           <a
-            className="rounded-md border border-black p-0.5 shadow shadow-black/50"
+            className="rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
             onClick={() => void router.push("/home")}
           >
             <Image
               src="/logos/light-default-solid.svg"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:invert"
               width="24"
               height="24"
               alt="Reworkd AI"
             />
           </a>
           <a
-            className="flex h-6 w-6 items-center justify-center rounded-md border border-black"
+            className="mx-2 flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white shadow-black transition-all hover:bg-black hover:text-white"
             onClick={() => void router.push("/")}
           >
             <RxHome size="16" />
@@ -164,25 +162,29 @@ const WorkflowPage: NextPage = () => {
           />
           {showCreateForm || (
             <a
-              className="rounded-sm p-1 ring-2 ring-black"
+              className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
               onClick={() => void router.replace("/workflow")}
             >
-              <FaPlus size="20" />
+              <RxPlus size="16" />
             </a>
           )}
         </div>
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
           {Object.entries(members).map(([id, user]) => (
             <img
-              className="h-6 w-6 rounded-full bg-neutral-800 ring-2 ring-gray-200/20"
+              className="h-6 w-6 rounded-full border-2 border-white ring-2 ring-purple-500"
               key={id}
               src={get_avatar(user)}
               alt="user avatar"
             />
           ))}
-          <PrimaryButton icon={<FaSave size="15" />} onClick={handleClick}>
+          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
+          <button
+            className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
+            onClick={handleClick}
+          >
             Save
-          </PrimaryButton>
+          </button>
         </div>
       </div>
 

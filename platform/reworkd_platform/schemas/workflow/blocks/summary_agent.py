@@ -131,7 +131,6 @@ class SummaryAgent(Block):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
 
         texts = []
-        logger.info(f"texts: {texts}")
         for file in files:
             filepath = os.path.join(path, file)
             data = PyPDFLoader(filepath).load()
@@ -142,7 +141,7 @@ class SummaryAgent(Block):
             [t for t in texts],
             embeddings,
             index_name=index_name,
-            # namespace=workflow_id,
+            namespace=workflow_id
         )
 
         return docsearch
@@ -150,7 +149,7 @@ class SummaryAgent(Block):
     async def execute_query_on_pinecone(
         self, company_context: str, docsearch: Pinecone, workflow_id: str
     ) -> str:
-        docs = docsearch.similarity_search(company_context, k=7)
+        docs = docsearch.similarity_search(company_context, k=7,namespace=workflow_id)
         relevant_table_metadata = defaultdict(list)
         for doc in docs:
             doc_source = doc.metadata["source"]

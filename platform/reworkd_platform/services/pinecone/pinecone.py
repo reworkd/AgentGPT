@@ -34,9 +34,9 @@ class PineconeMemory(AgentMemory):
     Wrapper around pinecone
     """
 
-    def __init__(self, index_name: str):
+    def __init__(self, index_name: str,namespace: str = None):
         self.index = Index(settings.pinecone_index_name)
-        self.namespace = index_name
+        self.namespace = namespace if namespace is not None else index_name
 
     @timed_function(level="DEBUG")
     def __enter__(self) -> AgentMemory:

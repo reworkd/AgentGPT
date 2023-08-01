@@ -71,7 +71,7 @@ async def chatwithin3(body: ChatBodyV1, user: UserBase = Depends(get_current_use
         return output
 
 def get_similar_docs(query: str):
-    with PineconeMemory(index_name="prod") as pinecone:
+    with PineconeMemory(index_name="prod",namespace="571b703d-b349-4a5e-82cb-3c9131fd19d0") as pinecone:
         logger.info(pinecone.index.describe_index_stats())
         results = pinecone.get_similar_tasks(query, .75)
         return results

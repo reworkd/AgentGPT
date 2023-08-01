@@ -18,6 +18,7 @@ from reworkd_platform.web.api.agent.model_factory import create_model
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.services.pinecone.pinecone import PineconeMemory
+from lanarky.responses import StreamingResponse
 
 router = APIRouter()
 
@@ -41,7 +42,7 @@ class Input(BaseModel):
 @router.post("/v1/chatwithin")
 async def chatwithin3(
     body: ChatBodyV1, user: UserBase = Depends(get_current_user)
-) -> str:
+) -> FastAPIStreamingResponse:
     docsearch = get_similar_docs(body.prompt, body.workflow_id)
 
     logger.info(f"Similar docs: {docsearch}")
@@ -68,12 +69,19 @@ async def chatwithin3(
         verbose=True,
     )
 
-    output = chain.predict(prompt=body.prompt, history="", similar_docs=docsearch)
-    return output
+    return StreamingResponse.from_chain(
+        chain,
+        {
+            "prompt": body.prompt,
+            "history": "",
+            "similar_docs": docsearch,
+        },
+        media_type="text/event-stream",
+    )
 
 
 def get_similar_docs(query: str, workflow_id: str) -> str:
-    with PineconeMemory(index_name="prod", namespace=workflow_id) as pinecone:
+    with PineconeMemory(index_name="prod",namespace="571b703d-b349-4a5e-82cb-3c9131fd19d0") as pinecone:
         logger.info(pinecone.index.describe_index_stats())
         results = pinecone.get_similar_tasks(query, 0.75)
         return results

@@ -51,7 +51,7 @@ export default function Chat() {
     ]);
 
     try {
-      const response = await streamTextWithoutAgentBody(
+      await streamTextWithoutAgentBody(
         "/api/workflowchat/v1/chatwithin",
         {
           prompt: input,

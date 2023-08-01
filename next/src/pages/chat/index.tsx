@@ -107,10 +107,13 @@ export default function Chat() {
             {
               // If loading, do not show the last message statically
               (shouldAnimateLastMessage ? messages.slice(0, messages.length - 1) : messages).map(m => {
+                // @ts-ignore
                 if (m.role === "user") return (
+                  // @ts-ignore
                   <div key={m.id} className="font-bold text-xl">{m.content}</div>
                 )
                 return (
+                  // @ts-ignore
                   <div key={m.id} className="mb-2 text-neutral-400">{m.content}</div>
                 )
               })
@@ -118,6 +121,7 @@ export default function Chat() {
             {isLoading && shouldAnimateLastMessage && (
               // When loading, animate chunks of the latest message
               <div>
+                {/* @ts-ignore */}
                 {chunkString(messages[messages.length - 1].content).map((chunk, index) => (
                   <motion.span
                     key={index}

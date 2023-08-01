@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -81,6 +81,37 @@ def upload_block(
         )
         for file in body.files
     }
+
+
+@router.get("/{workflow_id}/block/{node_ref}")
+def get_block_info(
+    workflow_id: str,
+    node_ref: str,
+) -> Dict[str, Any]:
+    """Get information about a block"""
+    # TODO this should differ based on block type
+    prefix = f"{workflow_id}/{node_ref}"
+    return {
+        "files": [
+            name.split("/")[-1]
+            for name in SimpleStorageService(settings.s3_bucket_name).list_keys(
+                prefix=prefix
+            )
+        ],
+    }
+
+
+@router.delete("/{workflow_id}/block/{node_ref}")
+def delete_block_info(
+    workflow_id: str,
+    node_ref: str,
+) -> Dict[str, Any]:
+    """Get information about a block"""
+    # TODO this should differ based on block type
+    # TODO make sure they can only delete their own files
+    prefix = f"{workflow_id}/{node_ref}"
+    SimpleStorageService(settings.s3_bucket_name).delete_folder(prefix=prefix)
+    return {}
 
 
 @router.delete("/{workflow_id}")

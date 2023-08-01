@@ -4,7 +4,7 @@ import pytest
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
-from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.agent.model_factory import create_model
 
 
 @pytest.mark.parametrize(

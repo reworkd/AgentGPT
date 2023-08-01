@@ -80,6 +80,7 @@ services:
   # Running selenium instance. An instance will block per request so we need to scale this out
   chrome:
     image: seleniarm/node-chromium
+    #    image: selenium/node-chrome:4 # If you're on an non-ARM system
     shm_size: 2gb
     depends_on:
       - selenium-hub

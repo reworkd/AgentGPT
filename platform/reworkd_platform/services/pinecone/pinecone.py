@@ -36,7 +36,8 @@ class PineconeMemory(AgentMemory):
 
     def __init__(self, index_name: str, namespace: str = ""):
         self.index = Index(settings.pinecone_index_name)
-        self.namespace = namespace if namespace is not "" else index_name
+        self.namespace = namespace or index_name
+
 
     @timed_function(level="DEBUG")
     def __enter__(self) -> AgentMemory:

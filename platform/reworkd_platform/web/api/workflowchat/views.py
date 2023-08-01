@@ -31,6 +31,7 @@ class ChatModelSettings(ModelSettings):
 class ChatBodyV1(BaseModel):
     model_settings: ChatModelSettings = Field(default=ChatModelSettings())
     prompt: str
+    workflow_id: str
 
 
 class Input(BaseModel):

@@ -98,18 +98,3 @@ class PineconeMemory(AgentMemory):
     @staticmethod
     def should_use() -> bool:
         return False
-
-    @timed_function(level="DEBUG")
-    def chunk_pdf_files_to_pinecone(self, files: list[str], path: str) -> List[str]:
-        index_name = "prod"
-        index = self.Index(index_name)
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
-        texts = []
-        for file in files:
-            filepath = os.path.join(path, file)
-            pdf_data = PyPDFLoader(filepath).load()
-            texts.extend(text_splitter.split_documents(pdf_data))
-        print(texts)
-        tasks = self.add_tasks(texts)
-        print(index.describe_index_stats())
-        return tasks

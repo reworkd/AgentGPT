@@ -1,7 +1,7 @@
 import os
 import tempfile
 from collections import defaultdict
-from typing import Any
+from typing import Any, List, Dict, Union
 from loguru import logger
 
 import openai
@@ -61,6 +61,7 @@ class SummaryAgent(Block):
                 company_context=self.input.company_context,
                 docsearch=docsearch,
                 workflow_id=workflow_id,
+                path=temp_dir,
             )
 
         logger.info(f"SummaryAgent response: {response}")
@@ -91,7 +92,7 @@ class SummaryAgent(Block):
         self, relevant_table_metadata: dict[str, list[int]]
     ) -> list[str]:
         processed = []
-        parsed_dfs_from_file: list[Any] | dict[str, Any] = []
+        parsed_dfs_from_file: Union[List[Any], Dict[str, Any]] = []
 
         for source in relevant_table_metadata.keys():
             page_numbers = relevant_table_metadata[source]
@@ -100,7 +101,6 @@ class SummaryAgent(Block):
                 filtered_page_numbers.sort()
                 start_page = filtered_page_numbers[0]
                 end_page = filtered_page_numbers[-1]
-
                 parsed_dfs_from_file = read_pdf(
                     source, pages=f"{start_page}-{end_page}"
                 )
@@ -129,7 +129,7 @@ class SummaryAgent(Block):
     ) -> Pinecone:
         index_name = "prod"
         index = pinecone.Index(index_name)
-        index.delete(delete_all=True)
+        index.delete(delete_all=True, namespace=workflow_id)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
 
         texts = []
@@ -146,14 +146,18 @@ class SummaryAgent(Block):
         return docsearch
 
     async def execute_query_on_pinecone(
-        self, company_context: str, docsearch: Pinecone, workflow_id: str
+        self, company_context: str, docsearch: Pinecone, workflow_id: str, path: str
     ) -> str:
-        docs = docsearch.similarity_search(company_context, k=7, namespace=workflow_id)
-        relevant_table_metadata = defaultdict(list)
+        similarity_prompt = f"""{company_context}. Include information relevant to the market, strategies, products, interesting quantitative metrics and trends that can inform decision-making. Gather info from different documents."""
+        docs = docsearch.similarity_search(
+            similarity_prompt, k=7, namespace=workflow_id
+        )
+        relevant_table_metadata: Dict[str, List[Any]] = defaultdict(list)
         for doc in docs:
             doc_source = doc.metadata["source"]
             page_number = int(doc.metadata["page"])
-            relevant_table_metadata[doc_source].append(page_number)
+            if page_number not in relevant_table_metadata[doc_source]:
+                relevant_table_metadata[doc_source].append(page_number)
 
         processed_tables = self.read_and_preprocess_tables(relevant_table_metadata)
 

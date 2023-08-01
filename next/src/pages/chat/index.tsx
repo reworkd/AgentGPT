@@ -63,7 +63,7 @@ export default function Chat() {
       setIsLoading(false);
     }
   };
-
+  // @ts-ignore
   const shouldAnimateLastMessage = isLoading && messages.length > 0 && messages[messages.length - 1].role !== "user"
   const lastMessage = messages[messages.length - 1]; // Get the last message
 

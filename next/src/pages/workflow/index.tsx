@@ -5,7 +5,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useEffect, useState } from "react";
-import { FaBuilding, FaHome, FaPlus, FaRobot, FaSave } from "react-icons/fa";
+import { FaPlus, FaSave } from "react-icons/fa";
+import { RiBuildingLine, RiStackFill } from "react-icons/ri";
+import { RxHome } from "react-icons/rx";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
@@ -122,22 +124,31 @@ const WorkflowPage: NextPage = () => {
         }
       />
 
-      <div className="fixed top-0 z-10 flex w-full flex-row items-center justify-between p-2">
-        <div className="flex flex-row items-center gap-2">
+      <div className="fixed top-0 z-10 m-4 flex w-full flex-row items-center justify-between">
+        <div className="flex flex-row items-center gap-4">
           <a
-            className="rounded-sm p-0.5 ring-2 ring-black"
+            className="rounded-md border border-black p-0.5 shadow shadow-black/50"
             onClick={() => void router.push("/home")}
           >
-            <Image src="/logos/light-default-solid.svg" width="24" height="24" alt="Reworkd AI" />
+            <Image
+              src="/logos/light-default-solid.svg"
+              className="h-6 w-6"
+              width="24"
+              height="24"
+              alt="Reworkd AI"
+            />
           </a>
-          <a className="rounded-sm p-1 ring-2 ring-black" onClick={() => void router.push("/")}>
-            <FaHome size="20" />
+          <a
+            className="flex h-6 w-6 items-center justify-center rounded-md border border-black"
+            onClick={() => void router.push("/")}
+          >
+            <RxHome size="16" />
           </a>
           <Select<{ id: string; name: string }>
             value={session?.user.organizations?.[0]}
             items={session?.user.organizations}
             valueMapper={(org) => org?.name}
-            icon={FaBuilding}
+            icon={RiBuildingLine}
             defaultValue={{ id: "default", name: "Select an org" }}
             disabled
           />
@@ -148,7 +159,7 @@ const WorkflowPage: NextPage = () => {
             }}
             items={workflows}
             valueMapper={(item) => item?.name}
-            icon={FaRobot}
+            icon={RiStackFill}
             defaultValue={{ id: "default", name: "Select an workflow" }}
           />
           {showCreateForm || (

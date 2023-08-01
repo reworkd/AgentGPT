@@ -54,11 +54,13 @@ class SummaryAgent(Block):
                     )
                 ),
                 path=temp_dir,
-                workflow_id=workflow_id
+                workflow_id=workflow_id,
             )
 
             response = await self.execute_query_on_pinecone(
-                company_context=self.input.company_context, docsearch=docsearch, workflow_id=workflow_id
+                company_context=self.input.company_context,
+                docsearch=docsearch,
+                workflow_id=workflow_id,
             )
 
         logger.info(f"SummaryAgent response: {response}")
@@ -123,7 +125,7 @@ class SummaryAgent(Block):
         return processed
 
     def chunk_documents_to_pinecone(
-        self, files: list[str], embeddings: Embeddings, path: str,workflow_id: str
+        self, files: list[str], embeddings: Embeddings, path: str, workflow_id: str
     ) -> Pinecone:
         index_name = "prod"
         index = pinecone.Index(index_name)
@@ -138,10 +140,7 @@ class SummaryAgent(Block):
             texts.extend(text_splitter.split_documents(pdf_data))
 
         docsearch = Pinecone.from_documents(
-            [t for t in texts],
-            embeddings,
-            index_name=index_name,
-            namespace=workflow_id
+            [t for t in texts], embeddings, index_name=index_name, namespace=workflow_id
         )
 
         return docsearch
@@ -149,7 +148,7 @@ class SummaryAgent(Block):
     async def execute_query_on_pinecone(
         self, company_context: str, docsearch: Pinecone, workflow_id: str
     ) -> str:
-        docs = docsearch.similarity_search(company_context, k=7,namespace=workflow_id)
+        docs = docsearch.similarity_search(company_context, k=7, namespace=workflow_id)
         relevant_table_metadata = defaultdict(list)
         for doc in docs:
             doc_source = doc.metadata["source"]

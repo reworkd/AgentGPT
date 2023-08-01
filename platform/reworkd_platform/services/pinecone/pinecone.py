@@ -34,7 +34,7 @@ class PineconeMemory(AgentMemory):
     Wrapper around pinecone
     """
 
-    def __init__(self, index_name: str,namespace: str = None):
+    def __init__(self, index_name: str, namespace: str = None):
         self.index = Index(settings.pinecone_index_name)
         self.namespace = namespace if namespace is not None else index_name
 
@@ -100,9 +100,7 @@ class PineconeMemory(AgentMemory):
         return False
 
     @timed_function(level="DEBUG")
-    def chunk_pdf_files_to_pinecone(
-        self, files: list[str], path: str
-    ) -> List[str]:
+    def chunk_pdf_files_to_pinecone(self, files: list[str], path: str) -> List[str]:
         index_name = "prod"
         index = self.Index(index_name)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)

@@ -6,8 +6,7 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from reworkd_platform.services.aws.s3 import SimpleStorageService
 from pydantic import BaseModel, Field
 from fastapi import Depends
-from langchain import OpenAI, LLMChain, PromptTemplate
-import openai
+from langchain import LLMChain, PromptTemplate
 from reworkd_platform.settings import settings
 
 from reworkd_platform.schemas import (

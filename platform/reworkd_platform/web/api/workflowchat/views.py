@@ -80,9 +80,7 @@ async def chatwithin3(
 
 
 def get_similar_docs(query: str, workflow_id: str) -> str:
-    with PineconeMemory(
-        index_name="prod", namespace=workflow_id
-    ) as pinecone:
+    with PineconeMemory(index_name="prod", namespace=workflow_id) as pinecone:
         logger.info(pinecone.index.describe_index_stats())
         results = pinecone.get_similar_tasks(query, 0.75)
         return results

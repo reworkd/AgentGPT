@@ -24,8 +24,6 @@ jobs:
           python-version: '3.x'
           cache: 'poetry'
       - run: poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
       - name: Run black check
         run: poetry run black --check .
 
@@ -43,8 +41,6 @@ jobs:
           python-version: '3.x'
           cache: 'poetry'
       - run: poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
       - name: Run mypy check
         run: poetry run mypy .
 
@@ -77,8 +73,6 @@ jobs:
           python-version: '3.x'
           cache: 'poetry'
       - run: poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
       - name: Run pytest check
         run: poetry run pytest -vv --cov="reworkd_platform" .
         env:

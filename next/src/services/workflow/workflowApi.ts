@@ -1,10 +1,10 @@
 import axios from "axios";
+import { Session } from "next-auth";
 import { z } from "zod";
 
 import type { Workflow } from "../../types/workflow";
 import { WorkflowSchema } from "../../types/workflow";
-import { delete_ } from "../api-utils";
-import { get, post, put } from "../fetch-utils";
+import { delete_, get, post, put } from "../fetch-utils";
 
 const WorkflowMetaSchema = z.object({
   id: z.string(),
@@ -31,6 +31,10 @@ export default class WorkflowApi {
     this.organizationId = organizationId;
   }
 
+  static fromSession(session: Session | null) {
+    return new WorkflowApi(session?.accessToken, session?.user?.organizations[0]?.id);
+  }
+
   async getAll() {
     return await get(
       "/api/workflow",
@@ -45,17 +49,11 @@ export default class WorkflowApi {
   }
 
   async update(id: string, data: Workflow) {
-    return await put(
-      `/api/workflow/${id}`,
-      PresignedPostSchema,
-      data,
-      this.accessToken,
-      this.organizationId
-    );
+    await put(`/api/workflow/${id}`, z.any(), data, this.accessToken, this.organizationId);
   }
 
   async delete(id: string) {
-    await delete_(`/api/workflow/${id}`, this.accessToken);
+    await delete_(`/api/workflow/${id}`, z.any(), {}, this.accessToken, this.organizationId);
   }
 
   async create(workflow: Omit<WorkflowMeta, "id" | "user_id" | "organization_id">) {
@@ -69,7 +67,13 @@ export default class WorkflowApi {
   }
 
   async execute(id: string) {
-    return await post(`/api/workflow/${id}/execute`, z.string(), {}, this.accessToken);
+    return await post(
+      `/api/workflow/${id}/execute`,
+      z.string(),
+      {},
+      this.accessToken,
+      this.organizationId
+    );
   }
 
   async upload(workflow_id: string, block_ref: string, files: File[]) {
@@ -103,5 +107,25 @@ export default class WorkflowApi {
     });
 
     return uploadResponse.status;
+  }
+
+  async blockInfo(workflow_id: string, block_ref: string) {
+    return await get(
+      `/api/workflow/${workflow_id}/block/${block_ref}`,
+      z.object({
+        files: z.array(z.string()),
+      }),
+      this.accessToken,
+      this.organizationId
+    );
+  }
+
+  async blockInfoDelete(workflow_id: string, block_ref: string) {
+    await delete_(
+      `/api/workflow/${workflow_id}/block/${block_ref}`,
+      z.any(),
+      this.accessToken,
+      this.organizationId
+    );
   }
 }

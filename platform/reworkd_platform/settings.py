@@ -39,27 +39,33 @@ class Settings(BaseSettings):
     with environment variables.
     """
 
+    # Application settings
     host: str = "127.0.0.1"
     port: int = 8000
-
-    # Quantity of workers for uvicorn
     workers_count: int = 1
-
-    # Enable uvicorn reloading
     reload: bool = True
-
-    # Current environment
     environment: ENVIRONMENT = "development"
-
     log_level: LOG_LEVEL = "INFO"
+
+    # Make sure you update this with your own secret key
+    # Must be 32 url-safe base64-encoded bytes
+    secret_signing_key: str = "JF52S66x6WMoifP5gZreiguYs9LYMn0lkXqgPYoNMD0="
 
     # OpenAI
     openai_api_base: str = "https://api.openai.com/v1"
     openai_api_key: str = "<Should be updated via env>"
     secondary_openai_api_key: Optional[str] = None
 
+    # Azure OpenAI
+    azure_openai_api_version: str = "2023-06-01-preview"
+    azure_openai_api_key: str = ""
+    azure_openai_api_base: str = ""
+    azure_openai_deployment_name: str = ""
+
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
+    scrapingbee_api_key: Optional[str] = None
+    anthropic_api_key: Optional[str] = None
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
@@ -107,6 +113,9 @@ class Settings(BaseSettings):
     slack_client_secret: str = ""
     slack_redirect_uri: str = ""
 
+    # Settings for s3
+    s3_bucket_name: str = "changeme"
+
     @property
     def kafka_consumer_group(self) -> str:
         """
@@ -148,6 +157,17 @@ class Settings(BaseSettings):
                 self.kafka_bootstrap_servers,
                 self.kafka_username,
                 self.kafka_password,
+            ]
+        )
+
+    @property
+    def azure_openai_enabled(self) -> bool:
+        return all(
+            [
+                self.azure_openai_api_base,
+                self.azure_openai_deployment_name,
+                self.azure_openai_api_version,
+                self.azure_openai_api_key,
             ]
         )
 

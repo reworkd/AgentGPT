@@ -101,35 +101,23 @@ model VerificationToken {
 
 model OAuthCredentials {
   id              String  @id @default(cuid())
-  installation_id String
-  provider        String
-  token_type      String
-  access_token    String
-  scope           String?
-  data            Json
-
-  create_date DateTime  @default(now())
-  update_date DateTime? @updatedAt
-  delete_date DateTime?
-
-  @@unique([installation_id])
-  @@map("oauth_credentials")
-}
-
-model OAuthInstallation {
-  id              String  @id @default(cuid())
   user_id         String
   organization_id String?
   provider        String
   state           String
+  redirect_uri    String
+
+  // Post install
+  token_type       String?
+  access_token_enc String?
+  scope            String?
 
   create_date DateTime  @default(now())
   update_date DateTime? @updatedAt
   delete_date DateTime?
 
-  @@unique([user_id, organization_id, provider])
   @@index([state])
-  @@map("oauth_installation")
+  @@map("oauth_credentials")
 }
 
 model Agent {

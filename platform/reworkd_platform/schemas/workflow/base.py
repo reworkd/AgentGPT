@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Any
 
 from networkx import DiGraph
 from pydantic import BaseModel, Field
@@ -24,7 +24,7 @@ class Block(BaseModel):
     type: str
     input: BlockIOBase
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         raise NotImplementedError("Base workflow Node class must be inherited")
 
 

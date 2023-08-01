@@ -6,6 +6,13 @@ import { Analytics } from '@vercel/analytics/react';
 import { getHeaders } from "../../services/api-utils";
 import { useAuth } from "../../hooks/useAuth";
 import { streamTextWithoutAgentBody } from "../../services/stream-utils";
+import { useWorkflowStore } from "../../stores/workflowStore";
+
+interface Message {
+  id: number;
+  role: string;
+  content: string;
+}
 
 function chunkString(str: string): string[] {
   const words: string[] = str.split(" ");
@@ -22,10 +29,12 @@ function chunkString(str: string): string[] {
 }
 
 export default function Chat() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { session } = useAuth();
+  const workflow = useWorkflowStore().workflow;
+  const accessToken = session?.accessToken || "";
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
@@ -33,7 +42,6 @@ export default function Chat() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // @ts-ignore
     setMessages((prevMessages) => [
       ...prevMessages,
       { id: prevMessages.length, role: "user", content: 'User: ' + input }
@@ -44,28 +52,27 @@ export default function Chat() {
         "/api/workflowchat/v1/chatwithin",
         {
           prompt: input,
-          model_settings: { language: "English", model: "gpt-3.5-turbo", temperature: 0.8, max_tokens: 400, custom_api_key: "" }
+          model_settings: { language: "English", model: "gpt-3.5-turbo", temperature: 0.8, max_tokens: 400, custom_api_key: "" },
+          workflow_id: workflow?.id,
         },
-        // @ts-ignore
-        session.accessToken,
+        accessToken,
         () => { },
         (text) => {
-          // @ts-ignore
           setMessages((prevMessages) => [
             ...prevMessages,
-            { id: prevMessages.length, role: "agent", content: 'PDFAgent: ' + text}
+            { id: prevMessages.length, role: "agent", content: 'PDFAgent: ' + text }
           ]);
         },
-        () => { }
+        () => true
       );
     } catch (error) {
       console.error('Error while fetching data:', error);
       setIsLoading(false);
     }
   };
-  // @ts-ignore
-  const shouldAnimateLastMessage = isLoading && messages.length > 0 && messages[messages.length - 1].role !== "user"
-  const lastMessage = messages[messages.length - 1]; // Get the last message
+
+  const shouldAnimateLastMessage = isLoading && messages.length > 0 && messages[messages.length - 1]?.role !== "user"
+  const lastMessage: string = messages[messages.length - 1]?.content ?? "";
 
   return (
     <>
@@ -107,13 +114,10 @@ export default function Chat() {
             {
               // If loading, do not show the last message statically
               (shouldAnimateLastMessage ? messages.slice(0, messages.length - 1) : messages).map(m => {
-                // @ts-ignore
                 if (m.role === "user") return (
-                  // @ts-ignore
                   <div key={m.id} className="font-bold text-xl">{m.content}</div>
                 )
                 return (
-                  // @ts-ignore
                   <div key={m.id} className="mb-2 text-neutral-400">{m.content}</div>
                 )
               })
@@ -121,8 +125,7 @@ export default function Chat() {
             {isLoading && shouldAnimateLastMessage && (
               // When loading, animate chunks of the latest message
               <div>
-                {/* @ts-ignore */}
-                {chunkString(messages[messages.length - 1].content).map((chunk, index) => (
+                {chunkString(lastMessage ?? "").map((chunk, index) => (
                   <motion.span
                     key={index}
                     initial={{ opacity: 0 }}

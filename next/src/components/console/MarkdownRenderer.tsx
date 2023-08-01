@@ -6,13 +6,23 @@ import remarkGfm from "remark-gfm";
 import "highlight.js/styles/default.css";
 import clsx from "clsx";
 import { FiClipboard } from "react-icons/fi";
-
+import { motion } from "framer-motion";
 const MarkdownRenderer = ({ children }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[() => rehypeHighlight({ ignoreMissing: true })]}
       components={{
+        text: (props) => (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.75 }}
+            className="mb-2 text-neutral-400"
+          >
+            {props.children}
+          </motion.span>
+        ),
         pre: CustomPre,
         code: CustomCodeBlock,
         h1: (props) => <h1 className="text-md mb-2 font-black sm:text-xl">{props.children}</h1>,

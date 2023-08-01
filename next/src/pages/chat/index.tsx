@@ -8,25 +8,13 @@ import { useAuth } from "../../hooks/useAuth";
 import { streamTextWithoutAgentBody } from "../../services/stream-utils";
 import { useWorkflowStore } from "../../stores/workflowStore";
 import { useRouter } from "next/router";
+import { log } from 'console';
+import MarkdownRenderer from '../../components/console/MarkdownRenderer';
 
 interface Message {
   id: number;
   role: string;
   content: string;
-}
-
-function chunkString(str: string): string[] {
-  const words: string[] = str.split(" ");
-  const chunks: string[] = [];
-
-  for (let i = 0; i < words.length; i += 2) {
-    const chunk = words.slice(i, i + 2);
-    if (chunk.length === 2) {
-      chunks.push(chunk.join(" ") + " ");
-    }
-  }
-
-  return chunks;
 }
 
 export default function Chat() {
@@ -51,6 +39,7 @@ export default function Chat() {
     ]);
 
     try {
+      let content = "";
       await streamTextWithoutAgentBody(
         "/api/workflowchat/v1/chatwithin",
         {
@@ -59,17 +48,33 @@ export default function Chat() {
           workflow_id: workflowId,
         },
         accessToken,
-        () => { },
-        (text) => {
+        () => {
+          setIsLoading(true);
           setMessages((prevMessages) => [
             ...prevMessages,
-            { id: prevMessages.length, role: "agent", content: 'PDFAgent: ' + text }
+            { id: prevMessages.length, role: "assistant", content: content }
           ]);
+        },
+        (text: string) => {
+          setMessages((prevMessages) => {
+            const lastMessage = prevMessages[prevMessages.length - 1];
+            const newContent = lastMessage?.content ?? '';
+            const updatedContent = newContent + text;
+
+            return prevMessages.map((message, index) => {
+              if (index === prevMessages.length - 1) {
+                return { ...message, content: updatedContent };
+              } else {
+                return message;
+              }
+            });
+          });
         },
         () => false
       );
     } catch (error) {
       console.error('Error while fetching data:', error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -79,27 +84,6 @@ export default function Chat() {
 
   return (
     <>
-      <Head>
-        <title>Reworkd - Animated streaming</title>
-        <meta name="description" content="A demonstration of how to achieve Perplexity style text streaming" />
-        <meta name="twitter:site" content="@ReworkdAI" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={"Reworkd - Animated streaming" ?? "AgentGPT 🤖"} />
-        <meta name="twitter:description" content="A demonstration of how to achieve Perplexity style text streaming" />
-        <meta name="twitter:image" content="https://agentgpt.reworkd.ai/banner.png" />
-        <meta name="twitter:image:width" content="1280" />
-        <meta name="twitter:image:height" content="640" />
-        <meta property="og:title" content={"Reworkd - Animated streaming"} />
-        <meta property="og:description" content="A demonstration of how to achieve Perplexity style text streaming" />
-        <meta property="og:url" content="https://agentgpt.reworkd.ai/" />
-        <meta property="og:image" content="https://agentgpt.reworkd.ai/banner.png" />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="640" />
-        <meta property="og:type" content="website" />
-        <meta name="google-site-verification" content="sG4QDkC8g2oxKSopgJdIe2hQ_SaJDaEaBjwCXZNkNWA" />
-      </Head>
-      <Analytics />
-
       <div className="bg-white h-[100svh] w-screen flex items-center justify-center font-sans">
         <div
           className="max-w-screen-md flex-1 flex flex-col h-[100svh] items-center p-5 sm:p-7 gap-5 sm:gap-7 overflow-hidden">
@@ -115,32 +99,17 @@ export default function Chat() {
               }
             </motion.div>
             {
-              // If loading, do not show the last message statically
-              (shouldAnimateLastMessage ? messages.slice(0, messages.length - 1) : messages).map(m => {
+              (messages.map(m => {
                 if (m.role === "user") return (
                   <div key={m.id} className="font-bold text-xl">{m.content}</div>
                 )
                 return (
-                  <div key={m.id} className="mb-2 text-neutral-400">{m.content}</div>
+                  <div className="mb-2 text-neutral-400">
+                    <MarkdownRenderer key={m.id} >{m.content}</MarkdownRenderer>
+                  </div>
                 )
-              })
+              }))
             }
-            {isLoading && shouldAnimateLastMessage && (
-              // When loading, animate chunks of the latest message
-              <div>
-                {chunkString(lastMessage ?? "").map((chunk, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.75 }}
-                    className="mb-2 text-neutral-400"
-                  >
-                    {chunk}
-                  </motion.span>
-                ))}
-              </div>
-            )}
           </div>
 
           <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
@@ -156,7 +125,7 @@ export default function Chat() {
                 className={`absolute right-4 top-3.5 ${isLoading ? "bg-neutral-400" : "bg-blue-500 hover:bg-blue-400"} p-2 rounded-full transition-colors duration-500 cursor-pointer`}
                 onClick={handleSubmit}
               >
-                <AiOutlineArrowUp size={25} />
+                <AiOutlineArrowUp className="text-white" size={25} />
               </div>
             </form>
             <div className="w-full flex items-center justify-center">

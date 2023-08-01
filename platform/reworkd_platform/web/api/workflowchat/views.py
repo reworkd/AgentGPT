@@ -14,7 +14,6 @@ from reworkd_platform.schemas import (
     ModelSettings,
     UserBase,
 )
-from reworkd_platform.services.langchain.callbacks import CallbackHandler
 from reworkd_platform.web.api.agent.model_factory import create_model
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.dependencies import get_current_user
@@ -63,7 +62,7 @@ async def chatwithin3(
     llm = create_model(body.model_settings, user=user, streaming=True)
 
     chain = LLMChain(
-        llm=OpenAI(temperature=0, openai_api_key=settings.openai_api_key),
+        llm=llm,
         prompt=prompt,
         verbose=True,
     )

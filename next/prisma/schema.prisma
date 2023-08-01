@@ -99,6 +99,28 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model OAuthCredentials {
+  id              String  @id @default(cuid())
+  user_id         String
+  organization_id String?
+  provider        String
+  state           String
+  redirect_uri    String
+
+  // Post install
+  token_type   String?
+  access_token String?
+  scope        String?
+  data         Json?
+
+  create_date DateTime  @default(now())
+  update_date DateTime? @updatedAt
+  delete_date DateTime?
+
+  @@index([state])
+  @@map("oauth_credentials")
+}
+
 model Agent {
   id         String      @id @default(cuid())
   userId     String

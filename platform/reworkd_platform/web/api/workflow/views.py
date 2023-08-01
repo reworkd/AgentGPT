@@ -3,6 +3,7 @@ from typing import Dict, List
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.crud.workflow import WorkflowCRUD
 from reworkd_platform.schemas.workflow.base import (
     BlockIOBase,
@@ -16,6 +17,7 @@ from reworkd_platform.services.kafka.producers.task_producer import WorkflowTask
 from reworkd_platform.services.networkx import validate_connected_and_acyclic
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
+from reworkd_platform.settings import settings
 from reworkd_platform.web.api.http_responses import forbidden
 
 router = APIRouter()
@@ -72,8 +74,9 @@ def upload_block(
 ) -> Dict[str, PresignedPost]:
     """Upload a file to a block"""
     return {
-        file: SimpleStorageService().upload_url(
-            bucket_name="test-pdf-123",
+        file: SimpleStorageService(
+            bucket=settings.s3_bucket_name
+        ).create_presigned_upload_url(
             object_name=f"{workflow_id}/{block_id}/{file}",
         )
         for file in body.files
@@ -94,13 +97,17 @@ async def trigger_workflow(
     workflow_id: str,
     producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+    creds: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> str:
     """Trigger a workflow by id."""
     workflow = await crud.get(workflow_id)
 
+    print(crud.user)
+
     await ExecutionEngine.create_execution_plan(
         producer=producer,
         workflow=workflow,
+        credentials=await creds.get_all(crud.user),
     ).start()
 
     return "OK"
@@ -116,6 +123,7 @@ async def trigger_workflow_api(
     body: APITriggerInput,
     producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
     crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+    creds: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> str:
     """Trigger a workflow that takes an APITrigger as an input."""
     # TODO: Validate user API key has access to run workflow
@@ -124,6 +132,7 @@ async def trigger_workflow_api(
     plan = ExecutionEngine.create_execution_plan(
         producer=producer,
         workflow=workflow,
+        credentials=await creds.get_all(crud.user),
     )
 
     if plan.workflow.queue[0].block.type == "APITriggerBlock":

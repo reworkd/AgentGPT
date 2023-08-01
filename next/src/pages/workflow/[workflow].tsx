@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { FaSave } from "react-icons/fa";
 
 import nextI18NextConfig from "../../../next-i18next.config";
-import { getWorkflowSidebar } from "../../components/drawer/WorkflowSidebar";
+import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import PrimaryButton from "../../components/PrimaryButton";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
@@ -18,19 +18,38 @@ const WorkflowPage: NextPage = () => {
   const { session } = useAuth({ protectedRoute: true });
   const { query } = useRouter();
 
+  const handleClick = async () => {
+    try {
+      await saveWorkflow();
+      window.alert('Workflow saved successfully!');
+    } catch (error: any) {
+      if (error.name === "TypeError" && error.message === "Failed to fetch") {
+        window.alert('An error occurred while saving the workflow. Please refresh and re-attempt to save.');
+        return;
+      } else if (error.name === "Error" && error.message === "Unprocessable Entity") {
+        window.alert('Invalid workflow. Make sure to clear unconnected nodes and remove cycles.');
+        return;
+      }
+      window.alert('An error occurred while saving the workflow.');
+    }
+  };
+
+
   const { nodesModel, edgesModel, selectedNode, saveWorkflow, createNode, updateNode, members } =
     useWorkflow(query.workflow as string, session);
 
+  const rightSideBar = (
+    <WorkflowSidebar
+      createNode={createNode}
+      updateNode={updateNode}
+      selectedNode={selectedNode}
+      nodes={nodesModel[0]}
+      edges={edgesModel[0]}
+    />
+  );
+
   return (
-    <DashboardLayout
-      rightSidebar={getWorkflowSidebar({
-        createNode,
-        selectedNode,
-        updateNode,
-        nodes: nodesModel[0],
-        edges: edgesModel[0],
-      })}
-    >
+    <DashboardLayout rightSidebar={rightSideBar}>
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
@@ -51,9 +70,7 @@ const WorkflowPage: NextPage = () => {
         <div className="absolute bottom-4 right-4 flex flex-row items-center justify-center gap-2">
           <PrimaryButton
             icon={<FaSave size="15" />}
-            onClick={() => {
-              saveWorkflow().catch(console.error);
-            }}
+            onClick={handleClick}
           >
             Save
           </PrimaryButton>

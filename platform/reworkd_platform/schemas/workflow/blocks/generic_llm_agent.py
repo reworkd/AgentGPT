@@ -1,3 +1,5 @@
+from typing import Any
+
 import openai
 from loguru import logger
 
@@ -18,7 +20,7 @@ class GenericLLMAgent(Block):
     description = "Extract key details from text using OpenAI"
     input: GenericLLMAgentInput
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         try:
             response = await execute_prompt(prompt=self.input.prompt)
 

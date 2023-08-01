@@ -7,6 +7,7 @@ import { getHeaders } from "../../services/api-utils";
 import { useAuth } from "../../hooks/useAuth";
 import { streamTextWithoutAgentBody } from "../../services/stream-utils";
 import { useWorkflowStore } from "../../stores/workflowStore";
+import { useRouter } from "next/router";
 
 interface Message {
   id: number;
@@ -33,7 +34,8 @@ export default function Chat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { session } = useAuth();
-  const workflow = useWorkflowStore().workflow;
+  const router = useRouter();
+  const workflowId = router.query.w as string;
   const accessToken = session?.accessToken || "";
 
   const handleInputChange = (event) => {
@@ -42,6 +44,7 @@ export default function Chat() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setInput("");
     setMessages((prevMessages) => [
       ...prevMessages,
       { id: prevMessages.length, role: "user", content: 'User: ' + input }
@@ -53,7 +56,7 @@ export default function Chat() {
         {
           prompt: input,
           model_settings: { language: "English", model: "gpt-3.5-turbo", temperature: 0.8, max_tokens: 400, custom_api_key: "" },
-          workflow_id: workflow?.id,
+          workflow_id: workflowId,
         },
         accessToken,
         () => { },
@@ -63,7 +66,7 @@ export default function Chat() {
             { id: prevMessages.length, role: "agent", content: 'PDFAgent: ' + text }
           ]);
         },
-        () => true
+        () => false
       );
     } catch (error) {
       console.error('Error while fetching data:', error);

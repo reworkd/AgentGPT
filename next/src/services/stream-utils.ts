@@ -60,7 +60,7 @@ export const streamText = async (
   accessToken: string,
   onStart: () => void,
   onText: (text: string) => void,
-  shouldClose: () => boolean
+  shouldClose: () => boolean // Event handler to close connection early
 ) => {
   const reader = await fetchData(url, body, accessToken);
   if (!reader) {

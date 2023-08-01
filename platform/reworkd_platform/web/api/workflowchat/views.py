@@ -40,7 +40,7 @@ class Input(BaseModel):
 @router.post("/v1/chatwithin")
 async def chatwithin3(
     body: ChatBodyV1, user: UserBase = Depends(get_current_user)
-) -> FastAPIStreamingResponse:
+) -> str:
     docsearch = get_similar_docs(body.prompt)
 
     logger.info(f"Similar docs: {docsearch}")
@@ -71,7 +71,7 @@ async def chatwithin3(
     return output
 
 
-def get_similar_docs(query: str):
+def get_similar_docs(query: str) -> str:
     with PineconeMemory(
         index_name="prod", namespace="571b703d-b349-4a5e-82cb-3c9131fd19d0"
     ) as pinecone:

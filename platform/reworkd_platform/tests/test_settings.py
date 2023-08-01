@@ -82,3 +82,7 @@ def test_kafka_enabled(settings: Dict[str, Any], expected: bool):
 def test_azure_enabled(settings: Dict[str, Any], expected: bool):
     settings = Settings(**settings)
     assert settings.azure_openai_enabled == expected
+
+
+def test_settings_create():
+    assert Settings() is not None

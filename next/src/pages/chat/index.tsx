@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from "framer-motion";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import Head from "next/head";
-import { Analytics } from '@vercel/analytics/react';
-import { getHeaders } from "../../services/api-utils";
 import { useAuth } from "../../hooks/useAuth";
 import { streamTextWithoutAgentBody } from "../../services/stream-utils";
-import { useWorkflowStore } from "../../stores/workflowStore";
 import { useRouter } from "next/router";
-import { log } from 'console';
 import MarkdownRenderer from '../../components/console/MarkdownRenderer';
 
 interface Message {

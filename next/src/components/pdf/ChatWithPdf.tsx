@@ -110,13 +110,6 @@ const ChatWithPdfComponent: React.FC = () => {
                                 <AiOutlineArrowUp className="text-white" size={25} />
                             </div>
                         </form>
-                        <div className="w-full flex items-center justify-center">
-                            <a className="text-neutral-400 text-xs mt-2 hover:scale-110 transition-all duration-500 cursor-pointer" onClick={() => {
-                                window.open("https://reworkd.ai/", "_blank");
-                            }}>
-                                Made with ❤️ by Reworkd
-                            </a>
-                        </div>
                     </motion.div>
                 </div>
             </div>

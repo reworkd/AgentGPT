@@ -149,7 +149,7 @@ const WorkflowPage: NextPage = () => {
             items={workflows}
             valueMapper={(item) => item?.name}
             icon={RiStackFill}
-            defaultValue={{ id: "default", name: "Select an workflow" }}
+            defaultValue={{ id: "default", name: "Select a workflow" }}
           />
           {showCreateForm || (
             <a

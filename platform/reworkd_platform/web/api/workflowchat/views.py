@@ -50,7 +50,7 @@ async def chatwithin3(
 
         Provided documents: {similar_docs}
         PDFAssistant can take your PDF and answer questions, fetch relevant information, and even pull relevant statistics from tables and figures.
-        PDFAssistant will cite all its sources, referencing the page number it got certain information from. If it can't find the information in the provided docs above, it will state that no information was found in the provided documents.
+        PDFAssistant will cite all its sources, referencing the page number it got certain information from. Do not use Document ID's, but names of documents that humans would understand. If it can't find the information in the provided docs above, it will state that no information was found in the provided documents.
 
         {history}
         Human: {prompt}

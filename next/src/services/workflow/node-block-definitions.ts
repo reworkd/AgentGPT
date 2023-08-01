@@ -156,8 +156,8 @@ const SummaryAgentBlockDefinition: NodeBlockDefinition = {
       type: "button"
     },
     {
-      name: "message",
-      description: "The message to send",
+      name: "company_context",
+      description: "short description on company, market, and their core products",
       type: "string",
     }
   ],

@@ -38,7 +38,6 @@ class PineconeMemory(AgentMemory):
         self.index = Index(settings.pinecone_index_name)
         self.namespace = namespace or index_name
 
-
     @timed_function(level="DEBUG")
     def __enter__(self) -> AgentMemory:
         self.embeddings: Embeddings = OpenAIEmbeddings(

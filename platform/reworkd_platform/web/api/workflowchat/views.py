@@ -29,8 +29,8 @@ class ChatModelSettings(ModelSettings):
 
 
 class ChatBodyV1(BaseModel):
+    message: str
     model_settings: ChatModelSettings = Field(default=ChatModelSettings())
-    prompt: str
     workflow_id: str
 
 
@@ -38,11 +38,11 @@ class Input(BaseModel):
     human_input: str
 
 
-@router.post("/v1/chat_with_pinecone")
+@router.post("/chat_with_pinecone")
 async def chat_with_pinecone(
     body: ChatBodyV1, user: UserBase = Depends(get_current_user)
 ) -> FastAPIStreamingResponse:
-    docsearch = get_similar_docs(body.prompt, body.workflow_id)
+    docsearch = get_similar_docs(body.message, body.workflow_id)
 
     logger.info(f"Similar docs: {docsearch}")
 
@@ -53,11 +53,11 @@ async def chat_with_pinecone(
         PDFAssistant will cite all its sources, referencing the page number it got certain information from. Do not use Document ID's, but names of documents that humans would understand. If it can't find the information in the provided docs above, it will state that no information was found in the provided documents.
 
         {history}
-        Human: {prompt}
+        Human: {message}
         PDFAssistant:"""
 
     prompt = PromptTemplate(
-        input_variables=["history", "prompt", "similar_docs"], template=template
+        input_variables=["history", "message", "similar_docs"], template=template
     )
 
     llm = create_model(body.model_settings, user=user, streaming=True)
@@ -71,7 +71,7 @@ async def chat_with_pinecone(
     return StreamingResponse.from_chain(
         chain,
         {
-            "prompt": body.prompt,
+            "message": body.message,
             "history": "",
             "similar_docs": docsearch,
         },

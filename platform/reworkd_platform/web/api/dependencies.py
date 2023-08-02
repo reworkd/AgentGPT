@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, Optional
 
 from fastapi import Depends, Header
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -54,7 +54,7 @@ async def get_current_user(
 
 async def get_organization_user(
     user: UserBase = Depends(get_current_user),
-) -> UserBase:
+) -> Optional[UserBase]:
     if not user.organization:
         raise forbidden("User is not part of an organization")
 
@@ -63,5 +63,5 @@ async def get_organization_user(
 
 async def get_organization(
     user: UserBase = Depends(get_organization_user),
-) -> OrganizationRole:
+) -> Optional[OrganizationRole]:
     return user.organization

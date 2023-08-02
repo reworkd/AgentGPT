@@ -43,7 +43,7 @@ class Input(BaseModel):
 async def chat_with_pinecone(
     body: ChatBodyV1, user: UserBase = Depends(get_current_user)
 ) -> FastAPIStreamingResponse:
-    if get_organization_user(user).organization is None:
+    if not get_organization_user(user):
         raise Exception("User is not part of an organization")
 
     docsearch = get_similar_docs(body.message, body.workflow_id)

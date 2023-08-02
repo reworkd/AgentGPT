@@ -66,7 +66,11 @@ export const useWorkflow = (
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
     async () => {
-      if (!workflowId) return;
+      if (!workflowId) {
+        setNodes([]);
+        setEdges([]);
+        return
+      }
 
       const workflow = await api.get(workflowId);
       workflowStore.setWorkflow(workflow);

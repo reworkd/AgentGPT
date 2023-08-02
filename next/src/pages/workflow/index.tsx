@@ -37,7 +37,7 @@ const WorkflowPage: NextPage = () => {
   });
   const router = useRouter();
 
-  const handleClick = async () => {
+  const handleSaveClick = async () => {
     try {
       await saveWorkflow();
       window.alert("Workflow saved successfully!");
@@ -52,6 +52,15 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  const handlePlusClick = async () => {
+    try {
+      await changeQueryParams({ w: undefined });
+      await saveWorkflow();
+    } catch (error: unknown) {
+      window.alert("An error occurred while creating a new workflow.");
+    }
+  }
+
   const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
@@ -61,7 +70,7 @@ const WorkflowPage: NextPage = () => {
     createNode,
     updateNode,
     members,
-    isLoading,
+    isLoading
   } = useWorkflow(workflowId, session, organization?.id);
 
   const { data: workflows, refetch } = useQuery(
@@ -73,6 +82,12 @@ const WorkflowPage: NextPage = () => {
   );
 
   const [open, setOpen] = useState(false);
+
+  const handlePaneDoubleClick = () => {
+    if (!showCreateForm) {
+      setOpen(true);
+    }
+  };
 
   const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
     let updatedParams = {
@@ -107,7 +122,7 @@ const WorkflowPage: NextPage = () => {
 
   const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
     setOrganization(org);
-    await changeQueryParams({ w: "" });
+    await changeQueryParams({ w: undefined });
   };
 
   const liveEditors = Object.entries(members);
@@ -159,7 +174,6 @@ const WorkflowPage: NextPage = () => {
                 icon={RiBuildingLine}
                 defaultValue={
                   session?.user.organizations?.find((o) => {
-                    console.log(o.id, organization?.id);
                     return o.id === organization?.id;
                   }) || {
                     id: "default",
@@ -189,7 +203,7 @@ const WorkflowPage: NextPage = () => {
           {showCreateForm || (
             <a
               className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-              onClick={() => void router.replace("/workflow")}
+              onClick={handlePlusClick}
             >
               <RxPlus size="16" />
             </a>
@@ -212,7 +226,7 @@ const WorkflowPage: NextPage = () => {
           <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
           <button
             className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
-            onClick={() => void handleClick().catch(console.error)}
+            onClick={() => void handleSaveClick().catch(console.error)}
           >
             Save
           </button>
@@ -252,7 +266,7 @@ const WorkflowPage: NextPage = () => {
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
-        onPaneDoubleClick={() => setOpen(true)}
+        onPaneDoubleClick={handlePaneDoubleClick}
       />
     </>
   );

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Session } from "next-auth";
 import { z } from "zod";
 
 import type { Workflow } from "../../types/workflow";
@@ -30,11 +29,6 @@ export default class WorkflowApi {
     this.accessToken = accessToken;
     this.organizationId = organizationId;
   }
-
-  static fromSession(session: Session | null) {
-    return new WorkflowApi(session?.accessToken, session?.user?.organizations[0]?.id);
-  }
-
   async getAll() {
     return await get(
       "/api/workflow",

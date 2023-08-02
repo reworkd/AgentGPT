@@ -121,8 +121,11 @@ const WorkflowPage: NextPage = () => {
   };
 
   const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
+    if (org === organization) return;
     setOrganization(org);
     await changeQueryParams({ w: undefined });
+    nodesModel[1]([]);
+    edgesModel[1]([]);
   };
 
   const liveEditors = Object.entries(members);

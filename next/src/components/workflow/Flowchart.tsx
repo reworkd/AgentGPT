@@ -113,7 +113,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         <div
           className="absolute h-full w-full"
           style={{
-            background: "radial-gradient(ellipse at center, transparent, white)",
+            background: "radial-gradient(ellipse at center, transparent, white 90%)",
           }}
         />
 

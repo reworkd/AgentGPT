@@ -36,7 +36,7 @@ export default function Select<T>(props: Props<T>) {
                   className: "text-white bg-black rounded-sm ring-2 ring-black",
                   size: "1em",
                 })}
-                <span className="ml-2 block flex-grow truncate capitalize">
+                <span className="ml-2 block min-w-[60px] flex-grow truncate capitalize">
                   {props.valueMapper?.(props.value || props.defaultValue)}
                 </span>
                 <HiOutlineChevronUpDown className="h-5 w-5 pl-1 text-black" aria-hidden="true" />

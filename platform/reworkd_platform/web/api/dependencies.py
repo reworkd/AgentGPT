@@ -52,13 +52,6 @@ async def get_current_user(
     )
 
 
-async def enterprise_only(user: UserBase = Depends(get_current_user)) -> UserBase:
-    if (user.email or "").endswith("@reworkd.ai") or user.id.startswith("enterprise_"):
-        return user
-
-    raise forbidden("Invalid session token")
-
-
 async def get_organization(
     user: UserBase = Depends(get_current_user),
 ) -> OrganizationRole:

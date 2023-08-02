@@ -38,8 +38,8 @@ class Input(BaseModel):
     human_input: str
 
 
-@router.post("/v1/chatwithin")
-async def chatwithin3(
+@router.post("/v1/chat_with_pinecone")
+async def chat_with_pinecone(
     body: ChatBodyV1, user: UserBase = Depends(get_current_user)
 ) -> FastAPIStreamingResponse:
     docsearch = get_similar_docs(body.prompt, body.workflow_id)

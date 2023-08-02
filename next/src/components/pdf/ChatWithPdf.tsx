@@ -38,7 +38,7 @@ const ChatWithPdfComponent: FC = () => {
             await streamTextWithoutAgentBody(
                 "/api/workflowchat/v1/chatwithin",
                 {
-                    prompt: input,
+                    message: input,
                     model_settings: { language: "English", model: "gpt-3.5-turbo", temperature: 0.8, max_tokens: 400, custom_api_key: "" },
                     workflow_id: workflowId,
                 },

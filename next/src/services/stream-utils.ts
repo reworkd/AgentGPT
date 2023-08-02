@@ -3,9 +3,9 @@ import type { RequestBody } from "../utils/interfaces";
 
 type TextStream = ReadableStreamDefaultReader<Uint8Array>;
 
-const fetchData = async (
+const fetchData = async<T>(
   url: string,
-  body: RequestBody,
+  body: T,
   accessToken: string
 ): Promise<TextStream | undefined> => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
@@ -54,9 +54,9 @@ async function processStream(
   }
 }
 
-export const streamText = async (
+export const streamText = async<T>(
   url: string,
-  body: RequestBody,
+  body: T,
   accessToken: string,
   onStart: () => void,
   onText: (text: string) => void,

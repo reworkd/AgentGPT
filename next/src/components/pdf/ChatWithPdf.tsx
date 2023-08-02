@@ -1,7 +1,7 @@
 import React, { useState, FC } from 'react';
 import { motion } from "framer-motion";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import { streamTextWithoutAgentBody } from "../../services/stream-utils";
+import { streamText } from "../../services/stream-utils";
 import MarkdownRenderer from '../../components/console/MarkdownRenderer';
 import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from "next/router";
@@ -35,8 +35,8 @@ const ChatWithPdfComponent: FC = () => {
 
         try {
             let content = "";
-            await streamTextWithoutAgentBody(
-                "/api/workflowchat/v1/chatwithin",
+            await streamText(
+                "/api/workflowchat/chat_with_pinecone",
                 {
                     message: input,
                     model_settings: { language: "English", model: "gpt-3.5-turbo", temperature: 0.8, max_tokens: 400, custom_api_key: "" },

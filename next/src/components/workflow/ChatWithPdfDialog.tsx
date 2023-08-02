@@ -8,10 +8,8 @@ interface Props {
 }
 
 export default function ChatWithPDFDialog({ openModel }: Props) {
-    const [query, setQuery] = useState("");
-
     return (
-        <Transition.Root show={openModel[0]} as={Fragment} afterLeave={() => setQuery("")} appear>
+        <Transition.Root show={openModel[0]} as={Fragment} appear>
             <Dialog as="div" className="relative z-10" onClose={openModel[1]}>
                 <Transition.Child
                     as={Fragment}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { motion } from "framer-motion";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { streamTextWithoutAgentBody } from "../../services/stream-utils";
@@ -12,7 +12,7 @@ interface Message {
     content: string;
 }
 
-const ChatWithPdfComponent: React.FC = () => {
+const ChatWithPdfComponent: FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);

@@ -19,7 +19,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum", "file", "oauth"]),
+  type: z.enum(["string", "array", "enum", "file", "oauth", "button"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -146,15 +146,20 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
 const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
   type: "SummaryAgent",
-  description: "Summarize or extract key details from text using OpenAI",
+  description: "Summarize and extract key market insights for specific companies and industries from documents",
   image_url: "/tools/web.png",
   icon: FaCopy,
   input_fields: [
     {
-      name: "company_context",
-      description: "reference a company's context so we can retrieve relevant info from docs",
-      type: "string",
+      name: "chat",
+      description: "chat with your PDF",
+      type: "button"
     },
+    {
+      name: "company_context",
+      description: "short description on company, market, and their core products",
+      type: "string",
+    }
   ],
   output_fields: [
     {

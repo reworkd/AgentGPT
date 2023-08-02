@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import clsx from "clsx";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Image from "next/image";
@@ -22,6 +21,7 @@ import { useConfigStore } from "../../stores/configStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
+import clsx from "clsx";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";

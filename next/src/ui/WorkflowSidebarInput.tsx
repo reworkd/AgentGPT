@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState } from "react";
 import type { Node } from "reactflow";
 
 import Combo from "./combox";
@@ -7,6 +7,8 @@ import InputWithSuggestions from "./InputWithSuggestions";
 import OauthIntegration from "./OauthIntegration";
 import type { IOField } from "../services/workflow/node-block-definitions";
 import type { WorkflowNode } from "../types/workflow";
+import Button from "./button";
+import WorkflowChatDialog from "../components/workflow/WorkflowChatDialog";
 
 interface SidebarInputProps {
   inputField: IOField;
@@ -15,7 +17,10 @@ interface SidebarInputProps {
   node: Node<WorkflowNode> | undefined;
 }
 
+
 const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: SidebarInputProps) => {
+  const [showChatDialog, setShowChatDialog] = useState(false);
+
   if (inputField.type === "string" && inputField.enum) {
     return (
       <Combo
@@ -53,13 +58,27 @@ const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: Sideb
       />
     );
   }
-
   if (inputField.type === "oauth") {
     return (
       <OauthIntegration value={node?.data?.block?.input[inputField.name]} onChange={onChange} />
     );
   }
+  if (inputField.type === "button") {
+    return (
+      <>
+        <Button
+          className="justify-end text-zinc-100 hover:text-white"
+          onClick={async () => { setShowChatDialog(true) }}
+        >
+          Chat with PDFs
+        </Button>
 
+        {showChatDialog && (
+          <WorkflowChatDialog openModel={[showChatDialog, setShowChatDialog]}></WorkflowChatDialog>
+        )}
+      </>
+    );
+  }
   return <></>;
 };
 

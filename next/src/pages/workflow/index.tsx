@@ -97,7 +97,10 @@ const WorkflowPage: NextPage = () => {
   const showCreateForm = !workflowId && router.isReady;
 
   useEffect(() => {
-    if (!showCreateForm) {
+    if (showCreateForm) {
+      setDisableBlockDialog(true);
+    }
+    else {
       setDisableBlockDialog(false);
     }
   }, [showCreateForm]);

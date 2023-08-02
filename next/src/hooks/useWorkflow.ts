@@ -66,10 +66,7 @@ export const useWorkflow = (
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
     async () => {
-      console.log('workflow id debugging')
-      console.log(workflowId)
       if (!workflowId) {
-        console.log('found no workflow id')
         setNodes([]);
         setEdges([]);
         return

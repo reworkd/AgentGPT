@@ -52,6 +52,16 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  const handlePlusClick = async () => {
+    try {
+      router.replace("/workflow");
+      await changeQueryParams({ w: '' });
+      await saveWorkflow();
+    } catch (error: unknown) {
+      window.alert("An error occurred while creating a new workflow.");
+    }
+  }
+
   const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
@@ -61,7 +71,7 @@ const WorkflowPage: NextPage = () => {
     createNode,
     updateNode,
     members,
-    isLoading,
+    isLoading
   } = useWorkflow(workflowId, session, organization?.id);
 
   const { data: workflows, refetch } = useQuery(
@@ -113,7 +123,7 @@ const WorkflowPage: NextPage = () => {
 
   const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
     setOrganization(org);
-    await changeQueryParams({ w: "" });
+    await changeQueryParams({ w: undefined });
   };
 
   const liveEditors = Object.entries(members);
@@ -165,7 +175,6 @@ const WorkflowPage: NextPage = () => {
                 icon={RiBuildingLine}
                 defaultValue={
                   session?.user.organizations?.find((o) => {
-                    console.log(o.id, organization?.id);
                     return o.id === organization?.id;
                   }) || {
                     id: "default",
@@ -195,7 +204,7 @@ const WorkflowPage: NextPage = () => {
           {showCreateForm || (
             <a
               className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-              onClick={() => void router.replace("/workflow")}
+              onClick={handlePlusClick}
             >
               <RxPlus size="16" />
             </a>

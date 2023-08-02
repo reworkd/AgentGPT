@@ -10,7 +10,7 @@ import {
   getNodeBlockDefinitionFromNode,
   getNodeBlockDefinitions,
 } from "../../services/workflow/node-block-definitions";
-import { useLayoutStore } from "../../stores/layoutStore";
+import { useConfigStore } from "../../stores/configStore";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
 
@@ -23,7 +23,7 @@ type WorkflowControls = {
 };
 
 const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
-  const { layout, setLayout } = useLayoutStore();
+  const { layout, setLayout } = useConfigStore();
 
   const setShow = (show: boolean) => {
     setLayout({ showRightSidebar: show });

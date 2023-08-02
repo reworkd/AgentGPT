@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
 
@@ -17,10 +18,10 @@ import { useAuth } from "../../hooks/useAuth";
 import { useWorkflow } from "../../hooks/useWorkflow";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../services/workflow/workflowApi";
+import { useConfigStore } from "../../stores/configStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
-import clsx from "clsx";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -29,6 +30,7 @@ const isError = (error: unknown): error is Error =>
   error instanceof Error && error.name === "Error";
 
 const WorkflowPage: NextPage = () => {
+  const { organization, setOrganization } = useConfigStore();
   const { session } = useAuth({
     protectedRoute: true,
     isAllowed: (session) => !!session?.user.organizations.length,
@@ -60,23 +62,28 @@ const WorkflowPage: NextPage = () => {
     updateNode,
     members,
     isLoading,
-  } = useWorkflow(workflowId, session);
+  } = useWorkflow(workflowId, session, organization?.id);
 
-  const { data: workflows } = useQuery(
+  const { data: workflows, refetch } = useQuery(
     ["workflows"],
-    async () => await WorkflowApi.fromSession(session).getAll(),
+    async () => await new WorkflowApi(session?.accessToken, organization?.id).getAll(),
     {
-      enabled: !!session,
+      enabled: !!session && !!organization?.id,
     }
   );
 
   const [open, setOpen] = useState(false);
 
-  const changeQueryParams = async (newParams: Record<string, string>) => {
-    const updatedParams = {
+  const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
+    let updatedParams = {
       ...router.query,
       ...newParams,
     };
+
+    updatedParams = Object.entries(updatedParams).reduce((acc, [key, value]) => {
+      if (!!value) acc[key] = value;
+      return acc;
+    }, {});
 
     const newURL = {
       pathname: router.pathname,
@@ -90,7 +97,7 @@ const WorkflowPage: NextPage = () => {
   const showCreateForm = !workflowId && router.isReady;
 
   const onCreate = async (name: string) => {
-    const data = await WorkflowApi.fromSession(session).create({
+    const data = await new WorkflowApi(session?.accessToken, organization?.id).create({
       name: name,
       description: "",
     });
@@ -98,7 +105,17 @@ const WorkflowPage: NextPage = () => {
     await changeQueryParams({ w: data.id });
   };
 
+  const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
+    setOrganization(org);
+    await changeQueryParams({ w: "" });
+  };
+
   const liveEditors = Object.entries(members);
+
+  useEffect(() => {
+    if (!organization) return;
+    refetch().then(console.log).catch(console.error);
+  }, [refetch, organization]);
 
   return (
     <>
@@ -133,24 +150,42 @@ const WorkflowPage: NextPage = () => {
           >
             <RxHome size="16" />
           </a>
-          <Select<{ id: string; name: string }>
-            value={session?.user.organizations?.[0]}
-            items={session?.user.organizations}
-            valueMapper={(org) => org?.name}
-            icon={RiBuildingLine}
-            defaultValue={{ id: "default", name: "Select an org" }}
-            disabled
-          />
-          <Select<{ id: string; name: string }>
-            value={workflows?.find((w) => w.id === router.query.w)}
-            onChange={async (e) => {
-              if (e) await changeQueryParams({ w: e.id });
-            }}
-            items={workflows}
-            valueMapper={(item) => item?.name}
-            icon={RiStackFill}
-            defaultValue={{ id: "default", name: "Select a workflow" }}
-          />
+          {router.isReady && (
+            <>
+              <Select<{ id: string; name: string; role: string }>
+                value={organization}
+                items={session?.user.organizations}
+                valueMapper={(org) => org?.name}
+                icon={RiBuildingLine}
+                defaultValue={
+                  session?.user.organizations?.find((o) => {
+                    console.log(o.id, organization?.id);
+                    return o.id === organization?.id;
+                  }) || {
+                    id: "default",
+                    name: "Select an org",
+                    role: "member",
+                  }
+                }
+                onChange={changeOrg}
+              />
+              <Select<{ id: string; name: string }>
+                value={workflows?.find((w) => w.id === router.query.w)}
+                onChange={async (e) => {
+                  if (e) await changeQueryParams({ w: e.id });
+                }}
+                items={workflows}
+                valueMapper={(item) => item?.name}
+                icon={RiStackFill}
+                defaultValue={
+                  workflows?.find((w) => w.id === workflowId) || {
+                    id: "default",
+                    name: "Select a workflow",
+                  }
+                }
+              />
+            </>
+          )}
           {showCreateForm || (
             <a
               className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"

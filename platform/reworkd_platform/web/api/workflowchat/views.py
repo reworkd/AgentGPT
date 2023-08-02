@@ -22,6 +22,7 @@ from lanarky.responses import StreamingResponse
 
 router = APIRouter()
 
+
 class ChatBody(BaseModel):
     message: str
     model_settings: ModelSettings

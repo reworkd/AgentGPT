@@ -37,7 +37,7 @@ const WorkflowPage: NextPage = () => {
   });
   const router = useRouter();
 
-  const handleClick = async () => {
+  const handleSaveClick = async () => {
     try {
       await saveWorkflow();
       window.alert("Workflow saved successfully!");
@@ -84,7 +84,7 @@ const WorkflowPage: NextPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  const onPaneClick = () => {
+  const handlePaneDoubleClick = () => {
     if (!showCreateForm) {
       setOpen(true);
     }
@@ -227,7 +227,7 @@ const WorkflowPage: NextPage = () => {
           <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
           <button
             className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
-            onClick={() => void handleClick().catch(console.error)}
+            onClick={() => void handleSaveClick().catch(console.error)}
           >
             Save
           </button>
@@ -267,7 +267,7 @@ const WorkflowPage: NextPage = () => {
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
-        onPaneDoubleClick={() => setOpen(true)}
+        onPaneDoubleClick={handlePaneDoubleClick}
       />
     </>
   );

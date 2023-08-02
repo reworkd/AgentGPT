@@ -1,26 +1,24 @@
-from collections import defaultdict
 import os
 import tempfile
+from collections import defaultdict
 from typing import Any
-from tabula.io import read_pdf
+
+import openai
+import pinecone
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.docstore.document import Document
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Pinecone
-import pinecone
-from loguru import logger
-import pandas as pd
+from tabula.io import read_pdf
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
 from reworkd_platform.settings import settings
-from reworkd_platform.web.api.agent.model_settings import create_model
-import openai
+from reworkd_platform.web.api.agent.model_factory import create_model
 
 
 class SummaryAgentInput(BlockIOBase):
@@ -36,10 +34,13 @@ class SummaryAgent(Block):
     description = "Extract key details from text using OpenAI"
     input: SummaryAgentInput
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         with tempfile.TemporaryDirectory() as temp_dir:
-            files = SimpleStorageService().download_folder(
-                bucket_name="test-pdf-123", prefix=f"{workflow_id}/", path=temp_dir
+            files = SimpleStorageService(
+                bucket=settings.s3_bucket_name
+            ).download_folder(
+                prefix=f"{workflow_id}/",
+                path=temp_dir,
             )
 
             docsearch = self.chunk_documents_to_pinecone(
@@ -59,10 +60,6 @@ class SummaryAgent(Block):
             )
 
         return SummaryAgentOutput(**self.input.dict(), result=response)
-
-    def load_pdf(self, filepath: str) -> list[Document]:
-        pdf_data = PyPDFLoader(filepath).load()
-        return pdf_data
 
     def name_table(self, table: str) -> str:
         openai.api_key = settings.openai_api_key
@@ -134,7 +131,8 @@ class SummaryAgent(Block):
         for file in files:
             filepath = os.path.join(path, file)
             # table_data = self.read_and_preprocess_tables(filepath)
-            pdf_data = self.load_pdf(filepath)
+            data = PyPDFLoader(filepath).load()
+            pdf_data = data
             texts.extend(text_splitter.split_documents(pdf_data))
             # texts.extend(text_splitter.create_documents(table_data))
 

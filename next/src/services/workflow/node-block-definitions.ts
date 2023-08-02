@@ -19,7 +19,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum", "file"]),
+  type: z.enum(["string", "array", "enum", "file", "oauth"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -34,9 +34,15 @@ export const NodeBlockDefinitionSchema = z.object({
   input_fields: z.array(IOFieldSchema),
   output_fields: z.array(IOFieldSchema),
   icon: z.custom<IconType>(),
+  color: z.string().optional(),
 });
 
 export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
+
+const colorTypes = {
+  trigger: "bg-purple-500",
+  output: "bg-green-500",
+};
 
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   name: "URL Status Check",
@@ -66,16 +72,17 @@ const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
 };
 
 const SlackWebhookBlockDefinition: NodeBlockDefinition = {
-  name: "Slack Message Webhook",
+  name: "Slack Message",
   type: "SlackWebhook",
   description: "Sends a message to a slack webhook",
   image_url: "/tools/web.png",
   icon: FaSlack,
+  color: colorTypes.output,
   input_fields: [
     {
       name: "url",
       description: "The Slack WebHook URL",
-      type: "string",
+      type: "oauth",
     },
     {
       name: "message",
@@ -244,6 +251,7 @@ const APITriggerBlockDefinition: NodeBlockDefinition = {
   type: "APITriggerBlock",
   description: "Trigger a workflow through an API call.",
   icon: FaBolt,
+  color: colorTypes.trigger,
   image_url: "/tools/web.png",
   input_fields: [],
   output_fields: [
@@ -260,6 +268,7 @@ const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   type: "ManualTriggerBlock",
   description: "Trigger a block manually",
   icon: FaPlay,
+  color: colorTypes.trigger,
   image_url: "/tools/web.png",
   input_fields: [],
   output_fields: [],
@@ -331,19 +340,19 @@ const ContentRefresherAgent: NodeBlockDefinition = {
 
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
-    APITriggerBlockDefinition,
-    UrlStatusCheckBlockDefinition,
-    DiffDocBlockDefinition,
-    SlackWebhookBlockDefinition,
-    IfBlockDefinition,
-    WebInteractionAgentBlockDefinition,
     ManualTriggerBlockDefinition,
+    APITriggerBlockDefinition,
+    SlackWebhookBlockDefinition,
+    GenericLLMAgentBlockDefinition,
+    DiffDocBlockDefinition,
+    WebInteractionAgentBlockDefinition,
     SummaryAgentBlockDefinition,
     CompanyContextAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
-    GenericLLMAgentBlockDefinition,
     ContentRefresherAgent,
+    IfBlockDefinition,
+    UrlStatusCheckBlockDefinition,
   ];
 };
 

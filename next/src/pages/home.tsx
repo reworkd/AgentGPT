@@ -15,7 +15,8 @@ const HomePage = () => {
         title="Reworkd"
         ogTitle="Automate core business workflows with the help of AI Agents"
       />
-      <Image src="/stars.svg" alt="stars" fill className="absolute -z-50" />
+      <div className="absolute -z-50  h-full w-full bg-white dark:bg-black" />
+      <Image src="/stars.svg" alt="stars" fill className="absolute -z-40 invert  dark:invert-0" />
 
       <div className="flex h-full max-w-[1440px] flex-col justify-between">
         <NavBar />
@@ -26,7 +27,7 @@ const HomePage = () => {
           <footer className="flex flex-col items-center gap-2 pb-4 lg:flex-row">
             <Backing className="flex-grow" />
             <FooterLinks />
-            <div className="font-inter text-xs font-normal text-white/30 lg:order-first lg:text-sm">
+            <div className="font-inter text-xs font-normal text-black/30 dark:text-white/30 lg:order-first lg:text-sm">
               &copy; 2023 Reworkd AI, Inc.
             </div>
           </footer>

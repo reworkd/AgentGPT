@@ -1,4 +1,4 @@
-from sqlalchemy import String, JSON
+from sqlalchemy import String
 from sqlalchemy.orm import mapped_column
 
 from reworkd_platform.db.base import TrackedModel
@@ -22,18 +22,13 @@ class OrganizationUser(TrackedModel):
 class OauthCredentials(TrackedModel):
     __tablename__ = "oauth_credentials"
 
-    installation_id = mapped_column(String, nullable=False)
-    provider = mapped_column(String, nullable=False)
-    token_type = mapped_column(String, nullable=False)
-    access_token = mapped_column(String, nullable=False)
-    scope = mapped_column(String, nullable=True)
-    data = mapped_column(JSON, nullable=False)
-
-
-class OauthInstallation(TrackedModel):
-    __tablename__ = "oauth_installation"
-
     user_id = mapped_column(String, nullable=False)
     organization_id = mapped_column(String, nullable=True)
     provider = mapped_column(String, nullable=False)
     state = mapped_column(String, nullable=False)
+    redirect_uri = mapped_column(String, nullable=False)
+
+    # Post-installation
+    token_type = mapped_column(String, nullable=True)
+    access_token_enc = mapped_column(String, nullable=True)
+    scope = mapped_column(String, nullable=True)

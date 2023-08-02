@@ -12,7 +12,7 @@ from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfC
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 from reworkd_platform.schemas.workflow.blocks.generic_llm_agent import GenericLLMAgent
 from reworkd_platform.schemas.workflow.blocks.pdf.diff_doc import DiffDoc
-from reworkd_platform.schemas.workflow.blocks.slack.slack_webhook import SlackWebhook
+from reworkd_platform.schemas.workflow.blocks.slack.slack_bot import SlackMessageBlock
 from reworkd_platform.schemas.workflow.blocks.summary_agent import SummaryAgent
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
@@ -42,7 +42,7 @@ def get_block_runner(block: Block) -> Block:
     if block.type == "UrlStatusCheck":
         return UrlStatusCheckBlock(**block.dict())
     if block.type == "SlackWebhook":
-        return SlackWebhook(**block.dict())
+        return SlackMessageBlock(**block.dict())
     if block.type == "TextInputWebhook":
         return TextInputWebhook(**block.dict())
     if block.type == "SummaryAgent":

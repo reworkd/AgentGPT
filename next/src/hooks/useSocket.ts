@@ -28,7 +28,7 @@ const PresenceMemberEventSchema = z.object({
 type PresenceInfo = z.infer<typeof PresenceInfoSchema>;
 
 export default function useSocket<T extends z.Schema, R extends z.Schema>(
-  channelName: string,
+  channelName: string | undefined,
   accessToken: string | undefined,
   callbacks: {
     event: string;
@@ -39,7 +39,7 @@ export default function useSocket<T extends z.Schema, R extends z.Schema>(
 
   useEffect(() => {
     const app_key = env.NEXT_PUBLIC_PUSHER_APP_KEY;
-    if (!app_key || !accessToken) return () => void 0;
+    if (!app_key || !accessToken || !channelName) return () => void 0;
 
     const pusher = new Pusher(app_key, {
       cluster: "mt1",
@@ -83,7 +83,7 @@ export default function useSocket<T extends z.Schema, R extends z.Schema>(
       pusher.disconnect();
       setMembers({});
     };
-  }, [accessToken]);
+  }, [accessToken, channelName]);
 
   return members;
 }

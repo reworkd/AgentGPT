@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Any
 
 import aiohttp
 from loguru import logger
@@ -21,7 +21,7 @@ class UrlStatusCheckBlock(Block):
     image_url = ""
     input: UrlStatusCheckBlockInput
 
-    async def run(self, workflow_id: str) -> BlockIOBase:
+    async def run(self, workflow_id: str, **kwargs: Any) -> BlockIOBase:
         logger.info(f"Starting UrlStatusCheckBlock with url: {self.input.url}")
         try:
             async with aiohttp.ClientSession() as session:

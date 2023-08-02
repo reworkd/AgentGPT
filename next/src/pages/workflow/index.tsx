@@ -36,6 +36,7 @@ const WorkflowPage: NextPage = () => {
     isAllowed: (session) => !!session?.user.organizations.length,
   });
   const router = useRouter();
+  const [newNodePosition, setNewNodePosition] = useState<Position>({ x: 0, y: 0 });
 
   const handleSaveWorkflow = async () => {
     try {

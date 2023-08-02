@@ -1,13 +1,13 @@
 import {Dialog, Transition } from "@headlessui/react";
 import type { Dispatch, SetStateAction } from "react";
 import { Fragment, useState } from "react";
-import ChatWithPdfComponent from "../pdf/ChatWithPdf";
+import WorkflowChat from "./WorkflowChat";
 
 interface Props {
     openModel: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
-export default function ChatWithPDFDialog({ openModel }: Props) {
+export default function WorkflowChatDialog({ openModel }: Props) {
     return (
         <Transition.Root show={openModel[0]} as={Fragment} appear>
             <Dialog as="div" className="relative z-10" onClose={openModel[1]}>
@@ -33,7 +33,7 @@ export default function ChatWithPDFDialog({ openModel }: Props) {
                         leaveTo="opacity-0 scale-95"
                     >
                         <Dialog.Panel className="w-full max-w-xl transform divide-y divide-gray-100 rounded-xl bg-white transition-all">
-                            <ChatWithPdfComponent></ChatWithPdfComponent>
+                            <WorkflowChat></WorkflowChat>
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>

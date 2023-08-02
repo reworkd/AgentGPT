@@ -8,7 +8,7 @@ import OauthIntegration from "./OauthIntegration";
 import type { IOField } from "../services/workflow/node-block-definitions";
 import type { WorkflowNode } from "../types/workflow";
 import Button from "./button";
-import ChatWithPDFDialog from "../components/workflow/ChatWithPdfDialog";
+import ChatWithPDFDialog from "../components/workflow/WorkflowChatDialog";
 
 interface SidebarInputProps {
   inputField: IOField;

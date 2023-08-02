@@ -2,7 +2,7 @@ import React, { useState, FC } from 'react';
 import { motion } from "framer-motion";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { streamText } from "../../services/stream-utils";
-import MarkdownRenderer from '../../components/console/MarkdownRenderer';
+import MarkdownRenderer from '../console/MarkdownRenderer';
 import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from "next/router";
 
@@ -12,7 +12,7 @@ interface Message {
     content: string;
 }
 
-const ChatWithPdfComponent: FC = () => {
+const WorkflowChat: FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ const ChatWithPdfComponent: FC = () => {
         try {
             let content = "";
             await streamText(
-                "/api/workflowchat/chat_with_pinecone",
+                "/api/workflowchat/workflow_chat",
                 {
                     message: input,
                     model_settings: { language: "English", model: "gpt-3.5-turbo", temperature: 0.8, max_tokens: 400, custom_api_key: "" },
@@ -117,4 +117,4 @@ const ChatWithPdfComponent: FC = () => {
     );
 };
 
-export default ChatWithPdfComponent;
+export default WorkflowChat;

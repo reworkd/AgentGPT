@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import clsx from "clsx";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Image from "next/image";

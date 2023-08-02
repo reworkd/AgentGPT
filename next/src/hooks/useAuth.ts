@@ -1,7 +1,7 @@
+import { useRouter } from "next/router";
 import type { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 type Provider = "google" | "github" | "discord";
 

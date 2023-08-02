@@ -33,7 +33,10 @@ export default function useSocket<T extends z.Schema, R extends z.Schema>(
   callbacks: {
     event: string;
     callback: (data: unknown) => Promise<void> | void;
-  }[]
+  }[],
+  options?: {
+    enabled?: boolean;
+  }
 ) {
   const [members, setMembers] = useState<Record<string, PresenceInfo>>({});
 

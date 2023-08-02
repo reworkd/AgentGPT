@@ -267,7 +267,7 @@ const WorkflowPage: NextPage = () => {
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
-        onPaneClick={onPaneClick}
+        onPaneDoubleClick={() => setOpen(true)}
       />
     </>
   );

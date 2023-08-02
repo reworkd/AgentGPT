@@ -1,5 +1,5 @@
 import type { ComponentProps, MouseEvent } from "react";
-import React, { forwardRef, useCallback, useImperativeHandle } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
 import ReactFlow, {
   addEdge,
@@ -37,6 +37,7 @@ interface FlowChartProps extends ComponentProps<typeof ReactFlow> {
   onSave?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
   controls?: boolean;
   minimap?: boolean;
+  onPaneDoubleClick: (event: MouseEvent) => void;
 
   // workflow: Workflow;
   nodesModel: NodesModel;
@@ -52,6 +53,18 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     const [nodes, setNodes] = nodesModel;
     const [edges, setEdges] = edgesModel;
     const flow = useReactFlow();
+    const [lastClickTime, setLastClickTime] = useState<number | null>(null);
+
+    const handlePaneClick = (event: MouseEvent) => {
+      // Check if it was a double click
+      const currentTime = new Date().getTime();
+      const doubleClickDelay = 250;
+      if (lastClickTime && currentTime - lastClickTime < doubleClickDelay) {
+        props.onPaneDoubleClick(event);
+      } else {
+        setLastClickTime(currentTime);
+      }
+    };
 
     const onNodesChange = useCallback(
       (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds ?? [])),
@@ -88,6 +101,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         fitViewOptions={fitViewOptions}
         fitView
         {...props}
+        onPaneClick={handlePaneClick}
       >
         <Background
           variant={BackgroundVariant.Lines}

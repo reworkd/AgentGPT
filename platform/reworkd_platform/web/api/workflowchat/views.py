@@ -22,16 +22,9 @@ from lanarky.responses import StreamingResponse
 
 router = APIRouter()
 
-MODALITY = Literal["text", "image"]
-
-
-class ChatModelSettings(ModelSettings):
-    modality: MODALITY = Field(default="text")
-
-
-class ChatBodyV1(BaseModel):
+class ChatBody(BaseModel):
     message: str
-    model_settings: ChatModelSettings = Field(default=ChatModelSettings())
+    model_settings: ModelSettings
     workflow_id: str
 
 
@@ -39,9 +32,9 @@ class Input(BaseModel):
     human_input: str
 
 
-@router.post("/chat_with_pinecone")
-async def chat_with_pinecone(
-    body: ChatBodyV1, user: UserBase = Depends(get_organization_user)
+@router.post("/workflow_chat")
+async def workflow_chat(
+    body: ChatBody, user: UserBase = Depends(get_organization_user)
 ) -> FastAPIStreamingResponse:
     docsearch = get_similar_docs(body.message, body.workflow_id)
 

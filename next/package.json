@@ -36,7 +36,7 @@
     "@vercel/edge": "^0.3.4",
     "axios": "^0.26.0",
     "clsx": "^1.2.1",
-    "cookies-next": "^2.1.1",
+    "cookies-next": "^2.1.2",
     "framer-motion": "^10.12.8",
     "graphology": "^0.25.1",
     "gray-matter": "^4.0.3",

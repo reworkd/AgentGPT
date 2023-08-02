@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from fastapi import Depends
 from langchain import LLMChain, PromptTemplate
 from reworkd_platform.settings import settings
+from reworkd_platform.web.api.dependencies import get_organization_user
 
 from reworkd_platform.schemas import (
     ModelSettings,
@@ -42,6 +43,9 @@ class Input(BaseModel):
 async def chat_with_pinecone(
     body: ChatBodyV1, user: UserBase = Depends(get_current_user)
 ) -> FastAPIStreamingResponse:
+    if get_organization_user(user).organization is None:
+        raise Exception("User is not part of an organization")
+    
     docsearch = get_similar_docs(body.message, body.workflow_id)
 
     logger.info(f"Similar docs: {docsearch}")

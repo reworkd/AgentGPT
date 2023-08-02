@@ -54,8 +54,7 @@ const WorkflowPage: NextPage = () => {
 
   const handlePlusClick = async () => {
     try {
-      router.replace("/workflow");
-      await changeQueryParams({ w: '' });
+      await changeQueryParams({ w: undefined });
       await saveWorkflow();
     } catch (error: unknown) {
       window.alert("An error occurred while creating a new workflow.");

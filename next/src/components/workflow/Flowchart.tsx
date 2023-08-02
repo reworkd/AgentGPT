@@ -77,23 +77,24 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     );
 
     const onConnectStart = useCallback(() => {
-      setConnectionDragging(true);
-    }, [setConnectionDragging]);
+      connectionDragging.current = true;
+    }, [connectionDragging]);
 
     const onConnect = useCallback(
       (connection: Connection) => {
-        setEdges((eds) => addEdge(connection, eds ?? []));
+        connectionDragging.current = false;
+        setEdges((eds) => addEdge({ ...connection, animated: true }, eds ?? []));
       },
       [setEdges]
     );
 
     const onConnectEnd = useCallback(
       (event: MouseEvent | TouchEvent) => {
-        if (!connectionDragging) return;
-        setConnectionDragging(false);
-        onPaneDoubleClick(event);
+        if (!connectionDragging.current) return;
+        connectionDragging.current = false;
+        onPaneDoubleClick(getExactPosition(event));
       },
-      [onPaneDoubleClick, connectionDragging, setConnectionDragging]
+      [getExactPosition, onPaneDoubleClick, connectionDragging]
     );
 
     useImperativeHandle(ref, () => ({

@@ -37,7 +37,7 @@ const WorkflowPage: NextPage = () => {
   });
   const router = useRouter();
 
-  const handleClick = async () => {
+  const handleSaveWorkflow = async () => {
     try {
       await saveWorkflow();
       window.alert("Workflow saved successfully!");
@@ -49,6 +49,15 @@ const WorkflowPage: NextPage = () => {
       else if (isError(error) && error.message === "Unprocessable Entity")
         window.alert("Invalid workflow. Make sure to clear unconnected nodes and remove cycles.");
       else window.alert("An error occurred while saving the workflow.");
+    }
+  };
+
+  const handlePlusClick = async () => {
+    try {
+      await changeQueryParams({ w: undefined });
+      await saveWorkflow();
+    } catch (error: unknown) {
+      window.alert("An error occurred while creating a new workflow.");
     }
   };
 
@@ -73,6 +82,12 @@ const WorkflowPage: NextPage = () => {
   );
 
   const [open, setOpen] = useState(false);
+
+  const handlePaneDoubleClick = () => {
+    if (!showCreateForm) {
+      setOpen(true);
+    }
+  };
 
   const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
     let updatedParams = {
@@ -107,7 +122,7 @@ const WorkflowPage: NextPage = () => {
 
   const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
     setOrganization(org);
-    await changeQueryParams({ w: "" });
+    await changeQueryParams({ w: undefined });
   };
 
   const liveEditors = Object.entries(members);
@@ -159,7 +174,6 @@ const WorkflowPage: NextPage = () => {
                 icon={RiBuildingLine}
                 defaultValue={
                   session?.user.organizations?.find((o) => {
-                    console.log(o.id, organization?.id);
                     return o.id === organization?.id;
                   }) || {
                     id: "default",
@@ -189,34 +203,13 @@ const WorkflowPage: NextPage = () => {
           {showCreateForm || (
             <a
               className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-              onClick={() => void router.replace("/workflow")}
+              onClick={() => void handlePlusClick().catch(console.error)}
             >
               <RxPlus size="16" />
             </a>
           )}
         </div>
-        <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
-          <div className="flex flex-row-reverse">
-            {liveEditors.map(([id, user]) => (
-              <img
-                className={clsx(
-                  "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
-                  liveEditors.length > 1 && "-mr-2 first:ml-0"
-                )}
-                key={id}
-                src={get_avatar(user)}
-                alt="user avatar"
-              />
-            ))}
-          </div>
-          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
-          <button
-            className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
-            onClick={() => void handleClick().catch(console.error)}
-          >
-            Save
-          </button>
-        </div>
+        {showCreateForm || <AccountBar editors={members} onSave={handleSaveWorkflow} />}
       </div>
 
       <div className="fixed right-0 top-16 z-10 flex flex-col items-center justify-between ">
@@ -252,7 +245,7 @@ const WorkflowPage: NextPage = () => {
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
-        onPaneDoubleClick={() => setOpen(true)}
+        onPaneDoubleClick={handlePaneDoubleClick}
       />
     </>
   );
@@ -316,3 +309,44 @@ const CreateWorkflow = ({ onSubmit }: { onSubmit: (name: string) => Promise<void
     </div>
   );
 };
+
+interface AccountBarProps {
+  editors: Record<
+    string,
+    {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    }
+  >;
+  onSave: () => Promise<void>;
+}
+
+function AccountBar(props: AccountBarProps) {
+  const editors = Object.entries(props.editors);
+
+  return (
+    <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
+      <div className="flex flex-row-reverse">
+        {editors.map(([id, user]) => (
+          <img
+            className={clsx(
+              "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
+              editors.length > 1 && "-mr-2 first:ml-0"
+            )}
+            key={id}
+            src={get_avatar(user)}
+            alt="user avatar"
+          />
+        ))}
+      </div>
+      <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
+      <button
+        className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
+        onClick={() => void props.onSave().catch(console.error)}
+      >
+        Save
+      </button>
+    </div>
+  );
+}

@@ -4,7 +4,7 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
 
@@ -71,10 +71,9 @@ const WorkflowPage: NextPage = () => {
   );
 
   const [open, setOpen] = useState(false);
-  const [disableBlockDialog, setDisableBlockDialog] = useState(true);
 
   const onPaneClick = () => {
-    if (!disableBlockDialog) {
+    if (!showCreateForm) {
       setOpen(true);
     }
   };
@@ -95,15 +94,6 @@ const WorkflowPage: NextPage = () => {
 
   const showLoader = !router.isReady || (isLoading && !!workflowId);
   const showCreateForm = !workflowId && router.isReady;
-
-  useEffect(() => {
-    if (showCreateForm) {
-      setDisableBlockDialog(true);
-    }
-    else {
-      setDisableBlockDialog(false);
-    }
-  }, [showCreateForm]);
 
   const onCreate = async (name: string) => {
     const data = await WorkflowApi.fromSession(session).create({

@@ -91,7 +91,7 @@ const WorkflowPage: NextPage = () => {
 
     await router.replace(newURL, undefined, { shallow: true });
   };
-
+ 
   const showLoader = !router.isReady || (isLoading && !!workflowId);
   const showCreateForm = !workflowId && router.isReady;
 

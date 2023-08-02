@@ -1,5 +1,5 @@
 import type { ComponentProps, MouseEvent } from "react";
-import { forwardRef, useCallback, useImperativeHandle } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
 import ReactFlow, {
   addEdge,
@@ -96,6 +96,13 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
           className="bg-neutral-50"
           color="#e5e7eb"
         />
+        <div
+          className="absolute h-full w-full"
+          style={{
+            background: "radial-gradient(ellipse at center, transparent, white);",
+          }}
+        />
+
         {props.minimap && <MiniMap nodeStrokeWidth={3} />}
         {props.controls && <Controls />}
       </ReactFlow>

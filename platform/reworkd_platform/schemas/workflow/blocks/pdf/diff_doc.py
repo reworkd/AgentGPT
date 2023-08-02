@@ -32,7 +32,7 @@ class DiffDoc(Block):
             diff_doc_file = get_diff_doc(diffs, diff_doc_file)
 
             s3_service = SimpleStorageService(settings.s3_bucket_name)
-            await s3_service.upload_to_bucket(
+            s3_service.upload_to_bucket(
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
                 file=diff_doc_file,
             )

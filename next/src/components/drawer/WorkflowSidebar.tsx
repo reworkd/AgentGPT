@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import type { Edge, Node } from "reactflow";
 
@@ -34,13 +33,13 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
     <SidebarTransition
       show={layout.showRightSidebar}
       side="right"
-      className="rounded-l-lg bg-black p-6"
+      className="mr-3.5 rounded-lg bg-black p-6 shadow-xl shadow-stone-400"
     >
       <div className="text-color-primary flex h-[80vh] w-64 flex-col gap-2  bg-black">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
-            onClick={() => setShow(!layout.showRightSidebar)}
+            onClick={() => setShow(false)}
           >
             <FaBars size="15" className="z-20 mr-2" />
           </button>

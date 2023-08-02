@@ -47,6 +47,7 @@ async def get_current_user(
         id=session.user.id,
         name=session.user.name,
         email=session.user.email,
+        image=session.user.image,
         organization=organization,
     )
 

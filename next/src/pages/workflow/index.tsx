@@ -22,7 +22,6 @@ import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
 import clsx from "clsx";
-import ChatWithPdfDialog from "../../components/workflow/WorkflowChatDialog";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -83,7 +82,6 @@ const WorkflowPage: NextPage = () => {
   );
 
   const [open, setOpen] = useState(false);
-  const [openChatWithPDF, setOpenChatWithPDF] = useState(false);
 
   const handlePaneDoubleClick = () => {
     if (!showCreateForm) {

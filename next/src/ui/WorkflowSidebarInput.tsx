@@ -8,7 +8,7 @@ import OauthIntegration from "./OauthIntegration";
 import type { IOField } from "../services/workflow/node-block-definitions";
 import type { WorkflowNode } from "../types/workflow";
 import Button from "./button";
-import ChatWithPDFDialog from "../components/workflow/WorkflowChatDialog";
+import WorkflowChatDialog from "../components/workflow/WorkflowChatDialog";
 
 interface SidebarInputProps {
   inputField: IOField;
@@ -74,7 +74,7 @@ const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: Sideb
         </Button>
 
         {showChatDialog && (
-          <ChatWithPDFDialog openModel={[showChatDialog, setShowChatDialog]}></ChatWithPDFDialog>
+          <WorkflowChatDialog openModel={[showChatDialog, setShowChatDialog]}></WorkflowChatDialog>
         )}
       </>
     );

@@ -48,8 +48,12 @@ const updateValue = <
     })
   );
 
-export const useWorkflow = (workflowId: string | undefined, session: Session | null) => {
-  const api = new WorkflowApi(session?.accessToken, session?.user?.organizations?.[0]?.id);
+export const useWorkflow = (
+  workflowId: string | undefined,
+  session: Session | null,
+  organizationId: string | undefined
+) => {
+  const api = new WorkflowApi(session?.accessToken, organizationId);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
 
   const { mutateAsync: updateWorkflow } = useMutation(async (data: Workflow) => {
@@ -68,6 +72,7 @@ export const useWorkflow = (workflowId: string | undefined, session: Session | n
       workflowStore.setWorkflow(workflow);
       setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
       setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
+      return workflow;
     },
     {
       enabled: !!workflowId && !!session?.accessToken,
@@ -87,31 +92,38 @@ export const useWorkflow = (workflowId: string | undefined, session: Session | n
     else setSelectedNode(selectedNodes[0]);
   }, [nodes]);
 
-  const members = useSocket(workflowId, session?.accessToken, [
-    {
-      event: "workflow:node:status",
-      callback: async (data) => {
-        const { nodeId, status, remaining } = await StatusEventSchema.parseAsync(data);
+  const members = useSocket(
+    workflowId,
+    session?.accessToken,
+    [
+      {
+        event: "workflow:node:status",
+        callback: async (data) => {
+          const { nodeId, status, remaining } = await StatusEventSchema.parseAsync(data);
 
-        updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
-        updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
+          updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
+          updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
 
-        if (status === "error" || remaining === 0) {
-          setTimeout(() => {
-            updateValue(setNodes, "status", undefined);
-            updateValue(setEdges, "status", undefined);
-          }, 1000);
-        }
+          if (status === "error" || remaining === 0) {
+            setTimeout(() => {
+              updateValue(setNodes, "status", undefined);
+              updateValue(setEdges, "status", undefined);
+            }, 1000);
+          }
+        },
       },
-    },
+      {
+        event: "workflow:updated",
+        callback: async (data) => {
+          const { user_id } = await SaveEventSchema.parseAsync(data);
+          if (user_id !== session?.user?.id) await refetchWorkflow();
+        },
+      },
+    ],
     {
-      event: "workflow:updated",
-      callback: async (data) => {
-        const { user_id } = await SaveEventSchema.parseAsync(data);
-        if (user_id !== session?.user?.id) await refetchWorkflow();
-      },
-    },
-  ]);
+      enabled: !!workflowId && !!session?.accessToken,
+    }
+  );
 
   const createNode: createNodeType = (block: NodeBlock) => {
     const ref = nanoid(11);

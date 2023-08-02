@@ -6,6 +6,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 
 import Button from "./button";
 import WorkflowApi from "../services/workflow/workflowApi";
+import { useConfigStore } from "../stores/configStore";
 import { useWorkflowStore } from "../stores/workflowStore";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -20,20 +21,28 @@ const Dropzone = (props: Props) => {
   const { data: session } = useSession();
   const [files, setFiles] = useState<File[]>([]);
   const workflow = useWorkflowStore.getState();
+  const orgId = useConfigStore().organization?.id;
 
   const { mutateAsync: uploadFiles } = useMutation(async (files: File[]) => {
     if (!files.length || !workflow?.workflow?.id || !props.node_ref) return;
-    await new WorkflowApi(session?.accessToken).upload(workflow.workflow.id, props.node_ref, files);
+    await new WorkflowApi(session?.accessToken, orgId).upload(
+      workflow.workflow.id,
+      props.node_ref,
+      files
+    );
   });
 
   const { data: s3_files, refetch } = useQuery([undefined], () => {
     if (!workflow?.workflow?.id || !props.node_ref) return;
-    return new WorkflowApi(session?.accessToken).blockInfo(workflow.workflow.id, props.node_ref);
+    return new WorkflowApi(session?.accessToken, orgId).blockInfo(
+      workflow.workflow.id,
+      props.node_ref
+    );
   });
 
   const { mutateAsync: deleteFiles } = useMutation(async () => {
     if (!workflow?.workflow?.id || !props.node_ref) return;
-    await new WorkflowApi(session?.accessToken).blockInfoDelete(
+    await new WorkflowApi(session?.accessToken, orgId).blockInfoDelete(
       workflow.workflow.id,
       props.node_ref
     );

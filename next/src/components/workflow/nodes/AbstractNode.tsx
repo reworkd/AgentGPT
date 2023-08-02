@@ -6,7 +6,7 @@ import type { HandleType, Position } from "reactflow";
 import { Handle } from "reactflow";
 
 import type { NodeBlockDefinition } from "../../../services/workflow/node-block-definitions";
-import { useLayoutStore } from "../../../stores/layoutStore";
+import { useConfigStore } from "../../../stores/configStore";
 
 interface Handle {
   position: Position;
@@ -52,7 +52,7 @@ const AbstractNode = (props: NodeProps) => (
 export default memo(AbstractNode);
 
 export const NodeTitle = ({ definition }: { definition?: NodeBlockDefinition }) => {
-  const layout = useLayoutStore();
+  const setLayout = useConfigStore().setLayout;
   if (!definition) return <></>;
 
   return (
@@ -63,7 +63,7 @@ export const NodeTitle = ({ definition }: { definition?: NodeBlockDefinition }) 
         <button
           className="rounded-full p-0.5 transition-colors hover:bg-gray-50"
           onClick={() => {
-            layout.setLayout({
+            setLayout({
               showRightSidebar: true,
             });
           }}

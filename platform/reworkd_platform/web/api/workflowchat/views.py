@@ -41,11 +41,8 @@ class Input(BaseModel):
 
 @router.post("/chat_with_pinecone")
 async def chat_with_pinecone(
-    body: ChatBodyV1, user: UserBase = Depends(get_current_user)
+    body: ChatBodyV1, user: UserBase = Depends(get_organization_user)
 ) -> FastAPIStreamingResponse:
-    if not get_organization_user(user):
-        raise Exception("User is not part of an organization")
-
     docsearch = get_similar_docs(body.message, body.workflow_id)
 
     logger.info(f"Similar docs: {docsearch}")

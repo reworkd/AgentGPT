@@ -69,7 +69,7 @@ export const useWorkflow = (
       if (!workflowId) {
         setNodes([]);
         setEdges([]);
-        return
+        return;
       }
 
       const workflow = await api.get(workflowId);
@@ -129,7 +129,7 @@ export const useWorkflow = (
     }
   );
 
-  const createNode: createNodeType = (block: NodeBlock) => {
+  const createNode: createNodeType = (block: NodeBlock, position: Position) => {
     const ref = nanoid(11);
 
     setNodes((nodes) => [
@@ -137,7 +137,7 @@ export const useWorkflow = (
       {
         id: ref,
         type: getNodeType(block),
-        position: { x: 0, y: 0 },
+        position,
         data: {
           id: undefined,
           ref: ref,
@@ -205,5 +205,6 @@ export const useWorkflow = (
   };
 };
 
-export type createNodeType = (block: NodeBlock) => void;
+export type Position = { x: number; y: number };
+export type createNodeType = (block: NodeBlock, position: Position) => void;
 export type updateNodeType = (node: Node<WorkflowNode>) => void;

@@ -1,5 +1,5 @@
-import type { ComponentProps, MouseEvent } from "react";
-import React, { forwardRef, useCallback, useImperativeHandle, useState } from "react";
+import type { ComponentProps, MouseEvent as ReactMouseEvent } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle, useRef, useState } from "react";
 import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
 import ReactFlow, {
   addEdge,
@@ -11,12 +11,14 @@ import ReactFlow, {
   MiniMap,
   ReactFlowProvider,
   useReactFlow,
+  useStore,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
 
 import CustomEdge from "./BasicEdge";
 import { BasicNode, IfNode, TriggerNode } from "./nodes";
+import type { Position } from "../../hooks/useWorkflow";
 import type { EdgesModel, NodesModel } from "../../types/workflow";
 
 const nodeTypes = {
@@ -34,10 +36,10 @@ const fitViewOptions: FitViewOptions = {
 };
 
 interface FlowChartProps extends ComponentProps<typeof ReactFlow> {
-  onSave?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
+  onSave?: (e: ReactMouseEvent<HTMLButtonElement>) => Promise<void>;
   controls?: boolean;
   minimap?: boolean;
-  onPaneDoubleClick: (event: MouseEvent) => void;
+  onPaneDoubleClick: (clickPosition: Position) => void;
 
   // workflow: Workflow;
   nodesModel: NodesModel;
@@ -54,13 +56,39 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     const [edges, setEdges] = edgesModel;
     const flow = useReactFlow();
     const [lastClickTime, setLastClickTime] = useState<number | null>(null);
+    const connectionDragging = useRef(false);
+    const transform = useStore((state) => state.transform);
 
-    const handlePaneClick = (event: MouseEvent) => {
+    const { onPaneDoubleClick } = props;
+
+    const getExactPosition = useCallback(
+      (event: MouseEvent | ReactMouseEvent | TouchEvent) => {
+        let x, y;
+        const rect = (event.target as Element).getBoundingClientRect();
+
+        if (!(event instanceof TouchEvent)) {
+          x = event.clientX - rect.left;
+          y = event.clientY - rect.top;
+        } else {
+          x = (event.touches[0] || { clientX: 0 }).clientX - rect.left;
+          y = (event.touches[0] || { clientY: 0 }).clientY - rect.top;
+        }
+
+        // calculate exact position considering zoom level and pan offset of the pane
+        const exactX = (x - transform[0]) / transform[2];
+        const exactY = (y - transform[1]) / transform[2];
+
+        return { x: exactX - 135 /* Half of the width of the node */, y: exactY };
+      },
+      [transform]
+    );
+
+    const handlePaneClick = (event: ReactMouseEvent) => {
       // Check if it was a double click
       const currentTime = new Date().getTime();
-      const doubleClickDelay = 250;
+      const doubleClickDelay = 400;
       if (lastClickTime && currentTime - lastClickTime < doubleClickDelay) {
-        props.onPaneDoubleClick(event);
+        onPaneDoubleClick(getExactPosition(event));
       } else {
         setLastClickTime(currentTime);
       }
@@ -75,11 +103,25 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
       [setEdges]
     );
 
+    const onConnectStart = useCallback(() => {
+      connectionDragging.current = true;
+    }, [connectionDragging]);
+
     const onConnect = useCallback(
       (connection: Connection) => {
-        setEdges((eds) => addEdge(connection, eds ?? []));
+        connectionDragging.current = false;
+        setEdges((eds) => addEdge({ ...connection, animated: true }, eds ?? []));
       },
       [setEdges]
+    );
+
+    const onConnectEnd = useCallback(
+      (event: MouseEvent | TouchEvent) => {
+        if (!connectionDragging.current) return;
+        connectionDragging.current = false;
+        onPaneDoubleClick(getExactPosition(event));
+      },
+      [getExactPosition, onPaneDoubleClick, connectionDragging]
     );
 
     useImperativeHandle(ref, () => ({
@@ -94,12 +136,15 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onConnectStart={onConnectStart}
         onConnect={onConnect}
+        onConnectEnd={(event) => onConnectEnd(event)}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         proOptions={{ hideAttribution: true }}
         fitViewOptions={fitViewOptions}
         fitView
+        zoomOnDoubleClick={false}
         {...props}
         onPaneClick={handlePaneClick}
       >

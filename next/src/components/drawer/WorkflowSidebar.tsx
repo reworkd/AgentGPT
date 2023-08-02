@@ -165,7 +165,7 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
           input[field.name] = "";
         }
 
-        createNode({ input: input, type: definition.type });
+        createNode({ input: input, type: definition.type }, { x: 0, y: 0 });
       }}
     >
       <div className="flex items-center gap-2">

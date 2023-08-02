@@ -14,6 +14,7 @@ import Loader from "../../components/loader";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
+import type { Position } from "../../hooks/useWorkflow";
 import { useWorkflow } from "../../hooks/useWorkflow";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../services/workflow/workflowApi";
@@ -36,6 +37,7 @@ const WorkflowPage: NextPage = () => {
     isAllowed: (session) => !!session?.user.organizations.length,
   });
   const router = useRouter();
+  const [newNodePosition, setNewNodePosition] = useState<Position>({ x: 0, y: 0 });
 
   const handleSaveWorkflow = async () => {
     try {
@@ -83,8 +85,9 @@ const WorkflowPage: NextPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  const handlePaneDoubleClick = () => {
+  const handlePaneDoubleClick = (position: { x: number; y: number }) => {
     if (!showCreateForm) {
+      setNewNodePosition(position);
       setOpen(true);
     }
   };
@@ -141,10 +144,13 @@ const WorkflowPage: NextPage = () => {
         openModel={[open, setOpen]}
         items={getNodeBlockDefinitions()}
         onClick={(t) =>
-          createNode({
-            type: t.type,
-            input: {},
-          })
+          createNode(
+            {
+              type: t.type,
+              input: {},
+            },
+            newNodePosition
+          )
         }
       />
 

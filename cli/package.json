@@ -25,7 +25,7 @@
     "inquirer": "^9.2.9",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
-    "node-fetch": "^3.3.1",
+    "node-fetch": "^3.3.2",
     "simple-git": "^3.19.1",
     "touch": "^3.1.0"
   }

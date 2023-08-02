@@ -27,11 +27,11 @@ const WorkflowChat: FC = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setInput("");
         setMessages((prevMessages) => [
             ...prevMessages,
             { id: prevMessages.length, role: "user", content: 'User: ' + input }
         ]);
+        setInput("");
 
         try {
             let content = "";

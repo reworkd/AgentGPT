@@ -31,6 +31,8 @@ def get_block_runner(block: Block) -> Block:
         return IfCondition(**block.dict())
     if block.type == "DiffDoc":
         return DiffDoc(**block.dict())
+    if block.type == "DB":
+        return DiffDoc(**block.dict())
     if block.type == "WebInteractionAgent":
         return WebInteractionAgent(**block.dict())
     if block.type == "APITriggerBlock":

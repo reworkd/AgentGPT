@@ -37,7 +37,7 @@ interface FlowChartProps extends ComponentProps<typeof ReactFlow> {
   onSave?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
   controls?: boolean;
   minimap?: boolean;
-  onPaneDoubleClick: (event: MouseEvent) => void;
+  onPaneDoubleClick: (event: MouseEvent | TouchEvent) => void;
 
   // workflow: Workflow;
   nodesModel: NodesModel;
@@ -54,13 +54,14 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     const [edges, setEdges] = edgesModel;
     const flow = useReactFlow();
     const [lastClickTime, setLastClickTime] = useState<number | null>(null);
-
+    const [connectionDragging, setConnectionDragging] = useState<boolean>(false);
+    const { onPaneDoubleClick } = props;
     const handlePaneClick = (event: MouseEvent) => {
       // Check if it was a double click
       const currentTime = new Date().getTime();
       const doubleClickDelay = 250;
       if (lastClickTime && currentTime - lastClickTime < doubleClickDelay) {
-        props.onPaneDoubleClick(event);
+        onPaneDoubleClick(event);
       } else {
         setLastClickTime(currentTime);
       }
@@ -75,11 +76,24 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
       [setEdges]
     );
 
+    const onConnectStart = useCallback(() => {
+      setConnectionDragging(true);
+    }, [setConnectionDragging]);
+
     const onConnect = useCallback(
       (connection: Connection) => {
         setEdges((eds) => addEdge(connection, eds ?? []));
       },
       [setEdges]
+    );
+
+    const onConnectEnd = useCallback(
+      (event: MouseEvent | TouchEvent) => {
+        if (!connectionDragging) return;
+        setConnectionDragging(false);
+        onPaneDoubleClick(event);
+      },
+      [onPaneDoubleClick, connectionDragging, setConnectionDragging]
     );
 
     useImperativeHandle(ref, () => ({
@@ -94,12 +108,15 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onConnectStart={onConnectStart}
         onConnect={onConnect}
+        onConnectEnd={(event) => onConnectEnd(event)}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         proOptions={{ hideAttribution: true }}
         fitViewOptions={fitViewOptions}
         fitView
+        zoomOnDoubleClick={false}
         {...props}
         onPaneClick={handlePaneClick}
       >

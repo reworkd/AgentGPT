@@ -45,7 +45,7 @@ async def chat_with_pinecone(
 ) -> FastAPIStreamingResponse:
     if get_organization_user(user).organization is None:
         raise Exception("User is not part of an organization")
-    
+
     docsearch = get_similar_docs(body.message, body.workflow_id)
 
     logger.info(f"Similar docs: {docsearch}")

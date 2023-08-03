@@ -161,7 +161,7 @@ async def find_new_info(target: str, source: tuple[str, str, str]) -> str:
 
     # Claude: info mentioned in source that is not mentioned in target
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article.\n----------------\nAt the top of the list, include a source citation (you MUST include the url AND full source/article title). Source information: \n{source_info}",
+        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article. Under the list, write a source citation (you MUST include the url AND full source title provided below: \n{source_info}",
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
@@ -177,7 +177,7 @@ async def find_new_info(target: str, source: tuple[str, str, str]) -> str:
 async def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. At the end of the article, include a list of source references (source url, title, and any additional information) ONLY for added information from SOURCE articles using the following example format: 'Source: https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum' Do not add citations for any info in the TARGET article.",
+        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. At the end of the article, include a list of sources (source url, title, and any additional information) ONLY for added information from SOURCE articles using the following example format: 'Source: https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum' Do not add citations for any info in the TARGET article.",
         assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
     )
 

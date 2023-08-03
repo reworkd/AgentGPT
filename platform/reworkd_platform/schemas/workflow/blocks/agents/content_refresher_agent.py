@@ -156,12 +156,12 @@ def search_results(search_query: str) -> list[tuple[str, str]]:
 
 
 async def find_new_info(target: str, source: tuple[str, str, str]) -> str:
-    source_info = f"{source[0]}, {source[1]}"
+    source_metadata = f"{source[0]}, {source[1]}"
     source_content = source[2]
 
     # Claude: info mentioned in source that is not mentioned in target
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article. Under the list, write a source citation (you MUST include the url AND full source title provided below: \n{source_info}",
+        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article. Under the list, write a source citation (you MUST include the url AND full source title provided below: \n{source_metadata}",
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 

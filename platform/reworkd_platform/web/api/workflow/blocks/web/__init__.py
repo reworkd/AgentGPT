@@ -1,19 +1,21 @@
 from reworkd_platform.schemas.workflow.base import Block
+from reworkd_platform.schemas.workflow.blocks.agents.company_context_agent import (
+    CompanyContextAgent,
+)
 from reworkd_platform.schemas.workflow.blocks.agents.content_refresher_agent import (
     ContentRefresherAgent,
 )
+from reworkd_platform.schemas.workflow.blocks.agents.generic_llm_agent import (
+    GenericLLMAgent,
+)
+from reworkd_platform.schemas.workflow.blocks.agents.summary_agent import SummaryAgent
 from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent import (
     WebInteractionAgent,
 )
-from reworkd_platform.schemas.workflow.blocks.company_context_agent import (
-    CompanyContextAgent,
-)
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
-from reworkd_platform.schemas.workflow.blocks.generic_llm_agent import GenericLLMAgent
 from reworkd_platform.schemas.workflow.blocks.pdf.diff_doc import DiffDoc
 from reworkd_platform.schemas.workflow.blocks.slack.slack_bot import SlackMessageBlock
-from reworkd_platform.schemas.workflow.blocks.summary_agent import SummaryAgent
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
     APITriggerBlock,

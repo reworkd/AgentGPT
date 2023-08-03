@@ -126,12 +126,11 @@ async def find_content_kws(content: str) -> str:
     prompt = HumanAssistantPrompt(
         human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Format them so we can use them to query a search engine effectively.",
         assistant_prompt="Here is a short search query that best matches the content of the article:",
-        max_tokens_to_sample=20,
     )
 
     return await claude.completion(
         prompt=prompt,
-        max_tokens_to_sample=5000,
+        max_tokens_to_sample=20,
     )
 
 

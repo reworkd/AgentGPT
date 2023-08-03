@@ -66,7 +66,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     const connectionDragging = useRef(false);
     const transform = useStore((state) => state.transform);
 
-    const { onPaneDoubleClick, setOnConnectStartParams } = props;
+    const { onPaneDoubleClick, setOnConnectStartParams, ...rest } = props;
 
     const getExactPosition = useCallback(
       (event: MouseEvent | ReactMouseEvent | TouchEvent) => {
@@ -157,7 +157,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         fitViewOptions={fitViewOptions}
         fitView
         zoomOnDoubleClick={false}
-        {...props}
+        {...rest}
         onPaneClick={handlePaneClick}
       >
         <Background

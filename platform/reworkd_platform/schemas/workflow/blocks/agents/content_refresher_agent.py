@@ -4,10 +4,10 @@ from typing import Any
 import requests
 from bs4 import BeautifulSoup
 from loguru import logger
-from reworkd_platform.services.anthropic import ClaudeService, HumanAssistantPrompt
 from scrapingbee import ScrapingBeeClient
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
+from reworkd_platform.services.anthropic import ClaudeService, HumanAssistantPrompt
 from reworkd_platform.settings import settings
 
 
@@ -58,7 +58,7 @@ class ContentRefresherAgent(Block):
         new_infos = "\n\n".join(new_info)
         logger.info(new_infos)
 
-        updated_target_content = add_info(target_content, new_infos)
+        updated_target_content = await add_info(target_content, new_infos)
         logger.info(updated_target_content)
 
         return ContentRefresherOutput(

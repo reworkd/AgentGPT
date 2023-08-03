@@ -1,6 +1,12 @@
 import type { ComponentProps, MouseEvent as ReactMouseEvent } from "react";
 import React, { forwardRef, useCallback, useImperativeHandle, useRef, useState } from "react";
-import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
+import type {
+  Connection,
+  EdgeChange,
+  FitViewOptions,
+  NodeChange,
+  OnConnectStartParams,
+} from "reactflow";
 import ReactFlow, {
   addEdge,
   applyEdgeChanges,
@@ -39,6 +45,7 @@ interface FlowChartProps extends ComponentProps<typeof ReactFlow> {
   onSave?: (e: ReactMouseEvent<HTMLButtonElement>) => Promise<void>;
   controls?: boolean;
   minimap?: boolean;
+  setOnConnectStartParams: (params: OnConnectStartParams | undefined) => void; // Specify which node to connect to on edge drag
   onPaneDoubleClick: (clickPosition: Position) => void;
 
   // workflow: Workflow;
@@ -59,7 +66,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     const connectionDragging = useRef(false);
     const transform = useStore((state) => state.transform);
 
-    const { onPaneDoubleClick } = props;
+    const { onPaneDoubleClick, setOnConnectStartParams, ...rest } = props;
 
     const getExactPosition = useCallback(
       (event: MouseEvent | ReactMouseEvent | TouchEvent) => {
@@ -88,6 +95,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
       const currentTime = new Date().getTime();
       const doubleClickDelay = 400;
       if (lastClickTime && currentTime - lastClickTime < doubleClickDelay) {
+        setOnConnectStartParams(undefined); // Reset the on connect as we are not dragging anymore
         onPaneDoubleClick(getExactPosition(event));
       } else {
         setLastClickTime(currentTime);
@@ -103,9 +111,13 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
       [setEdges]
     );
 
-    const onConnectStart = useCallback(() => {
-      connectionDragging.current = true;
-    }, [connectionDragging]);
+    const onConnectStart = useCallback(
+      (_, params: OnConnectStartParams) => {
+        setOnConnectStartParams(params);
+        connectionDragging.current = true;
+      },
+      [setOnConnectStartParams, connectionDragging]
+    );
 
     const onConnect = useCallback(
       (connection: Connection) => {
@@ -145,7 +157,7 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         fitViewOptions={fitViewOptions}
         fitView
         zoomOnDoubleClick={false}
-        {...props}
+        {...rest}
         onPaneClick={handlePaneClick}
       >
         <Background

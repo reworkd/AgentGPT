@@ -131,22 +131,20 @@ export const useWorkflow = (
 
   const createNode: createNodeType = (block: NodeBlock, position: Position) => {
     const ref = nanoid(11);
-
-    setNodes((nodes) => [
-      ...(nodes ?? []),
-      {
-        id: ref,
-        type: getNodeType(block),
-        position,
-        data: {
-          id: undefined,
-          ref: ref,
-          pos_x: 0,
-          pos_y: 0,
-          block: block,
-        },
+    const node = {
+      id: ref,
+      type: getNodeType(block),
+      position,
+      data: {
+        id: undefined,
+        ref: ref,
+        pos_x: 0,
+        pos_y: 0,
+        block: block,
       },
-    ]);
+    };
+    setNodes((nodes) => [...(nodes ?? []), node]);
+    return node;
   };
 
   const updateNode: updateNodeType = (nodeToUpdate: Node<WorkflowNode>) => {
@@ -182,9 +180,6 @@ export const useWorkflow = (
         target: e.target,
       })),
     });
-
-    // #TODO: WHY IS THIS NEEDED?
-    await refetchWorkflow();
   };
 
   const onExecute = async () => {
@@ -206,5 +201,5 @@ export const useWorkflow = (
 };
 
 export type Position = { x: number; y: number };
-export type createNodeType = (block: NodeBlock, position: Position) => void;
+export type createNodeType = (block: NodeBlock, position: Position) => Node<WorkflowNode>;
 export type updateNodeType = (node: Node<WorkflowNode>) => void;

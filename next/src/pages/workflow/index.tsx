@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Image from "next/image";
@@ -7,6 +8,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useEffect, useState } from "react";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
+import type { Connection, OnConnectStartParams } from "reactflow";
+import { addEdge } from "reactflow";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
@@ -34,11 +37,12 @@ const WorkflowPage: NextPage = () => {
   const { organization, setOrganization } = useConfigStore();
   const { session } = useAuth({
     protectedRoute: true,
-    isAllowed: (session) => !!session?.user.organizations.length,
   });
   const router = useRouter();
   const [newNodePosition, setNewNodePosition] = useState<Position>({ x: 0, y: 0 });
-
+  const [onConnectStartParams, setOnConnectStartParams] = useState<
+    OnConnectStartParams | undefined
+  >(undefined);
   const handleSaveWorkflow = async () => {
     try {
       await saveWorkflow();
@@ -134,15 +138,27 @@ const WorkflowPage: NextPage = () => {
       <BlockDialog
         openModel={[open, setOpen]}
         items={getNodeBlockDefinitions()}
-        onClick={(t) =>
-          createNode(
+        onClick={(t) => {
+          const node = createNode(
             {
               type: t.type,
               input: {},
             },
             newNodePosition
-          )
-        }
+          );
+
+          if (onConnectStartParams) {
+            const { nodeId, handleId } = onConnectStartParams;
+            if (!nodeId) return;
+            const edge: Connection = {
+              source: nodeId,
+              target: node.id,
+              sourceHandle: handleId,
+              targetHandle: null,
+            };
+            edgesModel[1]((eds) => addEdge({ ...edge, animated: true }, eds ?? []));
+          }
+        }}
       />
 
       <div className="pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4">
@@ -239,17 +255,26 @@ const WorkflowPage: NextPage = () => {
         </div>
       )}
 
-      {!showLoader && !showCreateForm && !nodesModel[0].length && (
-        <div className="pointer-events-none fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]">
-          Double Click on the canvas to add a node
-        </div>
-      )}
+      <AnimatePresence>
+        {!showLoader && !showCreateForm && !nodesModel[0].length && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, type: "spring" }}
+            className="pointer-events-none fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]"
+          >
+            Double Click on the canvas to add a node
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
+        setOnConnectStartParams={setOnConnectStartParams}
         onPaneDoubleClick={handlePaneDoubleClick}
       />
     </>

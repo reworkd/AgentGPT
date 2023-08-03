@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
@@ -12,13 +11,14 @@ import { RxHome, RxPlus } from "react-icons/rx";
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import Loader from "../../components/loader";
+import FadeIn from "../../components/motions/FadeIn";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
 import type { Position } from "../../hooks/useWorkflow";
 import { useWorkflow } from "../../hooks/useWorkflow";
+import useWorkflows from "../../hooks/useWorkflows";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
-import WorkflowApi from "../../services/workflow/workflowApi";
 import { useConfigStore } from "../../stores/configStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
@@ -75,14 +75,6 @@ const WorkflowPage: NextPage = () => {
     isLoading,
   } = useWorkflow(workflowId, session, organization?.id);
 
-  const { data: workflows, refetch } = useQuery(
-    ["workflows"],
-    async () => await new WorkflowApi(session?.accessToken, organization?.id).getAll(),
-    {
-      enabled: !!session && !!organization?.id,
-    }
-  );
-
   const [open, setOpen] = useState(false);
 
   const handlePaneDoubleClick = (position: { x: number; y: number }) => {
@@ -114,12 +106,13 @@ const WorkflowPage: NextPage = () => {
   const showLoader = !router.isReady || (isLoading && !!workflowId);
   const showCreateForm = !workflowId && router.isReady;
 
-  const onCreate = async (name: string) => {
-    const data = await new WorkflowApi(session?.accessToken, organization?.id).create({
-      name: name,
-      description: "",
-    });
+  const { workflows, createWorkflow, refetchWorkflows } = useWorkflows(
+    session?.accessToken,
+    organization?.id
+  );
 
+  const onCreate = async (name: string) => {
+    const data = await createWorkflow({ name, description: "" });
     await changeQueryParams({ w: data.id });
   };
 
@@ -131,12 +124,10 @@ const WorkflowPage: NextPage = () => {
     edgesModel[1]([]);
   };
 
-  const liveEditors = Object.entries(members);
-
   useEffect(() => {
     if (!organization) return;
-    refetch().then(console.log).catch(console.error);
-  }, [refetch, organization]);
+    refetchWorkflows().then(console.log).catch(console.error);
+  }, [refetchWorkflows, organization]);
 
   return (
     <>
@@ -210,12 +201,14 @@ const WorkflowPage: NextPage = () => {
             </>
           )}
           {showCreateForm || (
-            <a
-              className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-              onClick={() => void handlePlusClick().catch(console.error)}
-            >
-              <RxPlus size="16" />
-            </a>
+            <FadeIn initialY={0} initialX={-50}>
+              <a
+                className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
+                onClick={() => void handlePlusClick().catch(console.error)}
+              >
+                <RxPlus size="16" />
+              </a>
+            </FadeIn>
           )}
         </div>
         <div id="empty-space" className="flex-grow" />
@@ -339,20 +332,24 @@ function AccountBar(props: AccountBarProps) {
 
   return (
     <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
-      <div className="flex flex-row-reverse">
-        {editors.map(([id, user]) => (
-          <img
-            className={clsx(
-              "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
-              editors.length > 1 && "-mr-2 first:ml-0"
-            )}
-            key={id}
-            src={get_avatar(user)}
-            alt="user avatar"
-          />
-        ))}
-      </div>
-      <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
+      {!!editors.length && (
+        <>
+          <div className="flex flex-row-reverse">
+            {editors.map(([id, user]) => (
+              <img
+                className={clsx(
+                  "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
+                  editors.length > 1 && "-mr-2 first:ml-0"
+                )}
+                key={id}
+                src={get_avatar(user)}
+                alt="user avatar"
+              />
+            ))}
+          </div>
+          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
+        </>
+      )}
       <button
         className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
         onClick={() => void props.onSave().catch(console.error)}

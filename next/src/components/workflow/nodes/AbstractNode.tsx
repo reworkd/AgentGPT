@@ -39,7 +39,7 @@ const AbstractNode = (props: NodeProps) => (
         type={type}
         position={position}
         className={clsx(
-          "border-gradient !hover:border-white grid !h-fit !w-fit place-items-center !rounded-md !border-2 !border-white !bg-black p-0.5 text-xs font-light shadow-xl ring-1 ring-black",
+          "border-gradient !hover:border-white grid !h-fit !w-fit place-items-center !rounded-md !border-2 !border-white !bg-black p-[0.3em] text-xs font-light shadow-xl ring-1 ring-black",
           className
         )}
       >

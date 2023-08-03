@@ -36,7 +36,7 @@ export default function Select<T>(props: Props<T>) {
                   className: "text-white bg-black rounded-sm ring-2 ring-black",
                   size: "1em",
                 })}
-                <span className="ml-2 block flex-grow truncate capitalize">
+                <span className="ml-2 block min-w-[60px] flex-grow truncate capitalize">
                   {props.valueMapper?.(props.value || props.defaultValue)}
                 </span>
                 <HiOutlineChevronUpDown className="h-5 w-5 pl-1 text-black" aria-hidden="true" />
@@ -51,6 +51,9 @@ export default function Select<T>(props: Props<T>) {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                {(!props.items || props.items?.length == 0) && (
+                  <div className="px-1 text-xs">No options available</div>
+                )}
                 {props.items?.map((item, i) => (
                   <Listbox.Option
                     key={i}

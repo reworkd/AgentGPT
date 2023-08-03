@@ -38,7 +38,7 @@ export const delete_ = async <T>(url: string, accessToken?: string) => {
   ).data as T;
 };
 
-function getHeaders(session?: Session) {
+export function getHeaders(session?: Session) {
   const headers: Record<string, string> = {};
   if (session?.accessToken) {
     headers.Authorization = `Bearer ${session.accessToken}`;

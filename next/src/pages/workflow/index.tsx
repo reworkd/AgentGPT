@@ -1,26 +1,31 @@
-import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
+import type { Connection, OnConnectStartParams } from "reactflow";
+import { addEdge } from "reactflow";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import Loader from "../../components/loader";
+import FadeIn from "../../components/motions/FadeIn";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
+import type { Position } from "../../hooks/useWorkflow";
 import { useWorkflow } from "../../hooks/useWorkflow";
+import useWorkflows from "../../hooks/useWorkflows";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
-import WorkflowApi from "../../services/workflow/workflowApi";
+import { useConfigStore } from "../../stores/configStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
-import clsx from "clsx";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -29,13 +34,16 @@ const isError = (error: unknown): error is Error =>
   error instanceof Error && error.name === "Error";
 
 const WorkflowPage: NextPage = () => {
+  const { organization, setOrganization } = useConfigStore();
   const { session } = useAuth({
     protectedRoute: true,
-    isAllowed: (session) => !!session?.user.organizations.length,
   });
   const router = useRouter();
-
-  const handleClick = async () => {
+  const [newNodePosition, setNewNodePosition] = useState<Position>({ x: 0, y: 0 });
+  const [onConnectStartParams, setOnConnectStartParams] = useState<
+    OnConnectStartParams | undefined
+  >(undefined);
+  const handleSaveWorkflow = async () => {
     try {
       await saveWorkflow();
       window.alert("Workflow saved successfully!");
@@ -50,6 +58,15 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  const handlePlusClick = async () => {
+    try {
+      await changeQueryParams({ w: undefined });
+      await saveWorkflow();
+    } catch (error: unknown) {
+      window.alert("An error occurred while creating a new workflow.");
+    }
+  };
+
   const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
@@ -60,23 +77,27 @@ const WorkflowPage: NextPage = () => {
     updateNode,
     members,
     isLoading,
-  } = useWorkflow(workflowId, session);
-
-  const { data: workflows } = useQuery(
-    ["workflows"],
-    async () => await WorkflowApi.fromSession(session).getAll(),
-    {
-      enabled: !!session,
-    }
-  );
+  } = useWorkflow(workflowId, session, organization?.id);
 
   const [open, setOpen] = useState(false);
 
-  const changeQueryParams = async (newParams: Record<string, string>) => {
-    const updatedParams = {
+  const handlePaneDoubleClick = (position: { x: number; y: number }) => {
+    if (!showCreateForm) {
+      setNewNodePosition(position);
+      setOpen(true);
+    }
+  };
+
+  const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
+    let updatedParams = {
       ...router.query,
       ...newParams,
     };
+
+    updatedParams = Object.entries(updatedParams).reduce((acc, [key, value]) => {
+      if (!!value) acc[key] = value;
+      return acc;
+    }, {});
 
     const newURL = {
       pathname: router.pathname,
@@ -89,32 +110,59 @@ const WorkflowPage: NextPage = () => {
   const showLoader = !router.isReady || (isLoading && !!workflowId);
   const showCreateForm = !workflowId && router.isReady;
 
-  const onCreate = async (name: string) => {
-    const data = await WorkflowApi.fromSession(session).create({
-      name: name,
-      description: "",
-    });
+  const { workflows, createWorkflow, refetchWorkflows } = useWorkflows(
+    session?.accessToken,
+    organization?.id
+  );
 
+  const onCreate = async (name: string) => {
+    const data = await createWorkflow({ name, description: "" });
     await changeQueryParams({ w: data.id });
   };
 
-  const liveEditors = Object.entries(members);
+  const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
+    if (org === organization) return;
+    setOrganization(org);
+    await changeQueryParams({ w: undefined });
+    nodesModel[1]([]);
+    edgesModel[1]([]);
+  };
+
+  useEffect(() => {
+    if (!organization) return;
+    refetchWorkflows().then(console.log).catch(console.error);
+  }, [refetchWorkflows, organization]);
 
   return (
     <>
       <BlockDialog
         openModel={[open, setOpen]}
         items={getNodeBlockDefinitions()}
-        onClick={(t) =>
-          createNode({
-            type: t.type,
-            input: {},
-          })
-        }
+        onClick={(t) => {
+          const node = createNode(
+            {
+              type: t.type,
+              input: {},
+            },
+            newNodePosition
+          );
+
+          if (onConnectStartParams) {
+            const { nodeId, handleId } = onConnectStartParams;
+            if (!nodeId) return;
+            const edge: Connection = {
+              source: nodeId,
+              target: node.id,
+              sourceHandle: handleId,
+              targetHandle: null,
+            };
+            edgesModel[1]((eds) => addEdge({ ...edge, animated: true }, eds ?? []));
+          }
+        }}
       />
 
-      <div className="fixed top-0 z-10 flex w-full flex-row items-start justify-between p-4">
-        <div className="flex flex-row items-center gap-2">
+      <div className="pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4">
+        <div className="pointer-events-auto flex flex-row items-center gap-2">
           <a
             className="group rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
             onClick={() => void router.push("/home")}
@@ -133,54 +181,55 @@ const WorkflowPage: NextPage = () => {
           >
             <RxHome size="16" />
           </a>
-          <Select<{ id: string; name: string }>
-            value={session?.user.organizations?.[0]}
-            items={session?.user.organizations}
-            valueMapper={(org) => org?.name}
-            icon={RiBuildingLine}
-            defaultValue={{ id: "default", name: "Select an org" }}
-            disabled
-          />
-          <Select<{ id: string; name: string }>
-            value={workflows?.find((w) => w.id === router.query.w)}
-            onChange={async (e) => {
-              if (e) await changeQueryParams({ w: e.id });
-            }}
-            items={workflows}
-            valueMapper={(item) => item?.name}
-            icon={RiStackFill}
-            defaultValue={{ id: "default", name: "Select a workflow" }}
-          />
+          {router.isReady && (
+            <>
+              <Select<{ id: string; name: string; role: string }>
+                value={organization}
+                items={session?.user.organizations}
+                valueMapper={(org) => org?.name}
+                icon={RiBuildingLine}
+                defaultValue={
+                  session?.user.organizations?.find((o) => {
+                    return o.id === organization?.id;
+                  }) || {
+                    id: "default",
+                    name: "Select an org",
+                    role: "member",
+                  }
+                }
+                onChange={changeOrg}
+              />
+              <Select<{ id: string; name: string }>
+                value={workflows?.find((w) => w.id === router.query.w)}
+                onChange={async (e) => {
+                  if (e) await changeQueryParams({ w: e.id });
+                }}
+                items={workflows}
+                valueMapper={(item) => item?.name}
+                icon={RiStackFill}
+                defaultValue={
+                  workflows?.find((w) => w.id === workflowId) || {
+                    id: "default",
+                    name: "Select a workflow",
+                  }
+                }
+              />
+            </>
+          )}
           {showCreateForm || (
-            <a
-              className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-              onClick={() => void router.replace("/workflow")}
-            >
-              <RxPlus size="16" />
-            </a>
+            <FadeIn initialY={0} initialX={-50}>
+              <a
+                className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
+                onClick={() => void handlePlusClick().catch(console.error)}
+              >
+                <RxPlus size="16" />
+              </a>
+            </FadeIn>
           )}
         </div>
-        <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
-          <div className="flex flex-row-reverse">
-            {liveEditors.map(([id, user]) => (
-              <img
-                className={clsx(
-                  "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
-                  liveEditors.length > 1 && "-mr-2 first:ml-0"
-                )}
-                key={id}
-                src={get_avatar(user)}
-                alt="user avatar"
-              />
-            ))}
-          </div>
-          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50"></div>
-          <button
-            className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
-            onClick={() => void handleClick().catch(console.error)}
-          >
-            Save
-          </button>
+        <div id="empty-space" className="flex-grow" />
+        <div className="pointer-events-auto">
+          {showCreateForm || <AccountBar editors={members} onSave={handleSaveWorkflow} />}
         </div>
       </div>
 
@@ -206,18 +255,27 @@ const WorkflowPage: NextPage = () => {
         </div>
       )}
 
-      {!showLoader && !showCreateForm && !nodesModel[0].length && (
-        <div className="fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]">
-          Double Click on the canvas to add a node
-        </div>
-      )}
+      <AnimatePresence>
+        {!showLoader && !showCreateForm && !nodesModel[0].length && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, type: "spring" }}
+            className="pointer-events-none fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]"
+          >
+            Double Click on the canvas to add a node
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <FlowChart
         controls={true}
         nodesModel={nodesModel}
         edgesModel={edgesModel}
         className="min-h-screen flex-1"
-        onPaneClick={() => setOpen(true)}
+        setOnConnectStartParams={setOnConnectStartParams}
+        onPaneDoubleClick={handlePaneDoubleClick}
       />
     </>
   );
@@ -281,3 +339,48 @@ const CreateWorkflow = ({ onSubmit }: { onSubmit: (name: string) => Promise<void
     </div>
   );
 };
+
+interface AccountBarProps {
+  editors: Record<
+    string,
+    {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    }
+  >;
+  onSave: () => Promise<void>;
+}
+
+function AccountBar(props: AccountBarProps) {
+  const editors = Object.entries(props.editors);
+
+  return (
+    <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
+      {!!editors.length && (
+        <>
+          <div className="flex flex-row-reverse">
+            {editors.map(([id, user]) => (
+              <img
+                className={clsx(
+                  "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
+                  editors.length > 1 && "-mr-2 first:ml-0"
+                )}
+                key={id}
+                src={get_avatar(user)}
+                alt="user avatar"
+              />
+            ))}
+          </div>
+          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
+        </>
+      )}
+      <button
+        className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
+        onClick={() => void props.onSave().catch(console.error)}
+      >
+        Save
+      </button>
+    </div>
+  );
+}

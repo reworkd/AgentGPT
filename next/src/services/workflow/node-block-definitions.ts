@@ -19,7 +19,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum", "file", "oauth"]),
+  type: z.enum(["string", "array", "enum", "file", "oauth", "button"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -42,6 +42,7 @@ export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
 const colorTypes = {
   trigger: "bg-purple-500",
   output: "bg-green-500",
+  agent: "bg-blue-500",
 };
 
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
@@ -105,6 +106,7 @@ const CompanyContextAgentBlockDefinition: NodeBlockDefinition = {
   description: "Retrieve market, industry, and product summary of a specific company",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "company_name",
@@ -127,6 +129,7 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
   description: "OpenAI agent",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "prompt",
@@ -146,13 +149,20 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
 const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
   type: "SummaryAgent",
-  description: "Summarize or extract key details from text using OpenAI",
+  description:
+    "Summarize and extract key market insights for specific companies and industries from documents",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
+      name: "chat",
+      description: "chat with your PDF",
+      type: "button",
+    },
+    {
       name: "company_context",
-      description: "reference a company's context so we can retrieve relevant info from docs",
+      description: "short description on company, market, and their core products",
       type: "string",
     },
   ],
@@ -280,6 +290,7 @@ const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
   description: "Dynamically interact with a website",
   image_url: "/tools/web.png",
   icon: FaRobot,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "url",
@@ -317,6 +328,7 @@ const ContentRefresherAgent: NodeBlockDefinition = {
   description: "Refresh the content on an existing page",
   image_url: "/tools/web.png",
   icon: FaRobot,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "url",
@@ -343,16 +355,16 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     ManualTriggerBlockDefinition,
     APITriggerBlockDefinition,
     SlackWebhookBlockDefinition,
-    GenericLLMAgentBlockDefinition,
     DiffDocBlockDefinition,
-    WebInteractionAgentBlockDefinition,
-    SummaryAgentBlockDefinition,
-    CompanyContextAgentBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
-    ContentRefresherAgent,
     IfBlockDefinition,
     UrlStatusCheckBlockDefinition,
+    WebInteractionAgentBlockDefinition,
+    ContentRefresherAgent,
+    GenericLLMAgentBlockDefinition,
+    SummaryAgentBlockDefinition,
+    CompanyContextAgentBlockDefinition,
   ];
 };
 

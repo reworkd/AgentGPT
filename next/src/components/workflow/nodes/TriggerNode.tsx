@@ -5,6 +5,7 @@ import { type NodeProps, Position } from "reactflow";
 import AbstractNode, { NodeTitle } from "./AbstractNode";
 import { getNodeBlockDefinitions } from "../../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../../services/workflow/workflowApi";
+import { useConfigStore } from "../../../stores/configStore";
 import { useWorkflowStore } from "../../../stores/workflowStore";
 import type { WorkflowNode } from "../../../types/workflow";
 import Button from "../../../ui/button";
@@ -12,7 +13,8 @@ import Button from "../../../ui/button";
 function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const { data: session } = useSession();
   const workflow = useWorkflowStore().workflow;
-  const api = WorkflowApi.fromSession(session);
+  const org = useConfigStore().organization;
+  const api = new WorkflowApi(session?.accessToken, org?.id);
 
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
 

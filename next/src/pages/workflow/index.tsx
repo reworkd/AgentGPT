@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import type { GetStaticProps } from "next";
 import { type NextPage } from "next";
 import Image from "next/image";
@@ -22,7 +23,6 @@ import { useConfigStore } from "../../stores/configStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
-import clsx from "clsx";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -154,8 +154,8 @@ const WorkflowPage: NextPage = () => {
         }
       />
 
-      <div className="fixed top-0 z-10 flex w-full flex-row items-start justify-between p-4">
-        <div className="flex flex-row items-center gap-2">
+      <div className="pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4">
+        <div className="pointer-events-auto flex flex-row items-center gap-2">
           <a
             className="group rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
             onClick={() => void router.push("/home")}
@@ -218,7 +218,10 @@ const WorkflowPage: NextPage = () => {
             </a>
           )}
         </div>
-        {showCreateForm || <AccountBar editors={members} onSave={handleSaveWorkflow} />}
+        <div id="empty-space" className="flex-grow" />
+        <div className="pointer-events-auto">
+          {showCreateForm || <AccountBar editors={members} onSave={handleSaveWorkflow} />}
+        </div>
       </div>
 
       <div className="fixed right-0 top-16 z-10 flex flex-col items-center justify-between ">
@@ -244,7 +247,7 @@ const WorkflowPage: NextPage = () => {
       )}
 
       {!showLoader && !showCreateForm && !nodesModel[0].length && (
-        <div className="fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]">
+        <div className="pointer-events-none fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]">
           Double Click on the canvas to add a node
         </div>
       )}

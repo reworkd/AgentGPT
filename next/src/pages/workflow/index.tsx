@@ -37,7 +37,6 @@ const WorkflowPage: NextPage = () => {
   const { organization, setOrganization } = useConfigStore();
   const { session } = useAuth({
     protectedRoute: true,
-    isAllowed: (session) => !!session?.user.organizations.length,
   });
   const router = useRouter();
   const [newNodePosition, setNewNodePosition] = useState<Position>({ x: 0, y: 0 });
@@ -272,7 +271,7 @@ const WorkflowPage: NextPage = () => {
             transition={{ duration: 1, type: "spring" }}
             className="pointer-events-none fixed left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-dashed border-black p-8 text-lg font-light tracking-wider backdrop-blur-[2px]"
           >
-            Test
+            Double Click on the canvas to add a node
           </motion.div>
         )}
       </AnimatePresence>

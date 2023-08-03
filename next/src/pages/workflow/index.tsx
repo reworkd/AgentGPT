@@ -157,12 +157,12 @@ const WorkflowPage: NextPage = () => {
           );
 
           if (onConnectStartParams) {
-            const { nodeId, handleType } = onConnectStartParams;
+            const { nodeId, handleId } = onConnectStartParams;
             if (!nodeId) return;
             const edge: Connection = {
               source: nodeId,
               target: node.id,
-              sourceHandle: handleType,
+              sourceHandle: handleId,
               targetHandle: null,
             };
             edgesModel[1]((eds) => addEdge({ ...edge, animated: true }, eds ?? []));

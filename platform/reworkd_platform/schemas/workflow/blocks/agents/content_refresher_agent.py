@@ -42,7 +42,9 @@ class ContentRefresherAgent(Block):
         logger.info(sources)
 
         source_contents = [
-            (url, title, await get_page_content(url)) for url, title in sources[:3]
+            (url, title, await get_page_content(url))
+            for url, title in sources[:3]
+            # TODO: remove limit of 3 sources
         ]
 
         source_contents = [
@@ -178,7 +180,7 @@ async def find_new_info(target: str, source: tuple[str, str, str]) -> str:
 async def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. At the end of the article, include a list of sources (source url, title, and any additional information) ONLY for added information from SOURCE articles using the following example format: 'Source: https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum' Do not add citations for any info in the TARGET article.",
+        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. After any source info that you add, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
         assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
     )
 

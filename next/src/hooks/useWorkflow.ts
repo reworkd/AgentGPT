@@ -128,7 +128,7 @@ export const useWorkflow = (
         event: "workflow:log",
         callback: async (data) => {
           const log = await LogSchema.parseAsync(data);
-          onLog?.(log);
+          onLog?.({ ...log, date: log.date.substring(11, 19) });
         },
       },
     ],

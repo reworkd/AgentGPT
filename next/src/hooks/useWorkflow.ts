@@ -52,7 +52,7 @@ export const useWorkflow = (
   workflowId: string | undefined,
   session: Session | null,
   organizationId: string | undefined,
-  onLog?: (msg: string) => void
+  onLog?: (log: LogType) => void
 ) => {
   const api = new WorkflowApi(session?.accessToken, organizationId);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
@@ -127,14 +127,8 @@ export const useWorkflow = (
       {
         event: "workflow:log",
         callback: async (data) => {
-          const { msg } = await z
-            .object({
-              // level: z.enum(["info", "error"]),
-              msg: z.string(),
-            })
-            .parseAsync(data);
-
-          onLog?.(msg);
+          const log = await LogSchema.parseAsync(data);
+          onLog?.(log);
         },
       },
     ],
@@ -214,6 +208,13 @@ export const useWorkflow = (
   };
 };
 
+const LogSchema = z.object({
+  // level: z.enum(["info", "error"]),
+  date: z.string().refine((date) => date.substring(0, 19)), // Get rid of milliseconds
+  msg: z.string(),
+});
+
+export type LogType = z.infer<typeof LogSchema>;
 export type Position = { x: number; y: number };
 export type createNodeType = (block: NodeBlock, position: Position) => Node<WorkflowNode>;
 export type updateNodeType = (node: Node<WorkflowNode>) => void;

@@ -1,10 +1,9 @@
 from functools import wraps
-from typing import TypeVar, Callable, Coroutine, Any
+from typing import Any, Callable, Coroutine, TypeVar
 
 from reworkd_platform.services.sockets import websockets
 
 STATUS_EVENT = "workflow:node:status"
-
 
 _T = TypeVar("_T")
 
@@ -37,6 +36,7 @@ def websocket_status(
                     "status": "error",
                 },
             )
+            websockets.log(workflow_id, f"Workflow failed: {e}")
             raise e
 
         # Emit 'success' status at the end
@@ -49,6 +49,7 @@ def websocket_status(
                 "remaining": len(engine.workflow.queue),
             },
         )
+        websockets.log(workflow_id, "Workflow complete ✔")
 
         return result
 

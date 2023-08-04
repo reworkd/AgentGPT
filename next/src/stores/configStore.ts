@@ -63,7 +63,7 @@ export const useConfigStore = createSelectors(
         ...createAuthSlice(...a),
       }),
       {
-        name: "reworkd-config",
+        name: "reworkd-config-2",
         version: 1,
         storage: createJSONStorage(() => localStorage),
       }

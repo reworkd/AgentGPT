@@ -282,10 +282,15 @@ const WorkflowPage: NextPage = () => {
           onPaneDoubleClick={handlePaneDoubleClick}
         />
         <div className="flex max-h-screen min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white">
-          <div className="mb-3 px-3 pt-3 text-xl font-bold">Workflow logs</div>
+          <div className="mb-5 px-4 pt-4 text-xl font-bold">Workflow logs</div>
+          {logMessage.length === 0 && (
+            <p className="px-4 font-thin">
+              When you execute a workflow, its log messages will appear here
+            </p>
+          )}
           {logMessage.map(({ date, msg }, i) => (
             <>
-              <p key={i} className="p-1 px-3">
+              <p key={i} className="p-1 px-4">
                 <span className="text-gray-400">{date}: </span>
                 <span>{msg}</span>
               </p>

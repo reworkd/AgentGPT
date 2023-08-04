@@ -51,7 +51,8 @@ const updateValue = <
 export const useWorkflow = (
   workflowId: string | undefined,
   session: Session | null,
-  organizationId: string | undefined
+  organizationId: string | undefined,
+  onLog?: (msg: string) => void
 ) => {
   const api = new WorkflowApi(session?.accessToken, organizationId);
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNode> | undefined>(undefined);
@@ -121,6 +122,19 @@ export const useWorkflow = (
         callback: async (data) => {
           const { user_id } = await SaveEventSchema.parseAsync(data);
           if (user_id !== session?.user?.id) await refetchWorkflow();
+        },
+      },
+      {
+        event: "workflow:log",
+        callback: async (data) => {
+          const { msg } = await z
+            .object({
+              // level: z.enum(["info", "error"]),
+              msg: z.string(),
+            })
+            .parseAsync(data);
+
+          onLog?.(msg);
         },
       },
     ],

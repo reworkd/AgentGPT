@@ -67,6 +67,7 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  const [logMessage, setLogMessage] = useState<string[]>([]);
   const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
@@ -77,7 +78,9 @@ const WorkflowPage: NextPage = () => {
     updateNode,
     members,
     isLoading,
-  } = useWorkflow(workflowId, session, organization?.id);
+  } = useWorkflow(workflowId, session, organization?.id, (str) =>
+    setLogMessage((prev) => [...prev, str])
+  );
 
   const [open, setOpen] = useState(false);
 
@@ -269,14 +272,21 @@ const WorkflowPage: NextPage = () => {
         )}
       </AnimatePresence>
 
-      <FlowChart
-        controls={true}
-        nodesModel={nodesModel}
-        edgesModel={edgesModel}
-        className="min-h-screen flex-1"
-        setOnConnectStartParams={setOnConnectStartParams}
-        onPaneDoubleClick={handlePaneDoubleClick}
-      />
+      <div className="flex flex-row">
+        <FlowChart
+          controls={true}
+          nodesModel={nodesModel}
+          edgesModel={edgesModel}
+          className="min-h-screen"
+          setOnConnectStartParams={setOnConnectStartParams}
+          onPaneDoubleClick={handlePaneDoubleClick}
+        />
+        <div className="flex min-h-screen basis-1/3 flex-col overflow-y-auto border-l-2 border-double border-black bg-white">
+          {logMessage.map((message, i) => (
+            <span key={i}>{message}</span>
+          ))}
+        </div>
+      </div>
     </>
   );
 };

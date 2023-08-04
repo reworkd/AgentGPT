@@ -1,5 +1,5 @@
 import re
-from typing import Any
+from typing import Any, Callable, Dict, List
 
 import requests
 from bs4 import BeautifulSoup
@@ -8,6 +8,7 @@ from scrapingbee import ScrapingBeeClient
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.anthropic import ClaudeService, HumanAssistantPrompt
+from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
 
 
@@ -26,10 +27,14 @@ class ContentRefresherAgent(Block):
     input: ContentRefresherInput
 
     async def run(self, workflow_id: str, **kwargs: Any) -> ContentRefresherOutput:
+        def log(msg: Any) -> None:
+            websockets.log(workflow_id, msg)
+
         logger.info(f"Starting {self.type}")
         target_url = self.input.url
 
-        target_content = await get_page_content(target_url)
+        target_content = await get_page_content(target_url, log)
+        log("Got target content from URL")
         logger.info(target_content)
 
         keywords = await find_content_kws(target_content)
@@ -39,10 +44,13 @@ class ContentRefresherAgent(Block):
         sources = [
             source for source in sources if source["url"] != target_url
         ]  # TODO: check based on content overlap
+
+        log("Found source URLs")
         logger.info(sources)
+        log(sources)
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
-            source["content"] = await get_page_content(source["url"])
+            source["content"] = await get_page_content(source["url"], log)
         logger.info(sources)
 
         source_contents = [
@@ -51,7 +59,7 @@ class ContentRefresherAgent(Block):
         logger.info(source_contents)
 
         new_info = [
-            await find_new_info(target_content, source_content)
+            await find_new_info(target_content, source_content, log)
             for source_content in source_contents
         ]
 
@@ -77,7 +85,8 @@ claude = ClaudeService(
 )
 
 
-async def get_page_content(url: str) -> str:
+async def get_page_content(url: str, log: Callable[[str], None]) -> str:
+    log(f"Getting content from {url}")
     page = requests.get(url)
     if page.status_code != 200:
         page = scraper.get(url)
@@ -97,6 +106,7 @@ async def get_page_content(url: str) -> str:
         assistant_prompt="Here are the line numbers of the main content:",
     )
 
+    log(f"Prompting Claude for line numbers")
     line_nums = await claude.completion(
         prompt=prompt,
         max_tokens_to_sample=500,
@@ -134,7 +144,7 @@ async def find_content_kws(content: str) -> str:
     )
 
 
-def search_results(search_query: str) -> list[dict[str, str]]:
+def search_results(search_query: str) -> List[Dict[str, str]]:
     # use SERP API
     response = requests.post(
         f"https://google.serper.dev/search",
@@ -158,7 +168,9 @@ def search_results(search_query: str) -> list[dict[str, str]]:
     return source_information
 
 
-async def find_new_info(target: str, source: dict[str, str]) -> str:
+async def find_new_info(
+    target: str, source: Dict[str, str], log: Callable[[str], None]
+) -> str:
     source_metadata = f"{source['url']}, {source['title']}" + (
         f", {source['date']}" if source["date"] else ""
     )
@@ -170,6 +182,7 @@ async def find_new_info(target: str, source: dict[str, str]) -> str:
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
+    log(f"Prompting Claude for new info")
     response = await claude.completion(
         prompt=prompt,
         max_tokens_to_sample=5000,

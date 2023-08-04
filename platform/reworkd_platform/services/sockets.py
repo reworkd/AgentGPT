@@ -25,6 +25,9 @@ class WebsocketService:
         except (PusherBadRequest, ReadTimeout) as e:
             logger.warning(f"Failed to emit event: {data}")
 
+    def log(self, workflow_id: str, msg: Any) -> None:
+        self.emit(workflow_id, "workflow:log", {"msg": str(msg)})
+
     def authenticate(
         self, user: UserBase, channel: str, socket_id: str
     ) -> Dict[str, Any]:

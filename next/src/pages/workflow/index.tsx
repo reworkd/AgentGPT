@@ -426,26 +426,31 @@ function AccountBar(props: AccountBarProps) {
 
   return (
     <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
-      {!!editors.length && (
-        <>
-          <div className="flex flex-row-reverse">
-            {editors.map(([id, user]) => (
-              <img
-                className={clsx(
-                  "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
-                  editors.length > 1 && "-mr-2 first:ml-0"
-                )}
-                key={id}
-                src={get_avatar(user)}
-                alt="user avatar"
-              />
-            ))}
-          </div>
-          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
-        </>
-      )}
+      <>
+        <div className="flex flex-row-reverse">
+          {editors.length === 0 && (
+            <div
+              className={clsx(
+                "h-6 w-6 rounded-full border-2 border-white bg-gray-400 ring-2 ring-blue-500 first:ring-purple-500"
+              )}
+            />
+          )}
+          {editors.map(([id, user]) => (
+            <img
+              className={clsx(
+                "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
+                editors.length > 1 && "-mr-2 first:ml-0"
+              )}
+              key={id}
+              src={get_avatar(user)}
+              alt="user avatar"
+            />
+          ))}
+        </div>
+        <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
+      </>
       <button
-        className="h-6 rounded-lg border border-gray-500 bg-black/50 px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
+        className="h-6 rounded-lg border border-gray-500 bg-gray-100 px-2 text-sm font-light tracking-wider text-black transition-all hover:border hover:border-black hover:bg-white hover:text-black"
         onClick={props.onShowLogs}
       >
         Logs

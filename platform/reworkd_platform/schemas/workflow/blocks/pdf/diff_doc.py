@@ -4,6 +4,7 @@ from typing import List, Any
 
 from docx import Document
 from docx.shared import RGBColor
+from loguru import logger
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
@@ -39,7 +40,10 @@ class DiffDoc(Block):
             file_url = s3_service.create_presigned_download_url(
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
             )
-
+            logger.info("file_url")
+            logger.info("file_url")
+            logger.info("file_url")
+            logger.info(file_url)
             return DiffDocOutput(file_url=file_url)
 
 

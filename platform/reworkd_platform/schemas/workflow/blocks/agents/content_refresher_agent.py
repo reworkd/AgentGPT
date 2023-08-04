@@ -31,32 +31,32 @@ class ContentRefresherAgent(Block):
             websockets.log(workflow_id, msg)
 
         logger.info(f"Starting {self.type}")
+        log(f"Starting {self.type} for {self.input.url}")
         target_url = self.input.url
 
-        target_content = await get_page_content(target_url, log)
-        log("Got target content from URL")
-        logger.info(target_content)
+        target_content = await get_page_content(target_url)
+        log("Extracting content from provided URL")
 
         keywords = await find_content_kws(target_content)
-        logger.info(keywords)
+        log("Finding keywords from source content")
+        log(f"Keywords: {keywords}")
 
         sources = search_results(keywords)
         sources = [
             source for source in sources if source["url"] != target_url
         ]  # TODO: check based on content overlap
 
-        log("Found source URLs")
-        logger.info(sources)
+        log("Finding sources to refresh content")
         log(sources)
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
-            source["content"] = await get_page_content(source["url"], log)
-        logger.info(sources)
+            source["content"] = await get_page_content(source["url"])
+        # logger.info(sources)
 
         source_contents = [
             source for source in sources if source.get("content", None) is not None
         ]
-        logger.info(source_contents)
+        # logger.info(source_contents)
 
         new_info = [
             await find_new_info(target_content, source_content, log)
@@ -64,10 +64,12 @@ class ContentRefresherAgent(Block):
         ]
 
         new_infos = "\n\n".join(new_info)
-        logger.info(new_infos)
+        log("Extracting new, relevant information not present in your content")
+        log(new_infos)
 
+        log("Updating provided content with new information")
         updated_target_content = await add_info(target_content, new_infos)
-        logger.info(updated_target_content)
+        # logger.info(updated_target_content)
 
         return ContentRefresherOutput(
             **self.input.dict(),
@@ -85,8 +87,7 @@ claude = ClaudeService(
 )
 
 
-async def get_page_content(url: str, log: Callable[[str], None]) -> str:
-    log(f"Getting content from {url}")
+async def get_page_content(url: str) -> str:
     page = requests.get(url)
     if page.status_code != 200:
         page = scraper.get(url)
@@ -106,7 +107,6 @@ async def get_page_content(url: str, log: Callable[[str], None]) -> str:
         assistant_prompt="Here are the line numbers of the main content:",
     )
 
-    log(f"Prompting Claude for line numbers")
     line_nums = await claude.completion(
         prompt=prompt,
         max_tokens_to_sample=500,
@@ -182,7 +182,10 @@ async def find_new_info(
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
-    log(f"Prompting Claude for new info")
+    log(
+        f"Identifying new details to refresh original content with for {source['title']}"
+    )
+
     response = await claude.completion(
         prompt=prompt,
         max_tokens_to_sample=5000,
@@ -196,7 +199,7 @@ async def find_new_info(
 async def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. After any source info that you add, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
+        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
         assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
     )
 

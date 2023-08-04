@@ -96,6 +96,7 @@ class AsyncConsumer(ABC):
         Skip processing a message if in dev node and
         the message is not produced by the current host.
         """
+        # return True
         return (
             self._env == "development"
             and ("host", self._group.encode("utf-8")) not in record.headers

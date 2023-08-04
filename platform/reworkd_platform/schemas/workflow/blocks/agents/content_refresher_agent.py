@@ -35,21 +35,21 @@ class ContentRefresherAgent(Block):
         keywords = await find_content_kws(target_content)
         logger.info(keywords)
 
-        source_urls = search_results(keywords)
-        if target_url in source_urls:  # TODO: check based on content overlap
-            source_urls.remove(target_url)
-        logger.info(source_urls)
+        sources = search_results(keywords)
+        sources = [
+            source for source in sources if source["url"] != target_url
+        ]  # TODO: check based on content overlap
+        logger.info(sources)
+
+        for source in sources[:3]:  # TODO: remove limit of 3 sources
+            source["content"] = await get_page_content(source["url"])
+        logger.info(sources)
 
         source_contents = [
-            await get_page_content(url)
-            for url in source_urls[:3]  # TODO: remove limit of 3 sources
+            source for source in sources if source.get("content", None) is not None
         ]
-
-        source_contents = [
-            content for content in source_contents if content is not None
-        ]
-
         logger.info(source_contents)
+
         new_info = [
             await find_new_info(target_content, source_content)
             for source_content in source_contents
@@ -134,7 +134,7 @@ async def find_content_kws(content: str) -> str:
     )
 
 
-def search_results(search_query: str) -> list[str]:
+def search_results(search_query: str) -> list[dict[str, str]]:
     # use SERP API
     response = requests.post(
         f"https://google.serper.dev/search",
@@ -147,14 +147,26 @@ def search_results(search_query: str) -> list[str]:
         },
     )
     response.raise_for_status()
-    urls = [result["link"] for result in response.json()["organic"]]
-    return urls
+    source_information = [
+        {
+            "url": result.get("link", None),
+            "title": result.get("title", None),
+            "date": result.get("date", None),
+        }
+        for result in response.json().get("organic", [])
+    ]
+    return source_information
 
 
-async def find_new_info(target: str, source: str) -> str:
+async def find_new_info(target: str, source: dict[str, str]) -> str:
+    source_metadata = f"{source['url']}, {source['title']}" + (
+        f", {source['date']}" if source["date"] else ""
+    )
+    source_content = source["content"]
+
     # Claude: info mentioned in source that is not mentioned in target
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article.",
+        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article.",
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
@@ -164,13 +176,14 @@ async def find_new_info(target: str, source: str) -> str:
     )
 
     new_info = "\n".join(response.split("\n\n"))
+    new_info += "\n" + source_metadata
     return new_info
 
 
 async def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles.",
+        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. After any source info that you add, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
         assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
     )
 

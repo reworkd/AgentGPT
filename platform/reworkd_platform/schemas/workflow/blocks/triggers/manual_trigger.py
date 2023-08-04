@@ -11,5 +11,5 @@ class ManualTriggerBlock(Block):
     input: BlockIOBase
 
     async def run(self, workflow_id: Any, **kwargs: Any) -> BlockIOBase:
-        websockets.log(workflow_id, f"Manual workflow started.")
+        websockets.log(workflow_id, f"Manual workflow started")
         return BlockIOBase()

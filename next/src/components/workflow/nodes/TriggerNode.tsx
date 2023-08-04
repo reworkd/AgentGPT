@@ -14,7 +14,7 @@ import Button from "../../../ui/button";
 function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const { data: session } = useSession();
   const workflow = useWorkflowStore().workflow;
-  const org = useConfigStore().organization;
+  const { organization: org, setLayout } = useConfigStore();
   const api = new WorkflowApi(session?.accessToken, org?.id);
   const [loading, setLoading] = useState(false);
 
@@ -23,6 +23,7 @@ function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const handleButtonClick = async () => {
     setLoading(true);
     await api.execute(workflow?.id || "");
+    setLayout({ showLogSidebar: true });
     setTimeout(() => {
       setLoading(false);
     }, 2000); // Set the duration of the loader in milliseconds (2 seconds in this example)

@@ -9,7 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
-import { RxHome, RxPlus } from "react-icons/rx";
+import { RxHome, RxPlus, RxTrash } from "react-icons/rx";
 import type { Connection, OnConnectStartParams } from "reactflow";
 import { addEdge } from "reactflow";
 
@@ -61,9 +61,15 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  async function reset() {
+    await changeQueryParams({ w: undefined });
+    nodesModel[1]([]);
+    edgesModel[1]([]);
+  }
+
   const handlePlusClick = async () => {
     try {
-      await changeQueryParams({ w: undefined });
+      await reset();
       await saveWorkflow();
     } catch (error: unknown) {
       window.alert("An error occurred while creating a new workflow.");
@@ -116,7 +122,7 @@ const WorkflowPage: NextPage = () => {
   const showLoader = !router.isReady || (isLoading && !!workflowId);
   const showCreateForm = !workflowId && router.isReady;
 
-  const { workflows, createWorkflow, refetchWorkflows } = useWorkflows(
+  const { workflows, createWorkflow, deleteWorkflow, refetchWorkflows } = useWorkflows(
     session?.accessToken,
     organization?.id
   );
@@ -129,10 +135,18 @@ const WorkflowPage: NextPage = () => {
   const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
     if (org === organization) return;
     setOrganization(org);
-    await changeQueryParams({ w: undefined });
-    nodesModel[1]([]);
-    edgesModel[1]([]);
+    await reset();
     await refetchWorkflows();
+  };
+
+  const handleDeleteClick = async () => {
+    try {
+      if (!workflowId) return;
+      await reset();
+      await deleteWorkflow(workflowId);
+    } catch (error: unknown) {
+      window.alert("An error occurred while deleting the workflow.");
+    }
   };
 
   return (
@@ -220,12 +234,20 @@ const WorkflowPage: NextPage = () => {
           )}
           {showCreateForm || (
             <FadeIn initialY={0} initialX={-50}>
-              <a
-                className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-                onClick={() => void handlePlusClick().catch(console.error)}
-              >
-                <RxPlus size="16" />
-              </a>
+              <div className="flex flex-row gap-1">
+                <a
+                  className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
+                  onClick={() => void handleDeleteClick().catch(console.error)}
+                >
+                  <RxTrash size="16" />
+                </a>
+                <a
+                  className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
+                  onClick={() => void handlePlusClick().catch(console.error)}
+                >
+                  <RxPlus size="16" />
+                </a>
+              </div>
             </FadeIn>
           )}
         </div>

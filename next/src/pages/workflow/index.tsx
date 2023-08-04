@@ -6,7 +6,7 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
@@ -132,6 +132,7 @@ const WorkflowPage: NextPage = () => {
     await changeQueryParams({ w: undefined });
     nodesModel[1]([]);
     edgesModel[1]([]);
+    await refetchWorkflows();
   };
 
   return (

@@ -134,7 +134,7 @@ async def find_content_kws(content: str) -> str:
     )
 
 
-def search_results(search_query: str) -> list[dict[str, str, str]]:
+def search_results(search_query: str) -> list[dict[str, str]]:
     # use SERP API
     response = requests.post(
         f"https://google.serper.dev/search",
@@ -158,8 +158,10 @@ def search_results(search_query: str) -> list[dict[str, str, str]]:
     return source_information
 
 
-async def find_new_info(target: str, source: dict[str, str, str]) -> str:
-    source_metadata = f"{source['url']}, {source['title']}, {source['date']}"
+async def find_new_info(target: str, source: dict[str, str]) -> str:
+    source_metadata = f"{source['url']}, {source['title']}" + (
+        f", {source['date']}" if source["date"] else ""
+    )
     source_content = source["content"]
 
     # Claude: info mentioned in source that is not mentioned in target

@@ -37,20 +37,16 @@ class ContentRefresherAgent(Block):
 
         sources = search_results(keywords)
         sources = [
-            (url, title) for url, title in sources if url != target_url
+            source for source in sources if source["url"] != target_url
         ]  # TODO: check based on content overlap
         logger.info(sources)
 
-        source_contents = [
-            (url, title, await get_page_content(url))
-            for url, title in sources[:3]
-            # TODO: remove limit of 3 sources
-        ]
+        for source in sources[:3]:  # TODO: remove limit of 3 sources
+            source["content"] = await get_page_content(source["url"])
+        logger.info(sources)
 
         source_contents = [
-            (url, title, page_content)
-            for url, title, page_content in source_contents
-            if page_content is not None
+            source for source in sources if source.get("content", None) is not None
         ]
         logger.info(source_contents)
 
@@ -138,7 +134,7 @@ async def find_content_kws(content: str) -> str:
     )
 
 
-def search_results(search_query: str) -> list[tuple[str, str]]:
+def search_results(search_query: str) -> list[dict[str, str, str]]:
     # use SERP API
     response = requests.post(
         f"https://google.serper.dev/search",
@@ -152,14 +148,19 @@ def search_results(search_query: str) -> list[tuple[str, str]]:
     )
     response.raise_for_status()
     source_information = [
-        (result["link"], result["title"]) for result in response.json()["organic"]
+        {
+            "url": result.get("link", None),
+            "title": result.get("title", None),
+            "date": result.get("date", None),
+        }
+        for result in response.json().get("organic", [])
     ]
     return source_information
 
 
-async def find_new_info(target: str, source: tuple[str, str, str]) -> str:
-    source_metadata = f"{source[0]}, {source[1]}"
-    source_content = source[2]
+async def find_new_info(target: str, source: dict[str, str, str]) -> str:
+    source_metadata = f"{source['url']}, {source['title']}, {source['date']}"
+    source_content = source["content"]
 
     # Claude: info mentioned in source that is not mentioned in target
     prompt = HumanAssistantPrompt(

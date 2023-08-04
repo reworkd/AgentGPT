@@ -6,7 +6,7 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus } from "react-icons/rx";
@@ -133,13 +133,6 @@ const WorkflowPage: NextPage = () => {
     nodesModel[1]([]);
     edgesModel[1]([]);
   };
-
-  useEffect(() => {
-    if (!organization) return;
-    refetchWorkflows().then(console.log).catch(console.error);
-  }, [refetchWorkflows, organization]);
-
-  const showLogs = layout.showRightSidebar;
 
   return (
     <>
@@ -299,7 +292,7 @@ const WorkflowPage: NextPage = () => {
           onPaneDoubleClick={handlePaneDoubleClick}
         />
         <Transition
-          show={layout.showLogSidebar}
+          show={layout.showLogSidebar && router.isReady}
           enter="transition ease-in-out duration-300 transform"
           enterFrom="translate-x-full"
           enterTo="translate-x-0"
@@ -311,13 +304,12 @@ const WorkflowPage: NextPage = () => {
           <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
             <FaFolder />
             <span>Workflow logs</span>
-          </div>{" "}
-          {logMessage.length === 0 ? (
+          </div>
+          <hr />
+          {logMessage.length === 0 && (
             <p className="px-4 font-thin">
               When you execute a workflow, log messages will appear here
             </p>
-          ) : (
-            <hr />
           )}
           {logMessage.map(({ date, msg }, i) => (
             <>

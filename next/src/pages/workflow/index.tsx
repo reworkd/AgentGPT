@@ -281,9 +281,15 @@ const WorkflowPage: NextPage = () => {
           setOnConnectStartParams={setOnConnectStartParams}
           onPaneDoubleClick={handlePaneDoubleClick}
         />
-        <div className="flex min-h-screen basis-1/3 flex-col overflow-y-auto border-l-2 border-double border-black bg-white">
+        <div className="flex min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white">
+          <div className="mb-3 px-3 pt-3 text-xl font-bold">Workflow logs</div>
           {logMessage.map((message, i) => (
-            <span key={i}>{message}</span>
+            <>
+              <span key={i} className="p-1 px-3">
+                {message}
+              </span>
+              <hr />
+            </>
           ))}
         </div>
       </div>

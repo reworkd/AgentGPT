@@ -177,7 +177,12 @@ const WorkflowPage: NextPage = () => {
         }}
       />
 
-      <div className="pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4">
+      <div
+        className={clsx(
+          "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4",
+          layout.showLogSidebar && "pr-96"
+        )}
+      >
         <div className="pointer-events-auto flex flex-row items-center gap-2">
           <a
             className="group rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
@@ -258,8 +263,6 @@ const WorkflowPage: NextPage = () => {
               editors={members}
               onSave={handleSaveWorkflow}
               onShowLogs={() => {
-                console.log("show logs");
-                console.log(layout.showLogSidebar);
                 setLayout({
                   showLogSidebar: !layout.showLogSidebar,
                 });
@@ -322,7 +325,7 @@ const WorkflowPage: NextPage = () => {
           leave="transition ease-in-out duration-300 transform"
           leaveFrom="translate-x-0"
           leaveTo="translate-x-full"
-          className="flex max-h-screen min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white"
+          className="flex max-h-screen min-h-screen w-96 flex-col overflow-y-auto border-l border-black/30 bg-white"
         >
           <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
             <FaFolder />

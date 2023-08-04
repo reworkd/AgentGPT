@@ -47,7 +47,7 @@ class ContentRefresherAgent(Block):
         ]  # TODO: check based on content overlap
 
         log("Finding sources to refresh content")
-        log(sources)
+        log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await get_page_content(source["url"])

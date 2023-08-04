@@ -308,10 +308,11 @@ const WorkflowPage: NextPage = () => {
           leaveTo="translate-x-full"
           className="flex max-h-screen min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white"
         >
-  <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
+          <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
             <FaFolder />
             <span>Workflow logs</span>
-          </div>          {logMessage.length === 0 ? (
+          </div>{" "}
+          {logMessage.length === 0 ? (
             <p className="px-4 font-thin">
               When you execute a workflow, log messages will appear here
             </p>

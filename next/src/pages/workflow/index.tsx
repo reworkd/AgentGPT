@@ -18,7 +18,7 @@ import FadeIn from "../../components/motions/FadeIn";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
-import type { Position } from "../../hooks/useWorkflow";
+import type { LogType, Position } from "../../hooks/useWorkflow";
 import { useWorkflow } from "../../hooks/useWorkflow";
 import useWorkflows from "../../hooks/useWorkflows";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
@@ -67,7 +67,7 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
-  const [logMessage, setLogMessage] = useState<string[]>([]);
+  const [logMessage, setLogMessage] = useState<LogType[]>([]);
   const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
@@ -78,8 +78,8 @@ const WorkflowPage: NextPage = () => {
     updateNode,
     members,
     isLoading,
-  } = useWorkflow(workflowId, session, organization?.id, (str) =>
-    setLogMessage((prev) => [...prev, str])
+  } = useWorkflow(workflowId, session, organization?.id, (log) =>
+    setLogMessage((prev) => [...prev, log])
   );
 
   const [open, setOpen] = useState(false);
@@ -283,11 +283,12 @@ const WorkflowPage: NextPage = () => {
         />
         <div className="flex min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white">
           <div className="mb-3 px-3 pt-3 text-xl font-bold">Workflow logs</div>
-          {logMessage.map((message, i) => (
+          {logMessage.map(({ date, msg }, i) => (
             <>
-              <span key={i} className="p-1 px-3">
-                {message}
-              </span>
+              <p key={i} className="p-1 px-3">
+                <span className="text-gray-400">{date}: </span>
+                <span>{msg}</span>
+              </p>
               <hr />
             </>
           ))}

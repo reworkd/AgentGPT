@@ -1,3 +1,4 @@
+import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import type { GetStaticProps } from "next";
@@ -36,7 +37,7 @@ const isError = (error: unknown): error is Error =>
   error instanceof Error && error.name === "Error";
 
 const WorkflowPage: NextPage = () => {
-  const { organization, setOrganization } = useConfigStore();
+  const { organization, setOrganization, layout, setLayout } = useConfigStore();
   const { session } = useAuth({
     protectedRoute: true,
   });
@@ -138,6 +139,8 @@ const WorkflowPage: NextPage = () => {
     refetchWorkflows().then(console.log).catch(console.error);
   }, [refetchWorkflows, organization]);
 
+  const showLogs = layout.showRightSidebar;
+
   return (
     <>
       <BlockDialog
@@ -234,7 +237,19 @@ const WorkflowPage: NextPage = () => {
         </div>
         <div id="empty-space" className="flex-grow" />
         <div className="pointer-events-auto">
-          {showCreateForm || <AccountBar editors={members} onSave={handleSaveWorkflow} />}
+          {showCreateForm || (
+            <AccountBar
+              editors={members}
+              onSave={handleSaveWorkflow}
+              onShowLogs={() => {
+                console.log("show logs");
+                console.log(layout.showLogSidebar);
+                setLayout({
+                  showLogSidebar: !layout.showLogSidebar,
+                });
+              }}
+            />
+          )}
         </div>
       </div>
 
@@ -274,7 +289,7 @@ const WorkflowPage: NextPage = () => {
         )}
       </AnimatePresence>
 
-      <div className="flex flex-row">
+      <div className="flex flex-row overflow-x-hidden bg-white">
         <FlowChart
           controls={true}
           nodesModel={nodesModel}
@@ -283,11 +298,20 @@ const WorkflowPage: NextPage = () => {
           setOnConnectStartParams={setOnConnectStartParams}
           onPaneDoubleClick={handlePaneDoubleClick}
         />
-        <div className="flex max-h-screen min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white">
+        <Transition
+          show={layout.showLogSidebar}
+          enter="transition ease-in-out duration-300 transform"
+          enterFrom="translate-x-full"
+          enterTo="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leaveFrom="translate-x-0"
+          leaveTo="translate-x-full"
+          className="flex max-h-screen min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white"
+        >
           <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
             <FaFolder />
             <span>Workflow logs</span>
-          </div>
+          </div>{" "}
           {logMessage.length === 0 ? (
             <p className="px-4 font-thin">
               When you execute a workflow, log messages will appear here
@@ -297,14 +321,14 @@ const WorkflowPage: NextPage = () => {
           )}
           {logMessage.map(({ date, msg }, i) => (
             <>
-              <p key={i} className="p-1 px-4 pt-4">
+              <div key={i} className="p-1 px-4 pt-4">
                 <span className="text-sm text-gray-400">{date} </span>
                 <MarkdownRenderer>{msg}</MarkdownRenderer>
-              </p>
+              </div>
               <hr />
             </>
           ))}
-        </div>
+        </Transition>
       </div>
     </>
   );
@@ -379,6 +403,7 @@ interface AccountBarProps {
     }
   >;
   onSave: () => Promise<void>;
+  onShowLogs: () => void;
 }
 
 function AccountBar(props: AccountBarProps) {
@@ -404,6 +429,12 @@ function AccountBar(props: AccountBarProps) {
           <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
         </>
       )}
+      <button
+        className="h-6 rounded-lg border border-gray-500 bg-black/50 px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
+        onClick={props.onShowLogs}
+      >
+        Logs
+      </button>
       <button
         className="h-6 rounded-lg border border-black bg-black px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
         onClick={() => void props.onSave().catch(console.error)}

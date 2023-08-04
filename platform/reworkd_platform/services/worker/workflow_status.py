@@ -49,7 +49,6 @@ def websocket_status(
                 "remaining": len(engine.workflow.queue),
             },
         )
-        websockets.log(workflow_id, "Workflow complete ✔")
 
         return result
 

@@ -70,6 +70,7 @@ class ContentRefresherAgent(Block):
         log("Updating provided content with new information")
         updated_target_content = await add_info(target_content, new_infos)
         # logger.info(updated_target_content)
+        log("Content refresh concluded")
 
         return ContentRefresherOutput(
             **self.input.dict(),

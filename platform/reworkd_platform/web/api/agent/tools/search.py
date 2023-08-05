@@ -11,6 +11,7 @@ from reworkd_platform.web.api.agent.tools.utils import (
     summarize_with_sources,
 )
 
+
 # Search google via serper.dev. Adapted from LangChain
 # https://github.com/hwchase17/langchain/blob/master/langchain/utilities
 

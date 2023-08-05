@@ -1,9 +1,9 @@
 import axios from "axios";
 import clsx from "clsx";
-import type { GetStaticProps } from "next";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useState } from "react";
+import type {GetStaticProps} from "next";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import React, {useState} from "react";
 import {
   FaCheckCircle,
   FaCoins,
@@ -16,23 +16,24 @@ import {
 } from "react-icons/fa";
 
 import nextI18NextConfig from "../../next-i18next.config.js";
-import { useAuth } from "../hooks/useAuth";
-import type { LLMModel } from "../hooks/useModels";
-import { useModels } from "../hooks/useModels";
-import { useSettings } from "../hooks/useSettings";
+import {useAuth} from "../hooks/useAuth";
+import type {LLMModel} from "../hooks/useModels";
+import {useModels} from "../hooks/useModels";
+import {useSettings} from "../hooks/useSettings";
 import DashboardLayout from "../layout/dashboard";
-import type { GPTModelNames } from "../types";
+import type {GPTModelNames} from "../types";
 import Button from "../ui/button";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
-import type { Language } from "../utils/languages";
-import { languages } from "../utils/languages";
+import type {Language} from "../utils/languages";
+import {languages} from "../utils/languages";
+import ConnectSidButton from "../ui/sid/ConnectSidButton"
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
-  const { settings, updateSettings, updateLangauge } = useSettings();
-  const { session } = useAuth({ protectedRoute: true });
-  const { models, getModel } = useModels();
+  const {settings, updateSettings, updateLangauge} = useSettings();
+  const {session} = useAuth({protectedRoute: true});
+  const {models, getModel} = useModels();
 
   const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
 
@@ -65,6 +66,10 @@ const SettingsPage = () => {
     updateSettings("customModelName", model.name as GPTModelNames);
   };
 
+  const onDisconnect = () => {
+    return null;
+  }
+
   return (
     <DashboardLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
@@ -82,7 +87,7 @@ const SettingsPage = () => {
                   updateLangauge(e).catch(console.error);
                 }}
                 items={languages}
-                icon={<FaGlobe />}
+                icon={<FaGlobe/>}
               />
               <Input
                 label="API Key"
@@ -102,7 +107,7 @@ const SettingsPage = () => {
                   setIsApiKeyValid(undefined);
                   updateSettings("customApiKey", e.target.value);
                 }}
-                icon={<FaKey />}
+                icon={<FaKey/>}
                 className="flex-grow-1 mr-2"
                 right={
                   <Button
@@ -115,11 +120,13 @@ const SettingsPage = () => {
                     )}
                   >
                     {isApiKeyValid === undefined && "Test"}
-                    {isApiKeyValid === true && <FaCheckCircle />}
-                    {isApiKeyValid === false && <FaExclamationCircle />}
+                    {isApiKeyValid === true && <FaCheckCircle/>}
+                    {isApiKeyValid === false && <FaExclamationCircle/>}
                   </Button>
                 }
               />
+              <ConnectSidButton isConnected={true} width={250} fontScale={0.9} height={35} onDisconnect={onDisconnect}
+                                href={''}/>
             </div>
 
             {!disableAdvancedSettings && (
@@ -132,7 +139,7 @@ const SettingsPage = () => {
                     valueMapper={(e) => e.name}
                     onChange={updateModel}
                     items={models}
-                    icon={<FaRobot />}
+                    icon={<FaRobot/>}
                   />
                   <Input
                     label={`${t("TEMPERATURE")}`}
@@ -148,7 +155,7 @@ const SettingsPage = () => {
                       step: 0.01,
                     }}
                     helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
-                    icon={<FaThermometerFull />}
+                    icon={<FaThermometerFull/>}
                     disabled={disableAdvancedSettings}
                   />
                   <Input
@@ -163,7 +170,7 @@ const SettingsPage = () => {
                       step: 1,
                     }}
                     helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
-                    icon={<FaSyncAlt />}
+                    icon={<FaSyncAlt/>}
                     disabled={disableAdvancedSettings}
                   />
                   <Input
@@ -178,7 +185,7 @@ const SettingsPage = () => {
                       step: 100,
                     }}
                     helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
-                    icon={<FaCoins />}
+                    icon={<FaCoins/>}
                     disabled={disableAdvancedSettings}
                   />
                 </div>
@@ -193,7 +200,7 @@ const SettingsPage = () => {
 
 export default SettingsPage;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+export const getStaticProps: GetStaticProps = async ({locale = "en"}) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

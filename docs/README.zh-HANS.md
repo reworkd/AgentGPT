@@ -1,322 +1,127 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/public/banner.png?token=GHSAT0AAAAAAB7JND3U3VGGF3UYYHGYO4RAZBSDJAQ" height="300"/>
+  <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/next/public/banner.png" height="300" alt="AgentGPT Logo"/>
 </p>
 <p align="center">
   <em>🤖 组装，配置和部署自主的 AI 代理（只需浏览器） 🤖 </em>
 </p>
 <p align="center">
-    <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=16.0.0&logo=node.js&color=2334D058" />
-</p>
-<p align="center">
-  <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
+    <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=18&logo=node.js&color=2334D058" />
+      <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
+  <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.hu-Cs4K1Sr4C.md"><img src="https://img.shields.io/badge/lang-Hungarian-red.svg" alt="Hungarian"></a>
 </p>
 
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 短链接</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="#-getting-started">🤝 参与贡献</a>
+<a href="https://docs.reworkd.ai/">📚 文档</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://twitter.com/asimdotshrestha/status/1644883727707959296">🐦 推特</a>
+<a href="https://docs.reworkd.ai/essentials/contributing">🤝 参与贡献</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://twitter.com/reworkdai">🐦 推特</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
+AgentGPT允许您配置和部署自主AI代理。
+为您自己的定制AI命名，并使其追求任何可以想象到的目标。
+它将通过思考要执行的任务、执行这些任务并从结果中学习来尝试实现目标🚀。
+
 ---
+
+## ✨ 演示
+为了获得最佳的演示体验，请直接访问 [our site](https://agentgpt.reworkd.ai) :)
+
+[Demo Video](https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e)
+
+
+## 👨‍🚀 开始使用
+
+使用AgentGPT的最简单方法是自动设置CLI，该CLI与项目捆绑在一起。
+cli为AgentGPT设置了以下内容：
+- 🔐 [Environment variables](https://github.com/reworkd/AgentGPT/blob/main/.env.example) (和 API 密钥)
+- 🗂️ [Database](https://github.com/reworkd/AgentGPT/tree/main/db) (Mysql)
+- 🤖 [Backend](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
+- 🎨 [Frontend](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
+
+## 先决条件👆
+
+开始之前，请确保您已安装了以下内容：
+
+- 选择你的编辑器，例如[Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
+- [Node.js](https://nodejs.org/en/download)
+- [Git](https://git-scm.com/downloads)
+- [Docker](https://www.docker.com/products/docker-desktop). 安装完成后，请创建一个账号，打开 Docker 应用程序，并登录。
+- 一个 [OpenAI API key](https://platform.openai.com/signup)
+- 一个 [Serper API Key](https://serper.dev/signup) (可选)
+- 一个 [Replicate API Token](https://replicate.com/signin) (可选)
+
+## 入门指南🚀
+1. **打开你的编辑器**
+
+2. **打开终端** - 通常，你可以在'Terminal'标签页中执行此操作，或者使用快捷键
+（例如，在 VS Code 中，对于 Windows 可以使用 `Ctrl + ~`，对于 Mac 可以使用 `Control + ~`）。
+
+3. **克隆存储库并进入目录** - 一旦您的终端打开，您可以通过运行下面的命令克隆存储库并进入目录。
+
+   **For Mac/Linux users** 🍎 🐧
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   ./setup.sh
+   ```
+   **For Windows users** :windows:
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   ./setup.bat
+   ```
+4. **按照脚本中的设置说明进行操作。** - 在添加适当的 API 密钥之后，确保所有服务都已经运行起来，然后在您的网页浏览器中访问 [http://localhost:3000](http://localhost:3000)。
+
+黑客快乐! 🎉
+
+## 🎉 路线图
+
+该平台目前处于测试阶段（beta），已完成和计划中的功能的完整列表可在我们的
+[public roadmap](https://docs.reworkd.ai/essentials/roadmap)中找到。
+
+
+## 🚀 技术栈
+
+- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template).
+- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
+- ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
+- ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/).
+- ✅ **Database**: [Planetscale](https://planetscale.com/).
+- ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
+- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://docs.pydantic.dev/).
+- ✅ **LLM Tooling**: [Langchain](https://github.com/hwchase17/langchain).
+
 
 <h2 align="center">
 💝 支持 AgentGPT 的发展!! 💝
 </h2>
 
 <p align="center">
-加入我们推动 AgentGPT 的发展. 这是一个推动AI自主的开源项目！我们面临着支付运营成本的挑战 💸，包括内部 API 和其他基础设施费用，预计每天需要支付约 150 美元 💳🤕 你的赞助将帮助我们扩大资源，增强功能和不断推动这个的项目的进展！ 🚀
+加入我们，共同推动AgentGPT的发展，这是一个突破人工智能代理边界的开源项目！您的赞助将通过帮助我们扩大资源、增强功能和继续迭代这个令人兴奋的项目来推动进步！🚀
 </p>
 
 <p align="center">
-通过赞助这个开源项目，你不仅有机会在下方展示你的头像/徽标，还可以与创始人独家交流！ 🗣️
+<!-- sponsors --><a href="https://github.com/arthurbnhm"><img src="https://github.com/arthurbnhm.png" width="60px" alt="Arthur" /></a><a href="https://github.com/mrayonnaise"><img src="https://github.com/mrayonnaise.png" width="60px" alt="Matt Ray" /></a><a href="https://github.com/jd3655"><img src="https://github.com/jd3655.png" width="60px" alt="Vector Ventures" /></a><a href="https://github.com/durairajasivam"><img src="https://github.com/durairajasivam.png" width="60px" alt="" /></a><a href="https://github.com/floriank"><img src="https://github.com/floriank.png" width="60px" alt="Florian Kraft" /></a><a href="https://github.com/localecho"><img src="https://github.com/localecho.png" width="60px" alt="" /></a><a href="https://github.com/fireheat135"><img src="https://github.com/fireheat135.png" width="60px" alt="" /></a><a href="https://github.com/zoelidity"><img src="https://github.com/zoelidity.png" width="60px" alt="Zoe" /></a><a href="https://github.com/busseyl"><img src="https://github.com/busseyl.png" width="60px" alt="Lucas Bussey" /></a><a href="https://github.com/DuanChaori"><img src="https://github.com/DuanChaori.png" width="60px" alt="" /></a><a href="https://github.com/jukwaphil1"><img src="https://github.com/jukwaphil1.png" width="60px" alt="" /></a><a href="https://github.com/lisa-ee"><img src="https://github.com/lisa-ee.png" width="60px" alt="Lisa" /></a><a href="https://github.com/VulcanT"><img src="https://github.com/VulcanT.png" width="60px" alt="" /></a><a href="https://github.com/kman62"><img src="https://github.com/kman62.png" width="60px" alt="kmotte" /></a><a href="https://github.com/Haithamhaj"><img src="https://github.com/Haithamhaj.png" width="60px" alt="" /></a><a href="https://github.com/SwftCoins"><img src="https://github.com/SwftCoins.png" width="60px" alt="SWFT Blockchain" /></a><a href="https://github.com/ChevalierzA"><img src="https://github.com/ChevalierzA.png" width="60px" alt="" /></a><a href="https://github.com/research-developer"><img src="https://github.com/research-developer.png" width="60px" alt="" /></a><a href="https://github.com/Mitchell-Coder-New"><img src="https://github.com/Mitchell-Coder-New.png" width="60px" alt="" /></a><a href="https://github.com/Trecares"><img src="https://github.com/Trecares.png" width="60px" alt="" /></a><a href="https://github.com/nnkostov"><img src="https://github.com/nnkostov.png" width="60px" alt="Nikolay Kostov" /></a><a href="https://github.com/oryanmoshe"><img src="https://github.com/oryanmoshe.png" width="60px" alt="Oryan Moshe" /></a><a href="https://github.com/ClayNelson"><img src="https://github.com/ClayNelson.png" width="60px" alt="Clay Nelson" /></a><a href="https://github.com/0xmatchmaker"><img src="https://github.com/0xmatchmaker.png" width="60px" alt="0xmatchmaker" /></a><a href="https://github.com/carlosbartolomeu"><img src="https://github.com/carlosbartolomeu.png" width="60px" alt="" /></a><a href="https://github.com/Agronobeetles"><img src="https://github.com/Agronobeetles.png" width="60px" alt="" /></a><a href="https://github.com/CloudyGuyThompson"><img src="https://github.com/CloudyGuyThompson.png" width="60px" alt="Guy Thompson" /></a><a href="https://github.com/Jhonvolt17"><img src="https://github.com/Jhonvolt17.png" width="60px" alt="" /></a><a href="https://github.com/sirswali"><img src="https://github.com/sirswali.png" width="60px" alt="Vusi Dube" /></a><a href="https://github.com/Tweezamiza"><img src="https://github.com/Tweezamiza.png" width="60px" alt="" /></a><a href="https://github.com/DixonFyre"><img src="https://github.com/DixonFyre.png" width="60px" alt="" /></a><a href="https://github.com/jenius-eagle"><img src="https://github.com/jenius-eagle.png" width="60px" alt="" /></a><a href="https://github.com/CubanCongaMan"><img src="https://github.com/CubanCongaMan.png" width="60px" alt="Roberto Luis Sanchez, P.E., P.G.; D,GE; F.ASCE" /></a><a href="https://github.com/cskrobec"><img src="https://github.com/cskrobec.png" width="60px" alt="" /></a><a href="https://github.com/Jahmazon"><img src="https://github.com/Jahmazon.png" width="60px" alt="" /></a><a href="https://github.com/ISDAworld"><img src="https://github.com/ISDAworld.png" width="60px" alt="David Gammond" /></a><a href="https://github.com/lazzacapital"><img src="https://github.com/lazzacapital.png" width="60px" alt="Lazza Capital" /></a><a href="https://github.com/OptionalJoystick"><img src="https://github.com/OptionalJoystick.png" width="60px" alt="" /></a><a href="https://github.com/rodolfoguzzi"><img src="https://github.com/rodolfoguzzi.png" width="60px" alt="" /></a><a href="https://github.com/bluecat2210"><img src="https://github.com/bluecat2210.png" width="60px" alt="" /></a><a href="https://github.com/dactylogram9"><img src="https://github.com/dactylogram9.png" width="60px" alt="" /></a><a href="https://github.com/RUFreeJAC63"><img src="https://github.com/RUFreeJAC63.png" width="60px" alt="" /></a><a href="https://github.com/cecilmiles"><img src="https://github.com/cecilmiles.png" width="60px" alt="" /></a><a href="https://github.com/Djarielm007"><img src="https://github.com/Djarielm007.png" width="60px" alt="" /></a><a href="https://github.com/mikenj07"><img src="https://github.com/mikenj07.png" width="60px" alt="" /></a><a href="https://github.com/SvetaMolusk"><img src="https://github.com/SvetaMolusk.png" width="60px" alt="" /></a><a href="https://github.com/wuminkung"><img src="https://github.com/wuminkung.png" width="60px" alt="" /></a><a href="https://github.com/zhoumo1221"><img src="https://github.com/zhoumo1221.png" width="60px" alt="" /></a><a href="https://github.com/Stefan6666XXX"><img src="https://github.com/Stefan6666XXX.png" width="60px" alt="Stephane DeGuire" /></a><a href="https://github.com/lyska"><img src="https://github.com/lyska.png" width="60px" alt="Lyska" /></a><a href="https://github.com/KurganKolde"><img src="https://github.com/KurganKolde.png" width="60px" alt="" /></a><a href="https://github.com/sclappccsu"><img src="https://github.com/sclappccsu.png" width="60px" alt="Sharon Clapp at CCSU" /></a><a href="https://github.com/Rooba-Finance"><img src="https://github.com/Rooba-Finance.png" width="60px" alt="Rooba.Finance" /></a><a href="https://github.com/ferienhausmiete"><img src="https://github.com/ferienhausmiete.png" width="60px" alt="" /></a><a href="https://github.com/benjaminbales"><img src="https://github.com/benjaminbales.png" width="60px" alt="Benjamin Bales" /></a><a href="https://github.com/pimentel233"><img src="https://github.com/pimentel233.png" width="60px" alt="" /></a><a href="https://github.com/PinkyWobbles"><img src="https://github.com/PinkyWobbles.png" width="60px" alt="" /></a><a href="https://github.com/jconroy11"><img src="https://github.com/jconroy11.png" width="60px" alt="" /></a><a href="https://github.com/DavidJamesRotenberg"><img src="https://github.com/DavidJamesRotenberg.png" width="60px" alt="" /></a><a href="https://github.com/antecochat"><img src="https://github.com/antecochat.png" width="60px" alt="" /></a><a href="https://github.com/RealBonOfaSitch"><img src="https://github.com/RealBonOfaSitch.png" width="60px" alt="" /></a><!-- sponsors -->
 </p>
+
+<h2 align="center">
+💪 贡献者 💪
+</h2>
 
 <p align="center">
-<a href="https://github.com/sponsors/reworkd-admin">👉 点击此处</a> 支持项目
+我们的贡献者使这个项目成为可能。谢谢！🙏
 </p>
 
-<h3 align="center">
-🙌🏻 我们的 Github 赞助商 🙌🏻
-</h3>
+<a href="https://github.com/reworkd/agentgpt/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=reworkd/agentgpt" />
+</a>
 
-<div align="center" dir="auto">
-  <a href="https://github.com/Faitltd" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Faitltd.png" width="50px" alt="faithltd" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/mojosolo" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/mojosolo.png" width="50px" alt="mojosolo" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/0xmatchmaker" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/0xmatchmaker.png" width="50px" alt="0xmatchmaker" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/arthurbnhm" style="display: inline-block;">
-    <img src="https://github.com/arthurbnhm.png" width="50px" alt="arthurbnhm" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/durairajasivam" style="display: inline-block;">
-    <img src="https://github.com/durairajasivam.png" width="50px" alt="durairajasivam" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/zoelidity" style="display: inline-block;">
-    <img src="https://github.com/zoelidity.png" width="50px" alt="zoelidity" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/jd3655" style="display: inline-block;">
-    <img src="https://github.com/jd3655.png" width="50px" alt="jd3655" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/busseyl" style="display: inline-block;">
-    <img src="https://github.com/busseyl.png" width="50px" alt="busseyl" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/lisa-ee" style="display: inline-block;">
-    <img src="https://github.com/lisa-ee.png" width="50px" alt="lisa-ee" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/VulcanT" style="display: inline-block;">
-    <img src="https://github.com/VulcanT.png" width="50px" alt="VulcanT" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/kman62" style="display: inline-block;">
-    <img src="https://github.com/kman62.png" width="50px" alt="kman62" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Haithamhaj" style="display: inline-block;">
-    <img src="https://github.com/Haithamhaj.png" width="50px" alt="Haithamhaj" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/SwftCoins" style="display: inline-block;">
-    <img src="https://github.com/SwftCoins.png" width="50px" alt="SwftCoins" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/ChevalierzA" style="display: inline-block;">
-    <img src="https://github.com/ChevalierzA.png" width="50px" alt="ChevalierzA" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/research-developer" style="display: inline-block;">
-    <img src="https://github.com/research-developer.png" width="50px" alt="research-developer" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/FelixAI2023" style="display: inline-block;">
-    <img src="https://github.com/FelixAI2023.png" width="50px" alt="FelixAI2023" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Mitchell-Coder-New" style="display: inline-block;">
-    <img src="https://github.com/Mitchell-Coder-New.png" width="50px" alt="Mitchell-Coder-New" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/nnkostov" style="display: inline-block;">
-    <img src="https://github.com/nnkostov.png" width="50px" alt="nnkostov" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/cmtadvogados" style="display: inline-block;">
-    <img src="https://github.com/cmtadvogados.png" width="50px" alt="cmtadvogados" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Sphilly05" style="display: inline-block;">
-    <img src="https://github.com/Sphilly05.png" width="50px" alt="Sphilly05" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Tweezamiza" style="display: inline-block;">
-    <img src="https://github.com/Tweezamiza.png" width="50px" alt="Tweezamiza" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/mrayonnaise" style="display: inline-block;">
-    <img src="https://github.com/mrayonnaise.png" width="50px" alt="mrayonnaise" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/floriank" style="display: inline-block;">
-    <img src="https://github.com/floriank.png" width="50px" alt="floriank" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/localecho" style="display: inline-block;">
-    <img src="https://github.com/localecho.png" width="50px" alt="localecho" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/hnishi3" style="display: inline-block;">
-    <img src="https://github.com/hnishi3.png" width="50px" alt="hnishi3" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/fireheat135" style="display: inline-block;">
-    <img src="https://github.com/fireheat135.png" width="50px" alt="fireheat135" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/DuanChaori" style="display: inline-block;">
-    <img src="https://github.com/DuanChaori.png" width="50px" alt="DuanChaori" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/jukwaphil1" style="display: inline-block;">
-    <img src="https://github.com/jukwaphil1.png" width="50px" alt="jukwaphil1" style="max-width:100%;">
-  </a>
-   <a href="https://github.com/sorrynothing" style="display: inline-block;">
-    <img src="https://github.com/sorrynothing.png" width="50px" alt="sorrynothing" style="max-width:100%;">
-  </a>
-
-</div>
-
----
-
-AgentGPT 可以让你配置和部署 AI 代理。
-为你定制的 AI 命名，并让它执行任何可以想象的目标。
-AI 代理会先思考再执行任务。执行完任务后会学习成果 🚀.
-
-## 🎉 路线图
-
-该平台目前处于测试阶段，以下是我们的路线图：
-
-- 通过矢量数据库实现长期记忆 🧠
-- 通过 langchain 实现网络浏览能力 🌐
-- 与网站和人互动 👨‍👩‍👦
-- 通过 Document API 实现写作能力 📄
-- 保存代理的运行 💾
-- 用户和身份验证 🔐
-- 通过 Stripe 提供较低限制的付费版本（降低我们的基础设施成本)
-
-即将推出更多功能...
-
-## 🚀 技术栈
-
-- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg).
-- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/).
-- ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
-- ✅ **ORM**: [Prisma](https://prisma.io).
-- ✅ **Database**: [Supabase](https://supabase.com/).
-- ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
-- ✅ **Typescript Schema Validation**: [Zod](https://github.com/colinhacks/zod).
-- ✅ **End-to-end typesafe API**: [tRPC](https://trpc.io/).
-
-## 👨‍🚀 使用方法
-
-### 🐳 Docker安装
-
-Docker 是在本地运行 AgentGPT 最简单的方法。
-以下是一个方便的设置脚本。
-
-```bash
-./setup.sh --docker
-```
-
-### 👷 本地开发
-
-如果你想在本地开发 AgentGPT，最简单的方法是使用以下的设置脚本。
-
-```bash
-./setup.sh --local
-```
-
-### 🛠️ 自定义安装
-
-> 🚧 你需要安装 [Nodejs +18 (LTS recommended)](https://nodejs.org/en/)。
-
-1. 创建存储库分支:
-
-- [Click here](https://github.com/reworkd/AgentGPT/fork).
-
-2. 克隆存储库:
-
-```bash
-git clone git@github.com:YOU_USER/AgentGPT.git
-```
-
-3. 安装依赖项:
-
-```bash
-cd AgentGPT
-npm install
-```
-
-4. 使用以下内容创建.env:
-
-> 🚧 环境变量必须符合以下 [架构](https://github.com/reworkd/AgentGPT/blob/main/src/env/schema.mjs).
-
-```bash
-# 部署环境:
-NODE_ENV=development
-
-# Next Auth 配置:
-# 用`openssl rand -base64 32`生成NEXTAUTH_SECRET的秘密
-NEXTAUTH_SECRET=changeme
-NEXTAUTH_URL=http://localhost:3000
-DATABASE_URL=file:./db.sqlite
-
-# 你的open api密钥
-OPENAI_API_KEY=changeme
-```
-
-5. 使用 sqlite 修改 prisma 架构:
-
-```bash
-./prisma/useSqlite.sh
-```
-
-**注意:** 使用 sqlite 时才需要执行此步骤。
-
-6. 准备就绪 🥳，现在可以运行了:
-
-```bash
-# 创建数据库迁移
-npx prisma db push
-npm run dev
-```
-
-### 🚀 GitHub Codespaces
-
-使用[GitHub Codespaces](https://github.com/features/codespaces)在云端设置 AgentGPT。
-
-1. 从 GitHub 存储库中，单击绿色的 "Code" 按钮并选择 "Codespaces"。
-2. 创建一个新的 Codespace 或选择之前已创建的 Codespace。
-3. Codespaces opens in a separate tab in your browser.
-4. 在终端中运行 `bash ./setup.sh --local`。
-5. 当终端中提示时，添加你的 OpenAI API 密钥。
-6. 当构建过程完成后，单击 "Open in browser"。
-
-- 如果要关闭 AgentGPT，请在终端中输入 Ctrl+C
-- 如果要重启 AgentGPT, 请在终端中运行 `npm run dev`。
-
-运行该项目 🥳
-
-```
-npm run dev
-```
-
----
-
-<h3 align="center">
-🙌🏻 Our Sponsers Continued 🙌🏻
-</h3>
-
-<div align="center" dir="auto">
-  <a href="https://github.com/Trecares" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Trecares.png" width="50px" alt="Trecares" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/oryanmoshe" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/oryanmoshe.png" width="50px" alt="oryanmoshe" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/rekimcn" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/rekimcn.png" width="50px" alt="rekimcn" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/qwe777897" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/qwe777897.png" width="50px" alt="qwe777897" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/ClayNelson" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/ClayNelson.png" width="50px" alt="ClayNelson" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/xuxizhen" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/xuxizhen.png" width="50px" alt="xuxizhen" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/destro225" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/destro225.png" width="50px" alt="destro225" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/mouhaxp" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/mouhaxp.png" width="50px" alt="mouhaxp" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/carlosbartolomeu" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/carlosbartolomeu.png" width="50px" alt="carlosbartolomeu" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Agronobeetles" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Agronobeetles.png" width="50px" alt="Agronobeetles " style="max-width:100%;">
-  </a>
-  <a href="https://github.com/CloudyGuyThompson" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/CloudyGuyThompson.png" width="50px" alt="CloudyGuyThompson" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/xinghz" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/xinghz.png" width="50px" alt="xinghz" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Jaimbart" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Jaimbart.png" width="50px" alt="Jaimbart" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/Jhonvolt17" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/Jhonvolt17.png" width="50px" alt="Jhonvolt17" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/koltziver" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/koltziver.png" width="50px" alt="koltziver" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/sirswali" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/sirswali.png" width="50px" alt="sirswali" style="max-width:100%;">
-  </a>
-  <a href="https://github.com/DixonFyre" style="display: inline-block; margin-right: 20px;">
-    <img src="https://github.com/DixonFyre.png" width="50px" alt="DixonFyre" style="max-width:100%;">
-  </a>
-
+<div align="center">
+<sub>使用 <a href="https://contrib.rocks">contrib.rocks</a>制作。</sub>
 </div>

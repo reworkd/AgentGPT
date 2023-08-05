@@ -180,7 +180,7 @@ const WorkflowPage: NextPage = () => {
       <div
         className={clsx(
           "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4",
-          layout.showLogSidebar && "pr-96"
+          layout.showLogSidebar && "pr-[330px]"
         )}
       >
         <div className="pointer-events-auto flex flex-row items-center gap-2">
@@ -432,11 +432,7 @@ function AccountBar(props: AccountBarProps) {
       <>
         <div className="flex flex-row-reverse">
           {editors.length === 0 && (
-            <div
-              className={clsx(
-                "h-6 w-6 rounded-full border-2 border-white bg-gray-400 ring-2 ring-blue-500 first:ring-purple-500"
-              )}
-            />
+            <div className="h-6 w-6 rounded-full border-2 border-white bg-gray-400 ring-2 ring-blue-500 first:ring-purple-500" />
           )}
           {editors.map(([id, user]) => (
             <img

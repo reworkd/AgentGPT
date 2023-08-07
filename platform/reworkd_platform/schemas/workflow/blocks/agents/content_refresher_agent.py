@@ -183,9 +183,7 @@ async def find_new_info(
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
-    log(
-        f"Identifying new details to refresh with from '{source['title']}'"
-    )
+    log(f"Identifying new details to refresh with from '{source['title']}'")
 
     response = await claude.completion(
         prompt=prompt,

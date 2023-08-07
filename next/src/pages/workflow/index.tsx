@@ -76,18 +76,7 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
-  const handleExportToTxt = () => {
-    const logString = logMessage.map(({ date, msg }) => `${date} - ${msg}`).join("\n\n");
-    const blob = new Blob([logString], { type: "text/plain;charset=utf-8" });
-    const url = window.URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "logMessages.txt";
-    document.body.appendChild(link).click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-}
 
   const [logMessage, setLogMessage] = useState<LogType[]>([]);
   const workflowId = router.query.w as string | undefined;
@@ -112,6 +101,19 @@ const WorkflowPage: NextPage = () => {
       setOpen(true);
     }
   };
+
+  const handleExportToTxt = () => {
+    const logString = logMessage.map(({ date, msg }) => `${date} - ${msg}`).join("\n\n");
+    const blob = new Blob([logString], { type: "text/plain;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `logMessages_${workflowId}.txt`;
+    document.body.appendChild(link).click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+}
 
   const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
     let updatedParams = {

@@ -104,8 +104,8 @@ async def get_page_content(url: str) -> str:
     )
 
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please list the line numbers that *are* part of the main content (i.e. the article's paragraphs) of the page. You can list consecutive line numbers as a range (e.g. 23-27) and separated by a comma.",
-        assistant_prompt="Here are the line numbers of the main content:",
+        human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range (e.g. 5-25).",
+        assistant_prompt="Based on the text provided, here is the line number range of the main content:",
     )
 
     line_nums = await claude.completion(
@@ -146,7 +146,7 @@ async def find_content_kws(content: str) -> str:
 
 
 def search_results(search_query: str) -> List[Dict[str, str]]:
-    # use SERP API
+    # use SERPer API
     response = requests.post(
         f"https://google.serper.dev/search",
         headers={

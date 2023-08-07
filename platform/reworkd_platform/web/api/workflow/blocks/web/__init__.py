@@ -15,6 +15,7 @@ from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent impor
 from reworkd_platform.schemas.workflow.blocks.conditions.if_condition import IfCondition
 from reworkd_platform.schemas.workflow.blocks.do_nothing import DoNothingBlock
 from reworkd_platform.schemas.workflow.blocks.pdf.diff_doc import DiffDoc
+from reworkd_platform.schemas.workflow.blocks.pdf.upload_doc import UploadDoc
 from reworkd_platform.schemas.workflow.blocks.slack.slack_bot import SlackMessageBlock
 from reworkd_platform.schemas.workflow.blocks.text_input_webhook import TextInputWebhook
 from reworkd_platform.schemas.workflow.blocks.triggers.api_trigger import (
@@ -31,6 +32,8 @@ from reworkd_platform.schemas.workflow.blocks.url_status_check import (
 def get_block_runner(block: Block) -> Block:
     if block.type == "IfCondition":
         return IfCondition(**block.dict())
+    if block.type == "UploadDoc":
+        return UploadDoc(**block.dict())
     if block.type == "DiffDoc":
         return DiffDoc(**block.dict())
     if block.type == "WebInteractionAgent":

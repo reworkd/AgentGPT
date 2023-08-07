@@ -43,7 +43,6 @@ class ContentRefresherAgent(Block):
         log("Finding keywords from source content")
         log("Keywords: " + ", ".join(keywords.split(",")))
 
-
         sources = search_results(keywords)
         sources = [
             source for source in sources if source["url"] != target_url

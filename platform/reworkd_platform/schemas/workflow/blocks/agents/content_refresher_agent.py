@@ -50,9 +50,9 @@ class ContentRefresherAgent(Block):
         log("Finding sources to refresh content")
         log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
 
-
         log("Checking new sources for competitors")
-        sources = remove_competitors(sources, self.input.competitors, log)
+        competitors = self.input.competitors.split(",")
+        sources = remove_competitors(sources, competitors, log)
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await get_page_content(source["url"])
@@ -171,18 +171,25 @@ def search_results(search_query: str) -> List[Dict[str, str]]:
     ]
     return source_information
 
-def remove_competitors(sources: List[Dict[str, str]],competitors, log) -> List[Dict[str, str]]:
-    competitors = competitors.split(",")
-    normalized_competitors = [comp.replace(' ', '').lower() for comp in competitors]
-    competitor_pattern = re.compile('|'.join(re.escape(comp.lower()) for comp in normalized_competitors))
+
+def remove_competitors(
+    sources: List[Dict[str, str]], competitors: List[str], log: Callable[[str], None]
+) -> List[Dict[str, str]]:
+    normalized_competitors = [comp.replace(" ", "").lower() for comp in competitors]
+    competitor_pattern = re.compile(
+        "|".join(re.escape(comp.lower()) for comp in normalized_competitors)
+    )
     filtered_sources = []
     for source in sources:
-        if competitor_pattern.search(source['url'].replace(' ', '').lower()) or competitor_pattern.search(source['title'].replace(' ', '').lower()):
+        if competitor_pattern.search(
+            source["url"].replace(" ", "").lower()
+        ) or competitor_pattern.search(source["title"].replace(" ", "").lower()):
             log(f"Removing source due to competitor match:', {source['title']}")
         else:
             filtered_sources.append(source)
 
     return filtered_sources
+
 
 async def find_new_info(
     target: str, source: Dict[str, str], log: Callable[[str], None]
@@ -197,14 +204,7 @@ async def find_new_info(
         human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article.",
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
-
-<<<<<<< HEAD
-    log(
-        f"Identifying new details to refresh with from '{source['title']}'"
-    )
-=======
     log(f"Identifying new details to refresh with from '{source['title']}'")
->>>>>>> origin/main
 
     response = await claude.completion(
         prompt=prompt,

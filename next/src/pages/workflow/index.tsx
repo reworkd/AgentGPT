@@ -100,6 +100,19 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  const handleExportToTxt = () => {
+    const logString = logMessage.map(({ date, msg }) => `${date} - ${msg}`).join("\n\n");
+    const blob = new Blob([logString], { type: "text/plain;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `logMessages_${workflowId}.txt`;
+    document.body.appendChild(link).click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+}
+
   const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
     let updatedParams = {
       ...router.query,
@@ -346,6 +359,13 @@ const WorkflowPage: NextPage = () => {
               <hr />
             </>
           ))}
+          <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-sm">
+            {logMessage.length > 0 && (
+                <button onClick={handleExportToTxt} className="ml-auto bg-black text-white py-1 px-4 rounded">
+                    Export logs
+                </button>
+            )}
+          </div>
         </Transition>
       </div>
     </>

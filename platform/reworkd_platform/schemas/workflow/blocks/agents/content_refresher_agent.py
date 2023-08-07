@@ -1,5 +1,5 @@
 import re
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Optional
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,11 +14,13 @@ from reworkd_platform.settings import settings
 
 class ContentRefresherInput(BlockIOBase):
     url: str
+    competitors: Optional[str] = None
 
 
 class ContentRefresherOutput(ContentRefresherInput):
-    original_content: str
-    refreshed_content: str
+    original_report: str
+    refreshed_report: str
+    refreshed_bullet_points: str
 
 
 class ContentRefresherAgent(Block):
@@ -39,7 +41,10 @@ class ContentRefresherAgent(Block):
 
         keywords = await find_content_kws(target_content)
         log("Finding keywords from source content")
-        log(f"Keywords: {keywords}")
+        log(
+            "Keywords:\n"
+            + "\n".join([f"- {keyword}" for keyword in keywords.split(" ")])
+        )
 
         sources = search_results(keywords)
         sources = [
@@ -49,14 +54,17 @@ class ContentRefresherAgent(Block):
         log("Finding sources to refresh content")
         log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
 
+        if self.input.competitors:
+            log("Removing competitors from sources")
+            competitors = self.input.competitors.split(",")
+            sources = remove_competitors(sources, competitors, log)
+
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await get_page_content(source["url"])
-        # logger.info(sources)
 
         source_contents = [
             source for source in sources if source.get("content", None) is not None
         ]
-        # logger.info(source_contents)
 
         new_info = [
             await find_new_info(target_content, source_content, log)
@@ -65,7 +73,8 @@ class ContentRefresherAgent(Block):
 
         new_infos = "\n\n".join(new_info)
         log("Extracting new, relevant information not present in your content")
-        log(new_infos)
+        for info in new_info:
+            log(info)
 
         log("Updating provided content with new information")
         updated_target_content = await add_info(target_content, new_infos)
@@ -74,8 +83,9 @@ class ContentRefresherAgent(Block):
 
         return ContentRefresherOutput(
             **self.input.dict(),
-            original_content=target_content,
-            refreshed_content=updated_target_content,
+            original_report=target_content,
+            refreshed_report=updated_target_content,
+            refreshed_bullet_points=new_infos,
         )
 
 
@@ -169,6 +179,25 @@ def search_results(search_query: str) -> List[Dict[str, str]]:
     return source_information
 
 
+def remove_competitors(
+    sources: List[Dict[str, str]], competitors: List[str], log: Callable[[str], None]
+) -> List[Dict[str, str]]:
+    normalized_competitors = [comp.replace(" ", "").lower() for comp in competitors]
+    competitor_pattern = re.compile(
+        "|".join(re.escape(comp) for comp in normalized_competitors)
+    )
+    filtered_sources = []
+    for source in sources:
+        if competitor_pattern.search(
+            source["url"].replace(" ", "").lower()
+        ) or competitor_pattern.search(source["title"].replace(" ", "").lower()):
+            log(f"Removing competitive source: '{source['title']}'")
+        else:
+            filtered_sources.append(source)
+
+    return filtered_sources
+
+
 async def find_new_info(
     target: str, source: Dict[str, str], log: Callable[[str], None]
 ) -> str:
@@ -182,10 +211,7 @@ async def find_new_info(
         human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article.",
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
-
-    log(
-        f"Identifying new details to refresh original content with for {source['title']}"
-    )
+    log(f"Identifying new details to refresh with from '{source['title']}'")
 
     response = await claude.completion(
         prompt=prompt,
@@ -193,14 +219,14 @@ async def find_new_info(
     )
 
     new_info = "\n".join(response.split("\n\n"))
-    new_info += "\n" + source_metadata
+    new_info += "\n\nSource: " + source_metadata
     return new_info
 
 
 async def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
+        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
         assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
     )
 

@@ -197,6 +197,28 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
+const UploadDocBlockDefinition: NodeBlockDefinition = {
+  name: "Upload Doc",
+  type: "UploadDoc",
+  description: "Securely upload a .docx to Amazon S3",
+  image_url: "/tools/web.png",
+  icon: FaBook,
+  input_fields: [
+    {
+      name: "text",
+      description: "The text to upload",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "file_url",
+      description: "The URL to access the doc",
+      type: "string",
+    },
+  ],
+};
+
 const DiffDocBlockDefinition: NodeBlockDefinition = {
   name: "Diff Doc",
   type: "DiffDoc",
@@ -335,6 +357,11 @@ const ContentRefresherAgent: NodeBlockDefinition = {
       description: "The page whose content the agent will refresh",
       type: "string",
     },
+    {
+      name: "competitors",
+      description: "Competitors you don't want to pull content from",
+      type: "string",
+    }
   ],
   output_fields: [
     {
@@ -356,6 +383,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     APITriggerBlockDefinition,
     SlackWebhookBlockDefinition,
     DiffDocBlockDefinition,
+    UploadDocBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
     IfBlockDefinition,

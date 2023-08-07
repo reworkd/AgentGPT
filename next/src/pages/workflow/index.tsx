@@ -76,8 +76,6 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
-
-
   const [logMessage, setLogMessage] = useState<LogType[]>([]);
   const workflowId = router.query.w as string | undefined;
   const {

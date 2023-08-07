@@ -18,7 +18,7 @@ class ContentRefresherInput(BlockIOBase):
 
 
 class ContentRefresherOutput(ContentRefresherInput):
-    original_content: str
+    original_report: str
     refreshed_report: str
     refreshed_bullet_points: str
 
@@ -80,7 +80,7 @@ class ContentRefresherAgent(Block):
 
         return ContentRefresherOutput(
             **self.input.dict(),
-            original_content=target_content,
+            original_report=target_content,
             refreshed_report=updated_target_content,
             refreshed_bullet_points=new_infos,
         )

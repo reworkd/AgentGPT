@@ -216,7 +216,7 @@ async def find_new_info(
     )
 
     new_info = "\n".join(response.split("\n\n"))
-    new_info += "\n\nsource: " + source_metadata
+    new_info += "\n\nSource: " + source_metadata
     return new_info
 
 

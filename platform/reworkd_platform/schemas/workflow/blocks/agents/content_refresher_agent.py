@@ -14,6 +14,7 @@ from reworkd_platform.settings import settings
 
 class ContentRefresherInput(BlockIOBase):
     url: str
+    competitors: str
 
 
 class ContentRefresherOutput(ContentRefresherInput):
@@ -49,14 +50,16 @@ class ContentRefresherAgent(Block):
         log("Finding sources to refresh content")
         log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
 
+
+        log("Checking new sources for competitors")
+        sources = remove_competitors(sources, self.input.competitors, log)
+
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await get_page_content(source["url"])
-        # logger.info(sources)
 
         source_contents = [
             source for source in sources if source.get("content", None) is not None
         ]
-        # logger.info(source_contents)
 
         new_info = [
             await find_new_info(target_content, source_content, log)
@@ -168,6 +171,18 @@ def search_results(search_query: str) -> List[Dict[str, str]]:
     ]
     return source_information
 
+def remove_competitors(sources: List[Dict[str, str]],competitors, log) -> List[Dict[str, str]]:
+    competitors = competitors.split(",")
+    normalized_competitors = [comp.replace(' ', '').lower() for comp in competitors]
+    competitor_pattern = re.compile('|'.join(re.escape(comp.lower()) for comp in normalized_competitors))
+    filtered_sources = []
+    for source in sources:
+        if competitor_pattern.search(source['url'].replace(' ', '').lower()) or competitor_pattern.search(source['title'].replace(' ', '').lower()):
+            log(f"Removing source due to competitor match:', {source}")
+        else:
+            filtered_sources.append(source)
+
+    return filtered_sources
 
 async def find_new_info(
     target: str, source: Dict[str, str], log: Callable[[str], None]
@@ -183,7 +198,9 @@ async def find_new_info(
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
-    log(f"Identifying new details to refresh with from '{source['title']}'")
+    log(
+        f"Identifying new details to refresh with from '{source['title']}'"
+    )
 
     response = await claude.completion(
         prompt=prompt,

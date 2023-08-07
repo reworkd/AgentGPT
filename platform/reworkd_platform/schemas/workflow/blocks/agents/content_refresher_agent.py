@@ -70,7 +70,8 @@ class ContentRefresherAgent(Block):
 
         new_infos = "\n\n".join(new_info)
         log("Extracting new, relevant information not present in your content")
-        log(new_infos)
+        for info in new_info:
+            log(info)
 
         log("Updating provided content with new information")
         updated_target_content = await add_info(target_content, new_infos)

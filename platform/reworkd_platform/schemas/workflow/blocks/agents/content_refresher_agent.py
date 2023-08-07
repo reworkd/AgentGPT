@@ -14,6 +14,7 @@ from reworkd_platform.settings import settings
 
 class ContentRefresherInput(BlockIOBase):
     url: str
+    competitors: str
 
 
 class ContentRefresherOutput(ContentRefresherInput):
@@ -45,6 +46,9 @@ class ContentRefresherAgent(Block):
         sources = [
             source for source in sources if source["url"] != target_url
         ]  # TODO: check based on content overlap
+
+        # check competitors
+        sources = remove_competitors(sources, self.input.competitors)
 
         log("Finding sources to refresh content")
         log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
@@ -169,6 +173,22 @@ def search_results(search_query: str) -> List[Dict[str, str]]:
     return source_information
 
 
+def remove_competitors(
+    sources: List[Dict[str, str]], competitors
+) -> List[Dict[str, str]]:
+    prompt = HumanAssistantPrompt(
+        human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow is the SOURCE article:\n{source_content}\n----------------\nIn a bullet point list, identify all facts, figures, or ideas that are mentioned in the SOURCE article but not in the TARGET article.",
+        assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
+    )
+
+    log(f"Identifying new details to refresh with from '{source['title']}'")
+
+    response = await claude.completion(
+        prompt=prompt,
+        max_tokens_to_sample=5000,
+    )
+
+
 async def find_new_info(
     target: str, source: Dict[str, str], log: Callable[[str], None]
 ) -> str:
@@ -183,9 +203,7 @@ async def find_new_info(
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
-    log(
-        f"Identifying new details to refresh with from '{source['title']}'"
-    )
+    log(f"Identifying new details to refresh with from '{source['title']}'")
 
     response = await claude.completion(
         prompt=prompt,

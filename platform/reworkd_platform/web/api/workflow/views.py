@@ -1,6 +1,6 @@
 from typing import Dict, List, Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
 from pydantic import BaseModel
 
 from reworkd_platform.db.crud.oauth import OAuthCrud
@@ -163,11 +163,69 @@ async def trigger_workflow_api(
         credentials=await creds.get_all(crud.user),
     )
 
-    if plan.workflow.queue[0].block.type == "APITriggerBlock":
+    if plan.workflow.queue[0].block.type != "APITriggerBlock":
         forbidden("API trigger not defined for this workflow")
 
     # Place input from API call into trigger input
     plan.workflow.queue[0].block.input = BlockIOBase(**body.dict())
+
+    await plan.start()
+    return "OK"
+
+@router.post("/{workflow_id}/api")
+async def trigger_workflow_api(
+    workflow_id: str,
+    body: APITriggerInput,
+    producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
+    crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+    creds: OAuthCrud = Depends(OAuthCrud.inject),
+) -> str:
+    """Trigger a workflow that takes an APITrigger as an input."""
+    # TODO: Validate user API key has access to run workflow
+    workflow = await crud.get(workflow_id)
+
+    plan = ExecutionEngine.create_execution_plan(
+        producer=producer,
+        workflow=workflow,
+        credentials=await creds.get_all(crud.user),
+    )
+
+    if plan.workflow.queue[0].block.type != "APITriggerBlock":
+        forbidden("API trigger not defined for this workflow")
+
+    # Place input from API call into trigger input
+    plan.workflow.queue[0].block.input = BlockIOBase(**body.dict())
+
+    await plan.start()
+    return "OK"
+
+class Message(BaseModel):
+    message: dict
+
+
+@router.post("/{workflow_id}/email")
+async def trigger_workflow_email(
+    workflow_id: str,
+    request: Message = Body(...),
+    producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
+    crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
+    creds: OAuthCrud = Depends(OAuthCrud.inject),
+) -> str:
+    """Trigger a workflow that takes an APITrigger as an input."""
+    # TODO: Validate user API key has access to run workflow
+    workflow = await crud.get(workflow_id)
+
+    plan = ExecutionEngine.create_execution_plan(
+        producer=producer,
+        workflow=workflow,
+        credentials=await creds.get_all(crud.user),
+    )
+
+    if plan.workflow.queue[0].block.type != "GmailTriggerBlock":
+        forbidden("Gmail trigger not defined for this workflow")
+
+    # Place input from API call into trigger input
+    plan.workflow.queue[0].block.input = BlockIOBase(**request.dict())
 
     await plan.start()
     return "OK"

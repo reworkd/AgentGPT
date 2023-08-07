@@ -54,6 +54,8 @@ anthropic = "^0.3.6"
 google-api-python-client = "^2.95.0"
 google-auth-httplib2 = "^0.1.0"
 google-auth-oauthlib = "^1.0.0"
+schedule = "^1.2.0"
+google-cloud-pubsub = "^2.18.1"
 
 
 [tool.poetry.dev-dependencies]

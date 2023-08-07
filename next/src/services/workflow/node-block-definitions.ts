@@ -6,6 +6,7 @@ import {
   FaCopy,
   FaFileUpload,
   FaGlobeAmericas,
+  FaMailBulk,
   FaPlay,
   FaRobot,
   FaSlack,
@@ -284,6 +285,17 @@ const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   output_fields: [],
 };
 
+const GmailTriggerBlockDefinition: NodeBlockDefinition = {
+  name: "Gmail Trigger",
+  type: "GmailTriggerBlock",
+  description: "Trigger workflow when a new email is received",
+  icon: FaMailBulk,
+  color: colorTypes.trigger,
+  image_url: "/tools/web.png",
+  input_fields: [],
+  output_fields: [],
+};
+
 const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
   name: "Web Interaction Agent",
   type: "WebInteractionAgent",
@@ -365,6 +377,7 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     GenericLLMAgentBlockDefinition,
     SummaryAgentBlockDefinition,
     CompanyContextAgentBlockDefinition,
+    GmailTriggerBlockDefinition,
   ];
 };
 

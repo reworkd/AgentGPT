@@ -41,10 +41,8 @@ class ContentRefresherAgent(Block):
 
         keywords = await find_content_kws(target_content)
         log("Finding keywords from source content")
-        log(
-            "Keywords:\n"
-            + "\n".join([f"- {keyword}" for keyword in keywords.split(" ")])
-        )
+        log("Keywords: " + ", ".join(keywords.split(" ")))
+
 
         sources = search_results(keywords)
         sources = [
@@ -145,7 +143,7 @@ async def get_page_content(url: str) -> str:
 async def find_content_kws(content: str) -> str:
     # Claude: find search keywords that content focuses on
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Format them so we can use them to query a search engine effectively.",
+        human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Comma-separate them so we can use them to query a search engine effectively.",
         assistant_prompt="Here is a short search query that best matches the content of the article:",
     )
 

@@ -188,7 +188,7 @@ def remove_competitors(
         if competitor_pattern.search(
             source["url"].replace(" ", "").lower()
         ) or competitor_pattern.search(source["title"].replace(" ", "").lower()):
-            log(f"Removing source due to competitor match: '{source['title']}'")
+            log(f"Removing competitive source: '{source['title']}'")
         else:
             filtered_sources.append(source)
 

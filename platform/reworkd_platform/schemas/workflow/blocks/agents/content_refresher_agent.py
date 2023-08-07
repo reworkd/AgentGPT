@@ -77,20 +77,12 @@ class ContentRefresherAgent(Block):
         updated_target_content = await add_info(target_content, new_infos)
         # logger.info(updated_target_content)
         log("Content refresh concluded")
-        
-        logger.info("Content refresh complete")
-        logger.info("Content refresh complete")
-        logger.info("Content refresh complete")
-        logger.info("Content refresh complete")
-        logger.info("Content refresh complete")
-        logger.info(updated_target_content)
-        logger.info(new_infos)
 
         return ContentRefresherOutput(
             **self.input.dict(),
             original_content=target_content,
             refreshed_report=updated_target_content,
-            refreshed_bullet_points=new_infos
+            refreshed_bullet_points=new_infos,
         )
 
 

@@ -39,7 +39,7 @@ class ContentRefresherAgent(Block):
 
         keywords = await find_content_kws(target_content)
         log("Finding keywords from source content")
-        log(f"Keywords: {keywords}")
+        log("\n".join([f"- {keyword}" for keyword in keywords.split(" ")]))
 
         sources = search_results(keywords)
         sources = [
@@ -184,7 +184,7 @@ async def find_new_info(
     )
 
     log(
-        f"Identifying new details to refresh original content with for {source['title']}"
+        f"Identifying new details to refresh original content with for '{source['title']}'"
     )
 
     response = await claude.completion(

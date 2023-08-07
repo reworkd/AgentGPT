@@ -41,7 +41,7 @@ class ContentRefresherAgent(Block):
 
         keywords = await find_content_kws(target_content)
         log("Finding keywords from source content")
-        log("\n".join([f"- {keyword}" for keyword in keywords.split(" ")]))
+        log("Keywords:\n" + "\n".join([f"- {keyword}" for keyword in keywords.split(" ")]))
 
         sources = search_results(keywords)
         sources = [
@@ -216,7 +216,7 @@ async def find_new_info(
     )
 
     new_info = "\n".join(response.split("\n\n"))
-    new_info += "\n" + source_metadata
+    new_info += "\n\nsource: " + source_metadata
     return new_info
 
 

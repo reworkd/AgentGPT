@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 
 import Badge from "./Badge";
+import BannerBadge from "./BannerBadge";
 import PopIn from "./motions/popin";
 
 const AppTitle = () => {
@@ -21,12 +22,25 @@ const AppTitle = () => {
           </Badge>
         </PopIn>
       </div>
-      <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
-        <p>
-          {i18n.t("HEADING_DESCRIPTION", {
-            ns: "indexPage",
-          })}
-        </p>
+      <div className="mt-3 text-center font-mono text-[0.7em] font-bold text-white">
+        <div>
+          <BannerBadge
+            className="md:hidden"
+            onClick={() => {
+              window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
+            }}
+          >
+            Apply to automate your business with Agents
+          </BannerBadge>
+        </div>
+        <div
+          className="hidden md:flex"
+          onClick={() => {
+            window.open("https://6h6bquxo5g1.typeform.com/to/qscfsOf1", "_blank");
+          }}
+        >
+          <BannerBadge>Interested in automating businesses with AI Agents? Apply here</BannerBadge>
+        </div>
       </div>
     </div>
   );

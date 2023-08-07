@@ -1,10 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import type { InputHTMLAttributes, ReactNode } from "react";
 import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
+import Button from "./button";
 import WorkflowApi from "../services/workflow/workflowApi";
+import { useConfigStore } from "../stores/configStore";
 import { useWorkflowStore } from "../stores/workflowStore";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -19,11 +21,36 @@ const Dropzone = (props: Props) => {
   const { data: session } = useSession();
   const [files, setFiles] = useState<File[]>([]);
   const workflow = useWorkflowStore.getState();
+  const orgId = useConfigStore().organization?.id;
 
   const { mutateAsync: uploadFiles } = useMutation(async (files: File[]) => {
     if (!files.length || !workflow?.workflow?.id || !props.node_ref) return;
-    await new WorkflowApi(session?.accessToken).upload(workflow.workflow.id, props.node_ref, files);
+    await new WorkflowApi(session?.accessToken, orgId).upload(
+      workflow.workflow.id,
+      props.node_ref,
+      files
+    );
   });
+
+  const { data: s3_files, refetch } = useQuery([undefined], () => {
+    if (!workflow?.workflow?.id || !props.node_ref) return;
+    return new WorkflowApi(session?.accessToken, orgId).blockInfo(
+      workflow.workflow.id,
+      props.node_ref
+    );
+  });
+
+  const { mutateAsync: deleteFiles } = useMutation(async () => {
+    if (!workflow?.workflow?.id || !props.node_ref) return;
+    await new WorkflowApi(session?.accessToken, orgId).blockInfoDelete(
+      workflow.workflow.id,
+      props.node_ref
+    );
+    setFiles([]);
+    await refetch();
+  });
+
+  const filenames = [...(s3_files?.files || []), ...files.map((file) => file.name)];
 
   return (
     <div className="flex w-full flex-col  justify-center">
@@ -63,9 +90,19 @@ const Dropzone = (props: Props) => {
           }}
         />
       </label>
-      {files.map((file, i) => (
-        <div key={i}>{file.name}</div>
+      {filenames.map((file, i) => (
+        <div key={i}>{file}</div>
       ))}
+      {filenames.length ? (
+        <Button
+          className="mt-2 bg-red-500 hover:bg-red-400"
+          onClick={async () => await deleteFiles()}
+        >
+          Clear Files
+        </Button>
+      ) : (
+        <span>No files uploaded</span>
+      )}
     </div>
   );
 };

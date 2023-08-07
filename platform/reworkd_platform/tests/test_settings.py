@@ -56,3 +56,33 @@ def test_pusher_enabled(settings: Dict[str, Any], expected: bool):
 def test_kafka_enabled(settings: Dict[str, Any], expected: bool):
     settings = Settings(**settings)
     assert settings.kafka_enabled == expected
+
+
+@pytest.mark.parametrize(
+    "settings, expected",
+    [
+        (
+            {
+                "azure_openai_api_base": "123",
+                "azure_openai_api_key": "123",
+                "azure_openai_deployment_name": "123",
+            },
+            True,
+        ),
+        (
+            {
+                "azure_openai_api_base": "123",
+                "azure_openai_api_key": "123",
+            },
+            False,
+        ),
+        ({}, False),
+    ],
+)
+def test_azure_enabled(settings: Dict[str, Any], expected: bool):
+    settings = Settings(**settings)
+    assert settings.azure_openai_enabled == expected
+
+
+def test_settings_create():
+    assert Settings() is not None

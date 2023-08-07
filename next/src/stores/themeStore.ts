@@ -14,7 +14,7 @@ interface ThemeSlice {
 }
 
 const initialThemeState = {
-  theme: "dark" as const,
+  theme: "light" as const,
 };
 
 const createThemeSlice: StateCreator<ThemeSlice> = (set) => {

@@ -2,8 +2,10 @@ from typing import Annotated, Dict, List
 
 from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.responses import RedirectResponse
+from loguru import logger
 from pydantic import BaseModel
 from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.crud.organization import OrganizationCrud, OrganizationUsers
@@ -13,10 +15,11 @@ from reworkd_platform.services.oauth_installers import (
     installer_factory,
     OAuthInstaller,
 )
+from reworkd_platform.services.security import encryption_service
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user, get_organization
-from reworkd_platform.web.api.http_responses import forbidden
+from reworkd_platform.web.api.http_responses import not_found
 
 router = APIRouter()
 
@@ -86,17 +89,38 @@ class Channel(BaseModel):
 
 @router.get("/slack/info")
 async def slack_channels(
-    org: OrganizationRole = Depends(get_organization),
+    role: OrganizationRole = Depends(get_organization),
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> List[Channel]:
     """Install an OAuth App"""
-    if not (creds := await crud.get_installation_by_organization_id(org.id, "slack")):
-        raise forbidden()
+    creds = await crud.get_installation_by_organization_id(
+        role.organization_id, "slack"
+    )
 
-    client = WebClient(token=creds.access_token)
-    channels = [
-        Channel(name=c["name"], id=c["id"])
-        for c in client.conversations_list(types=["public_channel"])["channels"]
-    ]
+    if not creds:
+        raise not_found()
 
-    return channels
+    token = encryption_service.decrypt(creds.access_token_enc)
+    client = WebClient(token=token)
+    return get_all_conversations(client)
+
+
+def get_all_conversations(client: WebClient) -> List[Channel]:
+    all_conversations = []
+    cursor = None
+
+    while True:
+        try:
+            response = client.conversations_list(
+                cursor=cursor, limit=1000, types=["public_channel"]
+            )
+            all_conversations.extend(response["channels"])
+
+            if not (cursor := response["response_metadata"]["next_cursor"]):
+                break
+
+        except SlackApiError as e:
+            logger.exception(e)
+            break
+
+    return [Channel(name=c["name"], id=c["id"]) for c in all_conversations]

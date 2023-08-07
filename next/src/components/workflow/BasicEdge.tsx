@@ -32,16 +32,14 @@ const CustomEdge = ({
   });
 
   return (
-    <>
-      <BaseEdge
-        path={edgePath}
-        markerEnd={markerEnd}
-        style={{
-          stroke: props.data?.status ? edgeColors[props.data.status] || "black" : "black",
-          transition: "stroke 0.2s ease",
-        }}
-      />
-    </>
+    <BaseEdge
+      path={edgePath}
+      markerEnd={markerEnd}
+      style={{
+        stroke: !!props?.data?.status ? edgeColors[props.data.status] : undefined,
+        transition: "stroke 0.2s ease",
+      }}
+    />
   );
 };
 

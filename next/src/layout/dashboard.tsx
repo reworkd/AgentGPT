@@ -6,7 +6,7 @@ import AppHead from "../components/AppHead";
 import DottedGridBackground from "../components/DottedGridBackground";
 import LeftSidebar from "../components/drawer/LeftSidebar";
 import { SidebarControlButton } from "../components/drawer/Sidebar";
-import { useLayoutStore } from "../stores/layoutStore";
+import { useConfigStore } from "../stores/configStore";
 
 type SidebarSettings = {
   mobile: boolean;
@@ -39,7 +39,7 @@ const setDesktop =
 
 const DashboardLayout = (props: DashboardLayoutProps) => {
   const [leftSettings, setLeftSettings] = useState(defaultState);
-  const { layout, setLayout } = useLayoutStore();
+  const { layout, setLayout } = useConfigStore();
 
   return (
     <>

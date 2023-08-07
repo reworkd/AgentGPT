@@ -50,7 +50,7 @@ class ContentRefresherAgent(Block):
         log("Finding sources to refresh content")
         log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
 
-        log("Checking new sources for competitors")
+        log("Removing competitors from sources")
         competitors = self.input.competitors.split(",")
         sources = remove_competitors(sources, competitors, log)
 

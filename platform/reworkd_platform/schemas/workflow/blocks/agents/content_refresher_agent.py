@@ -177,7 +177,7 @@ def remove_competitors(
 ) -> List[Dict[str, str]]:
     normalized_competitors = [comp.replace(" ", "").lower() for comp in competitors]
     competitor_pattern = re.compile(
-        "|".join(re.escape(comp.lower()) for comp in normalized_competitors)
+        "|".join(re.escape(comp) for comp in normalized_competitors)
     )
     filtered_sources = []
     for source in sources:

@@ -1,0 +1,3 @@
+git clone https://github.com/reworkd/AgentGPT.git
+cd AgentGPT
+./setup.bat

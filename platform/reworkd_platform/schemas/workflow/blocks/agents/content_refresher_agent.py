@@ -1,5 +1,5 @@
 import re
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Optional
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,7 +14,7 @@ from reworkd_platform.settings import settings
 
 class ContentRefresherInput(BlockIOBase):
     url: str
-    competitors: str
+    competitors: Optional[str] = None
 
 
 class ContentRefresherOutput(ContentRefresherInput):
@@ -76,6 +76,14 @@ class ContentRefresherAgent(Block):
         updated_target_content = await add_info(target_content, new_infos)
         # logger.info(updated_target_content)
         log("Content refresh concluded")
+        
+        logger.info("Content refresh complete")
+        logger.info("Content refresh complete")
+        logger.info("Content refresh complete")
+        logger.info("Content refresh complete")
+        logger.info("Content refresh complete")
+        logger.info(updated_target_content)
+        logger.info(new_infos)
 
         return ContentRefresherOutput(
             **self.input.dict(),
@@ -187,7 +195,7 @@ def remove_competitors(
         if competitor_pattern.search(
             source["url"].replace(" ", "").lower()
         ) or competitor_pattern.search(source["title"].replace(" ", "").lower()):
-            log(f"Removing source due to competitor match:, '{source['title']}'")
+            log(f"Removing source due to competitor match: '{source['title']}'")
         else:
             filtered_sources.append(source)
 

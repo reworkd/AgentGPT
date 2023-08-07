@@ -50,9 +50,10 @@ class ContentRefresherAgent(Block):
         log("Finding sources to refresh content")
         log("\n".join([f"- {source['title']}: {source['url']}" for source in sources]))
 
-        log("Removing competitors from sources")
-        competitors = self.input.competitors.split(",")
-        sources = remove_competitors(sources, competitors, log)
+        if self.input.competitors:
+            log("Removing competitors from sources")
+            competitors = self.input.competitors.split(",")
+            sources = remove_competitors(sources, competitors, log)
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await get_page_content(source["url"])

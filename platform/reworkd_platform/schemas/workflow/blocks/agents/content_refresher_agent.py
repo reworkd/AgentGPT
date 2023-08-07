@@ -184,7 +184,7 @@ async def find_new_info(
     )
 
     log(
-        f"Identifying new details to refresh original content with for '{source['title']}'"
+        f"Identifying new details to refresh with from '{source['title']}'"
     )
 
     response = await claude.completion(

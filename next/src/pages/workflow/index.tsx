@@ -6,10 +6,10 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
-import { RxHome, RxPlus } from "react-icons/rx";
+import { RxHome, RxPlus, RxTrash } from "react-icons/rx";
 import type { Connection, OnConnectStartParams } from "reactflow";
 import { addEdge } from "reactflow";
 
@@ -61,9 +61,15 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
+  async function reset() {
+    await changeQueryParams({ w: undefined });
+    nodesModel[1]([]);
+    edgesModel[1]([]);
+  }
+
   const handlePlusClick = async () => {
     try {
-      await changeQueryParams({ w: undefined });
+      await reset();
       await saveWorkflow();
     } catch (error: unknown) {
       window.alert("An error occurred while creating a new workflow.");
@@ -116,7 +122,7 @@ const WorkflowPage: NextPage = () => {
   const showLoader = !router.isReady || (isLoading && !!workflowId);
   const showCreateForm = !workflowId && router.isReady;
 
-  const { workflows, createWorkflow, refetchWorkflows } = useWorkflows(
+  const { workflows, createWorkflow, deleteWorkflow, refetchWorkflows } = useWorkflows(
     session?.accessToken,
     organization?.id
   );
@@ -129,17 +135,19 @@ const WorkflowPage: NextPage = () => {
   const changeOrg = async (org: { id: string; name: string; role: string } | undefined) => {
     if (org === organization) return;
     setOrganization(org);
-    await changeQueryParams({ w: undefined });
-    nodesModel[1]([]);
-    edgesModel[1]([]);
+    await reset();
+    await refetchWorkflows();
   };
 
-  useEffect(() => {
-    if (!organization) return;
-    refetchWorkflows().then(console.log).catch(console.error);
-  }, [refetchWorkflows, organization]);
-
-  const showLogs = layout.showRightSidebar;
+  const handleDeleteClick = async () => {
+    try {
+      if (!workflowId) return;
+      await reset();
+      await deleteWorkflow(workflowId);
+    } catch (error: unknown) {
+      window.alert("An error occurred while deleting the workflow.");
+    }
+  };
 
   return (
     <>
@@ -169,7 +177,12 @@ const WorkflowPage: NextPage = () => {
         }}
       />
 
-      <div className="pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4">
+      <div
+        className={clsx(
+          "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4",
+          layout.showLogSidebar && "pr-[330px]"
+        )}
+      >
         <div className="pointer-events-auto flex flex-row items-center gap-2">
           <a
             className="group rounded-md border border-black bg-white p-0.5 shadow shadow-black hover:bg-black"
@@ -226,12 +239,20 @@ const WorkflowPage: NextPage = () => {
           )}
           {showCreateForm || (
             <FadeIn initialY={0} initialX={-50}>
-              <a
-                className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
-                onClick={() => void handlePlusClick().catch(console.error)}
-              >
-                <RxPlus size="16" />
-              </a>
+              <div className="flex flex-row gap-1">
+                <a
+                  className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
+                  onClick={() => void handleDeleteClick().catch(console.error)}
+                >
+                  <RxTrash size="16" />
+                </a>
+                <a
+                  className="flex h-6 w-6 items-center justify-center rounded-md border border-black bg-white transition-all hover:bg-black hover:text-white"
+                  onClick={() => void handlePlusClick().catch(console.error)}
+                >
+                  <RxPlus size="16" />
+                </a>
+              </div>
             </FadeIn>
           )}
         </div>
@@ -242,8 +263,6 @@ const WorkflowPage: NextPage = () => {
               editors={members}
               onSave={handleSaveWorkflow}
               onShowLogs={() => {
-                console.log("show logs");
-                console.log(layout.showLogSidebar);
                 setLayout({
                   showLogSidebar: !layout.showLogSidebar,
                 });
@@ -299,25 +318,24 @@ const WorkflowPage: NextPage = () => {
           onPaneDoubleClick={handlePaneDoubleClick}
         />
         <Transition
-          show={layout.showLogSidebar}
+          show={layout.showLogSidebar && router.isReady}
           enter="transition ease-in-out duration-300 transform"
           enterFrom="translate-x-full"
           enterTo="translate-x-0"
           leave="transition ease-in-out duration-300 transform"
           leaveFrom="translate-x-0"
           leaveTo="translate-x-full"
-          className="flex max-h-screen min-h-screen basis-1/3 flex-col overflow-y-auto border-l border-black/30 bg-white"
+          className="flex max-h-screen min-h-screen w-96 flex-col overflow-y-auto border-l border-black/30 bg-white"
         >
           <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
             <FaFolder />
             <span>Workflow logs</span>
-          </div>{" "}
-          {logMessage.length === 0 ? (
+          </div>
+          <hr />
+          {logMessage.length === 0 && (
             <p className="px-4 font-thin">
               When you execute a workflow, log messages will appear here
             </p>
-          ) : (
-            <hr />
           )}
           {logMessage.map(({ date, msg }, i) => (
             <>
@@ -411,26 +429,27 @@ function AccountBar(props: AccountBarProps) {
 
   return (
     <div className="flex h-10 flex-row items-center gap-4 rounded-md border border-black bg-white px-3 shadow shadow-black">
-      {!!editors.length && (
-        <>
-          <div className="flex flex-row-reverse">
-            {editors.map(([id, user]) => (
-              <img
-                className={clsx(
-                  "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
-                  editors.length > 1 && "-mr-2 first:ml-0"
-                )}
-                key={id}
-                src={get_avatar(user)}
-                alt="user avatar"
-              />
-            ))}
-          </div>
-          <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
-        </>
-      )}
+      <>
+        <div className="flex flex-row-reverse">
+          {editors.length === 0 && (
+            <div className="h-6 w-6 rounded-full border-2 border-white bg-gray-400 ring-2 ring-blue-500 first:ring-purple-500" />
+          )}
+          {editors.map(([id, user]) => (
+            <img
+              className={clsx(
+                "h-6 w-6 rounded-full border-2 border-white ring-2 ring-blue-500 first:ring-purple-500",
+                editors.length > 1 && "-mr-2 first:ml-0"
+              )}
+              key={id}
+              src={get_avatar(user)}
+              alt="user avatar"
+            />
+          ))}
+        </div>
+        <div className="h-3 w-0.5 rounded-sm bg-gray-400/50" />
+      </>
       <button
-        className="h-6 rounded-lg border border-gray-500 bg-black/50 px-2 text-sm font-light tracking-wider text-white transition-all hover:border hover:border-black hover:bg-white hover:text-black"
+        className="h-6 rounded-lg border border-gray-500 bg-gray-100 px-2 text-sm font-light tracking-wider text-black transition-all hover:border hover:border-black hover:bg-white hover:text-black"
         onClick={props.onShowLogs}
       >
         Logs

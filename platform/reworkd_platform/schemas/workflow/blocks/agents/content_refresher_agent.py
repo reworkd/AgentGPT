@@ -39,7 +39,7 @@ class ContentRefresherAgent(Block):
 
         keywords = await find_content_kws(target_content)
         log("Finding keywords from source content")
-        log(f"Keywords: {keywords}")
+        log("\n".join([f"- {keyword}" for keyword in keywords.split(" ")]))
 
         sources = search_results(keywords)
         sources = [
@@ -183,9 +183,7 @@ async def find_new_info(
         assistant_prompt="Here is a list of claims in the SOURCE that are not in the TARGET:",
     )
 
-    log(
-        f"Identifying new details to refresh original content with for {source['title']}"
-    )
+    log(f"Identifying new details to refresh with from '{source['title']}'")
 
     response = await claude.completion(
         prompt=prompt,
@@ -200,7 +198,7 @@ async def find_new_info(
 async def add_info(target: str, info: str) -> str:
     # Claude: rewrite target to include the info
     prompt = HumanAssistantPrompt(
-        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
+        human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
         assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
     )
 

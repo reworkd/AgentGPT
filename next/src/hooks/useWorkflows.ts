@@ -7,12 +7,16 @@ export default function useWorkflows(accessToken?: string, organizationId?: stri
   const api = new WorkflowApi(accessToken, organizationId);
 
   const queryClient = useQueryClient();
-  const { data: workflows, refetch } = useQuery(["workflows"], async () => await api.getAll(), {
-    enabled: !!accessToken && !!organizationId,
-  });
+  const { data: workflows, refetch: refetchWorkflows } = useQuery(
+    ["workflows"],
+    async () => await api.getAll(),
+    {
+      enabled: !!accessToken && !!organizationId,
+    }
+  );
 
   // Optimistic update when creating a workflow, we don't need to fetch again
-  const { mutateAsync } = useMutation(
+  const { mutateAsync: createWorkflow } = useMutation(
     async (data: Omit<WorkflowMeta, "id" | "user_id" | "organization_id">) => {
       const workflow = await api.create(data);
       queryClient.setQueriesData(["workflows"], (oldData: WorkflowMeta[] | undefined) => [
@@ -23,9 +27,17 @@ export default function useWorkflows(accessToken?: string, organizationId?: stri
     }
   );
 
+  const { mutateAsync: deleteWorkflow } = useMutation(async (id: string) => {
+    await api.delete(id);
+    queryClient.setQueriesData(["workflows"], (oldData: WorkflowMeta[] | undefined) =>
+      (oldData || []).filter((workflow) => workflow.id !== id)
+    );
+  });
+
   return {
     workflows,
-    refetchWorkflows: refetch,
-    createWorkflow: mutateAsync,
+    refetchWorkflows,
+    createWorkflow,
+    deleteWorkflow,
   };
 }

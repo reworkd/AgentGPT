@@ -1,5 +1,5 @@
 import re
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Optional
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,12 +14,13 @@ from reworkd_platform.settings import settings
 
 class ContentRefresherInput(BlockIOBase):
     url: str
-    competitors: str
+    competitors: Optional[str] = None
 
 
 class ContentRefresherOutput(ContentRefresherInput):
-    original_content: str
-    refreshed_content: str
+    original_report: str
+    refreshed_report: str
+    refreshed_bullet_points: str
 
 
 class ContentRefresherAgent(Block):
@@ -40,7 +41,10 @@ class ContentRefresherAgent(Block):
 
         keywords = await find_content_kws(target_content)
         log("Finding keywords from source content")
-        log("\n".join([f"- {keyword}" for keyword in keywords.split(" ")]))
+        log(
+            "Keywords:\n"
+            + "\n".join([f"- {keyword}" for keyword in keywords.split(" ")])
+        )
 
         sources = search_results(keywords)
         sources = [
@@ -69,7 +73,8 @@ class ContentRefresherAgent(Block):
 
         new_infos = "\n\n".join(new_info)
         log("Extracting new, relevant information not present in your content")
-        log(new_infos)
+        for info in new_info:
+            log(info)
 
         log("Updating provided content with new information")
         updated_target_content = await add_info(target_content, new_infos)
@@ -78,8 +83,9 @@ class ContentRefresherAgent(Block):
 
         return ContentRefresherOutput(
             **self.input.dict(),
-            original_content=target_content,
-            refreshed_content=updated_target_content,
+            original_report=target_content,
+            refreshed_report=updated_target_content,
+            refreshed_bullet_points=new_infos,
         )
 
 
@@ -185,7 +191,7 @@ def remove_competitors(
         if competitor_pattern.search(
             source["url"].replace(" ", "").lower()
         ) or competitor_pattern.search(source["title"].replace(" ", "").lower()):
-            log(f"Removing source due to competitor match:, '{source['title']}'")
+            log(f"Removing competitive source: '{source['title']}'")
         else:
             filtered_sources.append(source)
 
@@ -213,7 +219,7 @@ async def find_new_info(
     )
 
     new_info = "\n".join(response.split("\n\n"))
-    new_info += "\n" + source_metadata
+    new_info += "\n\nSource: " + source_metadata
     return new_info
 
 

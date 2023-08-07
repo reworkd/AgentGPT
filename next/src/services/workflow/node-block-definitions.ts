@@ -335,6 +335,11 @@ const ContentRefresherAgent: NodeBlockDefinition = {
       description: "The page whose content the agent will refresh",
       type: "string",
     },
+    {
+      name: "competitors",
+      description: "Competitors you don't want to pull content from",
+      type: "string",
+    }
   ],
   output_fields: [
     {

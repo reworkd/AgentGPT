@@ -118,14 +118,12 @@ class ContentRefresherService:
             human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range (e.g. 5-25).",
             assistant_prompt="Based on the text provided, here is the line number range of the main content:",
         )
-        print("PROMPT", prompt)
 
         line_nums = await self.claude.completion(
             prompt=prompt,
             max_tokens_to_sample=500,
             temperature=0,
         )
-        print("LINE NUMS", line_nums)
 
         if len(line_nums) == 0:
             return ""
@@ -157,25 +155,13 @@ class ContentRefresherService:
         )
 
     def search_results(self, search_query: str) -> List[Dict[str, str]]:
-        # use SERP API
-        response = requests.post(
-            f"https://google.serper.dev/search",
-            headers={
-                "X-API-KEY": settings.serp_api_key or "",
-                "Content-Type": "application/json",
-            },
-            params={
-                "q": search_query,
-            },
-        )
-        response.raise_for_status()
         source_information = [
             {
                 "url": result.get("link", None),
                 "title": result.get("title", None),
                 "date": result.get("date", None),
             }
-            for result in response.json().get("organic", [])
+            for result in self.serp.search(search_query).get("organic", [])
         ]
         return source_information
 

@@ -1,7 +1,6 @@
 import io
 from typing import Any
 
-import aiohttp
 from docx import Document
 
 from reworkd_platform.schemas.workflow.base import Block, BlockIOBase

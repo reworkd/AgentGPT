@@ -247,34 +247,6 @@ const DiffDocBlockDefinition: NodeBlockDefinition = {
   ],
 };
 
-const DatabaseBlockDefinition: NodeBlockDefinition = {
-  name: "Database connection",
-  type: "DB",
-  description:
-    "Validation connection to a database on AWS",
-  image_url: "/tools/web.png",
-  icon: FaBook,
-  input_fields: [
-    {
-      name: "original",
-      description: "The original version of the text",
-      type: "string",
-    },
-    {
-      name: "updated",
-      description: "The updated version of the text",
-      type: "string",
-    },
-  ],
-  output_fields: [
-    {
-      name: "file_url",
-      description: "The URL to access the diff PDF.",
-      type: "string",
-    },
-  ],
-};
-
 const IfBlockDefinition: NodeBlockDefinition = {
   name: "If Condition",
   type: "IfCondition",
@@ -371,7 +343,6 @@ const FileUploadBlockDefinition: NodeBlockDefinition = {
   ],
   output_fields: [],
 };
-
 
 const ContentRefresherAgent: NodeBlockDefinition = {
   name: "Content Refresher Agent",

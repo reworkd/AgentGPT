@@ -1,5 +1,7 @@
 import difflib
 import io
+import urllib
+import urllib.parse
 from typing import Any, List
 import aiohttp
 
@@ -44,9 +46,9 @@ class DiffDoc(Block):
             file_url = s3_service.create_presigned_download_url(
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
             )
-            websockets.log(workflow_id, f"Doc successfully uploaded to S3: {file_url}")
+            websockets.log(workflow_id, f"Diff Doc successfully uploaded to S3")
             tiny_url = await get_shortened_url(file_url)
-            websockets.log(workflow_id, f"Download the doc via: {tiny_url}")
+            websockets.log(workflow_id, f"Download the diff doc via: {tiny_url}")
 
             return DiffDocOutput(file_url=tiny_url)
 

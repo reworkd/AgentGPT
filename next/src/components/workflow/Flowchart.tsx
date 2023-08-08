@@ -1,6 +1,12 @@
-import type { ComponentProps, MouseEvent } from "react";
-import { type FC, useCallback } from "react";
-import type { Connection, EdgeChange, FitViewOptions, NodeChange } from "reactflow";
+import type { ComponentProps, MouseEvent as ReactMouseEvent } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle, useRef, useState } from "react";
+import type {
+  Connection,
+  EdgeChange,
+  FitViewOptions,
+  NodeChange,
+  OnConnectStartParams,
+} from "reactflow";
 import ReactFlow, {
   addEdge,
   applyEdgeChanges,
@@ -9,12 +15,16 @@ import ReactFlow, {
   BackgroundVariant,
   Controls,
   MiniMap,
+  ReactFlowProvider,
+  useReactFlow,
+  useStore,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
 
 import CustomEdge from "./BasicEdge";
 import { BasicNode, IfNode, TriggerNode } from "./nodes";
+import type { Position } from "../../hooks/useWorkflow";
 import type { EdgesModel, NodesModel } from "../../types/workflow";
 
 const nodeTypes = {
@@ -32,66 +42,155 @@ const fitViewOptions: FitViewOptions = {
 };
 
 interface FlowChartProps extends ComponentProps<typeof ReactFlow> {
-  onSave?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
+  onSave?: (e: ReactMouseEvent<HTMLButtonElement>) => Promise<void>;
   controls?: boolean;
   minimap?: boolean;
+  setOnConnectStartParams: (params: OnConnectStartParams | undefined) => void; // Specify which node to connect to on edge drag
+  onPaneDoubleClick: (clickPosition: Position) => void;
 
   // workflow: Workflow;
   nodesModel: NodesModel;
   edgesModel: EdgesModel;
 }
 
-const FlowChart: FC<FlowChartProps> = ({
-  onSave,
-  // workflow,
-  nodesModel,
-  edgesModel,
-  ...props
-}) => {
-  const [nodes, setNodes] = nodesModel;
-  const [edges, setEdges] = edgesModel;
+export interface FlowChartHandles {
+  fitView: () => void;
+}
 
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds ?? [])),
-    [setNodes]
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds ?? [])),
-    [setEdges]
-  );
+const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
+  ({ onSave, nodesModel, edgesModel, ...props }, ref) => {
+    const [nodes, setNodes] = nodesModel;
+    const [edges, setEdges] = edgesModel;
+    const flow = useReactFlow();
+    const [lastClickTime, setLastClickTime] = useState<number | null>(null);
+    const connectionDragging = useRef(false);
+    const transform = useStore((state) => state.transform);
 
-  const onConnect = useCallback(
-    (connection: Connection) => {
-      setEdges((eds) => addEdge(connection, eds ?? []));
-    },
-    [setEdges]
-  );
+    const { onPaneDoubleClick, setOnConnectStartParams, ...rest } = props;
 
+    const getExactPosition = useCallback(
+      (event: MouseEvent | ReactMouseEvent | TouchEvent) => {
+        let x, y;
+        const rect = (event.target as Element).getBoundingClientRect();
+
+        if (!(event instanceof TouchEvent)) {
+          x = event.clientX - rect.left;
+          y = event.clientY - rect.top;
+        } else {
+          x = (event.touches[0] || { clientX: 0 }).clientX - rect.left;
+          y = (event.touches[0] || { clientY: 0 }).clientY - rect.top;
+        }
+
+        // calculate exact position considering zoom level and pan offset of the pane
+        const exactX = (x - transform[0]) / transform[2];
+        const exactY = (y - transform[1]) / transform[2];
+
+        return { x: exactX - 135 /* Half of the width of the node */, y: exactY };
+      },
+      [transform]
+    );
+
+    const handlePaneClick = (event: ReactMouseEvent) => {
+      // Check if it was a double click
+      const currentTime = new Date().getTime();
+      const doubleClickDelay = 400;
+      if (lastClickTime && currentTime - lastClickTime < doubleClickDelay) {
+        setOnConnectStartParams(undefined); // Reset the on connect as we are not dragging anymore
+        onPaneDoubleClick(getExactPosition(event));
+      } else {
+        setLastClickTime(currentTime);
+      }
+    };
+
+    const onNodesChange = useCallback(
+      (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds ?? [])),
+      [setNodes]
+    );
+    const onEdgesChange = useCallback(
+      (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds ?? [])),
+      [setEdges]
+    );
+
+    const onConnectStart = useCallback(
+      (_, params: OnConnectStartParams) => {
+        setOnConnectStartParams(params);
+        connectionDragging.current = true;
+      },
+      [setOnConnectStartParams, connectionDragging]
+    );
+
+    const onConnect = useCallback(
+      (connection: Connection) => {
+        connectionDragging.current = false;
+        setEdges((eds) => addEdge({ ...connection, animated: true }, eds ?? []));
+      },
+      [setEdges]
+    );
+
+    const onConnectEnd = useCallback(
+      (event: MouseEvent | TouchEvent) => {
+        if (!connectionDragging.current) return;
+        connectionDragging.current = false;
+        onPaneDoubleClick(getExactPosition(event));
+      },
+      [getExactPosition, onPaneDoubleClick, connectionDragging]
+    );
+
+    useImperativeHandle(ref, () => ({
+      fitView: () => {
+        flow?.fitView(fitViewOptions);
+      },
+    }));
+
+    return (
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnectStart={onConnectStart}
+        onConnect={onConnect}
+        onConnectEnd={(event) => onConnectEnd(event)}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        proOptions={{ hideAttribution: true }}
+        fitViewOptions={fitViewOptions}
+        fitView
+        zoomOnDoubleClick={false}
+        {...rest}
+        onPaneClick={handlePaneClick}
+      >
+        <Background
+          variant={BackgroundVariant.Lines}
+          lineWidth={1}
+          gap={80}
+          className="bg-neutral-50"
+          color="#e5e7eb"
+        />
+        <div
+          className="absolute h-full w-full"
+          style={{
+            background: "radial-gradient(ellipse at center, transparent, white 90%)",
+          }}
+        />
+
+        {props.minimap && <MiniMap nodeStrokeWidth={3} />}
+        {props.controls && <Controls />}
+      </ReactFlow>
+    );
+  }
+);
+
+FlowChart.displayName = "FlowChart";
+
+const WrappedFlowchart = forwardRef<FlowChartHandles, FlowChartProps>((props, ref) => {
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      proOptions={{ hideAttribution: true }}
-      fitView
-      fitViewOptions={fitViewOptions}
-      {...props}
-    >
-      <Background
-        variant={BackgroundVariant.Lines}
-        lineWidth={1}
-        gap={80}
-        className="bg-neutral-800"
-        color="#FFFFFF10"
-      />
-      {props.minimap && <MiniMap nodeStrokeWidth={3} />}
-      {props.controls && <Controls />}
-    </ReactFlow>
+    <ReactFlowProvider>
+      {/* @ts-ignore*/}
+      <FlowChart ref={ref} {...props} />
+    </ReactFlowProvider>
   );
-};
+});
 
-export default FlowChart;
+WrappedFlowchart.displayName = "WrappedFlowchart";
+export default WrappedFlowchart;

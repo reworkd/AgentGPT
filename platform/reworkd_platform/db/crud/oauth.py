@@ -41,7 +41,7 @@ class OAuthCrud(BaseCrud):
         query = select(OauthCredentials).filter(
             OauthCredentials.user_id == user_id,
             OauthCredentials.provider == provider,
-            OauthCredentials.access_token.isnot(None),
+            OauthCredentials.access_token_enc.isnot(None),
         )
 
         return (await self.session.execute(query)).scalars().first()
@@ -52,7 +52,7 @@ class OAuthCrud(BaseCrud):
         query = select(OauthCredentials).filter(
             OauthCredentials.organization_id == organization_id,
             OauthCredentials.provider == provider,
-            OauthCredentials.access_token.isnot(None),
+            OauthCredentials.access_token_enc.isnot(None),
             OauthCredentials.organization_id.isnot(None),
         )
 
@@ -61,10 +61,11 @@ class OAuthCrud(BaseCrud):
     async def get_all(self, user: UserBase) -> Dict[str, str]:
         query = (
             select(
-                OauthCredentials.provider, func.any_value(OauthCredentials.access_token)
+                OauthCredentials.provider,
+                func.any_value(OauthCredentials.access_token_enc),
             )
             .filter(
-                OauthCredentials.access_token.isnot(None),
+                OauthCredentials.access_token_enc.isnot(None),
                 OauthCredentials.organization_id == user.organization_id,
             )
             .group_by(OauthCredentials.provider)

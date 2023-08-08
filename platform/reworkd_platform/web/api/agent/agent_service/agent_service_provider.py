@@ -15,7 +15,7 @@ from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
     OpenAIAgentService,
 )
 from reworkd_platform.web.api.agent.dependancies import get_agent_memory
-from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.web.api.agent.model_factory import create_model
 from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.web.api.memory.memory import AgentMemory
 
@@ -23,6 +23,7 @@ from reworkd_platform.web.api.memory.memory import AgentMemory
 def get_agent_service(
     validator: Callable[..., Coroutine[Any, Any, AgentRun]],
     streaming: bool = False,
+    azure: bool = False,  # As of 07/2023, azure does not support functions
 ) -> Callable[..., AgentService]:
     def func(
         run: AgentRun = Depends(validator),
@@ -33,7 +34,7 @@ def get_agent_service(
         if settings.ff_mock_mode_enabled:
             return MockAgentService()
 
-        model = create_model(run.model_settings, user, streaming=streaming)
+        model = create_model(run.model_settings, user, streaming=streaming, azure=azure)
         return OpenAIAgentService(
             model,
             run.model_settings,

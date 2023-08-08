@@ -20,14 +20,14 @@ function IfNode(props: NodeProps<WorkflowNode>) {
           position: Position.Bottom,
           type: "source",
           text: "True",
-          className: "!left-[20%] !-bottom-4",
+          className: "!left-[20%] !-bottom-4 text-white text-[0.5rem] px-1",
         },
 
         {
           id: "false",
           position: Position.Bottom,
           text: "False",
-          className: "!left-[80%] !-bottom-4",
+          className: "!left-[80%] !-bottom-4 text-white text-[0.5rem] px-1",
           type: "source",
         },
       ]}

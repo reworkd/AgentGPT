@@ -7,7 +7,7 @@ import { v1 } from "uuid";
 
 import Sidebar from "./Sidebar";
 import { useAgentStore } from "../../stores";
-import { useLayoutStore } from "../../stores/layoutStore";
+import { useConfigStore } from "../../stores/configStore";
 import { useTaskStore } from "../../stores/taskStore";
 import type { Task as TaskType } from "../../types/task";
 import { MESSAGE_TYPE_TASK, TASK_STATUS_STARTED } from "../../types/task";
@@ -23,7 +23,7 @@ const TaskSidebar = () => {
   const addTask = useTaskStore.use.addTask();
   const [t] = useTranslation();
 
-  const { layout, setLayout } = useLayoutStore();
+  const { layout, setLayout } = useConfigStore();
 
   const setShow = (show: boolean) => {
     setLayout({ showRightSidebar: show });

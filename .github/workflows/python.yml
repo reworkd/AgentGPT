@@ -16,14 +16,14 @@ jobs:
       run:
         working-directory: platform
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: |
-          pip install -U pip
-          pip install poetry
-          poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'poetry'
+      - run: poetry install
       - name: Run black check
         run: poetry run black --check .
 
@@ -33,14 +33,14 @@ jobs:
       run:
         working-directory: platform
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: |
-          pip install -U pip
-          pip install poetry
-          poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'poetry'
+      - run: poetry install
       - name: Run mypy check
         run: poetry run mypy .
 
@@ -65,18 +65,17 @@ jobs:
         ports:
           - 3306:3306
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: |
-          pip install -U pip
-          pip install poetry
-          poetry install
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'poetry'
+      - run: poetry install
       - name: Run pytest check
         run: poetry run pytest -vv --cov="reworkd_platform" .
         env:
           REWORKD_PLATFORM_HOST: "0.0.0.0"
           REWORKD_PLATFORM_DB_HOST: localhost
           REWORKD_PLATFORM_KAFKA_BOOTSTRAP_SERVERS: '["localhost:9092"]'
-

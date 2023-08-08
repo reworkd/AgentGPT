@@ -19,7 +19,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum", "file", "oauth"]),
+  type: z.enum(["string", "array", "enum", "file", "oauth", "button"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -34,9 +34,16 @@ export const NodeBlockDefinitionSchema = z.object({
   input_fields: z.array(IOFieldSchema),
   output_fields: z.array(IOFieldSchema),
   icon: z.custom<IconType>(),
+  color: z.string().optional(),
 });
 
 export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
+
+const colorTypes = {
+  trigger: "bg-purple-500",
+  output: "bg-green-500",
+  agent: "bg-blue-500",
+};
 
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
   name: "URL Status Check",
@@ -71,6 +78,7 @@ const SlackWebhookBlockDefinition: NodeBlockDefinition = {
   description: "Sends a message to a slack webhook",
   image_url: "/tools/web.png",
   icon: FaSlack,
+  color: colorTypes.output,
   input_fields: [
     {
       name: "url",
@@ -98,6 +106,7 @@ const CompanyContextAgentBlockDefinition: NodeBlockDefinition = {
   description: "Retrieve market, industry, and product summary of a specific company",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "company_name",
@@ -120,6 +129,7 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
   description: "OpenAI agent",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "prompt",
@@ -139,13 +149,20 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
 const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
   type: "SummaryAgent",
-  description: "Summarize or extract key details from text using OpenAI",
+  description:
+    "Summarize and extract key market insights for specific companies and industries from documents",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
+      name: "chat",
+      description: "chat with your PDF",
+      type: "button",
+    },
+    {
       name: "company_context",
-      description: "reference a company's context so we can retrieve relevant info from docs",
+      description: "short description on company, market, and their core products",
       type: "string",
     },
   ],
@@ -175,6 +192,28 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "result",
       description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
+const UploadDocBlockDefinition: NodeBlockDefinition = {
+  name: "Upload Doc",
+  type: "UploadDoc",
+  description: "Securely upload a .docx to Amazon S3",
+  image_url: "/tools/web.png",
+  icon: FaBook,
+  input_fields: [
+    {
+      name: "text",
+      description: "The text to upload",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "file_url",
+      description: "The URL to access the doc",
       type: "string",
     },
   ],
@@ -244,6 +283,7 @@ const APITriggerBlockDefinition: NodeBlockDefinition = {
   type: "APITriggerBlock",
   description: "Trigger a workflow through an API call.",
   icon: FaBolt,
+  color: colorTypes.trigger,
   image_url: "/tools/web.png",
   input_fields: [],
   output_fields: [
@@ -260,6 +300,7 @@ const ManualTriggerBlockDefinition: NodeBlockDefinition = {
   type: "ManualTriggerBlock",
   description: "Trigger a block manually",
   icon: FaPlay,
+  color: colorTypes.trigger,
   image_url: "/tools/web.png",
   input_fields: [],
   output_fields: [],
@@ -271,6 +312,7 @@ const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
   description: "Dynamically interact with a website",
   image_url: "/tools/web.png",
   icon: FaRobot,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "url",
@@ -308,22 +350,33 @@ const ContentRefresherAgent: NodeBlockDefinition = {
   description: "Refresh the content on an existing page",
   image_url: "/tools/web.png",
   icon: FaRobot,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "url",
       description: "The page whose content the agent will refresh",
       type: "string",
     },
+    {
+      name: "competitors",
+      description: "Competitors you don't want to pull content from",
+      type: "string",
+    },
   ],
   output_fields: [
     {
-      name: "original_content",
+      name: "original_report",
       description: "The original content of the page",
       type: "string",
     },
     {
-      name: "refreshed_content",
+      name: "refreshed_report",
       description: "The refreshed content for the page",
+      type: "string",
+    },
+    {
+      name: "refreshed_bullet_points",
+      description: "The refreshed bullet points for the page",
       type: "string",
     },
   ],
@@ -331,19 +384,20 @@ const ContentRefresherAgent: NodeBlockDefinition = {
 
 export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
   return [
-    APITriggerBlockDefinition,
-    UrlStatusCheckBlockDefinition,
-    DiffDocBlockDefinition,
-    SlackWebhookBlockDefinition,
-    IfBlockDefinition,
-    WebInteractionAgentBlockDefinition,
     ManualTriggerBlockDefinition,
-    SummaryAgentBlockDefinition,
-    CompanyContextAgentBlockDefinition,
+    APITriggerBlockDefinition,
+    SlackWebhookBlockDefinition,
+    DiffDocBlockDefinition,
+    UploadDocBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
-    GenericLLMAgentBlockDefinition,
+    IfBlockDefinition,
+    UrlStatusCheckBlockDefinition,
+    WebInteractionAgentBlockDefinition,
     ContentRefresherAgent,
+    GenericLLMAgentBlockDefinition,
+    SummaryAgentBlockDefinition,
+    CompanyContextAgentBlockDefinition,
   ];
 };
 

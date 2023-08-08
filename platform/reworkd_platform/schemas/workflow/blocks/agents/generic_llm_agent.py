@@ -34,7 +34,7 @@ class GenericLLMAgent(Block):
 async def execute_prompt(prompt: str) -> str:
     openai.api_key = settings.openai_api_key
 
-    response = openai.ChatCompletion.create(
+    response = await openai.ChatCompletion.acreate(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=1,

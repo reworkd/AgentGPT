@@ -1,7 +1,7 @@
 from tiktoken import Encoding, get_encoding
 
 from reworkd_platform.schemas.agent import LLM_MODEL_MAX_TOKENS, LLM_Model
-from reworkd_platform.web.api.agent.model_settings import WrappedChatOpenAI
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
 
 
 class TokenService:

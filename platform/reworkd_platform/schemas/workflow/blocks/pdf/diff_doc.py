@@ -12,6 +12,7 @@ from reworkd_platform.schemas.workflow.base import Block, BlockIOBase
 from reworkd_platform.services.aws.s3 import SimpleStorageService
 from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
+from reworkd_platform.services.url_shortener import UrlShortenerService
 
 
 class DiffDocInput(BlockIOBase):
@@ -46,9 +47,11 @@ class DiffDoc(Block):
             file_url = s3_service.create_presigned_download_url(
                 object_name=f"docs/{workflow_id}/{self.id}.docx",
             )
-            websockets.log(workflow_id, f"Doc successfully uploaded to S3: {file_url}")
-            tiny_url = await get_shortened_url(file_url)
-            websockets.log(workflow_id, f"Download the doc via: {tiny_url}")
+            websockets.log(workflow_id, f"Diff Doc successfully uploaded to S3")
+
+            shortener = UrlShortenerService()
+            tiny_url = await shortener.get_shortened_url(file_url)
+            websockets.log(workflow_id, f"Download the diff doc via: {tiny_url}")
 
             return DiffDocOutput(file_url=tiny_url)
 
@@ -96,19 +99,3 @@ def get_diff_doc(diff_list: List[List[str]], in_memory_file: io.BytesIO) -> io.B
 
     in_memory_file.seek(0)
     return in_memory_file
-
-
-async def get_shortened_url(url: str) -> str:
-    ISGD_URL = "https://is.gd/create.php"
-
-    # Create the full API URL with the URL parameter encoded
-    api_url = ISGD_URL + "?" + urllib.parse.urlencode({"url": url, "format": "simple"})
-
-    async with aiohttp.ClientSession() as session:
-        async with session.get(api_url) as response:
-            if response.status == 200:
-                return await response.text()
-            else:
-                raise ValueError(
-                    f"Failed to shorten the URL. Status: {response.status}"
-                )

@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import React from "react";
+import { useRouter } from "next/router";
 
 import AppHead from "../components/AppHead";
 import FooterLinks from "../components/landing/FooterLinks";
@@ -8,7 +8,7 @@ import NavBar from "../components/NavBar";
 import { getSortedPostsData } from "../lib/posts";
 
 
-export default function BlogPage({ allPostsData }) {
+export default function BlogPage({ allPostsData }) { 
   const router = useRouter();
 
   return (

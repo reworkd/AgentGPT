@@ -88,8 +88,15 @@ class ContentRefresherService:
             self.log(info)
 
         self.log("Updating provided content with new information")
+        logger.info('target_content')
+        logger.info('target_content')
+        logger.info('target_content')
+        logger.info(target_content)
         updated_target_content = await self.add_info(target_content, new_infos)
-        # logger.info(updated_target_content)
+        logger.info('updated_target_content')
+        logger.info('updated_target_content')
+        logger.info('updated_target_content')
+        logger.info(updated_target_content)
         self.log("Content refresh concluded")
 
         return ContentRefresherOutput(
@@ -115,7 +122,7 @@ class ContentRefresherService:
         )
 
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range (e.g. 5-25).",
+            human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range. Strictly, do not include more info than the line numbers (e.g. 'lines 5-25').",
             assistant_prompt="Based on the text provided, here is the line number range of the main content:",
         )
 
@@ -130,17 +137,26 @@ class ContentRefresherService:
 
         pgraphs = pgraphs.split("\n")
         content = []
+
         for line_num in line_nums.split(","):
             if "-" in line_num:
-                start, end = map(int, line_num.split("-"))
-                for i in range(start, end + 1):
-                    text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
-                    content.append(text)
+                start, end = self.extract_initial_line_numbers(line_num)
+                if start and end:
+                    for i in range(start, end + 1):
+                        text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
+                        content.append(text)
             else:
                 text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
                 content.append(text)
 
         return "\n".join(content)
+        
+    def extract_initial_line_numbers(self, line_nums: str):
+        match = re.search(r'(\d+)-(\d+)', line_nums)
+        if match:
+            return int(match.group(1)), int(match.group(2))
+        else:
+            return None, None
 
     async def find_content_kws(self, content: str) -> str:
         # Claude: find search keywords that content focuses on
@@ -192,7 +208,7 @@ class ContentRefresherService:
     async def add_info(self, target: str, info: str) -> str:
         # Claude: rewrite target to include the info
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles. Maintain the format of the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not add citations for any info in the TARGET article. Do not list citations separately at the end of the response",
+            human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles, the format of the article you write should STRICTLY be the same as the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",
             assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
         )
 

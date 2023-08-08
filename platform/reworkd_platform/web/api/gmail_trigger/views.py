@@ -1,11 +1,11 @@
 import base64
-import json
 import os
-import schedule
-import time
 from loguru import logger
 from pydantic import BaseModel
+import json
+import ast
 from fastapi import APIRouter, Body, Depends
+from fastapi import Request as req
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.services.kafka.producers.task_producer import WorkflowTaskProducer
 from reworkd_platform.services.worker.execution_engine import ExecutionEngine
@@ -18,16 +18,11 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google.cloud import pubsub_v1
-import google_auth_oauthlib.flow
 from datetime import datetime, timedelta
 import dateutil.parser as parser
-from pytz import timezone
 
 router = APIRouter()
 
-
-class Message(BaseModel):
-    message: dict
 
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/pubsub']
@@ -57,22 +52,16 @@ def quickstart():
 
     publisher = pubsub_v1.PublisherClient(credentials=creds)
     topic_path = publisher.topic_path('reworkd-emails','email-trigger-pool')
-    topic = publisher.create_topic(request={"name": topic_path})
-    print('Topic created: {}'.format(topic.name))
 
-    # build the Gmail service
     service = build('gmail', 'v1', credentials=creds)
 
-    # get the current date and time
-    now = datetime.now(timezone('UTC'))
+    now = datetime.now()
     now_str = now.strftime('%Y/%m/%d')
-
-    # get the time two days ago
     past = now - timedelta(2)
     past_str = past.strftime('%Y/%m/%d')
 
-    # get the email list within the past two days
-    response = service.users().messages().list(userId='me', q=f'after:{past_str} before:{now_str}').execute()
+    response = service.users().messages().list(userId='me', q=f'after:{past_str}').execute()
+    logger.info(f"number of messages from last two days: {len(response['messages'])}")
 
     if 'messages' in response:
         messages = []
@@ -90,8 +79,6 @@ def quickstart():
 
                 if past_str <= msg_date <= now_str:
                     messages.append(txt)
-
-                    # publish the message to pubsub
                     publisher.publish(topic_path, data=base64.b64encode(str(txt).encode('utf-8')))
 
             except Exception as error:
@@ -104,17 +91,20 @@ def quickstart():
 
 @router.post("/fetch_emails")
 async def fetch_emails(
-    request: Message = Body(...),
-    # producer: WorkflowTaskProducer = Depends(WorkflowTaskProducer.inject),
-    # crud: WorkflowCRUD = Depends(WorkflowCRUD.inject),
-    # creds: OAuthCrud = Depends(OAuthCrud.inject),
+    request: req,
 ) -> str:
-    data = request.dict()
-    
+    raw_data = await request.body()
+    decoded_bytes = base64.b64decode(raw_data)
+    decoded_data = decoded_bytes.decode("utf-8")
+    dict_repr = ast.literal_eval(decoded_data)
+    snippet_value = dict_repr.get("snippet", "Snippet key not found!")
+    logger.info(snippet_value)
 
-    email_data = base64.b64decode(data["message"]["data"])
-    email_data = email_data.decode("utf-8")
-    logger.info(email_data)
+
+    return snippet_value
+
+quickstart()
+
 
     # url = "http://localhost:8000/{workflow_id}/email"
     # url = url.format(workflow_id="245dce41-937b-43d7-96ba-c937ae9d9a90")
@@ -141,69 +131,3 @@ async def fetch_emails(
     # plan.workflow.queue[0].block.input = BlockIOBase(**request.dict())
 
     # await plan.start()
-    return email_data
-
-def auth_user():
-
-# The client_secrets.json is the JSON file you download from the Credentials page in the Google Cloud Console
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-    'client_secrets.json',
-    scopes=['https://www.googleapis.com/auth/gmail.modify'])
-
-    flow.redirect_uri = 'http://localhost:3000'
-
-    authorization_url, state = flow.authorization_url(access_type='offline',include_granted_scopes='true')
-
-    print('Please go to this URL: {}'.format(authorization_url))
-
-def watch_inbox():
-    # Load credentials from the 'token.json' file
-    creds = Credentials.from_authorized_user_file('token.json')
-
-    # Build the Gmail service
-    service = build('gmail', 'v1', credentials=creds)
-
-    # Specify the user and the topic
-    user_id = 'me'  # 'me' is a special value that indicates the authenticated user.
-    topic_name = 'projects/myproject/topics/mytopic'  # Replace with your Project ID and Topic Name
-
-    # Create the watch request
-    request = {
-        'labelIds': ['INBOX'],
-        'topicName': topic_name
-    }
-
-    # Execute the watch request
-    try:
-        watch_response = service.users().watch(userId=user_id, body=request).execute()
-        print('Successfully created watch with ID: {}'.format(watch_response['historyId']))
-    except HttpError as error:
-        print(f'An error occurred: {error}')
-
-
-quickstart()
-
-def job():
-    # Load credentials from the 'token.json' file
-    creds = Credentials.from_authorized_user_file('token.json')
-
-    # Build the service
-    service = build('gmail', 'v1', credentials=creds)
-
-    # Create a request
-    request = {
-      'labelIds': ['INBOX'],
-      'topicName': 'projects/reworkd-project/topics/MyTopic',
-      'labelFilterBehavior': 'INCLUDE'
-    }
-
-    # Call the Gmail API
-    response = service.users().watch(userId='me', body=request).execute()
-
-    print(response)
-
-# schedule.every(1).days.do(job)
-
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)

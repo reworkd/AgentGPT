@@ -133,7 +133,7 @@ class ContentRefresherService:
         for line_num in line_nums.split(","):
             if "-" in line_num:
                 start, end = map(int, line_num.split("-"))
-                for i in range(start, end + 1):
+                for i in range(start, min(end + 1, len(pgraphs) + 1)):
                     text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
                     content.append(text)
             else:

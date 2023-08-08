@@ -1,9 +1,6 @@
 import difflib
 import io
 from typing import Any, List
-import aiohttp
-import urllib
-import urllib.parse
 
 from docx import Document
 from docx.shared import RGBColor

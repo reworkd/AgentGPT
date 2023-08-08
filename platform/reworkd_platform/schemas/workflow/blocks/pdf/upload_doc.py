@@ -1,6 +1,4 @@
 import io
-import urllib
-import urllib.parse
 from typing import Any
 
 import aiohttp

@@ -366,17 +366,17 @@ const ContentRefresherAgent: NodeBlockDefinition = {
   output_fields: [
     {
       name: "original_report",
-      description: "The original content of the page",
+      description: "The original report to be refreshed",
       type: "string",
     },
     {
       name: "refreshed_report",
-      description: "The refreshed content for the page",
+      description: "The refreshed report with new content added",
       type: "string",
     },
     {
       name: "refreshed_bullet_points",
-      description: "The refreshed bullet points for the page",
+      description: "Relevant new information not present in source report",
       type: "string",
     },
   ],

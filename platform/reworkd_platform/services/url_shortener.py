@@ -1,4 +1,3 @@
-from typing import Optional, Any, Dict
 import aiohttp
 import urllib
 import urllib.parse

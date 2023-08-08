@@ -390,17 +390,22 @@ const ContentRefresherAgent: NodeBlockDefinition = {
       name: "competitors",
       description: "Competitors you don't want to pull content from",
       type: "string",
-    }
+    },
   ],
   output_fields: [
     {
-      name: "original_content",
+      name: "original_report",
       description: "The original content of the page",
       type: "string",
     },
     {
-      name: "refreshed_content",
+      name: "refreshed_report",
       description: "The refreshed content for the page",
+      type: "string",
+    },
+    {
+      name: "refreshed_bullet_points",
+      description: "The refreshed bullet points for the page",
       type: "string",
     },
   ],

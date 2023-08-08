@@ -95,6 +95,7 @@ def get_diff_doc(diff_list: List[List[str]], in_memory_file: io.BytesIO) -> io.B
     in_memory_file.seek(0)
     return in_memory_file
 
+
 async def get_shortened_url(url: str) -> str:
     ISGD_URL = "https://is.gd/create.php"
 

@@ -7,7 +7,7 @@ services:
       context: ./next
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3302:3302"
     volumes:
       - ./next/.env:/next/.env
       - ./next/:/next/

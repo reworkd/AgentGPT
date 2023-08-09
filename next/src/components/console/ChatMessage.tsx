@@ -73,7 +73,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
               message.value.toLowerCase().includes("error")) && <FAQ />}
         </>
       )}
-      <SourceCard title={"localhost"} link={"asdadadd"} position={2} />
+      {message.value.includes("Search") && (
+        <SourceCard title={"localhost"} link={"asdadadd"} position={2} />
+      )}
     </div>
   );
 };

@@ -74,7 +74,7 @@ class ContentRefresherService:
         if domain:
             sources = [source for source in sources if domain not in source["url"]]
 
-        self.log(f"Omitting sources from target source's domain: {domain}")
+        self.log(f"Omitting sources from target's domain: {domain}")
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await self.get_page_content(source["url"])
@@ -110,18 +110,33 @@ class ContentRefresherService:
             page = self.scraper.get(url)
 
         html = BeautifulSoup(page.content, "html.parser")
+        elements = []
+        processed_lists = set()
+        for p in html.find_all('p'):
+            elements.append(p)
+            next_sibling = p.find_next_sibling(['ul', 'ol'])
+            if next_sibling and next_sibling not in processed_lists:
+                elements.extend(next_sibling.find_all('li'))
+                processed_lists.add(next_sibling)
 
-        pgraphs = html.find_all("p")
-        pgraphs = "\n".join(
-            [
-                f"{i + 1}. " + re.sub(r"\s+", " ", p.text).strip()
-                for i, p in enumerate(pgraphs)
-            ]
-        )
+        if not elements:
+            return "No <p> or <li> tags found on page"
+
+        formatted_elements = []
+        for i, element in enumerate(elements):
+            text = re.sub(r"\s+", " ", element.text).strip()
+            prefix = f"{i + 1}. "  # Common prefix for numbering
+            # If it's a list item, add a bullet after the number
+            if element.name == 'li':
+                prefix += "• "
+            formatted_elements.append(f"{prefix}{text}")
+
+        pgraphs = '\n'.join(formatted_elements)
+        logger.info(pgraphs)
 
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range. Strictly, do not include more info than the line numbers (e.g. 'lines 5-25').",
-            assistant_prompt="Based on the text provided, here is the line number range of the main content:",
+            human_prompt=f"Below is a numbered list of the text in all the <p> and <li> tags on a web page: {pgraphs} Within this list, some lines may not be relevant to the primary content of the page (e.g. footer text, advertisements, etc.). Please identify the range of line numbers that correspond to the main article's content (i.e. article's paragraphs). Your response should only mention the range of line numbers, for example: 'lines 5-25'.",
+            assistant_prompt="Given the extracted text, the main content's line numbers are:",
         )
 
         line_nums = await self.claude.completion(
@@ -129,6 +144,9 @@ class ContentRefresherService:
             max_tokens_to_sample=500,
             temperature=0,
         )
+        logger.info('line_nums')
+        logger.info('line_nums')
+        logger.info(line_nums)
 
         if len(line_nums) == 0:
             return ""
@@ -139,13 +157,16 @@ class ContentRefresherService:
             if "-" in line_num:
                 start, end = self.extract_initial_line_numbers(line_num)
                 if start and end:
-                    for i in range(start, end + 1):
+                    for i in range(start, min(end + 1, len(pgraphs) + 1)):
                         text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
                         content.append(text)
             elif line_num.isdigit():
                 text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
                 content.append(text)
 
+        logger.info('content')
+        logger.info('content')
+        logger.info( "\n".join(content))
         return "\n".join(content)
 
     async def find_content_kws(self, content: str) -> str:

@@ -47,8 +47,8 @@ class ContentRefresherService:
 
     async def refresh(self, input_: ContentRefresherInput) -> ContentRefresherOutput:
         target_url = input_.url
+
         target_content = await self.get_page_content(target_url)
-        logger.info(target_content)
         self.log("Extracting content from provided URL")
 
         keywords = await self.find_content_kws(target_content)
@@ -88,12 +88,7 @@ class ContentRefresherService:
             self.log(info)
 
         self.log("Updating provided content with new information")
-
         updated_target_content = await self.add_info(target_content, new_infos)
-        logger.info('updated_target_content')
-        logger.info('updated_target_content')
-        logger.info('updated_target_content')
-        logger.info(updated_target_content)
         self.log("Content refresh concluded")
 
         return ContentRefresherOutput(
@@ -105,11 +100,6 @@ class ContentRefresherService:
 
     async def get_page_content(self, url: str) -> str:
         page = requests.get(url)
-        logger.info(url)
-        logger.info('page')
-        logger.info('page')
-        logger.info('page')
-        logger.info(page)
         if page.status_code != 200:
             page = self.scraper.get(url)
 
@@ -122,14 +112,11 @@ class ContentRefresherService:
                 for i, p in enumerate(pgraphs)
             ]
         )
-        logger.info(url)
-        logger.info(pgraphs)
-
+        
         prompt = HumanAssistantPrompt(
             human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range. Strictly, do not include more info than the line numbers (e.g. 'lines 5-25').",
             assistant_prompt="Based on the text provided, here is the line number range of the main content:",
         )
-        
 
         line_nums = await self.claude.completion(
             prompt=prompt,
@@ -147,10 +134,6 @@ class ContentRefresherService:
         for line_num in line_nums.split(","):
             if "-" in line_num:
                 start, end = self.extract_initial_line_numbers(line_num)
-                logger.info('start and end')
-                logger.info('start and end')
-                logger.info(start)
-                logger.info(end)
                 if start and end:
                     for i in range(start, end + 1):
                         text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
@@ -159,11 +142,6 @@ class ContentRefresherService:
                 text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
                 content.append(text)
 
-        logger.info('content')
-        logger.info('content')
-        logger.info('content')
-        logger.info(url)
-        logger.info(content)
         return "\n".join(content)
         
     def extract_initial_line_numbers(self, line_nums: str):

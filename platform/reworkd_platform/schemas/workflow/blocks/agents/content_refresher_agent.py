@@ -70,6 +70,12 @@ class ContentRefresherService:
             competitors = input_.competitors.split(",")
             sources = self.remove_competitors(sources, competitors, self.log)
 
+        domain = self.extract_domain(target_url)
+        if domain:
+            sources = [source for source in sources if domain not in source["url"]]
+
+        self.log(f"Omitting sources from target source's domain: {domain}")
+
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await self.get_page_content(source["url"])
 
@@ -142,15 +148,6 @@ class ContentRefresherService:
 
         return "\n".join(content)
 
-    def extract_initial_line_numbers(
-        self, line_nums: str
-    ) -> Tuple[Optional[int], Optional[int]]:
-        match = re.search(r"(\d+)-(\d+)", line_nums)
-        if match:
-            return int(match.group(1)), int(match.group(2))
-        else:
-            return None, None
-
     async def find_content_kws(self, content: str) -> str:
         # Claude: find search keywords that content focuses on
         prompt = HumanAssistantPrompt(
@@ -211,6 +208,18 @@ class ContentRefresherService:
         )
 
     @staticmethod
+    def extract_domain(url: str) -> Optional[str]:
+        if "." not in url:
+            return None
+
+        pattern = r"^(?:https?://)?([A-Za-z_0-9.-]+).*"
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+        else:
+            return None
+
+    @staticmethod
     def remove_competitors(
         sources: List[Dict[str, str]],
         competitors: List[str],
@@ -230,3 +239,13 @@ class ContentRefresherService:
                 filtered_sources.append(source)
 
         return filtered_sources
+
+    @staticmethod
+    def extract_initial_line_numbers(
+        line_nums: str,
+    ) -> Tuple[Optional[int], Optional[int]]:
+        match = re.search(r"(\d+)-(\d+)", line_nums)
+        if match:
+            return int(match.group(1)), int(match.group(2))
+        else:
+            return None, None

@@ -220,7 +220,9 @@ class ContentRefresherService:
         if "." not in url:
             return None
 
-        domain_extraction_pattern = r"^(?:https?://)?(?:[^/]+\.)?([^/]+\.[A-Za-z_0-9.-]+).*"
+        domain_extraction_pattern = (
+            r"^(?:https?://)?(?:[^/]+\.)?([^/]+\.[A-Za-z_0-9.-]+).*"
+        )
         match = re.search(domain_extraction_pattern, url)
         if match:
             return match.group(1)

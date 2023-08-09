@@ -16,6 +16,7 @@ import {
 } from "../../types/task";
 import Button from "../../ui/button";
 import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
+import SourceCard from "../SourceCard";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -72,6 +73,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
               message.value.toLowerCase().includes("error")) && <FAQ />}
         </>
       )}
+      <SourceCard title={"localhost"} link={"asdadadd"} position={2} />
     </div>
   );
 };

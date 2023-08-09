@@ -41,7 +41,6 @@ import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
 import { toApiModelSettings } from "../utils/interfaces";
 import { languages } from "../utils/languages";
 import { isEmptyOrBlank } from "../utils/whitespace";
-import SourceCard from "../components/SourceCard";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -216,7 +215,6 @@ const Home: NextPage = () => {
                 );
               })}
               <Summarize />
-              <SourceCard title={""} link={"http://localhost:3000/"} position={1}/>
             </ChatWindow>
           </Expand>
 

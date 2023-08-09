@@ -9,7 +9,7 @@ interface SourceCardProps {
 
 const SourceCard = ({ title, link, position }:SourceCardProps) => {
   return (
-    <div className="flex items-center mx-4 p-2 border max-w-fit hover:border-white/40 bg-white/20 border-white/10 rounded-md mt-2 ">
+    <div className="flex items-center mx-2 p-2 border max-w-fit hover:border-white/40 bg-white/20 border-white/10 rounded-md mt-2 ">
       <FaGlobe className="w-6 h-6 text-white mr-2" />
       <div className="flex-grow">
         <p className="font-bold text-white">{title}</p>

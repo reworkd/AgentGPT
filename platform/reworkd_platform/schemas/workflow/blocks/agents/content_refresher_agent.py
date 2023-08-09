@@ -112,11 +112,11 @@ class ContentRefresherService:
         html = BeautifulSoup(page.content, "html.parser")
         elements = []
         processed_lists = set()
-        for p in html.find_all('p'):
+        for p in html.find_all("p"):
             elements.append(p)
-            next_sibling = p.find_next_sibling(['ul', 'ol'])
+            next_sibling = p.find_next_sibling(["ul", "ol"])
             if next_sibling and next_sibling not in processed_lists:
-                elements.extend(next_sibling.find_all('li'))
+                elements.extend(next_sibling.find_all("li"))
                 processed_lists.add(next_sibling)
 
         if not elements:
@@ -127,12 +127,11 @@ class ContentRefresherService:
             text = re.sub(r"\s+", " ", element.text).strip()
             prefix = f"{i + 1}. "  # Common prefix for numbering
             # If it's a list item, add a bullet after the number
-            if element.name == 'li':
+            if element.name == "li":
                 prefix += "• "
             formatted_elements.append(f"{prefix}{text}")
 
-        pgraphs = '\n'.join(formatted_elements)
-        logger.info(pgraphs)
+        pgraphs = "\n".join(formatted_elements)
 
         prompt = HumanAssistantPrompt(
             human_prompt=f"Below is a numbered list of the text in all the <p> and <li> tags on a web page: {pgraphs} Within this list, some lines may not be relevant to the primary content of the page (e.g. footer text, advertisements, etc.). Please identify the range of line numbers that correspond to the main article's content (i.e. article's paragraphs). Your response should only mention the range of line numbers, for example: 'lines 5-25'.",
@@ -144,42 +143,39 @@ class ContentRefresherService:
             max_tokens_to_sample=500,
             temperature=0,
         )
-        logger.info('line_nums')
-        logger.info('line_nums')
-        logger.info(line_nums)
 
         if len(line_nums) == 0:
             return ""
 
-        pgraphs = pgraphs.split("\n")
+        pgraph_elements = pgraphs.split("\n")
         content = []
         for line_num in line_nums.split(","):
             if "-" in line_num:
                 start, end = self.extract_initial_line_numbers(line_num)
                 if start and end:
-                    for i in range(start, min(end + 1, len(pgraphs) + 1)):
-                        text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
+                    for i in range(start, min(end + 1, len(pgraph_elements) + 1)):
+                        text = ".".join(pgraph_elements[i - 1].split(".")[1:]).strip()
                         content.append(text)
             elif line_num.isdigit():
-                text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
+                text = ".".join(pgraph_elements[int(line_num) - 1].split(".")[1:]).strip()
                 content.append(text)
 
-        logger.info('content')
-        logger.info('content')
-        logger.info( "\n".join(content))
         return "\n".join(content)
 
     async def find_content_kws(self, content: str) -> str:
         # Claude: find search keywords that content focuses on
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Comma-separate the keywords so we can use them to query a search engine effectively.",
+            human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Separate each keyword (or phrase) with commas so we can use them to query a search engine effectively. e.g. 'gardasil lawsuits, gardasil side effects, autoimmune, ovarian.'",
             assistant_prompt="Here is a short search query that best matches the content of the article:",
         )
 
-        return await self.claude.completion(
-            prompt=prompt,
-            max_tokens_to_sample=20,
+        response = (
+            await self.claude.completion(
+                prompt=prompt,
+                max_tokens_to_sample=20,
+            )
         )
+        return response.strip().strip(",")
 
     def search_results(self, search_query: str) -> List[Dict[str, str]]:
         source_information = [

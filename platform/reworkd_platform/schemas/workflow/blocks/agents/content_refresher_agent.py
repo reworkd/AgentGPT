@@ -125,8 +125,7 @@ class ContentRefresherService:
         formatted_elements = []
         for i, element in enumerate(elements):
             text = re.sub(r"\s+", " ", element.text).strip()
-            prefix = f"{i + 1}. "  # Common prefix for numbering
-            # If it's a list item, add a bullet after the number
+            prefix = f"{i + 1}. "
             if element.name == "li":
                 prefix += "• "
             formatted_elements.append(f"{prefix}{text}")

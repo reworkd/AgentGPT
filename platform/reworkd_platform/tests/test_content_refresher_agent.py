@@ -41,6 +41,7 @@ async def test_run():
     service = ContentRefresherService(settings, log=lambda msg: print(msg))
     await service.refresh(input_)
 
+
 @pytest.mark.parametrize(
     "url, expected",
     [

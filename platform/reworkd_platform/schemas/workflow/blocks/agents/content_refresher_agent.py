@@ -71,20 +71,19 @@ class ContentRefresherService:
             sources = self.remove_competitors(sources, competitors, self.log)
 
         domain = self.extract_domain(target_url)
-        logger.info('domain')
-        logger.info('domain')
+        logger.info("domain")
+        logger.info("domain")
         logger.info(domain)
         logger.info(sources)
         if domain:
-            sources = [
-                source for source in sources if domain not in source["url"]
-            ]
-        
-        logger.info('sources after domain removed')
+            sources = [source for source in sources if domain not in source["url"]]
+
+        logger.info("sources after domain removed")
         logger.info(sources)
 
-        self.log(f"Extracting domain from target URL: {domain}, omitting sources from this domain")
-
+        self.log(
+            f"Extracting domain from target URL: {domain}, omitting sources from this domain"
+        )
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await self.get_page_content(source["url"])

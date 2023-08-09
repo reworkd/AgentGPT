@@ -198,18 +198,6 @@ class ContentRefresherService:
         )
         return response
 
-    @staticmethod
-    def extract_domain(url: str) -> Optional[str]:
-        if "." not in url:
-            return None
-
-        pattern = r"^(?:https?://)?(?:[^/]+\.)?([^/]+\.[A-Za-z_0-9.-]+).*"
-        match = re.search(pattern, url)
-        if match:
-            return match.group(1)
-        else:
-            return None
-
     def extract_content_from_line_nums(self, pgraphs: str, line_nums: str) -> List[str]:
         pgraph_elements = pgraphs.split("\n")
         content = []
@@ -227,6 +215,18 @@ class ContentRefresherService:
                 content.append(text)
         return content
 
+    @staticmethod
+    def extract_domain(url: str) -> Optional[str]:
+        if "." not in url:
+            return None
+
+        pattern = r"^(?:https?://)?(?:[^/]+\.)?([^/]+\.[A-Za-z_0-9.-]+).*"
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+        else:
+            return None
+        
     @staticmethod
     def remove_competitors(
         sources: List[Dict[str, str]],

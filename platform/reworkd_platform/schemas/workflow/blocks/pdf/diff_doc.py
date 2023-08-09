@@ -78,6 +78,7 @@ def get_diff_doc(diff_list: List[List[str]], in_memory_file: io.BytesIO) -> io.B
 
     for diff in diff_list:
         paragraph = doc.add_paragraph()
+        paragraph.paragraph_format.space_after = 0
 
         for word in diff:
             if word.startswith("  "):

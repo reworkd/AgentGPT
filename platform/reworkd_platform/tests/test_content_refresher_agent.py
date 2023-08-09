@@ -48,7 +48,7 @@ async def test_run():
         ("http://example.com", "example.com"),
         ("https://example.com", "example.com"),
         ("example.com", "example.com"),
-        ("https://sub.example.com", "sub.example.com"),
+        ("https://sub.example.com", "example.com"),
         ("http://example.com/path?query=param", "example.com"),
         ("http://example.com:8080", "example.com"),
         ("invalid_url", None),

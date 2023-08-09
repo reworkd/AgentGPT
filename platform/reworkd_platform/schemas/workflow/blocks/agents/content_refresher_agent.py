@@ -74,7 +74,7 @@ class ContentRefresherService:
         if domain:
             sources = [source for source in sources if domain not in source["url"]]
 
-        self.log(f"Omitting sources from target source's domain: {domain}")
+        self.log(f"Omitting sources from target's domain: {domain}")
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await self.get_page_content(source["url"])
@@ -110,18 +110,11 @@ class ContentRefresherService:
             page = self.scraper.get(url)
 
         html = BeautifulSoup(page.content, "html.parser")
-
-        pgraphs = html.find_all("p")
-        pgraphs = "\n".join(
-            [
-                f"{i + 1}. " + re.sub(r"\s+", " ", p.text).strip()
-                for i, p in enumerate(pgraphs)
-            ]
-        )
+        pgraphs = self.get_article_from_html(html)
 
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range. Strictly, do not include more info than the line numbers (e.g. 'lines 5-25').",
-            assistant_prompt="Based on the text provided, here is the line number range of the main content:",
+            human_prompt=f"Below is a numbered list of the text in all the <p> and <li> tags on a web page: {pgraphs} Within this list, some lines may not be relevant to the primary content of the page (e.g. footer text, advertisements, etc.). Please identify the range of line numbers that correspond to the main article's content (i.e. article's paragraphs). Your response should only mention the range of line numbers, for example: 'lines 5-25'.",
+            assistant_prompt="Given the extracted text, the main content's line numbers are:",
         )
 
         line_nums = await self.claude.completion(
@@ -133,32 +126,21 @@ class ContentRefresherService:
         if len(line_nums) == 0:
             return ""
 
-        pgraphs = pgraphs.split("\n")
-        content = []
-        for line_num in line_nums.split(","):
-            if "-" in line_num:
-                start, end = self.extract_initial_line_numbers(line_num)
-                if start and end:
-                    for i in range(start, end + 1):
-                        text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
-                        content.append(text)
-            elif line_num.isdigit():
-                text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
-                content.append(text)
-
+        content = self.extract_content_from_line_nums(pgraphs, line_nums)
         return "\n".join(content)
 
     async def find_content_kws(self, content: str) -> str:
         # Claude: find search keywords that content focuses on
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Comma-separate the keywords so we can use them to query a search engine effectively.",
+            human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Separate each keyword (or phrase) with commas so we can use them to query a search engine effectively. e.g. 'gardasil lawsuits, gardasil side effects, autoimmune, ovarian.'",
             assistant_prompt="Here is a short search query that best matches the content of the article:",
         )
 
-        return await self.claude.completion(
+        response = await self.claude.completion(
             prompt=prompt,
             max_tokens_to_sample=20,
         )
+        return response.strip().strip(",")
 
     def search_results(self, search_query: str) -> List[Dict[str, str]]:
         source_information = [
@@ -198,7 +180,7 @@ class ContentRefresherService:
     async def add_info(self, target: str, info: str) -> str:
         # Claude: rewrite target to include the info
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles, the format of the article you write should STRICTLY be the same as the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",
+            human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to add unique, new information from the SOURCE articles. The format of the article you write should STRICTLY be the same as the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",
             assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
         )
 
@@ -206,6 +188,23 @@ class ContentRefresherService:
             prompt=prompt,
             max_tokens_to_sample=5000,
         )
+
+    def extract_content_from_line_nums(self, pgraphs: str, line_nums: str) -> List[str]:
+        pgraph_elements = pgraphs.split("\n")
+        content = []
+        for line_num in line_nums.split(","):
+            if "-" in line_num:
+                start, end = self.extract_initial_line_numbers(line_num)
+                if start and end:
+                    for i in range(start, min(end + 1, len(pgraph_elements) + 1)):
+                        text = ".".join(pgraph_elements[i - 1].split(".")[1:]).strip()
+                        content.append(text)
+            elif line_num.isdigit():
+                text = ".".join(
+                    pgraph_elements[int(line_num) - 1].split(".")[1:]
+                ).strip()
+                content.append(text)
+        return content
 
     @staticmethod
     def extract_domain(url: str) -> Optional[str]:
@@ -249,3 +248,27 @@ class ContentRefresherService:
             return int(match.group(1)), int(match.group(2))
         else:
             return None, None
+
+    @staticmethod
+    def get_article_from_html(html: BeautifulSoup) -> str:
+        elements = []
+        processed_lists = set()
+        for p in html.find_all("p"):
+            elements.append(p)
+            next_sibling = p.find_next_sibling(["ul", "ol"])
+            if next_sibling and next_sibling not in processed_lists:
+                elements.extend(next_sibling.find_all("li"))
+                processed_lists.add(next_sibling)
+
+        if not elements:
+            return "No <p> or <li> tags found on page"
+
+        formatted_elements = []
+        for i, element in enumerate(elements):
+            text = re.sub(r"\s+", " ", element.text).strip()
+            prefix = f"{i + 1}. "
+            if element.name == "li":
+                prefix += "• "
+            formatted_elements.append(f"{prefix}{text}")
+
+        return "\n".join(formatted_elements)

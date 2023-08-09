@@ -41,6 +41,25 @@ async def test_run():
     service = ContentRefresherService(settings, log=lambda msg: print(msg))
     await service.refresh(input_)
 
+@pytest.mark.parametrize(
+    "url, expected",
+    [
+        ("http://example.com", "example.com"),
+        ("https://example.com", "example.com"),
+        ("example.com", "example.com"),
+        ("https://sub.example.com", "sub.example.com"),
+        ("http://example.com/path?query=param", "example.com"),
+        ("http://example.com:8080", "example.com"),
+        ("invalid_url", None),
+        ("", None),
+        ("http://exa_mple-123.com", "exa_mple-123.com"),
+        ("https://", None),
+    ],
+)
+def test_extract_domain(url, expected):
+    service = ContentRefresherService(settings=Settings(), log=lambda msg: print(msg))
+    assert service.extract_domain(url) == expected
+
 
 @pytest.mark.parametrize(
     "sources, competitors, expected",

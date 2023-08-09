@@ -219,6 +219,9 @@ class ContentRefresherService:
 
     @staticmethod
     def extract_domain(url: str) -> Optional[str]:
+        if "." not in url:
+            return None
+
         pattern = r"^(?:https?://)?([A-Za-z_0-9.-]+).*"
         match = re.search(pattern, url)
         if match:

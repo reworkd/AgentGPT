@@ -72,13 +72,9 @@ class ContentRefresherService:
 
         domain = self.extract_domain(target_url)
         if domain:
-            sources = [
-                source for source in sources if domain not in source["url"]
-            ]
-        
+            sources = [source for source in sources if domain not in source["url"]]
 
         self.log(f"Omitting sources from target source's domain: {domain}")
-
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources
             source["content"] = await self.get_page_content(source["url"])

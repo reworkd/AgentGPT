@@ -157,7 +157,9 @@ class ContentRefresherService:
                         text = ".".join(pgraph_elements[i - 1].split(".")[1:]).strip()
                         content.append(text)
             elif line_num.isdigit():
-                text = ".".join(pgraph_elements[int(line_num) - 1].split(".")[1:]).strip()
+                text = ".".join(
+                    pgraph_elements[int(line_num) - 1].split(".")[1:]
+                ).strip()
                 content.append(text)
 
         return "\n".join(content)
@@ -169,11 +171,9 @@ class ContentRefresherService:
             assistant_prompt="Here is a short search query that best matches the content of the article:",
         )
 
-        response = (
-            await self.claude.completion(
-                prompt=prompt,
-                max_tokens_to_sample=20,
-            )
+        response = await self.claude.completion(
+            prompt=prompt,
+            max_tokens_to_sample=20,
         )
         return response.strip().strip(",")
 

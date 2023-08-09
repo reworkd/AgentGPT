@@ -114,7 +114,7 @@ class ContentRefresherService:
             page = self.scraper.get(url)
 
         html = BeautifulSoup(page.content, "html.parser")
-        logger.info(url)
+        
         pgraphs = html.find_all("p")
         pgraphs = "\n".join(
             [
@@ -122,23 +122,21 @@ class ContentRefresherService:
                 for i, p in enumerate(pgraphs)
             ]
         )
-        print(pgraphs)
+        logger.info(url)
+        logger.info(pgraphs)
+
         prompt = HumanAssistantPrompt(
             human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range. Strictly, do not include more info than the line numbers (e.g. 'lines 5-25').",
             assistant_prompt="Based on the text provided, here is the line number range of the main content:",
         )
+        
 
         line_nums = await self.claude.completion(
             prompt=prompt,
             max_tokens_to_sample=500,
             temperature=0,
         )
-
-        logger.info('line_nums')
-        logger.info('line_nums')
-        logger.info(url)
         logger.info(line_nums)
-
 
         if len(line_nums) == 0:
             return ""

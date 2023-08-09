@@ -184,10 +184,19 @@ class ContentRefresherService:
             assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
         )
 
-        return await self.claude.completion(
+        response = await self.claude.completion(
             prompt=prompt,
             max_tokens_to_sample=5000,
         )
+
+        response = "\n".join(
+            [
+                paragraph.strip()
+                for paragraph in response.split("\n\n")
+                if paragraph.strip()
+            ]
+        )
+        return response
 
     def extract_content_from_line_nums(self, pgraphs: str, line_nums: str) -> List[str]:
         pgraph_elements = pgraphs.split("\n")
@@ -211,8 +220,10 @@ class ContentRefresherService:
         if "." not in url:
             return None
 
-        pattern = r"^(?:https?://)?([A-Za-z_0-9.-]+).*"
-        match = re.search(pattern, url)
+        domain_extraction_pattern = (
+            r"^(?:https?://)?(?:[^/]+\.)?([^/]+\.[A-Za-z_0-9.-]+).*"
+        )
+        match = re.search(domain_extraction_pattern, url)
         if match:
             return match.group(1)
         else:

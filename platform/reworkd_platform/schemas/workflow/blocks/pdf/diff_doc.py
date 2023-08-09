@@ -94,5 +94,6 @@ def get_diff_doc(diff_list: List[List[str]], in_memory_file: io.BytesIO) -> io.B
                 continue
 
     doc.save(in_memory_file)
+    
     in_memory_file.seek(0)
     return in_memory_file

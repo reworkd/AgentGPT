@@ -77,7 +77,7 @@ class ContentRefresherService:
             ]
         
 
-        self.log(f"Extracting domain from target URL: {domain}, omitting sources from this domain")
+        self.log(f"Omitting sources from target source's domain: {domain}")
 
 
         for source in sources[:3]:  # TODO: remove limit of 3 sources

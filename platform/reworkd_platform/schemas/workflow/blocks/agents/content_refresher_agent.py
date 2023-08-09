@@ -47,8 +47,8 @@ class ContentRefresherService:
 
     async def refresh(self, input_: ContentRefresherInput) -> ContentRefresherOutput:
         target_url = input_.url
-
         target_content = await self.get_page_content(target_url)
+        logger.info(target_content)
         self.log("Extracting content from provided URL")
 
         keywords = await self.find_content_kws(target_content)
@@ -88,10 +88,7 @@ class ContentRefresherService:
             self.log(info)
 
         self.log("Updating provided content with new information")
-        logger.info('target_content')
-        logger.info('target_content')
-        logger.info('target_content')
-        logger.info(target_content)
+
         updated_target_content = await self.add_info(target_content, new_infos)
         logger.info('updated_target_content')
         logger.info('updated_target_content')
@@ -108,11 +105,16 @@ class ContentRefresherService:
 
     async def get_page_content(self, url: str) -> str:
         page = requests.get(url)
+        logger.info(url)
+        logger.info('page')
+        logger.info('page')
+        logger.info('page')
+        logger.info(page)
         if page.status_code != 200:
             page = self.scraper.get(url)
 
         html = BeautifulSoup(page.content, "html.parser")
-
+        logger.info(url)
         pgraphs = html.find_all("p")
         pgraphs = "\n".join(
             [
@@ -120,7 +122,7 @@ class ContentRefresherService:
                 for i, p in enumerate(pgraphs)
             ]
         )
-
+        print(pgraphs)
         prompt = HumanAssistantPrompt(
             human_prompt=f"Below is a numbered list of the text in all the <p> tags on a web page:\n{pgraphs}\nSome of these lines may not be part of the main content of the page (e.g. footer text, ads, etc). Please state the line numbers that *are* part of the main content (i.e. the article's paragraphs) as a single consecutive range. Strictly, do not include more info than the line numbers (e.g. 'lines 5-25').",
             assistant_prompt="Based on the text provided, here is the line number range of the main content:",
@@ -132,6 +134,12 @@ class ContentRefresherService:
             temperature=0,
         )
 
+        logger.info('line_nums')
+        logger.info('line_nums')
+        logger.info(url)
+        logger.info(line_nums)
+
+
         if len(line_nums) == 0:
             return ""
 
@@ -141,14 +149,23 @@ class ContentRefresherService:
         for line_num in line_nums.split(","):
             if "-" in line_num:
                 start, end = self.extract_initial_line_numbers(line_num)
+                logger.info('start and end')
+                logger.info('start and end')
+                logger.info(start)
+                logger.info(end)
                 if start and end:
                     for i in range(start, end + 1):
                         text = ".".join(pgraphs[i - 1].split(".")[1:]).strip()
                         content.append(text)
-            else:
+            elif line_num.isdigit():
                 text = ".".join(pgraphs[int(line_num) - 1].split(".")[1:]).strip()
                 content.append(text)
 
+        logger.info('content')
+        logger.info('content')
+        logger.info('content')
+        logger.info(url)
+        logger.info(content)
         return "\n".join(content)
         
     def extract_initial_line_numbers(self, line_nums: str):
@@ -206,6 +223,11 @@ class ContentRefresherService:
         return new_info
 
     async def add_info(self, target: str, info: str) -> str:
+        logger.info('target_content')
+        logger.info('target_content')
+        logger.info('target_content')
+        logger.info(target)
+
         # Claude: rewrite target to include the info
         prompt = HumanAssistantPrompt(
             human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles, the format of the article you write should STRICTLY be the same as the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",

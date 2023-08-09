@@ -226,7 +226,7 @@ class ContentRefresherService:
             return match.group(1)
         else:
             return None
-        
+
     @staticmethod
     def remove_competitors(
         sources: List[Dict[str, str]],

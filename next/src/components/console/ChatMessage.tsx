@@ -32,6 +32,19 @@ const ChatMessage = ({ message }: { message: Message }) => {
     }
   };
 
+  const renderSourceCard = () => {
+    const linkRegex = /\[.*?\]\((.*?)\)/g;
+  
+    const matches = message.info?.match(linkRegex);
+    if (matches) {
+      return matches.map((match, index) => {
+        const [, link] = match.match(/\[.*?\]\((.*?)\)/) || [];
+        return <SourceCard key={index} link={link} position={index + 1} />;
+      });
+    }
+    return null;
+  };  
+
   return (
     <div
       className={clsx(
@@ -64,6 +77,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
           <div>
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>
+          {renderSourceCard()}
         </>
       ) : (
         <>
@@ -73,9 +87,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
               message.value.toLowerCase().includes("error")) && <FAQ />}
         </>
       )}
-      {message.value.includes("Search") && (
-        <SourceCard title={"localhost"} link={"asdadadd"} position={2} />
-      )}
+      
     </div>
   );
 };

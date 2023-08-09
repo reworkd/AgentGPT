@@ -1,5 +1,5 @@
 import re
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import requests
 from bs4 import BeautifulSoup
@@ -123,14 +123,12 @@ class ContentRefresherService:
             max_tokens_to_sample=500,
             temperature=0,
         )
-        logger.info(line_nums)
 
         if len(line_nums) == 0:
             return ""
 
         pgraphs = pgraphs.split("\n")
         content = []
-
         for line_num in line_nums.split(","):
             if "-" in line_num:
                 start, end = self.extract_initial_line_numbers(line_num)
@@ -143,9 +141,11 @@ class ContentRefresherService:
                 content.append(text)
 
         return "\n".join(content)
-        
-    def extract_initial_line_numbers(self, line_nums: str):
-        match = re.search(r'(\d+)-(\d+)', line_nums)
+
+    def extract_initial_line_numbers(
+        self, line_nums: str
+    ) -> Tuple[Optional[int], Optional[int]]:
+        match = re.search(r"(\d+)-(\d+)", line_nums)
         if match:
             return int(match.group(1)), int(match.group(2))
         else:
@@ -199,11 +199,6 @@ class ContentRefresherService:
         return new_info
 
     async def add_info(self, target: str, info: str) -> str:
-        logger.info('target_content')
-        logger.info('target_content')
-        logger.info('target_content')
-        logger.info(target)
-
         # Claude: rewrite target to include the info
         prompt = HumanAssistantPrompt(
             human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to include the information from the SOURCE articles, the format of the article you write should STRICTLY be the same as the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",

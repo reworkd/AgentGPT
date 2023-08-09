@@ -189,7 +189,13 @@ class ContentRefresherService:
             max_tokens_to_sample=5000,
         )
 
-        response = '\n'.join([paragraph.strip() for paragraph in response.split('\n\n') if paragraph.strip()])
+        response = "\n".join(
+            [
+                paragraph.strip()
+                for paragraph in response.split("\n\n")
+                if paragraph.strip()
+            ]
+        )
         return response
 
     @staticmethod
@@ -203,7 +209,6 @@ class ContentRefresherService:
             return match.group(1)
         else:
             return None
-
 
     def extract_content_from_line_nums(self, pgraphs: str, line_nums: str) -> List[str]:
         pgraph_elements = pgraphs.split("\n")
@@ -221,18 +226,6 @@ class ContentRefresherService:
                 ).strip()
                 content.append(text)
         return content
-
-    @staticmethod
-    def extract_domain(url: str) -> Optional[str]:
-        if "." not in url:
-            return None
-
-        pattern = r"^(?:https?://)?([A-Za-z_0-9.-]+).*"
-        match = re.search(pattern, url)
-        if match:
-            return match.group(1)
-        else:
-            return None
 
     @staticmethod
     def remove_competitors(

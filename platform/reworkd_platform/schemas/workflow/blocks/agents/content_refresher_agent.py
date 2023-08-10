@@ -295,7 +295,7 @@ class ContentRefresherService:
     @staticmethod
     def parse_input_keywords(input_keywords: Optional[str]) -> List[str]:
         if input_keywords:
-            keywords = [keyword.strip() for keyword in input_keywords.split(",")]
+            keywords = [keyword.strip() for keyword in input_keywords.split(",") if keyword.strip()]
         else:
             keywords = []
 

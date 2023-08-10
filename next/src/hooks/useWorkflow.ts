@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import type { Session } from "next-auth";
-import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import type { Edge, Node } from "reactflow";
 import { z } from "zod";
@@ -22,31 +21,67 @@ const SaveEventSchema = z.object({
   user_id: z.string(),
 });
 
-const updateValue = <
-  DATA extends WorkflowEdge | WorkflowNode,
+const updateNodeValue = <
+  DATA extends WorkflowNode,
   KEY extends keyof DATA,
   T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
 >(
-  setState: Dispatch<SetStateAction<T[]>>,
+  setNodes: (nodes: Node<WorkflowNode>[]) => void,
   key: KEY,
   value: DATA[KEY],
   filter: (node?: T["data"]) => boolean = () => true
-) =>
-  setState((prev) =>
-    prev.map((t) => {
-      if (filter(t.data)) {
-        return {
-          ...t,
-          data: {
-            ...t.data,
-            [key]: value,
-          },
-        };
-      }
+) => {
+  // Get the current list of nodes from your store
+  const currentNodes = useWorkflowStore.getState().workflow?.nodes ?? [];
 
-      return t;
-    })
-  );
+  // Compute the updated list directly
+  const updatedNodes = currentNodes.map((t: Node<WorkflowNode>) => {
+    if (filter(t.data)) {
+      return {
+        ...t,
+        data: {
+          ...t.data,
+          [key]: value,
+        },
+      };
+    }
+    return t;
+  });
+
+  // Pass the updated list to setNodes
+  setNodes(updatedNodes);
+};
+
+const updateEdgeValue = <
+  DATA extends WorkflowEdge,
+  KEY extends keyof DATA,
+  T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
+>(
+  setEdges: (edges: Edge<WorkflowEdge>[]) => void,
+  key: KEY,
+  value: DATA[KEY],
+  filter: (edge?: T["data"]) => boolean = () => true
+) => {
+  // Get the current list of nodes from your store
+  const currentEdges = useWorkflowStore.getState().workflow?.edges ?? [];
+
+  // Compute the updated list directly
+  const updatedEdges = currentEdges.map((t: Edge<WorkflowEdge>) => {
+    if (filter(t.data)) {
+      return {
+        ...t,
+        data: {
+          ...t.data,
+          [key]: value,
+        },
+      };
+    }
+    return t;
+  });
+
+  // Pass the updated list to setNodes
+  setEdges(updatedEdges);
+};
 
 export const useWorkflow = (
   workflowId: string | undefined,
@@ -62,7 +97,15 @@ export const useWorkflow = (
     await api.update(workflowId, data);
   });
 
-  const workflowStore = useWorkflowStore();
+  const {
+    nodeRefDictionary,
+    addToNodeRefDictionary,
+    workflow,
+    setInputs,
+    setWorkflow,
+    setNodes,
+    setEdges,
+  } = useWorkflowStore();
 
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
@@ -74,8 +117,9 @@ export const useWorkflow = (
       }
 
       const workflow = await api.get(workflowId);
-      workflowStore.setWorkflow(workflow);
-      console.log(workflow)
+      // @ts-ignore
+      setWorkflow(workflow);
+      console.log(workflow);
       setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
       setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
       return workflow;
@@ -87,16 +131,11 @@ export const useWorkflow = (
     }
   );
 
-  const nodesModel = useState<Node<WorkflowNode>[]>([]);
-  const edgesModel = useState<Edge<WorkflowEdge>[]>([]);
-  const [nodes, setNodes] = nodesModel;
-  const [edges, setEdges] = edgesModel;
-
   useEffect(() => {
-    const selectedNodes = nodes.filter((n) => n.selected);
-    if (selectedNodes.length == 0) setSelectedNode(undefined);
+    const selectedNodes = workflow?.nodes.filter((n) => n.selected);
+    if (selectedNodes && selectedNodes.length == 0) setSelectedNode(undefined);
     else setSelectedNode(selectedNodes[0]);
-  }, [nodes]);
+  }, [workflow?.nodes]);
 
   const members = useSocket(
     workflowId,
@@ -107,13 +146,13 @@ export const useWorkflow = (
         callback: async (data) => {
           const { nodeId, status, remaining } = await StatusEventSchema.parseAsync(data);
 
-          updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
-          updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
+          updateNodeValue(setNodes, "status", status, (n) => n?.id === nodeId);
+          updateEdgeValue(setEdges, "status", status, (e) => e?.target === nodeId);
 
           if (status === "error" || remaining === 0) {
             setTimeout(() => {
-              updateValue(setNodes, "status", undefined);
-              updateValue(setEdges, "status", undefined);
+              updateNodeValue(setNodes, "status", undefined);
+              updateEdgeValue(setEdges, "status", undefined);
             }, 1000);
           }
         },
@@ -152,26 +191,34 @@ export const useWorkflow = (
         block: block,
       },
     };
-    setNodes((nodes) => [...(nodes ?? []), node]);
+
+    const newNodes = [...(useWorkflowStore.getState().workflow?.nodes ?? []), node];
+    setNodes(newNodes);
+
     return node;
   };
 
   const updateNode: updateNodeType = (nodeToUpdate: Node<WorkflowNode>) => {
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === nodeToUpdate.id) {
-          node.data = {
+    const updatedNodes = (useWorkflowStore.getState().workflow?.nodes ?? []).map((node) => {
+      if (node.id === nodeToUpdate.id) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
             ...nodeToUpdate.data,
-          };
-        }
+          },
+        };
+      }
+      return node;
+    });
 
-        return node;
-      })
-    );
+    setNodes(updatedNodes);
   };
 
   const onSave = async () => {
     if (!workflowId) return;
+
+    const nodes = useWorkflowStore.getState().workflow?.nodes ?? [];
 
     await updateWorkflow({
       id: workflowId,
@@ -198,8 +245,6 @@ export const useWorkflow = (
 
   return {
     selectedNode,
-    nodesModel,
-    edgesModel,
     saveWorkflow: onSave,
     executeWorkflow: onExecute,
     createNode,

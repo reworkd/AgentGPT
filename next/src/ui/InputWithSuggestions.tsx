@@ -1,11 +1,11 @@
 import { Menu as MenuPrimitive } from "@headlessui/react";
 import React from "react";
+import type { Node } from "reactflow";
 
 import Input from "./input";
 import { MenuItems } from "../components/Menu";
 import WindowButton from "../components/WindowButton";
-import {useWorkflowStore} from "../../src/stores/workflowStore"
-import type { Node } from "reactflow";
+import { useWorkflowStore } from "../stores/workflowStore";
 import type { WorkflowNode } from "../types/workflow";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -21,22 +21,35 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   currentNode: Node<WorkflowNode> | undefined;
 }
 
+interface Field {
+  value?: string;
+  key?: string;
+}
+
 const InputWithSuggestions = (props: Props) => {
   const [focused, setFocused] = React.useState(false);
-  const { workflow,setInputs } = useWorkflowStore();
-  const handleClick = (field,label) => () => {
+  const { nodeRefDictionary, addToNodeRefDictionary, workflow, setInputs } = useWorkflowStore();
+  const handleClick = (field: Field, label: string) => () => {
     const eventMock = {
       target: {
-        value: `${field.value}`,
+        value: `${field.value as string}`,
       },
     };
 
-    // @ts-ignore
-    setInputs(workflow, props.currentNode, {field: label, value:`${field.key}`})
-    // @ts-ignore
-    props.onChange && props.onChange(eventMock);
+    if (workflow && props.currentNode) {
+      // @ts-ignore
+      setInputs(workflow, props.currentNode, {
+        field: label,
+        value: `${field.value as string}`,
+      });
+      addToNodeRefDictionary(`${field.value as string}`, `${field.key as string}`);
+    }
+    console.log("workflow with updated inputs");
+    console.log(workflow);
+    console.log("nodeRefDictionary");
+    console.log(nodeRefDictionary);
+    props.onChange && props.onChange(eventMock as React.ChangeEvent<HTMLInputElement>);
   };
-  
 
   return (
     <>
@@ -61,7 +74,7 @@ const InputWithSuggestions = (props: Props) => {
                   key={`${props.name}-${field.key}`}
                   icon={<></>}
                   text={field.value}
-                  onClick={handleClick(field,props.label)}
+                  onClick={handleClick(field, props.label)}
                 />
               ))}
             />

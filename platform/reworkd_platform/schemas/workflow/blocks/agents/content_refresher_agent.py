@@ -52,10 +52,12 @@ class ContentRefresherService:
         target_content = await self.get_page_content(target_url)
         self.log("Extracting content from provided URL")
 
-        input_keywords = self.parse_input_keywords(input_.keywords)
-        content_keywords = await self.find_content_kws(target_content, input_keywords)
-        keywords = input_keywords + content_keywords
-        self.log("Finding keywords from source content")
+        keywords = self.parse_input_keywords(input_.keywords)
+
+        if len(keywords) < 3:
+            additional_keywords = await self.find_content_kws(target_content, keywords)
+            keywords.extend(additional_keywords)
+        self.log("Finding keywords from source content") 
         self.log("Keywords: " + ", ".join(keywords))
 
         sources = self.search_results(", ".join(keywords))

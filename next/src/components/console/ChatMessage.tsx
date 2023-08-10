@@ -34,17 +34,28 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
   const renderSourceCardsGrid = () => {
     const linkRegex = /\[.*?\]\((.*?)\)/g;
-  
     const matches = message.info?.match(linkRegex);
+
     if (matches) {
-      const sourceCards = matches.map((match, index) => {
+      const uniqueLinks = new Set<string>();
+      const sourceCards: JSX.Element[] = [];
+      let position = 1; // Initialize position counter
+
+      for (const match of matches) {
         const [, link] = match.match(/\[.*?\]\((.*?)\)/) || [];
-        return <SourceCard key={index} link={link} position={index + 1} />;
-      });
-      return <div className="grid grid-cols-4 gap-2">{sourceCards}</div>; // Adjust columns and gap as needed
+
+        if (!uniqueLinks.has(link)) {
+          uniqueLinks.add(link);
+          sourceCards.push(<SourceCard key={link} link={link} position={position} />);
+          position++; // Increment position for each unique link
+        }
+      }
+
+      return <div className="grid grid-cols-4 gap-2">{sourceCards}</div>;
     }
+
     return null;
-  };  
+  };
 
   return (
     <div

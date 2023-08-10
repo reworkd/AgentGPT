@@ -364,7 +364,7 @@ const ContentRefresherAgent: NodeBlockDefinition = {
     },
     {
       name: "keywords",
-      description: "List of comma-separated keywords you'd like to pull content from",
+      description: "List of comma-separated keywords you'd like to pull content from. If you enter less than 3, we'll generate some keywords for you.",
       type: "string",
     },
   ],

@@ -359,24 +359,29 @@ const ContentRefresherAgent: NodeBlockDefinition = {
     },
     {
       name: "competitors",
-      description: "Competitors you don't want to pull content from",
+      description: "List of comma-separated competitors you don't want to pull content from",
+      type: "string",
+    },
+    {
+      name: "keywords",
+      description: "List of comma-separated keywords you'd like to pull content from. If you enter less than 3, we'll generate keywords for you.",
       type: "string",
     },
   ],
   output_fields: [
     {
       name: "original_report",
-      description: "The original content of the page",
+      description: "The original report to be refreshed",
       type: "string",
     },
     {
       name: "refreshed_report",
-      description: "The refreshed content for the page",
+      description: "The refreshed report with new content added",
       type: "string",
     },
     {
       name: "refreshed_bullet_points",
-      description: "The refreshed bullet points for the page",
+      description: "Relevant new information not present in source report",
       type: "string",
     },
   ],

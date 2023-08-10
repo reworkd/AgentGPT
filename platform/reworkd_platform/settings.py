@@ -55,6 +55,7 @@ class Settings(BaseSettings):
     openai_api_base: str = "https://api.openai.com/v1"
     openai_api_key: str = "<Should be updated via env>"
     secondary_openai_api_key: Optional[str] = None
+    helicone_api_key: Optional[str] = None
 
     # Azure OpenAI
     azure_openai_api_version: str = "2023-06-01-preview"
@@ -168,6 +169,15 @@ class Settings(BaseSettings):
                 self.azure_openai_deployment_name,
                 self.azure_openai_api_version,
                 self.azure_openai_api_key,
+            ]
+        )
+
+    @property
+    def helicone_enabled(self) -> bool:
+        return all(
+            [
+                self.helicone_api_key,
+                self.openai_api_base == "https://oai.hconeai.com/v1",
             ]
         )
 

@@ -48,6 +48,7 @@ def create_model(
     )
 
     return WrappedChatOpenAI(
+        openai_api_base=settings.openai_api_base,
         openai_api_key=api_key,
         temperature=model_settings.temperature,
         model=model_settings.model,
@@ -55,6 +56,11 @@ def create_model(
         streaming=streaming,
         max_retries=5,
         model_kwargs={"user": user.email},
+        headers={
+            "Helicone-Auth": f"Bearer {settings.helicone_api_key}",
+            "Helicone-Cache-Enabled": "true",
+            "Helicone-User-Id": user.id,
+        },
     )
 
 

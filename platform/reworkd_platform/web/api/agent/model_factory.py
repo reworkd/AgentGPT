@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict, Tuple, Optional
 
 import openai
 from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
@@ -6,7 +6,7 @@ from pydantic import Field
 
 from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
 from reworkd_platform.schemas.user import UserBase
-from reworkd_platform.settings import settings
+from reworkd_platform.settings import settings, Settings
 from reworkd_platform.web.api.agent.api_utils import rotate_keys
 
 openai.api_base = settings.openai_api_base
@@ -19,6 +19,7 @@ class WrappedChatOpenAI(ChatOpenAI):
     )
     max_tokens: int
     model_name: LLM_Model = Field(alias="model")
+    headers: Optional[Dict[str, str]] = Field(default=None)
 
 
 class WrappedAzureChatOpenAI(WrappedChatOpenAI, AzureChatOpenAI):
@@ -47,8 +48,10 @@ def create_model(
         model=model_settings.model,
     )
 
+    base, headers = get_base_and_headers(settings, model_settings, user)
+
     return WrappedChatOpenAI(
-        openai_api_base=settings.openai_api_base,
+        openai_api_base=base,
         openai_api_key=api_key,
         temperature=model_settings.temperature,
         model=model_settings.model,
@@ -56,11 +59,7 @@ def create_model(
         streaming=streaming,
         max_retries=5,
         model_kwargs={"user": user.email},
-        headers={
-            "Helicone-Auth": f"Bearer {settings.helicone_api_key}",
-            "Helicone-Cache-Enabled": "true",
-            "Helicone-User-Id": user.id,
-        },
+        headers=headers,
     )
 
 
@@ -76,3 +75,20 @@ def _create_azure_model(
         max_retries=5,
         model_kwargs={"user": user.email},
     )
+
+
+def get_base_and_headers(
+    settings_: Settings, model_settings: ModelSettings, user: UserBase
+) -> Tuple[str, Optional[Dict[str, str]]]:
+    use_helicone = settings_.helicone_enabled and not model_settings.custom_api_key
+    base = settings_.helicone_api_base if use_helicone else settings_.openai_api_base
+    headers = (
+        {
+            "Helicone-Auth": f"Bearer {settings_.helicone_api_key}",
+            "Helicone-Cache-Enabled": "true",
+            "Helicone-User-Id": user.id,
+        }
+        if use_helicone
+        else None
+    )
+    return base, headers

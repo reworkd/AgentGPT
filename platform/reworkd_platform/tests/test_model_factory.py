@@ -18,6 +18,7 @@ def test_helicone_enabled_without_custom_api_key():
         "Helicone-Auth": "Bearer some_key",
         "Helicone-Cache-Enabled": "true",
         "Helicone-User-Id": "user_id",
+        "Helicone-Cache-Bucket-Max-Size": "3",
     }
 
 

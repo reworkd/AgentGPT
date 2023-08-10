@@ -43,6 +43,26 @@ async def test_run():
 
 
 @pytest.mark.parametrize(
+    "url, expected",
+    [
+        ("http://example.com", "example.com"),
+        ("https://example.com", "example.com"),
+        ("example.com", "example.com"),
+        ("https://sub.example.com", "example.com"),
+        ("http://example.com/path?query=param", "example.com"),
+        ("http://example.com:8080", "example.com"),
+        ("invalid_url", None),
+        ("", None),
+        ("http://exa_mple-123.com", "exa_mple-123.com"),
+        ("https://", None),
+    ],
+)
+def test_extract_domain(url, expected):
+    service = ContentRefresherService(settings=Settings(), log=lambda msg: print(msg))
+    assert service.extract_domain(url) == expected
+
+
+@pytest.mark.parametrize(
     "sources, competitors, expected",
     [
         (
@@ -99,6 +119,36 @@ async def test_run():
             ["competitor1", "competitor2", "competitor3"],
             [],
         ),
+        (
+            [
+                {"url": "https://www.ourcompany.com/news", "title": "Our company news"},
+                {"url": "https://asbestos.com/news", "title": "Asbestos news"},
+                {
+                    "url": "https://competitor-xyz.org/info",
+                    "title": "Competitor XYZ info",
+                },
+                {
+                    "url": "https://news.somecompetitor.net",
+                    "title": "Some Competitor news",
+                },
+                {
+                    "url": "ftp://legacycompetitor.com/archive",
+                    "title": "Legacy Competitor archive",
+                },
+                {
+                    "url": "https://subdomain.ourcompany.com/news",
+                    "title": "Subdomain Our company news",
+                },
+            ],
+            ["asbestos", "competitor-xyz", "somecompetitor", "legacycompetitor"],
+            [
+                {"url": "https://www.ourcompany.com/news", "title": "Our company news"},
+                {
+                    "url": "https://subdomain.ourcompany.com/news",
+                    "title": "Subdomain Our company news",
+                },
+            ],
+        ),
     ],
 )
 def test_remove_competitors(sources, competitors, expected):
@@ -106,3 +156,20 @@ def test_remove_competitors(sources, competitors, expected):
 
     filtered_sources = service.remove_competitors(sources, competitors, service.log)
     assert filtered_sources == expected
+
+
+@pytest.mark.parametrize(
+    "input_keywords, expected",
+    [
+        ("apple, orange, banana", ["apple", "orange", "banana"]),
+        (" apple,orange , banana ", ["apple", "orange", "banana"]),
+        ("", []),
+        (None, []),
+        ("apple", ["apple"]),
+        ("apple, ", ["apple"]),
+    ],
+)
+def test_parse_input_keywords(input_keywords, expected):
+    service = ContentRefresherService(settings=Settings(), log=lambda msg: print(msg))
+    result = service.parse_input_keywords(input_keywords)
+    assert result == expected

@@ -19,7 +19,6 @@ class WrappedChatOpenAI(ChatOpenAI):
     )
     max_tokens: int
     model_name: LLM_Model = Field(alias="model")
-    headers: Optional[Dict[str, str]] = Field(default=None)
 
 
 class WrappedAzureChatOpenAI(WrappedChatOpenAI, AzureChatOpenAI):
@@ -58,8 +57,7 @@ def create_model(
         max_tokens=model_settings.max_tokens,
         streaming=streaming,
         max_retries=5,
-        model_kwargs={"user": user.email},
-        headers=headers,
+        model_kwargs={"user": user.email, "headers": headers},
     )
 
 
@@ -92,4 +90,5 @@ def get_base_and_headers(
         if use_helicone
         else None
     )
+
     return base, headers

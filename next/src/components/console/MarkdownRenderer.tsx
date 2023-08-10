@@ -6,7 +6,6 @@ import remarkGfm from "remark-gfm";
 import "highlight.js/styles/default.css";
 import clsx from "clsx";
 import { FiClipboard } from "react-icons/fi";
-
 const MarkdownRenderer = ({ children }) => {
   return (
     <ReactMarkdown

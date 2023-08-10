@@ -39,15 +39,17 @@ class WorkflowCRUD(BaseCrud):
         query = (
             select(WorkflowModel)
             .where(
-                and_(
-                    or_(
+                or_(
+                    and_(
                         WorkflowModel.user_id == self.user.id,
-                        and_(
-                            WorkflowModel.organization_id == self.user.organization_id,
-                            WorkflowModel.organization_id.is_not(None),
-                        ),
+                        WorkflowModel.organization_id.is_(None),
+                        WorkflowModel.delete_date.is_(None),
                     ),
-                    WorkflowModel.delete_date.is_(None),
+                    and_(
+                        WorkflowModel.organization_id == self.user.organization_id,
+                        WorkflowModel.organization_id.is_not(None),
+                        WorkflowModel.delete_date.is_(None),
+                    ),
                 )
             )
             .order_by(WorkflowModel.create_date.desc())

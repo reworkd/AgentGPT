@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Dict
 
 from loguru import logger
@@ -6,7 +7,8 @@ from pusher.errors import PusherBadRequest
 from requests import ReadTimeout
 
 from reworkd_platform.schemas import UserBase
-from reworkd_platform.settings import Settings, settings as app_settings
+from reworkd_platform.settings import Settings
+from reworkd_platform.settings import settings as app_settings
 
 
 class WebsocketService:
@@ -24,6 +26,13 @@ class WebsocketService:
             self._client and self._client.trigger("presence-" + channel, event, data)
         except (PusherBadRequest, ReadTimeout) as e:
             logger.warning(f"Failed to emit event: {data}")
+
+    def log(self, workflow_id: str, msg: Any) -> None:
+        self.emit(
+            workflow_id,
+            "workflow:log",
+            {"date": datetime.now().__str__(), "msg": str(msg)},
+        )
 
     def authenticate(
         self, user: UserBase, channel: str, socket_id: str

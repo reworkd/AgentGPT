@@ -16,7 +16,7 @@
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://docs.reworkd.ai/">📚 Docs</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/contributing">🤝 Contribute</a>
+<a href="https://docs.reworkd.ai/essentials/contributing">🤝 Contribute</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/reworkdai">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -83,7 +83,7 @@ Happy hacking! :tada:
 ## 🎉 Roadmap
 
 This platform is currently in beta, a full list of completed and planed features can be found on
-our [public roadmap](https://docs.reworkd.ai/roadmap).
+our [public roadmap](https://docs.reworkd.ai/essentials/roadmap).
 
 
 ## 🚀 Tech Stack
@@ -94,7 +94,7 @@ our [public roadmap](https://docs.reworkd.ai/roadmap).
 - ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/).
 - ✅ **Database**: [Planetscale](https://planetscale.com/).
 - ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
-- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://sqlmodel.tiangolo.com/).
+- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://docs.pydantic.dev/).
 - ✅ **LLM Tooling**: [Langchain](https://github.com/hwchase17/langchain).
 
 

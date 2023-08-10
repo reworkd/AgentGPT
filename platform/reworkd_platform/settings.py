@@ -56,6 +56,12 @@ class Settings(BaseSettings):
     openai_api_key: str = "<Should be updated via env>"
     secondary_openai_api_key: Optional[str] = None
 
+    # Azure OpenAI
+    azure_openai_api_version: str = "2023-06-01-preview"
+    azure_openai_api_key: str = ""
+    azure_openai_api_base: str = ""
+    azure_openai_deployment_name: str = ""
+
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
     scrapingbee_api_key: Optional[str] = None
@@ -151,6 +157,17 @@ class Settings(BaseSettings):
                 self.kafka_bootstrap_servers,
                 self.kafka_username,
                 self.kafka_password,
+            ]
+        )
+
+    @property
+    def azure_openai_enabled(self) -> bool:
+        return all(
+            [
+                self.azure_openai_api_base,
+                self.azure_openai_deployment_name,
+                self.azure_openai_api_version,
+                self.azure_openai_api_key,
             ]
         )
 

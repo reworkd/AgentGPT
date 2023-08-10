@@ -6,7 +6,7 @@ import { useState } from "react";
 import Button from "./button";
 import Combo from "./combox";
 import OauthApi from "../services/workflow/oauthApi";
-import { useWorkflowStore } from "../stores/workflowStore";
+import { useRouter } from "next/router";
 
 interface Channel {
   id: string;
@@ -18,27 +18,23 @@ const OauthIntegration: FC<{
   onChange: (value: string) => void;
 }> = (props) => {
   const { data: session } = useSession();
-  const workflow = useWorkflowStore.getState().workflow;
   const api = OauthApi.fromSession(session);
+  const router = useRouter();
 
   const defaultValue = props.value ? { id: props.value, name: props.value } : undefined;
   const [selected, setSelected] = useState<Channel | undefined>(defaultValue);
-  const { data, refetch, isError } = useQuery(
-    [undefined],
-    async () => await api.get_info("slack"),
-    {
-      enabled: !!session,
-      retry: false,
-    }
-  );
+  const { data, isError } = useQuery([undefined], async () => await api.get_info("slack"), {
+    enabled: !!session,
+    retry: false,
+  });
 
   return (
     <div>
       {isError && (
         <Button
           onClick={async () => {
-            const url = await api.install("slack");
-            window.open(url, "_blank");
+            const url = await api.install("slack", router.asPath);
+            await router.push(url);
           }}
         >
           Connect Slack

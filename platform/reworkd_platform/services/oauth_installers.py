@@ -1,4 +1,3 @@
-# from slack.web import WebClient
 from abc import ABC, abstractmethod
 
 from fastapi import Depends, Path
@@ -33,6 +32,19 @@ class OAuthInstaller(ABC):
 
 class SlackInstaller(OAuthInstaller):
     PROVIDER = "slack"
+    SCOPES = [
+        "incoming-webhook",
+        "chat:write",
+        "channels:join",
+        "groups:read",
+        "im:read",
+        "mpim:read",
+        "im:write",
+        "groups:write",
+        "mpim:write",
+        "channels:read",
+        "chat:write.public",
+    ]
 
     async def install(self, user: UserBase, redirect_uri: str) -> str:
         installation = await self.crud.create_installation(
@@ -42,7 +54,7 @@ class SlackInstaller(OAuthInstaller):
         return AuthorizeUrlGenerator(
             client_id=self.settings.slack_client_id,
             redirect_uri=self.settings.slack_redirect_uri,
-            scopes=["chat:write"],
+            scopes=self.SCOPES,
         ).generate(
             state=installation.state,
         )

@@ -81,7 +81,7 @@ const FAQ = () => {
     <p>
       <br />
       If you are facing issues, please head over to our{" "}
-      <a href="https://docs.reworkd.ai/faq" className="text-sky-500">
+      <a href="https://docs.reworkd.ai/essentials/FAQ" className="text-sky-500">
         FAQ
       </a>
     </p>

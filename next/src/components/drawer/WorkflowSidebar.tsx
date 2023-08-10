@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import type { Edge, Node } from "reactflow";
 
@@ -11,7 +10,7 @@ import {
   getNodeBlockDefinitionFromNode,
   getNodeBlockDefinitions,
 } from "../../services/workflow/node-block-definitions";
-import { useLayoutStore } from "../../stores/layoutStore";
+import { useConfigStore } from "../../stores/configStore";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
 import { useWorkflowStore } from '../../stores/workflowStore';
@@ -25,7 +24,7 @@ type WorkflowControls = {
 };
 
 const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
-  const { layout, setLayout } = useLayoutStore();
+  const { layout, setLayout } = useConfigStore();
 
   const setShow = (show: boolean) => {
     setLayout({ showRightSidebar: show });
@@ -35,13 +34,13 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
     <SidebarTransition
       show={layout.showRightSidebar}
       side="right"
-      className="rounded-l-lg bg-black p-6"
+      className="mr-3.5 rounded-lg bg-black p-6 shadow-xl shadow-stone-400"
     >
       <div className="text-color-primary flex h-[80vh] w-64 flex-col gap-2  bg-black">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
-            onClick={() => setShow(!layout.showRightSidebar)}
+            onClick={() => setShow(false)}
           >
             <FaBars size="15" className="z-20 mr-2" />
           </button>
@@ -178,7 +177,7 @@ const NodeBlock = ({ definition, createNode }: NodeBlockProps) => {
           input[field.name] = "";
         }
 
-        createNode({ input: input, type: definition.type });
+        createNode({ input: input, type: definition.type }, { x: 0, y: 0 });
       }}
     >
       <div className="flex items-center gap-2">

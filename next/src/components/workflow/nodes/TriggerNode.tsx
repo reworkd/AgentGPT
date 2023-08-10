@@ -1,20 +1,34 @@
+import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { type NodeProps, Position } from "reactflow";
 
 import AbstractNode, { NodeTitle } from "./AbstractNode";
 import { getNodeBlockDefinitions } from "../../../services/workflow/node-block-definitions";
 import WorkflowApi from "../../../services/workflow/workflowApi";
+import { useConfigStore } from "../../../stores/configStore";
 import { useWorkflowStore } from "../../../stores/workflowStore";
 import type { WorkflowNode } from "../../../types/workflow";
-import PrimaryButton from "../../PrimaryButton";
+import Button from "../../../ui/button";
 
 function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const { data: session } = useSession();
   const workflow = useWorkflowStore().workflow;
-  const api = WorkflowApi.fromSession(session);
+  const { organization: org, setLayout } = useConfigStore();
+  const api = new WorkflowApi(session?.accessToken, org?.id);
+  const [loading, setLoading] = useState(false);
 
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
+
+  const handleButtonClick = async () => {
+    setLoading(true);
+    await api.execute(workflow?.id || "");
+    setLayout({ showLogSidebar: true });
+    setLayout({ showRightSidebar: false });
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Set the duration of the loader in milliseconds (2 seconds in this example)
+  };
 
   return (
     <AbstractNode
@@ -25,12 +39,16 @@ function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
       <div className="flex flex-col">
         <NodeTitle definition={definition} />
         {workflow?.id && (
-          <PrimaryButton
-            onClick={async () => void (await api.execute(workflow?.id))}
-            className="mt-3 bg-orange-500 text-lg font-medium"
+          <Button
+            loader={loading}
+            onClick={handleButtonClick}
+            className={clsx(
+              !loading && "hover:bg-white hover:text-black",
+              "mt-2 rounded-md border border-black bg-black text-lg font-extralight tracking-wide text-white transition-all duration-300"
+            )}
           >
-            <span className="text-xs">Execute</span>
-          </PrimaryButton>
+            <span className="text-xs">Run Workflow</span>
+          </Button>
         )}
       </div>
     </AbstractNode>

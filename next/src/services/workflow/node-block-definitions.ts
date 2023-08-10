@@ -19,7 +19,7 @@ import type { WorkflowNode } from "../../types/workflow";
 const IOFieldSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  type: z.enum(["string", "array", "enum", "file", "oauth"]),
+  type: z.enum(["string", "array", "enum", "file", "oauth", "button"]),
   items: z.object({ type: z.string() }).optional(),
   enum: z.array(z.string()).optional(),
 });
@@ -42,6 +42,7 @@ export type NodeBlockDefinition = z.infer<typeof NodeBlockDefinitionSchema>;
 const colorTypes = {
   trigger: "bg-purple-500",
   output: "bg-green-500",
+  agent: "bg-blue-500",
 };
 
 const UrlStatusCheckBlockDefinition: NodeBlockDefinition = {
@@ -105,6 +106,7 @@ const CompanyContextAgentBlockDefinition: NodeBlockDefinition = {
   description: "Retrieve market, industry, and product summary of a specific company",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "company_name",
@@ -127,6 +129,7 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
   description: "OpenAI agent",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "prompt",
@@ -146,13 +149,20 @@ const GenericLLMAgentBlockDefinition: NodeBlockDefinition = {
 const SummaryAgentBlockDefinition: NodeBlockDefinition = {
   name: "Summary Agent",
   type: "SummaryAgent",
-  description: "Summarize or extract key details from text using OpenAI",
+  description:
+    "Summarize and extract key market insights for specific companies and industries from documents",
   image_url: "/tools/web.png",
   icon: FaCopy,
+  color: colorTypes.agent,
   input_fields: [
     {
+      name: "chat",
+      description: "chat with your PDF",
+      type: "button",
+    },
+    {
       name: "company_context",
-      description: "reference a company's context so we can retrieve relevant info from docs",
+      description: "short description on company, market, and their core products",
       type: "string",
     },
   ],
@@ -182,6 +192,28 @@ const TextInputWebhookBlockDefinition: NodeBlockDefinition = {
     {
       name: "result",
       description: "The result was built.",
+      type: "string",
+    },
+  ],
+};
+
+const UploadDocBlockDefinition: NodeBlockDefinition = {
+  name: "Upload Doc",
+  type: "UploadDoc",
+  description: "Securely upload a .docx to Amazon S3",
+  image_url: "/tools/web.png",
+  icon: FaBook,
+  input_fields: [
+    {
+      name: "text",
+      description: "The text to upload",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "file_url",
+      description: "The URL to access the doc",
       type: "string",
     },
   ],
@@ -280,6 +312,7 @@ const WebInteractionAgentBlockDefinition: NodeBlockDefinition = {
   description: "Dynamically interact with a website",
   image_url: "/tools/web.png",
   icon: FaRobot,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "url",
@@ -317,22 +350,38 @@ const ContentRefresherAgent: NodeBlockDefinition = {
   description: "Refresh the content on an existing page",
   image_url: "/tools/web.png",
   icon: FaRobot,
+  color: colorTypes.agent,
   input_fields: [
     {
       name: "url",
       description: "The page whose content the agent will refresh",
       type: "string",
     },
-  ],
-  output_fields: [
     {
-      name: "original_content",
-      description: "The original content of the page",
+      name: "competitors",
+      description: "List of comma-separated competitors you don't want to pull content from",
       type: "string",
     },
     {
-      name: "refreshed_content",
-      description: "The refreshed content for the page",
+      name: "keywords",
+      description: "List of comma-separated keywords you'd like to pull content from. If you enter less than 3, we'll generate keywords for you.",
+      type: "string",
+    },
+  ],
+  output_fields: [
+    {
+      name: "original_report",
+      description: "The original report to be refreshed",
+      type: "string",
+    },
+    {
+      name: "refreshed_report",
+      description: "The refreshed report with new content added",
+      type: "string",
+    },
+    {
+      name: "refreshed_bullet_points",
+      description: "Relevant new information not present in source report",
       type: "string",
     },
   ],
@@ -343,16 +392,17 @@ export const getNodeBlockDefinitions = (): NodeBlockDefinition[] => {
     ManualTriggerBlockDefinition,
     APITriggerBlockDefinition,
     SlackWebhookBlockDefinition,
-    GenericLLMAgentBlockDefinition,
     DiffDocBlockDefinition,
-    WebInteractionAgentBlockDefinition,
-    SummaryAgentBlockDefinition,
-    CompanyContextAgentBlockDefinition,
+    UploadDocBlockDefinition,
     TextInputWebhookBlockDefinition,
     FileUploadBlockDefinition,
-    ContentRefresherAgent,
     IfBlockDefinition,
     UrlStatusCheckBlockDefinition,
+    WebInteractionAgentBlockDefinition,
+    ContentRefresherAgent,
+    GenericLLMAgentBlockDefinition,
+    SummaryAgentBlockDefinition,
+    CompanyContextAgentBlockDefinition,
   ];
 };
 

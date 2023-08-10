@@ -17,6 +17,8 @@ class PresignedPost(BaseModel):
 
 
 class SimpleStorageService:
+    # TODO: would be great if with could make this async
+
     def __init__(self, bucket: Optional[str]) -> None:
         if not bucket:
             raise ValueError("Bucket name must be provided")
@@ -41,7 +43,7 @@ class SimpleStorageService:
             Params={"Bucket": self._bucket, "Key": object_name},
         )
 
-    async def upload_to_bucket(
+    def upload_to_bucket(
         self,
         object_name: str,
         file: io.BytesIO,
@@ -59,17 +61,25 @@ class SimpleStorageService:
             Bucket=self._bucket, Key=object_name, Filename=local_filename
         )
 
-    def download_folder(self, prefix: str, path: str) -> List[str]:
+    def list_keys(self, prefix: str) -> List[str]:
         files = self._client.list_objects_v2(Bucket=self._bucket, Prefix=prefix)
-        local_files: List[str] = []
-
         if "Contents" not in files:
-            return local_files
+            return []
 
-        for file in files["Contents"]:
-            object_name = file["Key"]
-            local_filename = os.path.join(path, object_name.split("/")[-1])
-            self.download_file(object_name, local_filename)
+        return [file["Key"] for file in files["Contents"]]
+
+    def download_folder(self, prefix: str, path: str) -> List[str]:
+        local_files = []
+        for key in self.list_keys(prefix):
+            local_filename = os.path.join(path, key.split("/")[-1])
+            self.download_file(key, local_filename)
             local_files.append(local_filename)
 
         return local_files
+
+    def delete_folder(self, prefix: str) -> None:
+        keys = self.list_keys(prefix)
+        self._client.delete_objects(
+            Bucket=self._bucket,
+            Delete={"Objects": [{"Key": key} for key in keys]},
+        )

@@ -16,6 +16,7 @@ from reworkd_platform.settings import settings, Settings
 class ContentRefresherInput(BlockIOBase):
     url: str
     competitors: Optional[str] = None
+    keywords: Optional[str] = None
 
 
 class ContentRefresherOutput(ContentRefresherInput):
@@ -51,11 +52,13 @@ class ContentRefresherService:
         target_content = await self.get_page_content(target_url)
         self.log("Extracting content from provided URL")
 
-        keywords = await self.find_content_kws(target_content)
+        input_keywords = self.parse_input_keywords(input_.keywords)
+        content_keywords = await self.find_content_kws(target_content, input_keywords)
+        keywords = input_keywords + content_keywords
         self.log("Finding keywords from source content")
-        self.log("Keywords: " + ", ".join(keywords.split(",")))
+        self.log("Keywords: " + ", ".join(keywords))
 
-        sources = self.search_results(keywords)
+        sources = self.search_results(", ".join(keywords))
         sources = [
             source for source in sources if source["url"] != target_url
         ]  # TODO: check based on content overlap
@@ -129,10 +132,13 @@ class ContentRefresherService:
         content = self.extract_content_from_line_nums(pgraphs, line_nums)
         return "\n".join(content)
 
-    async def find_content_kws(self, content: str) -> str:
+    async def find_content_kws(
+        self, content: str, input_keywords: List[str]
+    ) -> List[str]:
         # Claude: find search keywords that content focuses on
+        num_keywords_to_find = 8 - len(input_keywords)
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below is content from a web article:\n{content}\nPlease list the keywords that best describe the content of the article. Separate each keyword (or phrase) with commas so we can use them to query a search engine effectively. e.g. 'gardasil lawsuits, gardasil side effects, autoimmune, ovarian.'",
+            human_prompt=f"Below is content from a web article:\n{content}\nPlease list {num_keywords_to_find} keywords that best describe the content of the article. Separate each keyword (or phrase) with commas so we can use them to query a search engine effectively. e.g. 'gardasil lawsuits, gardasil side effects, autoimmune, ovarian.' Here are the existing keywords, choose different ones than the following: {', '.join(input_keywords)}",
             assistant_prompt="Here is a short search query that best matches the content of the article:",
         )
 
@@ -140,7 +146,9 @@ class ContentRefresherService:
             prompt=prompt,
             max_tokens_to_sample=20,
         )
-        return response.strip().strip(",")
+        keywords_list = [keyword.strip() for keyword in response.split(",")]
+
+        return keywords_list
 
     def search_results(self, search_query: str) -> List[Dict[str, str]]:
         source_information = [
@@ -283,3 +291,14 @@ class ContentRefresherService:
             formatted_elements.append(f"{prefix}{text}")
 
         return "\n".join(formatted_elements)
+
+    @staticmethod
+    def parse_input_keywords(input_keywords: Optional[str]) -> List[str]:
+        if not input_keywords:
+            return []
+
+        keywords = [
+            keyword.strip() for keyword in input_keywords.split(",") if keyword.strip()
+        ]
+
+        return keywords

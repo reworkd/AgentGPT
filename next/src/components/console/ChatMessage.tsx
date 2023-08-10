@@ -32,15 +32,16 @@ const ChatMessage = ({ message }: { message: Message }) => {
     }
   };
 
-  const renderSourceCard = () => {
+  const renderSourceCardsGrid = () => {
     const linkRegex = /\[.*?\]\((.*?)\)/g;
   
     const matches = message.info?.match(linkRegex);
     if (matches) {
-      return matches.map((match, index) => {
+      const sourceCards = matches.map((match, index) => {
         const [, link] = match.match(/\[.*?\]\((.*?)\)/) || [];
         return <SourceCard key={index} link={link} position={index + 1} />;
       });
+      return <div className="grid grid-cols-4 gap-2">{sourceCards}</div>; // Adjust columns and gap as needed
     }
     return null;
   };  
@@ -77,7 +78,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
           <div>
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>
-          {renderSourceCard()}
+          {renderSourceCardsGrid()}
         </>
       ) : (
         <>

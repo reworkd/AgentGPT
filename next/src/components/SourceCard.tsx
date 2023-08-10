@@ -8,14 +8,14 @@ interface SourceCardProps {
 
 const SourceCard = ({ link, position }: SourceCardProps) => {
   return (
-    <div className="flex items-center mx-2 p-2 border max-w-fit hover:border-white/40 bg-white/20 border-white/10 rounded-md mt-2 ">
+    <div className="items-center p-2 border max-w-full flex gap-x-4 hover:border-white/40 bg-white/20 border-white/10 rounded-md">
       <FaGlobe className="w-6 h-6 text-white mr-2" />
-      <div className="flex-grow">
+      <div className="max-w-[9rem] max-h-6 text-inline whitespace-nowrap overflow-hidden">
         <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 text-sm hover:underline"
+          className="text-blue-400 text-sm hover:underline"
         >
           {link}
         </a>

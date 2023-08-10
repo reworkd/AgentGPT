@@ -85,7 +85,6 @@ def get_base_and_headers(
             "Helicone-Auth": f"Bearer {settings_.helicone_api_key}",
             "Helicone-Cache-Enabled": "true",
             "Helicone-User-Id": user.id,
-            # "Helicone-Cache-Bucket-Max-Size": "3",
         }
         if use_helicone
         else None

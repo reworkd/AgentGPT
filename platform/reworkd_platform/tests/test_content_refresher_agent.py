@@ -157,6 +157,7 @@ def test_remove_competitors(sources, competitors, expected):
     filtered_sources = service.remove_competitors(sources, competitors, service.log)
     assert filtered_sources == expected
 
+
 @pytest.mark.parametrize(
     "input_keywords, expected",
     [
@@ -166,7 +167,7 @@ def test_remove_competitors(sources, competitors, expected):
         (None, []),
         ("apple", ["apple"]),
         ("apple, ", ["apple"]),
-    ]
+    ],
 )
 def test_parse_input_keywords(input_keywords, expected):
     service = ContentRefresherService(settings=Settings(), log=lambda msg: print(msg))

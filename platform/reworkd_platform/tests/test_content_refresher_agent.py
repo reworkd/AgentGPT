@@ -123,15 +123,30 @@ def test_extract_domain(url, expected):
             [
                 {"url": "https://www.ourcompany.com/news", "title": "Our company news"},
                 {"url": "https://asbestos.com/news", "title": "Asbestos news"},
-                {"url": "https://competitor-xyz.org/info", "title": "Competitor XYZ info"},
-                {"url": "https://news.somecompetitor.net", "title": "Some Competitor news"},
-                {"url": "ftp://legacycompetitor.com/archive", "title": "Legacy Competitor archive"},
-                {"url": "https://subdomain.ourcompany.com/news", "title": "Subdomain Our company news"}
+                {
+                    "url": "https://competitor-xyz.org/info",
+                    "title": "Competitor XYZ info",
+                },
+                {
+                    "url": "https://news.somecompetitor.net",
+                    "title": "Some Competitor news",
+                },
+                {
+                    "url": "ftp://legacycompetitor.com/archive",
+                    "title": "Legacy Competitor archive",
+                },
+                {
+                    "url": "https://subdomain.ourcompany.com/news",
+                    "title": "Subdomain Our company news",
+                },
             ],
             ["asbestos", "competitor-xyz", "somecompetitor", "legacycompetitor"],
             [
                 {"url": "https://www.ourcompany.com/news", "title": "Our company news"},
-                {"url": "https://subdomain.ourcompany.com/news", "title": "Subdomain Our company news"}
+                {
+                    "url": "https://subdomain.ourcompany.com/news",
+                    "title": "Subdomain Our company news",
+                },
             ],
         ),
     ],

@@ -59,7 +59,7 @@ class ContentRefresherService:
         self.log("Finding keywords from source content")
         self.log("Keywords: " + ", ".join(keywords))
 
-        sources = self.search_results(keywords)
+        sources = self.search_results(", ".join(keywords))
         sources = [
             source for source in sources if source["url"] != target_url
         ]  # TODO: check based on content overlap
@@ -133,7 +133,9 @@ class ContentRefresherService:
         content = self.extract_content_from_line_nums(pgraphs, line_nums)
         return "\n".join(content)
 
-    async def find_content_kws(self, content: str, input_keywords: List[str]) -> List[str]:
+    async def find_content_kws(
+        self, content: str, input_keywords: List[str]
+    ) -> List[str]:
         # Claude: find search keywords that content focuses on
         num_keywords_to_find = 8 - len(input_keywords)
         prompt = HumanAssistantPrompt(
@@ -145,7 +147,7 @@ class ContentRefresherService:
             prompt=prompt,
             max_tokens_to_sample=20,
         )
-        logger.info('response')
+        logger.info("response")
         logger.info(response)
         keywords_list = [keyword.strip() for keyword in response.split(",")]
 
@@ -299,5 +301,5 @@ class ContentRefresherService:
             keywords = [keyword.strip() for keyword in input_keywords.split(",")]
         else:
             keywords = []
-    
+
         return keywords

@@ -22,8 +22,7 @@ const SourceCard = ({ link, position }: SourceCardProps) => {
             {link}
           </a>
         </div>
-        <span className="text-xs px-4 font-bold">[{position}]</span>
-      </div>
+      </a>
     </FadeIn>
   );
 }

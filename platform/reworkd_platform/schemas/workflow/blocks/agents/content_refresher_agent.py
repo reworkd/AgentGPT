@@ -53,6 +53,7 @@ class ContentRefresherService:
         self.log("Extracting content from provided URL")
 
         input_keywords = self.parse_input_keywords(input_.keywords)
+        logger.info(f"Input keywords: {input_keywords}")
         content_keywords = await self.find_content_kws(target_content, input_keywords)
         keywords = input_keywords + content_keywords
         self.log("Finding keywords from source content")

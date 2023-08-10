@@ -362,6 +362,11 @@ const ContentRefresherAgent: NodeBlockDefinition = {
       description: "List of comma-separated competitors you don't want to pull content from",
       type: "string",
     },
+    {
+      name: "keywords",
+      description: "List of comma-separated keywords you'd like to pull content from",
+      type: "string",
+    },
   ],
   output_fields: [
     {

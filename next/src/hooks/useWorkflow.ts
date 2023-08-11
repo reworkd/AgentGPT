@@ -9,7 +9,7 @@ import useSocket from "./useSocket";
 import WorkflowApi from "../services/workflow/workflowApi";
 import { useWorkflowStore } from "../stores/workflowStore";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
-import { getNodeType } from "../types/workflow";
+import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
 
 const StatusEventSchema = z.object({
   nodeId: z.string(),
@@ -89,8 +89,16 @@ export const useWorkflow = (
     await api.update(workflowId, data);
   });
 
-  const { workflow, setInputs, setWorkflow, setNodes, setEdges, getNodes, getEdges } =
-    useWorkflowStore();
+  const {
+    workflow,
+    setInputs,
+    updateWorkflow: updateWorkflowStore,
+    setWorkflow,
+    setNodes,
+    setEdges,
+    getNodes,
+    getEdges,
+  } = useWorkflowStore();
 
   const nodesModel = {
     get: getNodes,
@@ -112,9 +120,12 @@ export const useWorkflow = (
       }
 
       const workflow = await api.get(workflowId);
-      // @ts-ignore
-      setWorkflow(workflow);
-      console.log(workflow);
+      setWorkflow({
+        id: workflow.id,
+        nodes: workflow.nodes.map(toReactFlowNode),
+        edges: workflow.edges.map(toReactFlowEdge),
+      });
+
       return workflow;
     },
     {
@@ -192,14 +203,16 @@ export const useWorkflow = (
       },
     };
 
+    console.log(node);
     const newNodes = [...(getNodes() ?? []), node];
+
     setNodes(newNodes);
 
     return node;
   };
 
   const updateNode: updateNodeType = (nodeToUpdate: Node<WorkflowNode>) => {
-    const updatedNodes = (getNodes() ?? []).map((node) => {
+    const nodes = (getNodes() ?? []).map((node) => {
       if (node.id === nodeToUpdate.id) {
         return {
           ...node,
@@ -212,7 +225,9 @@ export const useWorkflow = (
       return node;
     });
 
-    setNodes(updatedNodes);
+    updateWorkflowStore({
+      nodes,
+    });
   };
 
   const onSave = async () => {

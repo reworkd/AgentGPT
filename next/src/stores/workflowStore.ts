@@ -22,6 +22,7 @@ const initialState = {
 type Store = {
   workflow: Workflow | null;
   setWorkflow: (workflow: Workflow) => void;
+  updateWorkflow: (workflow: Partial<Workflow>) => void;
   setInputs: (
     workflow: Workflow,
     nodeToUpdate: ReactFlowNode<WorkflowNode>,
@@ -76,13 +77,25 @@ export const useWorkflowStore = createSelectors(
       });
     },
 
+    updateWorkflow: (workflow: Partial<Workflow>) => {
+      const currentWorkflow = get().workflow;
+      if (currentWorkflow) {
+        set({
+          workflow: {
+            ...currentWorkflow,
+            ...workflow,
+          },
+        });
+      }
+    },
+
     setNodes: (nodes: ReactFlowNode<WorkflowNode>[]) => {
       const currentWorkflow = get().workflow;
       if (currentWorkflow) {
         set({
           workflow: {
             ...currentWorkflow,
-            id: currentWorkflow.id,
+            id: currentWorkflow?.id,
             nodes,
           },
         });

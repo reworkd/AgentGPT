@@ -31,6 +31,8 @@ type Store = {
   ) => void;
   setNodes: (nodes: ReactFlowNode<WorkflowNode>[]) => void;
   setEdges: (edges: ReactFlowEdge<WorkflowEdge>[]) => void;
+  getNodes: () => ReactFlowNode<WorkflowNode>[] | null;
+  getEdges: () => ReactFlowEdge<WorkflowEdge>[] | null;
   addToNodeRefDictionary: (key: string, value: string) => void;
 };
 
@@ -100,6 +102,14 @@ export const useWorkflowStore = createSelectors(
           },
         });
       }
+    },
+    getNodes: () => {
+      const currentWorkflow = get().workflow;
+      return currentWorkflow ? currentWorkflow.nodes : null;
+    },
+    getEdges: () => {
+      const currentWorkflow = get().workflow;
+      return currentWorkflow ? currentWorkflow.edges : null;
     },
     addToNodeRefDictionary: (key: string, value: string) => {
       set((prevState) => ({

@@ -9,7 +9,7 @@ import useSocket from "./useSocket";
 import WorkflowApi from "../services/workflow/workflowApi";
 import { useWorkflowStore } from "../stores/workflowStore";
 import type { NodeBlock, Workflow, WorkflowEdge, WorkflowNode } from "../types/workflow";
-import { getNodeType, toReactFlowEdge, toReactFlowNode } from "../types/workflow";
+import { getNodeType } from "../types/workflow";
 
 const StatusEventSchema = z.object({
   nodeId: z.string(),
@@ -26,13 +26,12 @@ const updateNodeValue = <
   KEY extends keyof DATA,
   T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
 >(
+  currentNodes: Node<WorkflowNode>[],
   setNodes: (nodes: Node<WorkflowNode>[]) => void,
   key: KEY,
   value: DATA[KEY],
   filter: (node?: T["data"]) => boolean = () => true
 ) => {
-  const currentNodes = useWorkflowStore.getState().workflow?.nodes ?? [];
-
   const updatedNodes = currentNodes.map((t: Node<WorkflowNode>) => {
     if (filter(t.data)) {
       return {
@@ -54,13 +53,12 @@ const updateEdgeValue = <
   KEY extends keyof DATA,
   T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
 >(
+  currentEdges: Edge<WorkflowEdge>[],
   setEdges: (edges: Edge<WorkflowEdge>[]) => void,
   key: KEY,
   value: DATA[KEY],
   filter: (edge?: T["data"]) => boolean = () => true
 ) => {
-  const currentEdges = useWorkflowStore.getState().workflow?.edges ?? [];
-
   const updatedEdges = currentEdges.map((t: Edge<WorkflowEdge>) => {
     if (filter(t.data)) {
       return {
@@ -99,7 +97,12 @@ export const useWorkflow = (
     setWorkflow,
     setNodes,
     setEdges,
+    getNodes,
+    getEdges,
   } = useWorkflowStore();
+
+  const nodesModel = [getNodes(), setNodes];
+  const edgesModel = [getEdges(), setEdges];
 
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
@@ -114,8 +117,6 @@ export const useWorkflow = (
       // @ts-ignore
       setWorkflow(workflow);
       console.log(workflow);
-      setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
-      setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
       return workflow;
     },
     {
@@ -141,13 +142,13 @@ export const useWorkflow = (
         callback: async (data) => {
           const { nodeId, status, remaining } = await StatusEventSchema.parseAsync(data);
 
-          updateNodeValue(setNodes, "status", status, (n) => n?.id === nodeId);
-          updateEdgeValue(setEdges, "status", status, (e) => e?.id === nodeId);
+          updateNodeValue(getNodes() ?? [], setNodes, "status", status, (n) => n?.id === nodeId);
+          updateEdgeValue(getEdges() ?? [], setEdges, "status", status, (e) => e?.id === nodeId);
 
           if (status === "error" || remaining === 0) {
             setTimeout(() => {
-              updateNodeValue(setNodes, "status", undefined);
-              updateEdgeValue(setEdges, "status", undefined);
+              updateNodeValue(getNodes() ?? [], setNodes, "status", undefined);
+              updateEdgeValue(getEdges() ?? [], setEdges, "status", undefined);
             }, 1000);
           }
         },
@@ -187,14 +188,14 @@ export const useWorkflow = (
       },
     };
 
-    const newNodes = [...(useWorkflowStore.getState().workflow?.nodes ?? []), node];
+    const newNodes = [...(getNodes() ?? []), node];
     setNodes(newNodes);
 
     return node;
   };
 
   const updateNode: updateNodeType = (nodeToUpdate: Node<WorkflowNode>) => {
-    const updatedNodes = (useWorkflowStore.getState().workflow?.nodes ?? []).map((node) => {
+    const updatedNodes = (getNodes() ?? []).map((node) => {
       if (node.id === nodeToUpdate.id) {
         return {
           ...node,
@@ -213,8 +214,8 @@ export const useWorkflow = (
   const onSave = async () => {
     if (!workflowId) return;
 
-    const nodes = useWorkflowStore.getState().workflow?.nodes ?? [];
-    const edges = useWorkflowStore.getState().workflow?.edges ?? [];
+    const nodes = getNodes() ?? [];
+    const edges = getEdges() ?? [];
 
     await updateWorkflow({
       id: workflowId,
@@ -238,9 +239,9 @@ export const useWorkflow = (
     if (!workflowId) return;
     await api.execute(workflowId);
   };
-
-  const nodesModel = useWorkflowStore.getState().workflow?.nodes || [];
-  const edgesModel = useWorkflowStore.getState().workflow?.nodes || [];
+  console.log("models");
+  console.log(nodesModel);
+  console.log(edgesModel);
   return {
     nodesModel,
     edgesModel,

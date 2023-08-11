@@ -10,7 +10,8 @@ import React, { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus, RxTrash } from "react-icons/rx";
-import type { OnConnectStartParams } from "reactflow";
+import type { Connection, OnConnectStartParams } from "reactflow";
+import { addEdge } from "reactflow";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import MarkdownRenderer from "../../components/console/MarkdownRenderer";
@@ -175,19 +176,19 @@ const WorkflowPage: NextPage = () => {
             newNodePosition
           );
 
-          // if (onConnectStartParams) {
-          //   const { nodeId, handleId } = onConnectStartParams;
-          //   if (!nodeId) return;
-          //   const edge: Connection = {
-          //     source: nodeId,
-          //     target: node.id,
-          //     sourceHandle: handleId,
-          //     targetHandle: null,
-          //   };
-          //
-          //   const x = addEdge(edge);
-          //   edgesModel.set(x);
-          // }
+          if (onConnectStartParams) {
+            const { nodeId, handleId } = onConnectStartParams;
+            if (!nodeId) return;
+            const edge: Connection = {
+              source: nodeId,
+              target: node.id,
+              sourceHandle: handleId,
+              targetHandle: null,
+            };
+
+            const x = addEdge(edge, edgesModel.get() ?? []);
+            edgesModel.set(x);
+          }
         }}
       />
 

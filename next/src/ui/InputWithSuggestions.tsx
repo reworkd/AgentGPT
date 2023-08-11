@@ -43,8 +43,6 @@ const InputWithSuggestions = (props: Props) => {
         value: `${field.key as string}`,
       });
     }
-    console.log("workflow with updated inputs");
-    console.log(workflow);
     props.onChange && props.onChange(eventMock as React.ChangeEvent<HTMLInputElement>);
   };
 

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import type { Session } from "next-auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Edge, Node } from "reactflow";
 import { z } from "zod";
 
@@ -134,11 +134,17 @@ export const useWorkflow = (
   );
 
   // TODO: Fix this
-  // useEffect(() => {
-  //   const selectedNodes = workflow?.nodes.filter((n) => n.selected);
-  //   if (selectedNodes && selectedNodes.length == 0) setSelectedNode(undefined);
-  //   else setSelectedNode(selectedNodes[0]);
-  // }, [workflow?.nodes]);
+  useEffect(() => {
+    if (!workflow?.nodes) return; // Early exit if nodes are not available
+
+    const selectedNodes = workflow.nodes.filter((n) => n.selected);
+
+    if (selectedNodes.length === 0) {
+      setSelectedNode(undefined);
+    } else {
+      setSelectedNode(selectedNodes[0]);
+    }
+  }, [workflow?.nodes]);
 
   const members = useSocket(
     workflowId,
@@ -249,6 +255,7 @@ export const useWorkflow = (
   console.log("models");
   console.log(nodesModel.get());
   console.log(edgesModel.get());
+  console.log(selectedNode);
   return {
     nodesModel,
     edgesModel,

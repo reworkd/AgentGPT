@@ -13,7 +13,6 @@ import {
 import { useConfigStore } from "../../stores/configStore";
 import type { WorkflowEdge, WorkflowNode } from "../../types/workflow";
 import WorkflowSidebarInput from "../../ui/WorkflowSidebarInput";
-import { useWorkflowStore } from "../../stores/workflowStore";
 
 type WorkflowControls = {
   selectedNode: Node<WorkflowNode> | undefined;
@@ -60,8 +59,6 @@ type InspectSectionProps = {
 };
 
 const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSectionProps) => {
-  const { workflow, setInputs } = useWorkflowStore();
-
   if (selectedNode == undefined)
     return (
       <div className="text-sm font-light">

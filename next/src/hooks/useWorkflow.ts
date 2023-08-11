@@ -101,8 +101,15 @@ export const useWorkflow = (
     getEdges,
   } = useWorkflowStore();
 
-  const nodesModel = [getNodes(), setNodes];
-  const edgesModel = [getEdges(), setEdges];
+  const nodesModel = {
+    get: getNodes,
+    set: setNodes,
+  };
+
+  const edgesModel = {
+    get: getEdges,
+    set: setEdges,
+  };
 
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],

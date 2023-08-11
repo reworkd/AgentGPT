@@ -37,8 +37,15 @@ export type WorkflowNode = z.infer<typeof WorkflowNodeSchema>;
 export type WorkflowEdge = z.infer<typeof WorkflowEdgeSchema>;
 export type Workflow = z.infer<typeof WorkflowSchema>;
 
-export type NodesModel = Model<Node<WorkflowNode>[]>;
-export type EdgesModel = Model<WorkflowEdge[]>;
+export type NodesModel = {
+  get: () => Node<WorkflowNode>[] | null;
+  set: (nodes: Node<WorkflowNode>[]) => void;
+};
+
+export type EdgesModel = {
+  get: () => Edge<WorkflowEdge>[] | null;
+  set: (edges: Edge<WorkflowEdge>[]) => void;
+};
 
 export const toReactFlowNode = (node: WorkflowNode) =>
   ({

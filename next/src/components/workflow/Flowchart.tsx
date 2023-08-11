@@ -59,8 +59,8 @@ export interface FlowChartHandles {
 
 const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
   ({ onSave, nodesModel, edgesModel, ...props }, ref) => {
-    const [nodes, setNodes] = nodesModel;
-    const [edges, setEdges] = edgesModel;
+    const [nodes, setNodes] = [nodesModel.get() ?? [], nodesModel.set];
+    const [edges, setEdges] = [edgesModel.get() ?? [], edgesModel.set];
     const flow = useReactFlow();
     const [lastClickTime, setLastClickTime] = useState<number | null>(null);
     const connectionDragging = useRef(false);
@@ -103,12 +103,20 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
     };
 
     const onNodesChange = useCallback(
-      (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds ?? [])),
-      [setNodes]
+      (changes: NodeChange[]) => {
+        const currentNodes = nodesModel.get();
+        const updatedNodes = applyNodeChanges(changes, currentNodes ?? []);
+        setNodes(updatedNodes);
+      },
+      [setNodes, nodesModel]
     );
     const onEdgesChange = useCallback(
-      (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds ?? [])),
-      [setEdges]
+      (changes: EdgeChange[]) => {
+        const currentEdges = edgesModel.get();
+        const updatedEdges = applyEdgeChanges(changes, currentEdges ?? []);
+        setEdges(updatedEdges);
+      },
+      [setEdges, edgesModel]
     );
 
     const onConnectStart = useCallback(
@@ -121,10 +129,11 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
 
     const onConnect = useCallback(
       (connection: Connection) => {
-        connectionDragging.current = false;
-        setEdges((eds) => addEdge({ ...connection, animated: true }, eds ?? []));
+        const currentEdges = edgesModel.get();
+        const updatedEdges = addEdge({ ...connection, animated: true }, currentEdges ?? []);
+        setEdges(updatedEdges);
       },
-      [setEdges]
+      [setEdges, edgesModel]
     );
 
     const onConnectEnd = useCallback(

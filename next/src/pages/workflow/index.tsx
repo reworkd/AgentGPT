@@ -63,10 +63,8 @@ const WorkflowPage: NextPage = () => {
 
   async function reset() {
     await changeQueryParams({ w: undefined });
-    nodesModel[1]([]);
-    edgesModel[1]([]);
-  }
-
+    nodesModel.set([]);
+    edgesModel.set([]);
   const handlePlusClick = async () => {
     try {
       await reset();
@@ -290,8 +288,8 @@ const WorkflowPage: NextPage = () => {
           createNode={createNode}
           updateNode={updateNode}
           selectedNode={selectedNode}
-          nodes={nodesModel[0]}
-          edges={edgesModel[0]}
+          nodes={nodesModel.get() ?? []}
+          edges={edgesModel.get() ?? []}
         />
       </div>
 
@@ -361,15 +359,19 @@ const WorkflowPage: NextPage = () => {
           ))}
           <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-sm">
             {logMessage.length > 0 && (
-                <button onClick={handleExportToTxt} className="ml-auto bg-black text-white py-1 px-4 rounded">
-                    Export logs
-                </button>
+              <button
+                onClick={handleExportToTxt}
+                className="ml-auto rounded bg-black px-4 py-1 text-white"
+              >
+                Export logs
+              </button>
             )}
           </div>
         </Transition>
       </div>
     </>
   );
+
 };
 
 export default WorkflowPage;

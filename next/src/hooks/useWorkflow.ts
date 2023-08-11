@@ -135,7 +135,6 @@ export const useWorkflow = (
     }
   );
 
-  // TODO: Fix this
   useEffect(() => {
     if (!workflow?.nodes) return; // Early exit if nodes are not available
 

@@ -16,7 +16,7 @@ const WorkflowNodeSchema = z.object({
   ref: z.string(),
   pos_x: z.number(),
   pos_y: z.number(),
-  status: z.enum(["running", "success", "failure"]).optional(),
+  status: z.enum(["running", "success", "error"]).optional(),
   block: NodeBlockSchema,
 });
 

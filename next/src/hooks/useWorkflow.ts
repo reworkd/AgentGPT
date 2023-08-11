@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import type { Session } from "next-auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Edge, Node } from "reactflow";
 import { z } from "zod";
 
@@ -31,10 +31,8 @@ const updateNodeValue = <
   value: DATA[KEY],
   filter: (node?: T["data"]) => boolean = () => true
 ) => {
-  // Get the current list of nodes from your store
   const currentNodes = useWorkflowStore.getState().workflow?.nodes ?? [];
 
-  // Compute the updated list directly
   const updatedNodes = currentNodes.map((t: Node<WorkflowNode>) => {
     if (filter(t.data)) {
       return {
@@ -48,12 +46,11 @@ const updateNodeValue = <
     return t;
   });
 
-  // Pass the updated list to setNodes
   setNodes(updatedNodes);
 };
 
 const updateEdgeValue = <
-  DATA extends WorkflowEdge,
+  DATA extends WorkflowEdge | WorkflowNode,
   KEY extends keyof DATA,
   T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
 >(
@@ -62,10 +59,8 @@ const updateEdgeValue = <
   value: DATA[KEY],
   filter: (edge?: T["data"]) => boolean = () => true
 ) => {
-  // Get the current list of nodes from your store
   const currentEdges = useWorkflowStore.getState().workflow?.edges ?? [];
 
-  // Compute the updated list directly
   const updatedEdges = currentEdges.map((t: Edge<WorkflowEdge>) => {
     if (filter(t.data)) {
       return {
@@ -77,9 +72,8 @@ const updateEdgeValue = <
       };
     }
     return t;
-  });
+  }) as Edge<WorkflowEdge>[];
 
-  // Pass the updated list to setNodes
   setEdges(updatedEdges);
 };
 
@@ -131,11 +125,12 @@ export const useWorkflow = (
     }
   );
 
-  useEffect(() => {
-    const selectedNodes = workflow?.nodes.filter((n) => n.selected);
-    if (selectedNodes && selectedNodes.length == 0) setSelectedNode(undefined);
-    else setSelectedNode(selectedNodes[0]);
-  }, [workflow?.nodes]);
+  // TODO: Fix this
+  // useEffect(() => {
+  //   const selectedNodes = workflow?.nodes.filter((n) => n.selected);
+  //   if (selectedNodes && selectedNodes.length == 0) setSelectedNode(undefined);
+  //   else setSelectedNode(selectedNodes[0]);
+  // }, [workflow?.nodes]);
 
   const members = useSocket(
     workflowId,
@@ -147,7 +142,7 @@ export const useWorkflow = (
           const { nodeId, status, remaining } = await StatusEventSchema.parseAsync(data);
 
           updateNodeValue(setNodes, "status", status, (n) => n?.id === nodeId);
-          updateEdgeValue(setEdges, "status", status, (e) => e?.target === nodeId);
+          updateEdgeValue(setEdges, "status", status, (e) => e?.id === nodeId);
 
           if (status === "error" || remaining === 0) {
             setTimeout(() => {
@@ -219,6 +214,7 @@ export const useWorkflow = (
     if (!workflowId) return;
 
     const nodes = useWorkflowStore.getState().workflow?.nodes ?? [];
+    const edges = useWorkflowStore.getState().workflow?.edges ?? [];
 
     await updateWorkflow({
       id: workflowId,
@@ -243,7 +239,11 @@ export const useWorkflow = (
     await api.execute(workflowId);
   };
 
+  const nodesModel = useWorkflowStore.getState().workflow?.nodes || [];
+  const edgesModel = useWorkflowStore.getState().workflow?.nodes || [];
   return {
+    nodesModel,
+    edgesModel,
     selectedNode,
     saveWorkflow: onSave,
     executeWorkflow: onExecute,

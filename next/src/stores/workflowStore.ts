@@ -1,6 +1,7 @@
-import { create } from "zustand";
-import { createSelectors } from "./helpers";
 import type { Edge as ReactFlowEdge, Node as ReactFlowNode } from "reactflow";
+import { create } from "zustand";
+
+import { createSelectors } from "./helpers";
 import type { WorkflowEdge, WorkflowNode } from "../types/workflow";
 
 interface Workflow {

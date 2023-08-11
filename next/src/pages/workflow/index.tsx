@@ -111,7 +111,7 @@ const WorkflowPage: NextPage = () => {
     document.body.appendChild(link).click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
-}
+  };
 
   const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
     let updatedParams = {
@@ -326,7 +326,7 @@ const WorkflowPage: NextPage = () => {
           controls={true}
           nodesModel={nodesModel}
           edgesModel={edgesModel}
-          className="min-h-screen"
+          className="min-h-screen bg-[#F1F3F5]"
           setOnConnectStartParams={setOnConnectStartParams}
           onPaneDoubleClick={handlePaneDoubleClick}
         />
@@ -361,9 +361,12 @@ const WorkflowPage: NextPage = () => {
           ))}
           <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-sm">
             {logMessage.length > 0 && (
-                <button onClick={handleExportToTxt} className="ml-auto bg-black text-white py-1 px-4 rounded">
-                    Export logs
-                </button>
+              <button
+                onClick={handleExportToTxt}
+                className="ml-auto rounded bg-black px-4 py-1 text-white"
+              >
+                Export logs
+              </button>
             )}
           </div>
         </Transition>

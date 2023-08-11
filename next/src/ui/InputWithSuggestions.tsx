@@ -32,7 +32,7 @@ const InputWithSuggestions = (props: Props) => {
   const handleClick = (field: Field, label: string) => () => {
     const eventMock = {
       target: {
-        value: `${field.value as string}`,
+        value: `${field.key as string}`,
       },
     };
 
@@ -40,9 +40,11 @@ const InputWithSuggestions = (props: Props) => {
       // @ts-ignore
       setInputs(workflow, props.currentNode, {
         field: label,
-        value: `${field.value as string}`,
+        value: `${field.key as string}`,
       });
     }
+    console.log("workflow with updated inputs");
+    console.log(workflow);
     props.onChange && props.onChange(eventMock as React.ChangeEvent<HTMLInputElement>);
   };
 

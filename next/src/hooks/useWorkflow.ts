@@ -243,9 +243,9 @@ export const useWorkflow = (
     if (!workflowId) return;
     await api.execute(workflowId);
   };
-  console.log("models");
-  console.log(nodesModel.get());
-  console.log(edgesModel.get());
+  // console.log("models");
+  // console.log(nodesModel.get());
+  // console.log(edgesModel.get());
   return {
     nodesModel,
     edgesModel,

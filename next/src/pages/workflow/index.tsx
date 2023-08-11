@@ -10,8 +10,7 @@ import React, { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus, RxTrash } from "react-icons/rx";
-import type { Connection, OnConnectStartParams } from "reactflow";
-import { addEdge } from "reactflow";
+import type { OnConnectStartParams } from "reactflow";
 
 import nextI18NextConfig from "../../../next-i18next.config";
 import MarkdownRenderer from "../../components/console/MarkdownRenderer";
@@ -77,7 +76,7 @@ const WorkflowPage: NextPage = () => {
   };
 
   const [logMessage, setLogMessage] = useState<LogType[]>([]);
-  const workflowId = router.query.w as string | "";
+  const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
     edgesModel,
@@ -107,7 +106,7 @@ const WorkflowPage: NextPage = () => {
 
     const link = document.createElement("a");
     link.href = url;
-    link.download = `logMessages_${workflowId}.txt`;
+    link.download = `logMessages_${workflowId as string}.txt`;
     document.body.appendChild(link).click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
@@ -176,19 +175,19 @@ const WorkflowPage: NextPage = () => {
             newNodePosition
           );
 
-          if (onConnectStartParams) {
-            const { nodeId, handleId } = onConnectStartParams;
-            if (!nodeId) return;
-            const edge: Connection = {
-              source: nodeId,
-              target: node.id,
-              sourceHandle: handleId,
-              targetHandle: null,
-            };
-
-            const x = addEdge(edge);
-            edgesModel.set(x);
-          }
+          // if (onConnectStartParams) {
+          //   const { nodeId, handleId } = onConnectStartParams;
+          //   if (!nodeId) return;
+          //   const edge: Connection = {
+          //     source: nodeId,
+          //     target: node.id,
+          //     sourceHandle: handleId,
+          //     targetHandle: null,
+          //   };
+          //
+          //   const x = addEdge(edge);
+          //   edgesModel.set(x);
+          // }
         }}
       />
 

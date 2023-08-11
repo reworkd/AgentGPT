@@ -96,7 +96,7 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     <>
       <div>
         <p className="font-inter text-lg font-bold text-black">{definition?.type}</p>
-        <p className="mb-3 font-inter text-sm font-normal text-black">{definition?.description}</p>
+        <p className="mb-3 font-inter text-sm font-light text-black">{definition?.description}</p>
       </div>
       <hr className="border-neutral-500" />
       <div className="font-inter font-bold text-black">Inputs</div>

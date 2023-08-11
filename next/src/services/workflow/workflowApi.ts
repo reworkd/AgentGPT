@@ -29,6 +29,7 @@ export default class WorkflowApi {
     this.accessToken = accessToken;
     this.organizationId = organizationId;
   }
+
   async getAll() {
     return await get(
       "/api/workflow",

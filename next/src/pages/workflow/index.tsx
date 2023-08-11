@@ -63,8 +63,8 @@ const WorkflowPage: NextPage = () => {
 
   async function reset() {
     await changeQueryParams({ w: undefined });
-    nodesModel[1]([]);
-    edgesModel[1]([]);
+    nodesModel.set([]);
+    edgesModel.set([]);
   }
 
   const handlePlusClick = async () => {
@@ -107,7 +107,7 @@ const WorkflowPage: NextPage = () => {
 
     const link = document.createElement("a");
     link.href = url;
-    link.download = `logMessages_${workflowId}.txt`;
+    link.download = `logMessages_${workflowId as string}.txt`;
     document.body.appendChild(link).click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
@@ -185,7 +185,9 @@ const WorkflowPage: NextPage = () => {
               sourceHandle: handleId,
               targetHandle: null,
             };
-            edgesModel[1]((eds) => addEdge({ ...edge, animated: true }, eds ?? []));
+
+            const x = addEdge(edge, edgesModel.get() ?? []);
+            edgesModel.set(x);
           }
         }}
       />
@@ -290,8 +292,8 @@ const WorkflowPage: NextPage = () => {
           createNode={createNode}
           updateNode={updateNode}
           selectedNode={selectedNode}
-          nodes={nodesModel[0]}
-          edges={edgesModel[0]}
+          nodes={nodesModel.get() ?? []}
+          edges={edgesModel.get() ?? []}
         />
       </div>
 
@@ -308,7 +310,7 @@ const WorkflowPage: NextPage = () => {
       )}
 
       <AnimatePresence>
-        {!showLoader && !showCreateForm && !nodesModel[0].length && (
+        {!showLoader && !showCreateForm && !nodesModel.get() && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

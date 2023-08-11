@@ -1,9 +1,12 @@
 import { Menu as MenuPrimitive } from "@headlessui/react";
 import React from "react";
+import type { Node } from "reactflow";
 
 import Input from "./input";
 import { MenuItems } from "../components/Menu";
 import WindowButton from "../components/WindowButton";
+import { useWorkflowStore } from "../stores/workflowStore";
+import type { WorkflowNode } from "../types/workflow";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -15,10 +18,32 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   right?: React.ReactNode;
   suggestions: { key: string; value: string }[];
   value: string;
+  currentNode: Node<WorkflowNode> | undefined;
+}
+
+interface Field {
+  value?: string;
+  key?: string;
 }
 
 const InputWithSuggestions = (props: Props) => {
   const [focused, setFocused] = React.useState(false);
+  const { workflow, setInputs } = useWorkflowStore();
+  const handleClick = (field: Field, label: string) => () => {
+    const eventMock = {
+      target: {
+        value: `${field.key as string}`,
+      },
+    };
+
+    if (workflow && props.currentNode) {
+      setInputs(workflow, props.currentNode, {
+        field: label,
+        value: `${field.key as string}`,
+      });
+    }
+    props.onChange && props.onChange(eventMock as React.ChangeEvent<HTMLInputElement>);
+  };
 
   return (
     <>
@@ -43,15 +68,7 @@ const InputWithSuggestions = (props: Props) => {
                   key={`${props.name}-${field.key}`}
                   icon={<></>}
                   text={field.value}
-                  onClick={() => {
-                    const eventMock = {
-                      target: {
-                        value: `${props.value}${field.key}`,
-                      },
-                    };
-                    // @ts-ignore
-                    props.onChange && props.onChange(eventMock);
-                  }}
+                  onClick={handleClick(field, props.label)}
                 />
               ))}
             />

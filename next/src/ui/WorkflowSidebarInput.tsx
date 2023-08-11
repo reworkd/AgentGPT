@@ -42,6 +42,7 @@ const WorkflowSidebarInput = ({ inputField, onChange, suggestions, node }: Sideb
           value={node?.data?.block?.input[inputField.name] || ""}
           onChange={(e) => onChange(e.target.value)}
           suggestions={suggestions}
+          currentNode={node}
         />
       </>
     );

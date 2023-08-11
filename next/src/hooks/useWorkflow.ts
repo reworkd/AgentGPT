@@ -247,8 +247,8 @@ export const useWorkflow = (
     await api.execute(workflowId);
   };
   console.log("models");
-  console.log(nodesModel);
-  console.log(edgesModel);
+  console.log(nodesModel.get());
+  console.log(edgesModel.get());
   return {
     nodesModel,
     edgesModel,

@@ -38,6 +38,7 @@ const CustomEdge = ({
       style={{
         stroke: !!props?.data?.status ? edgeColors[props.data.status] : undefined,
         transition: "stroke 0.2s ease",
+        strokeWidth: 2,
       }}
     />
   );

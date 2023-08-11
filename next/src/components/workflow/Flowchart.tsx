@@ -172,14 +172,14 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         <Background
           variant={BackgroundVariant.Lines}
           lineWidth={1}
-          gap={80}
-          className="bg-neutral-50"
-          color="#e5e7eb"
+          gap={60}
+          // className="bg-[#F1F3F5]"
+          color="#e5e5e5"
         />
         <div
           className="absolute h-full w-full"
           style={{
-            background: "radial-gradient(ellipse at center, transparent, white 90%)",
+            background: "radial-gradient(ellipse at center, transparent 75%, #F1F3F5)",
           }}
         />
 

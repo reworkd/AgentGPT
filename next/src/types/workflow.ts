@@ -59,7 +59,6 @@ export const toReactFlowEdge = (edge: WorkflowEdge) =>
   ({
     ...edge,
     sourceHandle: edge.source_handle,
-    animated: true,
     type: "custom",
     data: {
       ...edge,

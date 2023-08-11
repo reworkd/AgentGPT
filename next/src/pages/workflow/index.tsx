@@ -328,7 +328,7 @@ const WorkflowPage: NextPage = () => {
           controls={true}
           nodesModel={nodesModel}
           edgesModel={edgesModel}
-          className="min-h-screen"
+          className="min-h-screen bg-[#F1F3F5]"
           setOnConnectStartParams={setOnConnectStartParams}
           onPaneDoubleClick={handlePaneDoubleClick}
         />

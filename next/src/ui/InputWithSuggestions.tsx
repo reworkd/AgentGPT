@@ -28,7 +28,7 @@ interface Field {
 
 const InputWithSuggestions = (props: Props) => {
   const [focused, setFocused] = React.useState(false);
-  const { nodeRefDictionary, addToNodeRefDictionary, workflow, setInputs } = useWorkflowStore();
+  const { workflow, setInputs } = useWorkflowStore();
   const handleClick = (field: Field, label: string) => () => {
     const eventMock = {
       target: {
@@ -42,12 +42,7 @@ const InputWithSuggestions = (props: Props) => {
         field: label,
         value: `${field.value as string}`,
       });
-      addToNodeRefDictionary(`${field.value as string}`, `${field.key as string}`);
     }
-    console.log("workflow with updated inputs");
-    console.log(workflow);
-    console.log("nodeRefDictionary");
-    console.log(nodeRefDictionary);
     props.onChange && props.onChange(eventMock as React.ChangeEvent<HTMLInputElement>);
   };
 

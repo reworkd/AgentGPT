@@ -89,17 +89,8 @@ export const useWorkflow = (
     await api.update(workflowId, data);
   });
 
-  const {
-    nodeRefDictionary,
-    addToNodeRefDictionary,
-    workflow,
-    setInputs,
-    setWorkflow,
-    setNodes,
-    setEdges,
-    getNodes,
-    getEdges,
-  } = useWorkflowStore();
+  const { workflow, setInputs, setWorkflow, setNodes, setEdges, getNodes, getEdges } =
+    useWorkflowStore();
 
   const nodesModel = {
     get: getNodes,
@@ -232,27 +223,13 @@ export const useWorkflow = (
 
     await updateWorkflow({
       id: workflowId,
-      nodes: nodes.map((n) => {
-        console.log(n);
-        if (n.data.block.input && typeof n.data.block.input === "object") {
-          Object.keys(n.data.block.input).forEach((inputKey) => {
-            const inputValue = n.data.block.input[inputKey];
-            if (inputValue && nodeRefDictionary[inputValue]) {
-              // @ts-ignore
-              n.data.block.input[inputKey] = nodeRefDictionary[inputValue];
-            }
-          });
-        }
-        console.log("updated node with ref");
-        console.log(n);
-        return {
-          id: n.data.id,
-          ref: n.data.ref,
-          pos_x: n.position.x,
-          pos_y: n.position.y,
-          block: n.data.block,
-        };
-      }),
+      nodes: nodes.map((n) => ({
+        id: n.data.id,
+        ref: n.data.ref,
+        pos_x: n.position.x,
+        pos_y: n.position.y,
+        block: n.data.block,
+      })),
       edges: edges.map((e) => ({
         id: e.id,
         source: e.source,
@@ -269,8 +246,6 @@ export const useWorkflow = (
   console.log("models");
   console.log(nodesModel.get());
   console.log(edgesModel.get());
-  console.log("ref dictionary");
-  console.log(nodeRefDictionary);
   return {
     nodesModel,
     edgesModel,

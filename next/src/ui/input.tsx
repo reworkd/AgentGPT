@@ -45,7 +45,7 @@ const Input = (props: Props) => {
             name={props.name}
             id={props.name}
             className={clsx(
-              "placeholder:text-color-primary focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md bg-white p-1 font-inter text-black shadow-sm transition-colors sm:text-sm sm:leading-6",
+              "focus:outline-inset border-focusVisible-1 border-style-1 block w-full rounded-md bg-white p-1 font-inter text-black shadow-sm transition-colors sm:text-sm sm:leading-6",
               props.disabled ? "cursor-not-allowed opacity-40" : "border-hover-1"
             )}
             placeholder={props.placeholder}

@@ -72,19 +72,6 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
     const updatedNode = { ...selectedNode };
     updatedNode.data.block.input[name] = value;
     updateNode(updatedNode);
-
-    // if (!value.includes(".result")) {
-    //   // @ts-ignore
-    //   setInputs(workflow, selectedNode, { field: name, value: value })
-    //   const updatedNode = { ...selectedNode };
-    //   updatedNode.data.block.input[name] = value;
-    //   updateNode(updatedNode);
-    // }
-    // else {
-    //   const updatedNode = { ...selectedNode };
-    //   updatedNode.data.block.input[name] = value;
-    //   updateNode(updatedNode);
-    // }
   };
 
   const outputFields = findParents(nodes, edges, selectedNode).flatMap((ancestorNode) => {

@@ -38,7 +38,7 @@ module.exports = {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))', // Add bg-gradient-radial for radial gradients
             },
             boxShadow: {
-                "3xl": "0 40px 70px -15px rgba(0, 0, 0, 0.40)" // Customize the shadow value according to your preferences.
+                "xs": "0px 0px 0px 0.75px rgba(0, 0, 0, 0.05), 0px 2px 4px rgba(0, 0, 0, 0.05)"
             },
             fontFamily: {
                 inter: ["Inter", ...defaultTheme.fontFamily.sans]

@@ -17,6 +17,7 @@ import {
 import Button from "../../ui/button";
 import { getMessageContainerStyle, getTaskStatusIcon } from "../utils/helpers";
 import SourceCard from "../SourceCard";
+import {SourceCardGrid} from "../SourceCardGrid";
 
 const ChatMessage = ({ message }: { message: Message }) => {
   const [t] = useTranslation();
@@ -39,7 +40,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     if (matches) {
       const uniqueLinks = new Set<string>();
       const sourceCards: JSX.Element[] = [];
-      let position = 1; // Initialize position counter
+      let position = 1; 
 
       for (const match of matches) {
         const [, link] = match.match(/\[.*?\]\((.*?)\)/) || [];
@@ -47,7 +48,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
         if (!uniqueLinks.has(link)) {
           uniqueLinks.add(link);
           sourceCards.push(<SourceCard key={link} link={link} position={position} />);
-          position++; // Increment position for each unique link
+          position++;
         }
       }
 
@@ -89,7 +90,8 @@ const ChatMessage = ({ message }: { message: Message }) => {
           <div>
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
           </div>
-          {renderSourceCardsGrid()}
+          <SourceCardGrid messageInfo={message.info} />
+
         </>
       ) : (
         <>

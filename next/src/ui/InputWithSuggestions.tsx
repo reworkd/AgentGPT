@@ -37,7 +37,6 @@ const InputWithSuggestions = (props: Props) => {
     };
 
     if (workflow && props.currentNode) {
-      // @ts-ignore
       setInputs(workflow, props.currentNode, {
         field: label,
         value: `${field.key as string}`,

@@ -44,9 +44,6 @@ export default class WorkflowApi {
   }
 
   async update(id: string, data: Workflow) {
-    console.log("update - id", id);
-    console.log("update - data", data);
-    console.log(this.accessToken);
     await put(`/api/workflow/${id}`, z.any(), data, this.accessToken, this.organizationId);
   }
 

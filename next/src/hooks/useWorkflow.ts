@@ -203,7 +203,6 @@ export const useWorkflow = (
       },
     };
 
-    console.log(node);
     const newNodes = [...(getNodes() ?? []), node];
 
     setNodes(newNodes);
@@ -258,9 +257,7 @@ export const useWorkflow = (
     if (!workflowId) return;
     await api.execute(workflowId);
   };
-  // console.log("models");
-  // console.log(nodesModel.get());
-  // console.log(edgesModel.get());
+
   return {
     nodesModel,
     edgesModel,

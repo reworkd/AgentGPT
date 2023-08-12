@@ -114,20 +114,26 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
         <p className="font-inter text-sm text-black">This node does not take any input.</p>
       )}
       <hr className="border-neutral-500" />
-      <div className="font-inter font-bold text-black">Outputs</div>
-      <div className="flex flex-col gap-2 font-inter font-black">
-        {definition?.output_fields.map((outputField: IOField) => (
-          <div key={definition?.type + outputField.name}>
-            <p>
-              <span className="text-sm font-bold">{outputField.name}:</span>{" "}
-              <span className="text-sm">{outputField.type}</span>
-            </p>
-            <p className="text-sm font-thin">{outputField.description}</p>
-          </div>
-        ))}
-        {definition?.output_fields.length == 0 && (
-          <p className="text-sm font-thin">This node does not have any output.</p>
-        )}
+      <div className="font-inter">
+        <div className="font-bold text-black">Outputs</div>
+        <div className="mt-2 flex flex-col gap-2 text-black">
+          {definition?.output_fields.map((outputField: IOField) => (
+            <div key={definition?.type + outputField.name} className="text-sm">
+              <p>
+                <span className="font-normal leading-6">{outputField.name}:</span>{" "}
+                <span className="text-xs font-light text-gray-500 lg:text-sm">
+                  {outputField.type}
+                </span>
+              </p>
+              <p className="text-xs font-light text-gray-500 lg:text-sm">
+                {outputField.description}
+              </p>
+            </div>
+          ))}
+          {definition?.output_fields.length == 0 && (
+            <p className="font-thin">This node does not have any output.</p>
+          )}
+        </div>
       </div>
     </>
   );

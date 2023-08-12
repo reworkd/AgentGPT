@@ -114,8 +114,8 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
         <p className="font-inter text-sm text-black">This node does not take any input.</p>
       )}
       <hr className="border-neutral-500" />
-      <div className="font-bold">Outputs</div>
-      <div className="flex flex-col gap-2">
+      <div className="font-inter font-bold text-black">Outputs</div>
+      <div className="flex flex-col gap-2 font-inter font-black">
         {definition?.output_fields.map((outputField: IOField) => (
           <div key={definition?.type + outputField.name}>
             <p>

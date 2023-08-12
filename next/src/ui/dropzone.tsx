@@ -68,11 +68,11 @@ const Dropzone = (props: Props) => {
       )}
       <label
         htmlFor="dropzone-file"
-        className="background-color-7 border-style-1 mt-1 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border hover:bg-neutral-600"
+        className="border-style-1 mt-1 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border bg-gray-400 hover:bg-gray-500"
       >
         <div className="flex flex-col items-center justify-center pb-6 pt-5">
-          <FaCloudUploadAlt size="60" className="text-gray-400" />
-          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+          <FaCloudUploadAlt size="60" className="text-gray-300" />
+          <p className="mb-2 text-sm text-gray-500 dark:text-gray-300">
             <span className="font-semibold">Click to upload PDFs</span>
           </p>
         </div>

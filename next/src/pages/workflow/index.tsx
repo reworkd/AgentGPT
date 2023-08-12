@@ -176,8 +176,7 @@ const WorkflowPage: NextPage = () => {
 
       <div
         className={clsx(
-          "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4",
-          layout.showLogSidebar && "pr-[330px]"
+          "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4"
         )}
       >
         <div className="pointer-events-auto flex flex-row items-center gap-2">

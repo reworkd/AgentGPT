@@ -57,7 +57,7 @@ selenium = "^4.11.2"
 [tool.poetry.dev-dependencies]
 autopep8 = "^2.0.2"
 pytest = "^7.4.0"
-flake8 = "~6.0.0"
+flake8 = "~6.1.0"
 mypy = "^1.4.1"
 isort = "^5.12.0"
 pre-commit = "^3.3.3"

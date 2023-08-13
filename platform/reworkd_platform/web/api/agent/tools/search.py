@@ -38,7 +38,7 @@ async def _google_serper_search_results(
 
 class Search(Tool):
     description = (
-        "Search Google for short up to date searches for simple questions "
+        "Search Google for short up to date searches for simple questions about public information "
         "news and people.\n"
     )
     public_description = "Search google for information about current events."

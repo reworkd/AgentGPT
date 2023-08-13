@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     workers_count: int = 1
     reload: bool = True
     environment: ENVIRONMENT = "development"
-    log_level: LOG_LEVEL = "INFO"
+    log_level: LOG_LEVEL = "DEBUG"
 
     # Make sure you update this with your own secret key
     # Must be 32 url-safe base64-encoded bytes

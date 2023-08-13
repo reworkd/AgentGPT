@@ -8,15 +8,16 @@ from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import (
-    CitedSnippet,
-    summarize_with_sources,
+    Snippet,
+    summarize_sid,
 )
 
 
 async def _sid_search_results(search_term: str, limit: int) -> dict[str, Any]:
     #TODO instead of hardcoding the access token it needs to be obtained through an auth token exchange
+    token = ""
     headers = {
-        'Authorization': 'Bearer <add authorization>',
+        'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json'
     }
     data = {
@@ -34,10 +35,13 @@ async def _sid_search_results(search_term: str, limit: int) -> dict[str, Any]:
             return search_results
 
 
-class SIDSearch(Tool):
-    description = "Retrieve personal information of the user from their files and emails."
+class SID(Tool):
     public_description = "Grant access to your Notion, Google Drive, etc."
-    arg_description = "The query argument to search for. This value is always populated and cannot be an empty string."
+    description = """
+        Retrieve snippets of non-public information by searching through google drive, notion, and gmail.
+        Contains results which are unavailable from public sources.
+    """
+    arg_description = "The query to search for. It should be a question in natural language."
     image_url = "/tools/sid.png"
 
     @staticmethod
@@ -48,17 +52,12 @@ class SIDSearch(Tool):
         self, goal: str, task: str, input_str: str
     ) -> FastAPIStreamingResponse:
         res = await _sid_search_results(
-            input_str, limit=5
+            input_str, limit=10
         )
 
-        k = 5  # Number of results to return
-        snippets: List[CitedSnippet] = []
-        results = res.get("results")
-
-        for i, result in enumerate(results[:k]):
-            snippets.append(CitedSnippet(i + 1, result, ""))
+        snippets: List[Snippet] = [Snippet(text=result) for result in res.get("results")]
 
         if len(snippets) == 0:
-            return stream_string("No good SIDSearch Result was found", True)
+            return stream_string("No good results found by SID", True)
 
-        return summarize_with_sources(self.model, self.language, goal, task, snippets)
+        return summarize_sid(self.model, self.language, goal, task, snippets)

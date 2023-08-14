@@ -18,7 +18,7 @@ const Input = (props: Props) => {
       {props.label && (
         <label
           htmlFor={props.name}
-          className="text-color-primary flex items-center gap-2 text-sm font-bold leading-6"
+          className="flex items-center gap-2 text-sm font-normal leading-6 text-black"
         >
           {props.icon}
           <span>{props.label}</span>

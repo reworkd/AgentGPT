@@ -64,7 +64,7 @@ export const NodeTitle = ({ definition }: { definition?: NodeBlockDefinition }) 
           className="rounded-full p-0.5 transition-colors hover:bg-gray-50"
           onClick={() => {
             setLayout({
-              showRightSidebar: true,
+              showWorkflowSidebar: true,
             });
           }}
         >

@@ -26,7 +26,7 @@ function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
     setLoading(true);
     await api.execute(workflow.id);
     setLayout({ showLogSidebar: true });
-    setLayout({ showRightSidebar: false });
+    setLayout({ showWorkflowSidebar: false });
     setTimeout(() => {
       setLoading(false);
     }, 2000); // Set the duration of the loader in milliseconds (2 seconds in this example)

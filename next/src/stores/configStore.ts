@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { createSelectors } from "./helpers";
 
 interface Layout {
-  showRightSidebar: boolean;
+  showWorkflowSidebar: boolean;
   showLogSidebar: boolean;
 }
 
@@ -29,13 +29,13 @@ const createLayoutSlice: StateCreator<LayoutSlice> = (set, get) => {
   return {
     ...{
       layout: {
-        showRightSidebar: false,
+        showWorkflowSidebar: false,
         showLogSidebar: false,
       },
     },
     setLayout: (layout: Partial<Layout>) => {
-      if (layout.showLogSidebar) layout.showRightSidebar = false;
-      if (layout.showRightSidebar) layout.showLogSidebar = false;
+      if (layout.showLogSidebar) layout.showWorkflowSidebar = false;
+      if (layout.showWorkflowSidebar) layout.showLogSidebar = false;
 
       set((prev) => ({
         layout: {

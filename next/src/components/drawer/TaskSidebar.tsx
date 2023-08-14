@@ -26,7 +26,7 @@ const TaskSidebar = () => {
   const { layout, setLayout } = useConfigStore();
 
   const setShow = (show: boolean) => {
-    setLayout({ showRightSidebar: show });
+    setLayout({ showWorkflowSidebar: show });
   };
 
   const handleAddTask = () => {
@@ -41,12 +41,12 @@ const TaskSidebar = () => {
   };
 
   return (
-    <Sidebar show={layout.showRightSidebar} setShow={setShow} side="right">
+    <Sidebar show={layout.showWorkflowSidebar} setShow={setShow} side="right">
       <div className="flex h-screen flex-col gap-2 text-white">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
-            onClick={() => setShow(!layout.showRightSidebar)}
+            onClick={() => setShow(!layout.showWorkflowSidebar)}
           >
             <FaBars size="15" className="z-20 m-2" />
           </button>

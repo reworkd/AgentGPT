@@ -21,7 +21,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
   const [logMessage, setLogMessage] = useState<LogType[]>([]);
 
   const setShow = (show: boolean) => {
-    setLayout({ showRightSidebar: show });
+    setLayout({ showWorkflowSidebar: show });
   };
 
   useWorkflow(workflowId, session, organizationId, (log) =>

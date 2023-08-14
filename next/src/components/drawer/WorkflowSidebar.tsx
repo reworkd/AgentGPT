@@ -26,12 +26,12 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
   const { layout, setLayout } = useConfigStore();
 
   const setShow = (show: boolean) => {
-    setLayout({ showWorkflowSidebar: show });
+    setLayout({ showRightSidebar: show });
   };
 
   return (
     <SidebarTransition
-      show={layout.showWorkflowSidebar}
+      show={layout.showRightSidebar}
       side="right"
       className="mr-3.5 rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
     >

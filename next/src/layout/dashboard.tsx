@@ -77,8 +77,8 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           <div className="lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">{props.rightSidebar}</div>
           <SidebarControlButton
             side="right"
-            show={layout.showWorkflowSidebar}
-            setShow={(show) => setLayout({ showWorkflowSidebar: show })}
+            show={layout.showRightSidebar}
+            setShow={(show) => setLayout({ showRightSidebar: show })}
           />
         </>
       )}
@@ -87,7 +87,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
         className={clsx(
           "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
           leftSettings.desktop && "lg:pl-64",
-          props.rightSidebar && layout.showWorkflowSidebar && "lg:pr-64"
+          props.rightSidebar && layout.showRightSidebar && "lg:pr-64"
         )}
       >
         <DottedGridBackground className="min-w-screen min-h-screen">

@@ -21,7 +21,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
   const [logMessage, setLogMessage] = useState<LogType[]>([]);
 
   const setShow = (show: boolean) => {
-    setLayout({ showRightSidebar: show });
+    setLayout({ showLogSidebar: show });
   };
 
   useWorkflow(workflowId, session, organizationId, (log) =>
@@ -50,7 +50,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
       side="right"
       className="mr-3.5 rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
     >
-      <div className="text-color-primary flex h-[80vh] flex-col gap-2 bg-white">
+      <div className="text-color-primary flex h-[80vh] flex-col gap-2 overflow-x-hidden break-words bg-white">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"

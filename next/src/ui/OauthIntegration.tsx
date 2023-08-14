@@ -31,14 +31,17 @@ const OauthIntegration: FC<{
   return (
     <div>
       {isError && (
-        <Button
-          onClick={async () => {
-            const url = await api.install("slack", router.asPath);
-            await router.push(url);
-          }}
-        >
-          Connect Slack
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            className="rounded border border-gray-300 bg-gray-50 px-12 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+            onClick={async () => {
+              const url = await api.install("slack", router.asPath);
+              await router.push(url);
+            }}
+          >
+            Connect Slack
+          </Button>
+        </div>
       )}
       {data && (
         <Combo<Channel>

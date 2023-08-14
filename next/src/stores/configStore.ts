@@ -34,6 +34,9 @@ const createLayoutSlice: StateCreator<LayoutSlice> = (set, get) => {
       },
     },
     setLayout: (layout: Partial<Layout>) => {
+      if (layout.showLogSidebar) layout.showRightSidebar = false;
+      if (layout.showRightSidebar) layout.showLogSidebar = false;
+
       set((prev) => ({
         layout: {
           ...prev.layout,

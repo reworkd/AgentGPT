@@ -1,4 +1,3 @@
-import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import type { GetStaticProps } from "next";
@@ -7,21 +6,19 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
-import { FaFolder } from "react-icons/fa";
 import { RiBuildingLine, RiStackFill } from "react-icons/ri";
 import { RxHome, RxPlus, RxTrash } from "react-icons/rx";
 import type { Connection, OnConnectStartParams } from "reactflow";
 import { addEdge } from "reactflow";
 
 import nextI18NextConfig from "../../../next-i18next.config";
-import MarkdownRenderer from "../../components/console/MarkdownRenderer";
 import WorkflowSidebar from "../../components/drawer/WorkflowSidebar";
 import Loader from "../../components/loader";
 import FadeIn from "../../components/motions/FadeIn";
 import BlockDialog from "../../components/workflow/BlockDialog";
 import FlowChart from "../../components/workflow/Flowchart";
 import { useAuth } from "../../hooks/useAuth";
-import type { LogType, Position } from "../../hooks/useWorkflow";
+import type { Position } from "../../hooks/useWorkflow";
 import { useWorkflow } from "../../hooks/useWorkflow";
 import useWorkflows from "../../hooks/useWorkflows";
 import { getNodeBlockDefinitions } from "../../services/workflow/node-block-definitions";
@@ -29,6 +26,7 @@ import { useConfigStore } from "../../stores/configStore";
 import Select from "../../ui/select";
 import { languages } from "../../utils/languages";
 import { get_avatar } from "../../utils/user";
+import LogSidebar from "../../components/drawer/LogSidebar";
 
 const isTypeError = (error: unknown): error is TypeError =>
   error instanceof Error && error.name === "TypeError";
@@ -76,7 +74,6 @@ const WorkflowPage: NextPage = () => {
     }
   };
 
-  const [logMessage, setLogMessage] = useState<LogType[]>([]);
   const workflowId = router.query.w as string | undefined;
   const {
     nodesModel,
@@ -87,9 +84,7 @@ const WorkflowPage: NextPage = () => {
     updateNode,
     members,
     isLoading,
-  } = useWorkflow(workflowId, session, organization?.id, (log) =>
-    setLogMessage((prev) => [...prev, log])
-  );
+  } = useWorkflow(workflowId, session, organization?.id);
 
   const [open, setOpen] = useState(false);
 
@@ -98,19 +93,6 @@ const WorkflowPage: NextPage = () => {
       setNewNodePosition(position);
       setOpen(true);
     }
-  };
-
-  const handleExportToTxt = () => {
-    const logString = logMessage.map(({ date, msg }) => `${date} - ${msg}`).join("\n\n");
-    const blob = new Blob([logString], { type: "text/plain;charset=utf-8" });
-    const url = window.URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `logMessages_${workflowId as string}.txt`;
-    document.body.appendChild(link).click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
   };
 
   const changeQueryParams = async (newParams: Record<string, string | undefined>) => {
@@ -194,8 +176,7 @@ const WorkflowPage: NextPage = () => {
 
       <div
         className={clsx(
-          "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4",
-          layout.showLogSidebar && "pr-[330px]"
+          "pointer-events-none fixed top-0 z-10 flex w-full flex-row items-start p-4"
         )}
       >
         <div className="pointer-events-auto flex flex-row items-center gap-2">
@@ -296,6 +277,9 @@ const WorkflowPage: NextPage = () => {
           edges={edgesModel.get() ?? []}
         />
       </div>
+      <div className="fixed right-0 top-16 z-10 flex flex-col items-center justify-between ">
+        <LogSidebar workflowId={workflowId} session={session} organizationId={organization?.id} />
+      </div>
 
       {showCreateForm && (
         <div className="fixed right-1/2 top-1/2 z-10 -translate-y-1/2 translate-x-1/2">
@@ -332,46 +316,6 @@ const WorkflowPage: NextPage = () => {
           setOnConnectStartParams={setOnConnectStartParams}
           onPaneDoubleClick={handlePaneDoubleClick}
         />
-        <Transition
-          show={layout.showLogSidebar && router.isReady}
-          enter="transition ease-in-out duration-300 transform"
-          enterFrom="translate-x-full"
-          enterTo="translate-x-0"
-          leave="transition ease-in-out duration-300 transform"
-          leaveFrom="translate-x-0"
-          leaveTo="translate-x-full"
-          className="flex max-h-screen min-h-screen w-96 flex-col overflow-y-auto border-l border-black/30 bg-white"
-        >
-          <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold">
-            <FaFolder />
-            <span>Workflow logs</span>
-          </div>
-          <hr />
-          {logMessage.length === 0 && (
-            <p className="px-4 font-thin">
-              When you execute a workflow, log messages will appear here
-            </p>
-          )}
-          {logMessage.map(({ date, msg }, i) => (
-            <>
-              <div key={i} className="p-1 px-4 pt-4">
-                <span className="text-sm text-gray-400">{date} </span>
-                <MarkdownRenderer>{msg}</MarkdownRenderer>
-              </div>
-              <hr />
-            </>
-          ))}
-          <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-sm">
-            {logMessage.length > 0 && (
-              <button
-                onClick={handleExportToTxt}
-                className="ml-auto rounded bg-black px-4 py-1 text-white"
-              >
-                Export logs
-              </button>
-            )}
-          </div>
-        </Transition>
       </div>
     </>
   );

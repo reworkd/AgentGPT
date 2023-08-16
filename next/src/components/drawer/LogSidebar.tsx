@@ -60,12 +60,12 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
           </button>
           <div />
         </div>
-        <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold text-black">
+        <div className="mb-1 flex items-center gap-2 px-4 pt-4 text-xl font-bold text-black">
           <FaFolder />
           <span>Workflow logs</span>
         </div>
         <hr />
-        <div className="max-h-[60vh] overflow-y-auto font-inter text-black">
+        <div className="max-h-[70vh] overflow-y-auto font-inter text-black">
           {logMessage.length === 0 && (
             <p className="px-4 font-thin">
               When you execute a workflow, log messages will appear here
@@ -73,8 +73,8 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
           )}
           {logMessage.map(({ date, msg }, i) => (
             <>
-              <div key={i} className="p-1 px-4 pt-4">
-                <span className="text-sm text-gray-400">{date} </span>
+              <div key={i} className="p-0 px-2 pt-1 text-xs">
+                <span className="text-gray-400">{date} </span>
                 <MarkdownRenderer>{msg}</MarkdownRenderer>
               </div>
               <hr />

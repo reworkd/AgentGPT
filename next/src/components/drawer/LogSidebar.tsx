@@ -48,7 +48,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
     <SidebarTransition
       show={layout.showLogSidebar}
       side="right"
-      className="mr-3.5 rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
+      className="mr-3.5 w-full rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
     >
       <div className="text-color-primary flex h-[80vh] flex-col gap-2 overflow-x-hidden break-words bg-white">
         <div className="flex flex-row items-center gap-1">
@@ -60,12 +60,12 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
           </button>
           <div />
         </div>
-        <div className="mb-5 flex items-center gap-2 px-4 pt-6 text-xl font-bold text-black">
+        <div className="mb-1 flex items-center gap-2 px-4 pt-4 text-xl font-bold text-black">
           <FaFolder />
           <span>Workflow logs</span>
         </div>
         <hr />
-        <div className="max-h-[60vh] overflow-y-auto font-inter text-black">
+        <div className="max-h-[70vh] overflow-y-auto font-inter text-black">
           {logMessage.length === 0 && (
             <p className="px-4 font-thin">
               When you execute a workflow, log messages will appear here
@@ -73,9 +73,9 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
           )}
           {logMessage.map(({ date, msg }, i) => (
             <>
-              <div key={i} className="p-1 px-4 pt-4">
-                <span className="text-sm text-gray-400">{date} </span>
-                <MarkdownRenderer>{msg}</MarkdownRenderer>
+              <div key={i} className="p-0 px-2 pt-1 text-xs">
+                <span className="text-gray-400">{date} </span>
+                <MarkdownRenderer className="ml-4">{msg}</MarkdownRenderer>
               </div>
               <hr />
             </>

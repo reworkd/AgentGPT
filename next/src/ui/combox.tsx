@@ -1,11 +1,8 @@
 import { Combobox } from "@headlessui/react";
+import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { HiCheck, HiChevronDown } from "react-icons/hi2";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 interface Props<T> {
   label: string;
@@ -47,7 +44,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
                 key={i}
                 value={e}
                 className={({ active }) =>
-                  classNames(
+                  clsx(
                     "relative cursor-default select-none py-2 pl-3 pr-9 ",
                     active
                       ? "bg-blue-hover-light text-white dark:bg-blue-hover-dark"
@@ -57,13 +54,13 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
               >
                 {({ selected }) => (
                   <>
-                    <span className={classNames("block truncate", selected && "font-semibold")}>
+                    <span className={clsx("block truncate", selected && "font-semibold")}>
                       {props.valueMapper(e)}
                     </span>
 
                     {selected && (
                       <span
-                        className={classNames(
+                        className={clsx(
                           "text-color-primary absolute inset-y-0 right-0 flex items-center pr-4"
                         )}
                       >

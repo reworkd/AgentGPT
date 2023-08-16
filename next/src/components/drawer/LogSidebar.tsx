@@ -75,7 +75,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
             <>
               <div key={i} className="p-0 px-2 pt-1 text-xs">
                 <span className="text-gray-400">{date} </span>
-                <MarkdownRenderer>{msg}</MarkdownRenderer>
+                <MarkdownRenderer className="ml-4">{msg}</MarkdownRenderer>
               </div>
               <hr />
             </>

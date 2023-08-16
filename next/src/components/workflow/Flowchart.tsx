@@ -129,6 +129,8 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
 
     const onConnect = useCallback(
       (connection: Connection) => {
+        if (connection.source === connection.target) return;
+
         const currentEdges = edgesModel.get();
         const updatedEdges = addEdge({ ...connection, animated: true }, currentEdges ?? []);
         setEdges(updatedEdges);

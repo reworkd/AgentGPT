@@ -9,6 +9,7 @@ from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from langchain.schema import HumanMessage
 from loguru import logger
 from pydantic import ValidationError
+from reworkd_platform.schemas.user import UserBase
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.services.tokenizer.token_service import TokenService
@@ -37,7 +38,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
 from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
 from reworkd_platform.web.api.memory.memory import AgentMemory
-
+from reworkd_platform.db.crud.oauth import OAuthCrud
 
 class OpenAIAgentService(AgentService):
     def __init__(
@@ -47,12 +48,16 @@ class OpenAIAgentService(AgentService):
         agent_memory: AgentMemory,
         token_service: TokenService,
         callbacks: Optional[List[AsyncCallbackHandler]],
+        user: UserBase,
+        oauth_crud: OAuthCrud
     ):
         self.model = model
         self.agent_memory = agent_memory
         self.settings = settings
         self.token_service = token_service
         self.callbacks = callbacks
+        self.user = user
+        self.oauth_crud = oauth_crud
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         prompt = ChatPromptTemplate.from_messages(
@@ -123,6 +128,7 @@ class OpenAIAgentService(AgentService):
         except (OpenAIError, ValidationError):
             return Analysis.get_default_analysis()
 
+    # TODO request context
     async def execute_task_agent(
         self,
         *,
@@ -136,7 +142,7 @@ class OpenAIAgentService(AgentService):
 
         tool_class = get_tool_from_name(analysis.action)
         return await tool_class(self.model, self.settings.language).call(
-            goal, task, analysis.arg
+            goal, task, analysis.arg, self.user, self.oauth_crud,
         )
 
     async def create_tasks_agent(

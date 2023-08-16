@@ -27,7 +27,7 @@ import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type {Language} from "../utils/languages";
 import {languages} from "../utils/languages";
-import ConnectSidButton from "../ui/sid/ConnectSidButton"
+import SIDIntegration from "../ui/SIDIntegration";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
@@ -67,7 +67,7 @@ const SettingsPage = () => {
   };
 
   const onDisconnect = () => {
-    return null;
+    return Promise.resolve()
   }
 
   return (
@@ -125,8 +125,7 @@ const SettingsPage = () => {
                   </Button>
                 }
               />
-              <ConnectSidButton isConnected={true} width={250} fontScale={0.9} height={35} onDisconnect={onDisconnect}
-                                href={''}/>
+              <SIDIntegration value = "" onChange={(value: string) => {}} />
             </div>
 
             {!disableAdvancedSettings && (

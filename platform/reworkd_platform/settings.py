@@ -117,6 +117,10 @@ class Settings(BaseSettings):
     slack_client_secret: str = ""
     slack_redirect_uri: str = ""
 
+    sid_client_id: str = ""
+    sid_client_secret: str = ""
+    sid_redirect_uri: str = ""
+
     # Settings for s3
     s3_bucket_name: str = "changeme"
 

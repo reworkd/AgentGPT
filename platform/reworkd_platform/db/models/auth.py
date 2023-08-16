@@ -31,4 +31,5 @@ class OauthCredentials(TrackedModel):
     # Post-installation
     token_type = mapped_column(String, nullable=True)
     access_token_enc = mapped_column(String, nullable=True)
+    refresh_token_enc = mapped_column(String, nullable=True)
     scope = mapped_column(String, nullable=True)

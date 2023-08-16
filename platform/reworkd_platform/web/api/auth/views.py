@@ -60,6 +60,8 @@ async def pusher_authentication(
     return websockets.authenticate(user, channel_name, socket_id)
 
 
+# TODO SID - add endpoints for SID
+
 @router.get("/{provider}")
 async def oauth_install(
     redirect: str = settings.frontend_url,
@@ -85,7 +87,6 @@ async def oauth_callback(
 class Channel(BaseModel):
     name: str
     id: str
-
 
 @router.get("/slack/info")
 async def slack_channels(

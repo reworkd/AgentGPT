@@ -12,10 +12,11 @@ from reworkd_platform.web.api.agent.tools.utils import (
     summarize_sid,
 )
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+from reworkd_platform.services.security import encryption_service
 
-async def _sid_search_results(search_term: str, limit: int) -> dict[str, Any]:
-    #TODO instead of hardcoding the access token it needs to be obtained through an auth token exchange
-    token = ""
+async def _sid_search_results(search_term: str, limit: int, token: str) -> dict[str, Any]:
     headers = {
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json'
@@ -49,10 +50,16 @@ class SID(Tool):
         return settings.refresh_token_debug is not None and settings.refresh_token_debug != ""
 
     async def call(
-        self, goal: str, task: str, input_str: str
+        self, goal: str, task: str, input_str: str, user: UserBase, oauth_crud: OAuthCrud,
     ) -> FastAPIStreamingResponse:
+        installation = await oauth_crud.get_installation_by_user_id(user_id=user.id, provider='sid')
+        if installation is None:
+            return stream_string("No good results found by SID", True)
+
+        token = encryption_service.decrypt(installation.access_token_enc)
+
         res = await _sid_search_results(
-            input_str, limit=10
+            input_str, limit=10, token=token
         )
 
         snippets: List[Snippet] = [Snippet(text=result) for result in res.get("results")]

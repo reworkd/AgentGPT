@@ -110,6 +110,7 @@ model OAuthCredentials {
   // Post install
   token_type       String?
   access_token_enc String?
+  refresh_token_enc String?
   scope            String?
 
   create_date DateTime  @default(now())

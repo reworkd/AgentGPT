@@ -10,7 +10,7 @@ class Code(Tool):
     public_description = "Write and review code."
 
     async def call(
-        self, goal: str, task: str, input_str: str
+        self, goal: str, task: str, input_str: str, *args
     ) -> FastAPIStreamingResponse:
         from reworkd_platform.web.api.agent.prompts import code_prompt
 

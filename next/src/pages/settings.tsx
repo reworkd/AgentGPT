@@ -125,7 +125,6 @@ const SettingsPage = () => {
                   </Button>
                 }
               />
-              <SIDIntegration value = "" onChange={(value: string) => {}} />
             </div>
 
             {!disableAdvancedSettings && (

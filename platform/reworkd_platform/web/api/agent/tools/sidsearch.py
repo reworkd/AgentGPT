@@ -54,7 +54,7 @@ class SID(Tool):
     ) -> FastAPIStreamingResponse:
         installation = await oauth_crud.get_installation_by_user_id(user_id=user.id, provider='sid')
         if installation is None:
-            return stream_string("No good results found by SID", True)
+            return stream_string("Unable to fetch SID results", True)
 
         token = encryption_service.decrypt(installation.access_token_enc)
 

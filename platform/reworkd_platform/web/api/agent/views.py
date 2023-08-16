@@ -123,9 +123,15 @@ class ToolModel(BaseModel):
 class ToolsResponse(BaseModel):
     tools: List[ToolModel]
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas import UserBase
+from reworkd_platform.web.api.dependencies import get_current_user
 
 @router.get("/tools")
-async def get_user_tools() -> ToolsResponse:
+async def get_user_tools(
+    # user: UserBase = Depends(get_current_user),
+    # oauth_crud: OAuthCrud = Depends(OAuthCrud.inject),
+) -> ToolsResponse:
     tools = get_external_tools()
     formatted_tools = [
         ToolModel(

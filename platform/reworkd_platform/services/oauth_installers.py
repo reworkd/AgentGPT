@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from urllib.parse import urlencode
+from datetime import datetime, timedelta
 
 import json
 import aiohttp
@@ -25,6 +27,10 @@ class OAuthInstaller(ABC):
 
     @abstractmethod
     async def install_callback(self, code: str, state: str) -> OauthCredentials:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def uninstall(self, user: UserBase) -> bool:
         raise NotImplementedError()
 
     @staticmethod
@@ -83,13 +89,18 @@ class SlackInstaller(OAuthInstaller):
         creds.scope = oauth_response["scope"]
         return await creds.save(self.crud.session)
 
+    async def uninstall(self, user: UserBase) -> bool:
+        raise NotImplementedError()
+
 class SIDInstaller(OAuthInstaller):
     PROVIDER = "sid"
 
     async def install(self, user: UserBase, redirect_uri: str) -> str:
-        installation = await self.crud.create_installation(
-            user, self.PROVIDER, redirect_uri
-        )
+        installation = await self.crud.get_installation_by_user_id(user.id, self.PROVIDER)
+        if not installation:
+            installation = await self.crud.create_installation(
+                user, self.PROVIDER, redirect_uri,
+            )
         scopes = ["data:query", "offline_access"]
         params = {
             'client_id': self.settings.sid_client_id,
@@ -97,10 +108,10 @@ class SIDInstaller(OAuthInstaller):
             'response_type': 'code',
             'scope': ' '.join(scopes),
             'state': installation.state,
-            'name': 'AgentGPT'
+            'audience': 'https://api.sid.ai/api/v1/',
+            'app_name': 'AgentGPT'
         }
-        auth_url = 'https://auth.sid.ai/oauth/authorize'
-        from urllib.parse import urlencode
+        auth_url = 'https://me.sid.ai/api/oauth/authorize'
         auth_url += '?' + urlencode(params)
         return auth_url
 
@@ -128,7 +139,30 @@ class SIDInstaller(OAuthInstaller):
 
         OAuthInstaller.store_access_token(creds, res_data["access_token"])
         OAuthInstaller.store_refresh_token(creds, res_data["refresh_token"])
+        creds.access_token_expiration = datetime.now() + timedelta(seconds=res_data["expires_in"])
         return await creds.save(self.crud.session)
+
+    async def uninstall(self, user: UserBase) -> bool:
+        creds = await self.crud.get_installation_by_user_id(user.id, self.PROVIDER)
+        if not creds or creds.access_token_enc == "":
+            return False
+        delete_token = encryption_service.decrypt(creds.refresh_token_enc)
+        creds.access_token_enc = ""
+        creds.refresh_token_enc = ""
+
+        async with aiohttp.ClientSession() as session:
+            await session.post(
+                "https://auth.sid.ai/oauth/revoke",
+                headers={
+                    'Content-Type': 'application/json',
+                },
+                data=json.dumps({
+                    'client_id': self.settings.sid_client_id,
+                    'client_secret': self.settings.sid_client_secret,
+                    'token': delete_token,
+                })
+            )
+        return True
 
 
 integrations = {

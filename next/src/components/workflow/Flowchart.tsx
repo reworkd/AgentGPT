@@ -134,15 +134,18 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
         const currentEdges = edgesModel.get();
         const updatedEdges = addEdge({ ...connection, animated: true }, currentEdges ?? []);
         setEdges(updatedEdges);
+
+        connectionDragging.current = false;
       },
       [setEdges, edgesModel]
     );
 
     const onConnectEnd = useCallback(
       (event: MouseEvent | TouchEvent) => {
-        if (!connectionDragging.current) return;
-        connectionDragging.current = false;
-        onPaneDoubleClick(getExactPosition(event));
+        if (connectionDragging.current) {
+          connectionDragging.current = false;
+          onPaneDoubleClick(getExactPosition(event));
+        }
       },
       [getExactPosition, onPaneDoubleClick, connectionDragging]
     );

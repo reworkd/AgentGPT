@@ -48,7 +48,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
     <SidebarTransition
       show={layout.showLogSidebar}
       side="right"
-      className="mr-3.5 rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
+      className="mr-3.5 w-full rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
     >
       <div className="text-color-primary flex h-[80vh] flex-col gap-2 overflow-x-hidden break-words bg-white">
         <div className="flex flex-row items-center gap-1">

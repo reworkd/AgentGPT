@@ -25,7 +25,7 @@ const MarkdownRenderer = ({ children, className }: MarkdownRendererProps) => {
         a: (props) => CustomLink({ children: props.children, href: props.href }),
         p: (props) => <p className="mb-4">{props.children}</p>,
         ul: (props) => (
-          <ul className={`mb-4 list-disc marker:text-neutral-400 ${className || ""}`}>
+          <ul className={clsx("mb-4 list-disc marker:text-neutral-400", className)}>
             {props.children}
           </ul>
         ),

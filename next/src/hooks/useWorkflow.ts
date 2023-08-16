@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import type { Session } from "next-auth";
-import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import type { Edge, Node } from "reactflow";
 import { z } from "zod";
@@ -22,31 +21,59 @@ const SaveEventSchema = z.object({
   user_id: z.string(),
 });
 
-const updateValue = <
+const updateNodeValue = <
+  DATA extends WorkflowNode,
+  KEY extends keyof DATA,
+  T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
+>(
+  currentNodes: Node<WorkflowNode>[],
+  setNodes: (nodes: Node<WorkflowNode>[]) => void,
+  key: KEY,
+  value: DATA[KEY],
+  filter: (node?: T["data"]) => boolean = () => true
+) => {
+  const updatedNodes = currentNodes.map((t: Node<WorkflowNode>) => {
+    if (filter(t.data)) {
+      return {
+        ...t,
+        data: {
+          ...t.data,
+          [key]: value,
+        },
+      };
+    }
+    return t;
+  });
+
+  setNodes(updatedNodes);
+};
+
+const updateEdgeValue = <
   DATA extends WorkflowEdge | WorkflowNode,
   KEY extends keyof DATA,
   T extends DATA extends WorkflowEdge ? Edge<DATA> : Node<DATA>
 >(
-  setState: Dispatch<SetStateAction<T[]>>,
+  currentEdges: Edge<WorkflowEdge>[],
+  setEdges: (edges: Edge<WorkflowEdge>[]) => void,
   key: KEY,
   value: DATA[KEY],
-  filter: (node?: T["data"]) => boolean = () => true
-) =>
-  setState((prev) =>
-    prev.map((t) => {
-      if (filter(t.data)) {
-        return {
-          ...t,
-          data: {
-            ...t.data,
-            [key]: value,
-          },
-        };
-      }
+  filter: (edge?: T["data"]) => boolean = () => true
+) => {
+  const updatedEdges = currentEdges.map((t: Edge<WorkflowEdge>) => {
+    if (filter(t.data)) {
+      return {
+        ...t,
+        data: {
+          ...t.data,
+          [key]: value,
+        },
+      };
+    }
+    return t;
+  }) as Edge<WorkflowEdge>[];
 
-      return t;
-    })
-  );
+  setEdges(updatedEdges);
+};
 
 export const useWorkflow = (
   workflowId: string | undefined,
@@ -62,7 +89,26 @@ export const useWorkflow = (
     await api.update(workflowId, data);
   });
 
-  const workflowStore = useWorkflowStore();
+  const {
+    workflow,
+    setInputs,
+    updateWorkflow: updateWorkflowStore,
+    setWorkflow,
+    setNodes,
+    setEdges,
+    getNodes,
+    getEdges,
+  } = useWorkflowStore();
+
+  const nodesModel = {
+    get: getNodes,
+    set: setNodes,
+  };
+
+  const edgesModel = {
+    get: getEdges,
+    set: setEdges,
+  };
 
   const { refetch: refetchWorkflow, isLoading } = useQuery(
     ["workflow", workflowId],
@@ -74,9 +120,12 @@ export const useWorkflow = (
       }
 
       const workflow = await api.get(workflowId);
-      workflowStore.setWorkflow(workflow);
-      setNodes(workflow?.nodes.map(toReactFlowNode) ?? []);
-      setEdges(workflow?.edges.map(toReactFlowEdge) ?? []);
+      setWorkflow({
+        id: workflow.id,
+        nodes: workflow.nodes.map(toReactFlowNode),
+        edges: workflow.edges.map(toReactFlowEdge),
+      });
+
       return workflow;
     },
     {
@@ -86,16 +135,17 @@ export const useWorkflow = (
     }
   );
 
-  const nodesModel = useState<Node<WorkflowNode>[]>([]);
-  const edgesModel = useState<Edge<WorkflowEdge>[]>([]);
-  const [nodes, setNodes] = nodesModel;
-  const [edges, setEdges] = edgesModel;
-
   useEffect(() => {
-    const selectedNodes = nodes.filter((n) => n.selected);
-    if (selectedNodes.length == 0) setSelectedNode(undefined);
-    else setSelectedNode(selectedNodes[0]);
-  }, [nodes]);
+    if (!workflow?.nodes) return; // Early exit if nodes are not available
+
+    const selectedNodes = workflow.nodes.filter((n) => n.selected);
+
+    if (selectedNodes.length === 0) {
+      setSelectedNode(undefined);
+    } else {
+      setSelectedNode(selectedNodes[0]);
+    }
+  }, [workflow?.nodes]);
 
   const members = useSocket(
     workflowId,
@@ -106,13 +156,13 @@ export const useWorkflow = (
         callback: async (data) => {
           const { nodeId, status, remaining } = await StatusEventSchema.parseAsync(data);
 
-          updateValue(setNodes, "status", status, (n) => n?.id === nodeId);
-          updateValue(setEdges, "status", status, (e) => e?.target === nodeId);
+          updateNodeValue(getNodes() ?? [], setNodes, "status", status, (n) => n?.id === nodeId);
+          updateEdgeValue(getEdges() ?? [], setEdges, "status", status, (e) => e?.id === nodeId);
 
           if (status === "error" || remaining === 0) {
             setTimeout(() => {
-              updateValue(setNodes, "status", undefined);
-              updateValue(setEdges, "status", undefined);
+              updateNodeValue(getNodes() ?? [], setNodes, "status", undefined);
+              updateEdgeValue(getEdges() ?? [], setEdges, "status", undefined);
             }, 1000);
           }
         },
@@ -151,26 +201,38 @@ export const useWorkflow = (
         block: block,
       },
     };
-    setNodes((nodes) => [...(nodes ?? []), node]);
+
+    const newNodes = [...(getNodes() ?? []), node];
+
+    setNodes(newNodes);
+
     return node;
   };
 
   const updateNode: updateNodeType = (nodeToUpdate: Node<WorkflowNode>) => {
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === nodeToUpdate.id) {
-          node.data = {
+    const nodes = (getNodes() ?? []).map((node) => {
+      if (node.id === nodeToUpdate.id) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
             ...nodeToUpdate.data,
-          };
-        }
+          },
+        };
+      }
+      return node;
+    });
 
-        return node;
-      })
-    );
+    updateWorkflowStore({
+      nodes,
+    });
   };
 
   const onSave = async () => {
     if (!workflowId) return;
+
+    const nodes = getNodes() ?? [];
+    const edges = getEdges() ?? [];
 
     await updateWorkflow({
       id: workflowId,
@@ -196,9 +258,9 @@ export const useWorkflow = (
   };
 
   return {
-    selectedNode,
     nodesModel,
     edgesModel,
+    selectedNode,
     saveWorkflow: onSave,
     executeWorkflow: onExecute,
     createNode,

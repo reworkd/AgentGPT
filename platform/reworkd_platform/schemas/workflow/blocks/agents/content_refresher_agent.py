@@ -52,10 +52,13 @@ class ContentRefresherService:
         target_content = await self.get_page_content(target_url)
         self.log("Extracting content from provided URL")
 
-        input_keywords = self.parse_input_keywords(input_.keywords)
-        content_keywords = await self.find_content_kws(target_content, input_keywords)
-        keywords = input_keywords + content_keywords
-        self.log("Finding keywords from source content")
+        keywords = self.parse_input_keywords(input_.keywords)
+        self.log("Parsing keywords from input")
+
+        if len(keywords) < 3:
+            additional_keywords = await self.find_content_kws(target_content, keywords)
+            keywords.extend(additional_keywords)
+            self.log("Finding more keywords from source content")
         self.log("Keywords: " + ", ".join(keywords))
 
         sources = self.search_results(", ".join(keywords))
@@ -188,7 +191,7 @@ class ContentRefresherService:
     async def add_info(self, target: str, info: str) -> str:
         # Claude: rewrite target to include the info
         prompt = HumanAssistantPrompt(
-            human_prompt=f"Below are notes from some SOURCE articles:\n{info}\n----------------\nBelow is the TARGET article:\n{target}\n----------------\nPlease rewrite the TARGET article to add unique, new information from the SOURCE articles. The format of the article you write should STRICTLY be the same as the TARGET article. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",
+            human_prompt=f"Below is the TARGET article:\n{target}\n----------------\nBelow are notes from SOURCE articles that are not currently present in the TARGET:\n{info}\n----------------\nPlease rewrite the TARGET article to include unique, new information from the SOURCE articles. The format of the article you write should follow the TARGET article. The goal is to add as many relevant details from SOURCE to TARGET. Don't remove any details from the TARGET article, unless you are refreshing that specific content with new information. After any new source info that is added to target, include inline citations using the following example format: 'So this is a cited sentence at the end of a paragraph[1](https://www.wisnerbaum.com/prescription-drugs/gardasil-lawsuit/, Gardasil Vaccine Lawsuit Update August 2023 - Wisner Baum).' Do not cite info that already existed in the TARGET article. Do not list citations separately at the end of the response",
             assistant_prompt="Here is a rewritten version of the target article that incorporates relevant information from the source articles:",
         )
 

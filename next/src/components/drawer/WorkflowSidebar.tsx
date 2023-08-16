@@ -33,15 +33,15 @@ const WorkflowSidebar: FC<WorkflowControls> = (controls) => {
     <SidebarTransition
       show={layout.showRightSidebar}
       side="right"
-      className="mr-3.5 rounded-lg bg-black p-6 shadow-xl shadow-stone-400"
+      className="mr-3.5 rounded-lg bg-white p-6 shadow-xl shadow-stone-400"
     >
-      <div className="text-color-primary flex h-[80vh] w-64 flex-col gap-2  bg-black">
+      <div className="text-color-primary flex h-[80vh] w-64 flex-col gap-2  bg-white">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
             onClick={() => setShow(false)}
           >
-            <FaBars size="15" className="z-20 mr-2" />
+            <FaBars size="15" className="z-20 mr-2 text-black" />
           </button>
           <div />
         </div>
@@ -61,7 +61,7 @@ type InspectSectionProps = {
 const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSectionProps) => {
   if (selectedNode == undefined)
     return (
-      <div className="text-sm font-light">
+      <div className="text-sm font-light text-black">
         No components selected. Click on a component to select it
       </div>
     );
@@ -95,11 +95,11 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
   return (
     <>
       <div>
-        <p className="text-lg font-bold">{definition?.type}</p>
-        <p className="mb-3 text-sm font-thin">{definition?.description}</p>
+        <p className="font-inter text-lg font-bold text-black">{definition?.type}</p>
+        <p className="mb-3 font-inter text-sm font-light text-black">{definition?.description}</p>
       </div>
       <hr className="border-neutral-500" />
-      <div className="font-bold">Inputs</div>
+      <div className="font-inter font-bold text-black">Inputs</div>
       {definition?.input_fields.map((inputField: IOField) => (
         <div key={definition?.type + inputField.name}>
           <WorkflowSidebarInput
@@ -111,23 +111,29 @@ const InspectSection = ({ selectedNode, updateNode, nodes, edges }: InspectSecti
         </div>
       ))}
       {definition?.input_fields.length == 0 && (
-        <p className="text-sm font-thin">This node does not take any input.</p>
+        <p className="font-inter text-sm text-black">This node does not take any input.</p>
       )}
       <hr className="border-neutral-500" />
-      <div className="font-bold">Outputs</div>
-      <div className="flex flex-col gap-2">
-        {definition?.output_fields.map((outputField: IOField) => (
-          <div key={definition?.type + outputField.name}>
-            <p>
-              <span className="text-sm font-bold">{outputField.name}:</span>{" "}
-              <span className="text-sm">{outputField.type}</span>
-            </p>
-            <p className="text-sm font-thin">{outputField.description}</p>
-          </div>
-        ))}
-        {definition?.output_fields.length == 0 && (
-          <p className="text-sm font-thin">This node does not have any output.</p>
-        )}
+      <div className="font-inter">
+        <div className="font-bold text-black">Outputs</div>
+        <div className="mt-2 flex flex-col gap-2 text-black">
+          {definition?.output_fields.map((outputField: IOField) => (
+            <div key={definition?.type + outputField.name} className="text-sm">
+              <p>
+                <span className="font-normal leading-6">{outputField.name}:</span>{" "}
+                <span className="text-xs font-light text-gray-500 lg:text-sm">
+                  {outputField.type}
+                </span>
+              </p>
+              <p className="text-xs font-light text-gray-500 lg:text-sm">
+                {outputField.description}
+              </p>
+            </div>
+          ))}
+          {definition?.output_fields.length == 0 && (
+            <p className="font-thin">This node does not have any output.</p>
+          )}
+        </div>
       </div>
     </>
   );

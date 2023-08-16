@@ -21,8 +21,10 @@ function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
   const definition = getNodeBlockDefinitions().find((d) => d.type === data.block.type);
 
   const handleButtonClick = async () => {
+    if (!workflow) return;
+
     setLoading(true);
-    await api.execute(workflow?.id || "");
+    await api.execute(workflow.id);
     setLayout({ showLogSidebar: true });
     setLayout({ showRightSidebar: false });
     setTimeout(() => {
@@ -36,21 +38,17 @@ function TriggerNode({ data, selected }: NodeProps<WorkflowNode>) {
       status={data.status}
       handles={[{ position: Position.Bottom, type: "source" }]}
     >
-      <div className="flex flex-col">
-        <NodeTitle definition={definition} />
-        {workflow?.id && (
-          <Button
-            loader={loading}
-            onClick={handleButtonClick}
-            className={clsx(
-              !loading && "hover:bg-white hover:text-black",
-              "mt-2 rounded-md border border-black bg-black text-lg font-extralight tracking-wide text-white transition-all duration-300"
-            )}
-          >
-            <span className="text-xs">Run Workflow</span>
-          </Button>
+      <NodeTitle definition={definition} />
+      <Button
+        loader={loading}
+        onClick={handleButtonClick}
+        className={clsx(
+          !loading && "hover:bg-white hover:text-black",
+          "rounded-md border border-black bg-black text-lg font-extralight tracking-wide text-white transition-all duration-300"
         )}
-      </div>
+      >
+        <span className="text-xs">Run Workflow</span>
+      </Button>
     </AbstractNode>
   );
 }

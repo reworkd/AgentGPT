@@ -16,7 +16,7 @@ const WorkflowNodeSchema = z.object({
   ref: z.string(),
   pos_x: z.number(),
   pos_y: z.number(),
-  status: z.enum(["running", "success", "failure"]).optional(),
+  status: z.enum(["running", "success", "error"]).optional(),
   block: NodeBlockSchema,
 });
 
@@ -37,8 +37,15 @@ export type WorkflowNode = z.infer<typeof WorkflowNodeSchema>;
 export type WorkflowEdge = z.infer<typeof WorkflowEdgeSchema>;
 export type Workflow = z.infer<typeof WorkflowSchema>;
 
-export type NodesModel = Model<Node<WorkflowNode>[]>;
-export type EdgesModel = Model<WorkflowEdge[]>;
+export type NodesModel = {
+  get: () => Node<WorkflowNode>[] | null;
+  set: (nodes: Node<WorkflowNode>[]) => void;
+};
+
+export type EdgesModel = {
+  get: () => Edge<WorkflowEdge>[] | null;
+  set: (edges: Edge<WorkflowEdge>[]) => void;
+};
 
 export const toReactFlowNode = (node: WorkflowNode) =>
   ({
@@ -52,7 +59,6 @@ export const toReactFlowEdge = (edge: WorkflowEdge) =>
   ({
     ...edge,
     sourceHandle: edge.source_handle,
-    animated: true,
     type: "custom",
     data: {
       ...edge,

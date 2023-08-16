@@ -142,10 +142,9 @@ const FlowChart = forwardRef<FlowChartHandles, FlowChartProps>(
 
     const onConnectEnd = useCallback(
       (event: MouseEvent | TouchEvent) => {
-        if (connectionDragging.current) {
-          connectionDragging.current = false;
-          onPaneDoubleClick(getExactPosition(event));
-        }
+        if (!connectionDragging.current) return;
+        connectionDragging.current = false;
+        onPaneDoubleClick(getExactPosition(event));
       },
       [getExactPosition, onPaneDoubleClick, connectionDragging]
     );

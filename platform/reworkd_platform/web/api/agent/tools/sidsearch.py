@@ -56,8 +56,8 @@ async def get_new_token(refresh_token: str) -> tuple[str, datetime]:
 class SID(Tool):
     public_description = "Grant access to your Notion, Google Drive, etc."
     description = """
-        Retrieve snippets of non-public information by searching through google drive, notion, and gmail.
-        Contains results which are unavailable from public sources.
+        Find private information by searching through notion, email and google drive.
+        Should be used when questions refer to personal information.
     """
     arg_description = "The query to search for. It should be a question in natural language."
     image_url = "/tools/sid.png"

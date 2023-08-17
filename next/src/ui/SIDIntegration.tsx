@@ -23,7 +23,7 @@ const SIDIntegration: FC<{}> = (props) => {
     <div className="flex flex-col text-white mt-1">
       {!data && (
         <Button
-          className="opacity-0 shadow-none cursor-default"
+          className="bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-full"
         >Loading...</Button>
       )}
       {data && !data.connected && (
@@ -34,7 +34,7 @@ const SIDIntegration: FC<{}> = (props) => {
             window.open(url, "_blank");
           }}
         >
-          Connect SID
+          Connect your Data
         </Button>
       )}
       {data && data.connected && (

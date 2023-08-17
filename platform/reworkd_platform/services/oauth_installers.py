@@ -97,7 +97,9 @@ class SIDInstaller(OAuthInstaller):
 
     async def install(self, user: UserBase, redirect_uri: str) -> str:
         installation = await self.crud.get_installation_by_user_id(user.id, self.PROVIDER)
-        if not installation:
+        if installation:
+            installation.delete_date = None # un-delete
+        else:
             installation = await self.crud.create_installation(
                 user, self.PROVIDER, redirect_uri,
             )
@@ -144,12 +146,19 @@ class SIDInstaller(OAuthInstaller):
 
     async def uninstall(self, user: UserBase) -> bool:
         creds = await self.crud.get_installation_by_user_id(user.id, self.PROVIDER)
+        # check if credentials exist and contain a refresh token
         if not creds or creds.access_token_enc == "":
             return False
+        
+        # use refresh token to revoke access
         delete_token = encryption_service.decrypt(creds.refresh_token_enc)
+
+        # delete credentials from database
         creds.access_token_enc = ""
         creds.refresh_token_enc = ""
+        await creds.delete(self.crud.session)
 
+        # revoke refresh token
         async with aiohttp.ClientSession() as session:
             await session.post(
                 "https://auth.sid.ai/oauth/revoke",

@@ -1,5 +1,6 @@
 import json
 from typing import Any, List
+from datetime import datetime, timedelta
 
 import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
@@ -28,12 +29,28 @@ async def _sid_search_results(search_term: str, limit: int, token: str) -> dict[
 
     async with aiohttp.ClientSession() as session:
         async with session.post(
-            "https://api.sid.ai/api/v1/users/me/data/query", headers=headers,
+            "https://api.sid.ai/v1/users/me/query", headers=headers,
             data=json.dumps(data)
         ) as response:
             response.raise_for_status()
             search_results = await response.json()
             return search_results
+
+async def get_new_token(refresh_token: str) -> tuple[str, datetime]:
+    data = {
+        'grant_type': 'refresh_token',
+        'client_id': settings.sid_client_id,
+        'client_secret': settings.sid_client_secret,
+        'redirect_uri': settings.sid_redirect_uri,
+        'refresh_token': refresh_token,
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.post('https://auth.sid.ai/oauth/token', data=data) as response:
+            response.raise_for_status()
+            response_data = await response.json()
+            access_token = response_data['access_token']
+            expires_in = response_data['expires_in']
+    return access_token, datetime.now() + timedelta(seconds=expires_in)
 
 
 class SID(Tool):
@@ -47,22 +64,38 @@ class SID(Tool):
 
     @staticmethod
     def available() -> bool:
-        return settings.refresh_token_debug is not None and settings.refresh_token_debug != ""
+        return settings.sid_client_id != "" and settings.sid_client_secret != ""
+
+    @staticmethod
+    async def dynamic_available(user: UserBase, oauth_crud: OAuthCrud) -> bool:
+        installation = await oauth_crud.get_installation_by_user_id(user_id=user.id, provider='sid')
+        return installation is not None and installation.access_token_enc is not None and installation.access_token_enc != ""
 
     async def call(
         self, goal: str, task: str, input_str: str, user: UserBase, oauth_crud: OAuthCrud,
     ) -> FastAPIStreamingResponse:
         installation = await oauth_crud.get_installation_by_user_id(user_id=user.id, provider='sid')
-        if installation is None:
+        if not installation or installation.access_token_enc is None or installation.access_token_enc == "":
             return stream_string("Unable to fetch SID results", True)
+
+        # update token if close to expiration
+        if installation.access_token_expiration > datetime.now() - timedelta(minutes=5):
+            refresh_token = encryption_service.decrypt(installation.refresh_token_enc)
+            access_token, expiration = await get_new_token(refresh_token)
+            installation.access_token_enc = encryption_service.encrypt(access_token)
+            installation.access_token_expiration = expiration
+            await installation.save(oauth_crud.session)
 
         token = encryption_service.decrypt(installation.access_token_enc)
 
         res = await _sid_search_results(
             input_str, limit=10, token=token
         )
-
-        snippets: List[Snippet] = [Snippet(text=result) for result in res.get("results")]
+        try:
+            snippets: List[Snippet] = [Snippet(text=result["text"]) for result in res.get("results")]
+        except Exception as e:
+            print(e)
+            return stream_string("Unable to fetch SID results", True)
 
         if len(snippets) == 0:
             return stream_string("No good results found by SID", True)

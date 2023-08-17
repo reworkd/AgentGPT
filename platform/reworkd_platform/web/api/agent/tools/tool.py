@@ -24,6 +24,10 @@ class Tool(ABC):
     def available() -> bool:
         return True
 
+    @staticmethod
+    async def dynamic_available(user: UserBase, oauth_crud: OAuthCrud) -> bool:
+        return True
+
     @abstractmethod
     async def call(self, goal: str, task: str, input_str: str, user: UserBase, oauth_crud: OAuthCrud) -> StreamingResponse:
         pass

@@ -94,7 +94,8 @@ class OpenAIAgentService(AgentService):
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        functions = list(map(get_tool_function, get_user_tools(tool_names)))
+        user_tools = await get_user_tools(tool_names, self.user, self.oauth_crud)
+        functions = list(map(get_tool_function, user_tools))
         prompt = analyze_task_prompt.format_prompt(
             goal=goal,
             task=task,

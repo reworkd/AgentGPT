@@ -67,7 +67,7 @@ const LogSidebar: FC<LogSidebarProps> = ({ workflowId, session, organizationId }
         <hr />
         <div className="max-h-[70vh] overflow-y-auto font-inter text-black">
           {logMessage.length === 0 && (
-            <p className="px-4 font-thin">
+            <p className="px-4 text-sm font-thin">
               When you execute a workflow, log messages will appear here
             </p>
           )}

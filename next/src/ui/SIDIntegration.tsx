@@ -20,15 +20,15 @@ const SIDIntegration: FC<{}> = (props) => {
   );
 
   return (
-    <div className="flex flex-col text-white">
+    <div className="flex flex-col text-white mt-1">
       {!data && (
         <Button
-        className="bg-gray-900 hover:bg-gray-700 text-white font-bold rounded"
+          className="opacity-0 shadow-none cursor-default"
         >Loading...</Button>
       )}
       {data && !data.connected && (
         <Button
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full"
           onClick={async () => {
             const url = await api.install("sid");
             window.open(url, "_blank");
@@ -39,7 +39,7 @@ const SIDIntegration: FC<{}> = (props) => {
       )}
       {data && data.connected && (
         <Button
-        className="bg-gray-700 hover:bg-gray-600 text-white font-bold rounded"
+          className="bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-full"
           onClick={async () => {
             let { success } = await api.uninstall("sid");
             refetch();

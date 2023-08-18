@@ -10,18 +10,25 @@ const SIDIntegration: FC<{}> = (props) => {
   const { data: session } = useSession();
   const api = OauthApi.fromSession(session);
 
+  const hasSession = !!session;
+
   const { data, refetch, isError } = useQuery(
-    [undefined],
+    ['sid_info', session],
     async () => await api.get_info_sid(),
     {
-      enabled: !!session,
+      enabled: hasSession,
       retry: false,
     }
   );
 
   return (
     <div className="flex flex-col text-white mt-1">
-      {!data && (
+      {!hasSession && (
+        <Button
+          className="opacity-0 cursor-default rounded-full"
+        ></Button>
+      )}
+      {hasSession && !data && (
         <Button
           className="bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-full"
         >Loading...</Button>
@@ -31,7 +38,7 @@ const SIDIntegration: FC<{}> = (props) => {
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full"
           onClick={async () => {
             const url = await api.install("sid");
-            window.open(url, "_blank");
+            window.location.href = url;
           }}
         >
           Connect your Data
@@ -44,7 +51,7 @@ const SIDIntegration: FC<{}> = (props) => {
             let { success } = await api.uninstall("sid");
             refetch();
           }}
-        >Disconnect SID</Button>
+        >Disconnect your Data</Button>
       )}
     </div>
   );

@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     workers_count: int = 1
     reload: bool = True
     environment: ENVIRONMENT = "development"
-    log_level: LOG_LEVEL = "DEBUG"
+    log_level: LOG_LEVEL = "INFO"
 
     # Make sure you update this with your own secret key
     # Must be 32 url-safe base64-encoded bytes
@@ -69,17 +69,16 @@ class Settings(BaseSettings):
     serp_api_key: Optional[str] = None
     scrapingbee_api_key: Optional[str] = None
     anthropic_api_key: Optional[str] = None
-    refresh_token_debug: Optional[str] = '-r7glNHD3tG1Yr5fokrwnrtz7yCwax2yVCnhhH78JDN2J'    #Personal refresh token of Lukas account
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
     allowed_origins_regex: Optional[str] = None
 
     # Variables for the database
-    db_host: str = "127.0.0.1"
-    db_port: int = 3306
-    db_user: str = "root"
-    db_pass: str = "root"
+    db_host: str = "localhost"
+    db_port: int = 3307
+    db_user: str = "reworkd_platform"
+    db_pass: str = "reworkd_platform"
     db_base: str = "reworkd_platform"
     db_echo: bool = False
     db_ca_path: Optional[str] = None

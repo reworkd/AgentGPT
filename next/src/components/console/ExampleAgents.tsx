@@ -46,7 +46,7 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
         />
       </FadeIn>
       <FadeIn delay={0.9} duration={0.5}>
-        <div className="m-2 grid grid-cols-3 items-stretch gap-2 sm:m-4 sm:grid-cols-3 grid-rows-2">
+        <div className="m-2 grid grid-cols-1 items-stretch gap-2 sm:m-4 sm:grid-cols-3 grid-rows-2">
           <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
             Write some code to make a platformer game.
           </ExampleAgentButton>
@@ -63,7 +63,7 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
             <div
               className={clsx(
                 `w-full p-2`,
-                `rounded-lg font-mono text-sm sm:text-base`,
+                `cursor-default rounded-lg font-mono text-sm sm:text-base`,
                 `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600`
               )}
             >

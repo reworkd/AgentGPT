@@ -20,19 +20,14 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
   const { data: session } = useSession();
   const api = OauthApi.fromSession(session);
 
-  const hasSession = !!session;
-
   const { data, refetch, isError } = useQuery(
     ['sid_info', session],
     async () => await api.get_info_sid(),
     {
-      enabled: hasSession,
+      enabled: !!session,
       retry: false,
     }
   );
-
-  const sidLoading = hasSession && !data;
-  const sidConnected = data?.connected ?? false;
 
   return (
     <>
@@ -56,7 +51,7 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
           <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
             Create a comprehensive report of the Nike company
           </ExampleAgentButton>
-          {(sidLoading || sidConnected) ?
+          {(!!session || (data?.connected ?? false)) ?
             <ExampleAgentButton name="AssistantGPT 🛟" setAgentRun={setAgentRun}>
               Summarize our user metrics notion page.
             </ExampleAgentButton> :

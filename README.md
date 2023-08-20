@@ -64,18 +64,25 @@ Before you get started, please make sure you have the following installed:
 
 3. **Clone the Repository and Navigate into the Directory** - Once your terminal is open, you can clone the repository and move into the directory by running the commands below.
 
-   **For Mac/Linux users** :apple: :penguin:
+   **For Mac/Linux users** 🐧
    ```bash
    git clone https://github.com/reworkd/AgentGPT.git
    cd AgentGPT
    ./setup.sh
    ```
-   **For Windows users** :windows:
+   **For Windows users (Powershell)** 🖥️
    ```bash
    git clone https://github.com/reworkd/AgentGPT.git
    cd AgentGPT
    ./setup.bat
    ```
+      **For Windows users (Command Prompt)** 🛠️
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   setup.bat
+   ```
+
 4. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
 
 Happy hacking! :tada:

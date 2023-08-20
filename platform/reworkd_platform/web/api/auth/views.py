@@ -1,4 +1,4 @@
-from typing import Annotated, Dict, List, Any
+from typing import Annotated, Dict, List, Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.responses import RedirectResponse
@@ -82,13 +82,17 @@ async def oauth_uninstall(
 
 @router.get("/{provider}/callback")
 async def oauth_callback(
-    code: str,
-    state: str,
+    code: Optional[str] = None,
+    state: Optional[str] = None,
     installer: OAuthInstaller = Depends(installer_factory),
 ) -> RedirectResponse:
     """Callback for OAuth App"""
-    creds = await installer.install_callback(code, state)
 
+    # if code or state are missing (user cancelled), redirect to frontend
+    if not code or not state:
+        return RedirectResponse(url=settings.frontend_url)
+
+    creds = await installer.install_callback(code, state)
     return RedirectResponse(url=creds.redirect_uri)
 
 @router.get("/sid/info")

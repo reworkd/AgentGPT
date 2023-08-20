@@ -110,8 +110,7 @@ class SIDInstaller(OAuthInstaller):
             'response_type': 'code',
             'scope': ' '.join(scopes),
             'state': installation.state,
-            'audience': 'https://api.sid.ai/api/v1/',
-            'app_name': 'AgentGPT'
+            'audience': 'https://api.sid.ai/api/v1/'
         }
         auth_url = 'https://me.sid.ai/api/oauth/authorize'
         auth_url += '?' + urlencode(params)
@@ -149,7 +148,7 @@ class SIDInstaller(OAuthInstaller):
         # check if credentials exist and contain a refresh token
         if not creds or creds.access_token_enc == "":
             return False
-        
+
         # use refresh token to revoke access
         delete_token = encryption_service.decrypt(creds.refresh_token_enc)
 

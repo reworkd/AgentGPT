@@ -4,12 +4,36 @@ import { ChatMessage } from "./ChatMessage";
 import { ExampleAgentButton } from "./ExampleAgentButton";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import FadeIn from "../motions/FadeIn";
+import Button from "../Button";
+import { useTools } from "../../hooks/useTools";
+import { useSession } from "next-auth/react";
+import OauthApi from "../../services/workflow/oauthApi";
+import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 
 
 type ExampleAgentsProps = {
   setAgentRun?: (name: string, goal: string) => void;
 };
+
 const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
+  const { data: session } = useSession();
+  const api = OauthApi.fromSession(session);
+
+  const hasSession = !!session;
+
+  const { data, refetch, isError } = useQuery(
+    ['sid_info', session],
+    async () => await api.get_info_sid(),
+    {
+      enabled: hasSession,
+      retry: false,
+    }
+  );
+
+  const sidLoading = hasSession && !data;
+  const sidConnected = data?.connected ?? false;
+
   return (
     <>
       <FadeIn delay={0.8} duration={0.5}>
@@ -22,7 +46,7 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
         />
       </FadeIn>
       <FadeIn delay={0.9} duration={0.5}>
-        <div className="m-2 flex flex-col justify-between gap-2 sm:m-4 sm:flex-row">
+        <div className="m-2 grid grid-cols-3 items-stretch gap-2 sm:m-4 sm:grid-cols-3 grid-rows-2">
           <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
             Write some code to make a platformer game.
           </ExampleAgentButton>
@@ -32,6 +56,26 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
           <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
             Create a comprehensive report of the Nike company
           </ExampleAgentButton>
+          {(sidLoading || sidConnected) ?
+            <ExampleAgentButton name="AssistantGPT 🛟" setAgentRun={setAgentRun}>
+              Summarize our user metrics notion page.
+            </ExampleAgentButton> :
+            <div
+              className={clsx(
+                `w-full p-2`,
+                `rounded-lg font-mono text-sm sm:text-base`,
+                `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600`
+              )}
+            >
+              <p className="text-lg font-black">AssistantGPT 🛟</p>
+              <p className="mt-2 text-sm">Connect your data to use this agent</p>
+              <div className="grid justify-items-center">
+                <Button className="mt-2 " onClick={async () => {
+                  window.location.href = await api.install("sid");
+                }}> Connect your Data</Button>
+              </div>
+            </div>
+          }
         </div>
       </FadeIn>
     </>

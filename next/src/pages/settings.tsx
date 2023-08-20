@@ -27,7 +27,6 @@ import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type {Language} from "../utils/languages";
 import {languages} from "../utils/languages";
-import SIDIntegration from "../ui/SIDIntegration";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");

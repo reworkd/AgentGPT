@@ -13,7 +13,6 @@ import AuthItem from "../sidebar/AuthItem";
 import LinkIconItem from "../sidebar/LinkIconItem";
 import LinkItem from "../sidebar/LinkItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../sidebar/links";
-import SIDIntegration from "../../ui/SIDIntegration";
 
 const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const router = useRouter();
@@ -118,7 +117,6 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
         </li>
         <li>
           <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">
-            <SIDIntegration />
           </div>
           </li>
         <li>

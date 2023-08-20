@@ -1,6 +1,7 @@
 import json
 from typing import Any, List
 from datetime import datetime, timedelta
+from loguru import logger
 
 import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
@@ -75,7 +76,9 @@ class SID(Tool):
         self, goal: str, task: str, input_str: str, user: UserBase, oauth_crud: OAuthCrud,
     ) -> FastAPIStreamingResponse:
         installation = await oauth_crud.get_installation_by_user_id(user_id=user.id, provider='sid')
-        if not installation or installation.access_token_enc is None or installation.access_token_enc == "":
+        # if the tool is called, the installation should be available. However, it is possible that it is
+        # disconnected in the meantime. In that case, we pretend as if no information is found.
+        if not installation or not installation.access_token_enc:
             return stream_string("Unable to fetch SID results", True)
 
         # update token if close to expiration
@@ -94,10 +97,10 @@ class SID(Tool):
         try:
             snippets: List[Snippet] = [Snippet(text=result["text"]) for result in res.get("results")]
         except Exception as e:
-            print(e)
+            logger.exception(e)
             return stream_string("Unable to fetch SID results", True)
 
-        if len(snippets) == 0:
+        if not snippets:
             return stream_string("No good results found by SID", True)
 
         return summarize_sid(self.model, self.language, goal, task, snippets)

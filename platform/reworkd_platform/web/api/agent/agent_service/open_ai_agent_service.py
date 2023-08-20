@@ -7,7 +7,6 @@ from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from langchain.schema import HumanMessage
-from loguru import logger
 from pydantic import ValidationError
 from reworkd_platform.schemas.user import UserBase
 
@@ -129,7 +128,6 @@ class OpenAIAgentService(AgentService):
         except (OpenAIError, ValidationError):
             return Analysis.get_default_analysis()
 
-    # TODO request context
     async def execute_task_agent(
         self,
         *,

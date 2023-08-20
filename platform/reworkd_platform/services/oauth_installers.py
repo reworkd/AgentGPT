@@ -96,10 +96,10 @@ class SIDInstaller(OAuthInstaller):
     PROVIDER = "sid"
 
     async def install(self, user: UserBase, redirect_uri: str) -> str:
+        # gracefully handle the case where the installation already exists
+        # this can happen if the user starts the process from multiple tabs
         installation = await self.crud.get_installation_by_user_id(user.id, self.PROVIDER)
-        if installation:
-            installation.delete_date = None # un-delete
-        else:
+        if not installation:
             installation = await self.crud.create_installation(
                 user, self.PROVIDER, redirect_uri,
             )
@@ -146,16 +146,13 @@ class SIDInstaller(OAuthInstaller):
     async def uninstall(self, user: UserBase) -> bool:
         creds = await self.crud.get_installation_by_user_id(user.id, self.PROVIDER)
         # check if credentials exist and contain a refresh token
-        if not creds or creds.access_token_enc == "":
+        if not creds:
             return False
 
         # use refresh token to revoke access
         delete_token = encryption_service.decrypt(creds.refresh_token_enc)
-
         # delete credentials from database
-        creds.access_token_enc = ""
-        creds.refresh_token_enc = ""
-        await creds.delete(self.crud.session)
+        await self.crud.session.delete(creds)
 
         # revoke refresh token
         async with aiohttp.ClientSession() as session:

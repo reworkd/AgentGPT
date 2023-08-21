@@ -62,6 +62,7 @@ export const clientSchema = z.object({
     NEXT_PUBLIC_CDN: z.string().default(""),
     NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development", "test"]).default("development"),
     NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: stringToBoolean().default(false),
+    NEXT_PUBLIC_FF_SID_ENABLED: stringToBoolean().default(false),
     NEXT_PUBLIC_VERCEL_URL: z.string().default("http://localhost:3000"),
     NEXT_PUBLIC_BACKEND_URL: z.string().url().default("http://localhost:8000"),
     NEXT_PUBLIC_MAX_LOOPS: z.coerce.number().default(25),
@@ -81,6 +82,7 @@ export const clientEnv = {
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
     NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
     NEXT_PUBLIC_FF_MOCK_MODE_ENABLED: process.env.NEXT_PUBLIC_FF_MOCK_MODE_ENABLED,
+    NEXT_PUBLIC_FF_SID_ENABLED: process.env.NEXT_PUBLIC_FF_SID_ENABLED,
     NEXT_PUBLIC_MAX_LOOPS: process.env.NEXT_PUBLIC_MAX_LOOPS,
     NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
 };

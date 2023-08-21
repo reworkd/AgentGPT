@@ -8,6 +8,7 @@ import { useSID } from "../../hooks/useSID";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import Button from "../Button";
 import FadeIn from "../motions/FadeIn";
+import { env } from "../../env/client.mjs";
 
 type ExampleAgentsProps = {
   setAgentRun?: (name: string, goal: string) => void;
@@ -35,39 +36,47 @@ const ExampleAgents = ({ setAgentRun, setShowSignIn }: ExampleAgentsProps) => {
             Plan a detailed trip to Hawaii.
           </ExampleAgentButton>
 
-          <div
-            className={clsx(
-              `w-full p-2`,
-              `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
-              `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
-            )}
-            onClick={() => {
-              if (!session?.user) setShowSignIn(true);
-              else if (!sid?.connected) sid.install().catch(console.error);
-              else
-                setAgentRun?.(
-                  "AssistantGPT",
-                  "Based on my personal data, evaluate my personal goals and give me advice."
-                );
-            }}
-          >
-            <p className="text-lg font-black">AssistantGPT 🛟</p>
-            <p className="mt-2 text-sm">Get tailored advice based on your own data</p>
-            <Button
-              ping={!sid?.connected}
+          {env.NEXT_PUBLIC_FF_SID_ENABLED && (
+            <div
               className={clsx(
-                "w-full border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600 sm:mt-4",
-                sid.connected && "hidden"
+                `w-full p-2`,
+                `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
+                `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
               )}
-              onClick={async () => {
+              onClick={() => {
                 if (!session?.user) setShowSignIn(true);
-                else await sid.install();
+                else if (!sid?.connected) sid.install().catch(console.error);
+                else
+                  setAgentRun?.(
+                    "AssistantGPT 🛟",
+                    "Based on my data in google drive, dropbox, and notion, evaluate my personal goals and give me advice."
+                  );
               }}
-              loader
             >
-              Connect your Data
-            </Button>
-          </div>
+              <p className="text-lg font-black">AssistantGPT 🛟</p>
+              <p className="mt-2 text-sm">Get tailored advice based on your own data</p>
+              <Button
+                ping={!sid?.connected}
+                className={clsx(
+                  "w-full border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600 sm:mt-4",
+                  sid.connected && "hidden"
+                )}
+                onClick={async () => {
+                  if (!session?.user) setShowSignIn(true);
+                  else await sid.install();
+                }}
+                loader
+              >
+                Connect your Data
+              </Button>
+            </div>
+          )}
+
+          {env.NEXT_PUBLIC_FF_SID_ENABLED || (
+            <ExampleAgentButton name="StudyGPT 📚" setAgentRun={setAgentRun}>
+              Create a study plan for a History 101 exam about world events in the 1980s
+            </ExampleAgentButton>
+          )}
 
           <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
             Create a comprehensive report of the Nike company

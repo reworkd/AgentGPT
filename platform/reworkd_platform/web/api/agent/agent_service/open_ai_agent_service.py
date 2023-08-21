@@ -10,7 +10,9 @@ from langchain.schema import HumanMessage
 from loguru import logger
 from pydantic import ValidationError
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.tokenizer.token_service import TokenService
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
@@ -47,12 +49,16 @@ class OpenAIAgentService(AgentService):
         agent_memory: AgentMemory,
         token_service: TokenService,
         callbacks: Optional[List[AsyncCallbackHandler]],
+        user: UserBase,
+        oauth_crud: OAuthCrud,
     ):
         self.model = model
         self.agent_memory = agent_memory
         self.settings = settings
         self.token_service = token_service
         self.callbacks = callbacks
+        self.user = user
+        self.oauth_crud = oauth_crud
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         prompt = ChatPromptTemplate.from_messages(
@@ -89,7 +95,8 @@ class OpenAIAgentService(AgentService):
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        functions = list(map(get_tool_function, get_user_tools(tool_names)))
+        user_tools = await get_user_tools(tool_names, self.user, self.oauth_crud)
+        functions = list(map(get_tool_function, user_tools))
         prompt = analyze_task_prompt.format_prompt(
             goal=goal,
             task=task,
@@ -136,7 +143,11 @@ class OpenAIAgentService(AgentService):
 
         tool_class = get_tool_from_name(analysis.action)
         return await tool_class(self.model, self.settings.language).call(
-            goal, task, analysis.arg
+            goal,
+            task,
+            analysis.arg,
+            self.user,
+            self.oauth_crud,
         )
 
     async def create_tasks_agent(

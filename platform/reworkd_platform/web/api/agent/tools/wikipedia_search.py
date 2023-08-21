@@ -1,3 +1,5 @@
+from typing import Any
+
 from lanarky.responses import StreamingResponse
 from langchain import WikipediaAPIWrapper
 
@@ -15,7 +17,9 @@ class Wikipedia(Tool):
     arg_description = "A simple query string of just the noun in question."
     image_url = "/tools/wikipedia.png"
 
-    async def call(self, goal: str, task: str, input_str: str) -> StreamingResponse:
+    async def call(
+        self, goal: str, task: str, input_str: str, *args: Any, **kwargs: Any
+    ) -> StreamingResponse:
         wikipedia_client = WikipediaAPIWrapper(
             wiki_client=None,  # Meta private value but mypy will complain its missing
         )

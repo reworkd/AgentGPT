@@ -109,7 +109,9 @@ model OAuthCredentials {
 
   // Post install
   token_type       String?
-  access_token_enc String?
+  access_token_enc String? @db.Text
+  access_token_expiration DateTime?
+  refresh_token_enc String?
   scope            String?
 
   create_date DateTime  @default(now())

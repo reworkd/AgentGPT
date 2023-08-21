@@ -5,11 +5,18 @@ from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
+from reworkd_platform.web.api.agent.tools.sidsearch import SID
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
 
-def get_user_tools(tool_names: List[str]) -> List[Type[Tool]]:
-    return list(map(get_tool_from_name, tool_names)) + get_default_tools()
+
+async def get_user_tools(
+    tool_names: List[str], user: UserBase, crud: OAuthCrud
+) -> List[Type[Tool]]:
+    tools = list(map(get_tool_from_name, tool_names)) + get_default_tools()
+    return [tool for tool in tools if await tool.dynamic_available(user, crud)]
 
 
 def get_available_tools() -> List[Type[Tool]]:
@@ -26,6 +33,7 @@ def get_external_tools() -> List[Type[Tool]]:
         Image,
         Search,
         Code,
+        SID,
     ]
 
 

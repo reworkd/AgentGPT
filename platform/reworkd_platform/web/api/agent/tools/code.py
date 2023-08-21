@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
 from langchain import LLMChain
@@ -10,7 +12,7 @@ class Code(Tool):
     public_description = "Write and review code."
 
     async def call(
-        self, goal: str, task: str, input_str: str
+        self, goal: str, task: str, input_str: str, *args: Any
     ) -> FastAPIStreamingResponse:
         from reworkd_platform.web.api.agent.prompts import code_prompt
 

@@ -1,4 +1,4 @@
-from typing import Annotated, Dict, List
+from typing import Annotated, Dict, List, Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.responses import RedirectResponse
@@ -70,16 +70,42 @@ async def oauth_install(
     return await installer.install(user, redirect)
 
 
+@router.get("/{provider}/uninstall")
+async def oauth_uninstall(
+    user: UserBase = Depends(get_current_user),
+    installer: OAuthInstaller = Depends(installer_factory),
+) -> Dict[str, Any]:
+    res = await installer.uninstall(user)
+    return {
+        "success": res,
+    }
+
+
 @router.get("/{provider}/callback")
 async def oauth_callback(
-    code: str,
-    state: str,
+    code: Optional[str] = None,
+    state: Optional[str] = None,
     installer: OAuthInstaller = Depends(installer_factory),
 ) -> RedirectResponse:
     """Callback for OAuth App"""
-    creds = await installer.install_callback(code, state)
 
+    # if code or state are missing (user cancelled), redirect to frontend
+    if not code or not state:
+        return RedirectResponse(url=settings.frontend_url)
+
+    creds = await installer.install_callback(code, state)
     return RedirectResponse(url=creds.redirect_uri)
+
+
+@router.get("/sid/info")
+async def sid_info(
+    user: UserBase = Depends(get_current_user),
+    crud: OAuthCrud = Depends(OAuthCrud.inject),
+) -> Dict[str, Any]:
+    creds = await crud.get_installation_by_user_id(user.id, "sid")
+    return {
+        "connected": bool(creds and creds.access_token_enc),
+    }
 
 
 class Channel(BaseModel):

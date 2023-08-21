@@ -1,4 +1,4 @@
-from sqlalchemy import String
+from sqlalchemy import String, DateTime
 from sqlalchemy.orm import mapped_column
 
 from reworkd_platform.db.base import TrackedModel
@@ -31,4 +31,6 @@ class OauthCredentials(TrackedModel):
     # Post-installation
     token_type = mapped_column(String, nullable=True)
     access_token_enc = mapped_column(String, nullable=True)
+    access_token_expiration = mapped_column(DateTime, nullable=True)
+    refresh_token_enc = mapped_column(String, nullable=True)
     scope = mapped_column(String, nullable=True)

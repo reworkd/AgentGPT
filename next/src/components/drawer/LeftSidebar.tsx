@@ -116,6 +116,10 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
           </div>
         </li>
         <li>
+          <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">
+          </div>
+          </li>
+        <li>
           <FadingHr />
           <AuthItem session={session} signOut={signOut} signIn={signIn} />
         </li>

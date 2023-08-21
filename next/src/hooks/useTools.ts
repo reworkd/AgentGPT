@@ -1,10 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import { z } from "zod";
 
 import { get } from "../services/fetch-utils";
 import { useAgentStore } from "../stores";
-
 
 const Tool = z.object({
   name: z.string(),
@@ -47,7 +45,6 @@ const save = (key: string, data: object) => {
 };
 
 export function useTools() {
-  const { data: Session } = useSession();
   const setTools = useAgentStore.use.setTools();
 
   const queryClient = useQueryClient();

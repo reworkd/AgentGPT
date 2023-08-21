@@ -1,34 +1,22 @@
+import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 import { ChatMessage } from "./ChatMessage";
 import { ExampleAgentButton } from "./ExampleAgentButton";
+import { useSID } from "../../hooks/useSID";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
-import FadeIn from "../motions/FadeIn";
 import Button from "../Button";
-import { useTools } from "../../hooks/useTools";
-import { useSession } from "next-auth/react";
-import OauthApi from "../../services/workflow/oauthApi";
-import { useQuery } from "@tanstack/react-query";
-import clsx from "clsx";
-
+import FadeIn from "../motions/FadeIn";
 
 type ExampleAgentsProps = {
   setAgentRun?: (name: string, goal: string) => void;
-  handleConnectSID: () => void;
+  setShowSignIn: (show: boolean) => void;
 };
 
-const ExampleAgents = ({ setAgentRun, handleConnectSID }: ExampleAgentsProps) => {
+const ExampleAgents = ({ setAgentRun, setShowSignIn }: ExampleAgentsProps) => {
   const { data: session } = useSession();
-  const api = OauthApi.fromSession(session);
-
-  const { data, refetch, isError } = useQuery(
-    ['sid_info', session],
-    async () => await api.get_info_sid(),
-    {
-      enabled: !!session,
-      retry: false,
-    }
-  );
+  const sid = useSID(session);
 
   return (
     <>
@@ -42,34 +30,48 @@ const ExampleAgents = ({ setAgentRun, handleConnectSID }: ExampleAgentsProps) =>
         />
       </FadeIn>
       <FadeIn delay={0.9} duration={0.5}>
-        <div className="m-2 grid grid-cols-1 items-stretch gap-2 sm:m-4 sm:grid-cols-3 grid-rows-2">
-          <ExampleAgentButton name="PlatformerGPT 🎮" setAgentRun={setAgentRun}>
-            Write some code to make a platformer game.
-          </ExampleAgentButton>
+        <div className="m-2 grid grid-cols-1 grid-rows-2 items-stretch gap-2 sm:m-4 sm:grid-cols-3">
           <ExampleAgentButton name="TravelGPT 🌴" setAgentRun={setAgentRun}>
             Plan a detailed trip to Hawaii.
           </ExampleAgentButton>
+
+          <div
+            className={clsx(
+              `w-full p-2`,
+              `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
+              `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
+            )}
+            onClick={() => {
+              if (!session?.user) setShowSignIn(true);
+              else if (!sid?.connected) sid.install().catch(console.error);
+              else
+                setAgentRun?.(
+                  "AssistantGPT",
+                  "Based on my personal data, evaluate my personal goals and give me advice."
+                );
+            }}
+          >
+            <p className="text-lg font-black">AssistantGPT 🛟</p>
+            <p className="mt-2 text-sm">Get tailored advice based on your own data</p>
+            <Button
+              ping={!sid?.connected}
+              className={clsx(
+                "w-full border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600 sm:mt-4",
+                sid.connected && "hidden"
+              )}
+              onClick={async () => {
+                if (!session?.user) setShowSignIn(true);
+                else await sid.install();
+              }}
+              loader
+            >
+              Connect your Data
+            </Button>
+          </div>
+
           <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
             Create a comprehensive report of the Nike company
           </ExampleAgentButton>
-          {((data?.connected ?? true)) ?
-            <ExampleAgentButton name="AssistantGPT 🛟" setAgentRun={setAgentRun}>
-              Summarize our user metrics notion page.
-            </ExampleAgentButton> :
-            <div
-              className={clsx(
-                `w-full p-2`,
-                `cursor-default rounded-lg font-mono text-sm sm:text-base`,
-                `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600`
-              )}
-            >
-              <p className="text-lg font-black">AssistantGPT 🛟</p>
-              <p className="mt-2 text-sm">Connect your data to use this agent</p>
-              <div className="grid justify-items-center">
-                <Button className="mt-2 " onClick={handleConnectSID}> Connect your Data</Button>
-              </div>
-            </div>
-          }
         </div>
       </FadeIn>
     </>

@@ -30,7 +30,6 @@ import { AgentApi } from "../services/agent/agent-api";
 import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import { MessageService } from "../services/agent/message-service";
-import OauthApi from "../services/workflow/oauthApi";
 import {
   resetAllAgentSlices,
   resetAllMessageSlices,
@@ -89,15 +88,6 @@ const Home: NextPage = () => {
     else handleNewAgent(name.trim(), goal.trim());
   };
 
-  const handleConnectSID = async () => {
-    const api = OauthApi.fromSession(session);
-    if (session === null) {
-      setShowSignInDialog(true);
-    } else {
-      window.location.href = await api.install("sid");
-    }
-  }
-  
   const handleNewAgent = (name: string, goal: string) => {
     if (session === null) {
       storeAgentDataInLocalStorage(name, goal);
@@ -170,7 +160,7 @@ const Home: NextPage = () => {
   return (
     <DashboardLayout rightSidebar={<TaskSidebar />}>
       <HelpDialog />
-      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} handleConnectSID={handleConnectSID} />
+      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
       <div id="content" className="flex min-h-screen w-full items-center justify-center">
@@ -216,7 +206,9 @@ const Home: NextPage = () => {
                   : undefined
               }
             >
-              {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun}  handleConnectSID={handleConnectSID}/>}
+              {messages.length === 0 && (
+                <ExampleAgents setAgentRun={setAgentRun} setShowSignIn={setShowSignInDialog} />
+              )}
               {messages.map((message, index) => {
                 return (
                   <FadeIn key={`${index}-${message.type}`}>
@@ -262,7 +254,7 @@ const Home: NextPage = () => {
                     <Button
                       ping
                       onClick={() => setShowToolsDialog(true)}
-                      className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
+                      className="border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600"
                     >
                       <p className="mr-3">Tools</p>
                       <FaCog />

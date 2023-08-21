@@ -67,7 +67,7 @@ class SID(Tool):
 
     @staticmethod
     def available() -> bool:
-        return settings.sid_client_id != "" and settings.sid_client_secret != ""
+        return settings.sid_enabled
 
     @staticmethod
     async def dynamic_available(user: UserBase, oauth_crud: OAuthCrud) -> bool:

@@ -117,9 +117,9 @@ class Settings(BaseSettings):
     slack_redirect_uri: str = ""
 
     # Settings for sid
-    sid_client_id: str = ""
-    sid_client_secret: str = ""
-    sid_redirect_uri: str = ""
+    sid_client_id: Optional[str] = None
+    sid_client_secret: Optional[str] = None
+    sid_redirect_uri: Optional[str] = None
 
     # Settings for s3
     s3_bucket_name: str = "changeme"
@@ -185,6 +185,16 @@ class Settings(BaseSettings):
             [
                 self.helicone_api_base,
                 self.helicone_api_key,
+            ]
+        )
+
+    @property
+    def sid_enabled(self) -> bool:
+        return all(
+            [
+                self.sid_client_id,
+                self.sid_client_secret,
+                self.sid_redirect_uri,
             ]
         )
 

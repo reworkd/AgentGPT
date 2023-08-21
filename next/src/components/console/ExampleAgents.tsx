@@ -14,9 +14,10 @@ import clsx from "clsx";
 
 type ExampleAgentsProps = {
   setAgentRun?: (name: string, goal: string) => void;
+  handleConnectSID: () => void;
 };
 
-const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
+const ExampleAgents = ({ setAgentRun, handleConnectSID }: ExampleAgentsProps) => {
   const { data: session } = useSession();
   const api = OauthApi.fromSession(session);
 
@@ -65,9 +66,7 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
               <p className="text-lg font-black">AssistantGPT 🛟</p>
               <p className="mt-2 text-sm">Connect your data to use this agent</p>
               <div className="grid justify-items-center">
-                <Button className="mt-2 " onClick={async () => {
-                  window.location.href = await api.install("sid");
-                }}> Connect your Data</Button>
+                <Button className="mt-2 " onClick={handleConnectSID}> Connect your Data</Button>
               </div>
             </div>
           }

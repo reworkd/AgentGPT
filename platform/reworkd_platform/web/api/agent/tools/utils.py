@@ -19,6 +19,7 @@ class CitedSnippet:
         """
         return f"{{i: {self.index}, text: {self.text}, url: {self.url}}}"
 
+
 @dataclass
 class Snippet:
     text: str
@@ -72,6 +73,7 @@ def summarize_with_sources(
         },
         media_type="text/event-stream",
     )
+
 
 def summarize_sid(
     model: BaseChatModel,

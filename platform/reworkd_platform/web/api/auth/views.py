@@ -101,7 +101,7 @@ async def sid_info(
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> Dict[str, Any]:
     creds = await crud.get_installation_by_user_id(user.id, "sid")
-    connected = creds is not None and creds.access_token_enc is not None and creds.access_token_enc != ""
+    connected = creds is not None and creds.access_token_enc is not None
     return {
         'connected': connected,
     }

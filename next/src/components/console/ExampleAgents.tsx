@@ -52,7 +52,7 @@ const ExampleAgents = ({ setAgentRun, handleConnectSID }: ExampleAgentsProps) =>
           <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
             Create a comprehensive report of the Nike company
           </ExampleAgentButton>
-          {(!!session || (data?.connected ?? false)) ?
+          {((data?.connected ?? true)) ?
             <ExampleAgentButton name="AssistantGPT 🛟" setAgentRun={setAgentRun}>
               Summarize our user metrics notion page.
             </ExampleAgentButton> :

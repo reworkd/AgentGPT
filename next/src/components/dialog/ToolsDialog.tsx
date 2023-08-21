@@ -13,7 +13,8 @@ import Button from "../Button";
 export const ToolsDialog: React.FC<{
   show: boolean;
   close: () => void;
-}> = ({ show, close }) => {
+  handleConnectSID: () => void;
+}> = ({ show, close, handleConnectSID }) => {
   const { activeTools, setToolActive, isSuccess } = useTools();
 
   const { data: session } = useSession();
@@ -48,14 +49,12 @@ export const ToolsDialog: React.FC<{
                 key={i}
                 className="relative overflow-hidden flex items-center gap-3 rounded-md border border-white/30 bg-zinc-800 p-2 px-4 text-white"
               >
-                {(!!session || (data?.connected ?? false)) && (
+                {(!data?.connected ?? false) && (
                   <div className="absolute inset-0 flex items-center justify-center z-10">
                     <div className="absolute inset-0 backdrop-blur-sm" />
                     <Button
                       className="border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600"
-                      onClick={async () => {
-                        window.location.href = await api.install("sid");
-                      }}>Connect your Data
+                      onClick={handleConnectSID}>Connect your Data
                     </Button>
                   </div>
                 )}

@@ -78,8 +78,8 @@ const ExampleAgents = ({ setAgentRun, setShowSignIn }: ExampleAgentsProps) => {
             </ExampleAgentButton>
           )}
 
-          <ExampleAgentButton name="ResearchGPT 📜" setAgentRun={setAgentRun}>
-            Create a comprehensive report of the Nike company
+          <ExampleAgentButton name="HustleGPT 🚀" setAgentRun={setAgentRun}>
+            Create a comprehensive report how to scale a EdTech startup to 1000 customers
           </ExampleAgentButton>
         </div>
       </FadeIn>

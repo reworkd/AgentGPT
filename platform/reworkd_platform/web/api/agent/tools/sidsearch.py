@@ -75,7 +75,7 @@ class SID(Tool):
             user_id=user.id, provider="sid"
         )
 
-        return installation and installation.access_token_enc
+        return bool(installation and installation.access_token_enc)
 
     async def call(
         self,

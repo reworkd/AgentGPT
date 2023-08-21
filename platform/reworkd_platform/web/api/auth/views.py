@@ -7,8 +7,8 @@ from pydantic import BaseModel
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from reworkd_platform.db.crud.organization import OrganizationCrud, OrganizationUsers
 from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.db.crud.organization import OrganizationCrud, OrganizationUsers
 from reworkd_platform.schemas import UserBase
 from reworkd_platform.schemas.user import OrganizationRole
 from reworkd_platform.services.oauth_installers import (
@@ -103,9 +103,8 @@ async def sid_info(
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> Dict[str, Any]:
     creds = await crud.get_installation_by_user_id(user.id, "sid")
-    connected = creds and creds.access_token_enc
     return {
-        "connected": connected,
+        "connected": bool(creds and creds.access_token_enc),
     }
 
 

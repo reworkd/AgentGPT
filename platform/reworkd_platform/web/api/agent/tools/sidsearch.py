@@ -74,11 +74,8 @@ class SID(Tool):
         installation = await oauth_crud.get_installation_by_user_id(
             user_id=user.id, provider="sid"
         )
-        return (
-            installation is not None
-            and installation.access_token_enc is not None
-            and installation.access_token_enc != ""
-        )
+
+        return installation and installation.access_token_enc
 
     async def call(
         self,

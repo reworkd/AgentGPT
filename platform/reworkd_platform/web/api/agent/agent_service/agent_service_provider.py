@@ -31,7 +31,7 @@ def get_agent_service(
         user: UserBase = Depends(get_current_user),
         agent_memory: AgentMemory = Depends(get_agent_memory),
         token_service: TokenService = Depends(get_token_service),
-        oauth_crud: OAuthCrud = Depends(OAuthCrud.inject)
+        oauth_crud: OAuthCrud = Depends(OAuthCrud.inject),
     ) -> AgentService:
         if settings.ff_mock_mode_enabled:
             return MockAgentService()

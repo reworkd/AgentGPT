@@ -11,7 +11,10 @@ from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.schemas.user import UserBase
 
-async def get_user_tools(tool_names: List[str], user: UserBase, crud: OAuthCrud) -> List[Type[Tool]]:
+
+async def get_user_tools(
+    tool_names: List[str], user: UserBase, crud: OAuthCrud
+) -> List[Type[Tool]]:
     tools = list(map(get_tool_from_name, tool_names)) + get_default_tools()
     return [tool for tool in tools if await tool.dynamic_available(user, crud)]
 
@@ -30,7 +33,7 @@ def get_external_tools() -> List[Type[Tool]]:
         Image,
         Search,
         Code,
-        SID
+        SID,
     ]
 
 

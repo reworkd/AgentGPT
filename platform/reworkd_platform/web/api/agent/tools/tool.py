@@ -7,6 +7,7 @@ from langchain.chat_models.base import BaseChatModel
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.schemas.user import UserBase
 
+
 class Tool(ABC):
     description: str = ""
     public_description: str = ""
@@ -29,5 +30,12 @@ class Tool(ABC):
         return True
 
     @abstractmethod
-    async def call(self, goal: str, task: str, input_str: str, user: UserBase, oauth_crud: OAuthCrud) -> StreamingResponse:
+    async def call(
+        self,
+        goal: str,
+        task: str,
+        input_str: str,
+        user: UserBase,
+        oauth_crud: OAuthCrud,
+    ) -> StreamingResponse:
         pass

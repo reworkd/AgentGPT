@@ -69,6 +69,7 @@ async def oauth_install(
     """Install an OAuth App"""
     return await installer.install(user, redirect)
 
+
 @router.get("/{provider}/uninstall")
 async def oauth_uninstall(
     user: UserBase = Depends(get_current_user),
@@ -76,7 +77,7 @@ async def oauth_uninstall(
 ) -> Dict[str, Any]:
     res = await installer.uninstall(user)
     return {
-        'success': res,
+        "success": res,
     }
 
 
@@ -95,20 +96,27 @@ async def oauth_callback(
     creds = await installer.install_callback(code, state)
     return RedirectResponse(url=creds.redirect_uri)
 
+
 @router.get("/sid/info")
 async def sid_info(
     user: UserBase = Depends(get_current_user),
     crud: OAuthCrud = Depends(OAuthCrud.inject),
 ) -> Dict[str, Any]:
     creds = await crud.get_installation_by_user_id(user.id, "sid")
-    connected = creds is not None and creds.access_token_enc is not None and creds.access_token_enc != ""
+    connected = (
+        creds is not None
+        and creds.access_token_enc is not None
+        and creds.access_token_enc != ""
+    )
     return {
-        'connected': connected,
+        "connected": connected,
     }
+
 
 class Channel(BaseModel):
     name: str
     id: str
+
 
 @router.get("/slack/info")
 async def slack_channels(

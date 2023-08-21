@@ -49,7 +49,7 @@ const ExampleAgents = ({ setAgentRun, setShowSignIn }: ExampleAgentsProps) => {
                 else
                   setAgentRun?.(
                     "AssistantGPT 🛟",
-                    "Based on my data in google drive, dropbox, and notion, evaluate my personal goals and give me advice."
+                    "Search my google drive, dropbox, and notion, and talk to me about my personal data."
                   );
               }}
             >

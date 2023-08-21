@@ -10,6 +10,6 @@ class Conclude(Tool):
     description = "Use when there is nothing else to do. The task has been concluded."
 
     async def call(
-        self, goal: str, task: str, input_str: str, *args: Any
+        self, goal: str, task: str, input_str: str, *args: Any, **kwargs: Any
     ) -> FastAPIStreamingResponse:
         return stream_string("Task execution concluded.", delayed=True)

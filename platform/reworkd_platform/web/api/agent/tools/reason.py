@@ -14,11 +14,7 @@ class Reason(Tool):
     )
 
     async def call(
-        self,
-        goal: str,
-        task: str,
-        input_str: str,
-        *args: Any,
+        self, goal: str, task: str, input_str: str, *args: Any, **kwargs: Any
     ) -> FastAPIStreamingResponse:
         from reworkd_platform.web.api.agent.prompts import execute_task_prompt
 

@@ -84,6 +84,8 @@ class SID(Tool):
         input_str: str,
         user: UserBase,
         oauth_crud: OAuthCrud,
+        *args: Any,
+        **kwargs: Any,
     ) -> FastAPIStreamingResponse:
         installation = await oauth_crud.get_installation_by_user_id(
             user_id=user.id, provider="sid"

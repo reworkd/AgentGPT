@@ -62,7 +62,7 @@ class Image(Tool):
     image_url = "/tools/replicate.png"
 
     async def call(
-        self, goal: str, task: str, input_str: str, *args: Any
+        self, goal: str, task: str, input_str: str, *args: Any, **kwargs: Any
     ) -> FastAPIStreamingResponse:
         # Use the replicate API if its available, otherwise use DALL-E
         try:

@@ -36,6 +36,7 @@
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge": "^0.3.4",
     "axios": "^0.26.0",
+    "cheerio": "^1.0.0-rc.12",
     "clsx": "^1.2.1",
     "cookies-next": "^2.1.2",
     "framer-motion": "^10.12.8",

@@ -18,8 +18,8 @@ const SourceCard = ({ messageInfo }: MessageInfo) => {
 
   return (
     <>
-      <hr className={clsx("my-2 border border-white/20")} />
-      <div className={clsx("grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4")}>
+      <hr className="my-2 border border-white/20" />
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4" >
         {linksArray.map((link, index) => {
           return <SourceLink key={link} link={link} index={index} />;
         })}

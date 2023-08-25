@@ -22,7 +22,7 @@ const SourceLink = ({ link, index }: LinkInfo) => {
           className="h-full space-y-2 rounded border border-white/20 bg-white/5 p-2"
         >
           {linkMeta.isLoading ? (
-            <div className={clsx("animate-pulse space-y-2")}>
+            <div className="animate-pulse space-y-2">
               <div className={clsx("h-2 rounded bg-gray-500")}></div>
               <div className={clsx("h-2 rounded bg-gray-500")}></div>
               <div className={clsx("flex items-center gap-2")}>

@@ -19,9 +19,7 @@ const SourceLink = ({ link, index }: LinkInfo) => {
     <FadeIn>
       <a href="link">
         <div
-          className={clsx(
-            "h-full space-y-2 rounded border border-white/20 bg-white/5 p-2"
-          )}
+          className="h-full space-y-2 rounded border border-white/20 bg-white/5 p-2"
         >
           {linkMeta.isLoading ? (
             <div className={clsx("animate-pulse space-y-2")}>

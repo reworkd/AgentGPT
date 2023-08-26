@@ -10,7 +10,6 @@ interface LinkInfo {
 
 const SourceLink = ({ link, index }: LinkInfo) => {
   const linkMeta = api.linkMeta.get.useQuery(link);
-  console.log(linkMeta);
   const addImageFallback = (event: SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = "/errorFavicon.ico";
   };

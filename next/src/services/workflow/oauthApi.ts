@@ -63,4 +63,15 @@ export default class OauthApi {
       this.organizationId
     );
   }
+
+  async get_prompt_sid() {
+    return await get(
+      `/api/auth/sid/prompt`,
+      z.object({
+        prompt: z.string(),
+      }),
+      this.accessToken,
+      this.organizationId
+    );
+  }
 }

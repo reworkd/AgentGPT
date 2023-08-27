@@ -1,4 +1,6 @@
 from typing import Annotated, Dict, List, Any, Optional
+import aiohttp
+import json
 
 from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.responses import RedirectResponse
@@ -20,6 +22,7 @@ from reworkd_platform.services.sockets import websockets
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user, get_organization
 from reworkd_platform.web.api.http_responses import not_found
+import reworkd_platform.web.api.agent.tools.sidsearch as sid
 
 router = APIRouter()
 
@@ -107,11 +110,36 @@ async def sid_info(
         "connected": bool(creds and creds.access_token_enc),
     }
 
+@router.get("/sid/prompt")
+async def sid_prompt(
+    user: UserBase = Depends(get_current_user),
+    crud: OAuthCrud = Depends(OAuthCrud.inject),
+) -> Dict[str, Any]:
+    creds = await crud.get_installation_by_user_id(user.id, "sid")
+    if not creds:
+        raise HTTPException(status_code=401, detail="No SID installation")
+    token = await sid.get_access_token(crud, creds)
+    if not token:
+        raise HTTPException(status_code=401, detail="No SID access token")
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "https://api.sid.ai/v1/users/me/example", data=json.dumps({"usage": "agent"}), headers={"Authorization": f"Bearer {token}"}
+        ) as response:
+            print(response)
+            if response.status != 200:
+                raise HTTPException(status_code=400, detail="Failed to get prompt")
+            response_data = await response.json()
+            text = response_data.get("result", {}).get("text", None)
+
+    if text:
+        return {"prompt": text }
+    else:
+        raise HTTPException(status_code=400, detail="Failed to get prompt")
 
 class Channel(BaseModel):
     name: str
     id: str
-
 
 @router.get("/slack/info")
 async def slack_channels(

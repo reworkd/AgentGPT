@@ -70,9 +70,19 @@ export function useTools() {
     });
   };
 
+  const deactivateAll = () => {
+    queryClient.setQueriesData(["tools"], (old) => {
+      const data = (old as ActiveTool[]).map((tool) => ({ ...tool, active: false }));
+
+      updateActiveTools(data);
+      return data;
+    });
+  }
+
   return {
     activeTools: query.data ?? [],
     setToolActive,
     isSuccess: query.isSuccess,
+    deactivateAll,
   };
 }

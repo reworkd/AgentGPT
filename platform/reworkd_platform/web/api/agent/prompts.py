@@ -157,7 +157,9 @@ summarize_sid_prompt = PromptTemplate(
     Write using clear markdown formatting in a style expected of the goal "{goal}".
     Be as clear, informative, and descriptive as necessary and attempt to
     answer the query: "{query}" as best as possible.
-    If any of the snippets are not relevant to the query, ignore them, and do not include them in the summary.
+    If any of the snippets are not relevant to the query, 
+    ignore them, and do not include them in the summary.
+    Do not mention that you are ignoring them.
 
     If there is no information provided, say "There is nothing to summarize".
     """,

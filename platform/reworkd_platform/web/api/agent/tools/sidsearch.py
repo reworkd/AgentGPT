@@ -1,11 +1,12 @@
 import json
 from datetime import datetime, timedelta
-from typing import Any, List
+from typing import Any, List, Optional
 
 import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from loguru import logger
 
+from reworkd_platform.db.models.auth import OauthCredentials
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.security import encryption_service
@@ -35,7 +36,7 @@ async def _sid_search_results(
             return search_results
 
 
-async def get_new_token(refresh_token: str) -> tuple[str, datetime]:
+async def token_exchange(refresh_token: str) -> tuple[str, datetime]:
     data = {
         "grant_type": "refresh_token",
         "client_id": settings.sid_client_id,
@@ -52,6 +53,18 @@ async def get_new_token(refresh_token: str) -> tuple[str, datetime]:
             access_token = response_data["access_token"]
             expires_in = response_data["expires_in"]
     return access_token, datetime.now() + timedelta(seconds=expires_in)
+
+async def get_access_token(oauth_crud: OAuthCrud, installation: OauthCredentials) -> Optional[str]:
+    if not installation.refresh_token_enc:
+        return None
+    if installation.access_token_expiration > datetime.now() - timedelta(minutes=5):
+        refresh_token = encryption_service.decrypt(installation.refresh_token_enc)
+        access_token, expiration = await token_exchange(refresh_token)
+        installation.access_token_enc = encryption_service.encrypt(access_token)
+        installation.access_token_expiration = expiration
+        await installation.save(oauth_crud.session)
+
+    return encryption_service.decrypt(installation.access_token_enc)
 
 
 class SID(Tool):
@@ -90,21 +103,14 @@ class SID(Tool):
         installation = await oauth_crud.get_installation_by_user_id(
             user_id=user.id, provider="sid"
         )
-
         # if the tool is called, the installation should be available. However, it is possible that it is
         # disconnected in the meantime. In that case, we pretend as if no information is found.
-        if not installation or not installation.access_token_enc:
+        if not installation:
             return stream_string("Unable to fetch SID results", True)
 
-        # update token if close to expiration
-        if installation.access_token_expiration > datetime.now() - timedelta(minutes=5):
-            refresh_token = encryption_service.decrypt(installation.refresh_token_enc)
-            access_token, expiration = await get_new_token(refresh_token)
-            installation.access_token_enc = encryption_service.encrypt(access_token)
-            installation.access_token_expiration = expiration
-            await installation.save(oauth_crud.session)
-
-        token = encryption_service.decrypt(installation.access_token_enc)
+        token = await get_access_token(oauth_crud, installation)
+        if not token:
+            return stream_string("Unable to fetch SID results", True)
 
         res = await _sid_search_results(input_str, limit=10, token=token)
         try:

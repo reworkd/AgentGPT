@@ -27,11 +27,22 @@ export function useSID(session: Session | null) {
     queryClient.setQueriesData(QUERY_KEY, { connected: false });
   });
 
+  const getPrompt = async () => {
+    if (!session) return;
+
+    try {
+      return await api.get_prompt_sid();
+    } catch {
+      return undefined;
+    }
+  };
+
   return {
     connected: data?.connected ?? false,
     refetch,
     install: async () => install(),
     uninstall: async () => uninstall(),
+    getPrompt,
     manage: () => void window.open("https://me.sid.ai/", "_blank"),
   };
 }

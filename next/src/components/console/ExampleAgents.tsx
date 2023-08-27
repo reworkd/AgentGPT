@@ -8,6 +8,8 @@ import { useSID } from "../../hooks/useSID";
 import { MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import Button from "../Button";
 import FadeIn from "../motions/FadeIn";
+import Loader from "../loader";
+import { useTools } from "../../hooks/useTools";
 import { env } from "../../env/client.mjs";
 
 type ExampleAgentsProps = {
@@ -18,6 +20,9 @@ type ExampleAgentsProps = {
 const ExampleAgents = ({ setAgentRun, setShowSignIn }: ExampleAgentsProps) => {
   const { data: session } = useSession();
   const sid = useSID(session);
+  const tools = useTools();
+
+  let [sidLoading, setSidLoading] = React.useState(false);
 
   return (
     <>
@@ -36,41 +41,54 @@ const ExampleAgents = ({ setAgentRun, setShowSignIn }: ExampleAgentsProps) => {
             Plan a detailed trip to Hawaii.
           </ExampleAgentButton>
 
-          {env.NEXT_PUBLIC_FF_SID_ENABLED && (
-            <div
+          {env.NEXT_PUBLIC_FF_SID_ENABLED && (<div
+            className={clsx(
+              `w-full p-2`,
+              `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
+              `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
+            )}
+            onClick={async () => {
+              if (!session?.user) setShowSignIn(true);
+              else if (!sid?.connected) sid.install().catch(console.error);
+              else {
+                setSidLoading(true);
+                try {
+                  const res = await sid.getPrompt();
+                  const prompt = res?.prompt ?? "Based on my personal data, evaluate my personal goals and give me advice.";
+                  tools.deactivateAll();
+                  tools.setToolActive("sid", true);
+                  setAgentRun?.("AssistantGPT", prompt);
+                } catch (e) {
+                  console.error(e);
+                } finally {
+                  setSidLoading(false);
+                }
+              }
+            }}
+          >
+            <p className="text-lg font-black">AssistantGPT 🛟</p>
+            <p className="mt-2 text-sm">Allow the agent to interact with your data</p>
+            {sidLoading && (
+              <div className="flex justify-center items-center flex-row">
+                <Loader className="" />
+              </div>
+            )}
+            <Button
+              ping={!sid?.connected}
               className={clsx(
-                `w-full p-2`,
-                `cursor-pointer rounded-lg font-mono text-sm sm:text-base`,
-                `border border-white/20 bg-gradient-to-t from-sky-500 to-sky-600 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-600`
+                "w-full border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600 sm:mt-4",
+                sid.connected && "hidden"
               )}
-              onClick={() => {
+              onClick={async () => {
                 if (!session?.user) setShowSignIn(true);
-                else if (!sid?.connected) sid.install().catch(console.error);
-                else
-                  setAgentRun?.(
-                    "AssistantGPT 🛟",
-                    "Search my google drive, dropbox, and notion, and talk to me about my personal data."
-                  );
+                else await sid.install();
               }}
+              loader
             >
-              <p className="text-lg font-black">AssistantGPT 🛟</p>
-              <p className="mt-2 text-sm">Get tailored advice based on your own data</p>
-              <Button
-                ping={!sid?.connected}
-                className={clsx(
-                  "w-full border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600 sm:mt-4",
-                  sid.connected && "hidden"
-                )}
-                onClick={async () => {
-                  if (!session?.user) setShowSignIn(true);
-                  else await sid.install();
-                }}
-                loader
-              >
-                Connect your Data
-              </Button>
-            </div>
-          )}
+              Connect your Data
+            </Button>
+          </div>)}
+
 
           {env.NEXT_PUBLIC_FF_SID_ENABLED || (
             <ExampleAgentButton name="StudyGPT 📚" setAgentRun={setAgentRun}>

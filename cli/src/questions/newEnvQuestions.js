@@ -33,7 +33,7 @@ export const newEnvQuestions = [
         type: "input",
         name: "serpApiKey",
         message:
-            "What is your SERP API key (https://serper.dev/)? Leave empty to disable web search.",
+            "What is your SERP API key (https://serper.dev/)? Leave empty to disable web search using Serper.",
         validate: async(apikey) => {
             if(apikey === "") return true;
 
@@ -53,6 +53,27 @@ export const newEnvQuestions = [
                 }),
             });
             if(!response.ok) {
+                return validKeyErrorMessage
+            }
+
+            return true
+        },
+    },
+    {
+        type: "input",
+        name: "serpApiApiKey",
+        message:
+            "What is your SerpApi API key (https://serpapi.com/)? Leave empty to disable web search using SerpApi.",
+        validate: async(apikey) => {
+            if (apikey === "") return true;
+
+            if (!isValidKey(apikey, /^[a-zA-Z0-9]{64}$/)) {
+                return validKeyErrorMessage
+            }
+
+            const endpoint = `https://serpapi.com/search?q=apple&api_key=${apikey}`
+            const response = await fetch(endpoint);
+            if (!response.ok) {
                 return validKeyErrorMessage
             }
 

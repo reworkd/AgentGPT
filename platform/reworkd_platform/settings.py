@@ -67,6 +67,9 @@ class Settings(BaseSettings):
 
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
+    serpapi_api_key: Optional[str] = None
+    serpapi_engine: Optional[str] = None
+    serpapi_no_cache: Optional[str] = None
     scrapingbee_api_key: Optional[str] = None
     anthropic_api_key: Optional[str] = None
 

@@ -5,6 +5,7 @@ from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
 from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
+from reworkd_platform.web.api.agent.tools.serpapi import SerpApi
 from reworkd_platform.web.api.agent.tools.sidsearch import SID
 from reworkd_platform.web.api.agent.tools.tool import Tool
 
@@ -32,6 +33,7 @@ def get_external_tools() -> List[Type[Tool]]:
         # Wikipedia,  # TODO: Remove if async doesn't work
         Image,
         Search,
+        SerpApi,
         Code,
         SID,
     ]

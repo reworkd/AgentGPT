@@ -57,7 +57,7 @@ async def token_exchange(refresh_token: str) -> tuple[str, datetime]:
 async def get_access_token(oauth_crud: OAuthCrud, installation: OauthCredentials) -> Optional[str]:
     if not installation.refresh_token_enc:
         return None
-    if installation.access_token_expiration > datetime.now() - timedelta(minutes=5):
+    if datetime.now() + timedelta(minutes=5) > installation.access_token_expiration:
         refresh_token = encryption_service.decrypt(installation.refresh_token_enc)
         access_token, expiration = await token_exchange(refresh_token)
         installation.access_token_enc = encryption_service.encrypt(access_token)
@@ -112,8 +112,8 @@ class SID(Tool):
         if not token:
             return stream_string("Unable to fetch SID results", True)
 
-        res = await _sid_search_results(input_str, limit=10, token=token)
         try:
+            res = await _sid_search_results(input_str, limit=10, token=token)
             snippets: List[Snippet] = [
                 Snippet(text=result["text"]) for result in (res.get("results", []))
             ]

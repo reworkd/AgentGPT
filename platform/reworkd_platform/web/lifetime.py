@@ -6,7 +6,6 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from reworkd_platform.db.meta import meta
 from reworkd_platform.db.models import load_all_models
 from reworkd_platform.db.utils import create_engine
-from reworkd_platform.services.kafka.lifetime import init_kafka, shutdown_kafka
 from reworkd_platform.services.pinecone.lifetime import init_pinecone
 from reworkd_platform.services.tokenizer.lifetime import init_tokenizer
 
@@ -59,7 +58,6 @@ def register_startup_event(
         init_pinecone()
         init_tokenizer(app)
         # await _create_tables()
-        await init_kafka(app)
 
     return _startup
 
@@ -77,6 +75,5 @@ def register_shutdown_event(
     @app.on_event("shutdown")
     async def _shutdown() -> None:  # noqa: WPS430
         await app.state.db_engine.dispose()
-        await shutdown_kafka(app)
 
     return _shutdown

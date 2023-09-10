@@ -14,12 +14,12 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "text-color-primary hover:background-color-2 cursor-pointer items-center rounded-md",
+        "cursor-pointer items-center rounded-md text-slate-12 hover:bg-slate-5",
         props.className
       )}
       onClick={onClick}
     >
-      <span className="text-sm font-light">{text}</span>
+      <span className="text-sm font-medium">{text}</span>
     </button>
   );
 };

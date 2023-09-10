@@ -3229,14 +3229,14 @@ requests = {version = ">=2.20", markers = "python_version >= \"3.0\""}
 
 [[package]]
 name = "tabula-py"
-version = "2.8.0"
+version = "2.8.1"
 description = "Simple wrapper for tabula-java, read tables from PDF into DataFrame"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tabula-py-2.8.0.tar.gz", hash = "sha256:7e47f1e08472f5a2942857d7cfe4811c36351bb4bfb7660032a517025b4d77c6"},
-    {file = "tabula_py-2.8.0-py3-none-any.whl", hash = "sha256:adb2053351f33a33b1e0876473e9d29364a19d8504a0c4144e910a590def37af"},
+    {file = "tabula-py-2.8.1.tar.gz", hash = "sha256:ac67070d00c48ec1e2e687c0f30f6880778daa44adea42008ecff449481188a7"},
+    {file = "tabula_py-2.8.1-py3-none-any.whl", hash = "sha256:0bc725bfc732d9247a1a7b274f713a0e21417f51108eb01ae6710cb3ee1fa259"},
 ]
 
 [package.dependencies]

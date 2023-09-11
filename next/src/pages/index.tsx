@@ -254,7 +254,7 @@ const Home: NextPage = () => {
                     <Button
                       ping
                       onClick={() => setShowToolsDialog(true)}
-                      className="border-white/20 bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600"
+                      className="bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600"
                     >
                       <p className="mr-3">Tools</p>
                       <FaCog />

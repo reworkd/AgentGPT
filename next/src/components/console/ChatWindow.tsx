@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import React, { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaArrowCircleDown, FaCommentDots } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im";
 
@@ -59,7 +59,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
   return (
     <div
       className={clsx(
-        "border-translucent flex h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg transition-all duration-500"
+        "flex h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl bg-slate-4 text-slate-12 transition-all duration-500"
       )}
     >
       <HideShow
@@ -83,7 +83,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
         <div
           className={clsx(
             isThinking && !isStopped ? "opacity-100" : "opacity-0",
-            "mx-2 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300 sm:mx-4",
+            "mx-2 flex flex-row items-center gap-2 p-2 transition duration-300 sm:mx-4",
             "text-xs sm:text-base"
           )}
         >

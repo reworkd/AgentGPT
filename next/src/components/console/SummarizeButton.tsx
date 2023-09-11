@@ -19,12 +19,11 @@ const Summarize = () => {
   return (
     <div
       className={clsx(
-        "mx-2 flex flex-row items-center gap-2 rounded-lg border border-white/20 p-2 font-mono transition duration-300 sm:mx-4",
+        "mx-2 flex flex-row items-center gap-2 rounded-lg bg-slate-1 p-2 shadow-depth-1 transition duration-300 sm:mx-4",
         "text-xs sm:text-base"
       )}
     >
-      <span className="md:hidden">Test</span>
-      <span className="hidden md:inline">Click here to summarize the conversation!</span>
+      <span className="hidden font-bold md:inline">Click here to summarize the conversation!</span>
       <Button
         className="ml-auto py-1  sm:py-1  md:py-1"
         onClick={async () => {

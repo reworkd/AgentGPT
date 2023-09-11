@@ -104,7 +104,7 @@ const Task = ({ task }: { task: TaskType }) => {
     <FadeIn>
       <div
         className={clsx(
-          "w-full rounded-md border p-2 text-sm text-slate-12",
+          "w-full rounded-md bg-slate-1 p-2 text-sm text-slate-12 shadow-depth-1",
           isAgentStopped && "opacity-50",
           getMessageContainerStyle(task)
         )}

@@ -84,7 +84,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
 
       <main
         className={clsx(
-          "bg-slate-1",
+          "bg-slate-2",
           leftSettings.desktop && "lg:pl-64",
           props.rightSidebar && layout.showRightSidebar && "lg:pr-64"
         )}

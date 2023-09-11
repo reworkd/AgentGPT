@@ -261,7 +261,7 @@ input[type=range]::-ms-track {
 }
 
 input[type=range] {
-    @apply background-color-7 rounded-md;
+    @apply bg-slate-11 rounded-md;
     height: 0.5rem;
 }
 

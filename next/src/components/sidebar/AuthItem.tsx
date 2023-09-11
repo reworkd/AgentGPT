@@ -27,7 +27,7 @@ const AuthItem: FC<{
     <div className="flex items-center justify-between">
       <div
         className={clsx(
-          "text-color-primary flex flex-1 cursor-pointer items-center justify-start gap-3 rounded-md px-1.5 py-1 text-sm font-semibold hover:bg-slate-5",
+          "flex flex-1 cursor-pointer items-center justify-start gap-3 rounded-md px-1.5 py-1 text-sm font-semibold text-slate-12 hover:bg-slate-5",
           classname
         )}
         onClick={(e) => {
@@ -69,7 +69,7 @@ const AuthItem: FC<{
             <>
               <button
                 type="button"
-                className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-blue-500"
+                className="inline-flex w-full justify-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
                 onClick={() => {
                   signOut()
                     .then(() => setShowDialog(false))
@@ -81,7 +81,7 @@ const AuthItem: FC<{
               </button>
               <button
                 type="button"
-                className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="inline-flex w-full justify-center rounded-md bg-slate-1 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-slate-3"
                 onClick={() => setShowDialog(false)}
               >
                 Close

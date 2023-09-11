@@ -53,21 +53,18 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
             >
               <HeadlessDialog.Panel
                 className={clsx(
-                  "background-color-2 border-color-1 relative w-full max-w-sm transform overflow-hidden rounded-lg border text-left shadow-xl transition-all",
+                  "relative w-full max-w-sm transform overflow-hidden rounded-lg border-b border-slate-6 bg-slate-3 text-left shadow-xl transition-all",
                   props.inline || "sm:my-8 sm:w-full sm:max-w-lg"
                 )}
               >
                 <HeadlessDialog.Title
                   as="h3"
-                  className="text-color-primary flex flex-row items-start px-4 py-3 font-semibold leading-6"
+                  className="flex flex-row items-start px-4 py-3 font-semibold leading-6 text-slate-12"
                 >
                   {props.title}
                 </HeadlessDialog.Title>
                 <div
-                  className={clsx(
-                    "background-color-2 px-4 pb-4 pt-5",
-                    props.inline || "sm:p-6 sm:pb-4"
-                  )}
+                  className={clsx("bg-slate-1 px-4 pb-4 pt-5", props.inline || "sm:p-6 sm:pb-4")}
                 >
                   <div className={clsx(props.inline || "sm:flex sm:items-start")}>
                     <div
@@ -88,7 +85,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                     </div>
                   </div>
                 </div>
-                <div className="background-color-1 border-color-1 flex flex-col gap-2 border-t px-8 py-4">
+                <div className="flex flex-col gap-2 border-t border-slate-6 bg-slate-3 px-8 py-4">
                   {props.actions}
                 </div>
               </HeadlessDialog.Panel>

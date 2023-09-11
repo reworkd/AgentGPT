@@ -23,16 +23,21 @@ const Templates = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex h-full w-full flex-col p-10">
-        <FadeIn initialX={-45} initialY={0} delay={0.1}>
+      <div className="flex h-full w-full flex-col">
+        <FadeIn
+          initialX={-45}
+          initialY={0}
+          delay={0.1}
+          className="border-b border-slate-6 px-10 py-10"
+        >
           <div>
-            <h1 className="text-4xl font-bold text-white">Templates</h1>
-            <h2 className="text-xl font-thin text-white">
+            <h1 className="text-4xl font-bold text-slate-12">Templates</h1>
+            <h2 className="text-xl font-light text-slate-12">
               Customizable and ready to deploy agents
             </h2>
           </div>
         </FadeIn>
-        <FadeIn initialY={45} delay={0.1} className="mt-4">
+        <FadeIn initialY={45} delay={0.1} className="mt-4 px-10">
           <SearchBar setSearchQuery={setSearchQuery} setCategory={setCategory} />
           <div className="mt-3 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredData.map((model) => (

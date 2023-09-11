@@ -35,7 +35,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     <div
       className={clsx(
         getMessageContainerStyle(message),
-        "mx-2 my-1 rounded-lg border bg-white/20 p-2 font-mono text-xs hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
+        "mx-2 my-1 rounded-lg bg-slate-1 p-2 text-xs shadow-depth-1 hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
         "sm:my-1.5 sm:text-sm"
       )}
     >

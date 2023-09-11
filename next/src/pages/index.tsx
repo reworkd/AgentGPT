@@ -185,7 +185,7 @@ const Home: NextPage = () => {
               )}
             </AnimatePresence>
           }
-          <Expand className="flex w-full flex-grow overflow-hidden rounded-xl bg-slate-4 shadow-depth-1">
+          <Expand className="flex w-full flex-grow overflow-hidden rounded-xl border border-slate-6 bg-slate-4">
             <ChatWindow
               messages={messages}
               title={<ChatWindowTitle model={settings.customModelName} />}

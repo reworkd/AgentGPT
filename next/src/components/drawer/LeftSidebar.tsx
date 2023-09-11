@@ -78,10 +78,8 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
       <ul role="list" className="flex flex-col">
         <ul className="mb-2">
           <div className="mb-2 ml-2 text-xs font-semibold text-slate-10">Pages</div>
-          {PAGE_LINKS.filter(
-            (link) =>
-              (typeof link.enabled === "boolean" ? link.enabled : link.enabled(session?.user)) &&
-              router.route != link.href
+          {PAGE_LINKS.filter((link) =>
+            typeof link.enabled === "boolean" ? link.enabled : link.enabled(session?.user)
           ).map((link, i) => (
             <LinkItem
               key={i}

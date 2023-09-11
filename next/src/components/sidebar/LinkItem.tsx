@@ -14,7 +14,7 @@ const LinkItem = (props: {
     <a
       href={props.href || ""}
       className={clsx(
-        "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-medium leading-7 text-slate-11",
+        "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-medium leading-7 text-slate-12 hover:bg-slate-5",
         !props.href && "cursor-not-allowed"
       )}
       onClick={(e) => {

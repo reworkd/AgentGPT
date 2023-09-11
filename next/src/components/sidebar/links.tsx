@@ -1,4 +1,4 @@
-import { User } from "next-auth";
+import type { User } from "next-auth";
 import type { IconType } from "react-icons";
 import {
   FaBusinessTime,
@@ -29,7 +29,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     name: "Home",
     href: "/",
     icon: FaHome,
-    className: "group-hover:text-color-secondary",
     enabled: true,
   },
   {
@@ -72,8 +71,8 @@ export const PAGE_LINKS: LinkMetadata[] = [
     href: "/organization",
     icon: FaBusinessTime,
     className: "transition-transform group-hover:scale-110",
-    enabled: (user) => !!user && user.organizations.length > 0
-  }
+    enabled: (user) => !!user && user.organizations.length > 0,
+  },
 ];
 
 export const SOCIAL_LINKS: LinkMetadata[] = [

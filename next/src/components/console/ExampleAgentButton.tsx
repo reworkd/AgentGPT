@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React from "react";
 
 export const ExampleAgentButton = ({
@@ -18,11 +17,7 @@ export const ExampleAgentButton = ({
 
   return (
     <div
-      className={clsx(
-        `w-full p-2`,
-        `cursor-pointer rounded-lg text-sm sm:text-base`,
-        `bg-gradient-to-t from-sky-300 to-sky-400 shadow-depth-1 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-500`
-      )}
+      className="w-full cursor-pointer rounded-lg border border-sky-500 bg-gradient-to-t from-sky-300 to-sky-400 p-2 text-sm text-white shadow-depth-1 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-500 sm:text-base"
       onClick={handleClick}
     >
       <p className="text-lg font-bold">{name}</p>

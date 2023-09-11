@@ -24,7 +24,7 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const userAgents = data ?? [];
 
   return (
-    <Sidebar show={show} setShow={setShow} side="left">
+    <Sidebar show={show} setShow={setShow} side="left" className="border-slate-6s border-r">
       <div className="flex flex-row items-center pb-6">
         <div className="rounded-xl bg-slate-1 p-1 shadow-depth-1">
           <a

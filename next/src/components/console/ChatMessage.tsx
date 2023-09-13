@@ -5,6 +5,7 @@ import { FaCheck } from "react-icons/fa";
 import { FiClipboard } from "react-icons/fi";
 
 import MarkdownRenderer from "./MarkdownRenderer";
+import SourceCard from "./SourceCard";
 import type { Message } from "../../types/message";
 import { MESSAGE_TYPE_GOAL, MESSAGE_TYPE_SYSTEM } from "../../types/message";
 import {
@@ -41,7 +42,9 @@ const ChatMessage = ({ message }: { message: Message }) => {
     >
       {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
         <>
-          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+          <div className="mr-2 inline-block h-[0.9em]">
+            {getTaskStatusIcon(message, {})}
+          </div>
           <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
         </>
       )}
@@ -49,19 +52,26 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {isAction(message) ? (
         <>
           <div className="flex flex-row">
-            <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
-            <span className="mr-2 flex-1 font-bold">{getMessagePrefix(message)}</span>
+            <div className="mr-2 inline-block h-[0.9em]">
+              {getTaskStatusIcon(message, {})}
+            </div>
+            <span className="mr-2 flex-1 font-bold">
+              {getMessagePrefix(message)}
+            </span>
             <Button
               className="justify-end text-zinc-400 hover:text-white"
               onClick={handleCopy}
               aria-label="Copy"
             >
-              <div className="w-full">{isCopied ? <FaCheck /> : <FiClipboard size={15} />}</div>
+              <div className="w-full">
+                {isCopied ? <FaCheck /> : <FiClipboard size={15} />}
+              </div>
             </Button>
           </div>
           <hr className="my-2 border border-white/20" />
           <div>
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
+            <SourceCard messageInfo={message.info || ""} />
           </div>
         </>
       ) : (

@@ -16,7 +16,7 @@ const SourceLink = ({ link, index }: LinkInfo) => {
 
   return (
     <FadeIn>
-      <a href={link}>
+      <a href={link} target="_blank">
         <div className="group h-full space-y-2 rounded border border-white/20 bg-white/5 p-2 transition-colors duration-300 hover:bg-white/10">
           {linkMeta.isLoading ? (
             <div className="animate-pulse space-y-2">

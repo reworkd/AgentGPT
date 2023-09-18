@@ -82,7 +82,7 @@
     "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.3",
     "jest": "^29.3.1",
-    "jest-environment-jsdom": "^29.3.1",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^13.2.1",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",

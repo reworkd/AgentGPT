@@ -8,7 +8,6 @@ from reworkd_platform.schemas.workflow.blocks.agents.content_refresher_agent imp
 from reworkd_platform.schemas.workflow.blocks.agents.generic_llm_agent import (
     GenericLLMAgent,
 )
-from reworkd_platform.schemas.workflow.blocks.agents.summary_agent import SummaryAgent
 from reworkd_platform.schemas.workflow.blocks.agents.web_interaction_agent import (
     WebInteractionAgent,
 )
@@ -50,8 +49,6 @@ def get_block_runner(block: Block) -> Block:
         return SlackMessageBlock(**block.dict())
     if block.type == "TextInputWebhook":
         return TextInputWebhook(**block.dict())
-    if block.type == "SummaryAgent":
-        return SummaryAgent(**block.dict())
     if block.type == "CompanyContextAgent":
         return CompanyContextAgent(**block.dict())
     if block.type == "FileUploadBlock":

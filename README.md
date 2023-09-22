@@ -49,7 +49,7 @@ The cli sets up the following for AgentGPT:
 Before you get started, please make sure you have the following installed:
 
 - An editor of your choice. For example, [Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
-- [Node.js](https://nodejs.org/en/download)
+- [Node.js](https://nodejs.org/en/download) >=18.0.0 <19.0.0
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
 - An [OpenAI API key](https://platform.openai.com/signup)

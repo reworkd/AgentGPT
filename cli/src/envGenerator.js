@@ -52,6 +52,9 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
       REWORKD_PLATFORM_RELOAD: true,
       REWORKD_PLATFORM_OPENAI_API_BASE: "https://api.openai.com/v1",
       REWORKD_PLATFORM_SERP_API_KEY: envValues.serpApiKey || '""',
+      REWORKD_PLATFORM_GOOGLE_CSE_ID: '""',
+      REWORKD_PLATFORM_GOOGLE_API_KEY: '""',
+      REWORKD_PLATFORM_GOOGLE_SEARCH_API: "google_serp",
       REWORKD_PLATFORM_REPLICATE_API_KEY: envValues.replicateApiKey || '""',
     },
     "Database (Backend)": {

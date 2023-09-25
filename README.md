@@ -54,6 +54,7 @@ Before you get started, please make sure you have the following installed:
 - [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
 - An [OpenAI API key](https://platform.openai.com/signup)
 - A [Serper API Key](https://serper.dev/signup) (optional)
+- A [Google Custom Search ID](https://programmablesearchengine.google.com/about/) and A [Google API Key](https://cloud.google.com/) (optional)
 - A [Replicate API Token](https://replicate.com/signin) (optional)
 
 ## Getting Started :rocket:

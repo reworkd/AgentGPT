@@ -99,7 +99,7 @@ const CustomLink = ({ children, href }) => {
   return (
     <a
       className={clsx(
-        "link rounded-full bg-zinc-800 px-2 py-0.5 align-top text-[0.6rem]",
+        "mx-0.5 rounded-full bg-sky-600 px-1.5 py-0.5 align-top text-[0.6rem] text-white",
         "transition-colors duration-300 hover:bg-sky-500 hover:text-white"
       )}
       href={href as string}

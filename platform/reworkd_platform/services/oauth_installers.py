@@ -1,18 +1,17 @@
-from abc import ABC, abstractmethod
-from urllib.parse import urlencode
-from datetime import datetime, timedelta
-
 import json
+from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
+from urllib.parse import urlencode
+
 import aiohttp
 from fastapi import Depends, Path
-from slack_sdk import WebClient
-from slack_sdk.oauth import AuthorizeUrlGenerator
 
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.models.auth import OauthCredentials
 from reworkd_platform.schemas import UserBase
 from reworkd_platform.services.security import encryption_service
-from reworkd_platform.settings import Settings, settings as platform_settings
+from reworkd_platform.settings import Settings
+from reworkd_platform.settings import settings as platform_settings
 from reworkd_platform.web.api.http_responses import forbidden
 
 
@@ -40,57 +39,6 @@ class OAuthInstaller(ABC):
     @staticmethod
     def store_refresh_token(creds: OauthCredentials, refresh_token: str) -> None:
         creds.refresh_token_enc = encryption_service.encrypt(refresh_token)
-
-
-class SlackInstaller(OAuthInstaller):
-    PROVIDER = "slack"
-    SCOPES = [
-        "incoming-webhook",
-        "chat:write",
-        "channels:join",
-        "groups:read",
-        "im:read",
-        "mpim:read",
-        "im:write",
-        "groups:write",
-        "mpim:write",
-        "channels:read",
-        "chat:write.public",
-    ]
-
-    async def install(self, user: UserBase, redirect_uri: str) -> str:
-        installation = await self.crud.create_installation(
-            user, self.PROVIDER, redirect_uri
-        )
-
-        return AuthorizeUrlGenerator(
-            client_id=self.settings.slack_client_id,
-            redirect_uri=self.settings.slack_redirect_uri,
-            scopes=self.SCOPES,
-        ).generate(
-            state=installation.state,
-        )
-
-    async def install_callback(self, code: str, state: str) -> OauthCredentials:
-        creds = await self.crud.get_installation_by_state(state)
-        if not creds:
-            raise forbidden()
-
-        oauth_response = WebClient().oauth_v2_access(
-            client_id=self.settings.slack_client_id,
-            client_secret=self.settings.slack_client_secret,
-            code=code,
-            state=state,
-            redirect_uri=self.settings.slack_redirect_uri,
-        )
-
-        OAuthInstaller.store_access_token(creds, oauth_response["access_token"])
-        creds.token_type = oauth_response["token_type"]
-        creds.scope = oauth_response["scope"]
-        return await creds.save(self.crud.session)
-
-    async def uninstall(self, user: UserBase) -> bool:
-        raise NotImplementedError()
 
 
 class SIDInstaller(OAuthInstaller):
@@ -180,7 +128,6 @@ class SIDInstaller(OAuthInstaller):
 
 
 integrations = {
-    SlackInstaller.PROVIDER: SlackInstaller,
     SIDInstaller.PROVIDER: SIDInstaller,
 }
 

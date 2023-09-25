@@ -19,6 +19,7 @@ def test_helicone_enabled_without_custom_api_key():
     settings = Settings(
         helicone_api_key="some_key",
         helicone_api_base="helicone_base",
+        openai_api_base="openai_base",
     )
 
     base, headers = get_base_and_headers(settings, model_settings, user)
@@ -28,6 +29,7 @@ def test_helicone_enabled_without_custom_api_key():
         "Helicone-Auth": "Bearer some_key",
         "Helicone-Cache-Enabled": "true",
         "Helicone-User-Id": "user_id",
+        "Helicone-OpenAI-Api-Base": "openai_base",
     }
 
 

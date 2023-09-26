@@ -9,39 +9,40 @@ import nextI18NextConfig from "./next-i18next.config.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
+  output: "standalone",
   reactStrictMode: true,
   /* If trying out the experimental appDir, comment the i18n config out
    * @see https://github.com/vercel/next.js/issues/41980 */
   i18n: nextI18NextConfig.i18n,
-  webpack: function(config, options) {
+  webpack: function (config, options) {
     config.experiments = { asyncWebAssembly: true, layers: true };
     config.watchOptions = {
       poll: 1000,
-      aggregateTimeout: 300
+      aggregateTimeout: 300,
     };
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    })
+      use: ["@svgr/webpack"],
+    });
     return config;
   },
   rewrites() {
-      return {
-          beforeFiles: [
-              {
-                  source: '/:path*',
-                  has: [
-                      {
-                          type: 'host',
-                          value: 'reworkd.ai',
-                      },
-                  ],
-                  destination: '/landing-page',
-              },
-          ]
-      }
-  }
+    return {
+      beforeFiles: [
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: "reworkd.ai",
+            },
+          ],
+          destination: "/landing-page",
+        },
+      ],
+    };
+  },
 };
 
 export default config;

@@ -41,6 +41,7 @@ botocore = "^1.31.51"
 stripe = "^5.5.0"
 cryptography = "^41.0.4"
 google-api-python-client = "^2.100.0"
+trafilatura = "^1.6.2"
 
 
 [tool.poetry.dev-dependencies]

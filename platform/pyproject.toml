@@ -42,6 +42,7 @@ aws-secretsmanager-caching = "^1.1.1.5"
 botocore = "^1.29.153"
 stripe = "^5.4.0"
 tabula-py = "^2.7.0"
+trafilatura = "^1.6.2"
 
 
 [tool.poetry.dev-dependencies]

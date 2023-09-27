@@ -22,7 +22,6 @@ from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.web.api.memory.memory import AgentMemory
 from reworkd_platform.web.api.memory.memory_with_fallback import MemoryWithFallback
 from reworkd_platform.web.api.memory.null import NullAgentMemory
-from reworkd_platform.web.api.memory.weaviate import WeaviateMemory
 
 T = TypeVar(
     "T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate, AgentSummarize, AgentChat
@@ -46,10 +45,7 @@ def get_agent_memory(
     if PineconeMemory.should_use():
         return MemoryWithFallback(PineconeMemory(user.id), NullAgentMemory())
 
-    elif settings.vector_db_url:
-        return MemoryWithFallback(WeaviateMemory(user.id), NullAgentMemory())
-    else:
-        return NullAgentMemory()
+    return NullAgentMemory()
 
 
 async def agent_start_validator(

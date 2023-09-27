@@ -1,7 +1,7 @@
 import type { SyntheticEvent } from "react";
-
-import { api } from "../../utils/api";
 import FadeIn from "../motions/FadeIn";
+import extractMetadata from "../../utils/extractMetadata";
+import { useQuery } from "@tanstack/react-query";
 
 interface LinkInfo {
   link: string;
@@ -9,7 +9,7 @@ interface LinkInfo {
 }
 
 const SourceLink = ({ link, index }: LinkInfo) => {
-  const linkMeta = api.linkMeta.get.useQuery(link);
+  const linkMeta = useQuery(["linkMeta", link], () => extractMetadata(link));
   const addImageFallback = (event: SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = "/errorFavicon.ico";
   };

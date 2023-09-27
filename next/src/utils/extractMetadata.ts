@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 interface Metadata {
   title?: string;
@@ -16,7 +16,7 @@ const extractMetadata = async (url: string) => {
       },
     });
     const html = res.data;
-    const $ = cheerio.load(html);
+    const $ = load(html);
     const metadata: Metadata = {};
     const urlObj = new URL(url);
 
@@ -26,9 +26,7 @@ const extractMetadata = async (url: string) => {
     $("link").each((index, link) => {
       if (link.attribs.rel == "icon" || link.attribs.rel == "shortcut icon") {
         let favicon: string = (
-          link.attribs.href?.startsWith("//")
-            ? link.attribs.href?.substring(2)
-            : link.attribs.href
+          link.attribs.href?.startsWith("//") ? link.attribs.href?.substring(2) : link.attribs.href
         ) as string;
         if (!isValidUrl(favicon)) {
           favicon = `${urlObj.origin}${favicon}`;

@@ -37,7 +37,7 @@ def create_model(
     )
 
     model: Type[WrappedChat] = WrappedChatOpenAI
-    base, headers = get_base_and_headers(settings, model_settings, user)
+    base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
     kwargs = {
         "openai_api_base": base,
         "openai_api_key": settings.openai_api_key,
@@ -61,12 +61,15 @@ def create_model(
             }
         )
 
+        if use_helicone:
+            kwargs["model"] = deployment_name
+
     return model(**kwargs)  # type: ignore
 
 
 def get_base_and_headers(
     settings_: Settings, model_settings: ModelSettings, user: UserBase
-) -> Tuple[str, Optional[Dict[str, str]]]:
+) -> Tuple[str, Optional[Dict[str, str]], bool]:
     use_helicone = settings_.helicone_enabled and not model_settings.custom_api_key
     base = settings_.helicone_api_base if use_helicone else settings_.openai_api_base
     headers = (
@@ -80,4 +83,4 @@ def get_base_and_headers(
         else None
     )
 
-    return base, headers
+    return base, headers, use_helicone

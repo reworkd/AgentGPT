@@ -57,6 +57,7 @@ def create_model(
                 "openai_api_version": settings.openai_api_version,
                 "deployment_name": deployment_name,
                 "openai_api_type": "azure",
+                "openai_api_base": base.rstrip("v1"),
             }
         )
 

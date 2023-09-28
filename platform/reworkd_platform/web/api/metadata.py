@@ -6,6 +6,8 @@ from fastapi import APIRouter
 from httpx import AsyncClient, RequestError, HTTPStatusError
 from pydantic import BaseModel, Field
 
+from reworkd_platform.web.api.errors import PlatformaticError
+
 router = APIRouter()
 
 
@@ -57,4 +59,10 @@ async def extract_metadata(url: str) -> Metadata:
         return Metadata(
             hostname=parsed_url.hostname,
             favicon=f"{parsed_url.scheme}://{parsed_url.hostname}/favicon.ico",
+        )
+    except Exception as e:
+        raise PlatformaticError(
+            base_exception=e,
+            detail=f"Could not extract metadata from {url}",
+            should_log=False,
         )

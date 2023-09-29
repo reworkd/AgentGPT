@@ -71,7 +71,16 @@ def get_base_and_headers(
     settings_: Settings, model_settings: ModelSettings, user: UserBase
 ) -> Tuple[str, Optional[Dict[str, str]], bool]:
     use_helicone = settings_.helicone_enabled and not model_settings.custom_api_key
-    base = settings_.helicone_api_base if use_helicone else settings_.openai_api_base
+    base = (
+        settings_.helicone_api_base
+        if use_helicone
+        else (
+            "https://api.openai.com/v1"
+            if model_settings.custom_api_key
+            else settings_.openai_api_base
+        )
+    )
+
     headers = (
         {
             "Helicone-Auth": f"Bearer {settings_.helicone_api_key}",

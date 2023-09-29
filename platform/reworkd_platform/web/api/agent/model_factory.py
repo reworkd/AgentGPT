@@ -40,7 +40,7 @@ def create_model(
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
     kwargs = {
         "openai_api_base": base,
-        "openai_api_key": settings.openai_api_key,
+        "openai_api_key": model_settings.custom_api_key or settings.openai_api_key,
         "temperature": model_settings.temperature,
         "model": model_settings.model,
         "max_tokens": model_settings.max_tokens,

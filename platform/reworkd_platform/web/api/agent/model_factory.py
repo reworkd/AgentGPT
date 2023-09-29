@@ -31,18 +31,20 @@ def create_model(
     model_settings: ModelSettings,
     user: UserBase,
     streaming: bool = False,
+    force_model: Optional[LLM_Model] = None,
 ) -> WrappedChat:
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
     )
 
+    llm_model = force_model or model_settings.model
     model: Type[WrappedChat] = WrappedChatOpenAI
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
     kwargs = {
         "openai_api_base": base,
         "openai_api_key": model_settings.custom_api_key or settings.openai_api_key,
         "temperature": model_settings.temperature,
-        "model": model_settings.model,
+        "model": llm_model,
         "max_tokens": model_settings.max_tokens,
         "streaming": streaming,
         "max_retries": 5,
@@ -51,7 +53,7 @@ def create_model(
 
     if use_azure:
         model = WrappedAzureChatOpenAI
-        deployment_name = model_settings.model.replace(".", "")
+        deployment_name = llm_model.replace(".", "")
         kwargs.update(
             {
                 "openai_api_version": settings.openai_api_version,

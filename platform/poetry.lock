@@ -1376,52 +1376,46 @@ socks = ["socksio (==1.*)"]
 
 [[package]]
 name = "httptools"
-version = "0.5.0"
+version = "0.6.0"
 description = "A collection of framework independent HTTP protocol utils."
 optional = false
 python-versions = ">=3.5.0"
 files = [
-    {file = "httptools-0.5.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:8f470c79061599a126d74385623ff4744c4e0f4a0997a353a44923c0b561ee51"},
-    {file = "httptools-0.5.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:e90491a4d77d0cb82e0e7a9cb35d86284c677402e4ce7ba6b448ccc7325c5421"},
-    {file = "httptools-0.5.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c1d2357f791b12d86faced7b5736dea9ef4f5ecdc6c3f253e445ee82da579449"},
-    {file = "httptools-0.5.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1f90cd6fd97c9a1b7fe9215e60c3bd97336742a0857f00a4cb31547bc22560c2"},
-    {file = "httptools-0.5.0-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:5230a99e724a1bdbbf236a1b58d6e8504b912b0552721c7c6b8570925ee0ccde"},
-    {file = "httptools-0.5.0-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:3a47a34f6015dd52c9eb629c0f5a8a5193e47bf2a12d9a3194d231eaf1bc451a"},
-    {file = "httptools-0.5.0-cp310-cp310-win_amd64.whl", hash = "sha256:24bb4bb8ac3882f90aa95403a1cb48465de877e2d5298ad6ddcfdebec060787d"},
-    {file = "httptools-0.5.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:e67d4f8734f8054d2c4858570cc4b233bf753f56e85217de4dfb2495904cf02e"},
-    {file = "httptools-0.5.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:7e5eefc58d20e4c2da82c78d91b2906f1a947ef42bd668db05f4ab4201a99f49"},
-    {file = "httptools-0.5.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0297822cea9f90a38df29f48e40b42ac3d48a28637368f3ec6d15eebefd182f9"},
-    {file = "httptools-0.5.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:557be7fbf2bfa4a2ec65192c254e151684545ebab45eca5d50477d562c40f986"},
-    {file = "httptools-0.5.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:54465401dbbec9a6a42cf737627fb0f014d50dc7365a6b6cd57753f151a86ff0"},
-    {file = "httptools-0.5.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:4d9ebac23d2de960726ce45f49d70eb5466725c0087a078866043dad115f850f"},
-    {file = "httptools-0.5.0-cp311-cp311-win_amd64.whl", hash = "sha256:e8a34e4c0ab7b1ca17b8763613783e2458e77938092c18ac919420ab8655c8c1"},
-    {file = "httptools-0.5.0-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:f659d7a48401158c59933904040085c200b4be631cb5f23a7d561fbae593ec1f"},
-    {file = "httptools-0.5.0-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ef1616b3ba965cd68e6f759eeb5d34fbf596a79e84215eeceebf34ba3f61fdc7"},
-    {file = "httptools-0.5.0-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3625a55886257755cb15194efbf209584754e31d336e09e2ffe0685a76cb4b60"},
-    {file = "httptools-0.5.0-cp36-cp36m-musllinux_1_1_aarch64.whl", hash = "sha256:72ad589ba5e4a87e1d404cc1cb1b5780bfcb16e2aec957b88ce15fe879cc08ca"},
-    {file = "httptools-0.5.0-cp36-cp36m-musllinux_1_1_x86_64.whl", hash = "sha256:850fec36c48df5a790aa735417dca8ce7d4b48d59b3ebd6f83e88a8125cde324"},
-    {file = "httptools-0.5.0-cp36-cp36m-win_amd64.whl", hash = "sha256:f222e1e9d3f13b68ff8a835574eda02e67277d51631d69d7cf7f8e07df678c86"},
-    {file = "httptools-0.5.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:3cb8acf8f951363b617a8420768a9f249099b92e703c052f9a51b66342eea89b"},
-    {file = "httptools-0.5.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:550059885dc9c19a072ca6d6735739d879be3b5959ec218ba3e013fd2255a11b"},
-    {file = "httptools-0.5.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a04fe458a4597aa559b79c7f48fe3dceabef0f69f562daf5c5e926b153817281"},
-    {file = "httptools-0.5.0-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:7d0c1044bce274ec6711f0770fd2d5544fe392591d204c68328e60a46f88843b"},
-    {file = "httptools-0.5.0-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:c6eeefd4435055a8ebb6c5cc36111b8591c192c56a95b45fe2af22d9881eee25"},
-    {file = "httptools-0.5.0-cp37-cp37m-win_amd64.whl", hash = "sha256:5b65be160adcd9de7a7e6413a4966665756e263f0d5ddeffde277ffeee0576a5"},
-    {file = "httptools-0.5.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:fe9c766a0c35b7e3d6b6939393c8dfdd5da3ac5dec7f971ec9134f284c6c36d6"},
-    {file = "httptools-0.5.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:85b392aba273566c3d5596a0a490978c085b79700814fb22bfd537d381dd230c"},
-    {file = "httptools-0.5.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f5e3088f4ed33947e16fd865b8200f9cfae1144f41b64a8cf19b599508e096bc"},
-    {file = "httptools-0.5.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8c2a56b6aad7cc8f5551d8e04ff5a319d203f9d870398b94702300de50190f63"},
-    {file = "httptools-0.5.0-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:9b571b281a19762adb3f48a7731f6842f920fa71108aff9be49888320ac3e24d"},
-    {file = "httptools-0.5.0-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:aa47ffcf70ba6f7848349b8a6f9b481ee0f7637931d91a9860a1838bfc586901"},
-    {file = "httptools-0.5.0-cp38-cp38-win_amd64.whl", hash = "sha256:bede7ee075e54b9a5bde695b4fc8f569f30185891796b2e4e09e2226801d09bd"},
-    {file = "httptools-0.5.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:64eba6f168803a7469866a9c9b5263a7463fa8b7a25b35e547492aa7322036b6"},
-    {file = "httptools-0.5.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:4b098e4bb1174096a93f48f6193e7d9aa7071506a5877da09a783509ca5fff42"},
-    {file = "httptools-0.5.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9423a2de923820c7e82e18980b937893f4aa8251c43684fa1772e341f6e06887"},
-    {file = "httptools-0.5.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ca1b7becf7d9d3ccdbb2f038f665c0f4857e08e1d8481cbcc1a86a0afcfb62b2"},
-    {file = "httptools-0.5.0-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:50d4613025f15f4b11f1c54bbed4761c0020f7f921b95143ad6d58c151198142"},
-    {file = "httptools-0.5.0-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:8ffce9d81c825ac1deaa13bc9694c0562e2840a48ba21cfc9f3b4c922c16f372"},
-    {file = "httptools-0.5.0-cp39-cp39-win_amd64.whl", hash = "sha256:1af91b3650ce518d226466f30bbba5b6376dbd3ddb1b2be8b0658c6799dd450b"},
-    {file = "httptools-0.5.0.tar.gz", hash = "sha256:295874861c173f9101960bba332429bb77ed4dcd8cdf5cee9922eb00e4f6bc09"},
+    {file = "httptools-0.6.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:818325afee467d483bfab1647a72054246d29f9053fd17cc4b86cda09cc60339"},
+    {file = "httptools-0.6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:72205730bf1be875003692ca54a4a7c35fac77b4746008966061d9d41a61b0f5"},
+    {file = "httptools-0.6.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:33eb1d4e609c835966e969a31b1dedf5ba16b38cab356c2ce4f3e33ffa94cad3"},
+    {file = "httptools-0.6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6bdc6675ec6cb79d27e0575750ac6e2b47032742e24eed011b8db73f2da9ed40"},
+    {file = "httptools-0.6.0-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:463c3bc5ef64b9cf091be9ac0e0556199503f6e80456b790a917774a616aff6e"},
+    {file = "httptools-0.6.0-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:82f228b88b0e8c6099a9c4757ce9fdbb8b45548074f8d0b1f0fc071e35655d1c"},
+    {file = "httptools-0.6.0-cp310-cp310-win_amd64.whl", hash = "sha256:0781fedc610293a2716bc7fa142d4c85e6776bc59d617a807ff91246a95dea35"},
+    {file = "httptools-0.6.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:721e503245d591527cddd0f6fd771d156c509e831caa7a57929b55ac91ee2b51"},
+    {file = "httptools-0.6.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:274bf20eeb41b0956e34f6a81f84d26ed57c84dd9253f13dcb7174b27ccd8aaf"},
+    {file = "httptools-0.6.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:259920bbae18740a40236807915def554132ad70af5067e562f4660b62c59b90"},
+    {file = "httptools-0.6.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:03bfd2ae8a2d532952ac54445a2fb2504c804135ed28b53fefaf03d3a93eb1fd"},
+    {file = "httptools-0.6.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:f959e4770b3fc8ee4dbc3578fd910fab9003e093f20ac8c621452c4d62e517cb"},
+    {file = "httptools-0.6.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:6e22896b42b95b3237eccc42278cd72c0df6f23247d886b7ded3163452481e38"},
+    {file = "httptools-0.6.0-cp311-cp311-win_amd64.whl", hash = "sha256:38f3cafedd6aa20ae05f81f2e616ea6f92116c8a0f8dcb79dc798df3356836e2"},
+    {file = "httptools-0.6.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:47043a6e0ea753f006a9d0dd076a8f8c99bc0ecae86a0888448eb3076c43d717"},
+    {file = "httptools-0.6.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:35a541579bed0270d1ac10245a3e71e5beeb1903b5fbbc8d8b4d4e728d48ff1d"},
+    {file = "httptools-0.6.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:65d802e7b2538a9756df5acc062300c160907b02e15ed15ba035b02bce43e89c"},
+    {file = "httptools-0.6.0-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:26326e0a8fe56829f3af483200d914a7cd16d8d398d14e36888b56de30bec81a"},
+    {file = "httptools-0.6.0-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:e41ccac9e77cd045f3e4ee0fc62cbf3d54d7d4b375431eb855561f26ee7a9ec4"},
+    {file = "httptools-0.6.0-cp37-cp37m-win_amd64.whl", hash = "sha256:4e748fc0d5c4a629988ef50ac1aef99dfb5e8996583a73a717fc2cac4ab89932"},
+    {file = "httptools-0.6.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:cf8169e839a0d740f3d3c9c4fa630ac1a5aaf81641a34575ca6773ed7ce041a1"},
+    {file = "httptools-0.6.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:5dcc14c090ab57b35908d4a4585ec5c0715439df07be2913405991dbb37e049d"},
+    {file = "httptools-0.6.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0d0b0571806a5168013b8c3d180d9f9d6997365a4212cb18ea20df18b938aa0b"},
+    {file = "httptools-0.6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0fb4a608c631f7dcbdf986f40af7a030521a10ba6bc3d36b28c1dc9e9035a3c0"},
+    {file = "httptools-0.6.0-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:93f89975465133619aea8b1952bc6fa0e6bad22a447c6d982fc338fbb4c89649"},
+    {file = "httptools-0.6.0-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:73e9d66a5a28b2d5d9fbd9e197a31edd02be310186db423b28e6052472dc8201"},
+    {file = "httptools-0.6.0-cp38-cp38-win_amd64.whl", hash = "sha256:22c01fcd53648162730a71c42842f73b50f989daae36534c818b3f5050b54589"},
+    {file = "httptools-0.6.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:3f96d2a351b5625a9fd9133c95744e8ca06f7a4f8f0b8231e4bbaae2c485046a"},
+    {file = "httptools-0.6.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:72ec7c70bd9f95ef1083d14a755f321d181f046ca685b6358676737a5fecd26a"},
+    {file = "httptools-0.6.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b703d15dbe082cc23266bf5d9448e764c7cb3fcfe7cb358d79d3fd8248673ef9"},
+    {file = "httptools-0.6.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:82c723ed5982f8ead00f8e7605c53e55ffe47c47465d878305ebe0082b6a1755"},
+    {file = "httptools-0.6.0-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:b0a816bb425c116a160fbc6f34cece097fd22ece15059d68932af686520966bd"},
+    {file = "httptools-0.6.0-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:dea66d94e5a3f68c5e9d86e0894653b87d952e624845e0b0e3ad1c733c6cc75d"},
+    {file = "httptools-0.6.0-cp39-cp39-win_amd64.whl", hash = "sha256:23b09537086a5a611fad5696fc8963d67c7e7f98cb329d38ee114d588b0b74cd"},
+    {file = "httptools-0.6.0.tar.gz", hash = "sha256:9fc6e409ad38cbd68b177cd5158fc4042c796b82ca88d99ec78f07bed6c6b796"},
 ]
 
 [package.extras]
@@ -3535,4 +3529,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "04fce7715c4c340dadec185100f1aa1d01f87067c3e6d97140c2dcdfef684eb4"
+content-hash = "61f36fd18afa1867a79e6abdfca2a37baee2f78df8fe1b5fd3ae183e87b800f0"

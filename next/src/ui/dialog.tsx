@@ -6,7 +6,7 @@ import { Fragment, useRef } from "react";
 interface DialogProps extends PropsWithChildren {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  icon: ReactNode;
+  icon?: ReactNode;
   title: ReactNode;
   actions?: ReactNode;
   inline?: boolean;
@@ -75,14 +75,7 @@ const Dialog: FC<DialogProps> = ({ open, setOpen, ...props }) => {
                     >
                       {props.icon}
                     </div>
-                    <div
-                      className={clsx(
-                        "mt-3 text-center",
-                        props.inline || "sm:ml-4 sm:mt-0 sm:text-left"
-                      )}
-                    >
-                      <div className="mt-2">{props.children}</div>
-                    </div>
+                    <div>{props.children}</div>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 border-t border-slate-6 bg-slate-3 px-8 py-4">

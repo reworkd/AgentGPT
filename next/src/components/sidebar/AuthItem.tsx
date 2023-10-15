@@ -89,8 +89,10 @@ const AuthItem: FC<{
             </>
           }
         >
-          <p className="max-w-full text-sm text-gray-600">{user?.name}</p>
-          <p className="text-sm text-gray-400">{user?.email}</p>
+          <div className="mt-2 w-full text-center">
+            <p className="max-w-full text-sm text-gray-600">{user?.name}</p>
+            <p className="text-sm text-gray-400">{user?.email}</p>
+          </div>
         </Dialog>
       </div>
     </div>

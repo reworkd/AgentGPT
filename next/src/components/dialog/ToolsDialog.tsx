@@ -1,30 +1,38 @@
 import { useSession } from "next-auth/react";
 import React from "react";
-import { FaCog } from "react-icons/fa";
 
-import Dialog from "./Dialog";
 import { useSID } from "../../hooks/useSID";
 import type { ActiveTool } from "../../hooks/useTools";
 import { useTools } from "../../hooks/useTools";
+import Dialog from "../../ui/dialog";
 import Button from "../Button";
 import { Switch } from "../Switch";
 
 export const ToolsDialog: React.FC<{
   show: boolean;
-  close: () => void;
-}> = ({ show, close }) => {
+  setOpen: (boolean) => void;
+}> = ({ show, setOpen }) => {
   const { activeTools, setToolActive, isSuccess } = useTools();
 
   return (
     <Dialog
-      header={
-        <div className="flex items-center gap-3">
-          <p>Tools</p>
-          <FaCog />
-        </div>
+      inline
+      open={show}
+      setOpen={setOpen}
+      title="Tools"
+      actions={
+        <>
+          <button
+            type="button"
+            className="inline-flex w-full justify-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Close
+          </button>
+        </>
       }
-      isShown={show}
-      close={close}
     >
       <p>Select what external tools your agents have access to.</p>
       <div className="mt-5 flex flex-col gap-3 ">

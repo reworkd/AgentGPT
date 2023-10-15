@@ -15,7 +15,7 @@ export default function HelpDialog() {
       if (savedModalData == null) {
         setShow(true);
       }
-    }, 1000);
+    }, 1500);
 
     localStorage.setItem(key, JSON.stringify(true));
   }, []);

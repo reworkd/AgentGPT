@@ -66,7 +66,8 @@ export class MessageService {
       message = `🔍 Searching the web for "${analysis.arg}"...`;
     }
     if (analysis.action == "browser") {
-      message = `🔍 Browsing "${analysis.arg}"...`;
+      const browsing_content = analysis.arg['url'] ? analysis.arg['url'] : analysis.arg;
+      message = `🌐 Browsing "${browsing_content}"...`;
     }
     if (analysis.action == "wikipedia") {
       message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;

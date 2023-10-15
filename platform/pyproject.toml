@@ -31,7 +31,7 @@ openai = "^0.28.0"
 wikipedia = "^1.4.0"
 replicate = "^0.8.4"
 lanarky = "^0.7.15"
-tiktoken = "^0.4.0"
+tiktoken = "^0.5.1"
 grpcio = "^1.58.0"
 pinecone-client = { version = "^2.2.4", extras = ["grpc"] }
 networkx = "^3.1"

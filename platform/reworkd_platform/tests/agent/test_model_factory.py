@@ -22,8 +22,9 @@ def test_helicone_enabled_without_custom_api_key():
         openai_api_base="openai_base",
     )
 
-    base, headers = get_base_and_headers(settings, model_settings, user)
+    base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
 
+    assert use_helicone is True
     assert base == "helicone_base"
     assert headers == {
         "Helicone-Auth": "Bearer some_key",
@@ -38,9 +39,10 @@ def test_helicone_disabled():
     user = UserBase(id="user_id")
     settings = Settings()
 
-    base, headers = get_base_and_headers(settings, model_settings, user)
+    base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
     assert base == "https://api.openai.com/v1"
     assert headers is None
+    assert use_helicone is False
 
 
 def test_helicone_enabled_with_custom_api_key():
@@ -54,10 +56,11 @@ def test_helicone_enabled_with_custom_api_key():
         helicone_api_base="helicone_base",
     )
 
-    base, headers = get_base_and_headers(settings, model_settings, user)
+    base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
 
-    assert base == "openai_base"
+    assert base == "https://api.openai.com/v1"
     assert headers is None
+    assert use_helicone is False
 
 
 @pytest.mark.parametrize(

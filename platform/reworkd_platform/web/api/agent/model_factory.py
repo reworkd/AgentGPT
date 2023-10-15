@@ -31,18 +31,20 @@ def create_model(
     model_settings: ModelSettings,
     user: UserBase,
     streaming: bool = False,
+    force_model: Optional[LLM_Model] = None,
 ) -> WrappedChat:
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
     )
 
+    llm_model = force_model or model_settings.model
     model: Type[WrappedChat] = WrappedChatOpenAI
-    base, headers = get_base_and_headers(settings, model_settings, user)
+    base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
     kwargs = {
         "openai_api_base": base,
-        "openai_api_key": settings.openai_api_key,
+        "openai_api_key": model_settings.custom_api_key or settings.openai_api_key,
         "temperature": model_settings.temperature,
-        "model": model_settings.model,
+        "model": llm_model,
         "max_tokens": model_settings.max_tokens,
         "streaming": streaming,
         "max_retries": 5,
@@ -51,7 +53,7 @@ def create_model(
 
     if use_azure:
         model = WrappedAzureChatOpenAI
-        deployment_name = model_settings.model.replace(".", "")
+        deployment_name = llm_model.replace(".", "")
         kwargs.update(
             {
                 "openai_api_version": settings.openai_api_version,
@@ -61,14 +63,26 @@ def create_model(
             }
         )
 
+        if use_helicone:
+            kwargs["model"] = deployment_name
+
     return model(**kwargs)  # type: ignore
 
 
 def get_base_and_headers(
     settings_: Settings, model_settings: ModelSettings, user: UserBase
-) -> Tuple[str, Optional[Dict[str, str]]]:
+) -> Tuple[str, Optional[Dict[str, str]], bool]:
     use_helicone = settings_.helicone_enabled and not model_settings.custom_api_key
-    base = settings_.helicone_api_base if use_helicone else settings_.openai_api_base
+    base = (
+        settings_.helicone_api_base
+        if use_helicone
+        else (
+            "https://api.openai.com/v1"
+            if model_settings.custom_api_key
+            else settings_.openai_api_base
+        )
+    )
+
     headers = (
         {
             "Helicone-Auth": f"Bearer {settings_.helicone_api_key}",
@@ -80,4 +94,4 @@ def get_base_and_headers(
         else None
     )
 
-    return base, headers
+    return base, headers, use_helicone

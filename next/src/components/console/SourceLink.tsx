@@ -1,15 +1,34 @@
 import type { SyntheticEvent } from "react";
 import FadeIn from "../motions/FadeIn";
-import extractMetadata from "../../utils/extractMetadata";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { env } from "../../env/client.mjs";
+import { z } from "zod";
 
 interface LinkInfo {
   link: string;
   index: number;
 }
 
+const MetaDataSchema = z.object({
+  title: z.string().nullish(),
+  favicon: z.string().nullish(),
+  hostname: z.string().nullish(),
+});
+
 const SourceLink = ({ link, index }: LinkInfo) => {
-  const linkMeta = useQuery(["linkMeta", link], () => extractMetadata(link));
+  const linkMeta = useQuery(["linkMeta", link], async () =>
+    MetaDataSchema.parse(
+      (
+        await axios.get(env.NEXT_PUBLIC_BACKEND_URL + "/api/metadata", {
+          params: {
+            url: link,
+          },
+        })
+      ).data
+    )
+  );
+
   const addImageFallback = (event: SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = "/errorFavicon.ico";
   };

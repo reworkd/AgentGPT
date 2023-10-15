@@ -276,13 +276,6 @@ const Home: NextPage = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-            <AgentControls
-              disablePlay={disableStartAgent}
-              lifecycle={agentLifecycle}
-              handlePlay={() => handlePlay(nameInput, goalInput)}
-              handlePause={() => agent?.pauseAgent()}
-              handleStop={() => agent?.stopAgent()}
-            />
           </FadeIn>
         </div>
       </div>

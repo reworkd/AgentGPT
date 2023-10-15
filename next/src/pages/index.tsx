@@ -18,7 +18,6 @@ import Summarize from "../components/console/SummarizeButton";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
-import TaskSidebar from "../components/drawer/TaskSidebar";
 import Input from "../components/Input";
 import Expand from "../components/motions/expand";
 import FadeIn from "../components/motions/FadeIn";
@@ -158,7 +157,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <DashboardLayout rightSidebar={<TaskSidebar />}>
+    <DashboardLayout>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 

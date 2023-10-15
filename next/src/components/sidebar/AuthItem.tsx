@@ -27,7 +27,7 @@ const AuthItem: FC<{
     <div className="flex items-center justify-between">
       <div
         className={clsx(
-          "flex flex-1 cursor-pointer items-center justify-start gap-3 rounded-md px-1.5 py-1 text-sm font-semibold text-slate-12 hover:bg-slate-5",
+          "flex flex-1 cursor-pointer items-center justify-start gap-3 rounded-md px-1.5 py-2 text-sm font-semibold text-slate-12 hover:bg-slate-5",
           classname
         )}
         onClick={(e) => {
@@ -45,7 +45,7 @@ const AuthItem: FC<{
         )}
 
         {!user && (
-          <h1 className="ml-2 flex h-9 w-9 flex-grow items-center gap-2 text-center text-slate-12">
+          <h1 className="ml-2 flex h-6 w-6 flex-grow items-center gap-2 text-center text-slate-12">
             <FaSignInAlt />
             <p>Sign in</p>
           </h1>

@@ -22,11 +22,11 @@
     "configstore": "^6.0.0",
     "dotenv": "^16.3.1",
     "figlet": "^1.6.0",
-    "inquirer": "^9.2.10",
+    "inquirer": "^9.2.11",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "node-fetch": "^3.3.2",
-    "simple-git": "^3.19.1",
+    "simple-git": "^3.20.0",
     "touch": "^3.1.0"
   }
 }

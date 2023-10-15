@@ -1,8 +1,9 @@
-from typing import Any, Callable, Coroutine
+from typing import Any, Callable, Coroutine, Optional
 
 from fastapi import Depends
 
-from reworkd_platform.schemas.agent import AgentRun
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.agent import AgentRun, LLM_Model
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.services.tokenizer.dependencies import get_token_service
 from reworkd_platform.services.tokenizer.token_service import TokenService
@@ -18,13 +19,12 @@ from reworkd_platform.web.api.agent.dependancies import get_agent_memory
 from reworkd_platform.web.api.agent.model_factory import create_model
 from reworkd_platform.web.api.dependencies import get_current_user
 from reworkd_platform.web.api.memory.memory import AgentMemory
-from reworkd_platform.db.crud.oauth import OAuthCrud
 
 
 def get_agent_service(
     validator: Callable[..., Coroutine[Any, Any, AgentRun]],
     streaming: bool = False,
-    azure: bool = False,  # As of 07/2023, azure does not support functions
+    llm_model: Optional[LLM_Model] = None,
 ) -> Callable[..., AgentService]:
     def func(
         run: AgentRun = Depends(validator),
@@ -36,7 +36,14 @@ def get_agent_service(
         if settings.ff_mock_mode_enabled:
             return MockAgentService()
 
-        model = create_model(run.model_settings, user, streaming=streaming, azure=azure)
+        model = create_model(
+            settings,
+            run.model_settings,
+            user,
+            streaming=streaming,
+            force_model=llm_model,
+        )
+
         return OpenAIAgentService(
             model,
             run.model_settings,

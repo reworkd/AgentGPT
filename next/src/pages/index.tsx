@@ -159,9 +159,9 @@ const Home: NextPage = () => {
   return (
     <DashboardLayout>
       <HelpDialog />
-      <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
+      <ToolsDialog show={showToolsDialog} setOpen={setShowToolsDialog} />
 
-      <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
+      <SignInDialog show={showSignInDialog} setOpen={setShowSignInDialog} />
       <div id="content" className="flex min-h-screen w-full items-center justify-center">
         <div
           id="layout"

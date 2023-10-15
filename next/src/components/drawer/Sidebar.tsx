@@ -82,7 +82,7 @@ export const SidebarControlButton = ({
   return (
     <button
       className={clsx(
-        "fixed z-20 m-1 rounded-md shadow-depth-1 transition-all sm:m-2",
+        "fixed z-20 m-1 rounded-md bg-slate-1 shadow-depth-1 transition-all sm:m-2",
         side === "right" && "right-0"
       )}
       onClick={() => setShow(!show)}

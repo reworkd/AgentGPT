@@ -43,7 +43,6 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
   return (
     <>
       <AppHead />
-
       {/* Left sidebar */}
       {/* Mobile */}
       <LeftSidebar show={leftSettings.mobile} setShow={setMobile(leftSettings, setLeftSettings)} />
@@ -68,7 +67,6 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           setShow={setDesktop(leftSettings, setLeftSettings)}
         />
       </div>
-
       {/* Right sidebar */}
       {/* Mobile */}
       {props.rightSidebar && (
@@ -81,10 +79,9 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           />
         </>
       )}
-
       <main
         className={clsx(
-          "bg-slate-2",
+          "bg-gradient-to-b from-slate-7 to-slate-3",
           leftSettings.desktop && "lg:pl-64",
           props.rightSidebar && layout.showRightSidebar && "lg:pr-64"
         )}

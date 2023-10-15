@@ -28,8 +28,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   }, [i18n]);
 
   return (
-    // Force dark mode for now due to light flickering
-    <div className="dark">
+    <div>
       <SessionProvider session={session}>
         <GoogleAnalytics trackPageViews />
         <Analytics />

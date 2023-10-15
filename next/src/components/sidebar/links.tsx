@@ -4,7 +4,6 @@ import {
   FaBusinessTime,
   FaCog,
   FaDiscord,
-  FaFileCode,
   FaGithub,
   FaHome,
   FaLinkedin,
@@ -40,16 +39,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     badge: {
       text: "Alpha",
       className: "bg-gradient-to-tr from-purple-500 to-sky-600",
-    },
-  },
-  {
-    name: "Templates",
-    href: "/templates",
-    icon: FaFileCode,
-    className: "transition-transform group-hover:scale-110",
-    enabled: true,
-    badge: {
-      text: "New",
     },
   },
   {

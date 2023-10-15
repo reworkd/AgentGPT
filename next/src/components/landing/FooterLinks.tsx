@@ -10,7 +10,7 @@ const FooterLink: FC<FooterLinkProps> = ({ href, children }) => (
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group w-full rounded-full bg-transparent px-2 text-sm text-black/50 transition-colors duration-300 ease-in-out hover:text-black/90 dark:text-white/50 hover:dark:text-white/90"
+    className="group w-full rounded-full bg-transparent px-2 text-sm text-white/50 transition-colors duration-300 ease-in-out hover:text-white/90"
   >
     {children}
   </a>

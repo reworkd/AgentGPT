@@ -43,12 +43,12 @@ export default function HelpDialog() {
     >
       <div>
         <p>
-          AgentGPT is a platform that uses the power of AI agents to answer any question imaginable.
-          Given a question, watch as the agent thinks of what background information it requires,
-          searches for relevant information, and answers the question.
+          AgentGPT is the next generation of Google search. Ask any question and watch as an AI
+          Agent gives you the perfect answer after aggregating relevant sources from across the
+          internet.
         </p>
         <br />
-        <p className="mt-2">{t("FOLLOW_THE_JOURNEY", { ns: "help" })}</p>
+        <p className="mt-2 text-center font-bold">{t("FOLLOW_THE_JOURNEY", { ns: "help" })}</p>
         <div className="mt-4 flex w-full items-center justify-center gap-5">
           <div
             className="cursor-pointer rounded-full bg-slate-6 p-3 hover:bg-slate-8"

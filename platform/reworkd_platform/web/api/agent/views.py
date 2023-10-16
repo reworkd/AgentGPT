@@ -36,9 +36,7 @@ router = APIRouter()
 )
 async def start_tasks(
     req_body: AgentRun = Depends(agent_start_validator),
-    agent_service: AgentService = Depends(
-        get_agent_service(agent_start_validator, azure=True)
-    ),
+    agent_service: AgentService = Depends(get_agent_service(agent_start_validator)),
 ) -> NewTasksResponse:
     new_tasks = await agent_service.start_goal_agent(goal=req_body.goal)
     return NewTasksResponse(newTasks=new_tasks, run_id=req_body.run_id)
@@ -73,9 +71,7 @@ async def execute_tasks(
 @router.post("/create")
 async def create_tasks(
     req_body: AgentTaskCreate = Depends(agent_create_validator),
-    agent_service: AgentService = Depends(
-        get_agent_service(agent_create_validator, azure=True)
-    ),
+    agent_service: AgentService = Depends(get_agent_service(agent_create_validator)),
 ) -> NewTasksResponse:
     new_tasks = await agent_service.create_tasks_agent(
         goal=req_body.goal,
@@ -91,7 +87,11 @@ async def create_tasks(
 async def summarize(
     req_body: AgentSummarize = Depends(agent_summarize_validator),
     agent_service: AgentService = Depends(
-        get_agent_service(validator=agent_summarize_validator, streaming=True),
+        get_agent_service(
+            validator=agent_summarize_validator,
+            streaming=True,
+            llm_model="gpt-3.5-turbo-16k",
+        ),
     ),
 ) -> FastAPIStreamingResponse:
     return await agent_service.summarize_task_agent(

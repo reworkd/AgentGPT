@@ -65,9 +65,13 @@ export class MessageService {
     if (analysis.action == "search") {
       message = `🔍 Searching the web for "${analysis.arg}"...`;
     }
-    if (analysis.action == "browser") {
-      const browsing_content = analysis.arg['url'] ? analysis.arg['url'] : analysis.arg;
-      message = `🌐 Browsing "${browsing_content}"...`;
+    if (analysis.action === "browser") {
+      let browsingContent = analysis.arg;
+      try {
+        const arg = JSON.parse(analysis.arg);
+        browsingContent = arg.url || arg;
+      } catch (error) {}
+      message = `🌐 Browsing "${browsingContent}"...`;
     }
     if (analysis.action == "wikipedia") {
       message = `🌐 Searching Wikipedia for "${analysis.arg}"...`;

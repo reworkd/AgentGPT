@@ -13,7 +13,7 @@ rm .env.temp
 source .env
 
 # Ensure DB is available before running Prisma commands
-./wait-for-db.sh db 3307
+./wait-for-db.sh agentgpt_db 3307
 
 # Run Prisma commands
 if [[ ! -f "/app/prisma/${DATABASE_URL:5}" ]]; then

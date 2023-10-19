@@ -17,7 +17,7 @@ export const ExampleAgentButton = ({
 
   return (
     <div
-      className="w-full cursor-pointer rounded-lg border border-sky-500 bg-gradient-to-t from-sky-300 to-sky-400 p-2 text-sm text-white shadow-depth-1 transition-all hover:bg-gradient-to-t hover:from-sky-400 hover:to-sky-500 sm:text-base"
+      className="w-full cursor-pointer rounded-lg border border-slate-5 bg-slate-1 p-2 text-sm text-slate-12 opacity-90 shadow-depth-1 transition-all duration-300 hover:bg-slate-3 sm:text-base"
       onClick={handleClick}
     >
       <p className="text-lg font-bold">{name}</p>

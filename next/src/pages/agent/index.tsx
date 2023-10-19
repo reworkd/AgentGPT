@@ -47,7 +47,7 @@ const AgentPage: NextPage = () => {
         id="content"
         className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
-        <div className="flex w-full flex-grow overflow-hidden rounded-xl border border-slate-6 bg-slate-4">
+        <div className="flex w-full max-w-screen-md flex-grow flex-col items-center overflow-hidden">
           <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile>
             {messages.map((message, index) => {
               return (

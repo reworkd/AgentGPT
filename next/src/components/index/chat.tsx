@@ -33,7 +33,7 @@ const Chat = (props: ChatProps) => {
 
   return (
     <>
-      <Expand className="flex w-full flex-grow flex-col items-center overflow-hidden rounded-xl border border-slate-6 bg-slate-4">
+      <Expand className="flex w-full flex-grow flex-col items-center overflow-hidden">
         <ChatWindow
           messages={props.messages}
           title={<ChatWindowTitle model={settings.customModelName} />}

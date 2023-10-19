@@ -11,6 +11,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   onSubmit: () => void;
 }
 
+// Test stylized input component
 const QuestionInput = (props: Props) => {
   return (
     <div className="relative flex flex-col">
@@ -19,7 +20,7 @@ const QuestionInput = (props: Props) => {
           type={props.type}
           name={props.name}
           id={props.name}
-          className="placeholder:text-color-tertiary w-full rounded-full border-2 border-slate-6 bg-slate-1 p-4 text-slate-12 caret-purple-400 transition-colors duration-300 selection:bg-purple-300 hover:border-purple-200 focus:border-purple-400 focus:outline-0 focus:ring-0  sm:leading-6"
+          className="placeholder:text-color-tertiary w-full rounded-full border-2 border-slate-6 bg-slate-1 p-4 text-slate-12 caret-purple-400 ring-0 transition-colors duration-300 selection:bg-purple-300 hover:border-purple-200 focus:border-purple-400 focus:outline-0 focus:ring-0  sm:leading-6"
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}

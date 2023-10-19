@@ -6,7 +6,7 @@ import { FaArrowCircleDown, FaCommentDots } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im";
 
 import type { HeaderProps } from "./MacWindowHeader";
-import { MacWindowHeader, messageListId } from "./MacWindowHeader";
+import { messageListId } from "./MacWindowHeader";
 import { useAgentStore } from "../../stores";
 import Button from "../Button";
 import Input from "../Input";
@@ -59,7 +59,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
   return (
     <div
       className={clsx(
-        "flex h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto rounded-2xl bg-slate-4 text-slate-12 transition-all duration-500"
+        "flex h-full w-full max-w-[inherit] flex-1 flex-col overflow-auto text-slate-12 transition-all duration-500"
       )}
     >
       <HideShow
@@ -72,7 +72,6 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
         />
       </HideShow>
 
-      <MacWindowHeader title={title} messages={messages} />
       <div
         className="mb-2 mr-2 flex-1 overflow-auto transition-all duration-500"
         ref={scrollRef}

@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import type { GetServerSidePropsContext } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { getServerSession } from "next-auth/next";
@@ -12,8 +11,8 @@ import React, { useState } from "react";
 import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
 
 import FadeIn from "../components/motions/FadeIn";
+import GridLayout from "../layout/grid";
 import { authOptions } from "../server/auth/auth";
-import Checkbox from "../ui/checkbox";
 import Input from "../ui/input";
 
 const SignIn = ({ providers }: { providers: Provider }) => {
@@ -27,17 +26,13 @@ const SignIn = ({ providers }: { providers: Provider }) => {
     .filter((detail): detail is ButtonDetail => detail !== undefined);
 
   return (
-    <>
-      <Head>
-        <title>Sign in - AgentGPT</title>
-      </Head>
-
-      <div className="radial-background-1 grid h-screen w-screen place-items-center bg-black">
+    <GridLayout title="Sign in - Reworkd">
+      <div className="grid h-screen w-screen place-items-center bg-gradient-radial from-slate-1 via-20% to-transparent">
         <div className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center gap-10">
           <FadeIn
             duration={1.5}
             initialY={-50}
-            className="flex flex-col items-center justify-center gap-6 text-white"
+            className="flex flex-col items-center justify-center gap-6 text-white invert"
           >
             <div className="flex flex-col items-center justify-center gap-16">
               <Image
@@ -46,13 +41,8 @@ const SignIn = ({ providers }: { providers: Provider }) => {
                 height="150"
                 alt="Reworkd AI"
               />
-              <h1
-                className={clsx(
-                  "bg-gradient-to-br from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent",
-                  "text-center text-3xl font-bold leading-[1.1em] tracking-[-0.64px] md:text-5xl"
-                )}
-              >
-                Welcome to AgentGPT
+              <h1 className="bg-gradient-to-t from-white via-neutral-300 to-neutral-500 bg-clip-text text-center text-3xl font-bold leading-[1.1em] tracking-[-0.64px] text-transparent md:text-5xl">
+                Reworkd
               </h1>
             </div>
           </FadeIn>
@@ -64,13 +54,12 @@ const SignIn = ({ providers }: { providers: Provider }) => {
           </FadeIn>
         </div>
       </div>
-    </>
+    </GridLayout>
   );
 };
 
 const InsecureSignin = () => {
   const [usernameValue, setUsernameValue] = useState("");
-  const adminState = useState(false);
 
   return (
     <div className="flex flex-col">
@@ -81,7 +70,6 @@ const InsecureSignin = () => {
         type="text"
         name="Username Field"
       />
-      <Checkbox model={adminState} label="Admin" className="mt-2" />
       <button
         onClick={() => {
           if (!usernameValue) return;
@@ -89,11 +77,10 @@ const InsecureSignin = () => {
           signIn("credentials", {
             callbackUrl: "/",
             name: usernameValue,
-            superAdmin: adminState[0],
           }).catch(console.error);
         }}
         className={clsx(
-          "mb-4 mt-4 flex items-center rounded-md bg-white px-10 py-3 text-sm font-semibold text-black transition-colors duration-300 hover:bg-gray-200 sm:text-base",
+          "mb-4 mt-4 flex items-center rounded-md bg-slate-12 px-10 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-slate-10 sm:text-base",
           !usernameValue && "cursor-not-allowed"
         )}
       >

@@ -12,20 +12,19 @@ const LinkItem = (props: {
 }) => (
   <li>
     <a
-      href={props.href}
+      href={props.href || ""}
       className={clsx(
-        "text-color-secondary hover:background-color-2 hover:text-color-primary cursor-pointer",
-        "group flex gap-x-3 rounded-md px-2 py-1 text-sm leading-7"
+        "group flex gap-x-3 rounded-md px-2 py-1 text-sm font-medium leading-7 text-slate-12 hover:bg-slate-5",
+        !props.href && "cursor-not-allowed"
       )}
       onClick={(e) => {
         e.preventDefault();
         props.onClick();
       }}
     >
-      <span className="text-color-secondary group-hover:text-color-primary neutral-button-primary flex h-[2em] w-[2em] shrink-0 items-center justify-center rounded-lg border text-sm font-medium group-hover:scale-110">
-        {props.children}
-      </span>
-      <span className="font-light">{props.title}</span>
+      <span className="flex items-center justify-center">{props.children}</span>
+      <span>{props.title}</span>
+
       {props.badge && (
         <Badge className={clsx("ml-auto", props.badge.className)}>{props.badge.text}</Badge>
       )}

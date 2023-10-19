@@ -16,7 +16,7 @@ function Menu({ icon, name, items, chevron, buttonPosition = "top" }: MenuProps)
   return (
     <MenuPrimitive>
       <div className="relative">
-        <MenuPrimitive.Button className="neutral-button-primary flex h-8 items-center gap-1 rounded-lg  border p-2 font-bold">
+        <MenuPrimitive.Button className="flex h-8 items-center gap-1 rounded-lg bg-slate-1 p-2 font-bold shadow-depth-1 hover:bg-slate-3">
           <div>{icon}</div>
           {name && <p className="text-gray/50 font-mono text-sm">{name}</p>}
           {chevron && <FaChevronDown size={15} className="ml-2" />}
@@ -46,7 +46,7 @@ export const MenuItems = ({ buttonPosition, items, show }: MenuItemsProps) => {
     >
       <MenuPrimitive.Items
         className={clsx(
-          "background-color-3 absolute right-0 z-20  max-h-48 w-fit min-w-full overflow-hidden rounded-xl border-2 border-white/10 shadow-xl",
+          "background-color-3 absolute right-0 z-20 max-h-48  w-fit min-w-full overflow-hidden rounded-xl shadow-xl",
           buttonPosition === "top" ? "top-full mt-1" : "bottom-full mb-9"
         )}
       >

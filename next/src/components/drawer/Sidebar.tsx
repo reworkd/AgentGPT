@@ -20,7 +20,7 @@ const Sidebar = ({ show, children, side, className }: SidebarProps) => {
     <SidebarTransition show={show} side={side}>
       <nav
         className={clsx(
-          "background-color-1 flex flex-1 flex-col overflow-x-hidden px-2.5 py-2 ring-1 ring-white/10",
+          "flex flex-1 flex-col overflow-x-hidden bg-slate-3 p-4 ring-1 ring-white/10",
           className
         )}
       >
@@ -82,12 +82,12 @@ export const SidebarControlButton = ({
   return (
     <button
       className={clsx(
-        "neutral-button-primary fixed z-20 m-1 rounded-md border border-shade-300-light transition-all sm:m-2",
+        "fixed z-20 m-1 rounded-md bg-slate-1 shadow-depth-1 transition-all sm:m-2",
         side === "right" && "right-0"
       )}
       onClick={() => setShow(!show)}
     >
-      <FaBars size="15" className="m-2" />
+      <FaBars size="12" className="z-20 m-2 text-slate-11" />
     </button>
   );
 };

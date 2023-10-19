@@ -8,7 +8,6 @@ import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
 import { useAuth } from "../../hooks/useAuth";
 import { api } from "../../utils/api";
-import FadingHr from "../FadingHr";
 import AuthItem from "../sidebar/AuthItem";
 import LinkIconItem from "../sidebar/LinkIconItem";
 import LinkItem from "../sidebar/LinkItem";
@@ -25,27 +24,27 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const userAgents = data ?? [];
 
   return (
-    <Sidebar show={show} setShow={setShow} side="left">
-      <div className="flex flex-row items-center">
-        <Image
-          src="/logos/dark-default-solid.svg"
-          width="18"
-          height="18"
-          alt="Reworkd AI"
-          className=" ml-2 invert dark:invert-0"
-        />
-        <h1 className="text-color-primary ml-2 font-medium">Reworkd</h1>
+    <Sidebar show={show} setShow={setShow} side="left" className="border-slate-6s border-r">
+      <div className="flex flex-row items-center pb-6">
+        <div className="rounded-xl bg-slate-1 p-1 shadow-depth-1">
+          <a
+            href="https://reworkd.ai"
+            className="flex cursor-pointer gap-2 rounded-lg border-t bg-white bg-gradient-to-b from-slate-4 to-transparent px-2.5 py-1.5 duration-1000 hover:from-slate-6"
+          >
+            <Image src="/logos/light-default-solid.svg" width="20" height="20" alt="Reworkd AI" />
+            <h1 className="text-sm font-medium">Reworkd</h1>
+          </a>
+        </div>
         <button
-          className="neutral-button-primary ml-auto rounded-md border-none transition-all"
+          className="ml-auto rounded-md border-none transition-all hover:bg-slate-5"
           onClick={() => setShow(!show)}
         >
-          <FaBars size="15" className="z-20 m-2" />
+          <FaBars size="12" className="z-20 m-2 text-slate-11" />
         </button>
       </div>
-      <FadingHr className="my-2" />
       <div className="mb-2 mr-2 flex-1 overflow-y-auto overflow-x-hidden overflow-ellipsis">
         {status === "unauthenticated" && (
-          <div className="text-color-primary p-1 text-sm">
+          <div className="p-1 text-sm text-slate-12">
             <a className="link" onClick={() => void signIn()}>
               {t("SIGN_IN")}
             </a>{" "}
@@ -53,7 +52,7 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
           </div>
         )}
         {status === "authenticated" && !isLoading && userAgents.length === 0 && (
-          <div className="text-color-primary p-1 text-sm">
+          <div className="p-1 text-sm text-slate-12">
             {t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST")}
           </div>
         )}
@@ -78,11 +77,9 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
       </div>
       <ul role="list" className="flex flex-col">
         <ul className="mb-2">
-          <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">Pages</div>
-          {PAGE_LINKS.filter(
-            (link) =>
-              (typeof link.enabled === "boolean" ? link.enabled : link.enabled(session?.user)) &&
-              router.route != link.href
+          <div className="mb-2 ml-2 text-xs font-semibold text-slate-10">Pages</div>
+          {PAGE_LINKS.filter((link) =>
+            typeof link.enabled === "boolean" ? link.enabled : link.enabled(session?.user)
           ).map((link, i) => (
             <LinkItem
               key={i}
@@ -116,11 +113,9 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
           </div>
         </li>
         <li>
-          <div className="text-color-secondary mb-2 ml-2 text-xs font-semibold">
-          </div>
-          </li>
+          <div className="mb-2 ml-2 text-xs font-semibold text-slate-10"></div>
+        </li>
         <li>
-          <FadingHr />
           <AuthItem session={session} signOut={signOut} signIn={signIn} />
         </li>
       </ul>

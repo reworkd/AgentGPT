@@ -1,9 +1,9 @@
 import axios from "axios";
 import clsx from "clsx";
-import type {GetStaticProps} from "next";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import React, {useState} from "react";
+import type { GetStaticProps } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { useState } from "react";
 import {
   FaCheckCircle,
   FaCoins,
@@ -16,23 +16,24 @@ import {
 } from "react-icons/fa";
 
 import nextI18NextConfig from "../../next-i18next.config.js";
-import {useAuth} from "../hooks/useAuth";
-import type {LLMModel} from "../hooks/useModels";
-import {useModels} from "../hooks/useModels";
-import {useSettings} from "../hooks/useSettings";
+import FadeIn from "../components/motions/FadeIn";
+import { useAuth } from "../hooks/useAuth";
+import type { LLMModel } from "../hooks/useModels";
+import { useModels } from "../hooks/useModels";
+import { useSettings } from "../hooks/useSettings";
 import DashboardLayout from "../layout/dashboard";
-import type {GPTModelNames} from "../types";
+import type { GPTModelNames } from "../types";
 import Button from "../ui/button";
 import Combo from "../ui/combox";
 import Input from "../ui/input";
-import type {Language} from "../utils/languages";
-import {languages} from "../utils/languages";
+import type { Language } from "../utils/languages";
+import { languages } from "../utils/languages";
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
-  const {settings, updateSettings, updateLangauge} = useSettings();
-  const {session} = useAuth({protectedRoute: true});
-  const {models, getModel} = useModels();
+  const { settings, updateSettings, updateLangauge } = useSettings();
+  const { session } = useAuth({ protectedRoute: true });
+  const { models, getModel } = useModels();
 
   const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
 
@@ -66,17 +67,26 @@ const SettingsPage = () => {
   };
 
   const onDisconnect = () => {
-    return Promise.resolve()
-  }
+    return Promise.resolve();
+  };
 
   return (
     <DashboardLayout>
-      <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
-        <div className="background-color-1 border-color-1 m-2 rounded-xl border">
-          <div className="border-color-1 align flex justify-between border-b-2 p-3 sm:p-5">
-            <h1 className="text-color-primary text-3xl font-bold md:text-4xl">⚙ Settings</h1>
-          </div>
-          <div className="p-3 sm:p-5">
+      <div className="min-h-screen flex-grow">
+        <div className="">
+          <FadeIn
+            initialX={-45}
+            initialY={0}
+            delay={0.1}
+            className="border-b border-slate-6 px-10 py-10"
+          >
+            <div>
+              {" "}
+              <h1 className="text-4xl font-bold text-slate-12">Settings</h1>
+              <h2 className="text-xl font-light text-slate-12">Customize your agent experience</h2>
+            </div>
+          </FadeIn>
+          <FadeIn initialY={45} delay={0.1} className="mt-4 px-10">
             <div className="flex flex-col gap-3">
               <Combo<Language>
                 label="Language"
@@ -86,7 +96,7 @@ const SettingsPage = () => {
                   updateLangauge(e).catch(console.error);
                 }}
                 items={languages}
-                icon={<FaGlobe/>}
+                icon={<FaGlobe />}
               />
               <Input
                 label="API Key"
@@ -106,7 +116,7 @@ const SettingsPage = () => {
                   setIsApiKeyValid(undefined);
                   updateSettings("customApiKey", e.target.value);
                 }}
-                icon={<FaKey/>}
+                icon={<FaKey />}
                 className="flex-grow-1 mr-2"
                 right={
                   <Button
@@ -119,8 +129,8 @@ const SettingsPage = () => {
                     )}
                   >
                     {isApiKeyValid === undefined && "Test"}
-                    {isApiKeyValid === true && <FaCheckCircle/>}
-                    {isApiKeyValid === false && <FaExclamationCircle/>}
+                    {isApiKeyValid === true && <FaCheckCircle />}
+                    {isApiKeyValid === false && <FaExclamationCircle />}
                   </Button>
                 }
               />
@@ -128,7 +138,7 @@ const SettingsPage = () => {
 
             {!disableAdvancedSettings && (
               <div className="mt-4 flex flex-col ">
-                <h1 className="text-color-primary pb-4 text-xl font-bold">Advanced Settings</h1>
+                <h1 className="pb-4 text-xl font-bold text-slate-12">Advanced Settings</h1>
                 <div className="flex flex-col gap-4">
                   <Combo<LLMModel>
                     label="Model"
@@ -136,7 +146,7 @@ const SettingsPage = () => {
                     valueMapper={(e) => e.name}
                     onChange={updateModel}
                     items={models}
-                    icon={<FaRobot/>}
+                    icon={<FaRobot />}
                   />
                   <Input
                     label={`${t("TEMPERATURE")}`}
@@ -152,7 +162,7 @@ const SettingsPage = () => {
                       step: 0.01,
                     }}
                     helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
-                    icon={<FaThermometerFull/>}
+                    icon={<FaThermometerFull />}
                     disabled={disableAdvancedSettings}
                   />
                   <Input
@@ -167,7 +177,7 @@ const SettingsPage = () => {
                       step: 1,
                     }}
                     helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
-                    icon={<FaSyncAlt/>}
+                    icon={<FaSyncAlt />}
                     disabled={disableAdvancedSettings}
                   />
                   <Input
@@ -182,13 +192,13 @@ const SettingsPage = () => {
                       step: 100,
                     }}
                     helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
-                    icon={<FaCoins/>}
+                    icon={<FaCoins />}
                     disabled={disableAdvancedSettings}
                   />
                 </div>
               </div>
             )}
-          </div>
+          </FadeIn>
         </div>
       </div>
     </DashboardLayout>
@@ -197,7 +207,7 @@ const SettingsPage = () => {
 
 export default SettingsPage;
 
-export const getStaticProps: GetStaticProps = async ({locale = "en"}) => {
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   const supportedLocales = languages.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 

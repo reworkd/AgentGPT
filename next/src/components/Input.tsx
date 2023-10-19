@@ -51,7 +51,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "border:black delay-50 h-15 background-color-5 placeholder:text-color-tertiary text-color-primary border-color-2 border-focusVisible-1 border-hover-1 w-full resize-none rounded-xl border-2 p-2 text-sm tracking-wider outline-0 transition-all sm:h-20 md:text-lg",
+          "delay-50 h-15 w-full resize-none rounded-xl border-2 border-slate-7 bg-slate-1 p-2 text-sm tracking-wider text-slate-12 outline-none transition-all selection:bg-sky-300 placeholder:text-slate-8 hover:border-sky-200 focus:border-sky-400 sm:h-20 md:text-lg",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"
@@ -68,7 +68,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <input
         className={clsx(
-          "background-color-5 placeholder:text-color-tertiary text-color-primary border-color-2 border-focusVisible-1 border-hover-1 w-full rounded-xl border-2 p-2 py-1 text-sm tracking-wider outline-0 transition-all duration-200 sm:py-3 md:text-lg",
+          "w-full rounded-xl border-2 border-slate-7 bg-slate-1 p-2 py-1 text-sm tracking-wider text-slate-12 outline-none transition-all duration-200 selection:bg-sky-300 placeholder:text-slate-8 hover:border-sky-200 focus:border-sky-400 sm:py-3 md:text-lg",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"
@@ -86,7 +86,7 @@ const Input = (props: InputProps) => {
   }
 
   return (
-    <div className="items-left z-5 text-color-primary flex h-fit w-full flex-col rounded-xl font-mono text-lg md:flex-row md:items-center">
+    <div className="items-left z-5 flex h-fit w-full flex-col rounded-xl text-lg text-slate-12 md:flex-row md:items-center">
       {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}
       {inputElement}
     </div>

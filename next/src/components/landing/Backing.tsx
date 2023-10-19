@@ -6,7 +6,7 @@ import YCLogo from "../../../public/logos/yc-default-solid.svg";
 const Backing = (props: { className?: string }) => (
   <div
     className={clsx(
-      "flex flex-col font-inter text-xs font-normal text-black/50 dark:text-white/50 md:text-sm",
+      "flex flex-col font-inter text-xs font-normal text-white/50 md:text-sm",
       props.className
     )}
   >
@@ -25,7 +25,7 @@ const Backing = (props: { className?: string }) => (
       </div>
       <div className="hidden tracking-wide sm:flex">Backed By</div>
       <a
-        className="flex cursor-pointer flex-row items-center gap-1 font-light text-black/95 dark:text-white/95"
+        className="flex cursor-pointer flex-row items-center gap-1 font-light text-white/95"
         href="https://www.ycombinator.com/companies/reworkd"
         target="_blank"
       >
@@ -33,7 +33,7 @@ const Backing = (props: { className?: string }) => (
       </a>
       <span>and</span>
       <a
-        className="cursor-pointer font-light text-black/95 dark:text-white/95"
+        className="cursor-pointer font-light text-white/95"
         href="https://www.panache.vc/"
         target="_blank"
       >

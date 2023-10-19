@@ -41,8 +41,13 @@ const TaskSidebar = () => {
   };
 
   return (
-    <Sidebar show={layout.showRightSidebar} setShow={setShow} side="right">
-      <div className="flex h-screen flex-col gap-2 text-white">
+    <Sidebar
+      show={layout.showRightSidebar}
+      setShow={setShow}
+      side="right"
+      className="border-slate-6s border-l"
+    >
+      <div className="flex h-screen flex-col gap-2 text-slate-12">
         <div className="flex flex-row items-center gap-1">
           <button
             className="neutral-button-primary rounded-md border-none transition-all"
@@ -54,7 +59,7 @@ const TaskSidebar = () => {
         </div>
         <div className="flex flex-1 flex-col gap-2 overflow-auto pr-1">
           {tasks.length == 0 && (
-            <p className="w-full p-2 text-gray-300">
+            <p className="w-full p-2 text-slate-11">
               This window will display agent tasks as they are created.
             </p>
           )}
@@ -99,7 +104,7 @@ const Task = ({ task }: { task: TaskType }) => {
     <FadeIn>
       <div
         className={clsx(
-          "w-full rounded-md border p-2 text-sm text-white",
+          "w-full rounded-md bg-slate-1 p-2 text-sm text-slate-12 shadow-depth-1",
           isAgentStopped && "opacity-50",
           getMessageContainerStyle(task)
         )}

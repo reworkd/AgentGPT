@@ -90,14 +90,14 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
                 <span className="bg-gradient-to-r from-[#1E26FF] to-[#FF04FF] bg-clip-text text-transparent">
                   AI
                 </span>{" "}
-                <span className="bg-gradient-to-r from-black to-neutral-400 bg-clip-text text-transparent dark:from-white dark:to-transparent">
+                <span className="bg-gradient-to-r from-white to-transparent bg-clip-text text-transparent">
                   Agents at
                   <br />
                   Your Fingertips.
                 </span>
               </div>
             </h1>
-            <p className="my-3 inline-block bg-gradient-to-r from-black via-black via-50% to-neutral-300 bg-clip-text text-center align-top font-inter font-[400] leading-[24px] tracking-[.08rem] text-transparent dark:from-white dark:via-white dark:to-neutral-500 sm:w-4/5 md:text-left">
+            <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-[400] leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
               Leverage AI Agents to automate the workflows you once spent countless human hours on.
               Experience a new way of working.
             </p>
@@ -132,8 +132,8 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
                 ))}
               </motion.div>
             </div>
-            <div className="absolute left-0 z-20 h-full w-6 -translate-x-0.5 bg-gradient-to-l from-transparent to-white dark:to-black" />
-            <div className="absolute right-0 z-20 h-full w-40 translate-x-0.5 bg-gradient-to-r from-transparent to-white to-75% dark:to-black" />
+            <div className="absolute left-0 z-20 h-full w-6 -translate-x-0.5 bg-gradient-to-l from-transparent to-black" />
+            <div className="absolute right-0 z-20 h-full w-40 translate-x-0.5 bg-gradient-to-r from-transparent to-black to-75%" />
             <button
               onClick={() => handleSliderButtonRight(1)}
               className="group absolute right-10 z-30 flex h-6 w-8 items-center justify-center rounded-full border border-white/20 bg-black bg-gradient-to-r from-white/10 to-black opacity-75 hover:border-white/30"

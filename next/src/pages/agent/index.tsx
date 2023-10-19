@@ -47,15 +47,17 @@ const AgentPage: NextPage = () => {
         id="content"
         className="flex h-screen max-w-full flex-col items-center justify-center gap-3 px-3 pt-7 md:px-10"
       >
-        <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile>
-          {messages.map((message, index) => {
-            return (
-              <FadeIn key={`${index}-${message.type}`}>
-                <ChatMessage message={message} />
-              </FadeIn>
-            );
-          })}
-        </ChatWindow>
+        <div className="flex w-full max-w-screen-md flex-grow flex-col items-center overflow-hidden">
+          <ChatWindow messages={messages} title={getAgent?.data?.name} visibleOnMobile>
+            {messages.map((message, index) => {
+              return (
+                <FadeIn key={`${index}-${message.type}`}>
+                  <ChatMessage message={message} />
+                </FadeIn>
+              );
+            })}
+          </ChatWindow>
+        </div>
         <div className="flex flex-row gap-2">
           <Button icon={<FaBackspace />} onClick={() => void router.push("/")}>
             Back

@@ -1,23 +1,42 @@
 import React from "react";
 
-import Dialog from "./Dialog";
 import { useAuth } from "../../hooks/useAuth";
-import Button from "../Button";
+import Dialog from "../../ui/dialog";
 
 export interface SignInDialogProps {
   show: boolean;
-  close: () => void;
+  setOpen: (boolean) => void;
 }
 
-export const SignInDialog = ({ show, close }: SignInDialogProps) => {
+export const SignInDialog = ({ show, setOpen }: SignInDialogProps) => {
   const { signIn } = useAuth();
 
   return (
     <Dialog
-      header="Sign in 🔐"
-      isShown={show}
-      close={close}
-      footerButton={<Button onClick={() => void signIn()}>Sign in</Button>}
+      inline
+      open={show}
+      setOpen={setOpen}
+      title="Sign in 🔐"
+      actions={
+        <>
+          <button
+            type="button"
+            className="inline-flex w-full justify-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
+            onClick={() => {
+              signIn().catch(console.error);
+            }}
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            className="inline-flex w-full justify-center rounded-md bg-slate-1 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-slate-3"
+            onClick={() => setOpen(false)}
+          >
+            Close
+          </button>
+        </>
+      }
     >
       <p>
         Please{" "}

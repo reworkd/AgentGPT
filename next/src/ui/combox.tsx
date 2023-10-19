@@ -23,13 +23,13 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
 
   return (
     <Combobox as="div" value={props.value} onChange={props.onChange}>
-      <Combobox.Label className="text-color-primary flex items-center gap-2 text-sm font-bold leading-6">
+      <Combobox.Label className="flex items-center gap-2 text-sm font-bold leading-6 text-slate-12">
         {props.icon}
         {props.label}
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
-          className="border-hover-1 text-color-primary border-style-1 border-focusVisible-1 background-color-7 w-full rounded-md py-1.5 pl-3 pr-10 shadow-sm transition-colors sm:text-sm sm:leading-6"
+          className="w-full rounded-md border-0 bg-slate-1 py-1.5 pl-3 pr-10 text-slate-12 shadow-depth-1 transition-colors sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(e) => props.valueMapper(e as T)}
         />
@@ -38,7 +38,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
         </Combobox.Button>
 
         {filtered.length > 0 && (
-          <Combobox.Options className="text-color-primary background-color-7 absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-slate-1 py-1 text-slate-12 shadow-lg ring-opacity-5 focus:outline-none sm:text-sm">
             {filtered.map((e, i) => (
               <Combobox.Option
                 key={i}
@@ -46,9 +46,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
                 className={({ active }) =>
                   clsx(
                     "relative cursor-default select-none py-2 pl-3 pr-9 ",
-                    active
-                      ? "bg-blue-hover-light text-white dark:bg-blue-hover-dark"
-                      : "text-color-primary"
+                    active ? "hover:bg-slate-3" : "text-slate-12"
                   )
                 }
               >
@@ -61,7 +59,7 @@ const Combo = <T,>({ items, ...props }: Props<T>) => {
                     {selected && (
                       <span
                         className={clsx(
-                          "text-color-primary absolute inset-y-0 right-0 flex items-center pr-4"
+                          "absolute inset-y-0 right-0 flex items-center pr-4 text-slate-12"
                         )}
                       >
                         <HiCheck className="h-5 w-5" aria-hidden="true" />

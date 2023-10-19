@@ -14,16 +14,16 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
     <button
       type="button"
       className={clsx(
-        "text-color-primary hover:background-color-2 cursor-pointer items-center rounded-md",
+        "cursor-pointer items-center rounded-md text-slate-12 hover:bg-slate-5",
         props.className
       )}
       onClick={onClick}
     >
-      <span className="text-sm font-light">{text}</span>
+      <span className="text-sm font-medium">{text}</span>
     </button>
   );
 };
 
 export const DrawerItemButtonLoader = () => {
-  return <div className="background-color-4 w-50 mx-1.5 h-7 animate-pulse rounded-md"></div>;
+  return <div className="w-50 mx-1.5 h-7 animate-pulse rounded-md bg-slate-6"></div>;
 };

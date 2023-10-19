@@ -9,9 +9,9 @@ import {
   FaHome,
   FaLinkedin,
   FaQuestion,
-  FaTwitter,
   FaWater,
 } from "react-icons/fa";
+import {FaXTwitter} from 'react-icons/fa6';
 
 type LinkMetadata = {
   name: string;
@@ -85,7 +85,7 @@ export const SOCIAL_LINKS: LinkMetadata[] = [
   {
     name: "Twitter",
     href: "https://twitter.com/ReworkdAI",
-    icon: FaTwitter,
+    icon: FaXTwitter,
     enabled: true,
   },
   {

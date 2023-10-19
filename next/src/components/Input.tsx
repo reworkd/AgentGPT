@@ -51,7 +51,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <textarea
         className={clsx(
-          "delay-50 h-15 w-full resize-none rounded-xl border-2 border-slate-6 bg-slate-1 p-2 text-sm tracking-wider text-slate-12 outline-0 transition-all placeholder:text-slate-8 sm:h-20 md:text-lg",
+          "delay-50 h-15 w-full resize-none rounded-xl border-2 border-slate-7 bg-slate-1 p-2 text-sm tracking-wider text-slate-12 outline-none transition-all selection:bg-sky-300 placeholder:text-slate-8 hover:border-sky-200 focus:border-sky-400 sm:h-20 md:text-lg",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"
@@ -68,7 +68,7 @@ const Input = (props: InputProps) => {
     inputElement = (
       <input
         className={clsx(
-          "w-full rounded-xl border-2 border-slate-6 bg-slate-1 p-2 py-1 text-sm tracking-wider text-slate-12 outline-0 transition-all duration-200 placeholder:text-slate-8 sm:py-3 md:text-lg",
+          "w-full rounded-xl border-2 border-slate-7 bg-slate-1 p-2 py-1 text-sm tracking-wider text-slate-12 outline-none transition-all duration-200 selection:bg-sky-300 placeholder:text-slate-8 hover:border-sky-200 focus:border-sky-400 sm:py-3 md:text-lg",
           disabled && "cursor-not-allowed",
           left && "md:rounded-l-none",
           small && "text-sm sm:py-[0]"

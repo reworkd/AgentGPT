@@ -50,13 +50,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     enabled: true,
   },
   {
-    name: "Settings",
-    href: "/settings",
-    icon: FaCog,
-    className: "transition-transform group-hover:rotate-90",
-    enabled: true,
-  },
-  {
     name: "Templates",
     href: "/templates",
     icon: FaFileCode,
@@ -65,6 +58,13 @@ export const PAGE_LINKS: LinkMetadata[] = [
     badge: {
       text: "New",
     },
+  },
+  {
+    name: "Settings",
+    href: "/settings",
+    icon: FaCog,
+    className: "transition-transform group-hover:rotate-90",
+    enabled: true,
   },
   {
     name: "Organization",

@@ -23,7 +23,7 @@ export const SignInDialog = ({ show, setOpen }: SignInDialogProps) => {
             type="button"
             className="inline-flex w-full justify-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
             onClick={() => {
-              setOpen(false);
+              signIn().catch(console.error);
             }}
           >
             Sign in

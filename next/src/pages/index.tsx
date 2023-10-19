@@ -9,7 +9,6 @@ import { FaCog, FaRobot, FaStar } from "react-icons/fa";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import AppTitle from "../components/AppTitle";
 import Button from "../components/Button";
-import AgentControls from "../components/console/AgentControls";
 import { ChatMessage } from "../components/console/ChatMessage";
 import ChatWindow from "../components/console/ChatWindow";
 import { ChatWindowTitle } from "../components/console/ChatWindowTitle";
@@ -18,6 +17,7 @@ import Summarize from "../components/console/SummarizeButton";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { SignInDialog } from "../components/dialog/SignInDialog";
 import { ToolsDialog } from "../components/dialog/ToolsDialog";
+import TaskSidebar from "../components/drawer/TaskSidebar";
 import Input from "../components/Input";
 import Expand from "../components/motions/expand";
 import FadeIn from "../components/motions/FadeIn";
@@ -157,7 +157,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout rightSidebar={<TaskSidebar />}>
       <HelpDialog />
       <ToolsDialog show={showToolsDialog} setOpen={setShowToolsDialog} />
 
@@ -172,16 +172,15 @@ const Home: NextPage = () => {
         >
           {
             <AnimatePresence>
-              {!fullscreen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "fit-content" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.5, type: "easeInOut" }}
-                >
-                  <AppTitle />
-                </motion.div>
-              )}
+              <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.5, type: "easeInOut" }}
+                className="z-10 mb-10"
+              >
+                <AppTitle />
+              </motion.div>
             </AnimatePresence>
           }
           <Expand className="flex w-full flex-grow overflow-hidden rounded-xl border border-slate-6 bg-slate-4">

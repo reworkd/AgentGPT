@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
-import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaDiscord, FaGithub } from "react-icons/fa";
+import {FaXTwitter} from 'react-icons/fa6';
 
 import Dialog from "../../ui/dialog";
 
@@ -65,7 +66,7 @@ export default function HelpDialog() {
               )
             }
           >
-            <FaTwitter size={30} />
+            <FaXTwitter size={30} />
           </div>
           <div
             className="cursor-pointer rounded-full bg-slate-6 p-3 hover:bg-slate-8"

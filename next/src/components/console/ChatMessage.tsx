@@ -42,9 +42,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
     >
       {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
         <>
-          <div className="mr-2 inline-block h-[0.9em]">
-            {getTaskStatusIcon(message, {})}
-          </div>
+          <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
           <span className="mr-2 font-bold">{getMessagePrefix(message)}</span>
         </>
       )}
@@ -52,26 +50,20 @@ const ChatMessage = ({ message }: { message: Message }) => {
       {isAction(message) ? (
         <>
           <div className="flex flex-row">
-            <div className="mr-2 inline-block h-[0.9em]">
-              {getTaskStatusIcon(message, {})}
-            </div>
-            <span className="mr-2 flex-1 font-bold">
-              {getMessagePrefix(message)}
-            </span>
+            <div className="mr-2 inline-block h-[0.9em]">{getTaskStatusIcon(message, {})}</div>
+            <span className="mr-2 flex-1 font-bold">{getMessagePrefix(message)}</span>
             <Button
               className="justify-end rounded-md text-slate-10 hover:bg-slate-6 hover:text-slate-12"
               onClick={handleCopy}
               aria-label="Copy"
             >
-              <div className="w-full">
-                {isCopied ? <FaCheck /> : <FiClipboard size={15} />}
-              </div>
+              <div className="w-full">{isCopied ? <FaCheck /> : <FiClipboard size={15} />}</div>
             </Button>
           </div>
           <hr className="my-2 border border-white/20" />
           <div>
             <MarkdownRenderer>{message.info || ""}</MarkdownRenderer>
-            <SourceCard messageInfo={message.info || ""} />
+            <SourceCard content={message.info || ""} />
           </div>
         </>
       ) : (

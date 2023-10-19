@@ -1,11 +1,11 @@
+import clsx from "clsx";
 import type { ReactNode } from "react";
 import React, { useCallback, useState } from "react";
+import { FiClipboard } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import "highlight.js/styles/default.css";
-import clsx from "clsx";
-import { FiClipboard } from "react-icons/fi";
 
 interface MarkdownRendererProps {
   children: string;
@@ -32,7 +32,7 @@ const MarkdownRenderer = ({ children, className }: MarkdownRendererProps) => {
         ol: (props) => (
           <ol className="mb-4 ml-8 list-decimal marker:text-neutral-400">{props.children}</ol>
         ),
-        li: (props) => <li className="mb-1">{props.children}</li>,
+        li: (props) => <li className="mb-1 ml-8">{props.children}</li>,
       }}
     >
       {children}

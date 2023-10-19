@@ -8,6 +8,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
   disabled?: boolean;
   handleFocusChange?: (focused: boolean) => void;
+  onSubmit: () => void;
 }
 
 const QuestionInput = (props: Props) => {
@@ -30,11 +31,12 @@ const QuestionInput = (props: Props) => {
         />
         <div
           className={clsx(
-            "absolute right-2 rounded-full border border-slate-6 p-3 text-white transition-colors duration-300",
+            "absolute right-2 rounded-full p-3 text-white transition-colors duration-300",
             props.value === ""
               ? "cursor-not-allowed bg-slate-8"
               : "cursor-pointer bg-purple-300 hover:bg-purple-400"
           )}
+          onClick={props.onSubmit}
         >
           <FaArrowRight size={20} />
         </div>

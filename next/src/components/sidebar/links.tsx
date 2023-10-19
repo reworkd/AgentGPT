@@ -4,6 +4,7 @@ import {
   FaBusinessTime,
   FaCog,
   FaDiscord,
+  FaFileCode,
   FaGithub,
   FaHome,
   FaLinkedin,
@@ -54,6 +55,16 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaCog,
     className: "transition-transform group-hover:rotate-90",
     enabled: true,
+  },
+  {
+    name: "Templates",
+    href: "/templates",
+    icon: FaFileCode,
+    className: "transition-transform group-hover:scale-110",
+    enabled: true,
+    badge: {
+      text: "New",
+    },
   },
   {
     name: "Organization",

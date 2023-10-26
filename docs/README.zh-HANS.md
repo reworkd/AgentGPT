@@ -54,6 +54,7 @@ cli为AgentGPT设置了以下内容：
 - [Docker](https://www.docker.com/products/docker-desktop). 安装完成后，请创建一个账号，打开 Docker 应用程序，并登录。
 - 一个 [OpenAI API key](https://platform.openai.com/signup)
 - 一个 [Serper API Key](https://serper.dev/signup) (可选)
+- 一个 [SerpApi API Key](https://serpapi.com/users/sign_up) (可选)
 - 一个 [Replicate API Token](https://replicate.com/signin) (可选)
 
 ## 入门指南🚀

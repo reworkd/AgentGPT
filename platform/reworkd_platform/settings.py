@@ -1,7 +1,7 @@
 import platform
 from pathlib import Path
 from tempfile import gettempdir
-from typing import List, Optional, Literal, Union
+from typing import List, Literal, Optional, Union
 
 from pydantic import BaseSettings
 from yarl import URL

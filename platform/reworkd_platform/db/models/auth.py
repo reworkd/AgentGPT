@@ -1,4 +1,4 @@
-from sqlalchemy import String, DateTime
+from sqlalchemy import DateTime, String
 from sqlalchemy.orm import mapped_column
 
 from reworkd_platform.db.base import TrackedModel

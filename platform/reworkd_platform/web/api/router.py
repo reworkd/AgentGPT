@@ -1,6 +1,6 @@
 from fastapi.routing import APIRouter
 
-from reworkd_platform.web.api import agent, auth, models, monitoring, metadata
+from reworkd_platform.web.api import agent, auth, metadata, models, monitoring
 
 api_router = APIRouter()
 api_router.include_router(monitoring.router, prefix="/monitoring", tags=["monitoring"])

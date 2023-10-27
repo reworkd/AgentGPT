@@ -1,5 +1,7 @@
 from typing import List, Type
 
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.web.api.agent.tools.code import Code
 from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
@@ -7,9 +9,6 @@ from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
 from reworkd_platform.web.api.agent.tools.sidsearch import SID
 from reworkd_platform.web.api.agent.tools.tool import Tool
-
-from reworkd_platform.db.crud.oauth import OAuthCrud
-from reworkd_platform.schemas.user import UserBase
 
 
 async def get_user_tools(

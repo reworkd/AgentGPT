@@ -142,7 +142,7 @@ class SID(Tool):
         )
         if res is None:
             # fall back to search if no results are found
-            return Search(self.model, self.language).call(
+            return await Search(self.model, self.language).call(
                 goal, task, input_str, user, oauth_crud
             )
         else:

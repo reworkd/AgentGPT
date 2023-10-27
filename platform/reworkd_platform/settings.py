@@ -63,8 +63,6 @@ class Settings(BaseSettings):
 
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
-    scrapingbee_api_key: Optional[str] = None
-    anthropic_api_key: Optional[str] = None
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"
@@ -78,10 +76,6 @@ class Settings(BaseSettings):
     db_base: str = "reworkd_platform"
     db_echo: bool = False
     db_ca_path: Optional[str] = None
-
-    # Variables for Weaviate db.
-    vector_db_url: Optional[str] = None
-    vector_db_api_key: Optional[str] = None
 
     # Variables for Pinecone DB
     pinecone_api_key: Optional[str] = None
@@ -107,18 +101,10 @@ class Settings(BaseSettings):
     ff_mock_mode_enabled: bool = False  # Controls whether calls are mocked
     max_loops: int = 25  # Maximum number of loops to run
 
-    # Settings for slack
-    slack_client_id: str = ""
-    slack_client_secret: str = ""
-    slack_redirect_uri: str = ""
-
     # Settings for sid
     sid_client_id: Optional[str] = None
     sid_client_secret: Optional[str] = None
     sid_redirect_uri: Optional[str] = None
-
-    # Settings for s3
-    s3_bucket_name: str = "changeme"
 
     @property
     def kafka_consumer_group(self) -> str:

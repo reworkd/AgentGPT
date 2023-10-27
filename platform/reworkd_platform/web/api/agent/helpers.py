@@ -1,13 +1,13 @@
-from typing import Any, Callable, TypeVar, Dict
+from typing import Any, Callable, Dict, TypeVar
 
 from langchain import BasePromptTemplate, LLMChain
 from langchain.chat_models.base import BaseChatModel
 from langchain.schema import BaseOutputParser, OutputParserException
 from openai.error import (
     AuthenticationError,
+    InvalidRequestError,
     RateLimitError,
     ServiceUnavailableError,
-    InvalidRequestError,
 )
 
 from reworkd_platform.schemas.agent import ModelSettings

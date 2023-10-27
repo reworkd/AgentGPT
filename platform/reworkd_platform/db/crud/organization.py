@@ -1,9 +1,9 @@
 # from
-from typing import Optional, List
+from typing import List, Optional
 
 from fastapi import Depends
 from pydantic import BaseModel
-from sqlalchemy import select, and_
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import aliased
 

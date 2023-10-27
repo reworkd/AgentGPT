@@ -13,10 +13,7 @@ from reworkd_platform.services.security import encryption_service
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
-from reworkd_platform.web.api.agent.tools.utils import (
-    Snippet,
-    summarize_sid,
-)
+from reworkd_platform.web.api.agent.tools.utils import Snippet, summarize_sid
 
 
 async def _sid_search_results(

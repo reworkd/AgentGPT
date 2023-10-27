@@ -1,8 +1,8 @@
 import secrets
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 from fastapi import Depends
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.base import BaseCrud

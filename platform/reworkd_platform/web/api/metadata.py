@@ -1,9 +1,9 @@
 from typing import Optional
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 from fastapi import APIRouter
-from httpx import AsyncClient, RequestError, HTTPStatusError
+from httpx import AsyncClient, HTTPStatusError, RequestError
 from pydantic import BaseModel, Field
 
 from reworkd_platform.web.api.errors import PlatformaticError

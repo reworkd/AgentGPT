@@ -1,4 +1,4 @@
-from ssl import create_default_context, SSLContext
+from ssl import SSLContext, create_default_context
 from typing import List, Optional
 
 from reworkd_platform.settings import Settings

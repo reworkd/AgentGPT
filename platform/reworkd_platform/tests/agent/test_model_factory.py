@@ -1,15 +1,15 @@
 import itertools
 
 import pytest
-from langchain.chat_models import ChatOpenAI, AzureChatOpenAI
+from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
 
 from reworkd_platform.schemas import ModelSettings, UserBase
 from reworkd_platform.settings import Settings
 from reworkd_platform.web.api.agent.model_factory import (
-    get_base_and_headers,
     WrappedAzureChatOpenAI,
-    create_model,
     WrappedChatOpenAI,
+    create_model,
+    get_base_and_headers,
 )
 
 

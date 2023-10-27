@@ -57,7 +57,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
     "Database (Backend)": {
       REWORKD_PLATFORM_DATABASE_USER: "reworkd_platform",
       REWORKD_PLATFORM_DATABASE_PASSWORD: "reworkd_platform",
-      REWORKD_PLATFORM_DATABASE_HOST: "db",
+      REWORKD_PLATFORM_DATABASE_HOST: "agentgpt_db",
       REWORKD_PLATFORM_DATABASE_PORT: dbPort,
       REWORKD_PLATFORM_DATABASE_NAME: "reworkd_platform",
       REWORKD_PLATFORM_DATABASE_URL:
@@ -66,7 +66,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
     "Database (Frontend)": {
       DATABASE_USER: "reworkd_platform",
       DATABASE_PASSWORD: "reworkd_platform",
-      DATABASE_HOST: "db",
+      DATABASE_HOST: "agentgpt_db",
       DATABASE_PORT: dbPort,
       DATABASE_NAME: "reworkd_platform",
       DATABASE_URL:

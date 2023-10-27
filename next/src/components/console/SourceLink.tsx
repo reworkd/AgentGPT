@@ -1,9 +1,10 @@
-import type { SyntheticEvent } from "react";
-import FadeIn from "../motions/FadeIn";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { env } from "../../env/client.mjs";
+import type { SyntheticEvent } from "react";
 import { z } from "zod";
+
+import { env } from "../../env/client.mjs";
+import FadeIn from "../motions/FadeIn";
 
 interface LinkInfo {
   link: string;
@@ -36,28 +37,28 @@ const SourceLink = ({ link, index }: LinkInfo) => {
   return (
     <FadeIn>
       <a href={link} target="_blank">
-        <div className="group h-full space-y-2 rounded border border-white/20 bg-white/5 p-2 transition-colors duration-300 hover:bg-white/10">
+        <div className="group h-full space-y-2 rounded-lg border border-slate-8 bg-slate-3 p-2 transition-colors duration-300 hover:bg-slate-4">
           {linkMeta.isLoading ? (
             <div className="animate-pulse space-y-2">
-              <div className="h-2 rounded bg-gray-500"></div>
-              <div className="h-2 rounded bg-gray-500"></div>
+              <div className="h-2 rounded bg-slate-8"></div>
+              <div className="h-2 rounded bg-slate-8"></div>
               <div className="flex items-center gap-2">
-                <div className="h-4 w-4 rounded bg-gray-500"></div>
-                <div className="h-2 w-2/3  rounded bg-gray-500"></div>
+                <div className="h-4 w-4 rounded bg-slate-8"></div>
+                <div className="h-2 w-2/3  rounded bg-slate-8"></div>
               </div>
             </div>
           ) : linkMeta.isSuccess ? (
             <>
               <p className="line-clamp-2 text-xs">{linkMeta.data.title}</p>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2 overflow-ellipsis">
                 <img
                   className="inline h-4 w-4"
                   src={linkMeta.data.favicon || ""}
                   alt="Logo"
                   onError={addImageFallback}
                 />
-                <p className="line-clamp-1">{linkMeta.data.hostname}</p>
-                <p className="rounded-full bg-white/20 px-1 text-gray-300 transition-colors duration-300 group-hover:bg-sky-600">
+                <p className="line-clamp-1 overflow-ellipsis">{linkMeta.data.hostname}</p>
+                <p className="rounded-full bg-slate-5 px-2 text-slate-12 transition-colors duration-300 group-hover:bg-sky-600 group-hover:text-white">
                   {index + 1}
                 </p>
               </div>
@@ -65,7 +66,7 @@ const SourceLink = ({ link, index }: LinkInfo) => {
           ) : linkMeta.isError ? (
             <div className="flex gap-2">
               <p className="line-clamp-1">{link}</p>
-              <p className="rounded-full bg-white/20 px-1 text-gray-300">{index + 1}</p>
+              <p className="rounded-full bg-slate-5 px-3 text-slate-12">{index + 1}</p>
             </div>
           ) : null}
         </div>

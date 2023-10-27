@@ -2,9 +2,6 @@ import clsx from "clsx";
 import Head from "next/head";
 import { type ReactNode } from "react";
 
-import DottedGridBackground from "../components/DottedGridBackground";
-
-
 interface LayoutProps {
   children: ReactNode;
   className?: string;
@@ -44,9 +41,7 @@ const DefaultLayout = (props: LayoutProps) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DottedGridBackground className={clsx("min-w-screen min-h-screen", props.className)}>
-        {props.children}
-      </DottedGridBackground>
+      <div className={clsx("min-w-screen min-h-screen", props.className)}>{props.children}</div>
     </div>
   );
 };

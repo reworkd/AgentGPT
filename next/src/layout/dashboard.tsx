@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 
 import AppHead from "../components/AppHead";
-import DottedGridBackground from "../components/DottedGridBackground";
 import LeftSidebar from "../components/drawer/LeftSidebar";
 import { SidebarControlButton } from "../components/drawer/Sidebar";
 import { useConfigStore } from "../stores/configStore";
@@ -44,7 +43,6 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
   return (
     <>
       <AppHead />
-
       {/* Left sidebar */}
       {/* Mobile */}
       <LeftSidebar show={leftSettings.mobile} setShow={setMobile(leftSettings, setLeftSettings)} />
@@ -69,7 +67,6 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           setShow={setDesktop(leftSettings, setLeftSettings)}
         />
       </div>
-
       {/* Right sidebar */}
       {/* Mobile */}
       {props.rightSidebar && (
@@ -82,17 +79,14 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
           />
         </>
       )}
-
       <main
         className={clsx(
-          "bg-gradient-to-b from-[#2B2B2B] to-[#1F1F1F] duration-300",
+          "bg-gradient-to-b from-slate-7 to-slate-3",
           leftSettings.desktop && "lg:pl-64",
           props.rightSidebar && layout.showRightSidebar && "lg:pr-64"
         )}
       >
-        <DottedGridBackground className="min-w-screen min-h-screen">
-          {props.children}
-        </DottedGridBackground>
+        <div className="min-w-screen min-h-screen">{props.children}</div>
       </main>
     </>
   );

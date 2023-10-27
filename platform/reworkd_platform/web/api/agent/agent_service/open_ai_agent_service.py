@@ -38,7 +38,6 @@ from reworkd_platform.web.api.agent.tools.tools import (
 )
 from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
-from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 class OpenAIAgentService(AgentService):
@@ -46,14 +45,12 @@ class OpenAIAgentService(AgentService):
         self,
         model: WrappedChatOpenAI,
         settings: ModelSettings,
-        agent_memory: AgentMemory,
         token_service: TokenService,
         callbacks: Optional[List[AsyncCallbackHandler]],
         user: UserBase,
         oauth_crud: OAuthCrud,
     ):
         self.model = model
-        self.agent_memory = agent_memory
         self.settings = settings
         self.token_service = token_service
         self.callbacks = callbacks
@@ -85,10 +82,6 @@ class OpenAIAgentService(AgentService):
 
         task_output_parser = TaskOutputParser(completed_tasks=[])
         tasks = parse_with_handling(task_output_parser, completion)
-
-        with self.agent_memory as memory:
-            memory.reset_class()
-            memory.add_tasks(tasks)
 
         return tasks
 
@@ -180,23 +173,7 @@ class OpenAIAgentService(AgentService):
         )
 
         previous_tasks = (completed_tasks or []) + tasks
-        tasks = [completion] if completion not in previous_tasks else []
-
-        unique_tasks = []
-        with self.agent_memory as memory:
-            for task in tasks:
-                similar_tasks = memory.get_similar_tasks(task)
-
-                # Check if similar tasks are found
-                if not similar_tasks:
-                    unique_tasks.append(task)
-                else:
-                    logger.info(f"Similar tasks to '{task}' found: {similar_tasks}")
-
-            if unique_tasks:
-                memory.add_tasks(unique_tasks)
-
-        return unique_tasks
+        return [completion] if completion not in previous_tasks else []
 
     async def summarize_task_agent(
         self,

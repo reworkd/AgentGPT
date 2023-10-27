@@ -15,10 +15,8 @@ from reworkd_platform.web.api.agent.agent_service.mock_agent_service import (
 from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
     OpenAIAgentService,
 )
-from reworkd_platform.web.api.agent.dependancies import get_agent_memory
 from reworkd_platform.web.api.agent.model_factory import create_model
 from reworkd_platform.web.api.dependencies import get_current_user
-from reworkd_platform.web.api.memory.memory import AgentMemory
 
 
 def get_agent_service(
@@ -29,7 +27,6 @@ def get_agent_service(
     def func(
         run: AgentRun = Depends(validator),
         user: UserBase = Depends(get_current_user),
-        agent_memory: AgentMemory = Depends(get_agent_memory),
         token_service: TokenService = Depends(get_token_service),
         oauth_crud: OAuthCrud = Depends(OAuthCrud.inject),
     ) -> AgentService:
@@ -47,7 +44,6 @@ def get_agent_service(
         return OpenAIAgentService(
             model,
             run.model_settings,
-            agent_memory,
             token_service,
             callbacks=None,
             user=user,

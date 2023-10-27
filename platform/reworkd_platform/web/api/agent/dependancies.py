@@ -1,27 +1,22 @@
 from typing import TypeVar
 
-from fastapi import Body, Depends, Request
+from fastapi import Body, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from reworkd_platform.db.crud.agent import AgentCRUD
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.schemas.agent import (
-    Loop_Step,
-    AgentRunCreate,
-    AgentRun,
-    AgentTaskAnalyze,
-    AgentTaskExecute,
-    AgentTaskCreate,
-    AgentSummarize,
     AgentChat,
+    AgentRun,
+    AgentRunCreate,
+    AgentSummarize,
+    AgentTaskAnalyze,
+    AgentTaskCreate,
+    AgentTaskExecute,
+    Loop_Step,
 )
 from reworkd_platform.schemas.user import UserBase
-from reworkd_platform.services.pinecone.pinecone import PineconeMemory
-from reworkd_platform.settings import settings
 from reworkd_platform.web.api.dependencies import get_current_user
-from reworkd_platform.web.api.memory.memory import AgentMemory
-from reworkd_platform.web.api.memory.memory_with_fallback import MemoryWithFallback
-from reworkd_platform.web.api.memory.null import NullAgentMemory
 
 T = TypeVar(
     "T", AgentTaskAnalyze, AgentTaskExecute, AgentTaskCreate, AgentSummarize, AgentChat
@@ -33,19 +28,6 @@ def agent_crud(
     session: AsyncSession = Depends(get_db_session),
 ) -> AgentCRUD:
     return AgentCRUD(session, user)
-
-
-def get_agent_memory(
-    request: Request,
-    user: UserBase = Depends(get_current_user),
-) -> AgentMemory:
-    if settings.ff_mock_mode_enabled:
-        return NullAgentMemory()
-
-    if PineconeMemory.should_use():
-        return MemoryWithFallback(PineconeMemory(user.id), NullAgentMemory())
-
-    return NullAgentMemory()
 
 
 async def agent_start_validator(

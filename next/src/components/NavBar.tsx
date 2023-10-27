@@ -37,7 +37,7 @@ export default function NavBar() {
 
   return (
     <FadeIn duration={3}>
-      <Disclosure as="nav" className="z-50 w-full bg-transparent text-black dark:text-white">
+      <Disclosure as="nav" className="z-50 w-full bg-transparent text-white">
         {({ open }) => (
           <>
             <div className="align-center flex h-16 flex-row justify-between">
@@ -47,7 +47,7 @@ export default function NavBar() {
                   width="25"
                   height="25"
                   alt="Reworkd AI"
-                  className="mb-1 mr-2 invert dark:invert-0"
+                  className="mb-1 mr-2 invert-0"
                 />
                 <span className="text-xl font-light tracking-wider">Reworkd</span>
               </div>

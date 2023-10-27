@@ -1,4 +1,4 @@
-import { User } from "next-auth";
+import type { User } from "next-auth";
 import type { IconType } from "react-icons";
 import {
   FaBusinessTime,
@@ -9,9 +9,9 @@ import {
   FaHome,
   FaLinkedin,
   FaQuestion,
-  FaTwitter,
   FaWater,
 } from "react-icons/fa";
+import {FaXTwitter} from 'react-icons/fa6';
 
 type LinkMetadata = {
   name: string;
@@ -29,7 +29,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     name: "Home",
     href: "/",
     icon: FaHome,
-    className: "group-hover:text-color-secondary",
     enabled: true,
   },
   {
@@ -44,6 +43,13 @@ export const PAGE_LINKS: LinkMetadata[] = [
     },
   },
   {
+    name: "Help",
+    href: "https://docs.reworkd.ai/",
+    icon: FaQuestion,
+    className: "group-hover:text-red-500",
+    enabled: true,
+  },
+  {
     name: "Templates",
     href: "/templates",
     icon: FaFileCode,
@@ -52,13 +58,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     badge: {
       text: "New",
     },
-  },
-  {
-    name: "Help",
-    href: "https://docs.reworkd.ai/",
-    icon: FaQuestion,
-    className: "group-hover:text-red-500",
-    enabled: true,
   },
   {
     name: "Settings",
@@ -72,8 +71,8 @@ export const PAGE_LINKS: LinkMetadata[] = [
     href: "/organization",
     icon: FaBusinessTime,
     className: "transition-transform group-hover:scale-110",
-    enabled: (user) => !!user && user.organizations.length > 0
-  }
+    enabled: (user) => !!user && user.organizations.length > 0,
+  },
 ];
 
 export const SOCIAL_LINKS: LinkMetadata[] = [
@@ -86,7 +85,7 @@ export const SOCIAL_LINKS: LinkMetadata[] = [
   {
     name: "Twitter",
     href: "https://twitter.com/ReworkdAI",
-    icon: FaTwitter,
+    icon: FaXTwitter,
     enabled: true,
   },
   {

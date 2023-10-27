@@ -1,8 +1,8 @@
 version: '3.9'
 
 services:
-  next:
-    container_name: next
+  frontend:
+    container_name: frontend
     build:
       context: ./next
       dockerfile: Dockerfile
@@ -28,17 +28,17 @@ services:
       - next/.env
     environment:
       REWORKD_PLATFORM_HOST: 0.0.0.0
-      REWORKD_PLATFORM_DB_HOST: db
+      REWORKD_PLATFORM_DB_HOST: agentgpt_db
       REWORKD_PLATFORM_DB_PORT: "3307"
       REWORKD_PLATFORM_DB_USER: "reworkd_platform"
       REWORKD_PLATFORM_DB_PASS: "reworkd_platform"
       REWORKD_PLATFORM_DB_BASE: "reworkd_platform"
     depends_on:
-      - db
+      - agentgpt_db
 
-  db:
+  agentgpt_db:
     image: mysql:8.0
-    container_name: db
+    container_name: agentgpt_db
     restart: always
     build:
       context: ./db
@@ -51,23 +51,8 @@ services:
       MYSQL_ROOT_PASSWORD: "reworkd_platform"
       MYSQL_TCP_PORT: 3307
     volumes:
-      - db_data:/var/lib/mysql
+      - agentgpt_db:/var/lib/mysql
     command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
 
-  weaviate:
-    image: semitechnologies/weaviate:1.19.6
-    restart: on-failure:0 # this should be 'no' or at least have ':1'
-    ports:
-      - "8080:8080"
-    environment:
-      QUERY_DEFAULTS_LIMIT: 25
-      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
-      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
-      DEFAULT_VECTORIZER_MODULE: 'none'
-      CLUSTER_HOSTNAME: 'node1'
-    volumes:
-      - weaviate:/var/lib/weaviate
-
 volumes:
-  weaviate:
-  db_data:
+  agentgpt_db:

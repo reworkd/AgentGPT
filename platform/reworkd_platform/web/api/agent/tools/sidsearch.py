@@ -137,13 +137,7 @@ class SID(Tool):
         *args: Any,
         **kwargs: Any,
     ) -> FastAPIStreamingResponse:
-        res = await self._run_sid(
-            goal, task, input_str, user, oauth_crud
-        )
-        if res is None:
-            # fall back to search if no results are found
-            return await Search(self.model, self.language).call(
-                goal, task, input_str, user, oauth_crud
-            )
-        else:
-            return res
+         # fall back to search if no results are found
+        return await self._run_sid(goal, task, input_str, user, oauth_crud) or await Search(self.model, self.language).call(
+        goal, task, input_str, user, oauth_crud
+    )

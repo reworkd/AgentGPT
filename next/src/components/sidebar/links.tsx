@@ -84,7 +84,7 @@ export const SOCIAL_LINKS: LinkMetadata[] = [
   },
   {
     name: "Twitter",
-    href: "https://twitter.com/ReworkdAI",
+    href: "https://x.com/ReworkdAI",
     icon: FaXTwitter,
     enabled: true,
   },

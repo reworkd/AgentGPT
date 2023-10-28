@@ -61,7 +61,7 @@ export default function HelpDialog() {
             className="cursor-pointer rounded-full bg-slate-6 p-3 hover:bg-slate-8"
             onClick={() =>
               window.open(
-                "https://twitter.com/asimdotshrestha/status/1644883727707959296",
+                "https://x.com/asimdotshrestha/status/1644883727707959296",
                 "_blank"
               )
             }

@@ -2,7 +2,7 @@ import type { Session } from "next-auth";
 import { z } from "zod";
 
 import { env } from "../../env/client.mjs";
-import { get, post } from "../fetch-utils";
+import { get } from "../fetch-utils";
 
 export default class OauthApi {
   readonly accessToken?: string;

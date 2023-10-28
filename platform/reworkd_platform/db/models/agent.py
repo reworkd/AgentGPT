@@ -1,4 +1,4 @@
-from sqlalchemy import String, Text, func, DateTime
+from sqlalchemy import DateTime, String, Text, func
 from sqlalchemy.orm import mapped_column
 
 from reworkd_platform.db.base import Base

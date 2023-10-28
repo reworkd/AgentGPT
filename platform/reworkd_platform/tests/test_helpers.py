@@ -1,8 +1,5 @@
 import pytest
-from openai.error import (
-    ServiceUnavailableError,
-    InvalidRequestError,
-)
+from openai.error import InvalidRequestError, ServiceUnavailableError
 
 from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.web.api.agent.helpers import openai_error_handler

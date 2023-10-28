@@ -1,9 +1,8 @@
 import { env } from "../env/client.mjs";
-import type { RequestBody } from "../utils/interfaces";
 
 type TextStream = ReadableStreamDefaultReader<Uint8Array>;
 
-const fetchData = async<T>(
+const fetchData = async <T>(
   url: string,
   body: T,
   accessToken: string
@@ -54,7 +53,7 @@ async function processStream(
   }
 }
 
-export const streamText = async<T>(
+export const streamText = async <T>(
   url: string,
   body: T,
   accessToken: string,

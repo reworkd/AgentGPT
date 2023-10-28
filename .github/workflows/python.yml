@@ -1,13 +1,12 @@
 name: Testing Platform
 on:
-#  push:
-#    branches: [ "main" ]
-#    paths:
-#      - 'platform/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'platform/**'
+
+env:
+  PYTHON_VERSION: "3.11"
 
 jobs:
   black:
@@ -21,7 +20,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: 'poetry'
       - run: poetry install
       - name: Run black check
@@ -38,7 +37,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: 'poetry'
       - run: poetry install
       - name: Run mypy check
@@ -70,7 +69,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: 'poetry'
       - run: poetry install
       - name: Run pytest check

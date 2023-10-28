@@ -5,12 +5,12 @@ from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from pydantic import BaseModel
 
 from reworkd_platform.schemas.agent import (
-    AgentRun,
-    AgentTaskAnalyze,
-    AgentTaskExecute,
-    AgentTaskCreate,
-    AgentSummarize,
     AgentChat,
+    AgentRun,
+    AgentSummarize,
+    AgentTaskAnalyze,
+    AgentTaskCreate,
+    AgentTaskExecute,
     NewTasksResponse,
 )
 from reworkd_platform.web.api.agent.agent_service.agent_service import AgentService

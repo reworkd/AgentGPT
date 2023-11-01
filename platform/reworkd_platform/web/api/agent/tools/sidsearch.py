@@ -15,6 +15,8 @@ from reworkd_platform.web.api.agent.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import Snippet, summarize_sid
 
+from reworkd_platform.web.api.agent.tools.search import Search
+
 
 async def _sid_search_results(
     search_term: str, limit: int, token: str
@@ -90,6 +92,41 @@ class SID(Tool):
 
         return bool(installation and installation.access_token_enc)
 
+    async def _run_sid(
+        self,
+        goal: str,
+        task: str,
+        input_str: str,
+        user: UserBase,
+        oauth_crud: OAuthCrud,
+    ) -> Optional[FastAPIStreamingResponse]:
+        installation = await oauth_crud.get_installation_by_user_id(
+            user_id=user.id, provider="sid"
+        )
+        if not installation:
+            logger.warning("No sid installation found for user {user.id}")
+            return None
+
+        token = await get_access_token(oauth_crud, installation)
+        if not token:
+            logger.warning("Unable to fetch sid access token for {user.id}")
+            return None
+
+        try:
+            res = await _sid_search_results(input_str, limit=10, token=token)
+            snippets: List[Snippet] = [
+                Snippet(text=result["text"]) for result in (res.get("results", []))
+            ]
+        except Exception as e:
+            logger.exception(e)
+            return None
+
+        if not snippets:
+            return None
+
+        return summarize_sid(self.model, self.language, goal, task, snippets)
+
+
     async def call(
         self,
         goal: str,
@@ -100,28 +137,7 @@ class SID(Tool):
         *args: Any,
         **kwargs: Any,
     ) -> FastAPIStreamingResponse:
-        installation = await oauth_crud.get_installation_by_user_id(
-            user_id=user.id, provider="sid"
-        )
-        # if the tool is called, the installation should be available. However, it is possible that it is
-        # disconnected in the meantime. In that case, we pretend as if no information is found.
-        if not installation:
-            return stream_string("Unable to fetch SID results", True)
-
-        token = await get_access_token(oauth_crud, installation)
-        if not token:
-            return stream_string("Unable to fetch SID results", True)
-
-        try:
-            res = await _sid_search_results(input_str, limit=10, token=token)
-            snippets: List[Snippet] = [
-                Snippet(text=result["text"]) for result in (res.get("results", []))
-            ]
-        except Exception as e:
-            logger.exception(e)
-            return stream_string("Unable to fetch SID results", True)
-
-        if not snippets:
-            return stream_string("No good results found by SID", True)
-
-        return summarize_sid(self.model, self.language, goal, task, snippets)
+         # fall back to search if no results are found
+        return await self._run_sid(goal, task, input_str, user, oauth_crud) or await Search(self.model, self.language).call(
+        goal, task, input_str, user, oauth_crud
+    )

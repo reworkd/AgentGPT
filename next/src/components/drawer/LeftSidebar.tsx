@@ -91,7 +91,6 @@ const LeftSidebar = ({ show, setShow, onReload }: DisplayProps & { onReload?: ()
               key={i}
               title={link.name}
               href={link.href}
-              badge={link.badge}
               onClick={() => {
                 if (router.pathname === link.href) {
                   onReload?.();

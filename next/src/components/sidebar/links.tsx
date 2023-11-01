@@ -1,24 +1,19 @@
 import type { IconType } from "react-icons";
 import {
-  FaBusinessTime,
-  FaCog,
   FaDiscord,
   FaFileCode,
+  FaGear,
   FaGithub,
-  FaHome,
+  FaHouse,
   FaLinkedin,
   FaQuestion,
-} from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+  FaXTwitter,
+} from "react-icons/fa6";
 
 type LinkMetadata = {
   name: string;
   href: string;
   icon: IconType;
-  badge?: {
-    text: string;
-    className?: string;
-  };
   className?: string;
 };
 
@@ -26,7 +21,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
   {
     name: "Home",
     href: "/",
-    icon: FaHome,
+    icon: FaHouse,
   },
   {
     name: "Help",
@@ -43,14 +38,8 @@ export const PAGE_LINKS: LinkMetadata[] = [
   {
     name: "Settings",
     href: "/settings",
-    icon: FaCog,
+    icon: FaGear,
     className: "transition-transform group-hover:rotate-90",
-  },
-  {
-    name: "Organization",
-    href: "/organization",
-    icon: FaBusinessTime,
-    className: "transition-transform group-hover:scale-110",
   },
 ];
 

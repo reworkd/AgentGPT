@@ -11,7 +11,6 @@ export default class AnalyzeTaskWork implements AgentWork {
   constructor(private parent: AutonomousAgent, private task: Task) {}
 
   run = async () => {
-    this.parent.api.saveMessages([this.parent.messageService.startTaskMessage(this.task)]);
     this.task = this.parent.model.updateTaskStatus(this.task, "executing");
     this.analysis = await this.parent.api.analyzeTask(this.task.value);
   };

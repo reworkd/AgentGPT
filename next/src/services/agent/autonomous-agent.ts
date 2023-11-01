@@ -78,7 +78,6 @@ class AutonomousAgent {
     if (this.model.getLifecycle() !== "running") return;
 
     // Done with everything in the log and all queued tasks
-    this.messageService.sendCompletedMessage();
     this.stopAgent();
   }
 

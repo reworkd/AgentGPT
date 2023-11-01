@@ -104,7 +104,11 @@ async def summarize(
 async def chat(
     req_body: AgentChat = Depends(agent_chat_validator),
     agent_service: AgentService = Depends(
-        get_agent_service(validator=agent_chat_validator, streaming=True),
+        get_agent_service(
+            validator=agent_chat_validator,
+            streaming=True,
+            llm_model="gpt-3.5-turbo-16k",
+        ),
     ),
 ) -> FastAPIStreamingResponse:
     return await agent_service.chat(

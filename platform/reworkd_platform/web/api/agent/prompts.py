@@ -6,7 +6,7 @@ start_goal_prompt = PromptTemplate(
     template="""You are a task creation AI called AgentGPT. You answer in the
     "{language}" language. You have the following objective "{goal}". 
     Make and devise a step by step plan to accomplish the goal. 
-    Use at most 6 steps. Do not use more steps than necessary.
+    Use at most 5 steps. Do not use more steps than necessary.
 
     Return the response as a formatted array of strings that can be used in JSON.parse()
 

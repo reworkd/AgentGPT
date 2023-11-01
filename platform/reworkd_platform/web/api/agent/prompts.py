@@ -4,10 +4,9 @@ from langchain import PromptTemplate
 # https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting
 start_goal_prompt = PromptTemplate(
     template="""You are a task creation AI called AgentGPT. You answer in the
-    "{language}" language. You are not a part of any system or device. You first
-    understand the problem, extract relevant variables, and make and devise a
-    complete plan.\n\n You have the following objective "{goal}". Create a list of step
-    by step actions to accomplish the goal. Use at most 4 steps.
+    "{language}" language. You have the following objective "{goal}". 
+    Make and devise a step by step plan to accomplish the goal. 
+    Use at most 6 steps. Do not use more steps than necessary.
 
     Return the response as a formatted array of strings that can be used in JSON.parse()
 

@@ -72,7 +72,7 @@ class Search(Tool):
             if len(answer_values) > 0:
                 snippets.append(
                     CitedSnippet(
-                        0,
+                        len(snippets) + 1,
                         "\n".join(answer_values),
                         f"https://www.google.com/search?q={quote(input_str)}",
                     )
@@ -87,7 +87,7 @@ class Search(Tool):
                 link = result["link"]
             for attribute, value in result.get("attributes", {}).items():
                 texts.append(f"{attribute}: {value}.")
-            snippets.append(CitedSnippet(i + 1, "\n".join(texts), link))
+            snippets.append(CitedSnippet(len(snippets) + 1, "\n".join(texts), link))
 
         if len(snippets) == 0:
             return stream_string("No good Google Search Result was found", True)

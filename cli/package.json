@@ -21,7 +21,7 @@
     "clui": "^0.3.6",
     "configstore": "^6.0.0",
     "dotenv": "^16.3.1",
-    "figlet": "^1.6.0",
+    "figlet": "^1.7.0",
     "inquirer": "^9.2.11",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",

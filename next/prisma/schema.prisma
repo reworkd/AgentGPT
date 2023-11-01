@@ -119,6 +119,7 @@ model OAuthCredentials {
   delete_date DateTime?
 
   @@index([state])
+  @@index([user_id])
   @@map("oauth_credentials")
 }
 

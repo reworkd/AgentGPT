@@ -152,7 +152,7 @@ const Home: NextPage = () => {
         <div
           id="layout"
           className={clsx(
-            "relative flex h-screen w-full max-w-screen-md flex-col items-center justify-center gap-5 p-2 pt-10 sm:gap-3 sm:p-4"
+            "relative flex h-screen w-full max-w-screen-md flex-col items-center justify-center gap-5 p-2 py-10 sm:gap-3 sm:p-4"
           )}
         >
           {agent !== null ? (

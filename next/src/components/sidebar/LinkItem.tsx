@@ -6,6 +6,7 @@ import Badge from "../Badge";
 const LinkItem = (props: {
   title: string;
   children: ReactNode;
+  forceRefresh?: boolean;
   href?: string;
   badge?: { text: string; className?: string };
   onClick: () => void;

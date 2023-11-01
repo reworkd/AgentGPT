@@ -13,7 +13,7 @@ import LinkIconItem from "../sidebar/LinkIconItem";
 import LinkItem from "../sidebar/LinkItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../sidebar/links";
 
-const LeftSidebar = ({ show, setShow }: DisplayProps) => {
+const LeftSidebar = ({ show, setShow, onReload }: DisplayProps & { onReload?: () => void }) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [t] = useTranslation("drawer");
@@ -95,6 +95,12 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
               href={link.href}
               badge={link.badge}
               onClick={() => {
+                console.log(router.pathname, link.href, link.forceRefresh);
+                if (router.pathname === link.href && link.forceRefresh) {
+                  onReload?.();
+                  return;
+                }
+
                 void router.push(link.href);
               }}
             >

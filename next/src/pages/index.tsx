@@ -67,12 +67,12 @@ const Home: NextPage = () => {
 
   const handlePlay = (goal: string) => {
     if (agentLifecycle === "stopped") handleRestart();
-    else handleNewAgent("", goal.trim());
+    else handleNewAgent(goal.trim());
   };
 
-  const handleNewAgent = (name: string, goal: string) => {
+  const handleNewAgent = (goal: string) => {
     if (session === null) {
-      storeAgentDataInLocalStorage(name, goal);
+      storeAgentDataInLocalStorage("", goal);
       setShowSignInDialog(true);
       return;
     }
@@ -82,13 +82,12 @@ const Home: NextPage = () => {
       return;
     }
 
-    const model = new DefaultAgentRunModel(name.trim(), goal.trim());
+    const model = new DefaultAgentRunModel(goal.trim());
     const messageService = new MessageService(addMessage);
     const agentApi = new AgentApi({
       model_settings: toApiModelSettings(settings, session),
-      name: name,
       goal: goal,
-      session,
+      session: session,
       agentUtils: agentUtils,
     });
     const newAgent = new AutonomousAgent(
@@ -122,7 +121,7 @@ const Home: NextPage = () => {
         localStorage.removeItem("agentData");
       }
     }
-  }, [session]);
+  }, [session, setGoalInput, setNameInput]);
 
   const handleRestart = () => {
     resetAllMessageSlices();
@@ -138,7 +137,12 @@ const Home: NextPage = () => {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout
+      onReload={() => {
+        agent?.stopAgent();
+        handleRestart();
+      }}
+    >
       <HelpDialog />
 
       <SignInDialog show={showSignInDialog} setOpen={setShowSignInDialog} />
@@ -163,7 +167,7 @@ const Home: NextPage = () => {
             <Landing
               messages={messages}
               disableStartAgent={disableStartAgent}
-              handlePlay={handlePlay}
+              handlePlay={() => handlePlay(goalInput)}
               handleKeyPress={handleKeyPress}
               goalInputRef={goalInputRef}
               goalInput={goalInput}

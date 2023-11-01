@@ -15,6 +15,7 @@ import { FaXTwitter } from "react-icons/fa6";
 type LinkMetadata = {
   name: string;
   href: string;
+  forceRefresh?: boolean;
   icon: IconType;
   badge?: {
     text: string;
@@ -29,6 +30,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
     href: "/",
     icon: FaHome,
     enabled: true,
+    forceRefresh: true,
   },
   {
     name: "Help",

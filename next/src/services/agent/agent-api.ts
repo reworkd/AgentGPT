@@ -8,7 +8,6 @@ import type { RequestBody } from "../../utils/interfaces";
 import * as apiUtils from "../api-utils";
 
 type ApiProps = Pick<RequestBody, "model_settings" | "goal"> & {
-  name: string;
   session?: Session;
   agentUtils: AgentUtils;
 };

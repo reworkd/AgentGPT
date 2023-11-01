@@ -16,7 +16,7 @@ import Input from "../Input";
 type LandingProps = {
   messages: Message[];
   disableStartAgent: boolean;
-  handlePlay: (goal: string) => void;
+  handlePlay: () => void;
   handleKeyPress: (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   goalInputRef: RefObject<HTMLInputElement>;
   goalInput: string;
@@ -69,7 +69,7 @@ const Landing = (props: LandingProps) => {
           disabled={agent != null}
           value={props.goalInput}
           onChange={(e) => props.setGoalInput(e.target.value)}
-          onKeyDown={(e) => props.handleKeyPress(e)}
+          onKeyDown={props.handleKeyPress}
           placeholder={`${t("PLACEHOLDER_AGENT_GOAL")}`}
           type="textarea"
         />
@@ -83,7 +83,7 @@ const Landing = (props: LandingProps) => {
             <FaCog />
           </Button>
           <Button
-            onClick={() => props.handlePlay(props.goalInput)}
+            onClick={props.handlePlay}
             className="border-0 bg-gradient-to-t from-[#02FCF1] to-[#A02BFE] subpixel-antialiased saturate-[75%] hover:saturate-100"
           >
             <FaPlay />

@@ -15,6 +15,7 @@ type SidebarSettings = {
 type DashboardLayoutProps = {
   children: ReactNode;
   rightSidebar?: ReactNode;
+  onReload?: () => void;
 };
 
 const defaultState: SidebarSettings = {
@@ -45,7 +46,11 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
       <AppHead />
       {/* Left sidebar */}
       {/* Mobile */}
-      <LeftSidebar show={leftSettings.mobile} setShow={setMobile(leftSettings, setLeftSettings)} />
+      <LeftSidebar
+        show={leftSettings.mobile}
+        setShow={setMobile(leftSettings, setLeftSettings)}
+        onReload={props.onReload}
+      />
       <div className={leftSettings.mobile ? "hidden" : "lg:hidden"}>
         <SidebarControlButton
           side="left"
@@ -58,6 +63,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
         <LeftSidebar
           show={leftSettings.desktop}
           setShow={setDesktop(leftSettings, setLeftSettings)}
+          onReload={props.onReload}
         />
       </div>
       <div className={leftSettings.desktop ? "hidden" : "hidden lg:block"}>

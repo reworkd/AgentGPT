@@ -35,10 +35,10 @@ async function generateAgentName(goal: string) {
         },
         {
           role: "system",
-          content: `Summarize this into a single followed by GPT and a single emoji.
+          content: `Summarize this into one or two words followed by "GPT" and a single emoji.
            Examples:
            - 'I want to buy a house' becomes HouseGPT 🏠
-           - 'Analyze top stock prices and generate a report' becomes StockGPT 📈
+           - 'Analyze top stock prices and generate a report' becomes AnalyzeStockGPT 📈
            `,
         },
       ],

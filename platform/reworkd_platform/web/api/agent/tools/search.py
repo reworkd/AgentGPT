@@ -1,4 +1,5 @@
 from typing import Any, List
+from urllib.parse import quote
 
 import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
@@ -69,7 +70,13 @@ class Search(Tool):
                 answer_values.append(", ".join(answer_box.get("snippetHighlighted")))
 
             if len(answer_values) > 0:
-                return stream_string("\n".join(answer_values), True)
+                snippets.append(
+                    CitedSnippet(
+                        0,
+                        "\n".join(answer_values),
+                        quote(f"https://www.google.com/search?q={input_str}"),
+                    )
+                )
 
         for i, result in enumerate(results["organic"][:k]):
             texts = []

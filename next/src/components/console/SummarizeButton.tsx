@@ -23,9 +23,9 @@ const Summarize = () => {
         "text-xs sm:text-base"
       )}
     >
-      <span className="font-bold">Click here to summarize the conversation!</span>
+      <span>Click here to summarize the conversation</span>
       <Button
-        className="ml-auto py-1  sm:py-1  md:py-1"
+        className="ml-auto py-1 font-medium sm:py-1 md:py-1"
         onClick={async () => {
           setSummarized(true);
           await agent?.summarize();

@@ -96,7 +96,7 @@ export const MacWindowHeader = (props: HeaderProps) => {
   ];
 
   return (
-    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-1.5 px-1">
       <PopIn delay={0.4}>
         <div className="h-3 w-3 rounded-full bg-red-500" />
       </PopIn>

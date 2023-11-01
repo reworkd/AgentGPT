@@ -10,7 +10,6 @@ import { ChatMessage } from "../console/ChatMessage";
 import ChatWindow from "../console/ChatWindow";
 import { ChatWindowTitle } from "../console/ChatWindowTitle";
 import Summarize from "../console/SummarizeButton";
-import Expand from "../motions/expand";
 import FadeIn from "../motions/FadeIn";
 
 type ChatProps = {
@@ -33,7 +32,7 @@ const Chat = (props: ChatProps) => {
 
   return (
     <>
-      <Expand className="flex w-full flex-grow flex-col items-center overflow-hidden">
+      <div className="flex w-full flex-grow flex-col items-center overflow-hidden">
         <ChatWindow
           messages={props.messages}
           title={<ChatWindowTitle model={settings.customModelName} />}
@@ -63,7 +62,7 @@ const Chat = (props: ChatProps) => {
           })}
           <Summarize />
         </ChatWindow>
-      </Expand>
+      </div>
       <AgentControls
         disablePlay={props.disableStartAgent}
         lifecycle={agentLifecycle}

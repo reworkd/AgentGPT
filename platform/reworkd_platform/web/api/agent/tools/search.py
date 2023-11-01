@@ -74,7 +74,7 @@ class Search(Tool):
                     CitedSnippet(
                         0,
                         "\n".join(answer_values),
-                        quote(f"https://www.google.com/search?q={input_str}"),
+                        f"https://www.google.com/search?q={quote(input_str)}",
                     )
                 )
 

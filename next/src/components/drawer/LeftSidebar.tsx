@@ -42,6 +42,14 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
           <FaBars size="12" className="z-20 m-2 text-slate-11" />
         </button>
       </div>
+      <button
+        className="mb-4 rounded-md bg-slate-1 p-1 shadow-depth-1 hover:bg-slate-2"
+        onClick={() => {
+          window.location.href = "/";
+        }}
+      >
+        New Agent
+      </button>
       <div className="mb-2 mr-2 flex-1 overflow-y-auto overflow-x-hidden overflow-ellipsis">
         {status === "unauthenticated" && (
           <div className="p-1 text-sm text-slate-12">

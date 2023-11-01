@@ -136,16 +136,19 @@ summarize_pdf_prompt = PromptTemplate(
 summarize_with_sources_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language.
 
-    Parse and summarize the following text snippets "{snippets}".
+    Parse and summarize the following: "{snippets}" to answer the following query: "{query}" as best as possible.
     Write using clear markdown formatting in a style expected of the goal "{goal}".
-    Be as clear, informative, and descriptive as necessary and attempt to
-    answer the query: "{query}" as best as possible.
 
-    Cite sources for as many sentences as possible by using the corresponding source link. Use the index as the citation text.
+    Cite sources for sentences where possible by using the corresponding source link. Use the index as the citation text.
     Incorporate the source using a markdown link directly at the end of the sentence that the source is used in.
     Do not separately list sources at the end of the writing.
-
-    Example: "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence."
+    
+    If the query cannot be answered with the provided information, mention this and provide a reason why along with what it does mention. 
+    Also cite the sources of what is actually mentioned.
+    
+    Examples: 
+    "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence."
+    "Stephen curry is an american basketball player that plays for the warriors[1](https://www.britannica.com/biography/Stephen-Curry)."
     """,
     input_variables=["goal", "language", "query", "snippets"],
 )

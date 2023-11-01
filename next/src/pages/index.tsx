@@ -40,13 +40,11 @@ const Home: NextPage = () => {
 
   const agent = useAgentStore.use.agent();
 
-  const fullscreen = agent !== null;
   const { session } = useAuth();
   const nameInput = useAgentInputStore.use.nameInput();
   const setNameInput = useAgentInputStore.use.setNameInput();
   const goalInput = useAgentInputStore.use.goalInput();
   const setGoalInput = useAgentInputStore.use.setGoalInput();
-  const [chatInput, setChatInput] = React.useState("");
   const { settings } = useSettings();
 
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
@@ -65,7 +63,6 @@ const Home: NextPage = () => {
 
   const disableStartAgent =
     (agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
-    isEmptyOrBlank(nameInput) ||
     isEmptyOrBlank(goalInput);
 
   const handlePlay = (goal: string) => {

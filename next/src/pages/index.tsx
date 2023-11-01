@@ -7,7 +7,6 @@ import React, { useEffect, useRef } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { SignInDialog } from "../components/dialog/SignInDialog";
-import TaskSidebar from "../components/drawer/TaskSidebar";
 import Chat from "../components/index/chat";
 import Landing from "../components/index/landing";
 import { useAgent } from "../hooks/useAgent";
@@ -145,7 +144,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <DashboardLayout rightSidebar={<TaskSidebar />}>
+    <DashboardLayout>
       <HelpDialog />
 
       <SignInDialog show={showSignInDialog} setOpen={setShowSignInDialog} />

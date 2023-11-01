@@ -52,15 +52,15 @@ const Home: NextPage = () => {
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const agentUtils = useAgent();
 
-  const nameInputRef = useRef<HTMLInputElement>(null);
+  const goalInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    nameInputRef?.current?.focus();
+    goalInputRef?.current?.focus();
   }, []);
 
   const setAgentRun = (newName: string, newGoal: string) => {
     setNameInput(newName);
     setGoalInput(newGoal);
-    handlePlay(newName, newGoal);
+    handlePlay(newGoal);
   };
 
   const disableStartAgent =
@@ -68,10 +68,9 @@ const Home: NextPage = () => {
     isEmptyOrBlank(nameInput) ||
     isEmptyOrBlank(goalInput);
 
-  const handlePlay = (name: string, goal: string) => {
+  const handlePlay = (goal: string) => {
     if (agentLifecycle === "stopped") handleRestart();
-    else if (name.trim() === "" || goal.trim() === "") return;
-    else handleNewAgent(name.trim(), goal.trim());
+    else handleNewAgent("", goal.trim());
   };
 
   const handleNewAgent = (name: string, goal: string) => {
@@ -134,12 +133,10 @@ const Home: NextPage = () => {
     resetAllAgentSlices();
   };
 
-  const handleKeyPress = (
-    e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     // Only Enter is pressed, execute the function
     if (e.key === "Enter" && !disableStartAgent && !e.shiftKey) {
-      handlePlay(nameInput, goalInput);
+      handlePlay(goalInput);
     }
   };
 
@@ -171,9 +168,7 @@ const Home: NextPage = () => {
               disableStartAgent={disableStartAgent}
               handlePlay={handlePlay}
               handleKeyPress={handleKeyPress}
-              nameInput={nameInput}
-              nameInputRef={nameInputRef}
-              setNameInput={setNameInput}
+              goalInputRef={goalInputRef}
               goalInput={goalInput}
               setGoalInput={setGoalInput}
               setShowSignInDialog={setShowSignInDialog}

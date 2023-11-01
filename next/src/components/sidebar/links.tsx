@@ -9,9 +9,8 @@ import {
   FaHome,
   FaLinkedin,
   FaQuestion,
-  FaWater,
 } from "react-icons/fa";
-import {FaXTwitter} from 'react-icons/fa6';
+import { FaXTwitter } from "react-icons/fa6";
 
 type LinkMetadata = {
   name: string;
@@ -32,17 +31,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     enabled: true,
   },
   {
-    name: "Flows",
-    href: "/workflow",
-    icon: FaWater,
-    className: "transition-transform group-hover:scale-110",
-    enabled: (user) => !!user && user.organizations.length > 0,
-    badge: {
-      text: "Alpha",
-      className: "bg-gradient-to-tr from-purple-500 to-sky-600",
-    },
-  },
-  {
     name: "Help",
     href: "https://docs.reworkd.ai/",
     icon: FaQuestion,
@@ -55,9 +43,6 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaFileCode,
     className: "transition-transform group-hover:scale-110",
     enabled: true,
-    badge: {
-      text: "New",
-    },
   },
   {
     name: "Settings",

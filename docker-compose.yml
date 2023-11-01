@@ -43,7 +43,7 @@ services:
     build:
       context: ./db
     ports:
-      - "3307:3307"
+      - "3308:3307"
     environment:
       MYSQL_DATABASE: "reworkd_platform"
       MYSQL_USER: "reworkd_platform"

@@ -23,7 +23,7 @@ const Summarize = () => {
         "text-xs sm:text-base"
       )}
     >
-      <span>Click here to summarize the conversation</span>
+      <span className="text-sm">Click here to summarize the conversation</span>
       <Button
         className="ml-auto py-1 font-medium sm:py-1 md:py-1"
         onClick={async () => {

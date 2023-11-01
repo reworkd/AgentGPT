@@ -2,10 +2,13 @@ from typing import Any, List
 from urllib.parse import quote
 
 import aiohttp
+from aiohttp import ClientResponseError
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
+from loguru import logger
 
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.agent.stream_mock import stream_string
+from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import (
     CitedSnippet,
@@ -50,6 +53,17 @@ class Search(Tool):
         return settings.serp_api_key is not None and settings.serp_api_key != ""
 
     async def call(
+        self, goal: str, task: str, input_str: str, *args: Any, **kwargs: Any
+    ) -> FastAPIStreamingResponse:
+        try:
+            return await self._call(goal, task, input_str, *args, **kwargs)
+        except ClientResponseError:
+            logger.exception("Error calling Serper API, falling back to reasoning")
+            return await Reason(self.model, self.language).call(
+                goal, task, input_str, *args, **kwargs
+            )
+
+    async def _call(
         self, goal: str, task: str, input_str: str, *args: Any, **kwargs: Any
     ) -> FastAPIStreamingResponse:
         results = await _google_serper_search_results(

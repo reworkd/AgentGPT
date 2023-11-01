@@ -75,7 +75,7 @@ def get_tool_from_name(tool_name: str) -> Type[Tool]:
 
 
 def get_default_tool() -> Type[Tool]:
-    return Reason
+    return Search
 
 
 def get_default_tool_name() -> str:

@@ -64,7 +64,7 @@ async def execute_tasks(
     return await agent_service.execute_task_agent(
         goal=req_body.goal or "",
         task=req_body.task or "",
-        analysis=req_body.analysis or Analysis.get_default_analysis(),
+        analysis=req_body.analysis,
     )
 
 

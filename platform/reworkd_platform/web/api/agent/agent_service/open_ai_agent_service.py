@@ -121,7 +121,7 @@ class OpenAIAgentService(AgentService):
                 **analysis_arguments.dict(),
             )
         except (OpenAIError, ValidationError):
-            return Analysis.get_default_analysis()
+            return Analysis.get_default_analysis(task)
 
     async def execute_task_agent(
         self,

@@ -34,10 +34,10 @@ const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonEleme
       type={props.type}
       disabled={loading || props.disabled}
       className={clsx(
-        "relative rounded-lg border-2 border-black/20 px-4 py-1 font-bold text-white transition-all sm:px-10 sm:py-3",
+        "relative rounded-lg border-2 border-black/20 px-4 py-1 font-bold text-white transition-all duration-300 sm:px-10 sm:py-3",
         props.disabled && "cursor-not-allowed border-white/10 bg-slate-9 text-white",
         props.disabled ||
-          "cursor-pointer bg-[#1E88E5]/70 text-white hover:bg-[#0084f7] hover:shadow-xl",
+          "cursor-pointer bg-[#1E88E5]/80 text-white hover:bg-[#0084f7] hover:shadow-lg",
         props.disabled || props.enabledClassName,
         props.className
       )}

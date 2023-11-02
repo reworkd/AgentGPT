@@ -23,6 +23,15 @@ const LeftSidebar = ({ show, setShow, onReload }: DisplayProps & { onReload?: ()
   });
   const userAgents = data ?? [];
 
+  const navigateToPage = (href: string) => {
+    if (router.pathname === href) {
+      onReload?.();
+      return;
+    }
+
+    void router.push(href);
+  };
+
   return (
     <Sidebar show={show} setShow={setShow} side="left" className="border-slate-6s border-r">
       <div className="flex flex-row items-center pb-6">
@@ -44,9 +53,7 @@ const LeftSidebar = ({ show, setShow, onReload }: DisplayProps & { onReload?: ()
       </div>
       <button
         className="mb-4 rounded-md bg-slate-1 p-1 shadow-depth-1 hover:bg-slate-2"
-        onClick={() => {
-          window.location.href = "/";
-        }}
+        onClick={() => navigateToPage("/")}
       >
         New Agent
       </button>
@@ -91,14 +98,7 @@ const LeftSidebar = ({ show, setShow, onReload }: DisplayProps & { onReload?: ()
               key={i}
               title={link.name}
               href={link.href}
-              onClick={() => {
-                if (router.pathname === link.href) {
-                  onReload?.();
-                  return;
-                }
-
-                void router.push(link.href);
-              }}
+              onClick={() => navigateToPage(link.href)}
             >
               <link.icon className={link.className} />
             </LinkItem>

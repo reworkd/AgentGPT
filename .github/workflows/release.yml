@@ -1,0 +1,166 @@
+name: Testing Platform
+on:
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'platform/**'
+
+permissions:
+    contents: write # needed to write releases
+    id-token: write # needed for keyless signing
+    packages: write # needed for ghcr access
+
+env:
+  PYTHON_VERSION: "3.11"
+  KUBERNETES_VERSION: 1.26.0
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run black check
+        run: poetry run black --check .
+
+  mypy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run mypy check
+        run: poetry run mypy .
+
+  pytest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    services:
+      reworkd_platform-db:
+        image: bitnami/mysql:8.0.30
+        env:
+          MYSQL_ROOT_PASSWORD: "reworkd_platform"
+          MYSQL_ROOT_USER: "reworkd_platform"
+          MYSQL_DATABASE: "reworkd_platform"
+          MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+        options: >-
+          --health-cmd="mysqladmin ping -u root"
+          --health-interval=15s
+          --health-timeout=5s
+          --health-retries=6
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run pytest check
+        run: poetry run pytest -vv --cov="reworkd_platform" .
+        env:
+          REWORKD_PLATFORM_HOST: "0.0.0.0"
+          REWORKD_PLATFORM_DB_HOST: localhost
+          REWORKD_PLATFORM_KAFKA_BOOTSTRAP_SERVERS: '["localhost:9092"]'
+
+  publish-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: fluxcd/flux2/action@main
+      - uses: sigstore/cosign-installer@main
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.x
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.10.3
+      - name: Setup kubeconform
+        uses: ./.github/actions/kubeconform
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v${{ env.KUBERNETES_VERSION }}
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+      - name: Setup Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Prepare
+        id: prep
+        run: |
+          VERSION=sha-${GITHUB_SHA::8}
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF/refs\/tags\//}
+          fi
+          echo "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "REVISION=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+      - name: Generate images meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            docker.io/feelguuds/automated-agent-platform
+          tags: |
+            type=raw,value=${{ steps.prep.outputs.VERSION }}
+            type=raw,value=staging
+      - name: Publish multi-arch image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          sbom: true
+          provenance: true
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./platform
+          file: ./Dockerfile
+          build-args: |
+            REVISION=${{ steps.prep.outputs.REVISION }}
+          platforms: linux/amd64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Validate Service Helm Chart
+        run: |
+          helm lint ./charts/automated-agent-platform
+          helm template ./charts/automated-agent-platform --set linkerd.profile.enabled=false --set autoscaling.enabled=false | kubeconform -strict -summary -kubernetes-version ${{ env.KUBERNETES_VERSION }}
+      - name: Debug failure
+        if: failure()
+        run: |
+          kubectl logs -l app=automated-agent-platform || true

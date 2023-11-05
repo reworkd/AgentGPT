@@ -1,5 +1,3 @@
-from importlib import metadata
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import UJSONResponse
@@ -14,7 +12,6 @@ from reworkd_platform.web.lifetime import (
     register_startup_event,
 )
 
-
 def get_app() -> FastAPI:
     """
     Get FastAPI application.
@@ -27,7 +24,7 @@ def get_app() -> FastAPI:
 
     app = FastAPI(
         title="Reworkd Platform API",
-        version=metadata.version("reworkd_platform"),
+        version="0.1.0",
         docs_url="/api/docs",
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",

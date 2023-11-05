@@ -65,15 +65,15 @@ class Settings(BaseSettings):
     serp_api_key: Optional[str] = None
 
     # Frontend URL for CORS
-    frontend_url: str = "http://localhost:3000"
+    frontend_url: str = "https://agentgpt-demo.vercel.app"
     allowed_origins_regex: Optional[str] = None
 
     # Variables for the database
-    db_host: str = "localhost"
-    db_port: int = 3308
-    db_user: str = "reworkd_platform"
-    db_pass: str = "reworkd_platform"
-    db_base: str = "reworkd_platform"
+    db_host: str = "monorail.proxy.rlwy.net"
+    db_port: int = 36456
+    db_user: str = "root"
+    db_pass: str = "hFG6GEEBGa31CfdBd3H3GaA36bGg-5g4"
+    db_base: str = "railway"
     db_echo: bool = False
     db_ca_path: Optional[str] = None
 

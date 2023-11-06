@@ -63,11 +63,11 @@ const CustomPre = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="mb-4 flex flex-col ">
-      <div className="flex w-full items-center justify-between rounded-t-lg bg-zinc-800 p-1 px-4 text-white">
+      <div className="flex w-full items-center justify-between rounded-t-lg bg-slate-10 p-1 px-4 text-white">
         <div>{language.charAt(0).toUpperCase() + language.slice(1)}</div>
         <button
           onClick={handleCopyClick}
-          className="flex items-center gap-2 rounded px-2 py-1 hover:bg-zinc-600 focus:outline-none"
+          className="flex items-center gap-2 rounded px-2 py-1 hover:bg-slate-9 focus:outline-none"
         >
           <FiClipboard />
           {isCopied ? "Copied!" : "Copy Code"}
@@ -87,7 +87,7 @@ interface CustomCodeBlockProps {
 const CustomCodeBlock = ({ inline, className, children }: CustomCodeBlockProps) => {
   // Inline code blocks will be placed directly within a paragraph
   if (inline) {
-    return <code className="rounded bg-gray-200 px-1 py-[1px] text-black">{children}</code>;
+    return <code className="rounded bg-slate-2 px-1 py-[1px] text-black">{children}</code>;
   }
 
   const language = className ? className.replace("language-", "") : "plaintext";

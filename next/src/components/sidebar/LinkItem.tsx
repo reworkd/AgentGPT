@@ -1,13 +1,11 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-import Badge from "../Badge";
-
 const LinkItem = (props: {
   title: string;
   children: ReactNode;
+  forceRefresh?: boolean;
   href?: string;
-  badge?: { text: string; className?: string };
   onClick: () => void;
 }) => (
   <li>
@@ -24,10 +22,6 @@ const LinkItem = (props: {
     >
       <span className="flex items-center justify-center">{props.children}</span>
       <span>{props.title}</span>
-
-      {props.badge && (
-        <Badge className={clsx("ml-auto", props.badge.className)}>{props.badge.text}</Badge>
-      )}
     </a>
   </li>
 );

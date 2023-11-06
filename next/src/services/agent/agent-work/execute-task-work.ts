@@ -1,7 +1,6 @@
 import { v1 } from "uuid";
 
 import type AgentWork from "./agent-work";
-import CreateTaskWork from "./create-task-work";
 import type { Message } from "../../../types/message";
 import type { Task } from "../../../types/task";
 import { toApiModelSettings } from "../../../utils/interfaces";
@@ -50,13 +49,9 @@ export default class ExecuteTaskWork implements AgentWork {
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  conclude = async () => {
-    this.parent.api.saveMessages([
-      this.parent.messageService.sendMessage({ ...this.task, status: "final" }),
-    ]);
-  };
+  conclude = async () => void 0;
 
-  next = () => (this.task.result ? new CreateTaskWork(this.parent, this.task) : undefined);
+  next = () => undefined;
 
   onError = (e: unknown): boolean => {
     this.parent.messageService.sendErrorMessage(e);

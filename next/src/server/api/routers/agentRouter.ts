@@ -1,14 +1,16 @@
+import OpenAI from "openai";
 import { z } from "zod";
 
+import { env } from "../../../env/server.mjs";
 import { messageSchema } from "../../../types/message";
 import { MESSAGE_TYPE_TASK } from "../../../types/task";
 import { prisma } from "../../db";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 const createAgentParser = z.object({
-  name: z.string(),
   goal: z.string(),
 });
+
 export type CreateAgentProps = z.infer<typeof createAgentParser>;
 
 const saveAgentParser = z.object({
@@ -17,11 +19,47 @@ const saveAgentParser = z.object({
 });
 export type SaveAgentProps = z.infer<typeof saveAgentParser>;
 
+async function generateAgentName(goal: string) {
+  if (!env.OPENAI_API_KEY) return undefined;
+
+  try {
+    const openAI = new OpenAI({
+      apiKey: env.OPENAI_API_KEY as string,
+    });
+
+    const chatCompletion = await openAI.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: goal,
+        },
+        {
+          role: "system",
+          content: `Summarize this into one or two words followed by "GPT" and a single emoji.
+           Examples:
+           - 'I want to buy a house' becomes HouseGPT 🏠
+           - 'Analyze top stock prices and generate a report' becomes AnalyzeStockGPT 📈
+           `,
+        },
+      ],
+      model: "gpt-3.5-turbo",
+    });
+
+    // @ts-ignore
+    return chatCompletion.choices[0].message.content as string;
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
+}
+
 export const agentRouter = createTRPCRouter({
   create: protectedProcedure.input(createAgentParser).mutation(async ({ input, ctx }) => {
-    return await prisma.agent.create({
+    const name = (await generateAgentName(input.goal)) || input.goal;
+
+    return ctx.prisma.agent.create({
       data: {
-        name: input.name,
+        name: name.trim(),
         goal: input.goal,
         userId: ctx.session?.user?.id,
       },
@@ -64,7 +102,7 @@ export const agentRouter = createTRPCRouter({
     });
   }),
   findById: publicProcedure.input(z.string()).query(async ({ input, ctx }) => {
-    return await prisma.agent.findFirstOrThrow({
+    return prisma.agent.findFirstOrThrow({
       where: { id: input, deleteDate: null },
       include: {
         tasks: {

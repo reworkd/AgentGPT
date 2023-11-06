@@ -131,14 +131,16 @@ input[type=range] {
 Not supports in Firefox and IE */
 /* total width */
 *::-webkit-scrollbar {
-    border-radius: 10px;
-    background-color: #464649;
-    width: 8px;
+    border-radius: 12px;
+    background-color: #889096;
+    width: 12px;
 }
 
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
+    background-color: #D7DBDF;
     @apply rounded-lg;
+    border: 2px solid #889096; /* This creates the illusion of padding inside the track */
 }
 
 /* set button(top and bottom of the scrollbar) */

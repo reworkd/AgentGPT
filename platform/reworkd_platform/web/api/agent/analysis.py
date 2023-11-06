@@ -34,12 +34,12 @@ class Analysis(AnalysisArguments):
         return v
 
     @classmethod
-    def get_default_analysis(cls) -> "Analysis":
+    def get_default_analysis(cls, task: str) -> "Analysis":
         # TODO: Remove circular import
         from reworkd_platform.web.api.agent.tools.tools import get_default_tool_name
 
         return cls(
-            reasoning="Hmm... I'll have to try again",
+            reasoning="Hmm... I'll try searching it up",
             action=get_default_tool_name(),
-            arg="Analyze errored out",
+            arg=task,
         )

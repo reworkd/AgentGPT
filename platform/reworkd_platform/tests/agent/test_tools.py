@@ -46,12 +46,11 @@ def test_get_tools_overview_no_duplicates() -> None:
 
 
 def test_get_default_tool() -> None:
-    assert get_default_tool() == Reason
+    assert get_default_tool() == Search
 
 
 def test_get_tool_from_name() -> None:
     assert get_tool_from_name("Search") == Search
-    assert get_tool_from_name("reason") == Reason
     assert get_tool_from_name("CoNcLuDe") == Conclude
-    assert get_tool_from_name("NonExistingTool") == Reason
+    assert get_tool_from_name("NonExistingTool") == Search
     assert get_tool_from_name("SID") == SID

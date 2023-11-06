@@ -3,9 +3,7 @@ from typing import List, Type
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.web.api.agent.tools.code import Code
-from reworkd_platform.web.api.agent.tools.conclude import Conclude
 from reworkd_platform.web.api.agent.tools.image import Image
-from reworkd_platform.web.api.agent.tools.reason import Reason
 from reworkd_platform.web.api.agent.tools.search import Search
 from reworkd_platform.web.api.agent.tools.sidsearch import SID
 from reworkd_platform.web.api.agent.tools.tool import Tool
@@ -30,7 +28,6 @@ def get_external_tools() -> List[Type[Tool]]:
     return [
         # Wikipedia,  # TODO: Remove if async doesn't work
         Image,
-        Search,
         Code,
         SID,
     ]
@@ -38,8 +35,7 @@ def get_external_tools() -> List[Type[Tool]]:
 
 def get_default_tools() -> List[Type[Tool]]:
     return [
-        Reason,
-        Conclude,
+        Search,
     ]
 
 
@@ -75,7 +71,7 @@ def get_tool_from_name(tool_name: str) -> Type[Tool]:
 
 
 def get_default_tool() -> Type[Tool]:
-    return Reason
+    return Search
 
 
 def get_default_tool_name() -> str:

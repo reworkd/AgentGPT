@@ -88,7 +88,6 @@ const SidTool = ({ tool, onChange }: ToolProps) => {
       <div className="flex flex-grow flex-col gap-1">
         <p className="font-bold capitalize">{tool.name}</p>
         <p className="text-xs sm:text-sm">{tool.description}</p>
-      </div>
       {sid.connected && (
         <>
           <Button onClick={sid.manage}>Manage</Button>
@@ -98,8 +97,9 @@ const SidTool = ({ tool, onChange }: ToolProps) => {
           >
             Disconnect
           </Button>
-        </>
+         </>
       )}
+      </div>
       <Switch
         value={!sid?.connected ?? false ? false : tool.active}
         onChange={() => onChange(tool.name, !tool.active)}

@@ -111,7 +111,7 @@ model OAuthCredentials {
   token_type              String?
   access_token_enc        String?   @db.Text
   access_token_expiration DateTime?
-  refresh_token_enc       String?
+  refresh_token_enc       String?   @db.Text
   scope                   String?
 
   create_date DateTime  @default(now())
@@ -119,6 +119,7 @@ model OAuthCredentials {
   delete_date DateTime?
 
   @@index([state])
+  @@index([user_id])
   @@map("oauth_credentials")
 }
 

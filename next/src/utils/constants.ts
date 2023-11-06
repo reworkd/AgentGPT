@@ -15,6 +15,6 @@ export const getDefaultModelSettings = (): ModelSettings => {
     customModelName: GPT_35_TURBO,
     customTemperature: 0.8,
     customMaxLoops: DEFAULT_MAX_LOOPS_FREE,
-    maxTokens: 400,
+    maxTokens: 1250,
   };
 };

@@ -29,10 +29,3 @@ def test_analysis_model_search_non_empty_arg() -> None:
 def test_analysis_model_invalid_tool() -> None:
     with pytest.raises(ValidationError):
         Analysis(action="invalid tool name", arg="test argument", reasoning="reasoning")
-
-
-def test_get_default_analysis() -> None:
-    default_analysis = Analysis.get_default_analysis()
-    assert isinstance(default_analysis, Analysis)
-    assert default_analysis.action == "reason"
-    assert default_analysis.arg == "Analyze errored out"

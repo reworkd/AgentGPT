@@ -19,7 +19,7 @@ export const DrawerItemButton = (props: DrawerItemProps) => {
       )}
       onClick={onClick}
     >
-      <span className="text-sm font-medium">{text}</span>
+      <span className="line-clamp-1 text-left text-sm font-medium">{text}</span>
     </button>
   );
 };

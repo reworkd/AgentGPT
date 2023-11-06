@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { type GetStaticProps, type NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -7,7 +6,6 @@ import React, { useEffect, useRef } from "react";
 import nextI18NextConfig from "../../next-i18next.config.js";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { SignInDialog } from "../components/dialog/SignInDialog";
-import TaskSidebar from "../components/drawer/TaskSidebar";
 import Chat from "../components/index/chat";
 import Landing from "../components/index/landing";
 import { useAgent } from "../hooks/useAgent";
@@ -41,43 +39,39 @@ const Home: NextPage = () => {
 
   const agent = useAgentStore.use.agent();
 
-  const fullscreen = agent !== null;
   const { session } = useAuth();
   const nameInput = useAgentInputStore.use.nameInput();
   const setNameInput = useAgentInputStore.use.setNameInput();
   const goalInput = useAgentInputStore.use.goalInput();
   const setGoalInput = useAgentInputStore.use.setGoalInput();
-  const [chatInput, setChatInput] = React.useState("");
   const { settings } = useSettings();
 
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const agentUtils = useAgent();
 
-  const nameInputRef = useRef<HTMLInputElement>(null);
+  const goalInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    nameInputRef?.current?.focus();
+    goalInputRef?.current?.focus();
   }, []);
 
   const setAgentRun = (newName: string, newGoal: string) => {
     setNameInput(newName);
     setGoalInput(newGoal);
-    handlePlay(newName, newGoal);
+    handlePlay(newGoal);
   };
 
   const disableStartAgent =
     (agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
-    isEmptyOrBlank(nameInput) ||
     isEmptyOrBlank(goalInput);
 
-  const handlePlay = (name: string, goal: string) => {
+  const handlePlay = (goal: string) => {
     if (agentLifecycle === "stopped") handleRestart();
-    else if (name.trim() === "" || goal.trim() === "") return;
-    else handleNewAgent(name.trim(), goal.trim());
+    else handleNewAgent(goal.trim());
   };
 
-  const handleNewAgent = (name: string, goal: string) => {
+  const handleNewAgent = (goal: string) => {
     if (session === null) {
-      storeAgentDataInLocalStorage(name, goal);
+      storeAgentDataInLocalStorage("", goal);
       setShowSignInDialog(true);
       return;
     }
@@ -87,13 +81,12 @@ const Home: NextPage = () => {
       return;
     }
 
-    const model = new DefaultAgentRunModel(name.trim(), goal.trim());
+    const model = new DefaultAgentRunModel(goal.trim());
     const messageService = new MessageService(addMessage);
     const agentApi = new AgentApi({
       model_settings: toApiModelSettings(settings, session),
-      name: name,
       goal: goal,
-      session,
+      session: session,
       agentUtils: agentUtils,
     });
     const newAgent = new AutonomousAgent(
@@ -127,7 +120,7 @@ const Home: NextPage = () => {
         localStorage.removeItem("agentData");
       }
     }
-  }, [session]);
+  }, [session, setGoalInput, setNameInput]);
 
   const handleRestart = () => {
     resetAllMessageSlices();
@@ -135,26 +128,27 @@ const Home: NextPage = () => {
     resetAllAgentSlices();
   };
 
-  const handleKeyPress = (
-    e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     // Only Enter is pressed, execute the function
     if (e.key === "Enter" && !disableStartAgent && !e.shiftKey) {
-      handlePlay(nameInput, goalInput);
+      handlePlay(goalInput);
     }
   };
 
   return (
-    <DashboardLayout rightSidebar={<TaskSidebar />}>
+    <DashboardLayout
+      onReload={() => {
+        agent?.stopAgent();
+        handleRestart();
+      }}
+    >
       <HelpDialog />
 
       <SignInDialog show={showSignInDialog} setOpen={setShowSignInDialog} />
       <div id="content" className="flex min-h-screen w-full items-center justify-center">
         <div
           id="layout"
-          className={clsx(
-            "relative flex h-screen w-full max-w-screen-md flex-col items-center justify-center gap-5 p-2 pt-10 sm:gap-3 sm:p-4"
-          )}
+          className="relative flex h-screen w-full max-w-screen-md flex-col items-center justify-center gap-5 overflow-hidden p-2 py-10 sm:gap-3 sm:p-4"
         >
           {agent !== null ? (
             <Chat
@@ -170,11 +164,9 @@ const Home: NextPage = () => {
             <Landing
               messages={messages}
               disableStartAgent={disableStartAgent}
-              handlePlay={handlePlay}
+              handlePlay={() => handlePlay(goalInput)}
               handleKeyPress={handleKeyPress}
-              nameInput={nameInput}
-              nameInputRef={nameInputRef}
-              setNameInput={setNameInput}
+              goalInputRef={goalInputRef}
               goalInput={goalInput}
               setGoalInput={setGoalInput}
               setShowSignInDialog={setShowSignInDialog}

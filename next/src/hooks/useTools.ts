@@ -31,10 +31,10 @@ const loadTools = async (key: string) => {
     const obj = z.array(ActiveToolSchema).parse(JSON.parse(data ?? ""));
     activeTools = allTools.tools.map((db_tool) => {
       const tool = obj.find((t) => t.name === db_tool.name);
-      return tool ?? { ...db_tool, active: true };
+      return tool ?? { ...db_tool, active: false };
     });
   } catch (error) {
-    activeTools = allTools.tools.map((toolModel) => ({ ...toolModel, active: true }));
+    activeTools = allTools.tools.map((toolModel) => ({ ...toolModel, active: false }));
   }
 
   return activeTools;

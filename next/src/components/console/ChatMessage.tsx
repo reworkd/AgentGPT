@@ -32,12 +32,16 @@ const ChatMessage = ({ message }: { message: Message }) => {
     }
   };
 
+  if (message.type === MESSAGE_TYPE_GOAL && !isAction(message)) {
+    return <div className="pb-2 text-2xl sm:text-4xl">{message.value}</div>;
+  }
   return (
     <div
       className={clsx(
         getMessageContainerStyle(message),
-        "mx-2 my-1 rounded-lg bg-slate-1 p-2 text-xs shadow-depth-1 hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3",
-        "sm:my-1.5 sm:text-sm"
+        "my-1 mr-2 rounded-lg bg-slate-1 p-2 text-xs shadow-depth-1 hover:border-[#1E88E5]/40 sm:mr-4 sm:p-3",
+        "sm:my-1.5 sm:text-sm",
+        !isAction(message) && "w-fit max-w-full"
       )}
     >
       {message.type !== MESSAGE_TYPE_SYSTEM && !isAction(message) && (
@@ -92,12 +96,10 @@ const FAQ = () => {
 
 // Returns the translation key of the prefix
 const getMessagePrefix = (message: Message) => {
-  if (message.type === MESSAGE_TYPE_GOAL) {
-    return "Embarking on a new goal";
-  } else if (getTaskStatus(message) === TASK_STATUS_STARTED) {
+  if (getTaskStatus(message) === TASK_STATUS_STARTED) {
     return "Task Added:";
   } else if (getTaskStatus(message) === TASK_STATUS_COMPLETED) {
-    return `Executing: ${message.value}`;
+    return message.value;
   } else if (getTaskStatus(message) === TASK_STATUS_FINAL) {
     return `Finished:`;
   }

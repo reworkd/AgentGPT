@@ -3,19 +3,21 @@ from langchain import PromptTemplate
 # Create initial tasks using plan and solve prompting
 # https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting
 start_goal_prompt = PromptTemplate(
-    template="""You are a task creation AI called AgentGPT. You answer in the
-    "{language}" language. You are not a part of any system or device. You first
-    understand the problem, extract relevant variables, and make and devise a
-    complete plan.\n\n You have the following objective "{goal}". Create a list of step
-    by step actions to accomplish the goal. Use at most 4 steps.
+    template="""You are a task creation AI called AgentGPT. 
+You answer in the "{language}" language. You have the following objective "{goal}". 
+Return a list of search queries that would be required to answer the entirety of the objective. 
+Limit the list to a maximum of 5 queries. Ensure the queries are as succinct as possible. 
+For simple questions use a single query.
 
-    Return the response as a formatted array of strings that can be used in JSON.parse()
+Return the response as a JSON array of strings. Examples:
 
-    Examples:
-    ["Search the web for NBA news relating to Stephen Curry", "Write a report on the financial state of Nike"]
-    ["Create a function to add a new vertex with a specified weight to the digraph."]
-    ["Search for any additional information on Bertie W.", "Research the best kentucky fried Chicken recipe"]
-    """,
+query: "Who is considered the best NBA player in the current season?", answer: ["current NBA MVP candidates"]
+query: "How does the Olympicpayroll brand currently stand in the market, and what are its prospects and strategies for expansion in NJ, NY, and PA?", answer: ["Olympicpayroll brand comprehensive analysis 2023", "customer reviews of Olympicpayroll.com", "Olympicpayroll market position analysis", "payroll industry trends forecast 2023-2025", "payroll services expansion strategies in NJ, NY, PA"]
+query: "How can I create a function to add weight to edges in a digraph using {language}?", answer: ["algorithm to add weight to digraph edge in {language}"]
+query: "What is the current weather in New York?", answer: ["current weather in New York"]
+query: "5 + 5?", answer: ["Sum of 5 and 5"]
+query: "What is a good homemade recipe for KFC-style chicken?", answer: ["KFC style chicken recipe at home"]
+query: "What are the nutritional values of almond milk and soy milk?", answer: ["nutritional information of almond milk", "nutritional information of soy milk"]""",
     input_variables=["goal", "language"],
 )
 
@@ -136,18 +138,21 @@ summarize_pdf_prompt = PromptTemplate(
 summarize_with_sources_prompt = PromptTemplate(
     template="""You must answer in the "{language}" language.
 
-    Parse and summarize the following text snippets "{snippets}".
-    Write using clear markdown formatting in a style expected of the goal "{goal}".
-    Be as clear, informative, and descriptive as necessary and attempt to
-    answer the query: "{query}" as best as possible.
+    Answer the following query: "{query}" using the following information: "{snippets}".
+    Write using clear markdown formatting and use markdown lists where possible.
 
-    Cite sources for as many sentences as possible by using the corresponding source link. Use the index as the citation text.
-    Incorporate the source using a markdown link directly at the end of the sentence that the source is used in.
-    Do not separately list sources at the end of the writing.
-
-    Example: "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence."
+    Cite sources for sentences via markdown links using the source link as the link and the index as the text.
+    Use in-line sources. Do not separately list sources at the end of the writing.
+    
+    If the query cannot be answered with the provided information, mention this and provide a reason why along with what it does mention. 
+    Also cite the sources of what is actually mentioned.
+    
+    Example sentences of the paragraph: 
+    "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence."
+    "Stephen curry is an american basketball player that plays for the warriors[1](https://www.britannica.com/biography/Stephen-Curry)."
+    "The economic growth forecast for the region has been adjusted from 2.5% to 3.1% due to improved trade relations[1](https://economictimes.com), while inflation rates are expected to remain steady at around 1.7% according to financial analysts[2](https://financeworld.com)."
     """,
-    input_variables=["goal", "language", "query", "snippets"],
+    input_variables=["language", "query", "snippets"],
 )
 
 summarize_sid_prompt = PromptTemplate(

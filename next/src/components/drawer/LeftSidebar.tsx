@@ -13,7 +13,7 @@ import LinkIconItem from "../sidebar/LinkIconItem";
 import LinkItem from "../sidebar/LinkItem";
 import { PAGE_LINKS, SOCIAL_LINKS } from "../sidebar/links";
 
-const LeftSidebar = ({ show, setShow }: DisplayProps) => {
+const LeftSidebar = ({ show, setShow, onReload }: DisplayProps & { onReload?: () => void }) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [t] = useTranslation("drawer");
@@ -22,6 +22,15 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
     enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
+
+  const navigateToPage = (href: string) => {
+    if (router.pathname === href) {
+      onReload?.();
+      return;
+    }
+
+    void router.push(href);
+  };
 
   return (
     <Sidebar show={show} setShow={setShow} side="left" className="border-slate-6s border-r">
@@ -42,6 +51,12 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
           <FaBars size="12" className="z-20 m-2 text-slate-11" />
         </button>
       </div>
+      <button
+        className="mb-4 rounded-md bg-slate-1 p-1 shadow-depth-1 hover:bg-slate-2"
+        onClick={() => navigateToPage("/")}
+      >
+        New Agent
+      </button>
       <div className="mb-2 mr-2 flex-1 overflow-y-auto overflow-x-hidden overflow-ellipsis">
         {status === "unauthenticated" && (
           <div className="p-1 text-sm text-slate-12">
@@ -78,17 +93,12 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
       <ul role="list" className="flex flex-col">
         <ul className="mb-2">
           <div className="mb-2 ml-2 text-xs font-semibold text-slate-10">Pages</div>
-          {PAGE_LINKS.filter((link) =>
-            typeof link.enabled === "boolean" ? link.enabled : link.enabled(session?.user)
-          ).map((link, i) => (
+          {PAGE_LINKS.map((link, i) => (
             <LinkItem
               key={i}
               title={link.name}
               href={link.href}
-              badge={link.badge}
-              onClick={() => {
-                void router.push(link.href);
-              }}
+              onClick={() => navigateToPage(link.href)}
             >
               <link.icon className={link.className} />
             </LinkItem>

@@ -26,12 +26,6 @@ export class MessageService {
     return message;
   };
 
-  startTaskMessage = (task: Task) =>
-    this.sendMessage({
-      type: "system",
-      value: `✨ Starting task: ${task.value}`,
-    });
-
   skipTaskMessage = (task: Task) =>
     this.sendMessage({
       type: "system",
@@ -47,18 +41,6 @@ export class MessageService {
     });
 
   sendGoalMessage = (goal: string) => this.sendMessage({ type: MESSAGE_TYPE_GOAL, value: goal });
-
-  sendManualShutdownMessage = () =>
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("AGENT_MANUALLY_SHUT_DOWN", "errors"),
-    });
-
-  sendCompletedMessage = () =>
-    this.sendMessage({
-      type: MESSAGE_TYPE_SYSTEM,
-      value: translate("ALL_TASKS_COMPLETETD", "errors"),
-    });
 
   sendAnalysisMessage = (analysis: Analysis) => {
     let message = "⏰ Generating response...";

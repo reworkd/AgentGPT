@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
-import React from "react";
-import { FaCog, FaPlay, FaRobot, FaStar } from "react-icons/fa";
+import type { KeyboardEvent, RefObject } from "react";
+import { useState } from "react";
+import { FaCog, FaPlay, FaStar } from "react-icons/fa";
 
 import { useAgentStore } from "../../stores";
 import type { Message } from "../../types/message";
@@ -15,20 +16,16 @@ import Input from "../Input";
 type LandingProps = {
   messages: Message[];
   disableStartAgent: boolean;
-  handlePlay: (name: string, goal: string) => void;
-  handleKeyPress: (
-    e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>
-  ) => void;
-  nameInput: string;
-  nameInputRef: React.RefObject<HTMLInputElement>;
-  setNameInput: (string) => void;
+  handlePlay: () => void;
+  handleKeyPress: (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  goalInputRef: RefObject<HTMLInputElement>;
   goalInput: string;
   setGoalInput: (string) => void;
   setShowSignInDialog: (boolean) => void;
   setAgentRun: (newName: string, newGoal: string) => void;
 };
 const Landing = (props: LandingProps) => {
-  const [showToolsDialog, setShowToolsDialog] = React.useState(false);
+  const [showToolsDialog, setShowToolsDialog] = useState(false);
 
   const { t } = useTranslation("indexPage");
   const agent = useAgentStore.use.agent();
@@ -44,7 +41,7 @@ const Landing = (props: LandingProps) => {
       >
         <AppTitle />
       </motion.div>
-      <div className="absolute left-0 right-0 m-auto grid place-items-center opacity-40">
+      <div className="absolute left-0 right-0 m-auto grid place-items-center overflow-hidden opacity-40">
         <Globe />
       </div>
       <motion.div
@@ -59,53 +56,36 @@ const Landing = (props: LandingProps) => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.75, delay: 0.5, type: "easeInOut" }}
-        className="z-10 flex w-full flex-col gap-2"
+        className="z-10 flex w-full flex-col gap-6"
       >
-        <div className="flex w-full flex-row items-end gap-2 md:items-center">
-          <Input
-            inputRef={props.nameInputRef}
-            left={
-              <>
-                <FaRobot />
-                <span className="ml-2">{`${t("AGENT_NAME")}`}</span>
-              </>
-            }
-            value={props.nameInput}
-            disabled={agent != null}
-            onChange={(e) => props.setNameInput(e.target.value)}
-            onKeyDown={(e) => props.handleKeyPress(e)}
-            placeholder="AgentGPT"
-            type="text"
-          />
+        <Input
+          inputRef={props.goalInputRef}
+          left={
+            <>
+              <FaStar />
+              <span className="ml-2">{`${t("LABEL_AGENT_GOAL")}`}</span>
+            </>
+          }
+          disabled={agent != null}
+          value={props.goalInput}
+          onChange={(e) => props.setGoalInput(e.target.value)}
+          onKeyDown={props.handleKeyPress}
+          placeholder={`${t("PLACEHOLDER_AGENT_GOAL")}`}
+          type="textarea"
+        />
+
+        <div className="flex w-full flex-row items-center justify-center gap-3">
           <Button
             ping
             onClick={() => setShowToolsDialog(true)}
-            className="h-full bg-gradient-to-t from-amber-500 to-amber-600 transition-all hover:bg-gradient-to-t hover:from-amber-400 hover:to-amber-600"
+            className="h-full bg-gradient-to-t from-slate-9 to-slate-12 hover:shadow-depth-3"
           >
-            <p className="mr-3">Tools</p>
             <FaCog />
           </Button>
-        </div>
-        <div className="flex w-full flex-row items-end gap-2 md:items-center">
-          <Input
-            left={
-              <>
-                <FaStar />
-                <span className="ml-2">{`${t("LABEL_AGENT_GOAL")}`}</span>
-              </>
-            }
-            disabled={agent != null}
-            value={props.goalInput}
-            onChange={(e) => props.setGoalInput(e.target.value)}
-            onKeyDown={(e) => props.handleKeyPress(e)}
-            placeholder={`${t("PLACEHOLDER_AGENT_GOAL")}`}
-            type="textarea"
-          />
           <Button
-            onClick={() => props.handlePlay(props.nameInput, props.goalInput)}
-            className="h-full"
+            onClick={props.handlePlay}
+            className="border-0 bg-gradient-to-t from-[#02FCF1] to-[#A02BFE] subpixel-antialiased saturate-[75%] hover:saturate-100"
           >
-            <p className="mr-5">Play</p>
             <FaPlay />
           </Button>
         </div>

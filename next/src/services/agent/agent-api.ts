@@ -8,7 +8,6 @@ import type { RequestBody } from "../../utils/interfaces";
 import * as apiUtils from "../api-utils";
 
 type ApiProps = Pick<RequestBody, "model_settings" | "goal"> & {
-  name: string;
   session?: Session;
   agentUtils: AgentUtils;
 };
@@ -25,7 +24,6 @@ export class AgentApi {
   async createAgent(): Promise<void> {
     if (this.agentId) return;
     const agent = await this.props.agentUtils.createAgent({
-      name: this.props.name,
       goal: this.props.goal,
     });
     this.agentId = agent?.id;

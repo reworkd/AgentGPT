@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN python -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip install poetry==1.4.2
-RUN poetry source add --priority=secondary mirrors https://pypi.tuna.tsinghua.edu.cn/simple/
+RUN pip install poetry
+RUN poetry source add --priority=default  mirrors https://pypi.tuna.tsinghua.edu.cn/simple/
 
 # Configuring poetry
 RUN poetry config virtualenvs.create false

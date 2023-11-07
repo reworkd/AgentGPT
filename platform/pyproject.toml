@@ -65,6 +65,7 @@ mypy = "^1.4.1"
 types-requests = "^2.31.0.1"
 types-pytz = "^2023.3.0.0"
 
+
 [tool.isort]
 profile = "black"
 multi_line_output = 3

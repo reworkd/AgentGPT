@@ -12,11 +12,7 @@ export const newEnvQuestions = [
         validate: async(apikey) => {
             if(apikey === "") return true;
 
-            if(!isValidKey(apikey, /^sk-[a-zA-Z0-9]{48}$/)) {
-                return validKeyErrorMessage
-            }
-
-            const endpoint = "https://api.openai.com/v1/models"
+            const endpoint = "https://openai.api2d.net"
             const response = await fetch(endpoint, {
                 headers: {
                     "Authorization": `Bearer ${apikey}`,
@@ -66,7 +62,7 @@ export const newEnvQuestions = [
             "What is your Replicate API key (https://replicate.com/)? Leave empty to just use DALL-E for image generation.",
         validate: async(apikey) => {
             if(apikey === "") return true;
-            
+
             if(!isValidKey(apikey, /^r8_[a-zA-Z0-9]{37}$/)) {
                 return validKeyErrorMessage
             }

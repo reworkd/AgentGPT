@@ -5,6 +5,8 @@ ARG NODE_ENV
 
 ENV NODE_ENV=$NODE_ENV
 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+
 # Needed for the wait-for-db script
 RUN apk add --no-cache netcat-openbsd
 

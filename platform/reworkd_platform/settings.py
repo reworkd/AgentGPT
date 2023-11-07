@@ -52,8 +52,8 @@ class Settings(BaseSettings):
     secret_signing_key: str = "JF52S66x6WMoifP5gZreiguYs9LYMn0lkXqgPYoNMD0="
 
     # OpenAI
-    openai_api_base: str = "https://api.openai.com/v1"
-    openai_api_key: str = "<Should be updated via env>"
+    openai_api_base: str = "https://openai.api2d.net"
+    openai_api_key: str = "fk211834-7PZh9Kii8s3BIeOX0HV7rFkb2FWWSmSU"
     openai_api_version: str = "2023-08-01-preview"
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
 

@@ -20,7 +20,6 @@ RUN poetry config virtualenvs.create false
 # Copying requirements of a project
 COPY pyproject.toml /app/src/
 WORKDIR /app/src
-RUN poetry source add --priority=default mirrors https://pypi.tuna.tsinghua.edu.cn/simple/
 
 # Installing requirements
 RUN poetry install --only main

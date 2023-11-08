@@ -33,6 +33,7 @@ services:
       REWORKD_PLATFORM_DB_USER: "reworkd_platform"
       REWORKD_PLATFORM_DB_PASS: "reworkd_platform"
       REWORKD_PLATFORM_DB_BASE: "reworkd_platform"
+      OPENAI_PROXY: "http://localhost:20172"
     depends_on:
       - agentgpt_db
 

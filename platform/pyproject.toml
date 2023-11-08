@@ -66,6 +66,12 @@ types-requests = "^2.31.0.1"
 types-pytz = "^2023.3.0.0"
 
 
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
+
 [tool.isort]
 profile = "black"
 multi_line_output = 3
@@ -99,3 +105,4 @@ env = [
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+

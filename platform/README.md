@@ -10,6 +10,7 @@ tool.
 To run the project use this set of commands:
 
 ```bash
+poetry config virtualenvs.in-project true
 poetry install
 poetry run python -m reworkd_platform
 ```

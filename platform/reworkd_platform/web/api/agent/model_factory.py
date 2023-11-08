@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional, Tuple, Type, Union
 
-from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
+from langchain.chat_models import AzureChatOpenAI, ChatOpenAI, QianfanChatEndpoint
 from pydantic import Field
 
 from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
@@ -15,6 +15,14 @@ class WrappedChatOpenAI(ChatOpenAI):
     )
     max_tokens: int
     model_name: LLM_Model = Field(alias="model")
+
+class WrappedQianfanChatEndpoint(QianfanChatEndpoint, WrappedChatOpenAI):
+    """QianfanChatEndpoint with WrappedChatOpenAI
+    """
+    endpoint: str
+    qianfan_ak: str
+    qianfan_sk: str
+    model: str
 
 
 class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
@@ -60,7 +68,7 @@ def create_model(
                 "deployment_name": deployment_name,
                 "openai_api_type": "azure",
                 "openai_api_base": base.rstrip("v1"),
-            }
+            },
         )
 
         if use_helicone:
@@ -70,7 +78,7 @@ def create_model(
 
 
 def get_base_and_headers(
-    settings_: Settings, model_settings: ModelSettings, user: UserBase
+    settings_: Settings, model_settings: ModelSettings, user: UserBase,
 ) -> Tuple[str, Optional[Dict[str, str]], bool]:
     use_helicone = settings_.helicone_enabled and not model_settings.custom_api_key
     base = (

@@ -12,8 +12,8 @@ export const newEnvQuestions = [
         validate: async(apikey) => {
             if(apikey === "") return true;
 
-            const endpoint = "https://openai.api2d.net/v1"
-            //const endpoint = "https://openai.api2d.net/v1"
+            const endpoint = "https://openai.jinniuai.com/openai/v1"
+            //const endpoint = "https://openai.jinniuai.com/openai/v1"
             const response = await fetch(endpoint, {
                 headers: {
                     "Authorization": `Bearer ${apikey}`,

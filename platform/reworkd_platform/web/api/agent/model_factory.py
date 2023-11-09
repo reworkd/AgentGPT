@@ -85,8 +85,8 @@ def get_base_and_headers(
         settings_.helicone_api_base
         if use_helicone
         else (
-            "https://openai.api2d.net/v1"
-            #"https://openai.api2d.net/v1"
+            "https://openai.jinniuai.com/openai/v1"
+            #"https://openai.jinniuai.com/openai/v1"
             if model_settings.custom_api_key
             else settings_.openai_api_base
         )

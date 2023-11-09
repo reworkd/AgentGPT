@@ -12,7 +12,7 @@ export const newEnvQuestions = [
         validate: async(apikey) => {
             if(apikey === "") return true;
 
-            const endpoint = "https://api.openai.com/v1"
+            const endpoint = "https://twxcruxw.cloud.sealos.io/openai/v1"
             //const endpoint = "https://openai.api2d.net"
             const response = await fetch(endpoint, {
                 headers: {

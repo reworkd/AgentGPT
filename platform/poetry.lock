@@ -441,17 +441,17 @@ reference = "mirrors"
 
 [[package]]
 name = "boto3"
-version = "1.28.80"
+version = "1.28.82"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.7"
 files = [
-    {file = "boto3-1.28.80-py3-none-any.whl", hash = "sha256:2f43e032ab804a3c39996d524003d2b906e5d86856a32da3427e36912a22d2b7"},
-    {file = "boto3-1.28.80.tar.gz", hash = "sha256:c48c6e04e43f894881b883a28fd032f16805f6cb2771b85f0c97f3fe34db0a41"},
+    {file = "boto3-1.28.82-py3-none-any.whl", hash = "sha256:bb8ecd6f86289ceaed566eefc0ce8ac66a85e5954aef115ed4ac602cbe61f101"},
+    {file = "boto3-1.28.82.tar.gz", hash = "sha256:ae1352d0193aaf90c47d6e57ab054b0b1fabf0fbbe9f51eefec431bf2c3e18f4"},
 ]
 
 [package.dependencies]
-botocore = ">=1.31.80,<1.32.0"
+botocore = ">=1.31.82,<1.32.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.7.0,<0.8.0"
 
@@ -465,13 +465,13 @@ reference = "mirrors"
 
 [[package]]
 name = "botocore"
-version = "1.31.80"
+version = "1.31.82"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.7"
 files = [
-    {file = "botocore-1.31.80-py3-none-any.whl", hash = "sha256:1c693c0f8b2553fcbe0df223241191e6f9f60b4245d65c1822c08f659274fef2"},
-    {file = "botocore-1.31.80.tar.gz", hash = "sha256:d43fe303530c12efca9be4ec3a9104e8a669f11d1ba9feb18f0284d751a9672c"},
+    {file = "botocore-1.31.82-py3-none-any.whl", hash = "sha256:5f213229348433d0b7b6aac2d9ae2fdd15c4ff9f38c30ea072f5b300bf6c1dcb"},
+    {file = "botocore-1.31.82.tar.gz", hash = "sha256:9d7d8de1789b1ed37b86a2b0a4fcff9fac91deef0548461d411e1626f68ca70c"},
 ]
 
 [package.dependencies]
@@ -1837,13 +1837,13 @@ reference = "mirrors"
 
 [[package]]
 name = "langchain"
-version = "0.0.331"
+version = "0.0.332"
 description = "Building applications with LLMs through composability"
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "langchain-0.0.331-py3-none-any.whl", hash = "sha256:64e6e1a57b8deafc1c4e914820b2b8e22a5eed60d49432cadc3b8cca9d613694"},
-    {file = "langchain-0.0.331.tar.gz", hash = "sha256:b1ac365faf7fe413d5aa38329f70f23589ed07152c1a1398a5f16319eb32beb6"},
+    {file = "langchain-0.0.332-py3-none-any.whl", hash = "sha256:4cbf183b8a385483907192efea2f55d34c0f0c441b0a02f41af1eeec4526677c"},
+    {file = "langchain-0.0.332.tar.gz", hash = "sha256:8356b6c0073680d66d5ee2d9e54c23c90198ee74ab2431a0256934a69a511c1f"},
 ]
 
 [package.dependencies]
@@ -1881,17 +1881,18 @@ reference = "mirrors"
 
 [[package]]
 name = "langsmith"
-version = "0.0.60"
+version = "0.0.62"
 description = "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "langsmith-0.0.60-py3-none-any.whl", hash = "sha256:94f9ef9898fa5fb5afed72538bb3ccca9a92a841b37654d699c732a76c623379"},
-    {file = "langsmith-0.0.60.tar.gz", hash = "sha256:f63513398d8d4530e3aa552926924c8443ac9d21c3812f303fa20fa2c44a9a42"},
+    {file = "langsmith-0.0.62-py3-none-any.whl", hash = "sha256:d50fe00eee06001ac5f705d4ff09c6b4a2f20688d57de5fbd6974a510da672fa"},
+    {file = "langsmith-0.0.62.tar.gz", hash = "sha256:196b16bea6856a83c8d95f3f709beebc6c72ea82c113021d3f62ac7cbde51bfe"},
 ]
 
 [package.dependencies]
 pydantic = ">=1,<3"
+pytest-subtests = ">=0.11.0,<0.12.0"
 requests = ">=2,<3"
 
 [package.source]
@@ -2704,6 +2705,26 @@ pytest = ">=5.0"
 
 [package.extras]
 dev = ["pre-commit", "pytest-asyncio", "tox"]
+
+[package.source]
+type = "legacy"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "mirrors"
+
+[[package]]
+name = "pytest-subtests"
+version = "0.11.0"
+description = "unittest subTest() support and subtests fixture"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest-subtests-0.11.0.tar.gz", hash = "sha256:51865c88457545f51fb72011942f0a3c6901ee9e24cbfb6d1b9dc1348bafbe37"},
+    {file = "pytest_subtests-0.11.0-py3-none-any.whl", hash = "sha256:453389984952eec85ab0ce0c4f026337153df79587048271c7fd0f49119c07e4"},
+]
+
+[package.dependencies]
+attrs = ">=19.2.0"
+pytest = ">=7.0"
 
 [package.source]
 type = "legacy"

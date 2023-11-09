@@ -9,6 +9,8 @@ from reworkd_platform.settings import Settings
 
 
 class WrappedChatOpenAI(ChatOpenAI):
+    """ChatOpenAI with client field.
+    """
     client: Any = Field(
         default=None,
         description="Meta private value but mypy will complain its missing",
@@ -26,6 +28,8 @@ class WrappedQianfanChatEndpoint(QianfanChatEndpoint, WrappedChatOpenAI):
 
 
 class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
+    """AzureChatOpenAI with WrappedChatOpenAI
+    """
     openai_api_base: str
     openai_api_version: str
     deployment_name: str
@@ -41,6 +45,21 @@ def create_model(
     streaming: bool = False,
     force_model: Optional[LLM_Model] = None,
 ) -> WrappedChat:
+    """
+    创建聊天模型。
+
+    参数：
+    - settings: 设置参数
+    - model_settings: 模型设置参数
+    - user: 用户参数
+    - streaming: 是否开启流式处理，默认为False
+    - force_model: 强制使用的模型，默认为None
+
+    返回：
+    - WrappedChat: 聊天模型对象
+
+    """
+
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
     )
@@ -86,7 +105,6 @@ def get_base_and_headers(
         if use_helicone
         else (
             "https://openai.jinniuai.com/openai/v1"
-            #"https://openai.jinniuai.com/openai/v1"
             if model_settings.custom_api_key
             else settings_.openai_api_base
         )

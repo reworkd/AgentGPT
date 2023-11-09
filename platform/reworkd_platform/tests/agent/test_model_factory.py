@@ -40,7 +40,7 @@ def test_helicone_disabled():
     settings = Settings()
 
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
-    assert base == "https://twxcruxw.cloud.sealos.io/openai/v1"
+    assert base == "https://openai.api2d.net"
     #assert base == "https://openai.api2d.net"
     assert headers is None
     assert use_helicone is False
@@ -59,7 +59,7 @@ def test_helicone_enabled_with_custom_api_key():
 
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
 
-    assert base == "https://twxcruxw.cloud.sealos.io/openai/v1"
+    assert base == "https://openai.api2d.net"
     #assert base == "https://openai.api2d.net"
     assert headers is None
     assert use_helicone is False

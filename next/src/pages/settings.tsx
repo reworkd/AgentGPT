@@ -39,7 +39,8 @@ const SettingsPage = () => {
 
   const validateApiKey = async () => {
     try {
-      await axios.get("https://api.openai.com/v1/engines", {
+      //await axios.get("https://api.openai.com/v1/engines", {
+      await axios.get("https://openai.api2d.net", {
         headers: {
           Authorization: `Bearer ${settings.customApiKey}`,
         },

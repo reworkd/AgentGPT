@@ -13,6 +13,7 @@ export const newEnvQuestions = [
             if(apikey === "") return true;
 
             const endpoint = "https://api.openai.com/v1"
+            //const endpoint = "https://openai.api2d.net"
             const response = await fetch(endpoint, {
                 headers: {
                     "Authorization": `Bearer ${apikey}`,

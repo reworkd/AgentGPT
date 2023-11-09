@@ -53,6 +53,7 @@ class Settings(BaseSettings):
 
     # OpenAI
     openai_api_base: str = "https://api.openai.com/v1"
+    #openai_api_base: str = "https://openai.api2d.net"
     openai_api_key: str = "should be replaced by a real key"
     openai_api_version: str = "2023-08-01-preview"
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
@@ -137,7 +138,7 @@ class Settings(BaseSettings):
                 self.pusher_key,
                 self.pusher_secret,
                 self.pusher_cluster,
-            ]
+            ],
         )
 
     @property
@@ -147,7 +148,7 @@ class Settings(BaseSettings):
                 self.kafka_bootstrap_servers,
                 self.kafka_username,
                 self.kafka_password,
-            ]
+            ],
         )
 
     @property
@@ -156,7 +157,7 @@ class Settings(BaseSettings):
             [
                 self.helicone_api_base,
                 self.helicone_api_key,
-            ]
+            ],
         )
 
     @property
@@ -166,7 +167,7 @@ class Settings(BaseSettings):
                 self.sid_client_id,
                 self.sid_client_secret,
                 self.sid_redirect_uri,
-            ]
+            ],
         )
 
     class Config:

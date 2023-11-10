@@ -55,9 +55,9 @@ class Settings(BaseSettings):
     openai_api_base: str = "https://api.openai.com/v1"
     #openai_api_base: str = "https://api.openai.com/v1"
     openai_api_key: str = "should be replaced by a real key"
-    openai_proxy: str = ""
     openai_api_version: str = "2023-08-01-preview"
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
+    openai_proxy: Optional[str] = None
 
     # Helicone
     helicone_api_base: str = "https://oai.hconeai.com/v1"

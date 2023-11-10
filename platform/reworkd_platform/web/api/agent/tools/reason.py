@@ -2,7 +2,7 @@ from typing import Any
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
-from langchain import LLMChain
+from langchain.chains import LLMChain
 
 from reworkd_platform.web.api.agent.tools.tool import Tool
 

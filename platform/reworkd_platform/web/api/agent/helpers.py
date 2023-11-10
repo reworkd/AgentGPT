@@ -1,6 +1,8 @@
 from typing import Any, Callable, Dict, TypeVar
+from loguru import logger
 
-from langchain import BasePromptTemplate, LLMChain
+from langchain.chains import LLMChain
+from langchain.prompts import BasePromptTemplate
 from langchain.chat_models.base import BaseChatModel
 from langchain.schema import BaseOutputParser, OutputParserException
 from openai.error import (
@@ -72,5 +74,6 @@ async def call_model_with_handling(
     settings: ModelSettings,
     **kwargs: Any,
 ) -> str:
+    logger.info(f"proxy settings:{model.openai_proxy}")
     chain = LLMChain(llm=model, prompt=prompt)
     return await openai_error_handler(chain.arun, args, settings=settings, **kwargs)

@@ -1,12 +1,12 @@
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 
 # Create initial tasks using plan and solve prompting
 # https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting
 start_goal_prompt = PromptTemplate(
-    template="""You are a task creation AI called AgentGPT. 
-You answer in the "{language}" language. You have the following objective "{goal}". 
-Return a list of search queries that would be required to answer the entirety of the objective. 
-Limit the list to a maximum of 5 queries. Ensure the queries are as succinct as possible. 
+    template="""You are a task creation AI called AgentGPT.
+You answer in the "{language}" language. You have the following objective "{goal}".
+Return a list of search queries that would be required to answer the entirety of the objective.
+Limit the list to a maximum of 5 queries. Ensure the queries are as succinct as possible.
 For simple questions use a single query.
 
 Return the response as a JSON array of strings. Examples:
@@ -143,11 +143,11 @@ summarize_with_sources_prompt = PromptTemplate(
 
     Cite sources for sentences via markdown links using the source link as the link and the index as the text.
     Use in-line sources. Do not separately list sources at the end of the writing.
-    
-    If the query cannot be answered with the provided information, mention this and provide a reason why along with what it does mention. 
+
+    If the query cannot be answered with the provided information, mention this and provide a reason why along with what it does mention.
     Also cite the sources of what is actually mentioned.
-    
-    Example sentences of the paragraph: 
+
+    Example sentences of the paragraph:
     "So this is a cited sentence at the end of a paragraph[1](https://test.com). This is another sentence."
     "Stephen curry is an american basketball player that plays for the warriors[1](https://www.britannica.com/biography/Stephen-Curry)."
     "The economic growth forecast for the region has been adjusted from 2.5% to 3.1% due to improved trade relations[1](https://economictimes.com), while inflation rates are expected to remain steady at around 1.7% according to financial analysts[2](https://financeworld.com)."

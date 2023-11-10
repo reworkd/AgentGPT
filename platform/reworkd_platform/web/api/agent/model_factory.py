@@ -1,4 +1,5 @@
 from typing import Any, Dict, Optional, Tuple, Type, Union
+from loguru import logger
 
 from langchain.chat_models import AzureChatOpenAI, ChatOpenAI, QianfanChatEndpoint
 from pydantic import Field
@@ -17,6 +18,7 @@ class WrappedChatOpenAI(ChatOpenAI):
     )
     max_tokens: int
     model_name: LLM_Model = Field(alias="model")
+    openai_proxy: str = Field(default=None)
 
 class WrappedQianfanChatEndpoint(QianfanChatEndpoint, WrappedChatOpenAI):
     """QianfanChatEndpoint with WrappedChatOpenAI
@@ -76,6 +78,7 @@ def create_model(
         "streaming": streaming,
         "max_retries": 5,
         "model_kwargs": {"user": user.email, "headers": headers},
+        "openai_proxy": {"http": "socks5://127.0.0.1:1080", "https": "socks5://127.0.0.1:1080"},
     }
 
     if use_azure:
@@ -92,6 +95,7 @@ def create_model(
 
         if use_helicone:
             kwargs["model"] = deployment_name
+    logger.info(f"Creating model with kwargs: {kwargs}")
 
     return model(**kwargs)  # type: ignore
 

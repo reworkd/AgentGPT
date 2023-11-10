@@ -77,7 +77,7 @@ def create_model(
         "streaming": streaming,
         "max_retries": 5,
         "model_kwargs": {"user": user.email, "headers": headers},
-        #"openai_proxy": {"http": "socks5://127.0.0.1:1080", "https": "socks5://127.0.0.1:1080"},
+        "openai_proxy": settings.openai_proxy,
     }
 
     if use_azure:
@@ -94,7 +94,6 @@ def create_model(
 
         if use_helicone:
             kwargs["model"] = deployment_name
-    logger.info(f"Creating model with kwargs: {kwargs}")
 
     return model(**kwargs)  # type: ignore
 

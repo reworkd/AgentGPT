@@ -2,6 +2,7 @@ import crypto from "crypto";
 import fs from "fs";
 import chalk from "chalk";
 
+
 export const generateEnv = (envValues) => {
   let isDockerCompose = envValues.runOption === "docker-compose";
   let dbPort = isDockerCompose ? 3307 : 3306;
@@ -51,8 +52,7 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
       REWORKD_PLATFORM_FRONTEND_URL: "http://localhost:3000",
       REWORKD_PLATFORM_RELOAD: true,
       REWORKD_PLATFORM_OPENAI_API_BASE: "https://api.openai.com/v1",
-      REWORKD_PLATFORM_HTTP_PROXY: envValues.httpProxy || '""',
-      REWORKD_PLATFORM_HTTPS_PROXY: envValues.httpProxy || '""',
+      REWORKD_PLATFORM_OPENAI_PROXY: envValues.openaiProxy || process.env.OPENAI_PROXY || "",
       REWORKD_PLATFORM_SERP_API_KEY: envValues.serpApiKey || '""',
       REWORKD_PLATFORM_REPLICATE_API_KEY: envValues.replicateApiKey || '""',
 

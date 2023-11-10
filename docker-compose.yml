@@ -25,7 +25,7 @@ services:
     volumes:
     - ./platform:/app/src/
     env_file:
-    - next/.env
+    - next/src/.env
     environment:
       REWORKD_PLATFORM_HOST: 0.0.0.0
       REWORKD_PLATFORM_DB_HOST: agentgpt_db

@@ -1,6 +1,9 @@
 import { isValidKey, validKeyErrorMessage } from "../helpers.js";
 import { RUN_OPTION_QUESTION } from "./sharedQuestions.js";
 import fetch from "node-fetch";
+import { ProxyAgent  } from 'proxy-agent';
+
+const proxyAgent = new ProxyAgent();
 
 export const newEnvQuestions = [
     RUN_OPTION_QUESTION,
@@ -12,12 +15,12 @@ export const newEnvQuestions = [
         validate: async(apikey) => {
             if(apikey === "") return true;
 
-            const endpoint = "https://openai.jinniuai.com/openai/v1"
-            //const endpoint = "https://openai.jinniuai.com/openai/v1"
+            const endpoint = "https://api.openai.com/v1/engines"
             const response = await fetch(endpoint, {
                 headers: {
                     "Authorization": `Bearer ${apikey}`,
                 },
+                agent: proxyAgent,
             });
             if(!response.ok) {
                 return validKeyErrorMessage
@@ -47,7 +50,8 @@ export const newEnvQuestions = [
                 },
                 body: JSON.stringify({
                     "q": "apple inc"
-                }),
+                },),
+                agent: proxyAgent,
             });
             if(!response.ok) {
                 return validKeyErrorMessage
@@ -73,6 +77,7 @@ export const newEnvQuestions = [
                 headers: {
                     "Authorization": `Token ${apikey}`,
                 },
+                agent: proxyAgent,
             });
             if(!response.ok) {
                 return validKeyErrorMessage

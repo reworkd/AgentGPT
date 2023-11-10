@@ -40,8 +40,8 @@ def test_helicone_disabled():
     settings = Settings()
 
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
-    assert base == "https://openai.jinniuai.com/openai/v1"
-    #assert base == "https://openai.jinniuai.com/openai/v1"
+    assert base == "https://api.openai.com/v1"
+    #assert base == "https://api.openai.com/v1"
     assert headers is None
     assert use_helicone is False
 
@@ -59,8 +59,8 @@ def test_helicone_enabled_with_custom_api_key():
 
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
 
-    assert base == "https://openai.jinniuai.com/openai/v1"
-    #assert base == "https://openai.jinniuai.com/openai/v1"
+    assert base == "https://api.openai.com/v1"
+    #assert base == "https://api.openai.com/v1"
     assert headers is None
     assert use_helicone is False
 

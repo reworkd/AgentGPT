@@ -50,9 +50,12 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
         envValues.OpenAIApiKey || '"<change me>"',
       REWORKD_PLATFORM_FRONTEND_URL: "http://localhost:3000",
       REWORKD_PLATFORM_RELOAD: true,
-      REWORKD_PLATFORM_OPENAI_API_BASE: "https://openai.jinniuai.com/openai/v1",
+      REWORKD_PLATFORM_OPENAI_API_BASE: "https://api.openai.com/v1",
+      REWORKD_PLATFORM_HTTP_PROXY: envValues.httpProxy || '""',
+      REWORKD_PLATFORM_HTTPS_PROXY: envValues.httpProxy || '""',
       REWORKD_PLATFORM_SERP_API_KEY: envValues.serpApiKey || '""',
       REWORKD_PLATFORM_REPLICATE_API_KEY: envValues.replicateApiKey || '""',
+
     },
     "Database (Backend)": {
       REWORKD_PLATFORM_DATABASE_USER: "reworkd_platform",

@@ -75,19 +75,6 @@ export default function NavBar() {
                 </div>
               </div>
               <div className="hidden justify-end gap-2 xmd:flex sm:items-center lg:flex-1">
-                <TextButton
-                  onClick={() => {
-                    router.push("https://agentgpt.reworkd.ai/").catch(console.error);
-                  }}
-                >
-                  <>
-                    <span>Try demo</span>
-                    <FaChevronRight
-                      size="12"
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </>
-                </TextButton>
                 <GlowWrapper className="opacity-40">
                   <PrimaryButton
                     onClick={() => {

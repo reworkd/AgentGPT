@@ -88,18 +88,16 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
             <h1 className="resend-font-effect-hero bg-gradient-to-br from-white to-white/30 bg-clip-text pb-2 text-center text-5xl font-normal tracking-[.09rem] text-transparent md:text-left md:text-5xl lg:text-6xl xl:text-7xl">
               <div>
                 <span className="bg-gradient-to-r from-[#1E26FF] to-[#FF04FF] bg-clip-text text-transparent">
-                  AI
+                  Web Extraction
                 </span>{" "}
                 <span className="bg-gradient-to-r from-white to-transparent bg-clip-text text-transparent">
-                  Agents at
+                  At Your Fingertips.
                   <br />
-                  Your Fingertips.
                 </span>
               </div>
             </h1>
             <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-[400] leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
-              Leverage AI Agents to automate the workflows you once spent countless human hours on.
-              Experience a new way of working.
+              Optimize web scraping with AI that generates and repairs scraping code, adapting to website changes. Scale your data extraction effortlessly.
             </p>
           </div>
 
@@ -162,19 +160,6 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
                 </>
               </PrimaryButton>
             </GlowWrapper>
-            <TextButton
-              onClick={() => {
-                router.push("https://agentgpt.reworkd.ai/").catch(console.error);
-              }}
-            >
-              <>
-                <span className="py-2">Try demo</span>
-                <FaChevronRight
-                  size="12"
-                  className="text-gray-400 transition-transform group-hover:translate-x-1"
-                />
-              </>
-            </TextButton>
           </div>
         </div>
       </div>
@@ -184,24 +169,34 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
 
 const roles = [
   {
-    title: "Web Navigator",
-    subtitle: "List competitor products",
+    title: "Manufacturing",
+    subtitle: "Collect product data",
     icon: <PurpleHeroIcon />,
   },
   {
-    title: "Marketer",
-    subtitle: "Create new campaigns",
+    title: "E-commerce",
+    subtitle: "Get competitor prices",
     icon: <OrangeHeroIcon />,
   },
   {
-    title: "Validator",
-    subtitle: "Ensure data compliancy",
+    title: "Recruiting",
+    subtitle: "Scrape job postings",
     icon: <GreenHeroIcon />,
   },
   {
-    title: "Analyzer",
-    subtitle: "Analyze company metrics",
+    title: "Lead Generation",
+    subtitle: "Assemble prospect list",
+    icon: <PurpleHeroIcon />,
+  },
+  {
+    title: "Real Estate",
+    subtitle: "Get property listings",
     icon: <BlueHeroIcon />,
+  },
+  {
+    title: "Media",
+    subtitle: "Get News & Article data",
+    icon: <OrangeHeroIcon />,
   },
 ];
 

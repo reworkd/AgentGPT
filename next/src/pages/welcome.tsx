@@ -59,8 +59,7 @@ const welcome = () => {
         </FadeIn>
         <FadeIn duration={2.85} delay={0.6} initialY={-40}>
           <p className="mb-8 max-w-lg text-center font-light text-neutral-500">
-            Leverage AI Agents to automate the workflows you once spent countless human hours on.
-            Experience a new way of working.
+            Optimize web scraping with AI Agents that auto-generates, repairs scripts, and ensures uninterrupted data retrieval. Scale your data extraction effortlessly.
           </p>
         </FadeIn>
         <FadeIn duration={2.7} delay={0.75} initialY={-40}>

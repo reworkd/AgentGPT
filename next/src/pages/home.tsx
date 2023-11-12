@@ -16,7 +16,7 @@ const HomePage = () => {
         ogTitle="Automate core business workflows with the help of AI Agents"
       />
       <div className="absolute -z-50  h-full w-full bg-black" />
-      <Image src="/stars.svg" alt="stars" fill className="absolute z-40 invert-0" />
+      <Image src="/stars.svg" alt="stars" fill className="pointer-events-none absolute invert-0" />
 
       <div className="flex h-full max-w-[1440px] flex-col justify-between">
         <NavBar />

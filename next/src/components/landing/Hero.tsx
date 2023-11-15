@@ -16,7 +16,6 @@ import GlowWrapper from "../GlowWrapper";
 import HeroCard from "../HeroCard";
 import FadeIn from "../motions/FadeIn";
 import PrimaryButton from "../PrimaryButton";
-import TextButton from "../TextButton";
 
 const Hero: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
@@ -97,7 +96,8 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
               </div>
             </h1>
             <p className="my-3 inline-block bg-gradient-to-r from-white via-white via-50% to-neutral-500 bg-clip-text text-center align-top font-inter font-[400] leading-[24px] tracking-[.08rem] text-transparent sm:w-4/5 md:text-left">
-              Optimize web scraping with AI that generates and repairs scraping code, adapting to website changes. Scale your data extraction effortlessly.
+              Optimize web scraping with AI that generates and repairs scraping code, adapting to
+              website changes. Scale your data extraction effortlessly.
             </p>
           </div>
 
@@ -123,9 +123,6 @@ const Hero: FC<{ className?: string }> = ({ className }) => {
                     title={role.title}
                     subtitle={role.subtitle}
                     leftIcon={role.icon}
-                    onClick={() => {
-                      router.push("/").catch(console.error);
-                    }}
                   />
                 ))}
               </motion.div>

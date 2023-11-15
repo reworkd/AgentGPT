@@ -1,5 +1,4 @@
 from typing import Any, Dict, Optional, Tuple, Type, Union
-from loguru import logger
 
 from langchain.chat_models import AzureChatOpenAI, ChatOpenAI, QianfanChatEndpoint
 from pydantic import Field
@@ -19,14 +18,6 @@ class WrappedChatOpenAI(ChatOpenAI):
     max_tokens: int
     model_name: LLM_Model = Field(alias="model")
 
-class WrappedQianfanChatEndpoint(QianfanChatEndpoint, WrappedChatOpenAI):
-    """QianfanChatEndpoint with WrappedChatOpenAI
-    """
-    endpoint: str
-    qianfan_ak: str
-    qianfan_sk: str
-    model: str
-
 
 class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
     """AzureChatOpenAI with WrappedChatOpenAI
@@ -36,7 +27,22 @@ class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
     deployment_name: str
 
 
-WrappedChat = Union[WrappedAzureChatOpenAI, WrappedChatOpenAI]
+class WrappedQianfanChatEndpoint(QianfanChatEndpoint):
+    """QianfanChatEndpoint with WrappedChatOpenAI
+    """
+    client: Any = Field(
+        default=None,
+        description="Meta private value but mypy will complain its missing",
+    )
+    max_tokens: int
+    model_name: LLM_Model = Field(alias="model")
+
+    qianfan_endpoint: str
+    qianfan_ak: str
+    qianfan_sk: str
+
+
+WrappedChat = Union[WrappedAzureChatOpenAI, WrappedChatOpenAI, WrappedQianfanChatEndpoint]
 
 
 def create_model(
@@ -63,6 +69,9 @@ def create_model(
 
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
+    )
+    use_qianfan = (
+        "qianfan_ak" in settings and "qianfan_sk" in settings
     )
 
     llm_model = force_model or model_settings.model
@@ -94,6 +103,9 @@ def create_model(
 
         if use_helicone:
             kwargs["model"] = deployment_name
+
+    if use_qianfan:
+        model = WrappedQianfanChatEndpoint
 
     return model(**kwargs)  # type: ignore
 

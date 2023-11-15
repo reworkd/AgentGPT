@@ -59,6 +59,10 @@ class Settings(BaseSettings):
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
     openai_proxy: Optional[str] = None
 
+    # Qianfan
+    qianfan_ak: Optional[str] = None
+    qianfan_sk: Optional[str] = None
+
     # Helicone
     helicone_api_base: str = "https://oai.hconeai.com/v1"
     helicone_api_key: Optional[str] = None

@@ -86,4 +86,16 @@ export const newEnvQuestions = [
             return true
         },
     },
+    {
+      type: "input",
+      name: "qianfanAk",
+      message:
+          "Enter your qianfan access key (eg: ak...) or press enter to continue with no key:",
+    },
+    {
+      type: "input",
+      name: "qianfanSk",
+      message:
+          "Enter your qianfan security key (eg: sk...) or press enter to continue with no key:",
+    },
 ];

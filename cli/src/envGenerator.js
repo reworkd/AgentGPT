@@ -55,7 +55,8 @@ const getEnvDefinition = (envValues, isDockerCompose, dbPort, platformUrl) => {
       REWORKD_PLATFORM_OPENAI_PROXY: envValues.openaiProxy || process.env.OPENAI_PROXY || "",
       REWORKD_PLATFORM_SERP_API_KEY: envValues.serpApiKey || '""',
       REWORKD_PLATFORM_REPLICATE_API_KEY: envValues.replicateApiKey || '""',
-
+      REWORKD_PLATFORM_QIANFAN_AK: envValues.qianfanAk || '""',
+      REWORKD_PLATFORM_QIANFAN_SK: envValues.qianfanSk || '""',
     },
     "Database (Backend)": {
       REWORKD_PLATFORM_DATABASE_USER: "reworkd_platform",

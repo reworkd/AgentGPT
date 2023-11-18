@@ -10,7 +10,9 @@ LLM_Model = Literal[
     "gpt-3.5-turbo-16k",
     "gpt-4",
     "ERNIE-Bot",
-    "ERNIE-Bot-4"
+    "ERNIE-Bot-4",
+    "ChatGLM2-6B-32K",
+    "ERNIE-Bot-turbo"
 ]
 
 
@@ -28,6 +30,8 @@ LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {
     "gpt-4": 8000,
     "ERNIE-Bot": 8000,
     "ERNIE-Bot-4": 8000,
+    "ChatGLM2-6B-32K": 8000,
+    "ERNIE-Bot-turbo": 8000,
 }
 
 
@@ -38,6 +42,8 @@ class ModelSettings(BaseModel):
     max_tokens: int = Field(default=500, ge=0)
     language: str = Field(default="English")
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator("max_tokens")
     def validate_max_tokens(cls, v: float, values: Dict[str, Any]) -> float:
         model = values["model"]
@@ -89,5 +95,5 @@ class NewTasksResponse(BaseModel):
 
 class RunCount(BaseModel):
     count: int
-    first_run: Optional[datetime]
-    last_run: Optional[datetime]
+    first_run: Optional[datetime] = None
+    last_run: Optional[datetime] = None

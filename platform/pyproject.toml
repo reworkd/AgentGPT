@@ -18,7 +18,7 @@ python = "^3.11"
 fastapi = ">=0.98.0"
 boto3 = "^1.28.51"
 uvicorn = { version = "^0.22.0", extras = ["standard"] }
-pydantic = { version = "<2.0", extras = ["dotenv"] }
+pydantic = { version = ">=2.0", extras = ["dotenv"] }
 ujson = "^5.8.0"
 sqlalchemy = { version = "^2.0.21", extras = ["mypy", "asyncio"] }
 aiomysql = "^0.1.1"
@@ -30,7 +30,7 @@ requests = "^2.31.0"
 langchain = "<0.1.0"
 openai = "^0.28.0"
 wikipedia = "^1.4.0"
-replicate = "^0.8.4"
+replicate = "^0.20.0"
 lanarky = "^0.7.15"
 tiktoken = "^0.5.1"
 grpcio = "^1.58.0"
@@ -41,6 +41,7 @@ botocore = "^1.31.51"
 stripe = "^5.5.0"
 cryptography = "^41.0.4"
 httpx = "^0.25.0"
+qianfan = "^0.1.4"
 
 
 [tool.poetry.dev-dependencies]

@@ -121,7 +121,7 @@ class ToolModel(BaseModel):
     name: str
     description: str
     color: str
-    image_url: Optional[str]
+    image_url: Optional[str] = None
 
 
 class ToolsResponse(BaseModel):

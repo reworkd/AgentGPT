@@ -37,10 +37,6 @@ class WrappedQianfanChatEndpoint(QianfanChatEndpoint):
     max_tokens: int
     model_name: LLM_Model = Field(alias="model")
 
-    qianfan_endpoint: str
-    qianfan_ak: str
-    qianfan_sk: str
-
 
 WrappedChat = Union[WrappedAzureChatOpenAI, WrappedChatOpenAI, WrappedQianfanChatEndpoint]
 
@@ -71,7 +67,7 @@ def create_model(
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
     )
     use_qianfan = (
-        "qianfan_ak" in settings and "qianfan_sk" in settings
+        "qianfan_ak" in settings.dict() and "qianfan_sk" in settings.dict()
     )
 
     llm_model = force_model or model_settings.model
@@ -104,8 +100,14 @@ def create_model(
         if use_helicone:
             kwargs["model"] = deployment_name
 
-    if use_qianfan:
+    if llm_model in ("ERNIE-Bot", "ERNIE-Bot-4", "ChatGLM2-6B-32K", "ERNIE-Bot-turbo"):
         model = WrappedQianfanChatEndpoint
+        kwargs.update(
+            {
+                "qianfan_ak": settings.qianfan_ak,
+                "qianfan_sk": settings.qianfan_sk,
+            },
+        )
 
     return model(**kwargs)  # type: ignore
 

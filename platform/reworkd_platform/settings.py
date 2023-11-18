@@ -2,11 +2,10 @@ import platform
 from pathlib import Path
 from tempfile import gettempdir
 from typing import List, Literal, Optional, Union
-
-from pydantic import BaseSettings
 from yarl import URL
 
 from reworkd_platform.constants import ENV_PREFIX
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 TEMP_DIR = Path(gettempdir())
 
@@ -174,11 +173,7 @@ class Settings(BaseSettings):
                 self.sid_redirect_uri,
             ],
         )
-
-    class Config:
-        env_file = ".env"
-        env_prefix = ENV_PREFIX
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file=".env", env_prefix=ENV_PREFIX, env_file_encoding="utf-8")
 
 
 settings = Settings()

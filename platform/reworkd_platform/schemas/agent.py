@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 from reworkd_platform.web.api.agent.analysis import Analysis
 
@@ -42,9 +42,7 @@ class ModelSettings(BaseModel):
     max_tokens: int = Field(default=500, ge=0)
     language: str = Field(default="English")
 
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator("max_tokens")
+    @field_validator("max_tokens")
     def validate_max_tokens(cls, v: float, values: Dict[str, Any]) -> float:
         model = values["model"]
         if v > (max_tokens := LLM_MODEL_MAX_TOKENS[model]):

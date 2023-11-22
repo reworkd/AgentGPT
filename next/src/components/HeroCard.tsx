@@ -8,10 +8,9 @@ type HeroCardProps = {
   title: string;
   subtitle: string;
   leftIcon: ReactNode;
-  onClick?: () => void;
 };
 
-const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon, onClick }) => {
+const HeroCard: React.FC<HeroCardProps> = ({ title, subtitle, leftIcon }) => {
   return (
     <div className="border-gradient -z-10 flex max-h-16 w-72 flex-row items-center justify-center rounded-full p-3">
       <div className="mr-auto flex items-center gap-3">

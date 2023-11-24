@@ -55,3 +55,4 @@ schema.prismae
 *.sql
 
 .venv/
+nohup.out

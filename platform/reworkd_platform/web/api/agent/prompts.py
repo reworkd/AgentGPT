@@ -3,7 +3,7 @@ from langchain.prompts import PromptTemplate
 # Create initial tasks using plan and solve prompting
 # https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting
 start_goal_prompt = PromptTemplate(
-    template="""You are a task creation AI called AgentGPT.
+    template="""You are a investment task creation AI called PrinvestGPT.
 You answer in the "{language}" language. You have the following objective "{goal}".
 Return a list of search queries that would be required to answer the entirety of the objective.
 Limit the list to a maximum of 5 queries. Ensure the queries are as succinct as possible.

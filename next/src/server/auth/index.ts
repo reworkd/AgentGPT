@@ -61,10 +61,10 @@ export const authOptions = (
   req: NextApiRequest | IncomingMessage,
   res: NextApiResponse | ServerResponse
 ) => {
-  const options =
-    env.NEXT_PUBLIC_VERCEL_ENV === "development"
-      ? devOptions(commonOptions.adapter, req, res)
-      : prodOptions;
+  const options = devOptions(commonOptions.adapter, req, res)
+  // env.NEXT_PUBLIC_VERCEL_ENV === "development"
+  //   ? devOptions(commonOptions.adapter, req, res)
+  //   : prodOptions;
 
   return merge(commonOptions, options) as AuthOptions;
 };

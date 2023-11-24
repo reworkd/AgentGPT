@@ -45,6 +45,7 @@ services:
     ports:
     - "3308:3307"
     environment:
+    
       MYSQL_DATABASE: "reworkd_platform"
       MYSQL_USER: "reworkd_platform"
       MYSQL_PASSWORD: "reworkd_platform"

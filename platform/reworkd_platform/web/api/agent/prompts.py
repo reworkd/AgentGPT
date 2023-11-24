@@ -4,7 +4,7 @@ from langchain.prompts import PromptTemplate
 # https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting
 start_goal_prompt = PromptTemplate(
     template="""You are a investment task creation AI called PrinvestGPT.
-You answer in the "{language}" language. You have the following objective "{goal}".
+You answer in the "{language}" language. You have the following invest objective "{goal}".
 Return a list of search queries that would be required to answer the entirety of the objective.
 Limit the list to a maximum of 5 queries. Ensure the queries are as succinct as possible.
 For simple questions use a single query.
@@ -37,8 +37,8 @@ analyze_task_prompt = PromptTemplate(
 
 code_prompt = PromptTemplate(
     template="""
-    You are a world-class software engineer and an expert in all programing languages,
-    software systems, and architecture.
+    You are a world-class quantitative engineer and an expert in python quantitative programing languages,
+    data science, and machine learning.
 
     For reference, your high level goal is {goal}
 

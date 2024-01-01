@@ -72,7 +72,7 @@
     "@types/prettier": "^2.7.3",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.2.7",
-    "@types/uuid": "^9.0.5",
+    "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.1",
     "autoprefixer": "^10.4.7",

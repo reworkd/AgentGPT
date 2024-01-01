@@ -55,7 +55,7 @@
     "react-icons": "^4.11.0",
     "react-markdown": "^8.0.7",
     "react-type-animation": "^3.1.0",
-    "rehype-highlight": "^6.0.0",
+    "rehype-highlight": "^7.0.0",
     "remark-gfm": "^3.0.1",
     "superjson": "1.9.1",
     "tailwindcss-radix": "^2.8.0",

@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./next/.env:/next/.env
+      - ./next/:/next/
+      - /next/node_modules
+      - /next/.next
+
+  platform:
+    container_name: platform
+    build:
+      context: ./platform
+      target: prod
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - ./platform:/app/src/
+    env_file:
+      - next/.env
+    environment:
+      REWORKD_PLATFORM_HOST: 0.0.0.0
+      REWORKD_PLATFORM_DB_HOST: agentgpt_db
+      REWORKD_PLATFORM_DB_PORT: "3307"
+      REWORKD_PLATFORM_DB_USER: "reworkd_platform"
+      REWORKD_PLATFORM_DB_PASS: "reworkd_platform"
+      REWORKD_PLATFORM_DB_BASE: "reworkd_platform"
+    depends_on:
+      - agentgpt_db
+
+  agentgpt_db:
+    image: mysql:8.0
+    container_name: agentgpt_db
+    restart: always
+    build:
+      context: ./db
+    ports:
+      - "3308:3307"
+    environment:
+      MYSQL_DATABASE: "reworkd_platform"
+      MYSQL_USER: "reworkd_platform"
+      MYSQL_PASSWORD: "reworkd_platform"
+      MYSQL_ROOT_PASSWORD: "reworkd_platform"
+      MYSQL_TCP_PORT: 3307
+    volumes:
+      - agentgpt_db:/var/lib/mysql
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+
+volumes:
+  agentgpt_db:

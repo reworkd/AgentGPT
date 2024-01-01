@@ -1,0 +1,80 @@
+name: Testing Platform
+on:
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'platform/**'
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run black check
+        run: poetry run black --check .
+
+  mypy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run mypy check
+        run: poetry run mypy .
+
+  pytest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    services:
+      reworkd_platform-db:
+        image: bitnami/mysql:8.0.30
+        env:
+          MYSQL_ROOT_PASSWORD: "reworkd_platform"
+          MYSQL_ROOT_USER: "reworkd_platform"
+          MYSQL_DATABASE: "reworkd_platform"
+          MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+        options: >-
+          --health-cmd="mysqladmin ping -u root"
+          --health-interval=15s
+          --health-timeout=5s
+          --health-retries=6
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run pytest check
+        run: poetry run pytest -vv --cov="reworkd_platform" .
+        env:
+          REWORKD_PLATFORM_HOST: "0.0.0.0"
+          REWORKD_PLATFORM_DB_HOST: localhost
+          REWORKD_PLATFORM_KAFKA_BOOTSTRAP_SERVERS: '["localhost:9092"]'

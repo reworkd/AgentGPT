@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "Pogreška prilikom pristupa OpenAI API ključu. Provjerite ključ ili pokušajte kasnije.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "Pogreška prilikom dodavanja dodatnih zadataka. Moguće je da naš model ne može obraditi odgovor i to je uzrokovalo ovu pogrešku. Nastavljam...",
+  "RATE_LIMIT_EXCEEDED": "Dosegli ste maksimalni broj upita! Molimo usporite...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Ovaj agent je dosegnuo maksimalni broj mogućih izvršavanja. Kako biste sačuvali novac, ovaj će agent sada prestati raditi... Maksimalni broj izvršavanja agenta moguće je konfigurirati u postavkama.",
+  "DEMO_LOOPS_REACHED": "Žao nam je, ali budući da je ovo demo aplikacija, ne možemo izvoditi rad agenata predugo. Napomena: Ako želite dulje izvršavanje, molimo unesite vlastiti API ključ u Postavkama. Prestajem raditi...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agent je ručno zaustavljen.",
+  "ALL_TASKS_COMPLETETD": "Svi zadaci su završeni. Zaustavljam...",
+  "ERROR_API_KEY_QUOTA": "Pogreška pri korištenju OpenAI API ključa. Premašili ste trenutnu kvotu, molimo provjerite svoje fakturiranje.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "POGREŠKA: Vaš OpenAI API ključ nema pristup GPT-4. Prvo se morate prijaviti na OpenAI čekalici. (Ovo se razlikuje od ChatGPT Plus-a)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "Pogreška prilikom preuzimanja početnih zadataka. Pokušajte ponovno, jasnije definirajte cilj agenta ili ga prilagodite kako bi odgovarao našem modelu. Zaustavljam...",
+  "INVALID_OPENAI_API_KEY": "POGREŠKA nevažeći OpenAI API ključ"
+}

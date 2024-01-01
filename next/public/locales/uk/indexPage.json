@@ -1,0 +1,9 @@
+{
+  "BETA": "Бета",
+  "HEADING_DESCRIPTION": "Збирайте, налаштовуйте та встановлюйте автономних агентів ШІ у своєму браузері.",
+  "AGENT_NAME": "Ім'я",
+  "LABEL_AGENT_GOAL": "Мета",
+  "PLACEHOLDER_AGENT_GOAL": "Зробити світ кращим місцем",
+  "BUTTON_DEPLOY_AGENT": "Запустити агента",
+  "BUTTON_STOP_AGENT": "Зупинити агента"
+}

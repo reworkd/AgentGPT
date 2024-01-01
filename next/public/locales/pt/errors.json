@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "Erro ao acessar a chave da API OpenAI durante a conexão. Por favor, verifique a chave da API ou tente novamente mais tarde.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "Erro ao adicionar tarefa(s) adicional(is). Talvez nosso modelo não seja capaz de lidar com a resposta e isso resultou nisso. Continuando...",
+  "RATE_LIMIT_EXCEEDED": "Você atingiu o limite máximo de consultas! Por favor, diminua a velocidade...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Este agente atingiu o número máximo de ciclos executáveis. Para salvar sua carteira, este agente agora está sendo desligado... O número máximo de ciclos de execução do agente pode ser configurado nas configurações.",
+  "DEMO_LOOPS_REACHED": "Desculpe, mas como esta é uma aplicação de demonstração, não podemos executar os agentes por muito tempo. Observação: se você quiser execuções mais longas, forneça sua própria chave API nas Configurações. Parando...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agente desligado manualmente.",
+  "ALL_TASKS_COMPLETETD": "Todas as tarefas foram concluídas. Desligando...",
+  "ERROR_API_KEY_QUOTA": "Erro ao usar a chave da API OpenAI. Você excedeu sua cota atual, por favor verifique suas informações de faturamento.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ERRO: Sua chave OpenAI API não tem acesso ao GPT-4. Você precisa se inscrever na lista de espera da OpenAI primeiro. (Isso é diferente do ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "Erro ao recuperar tarefas iniciais. Tente novamente, formule o objetivo do agente de forma mais clara ou modifique-o para que atenda ao nosso modelo. Desligando...",
+  "INVALID_OPENAI_API_KEY": "ERRO chave de API OpenAI inválida"
+}

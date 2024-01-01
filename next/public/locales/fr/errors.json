@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "ERREUR lors de l'accès à la clé d'API OpenAI. Veuillez vérifier la clé d'API ou réessayer ultérieurement.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ERREUR lors de l'ajout de tâches supplémentaires. Il est possible que notre modèle ne puisse pas gérer la réponse et ait généré cette erreur. Continuer...",
+  "RATE_LIMIT_EXCEEDED": "Vous avez atteint le nombre maximal de requêtes ! Veuillez ralentir...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Cet agent a atteint le nombre maximal de boucles exécutables. Pour sauver votre porte-monnaie, cet agent s'arrête maintenant... Le nombre maximal de boucles d'exécution de l'agent peut être configuré dans les paramètres.",
+  "DEMO_LOOPS_REACHED": "Désolé, puisqu'il s'agit d'une application de démonstration, nous ne pouvons pas faire fonctionner les agents pendant une période prolongée. Note : si vous souhaitez des exécutions plus longues, veuillez fournir une clé API personnalisée dans les Paramètres. Arrêt...",
+  "AGENT_MANUALLY_SHUT_DOWN": "L'agent a été arrêté manuellement.",
+  "ALL_TASKS_COMPLETETD": "Toutes les tâches ont été terminées. Arrêt...",
+  "ERROR_API_KEY_QUOTA": "ERREUR lors de l'utilisation de la clé API OpenAI. Vous avez dépassé votre quota actuel, veuillez vérifier vos informations de facturation.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ERREUR : Votre clé API OpenAI ne dispose pas d'un accès à GPT-4. Vous devez d'abord vous inscrire sur la liste d'attente OpenAI. (Ceci est différent de ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ERREUR lors de la récupération des tâches initiales. Réessayez, reformulez l'objectif de l'agent de manière plus claire ou modifiez-le de manière à ce qu'il convienne à notre modèle. Arrêt...",
+  "INVALID_OPENAI_API_KEY": "ERREUR clé API OpenAI invalide"
+}

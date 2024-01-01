@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "완료중:",
+	"CONSIDER_SPONSORING_ON_GITHUB": "GitHub에서 이 프로젝트를 후원해주세요.",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "텍스트가 클립보드에 복사됨",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "텍스트를 클립보드에 복사할 수 없습니다",
+	"CREATE_AN_AGENT_DESCRIPTION": "이름과 목표를 추가하여 에이전트를 생성한 다음, \"에이전트 시작!\" 버튼을 클릭하세요.",
+	"EMBARKING_ON_NEW_GOAL": "새로운 목표 시작:",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 우리는 예외적인 교통량을 경험하고 있습니다. API 키를 사용하지 않으면 지연과 오류가 예상됩니다 🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ AgentGPT의 발전을 지원하세요. 💝️",
+	"NO_MORE_TASKS": "더 이상 이 작업에 대한 하위 작업이 없습니다:",
+	"RESTART_IF_IT_TAKES_X_SEC": "(30초 이상 걸리면 페이지를 새로 고치거나 에이전트를 수동으로 재시작하세요)",
+	"SUPPORT_NOW": "지금 지원하기 🚀",
+	"TASK_ADDED": "작업 추가됨:",
+	"THINKING": "생각중...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 고객님만의 OpenAI API 키를 설정 탭에서 제공하면 제한을 늘릴 수 있습니다!",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 이름/대상을 추가하고 배포를 눌러 에이전트를 생성하세요!"
+}

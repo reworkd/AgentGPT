@@ -1,0 +1,19 @@
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /cli
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: npm
+    directory: /next
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: pip
+    directory: /platform
+    schedule:
+      interval: weekly

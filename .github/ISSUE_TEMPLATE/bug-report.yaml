@@ -1,0 +1,91 @@
+name: Bug Report
+description: File a bug report
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before you start
+        Please **make sure you are on the latest version.**
+        If you encountered the issue after you installed, updated, or reloaded, **please try restarting before reporting the bug**.
+
+  - type: checkboxes
+    id: no-duplicate-issues
+    attributes:
+      label: "Please check that this issue hasn't been reported before."
+      description: "The **Label filters** may help make your search more focussed."
+      options:
+        - label: "I searched previous [Bug Reports](https://github.com/reworkd/AgentGPT/labels/bug) didn't find any similar reports."
+          required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: Tell us what **should** happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Current behaviour
+      description: |
+        Tell us what happens instead of the expected behavior.
+        Adding of screenshots really helps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Which exact steps can a developer take to reproduce the issue?
+        The more detail you provide, the easier it will be to narrow down and fix the bug.
+        Please paste in tasks and/or queries **as text, not screenshots**.
+      placeholder: |
+        Example of the level of detail needed to reproduce any bugs efficiently and reliably.
+        1. Go to the '...' page.
+        2. Click on the '...' button.
+        3. Scroll down to '...'.
+        4. Observe the error.
+    validations:
+      required: true
+      
+  - type: textarea
+    id: possible-solution
+    attributes:
+      label: Possible solution
+      placeholder: I think that change foo to type bar would fix it...
+      description: |
+        Not obligatory, but please suggest a fix or reason for the bug, if you have an idea.  
+      
+
+  - type: checkboxes
+    id: operating-systems
+    attributes:
+      label: Which Operating Systems are you using?
+      description: You may select more than one.
+      options:
+        - label: Android
+        - label: iPhone/iPad
+        - label: Linux
+        - label: macOS
+        - label: Windows
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: 'Acknowledgements'
+      description: 'Please confirm the following:'
+      options:
+        - label: 'My issue title is concise, descriptive, and in title casing.'
+          required: true
+        - label: 'I have searched the existing issues to make sure this bug has not been reported yet.'
+          required: true
+        - label: 'I am using the latest version of AgentGPT.'
+          required: true
+        - label: 'I have provided enough information for the maintainers to reproduce and diagnose the issue.'
+          required: true
+

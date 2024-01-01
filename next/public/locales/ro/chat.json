@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "Finalizare:",
+	"CONSIDER_SPONSORING_ON_GITHUB": "Luați în considerare sponsorizarea proiectului pe GitHub.",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Text copiat în clipboard",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Nu se poate copia textul în clipboard",
+	"CREATE_AN_AGENT_DESCRIPTION": "Creați un agent prin adăugarea numelui și obiectivului, apoi faceți clic pe butonul \"Pornire agent!\"",
+	"EMBARKING_ON_NEW_GOAL": "Începerea unui nou obiectiv:",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Experimentăm un trafic excepțional de mare, se așteaptă întârzieri și erori dacă nu utilizați propriul cheie API 🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Ajutați la dezvoltarea AgentGPT. 💝️",
+	"NO_MORE_TASKS": "Nu mai sunt alte sub-sarcini pentru aceasta:",
+	"RESTART_IF_IT_TAKES_X_SEC": "(Reîncărcați pagina sau porniți manual agentul dacă durează mai mult de 30 de secunde)",
+	"SUPPORT_NOW": "Susținere acum 🚀",
+	"TASK_ADDED": "Sarcină adăugată:",
+	"THINKING": "Gândire...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Puteți furniza propriul cheie API OpenAI în fila Setări pentru limite mai mari!",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Creați un agent adăugând un nume/țintă și apăsând deploy!"
+}

@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "錯誤：在連結 OpenAI API 時執行錯誤。請檢查您的 API 金鑰或稍後再試。",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "錯誤：增加其他任務時出錯。可能因為我們的模型無法處理您的結果，繼續中...",
+  "RATE_LIMIT_EXCEEDED": "超過最高服務次數。請減少服務次數...😅",
+  "AGENT_MAXED_OUT_LOOPS": "此AI機器人以達循環次數上限。為了節省您的荷包，此AI正在停止執行...您可以在更多設定中調整循環次數上限。",
+  "DEMO_LOOPS_REACHED": "很抱歉，因為這是一個Demo程式，所以我們無法讓機器人運作太長。備註：如果您想運作更長的時間，請在設定中提供自己的 API 金鑰。停止中...",
+  "AGENT_MANUALLY_SHUT_DOWN": "機器人已手動關閉。",
+  "ALL_TASKS_COMPLETETD": "所以任務已完成。停止中...",
+  "ERROR_API_KEY_QUOTA": "錯誤： OpenAI API 金鑰錯誤。您已超出使用額度，請檢查您的方案及付費資訊。",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "錯誤：您的 API 金鑰沒有 GPT-4 使用權限。您必須先加入 OpenAI 的等候清單。（這和 ChatGPT Plus 不同）",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "錯誤：尋找初始任務數列錯誤。請重試、將目標寫得更加清楚，或修改目標以符合我們的模型政策。停止中...",
+  "INVALID_OPENAI_API_KEY": "錯誤：OpenAI API 金鑰無效"
+}

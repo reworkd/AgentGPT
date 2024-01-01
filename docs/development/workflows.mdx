@@ -1,0 +1,43 @@
+---
+title: "Workflows"
+description: The workflow automation system within AgentGPT.
+icon: "wave-sine"
+---
+
+A core function of Reworkd is AI powered workflow automation. This documentation covers key concepts within our workflow platform.
+
+## Frontend models
+The workflow hierarchy follows a graph-like structure. The frontend models only prescribe the front-end view of the workflow.
+
+- A workflow is the graph itself. It represents the workflow in its entirety
+- A node is a single element within a workflow. It has a position
+- An edge represents a connection between two nodes of a workflow
+
+## Backend models
+The backend models represent the mechanisms to actually perform work for a given node.
+Each frontend `Node` will have an associated `Block`.
+`Node` represents the frontend view / position while the `Block` represents what will actually happen when that `Node` is run.
+For example, a "SlackMessageBlock" is a `Block` that, when executed, would send a user a message on "Slack".
+
+## Adding a new block
+To add a new block, start by updating the frontend:
+- open next/src/services/workflow/node-block-definitions.ts
+- figure it out
+- (soon block definitions on frontend will be set from backend and edits won't be needed here)
+
+Then update the backend:
+- open platform/reworkd_platform/schemas/workflow/blocks
+    - add a new file for your block
+    - define the block's input and output types as classes
+    - add a class for the block with
+        - attributes: type, description, image_url, and input
+        - async method: `run`
+- install dependencies for your block with `poetry add`
+- open platform/reworkd_platform/web/api/workflow/blocks/web/__init__.py
+    - import your block
+    - add an if branch to get_block_runner
+- `docker compose down; docker compose up --build`
+
+## Node types
+- Triggers: Designate how workflows are run
+- Actions: Performs a concrete piece of "work"

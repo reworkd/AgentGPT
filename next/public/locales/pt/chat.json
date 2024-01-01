@@ -1,0 +1,17 @@
+{
+	"COMPLETING": "Completando:",
+	"CONSIDER_SPONSORING_ON_GITHUB": "Considere apoiar o projeto no GitHub.",
+	"CONSOLE_TEXT_COPIED_TO_CLIPBOARD": "Texto copiado para a área de transferência",
+	"CONSOLE_UNABLE_TO_COPY_TO_CLIPBOARD": "Não foi possível copiar o texto para a área de transferência",
+	"CREATE_AN_AGENT_DESCRIPTION": "Crie um agente adicionando nome e objetivo, e clique no botão \"Iniciar agente!\"",
+	"EMBARKING_ON_NEW_GOAL": "Embarcando em um novo objetivo:",
+	"EXPERIENCING_EXCEPTIONAL_TRAFFIC": "🚨 Estamos experimentando tráfego excepcionalmente alto, podem ocorrer atrasos e erros se você não estiver usando sua própria chave de API 🚨",
+	"HELP_SUPPORT_THE_ADVANCEMENT_OF_AGENTGPT": "💝️ Ajude no avanço do AgentGPT. 💝️",
+	"NO_MORE_TASKS": "Não há mais tarefas secundárias para isso:",
+	"RESTART_IF_IT_TAKES_X_SEC": "(Atualize a página ou reinicie o agente manualmente se isso levar mais de 30 segundos)",
+	"SUPPORT_NOW": "Apoiar agora 🚀",
+	"TASK_ADDED": "Tarefa adicionada:",
+	"THINKING": "Pensando...",
+	"YOU_CAN_PROVIDE_YOUR_API_KEY": "📢 Você pode fornecer sua própria chave de API OpenAI nas configurações para limites mais altos!",
+	"👉 Create an agent by adding a name / goal, and hitting deploy!": "👉 Crie um agente adicionando um nome/alvo e pressionando implantar!"
+}

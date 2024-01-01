@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Twórz, konfiguruj i instaluj autonomiczne agenty AI w Twojej przeglądarce.",
+  "AGENT_NAME": "Nazwa",
+  "LABEL_AGENT_GOAL": "Cel",
+  "PLACEHOLDER_AGENT_GOAL": "Uczynić świat lepszym miejscem",
+  "BUTTON_DEPLOY_AGENT": "Uruchom agenta",
+  "BUTTON_STOP_AGENT": "Zatrzymaj agenta"
+}

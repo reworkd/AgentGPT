@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "ERROR accessing the backend. Please email support@reworkd.ai or try again later",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.",
+  "RATE_LIMIT_EXCEEDED": "Rate limit exceeded! Please slow down...😅",
+  "AGENT_MAXED_OUT_LOOPS": "This agent has maxed out on loops. To save your wallet, this agent is shutting down. You can configure the number of loops in the advanced settings.",
+  "DEMO_LOOPS_REACHED": "The agent has run out of loops. Update the number of loops in the settings menu if more loops are required. Shutting down.",
+  "AGENT_MANUALLY_SHUT_DOWN": "The agent has been manually shutdown.",
+  "ALL_TASKS_COMPLETETD": "All tasks completed. Shutting down.",
+  "ERROR_API_KEY_QUOTA": "ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "ERROR your API key does not have GPT-4 access. You must first join OpenAI's wait-list. (This is different from ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "ERROR retrieving initial tasks array. Retry, make your goal more clear, or revise your goal such that it is within our model's policies to run. Shutting Down.",
+  "INVALID_OPENAI_API_KEY": "ERROR invalid OpenAI API-key"
+}

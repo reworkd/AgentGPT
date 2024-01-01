@@ -1,0 +1,12 @@
+{
+  "HELP_BUTTON": "Segítség",
+  "SETTINGS_BUTTON": "Beállítások",
+  "SUPPORT_BUTTON": "Támogatás",
+  "MY_AGENTS": "Az én ügynökeim",
+  "SIGN_IN_NOTICE": "Jelentkezzen be, hogy menthesse az ügynökeit, és kezelhesse a fiókját!",
+  "NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "Először létre kell hoznia és mentenie az első ügynökét, mielőtt itt valami megjelenne!",
+  "SIGN_IN": "Bejelentkezés",
+  "SIGN_OUT": "Kijelentkezés",
+  "ACCOUNT" : "Fiók",
+  "USER_IMAGE": "Felhasználói kép"
+}

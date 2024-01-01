@@ -1,0 +1,12 @@
+{
+	"ACCOUNT": "계정",
+	"HELP_BUTTON": "도움말",
+	"MY_AGENTS": "나의 대리인",
+	"NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST": "여기에 무언가 표시되기 전에 먼저 대리인을 생성하고 저장해야합니다!",
+	"SETTINGS_BUTTON": "설정",
+	"SIGN_IN": "로그인",
+	"SIGN_IN_NOTICE": "계정을 관리하고 대리인을 저장하려면 로그인하세요!",
+	"SIGN_OUT": "로그아웃",
+	"SUPPORT_BUTTON": "지원하다",
+	"USER_IMAGE": "사용자 이미지"
+}

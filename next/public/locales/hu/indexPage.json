@@ -1,0 +1,9 @@
+{
+  "BETA": "Béta",
+  "HEADING_DESCRIPTION": "Összeállít, konfigurál és telepít autonóm MI ügynököket a böngészőjében.",
+  "AGENT_NAME": "Név",
+  "LABEL_AGENT_GOAL": "Cél",
+  "PLACEHOLDER_AGENT_GOAL": "Tedd egy jobb hellyé a világot",
+  "BUTTON_DEPLOY_AGENT": "Ügynök futtatása",
+  "BUTTON_STOP_AGENT": "Ügynök leállítása"
+}

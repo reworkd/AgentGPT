@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "KLAIDA jungiantis prie OpenAI API. Patikrinkite API raktą arba bandykite vėliau.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "KLAIDA pridedant papildomus uždavinius. Mūsų modelis galbūt negali apdoroti atsakymo ir dėl to kilo problema. Tęsiame...",
+  "RATE_LIMIT_EXCEEDED": "Pasiektas maksimalus užklausų skaičius! Prašome sulėtinti...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Šis agentas pasiekė maksimalų leistinų ciklų skaičių. Kad išvengtumėte pinigų išlaidų, šis agentas dabar bus sustabdytas... Maksimalų leistinų agento ciklų skaičių galima konfigūruoti nustatymuose.",
+  "DEMO_LOOPS_REACHED": "Atsiprašome, tačiau, kadangi tai demonstracinė programa, negalime leisti agentams būti vykdomi ilgiau nei tam tikrą laiką. Pastaba: jei norite vykdyti ilgesnes programas, įveskite savo API raktą Nustatymuose. Sustabdymas...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Agentas sustabdytas rankiniu būdu.",
+  "ALL_TASKS_COMPLETETD": "Visi uždaviniai baigti. Sustabdymas...",
+  "ERROR_API_KEY_QUOTA": "KLAIDA naudojant OpenAI API raktą. Viršijote savo dabartinę kvotą. Patikrinkite savo sąskaitos informaciją.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "KLAIDA: Jūsų OpenAI API raktas neturi prieigos prie GPT-4. Pirmiausia turite užsiregistruoti OpenAI eilėje. (Tai skiriasi nuo ChatGPT Plus)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "KLAIDA gaunant pradinius uždavinius. Bandykite dar kartą, aiškiau suformuluokite agento tikslą arba pakeiskite jį taip, kad jis atitiktų mūsų modelio reikalavimus. Sustabdymas...",
+  "INVALID_OPENAI_API_KEY": "KLAIDA neteisingas OpenAI API raktas"
+}

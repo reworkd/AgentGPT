@@ -1,0 +1,9 @@
+{
+  "BETA": "Bèta",
+  "HEADING_DESCRIPTION": "Compileer, configureer en installeer autonome AI-agenten in uw browser.",
+  "AGENT_NAME": "Naam",
+  "LABEL_AGENT_GOAL": "Doel",
+  "PLACEHOLDER_AGENT_GOAL": "Maak de wereld een betere plek",
+  "BUTTON_DEPLOY_AGENT": "Agent implementeren",
+  "BUTTON_STOP_AGENT": "Agent stoppen"
+}

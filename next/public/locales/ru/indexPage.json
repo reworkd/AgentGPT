@@ -1,0 +1,9 @@
+{
+  "BETA": "Бета",
+  "HEADING_DESCRIPTION": "Соберите, настройте и установите автономных агентов искусственного интеллекта в своем браузере.",
+  "AGENT_NAME": "Имя",
+  "LABEL_AGENT_GOAL": "Цель",
+  "PLACEHOLDER_AGENT_GOAL": "Сделать мир лучше",
+  "BUTTON_DEPLOY_AGENT": "Запустить агента",
+  "BUTTON_STOP_AGENT": "Остановить агента"
+}

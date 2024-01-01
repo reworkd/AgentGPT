@@ -41,3 +41,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 .idea
+.swc
+
+# extracted language files
+/public/locales/$LOCALES
+
+.eslintcache
+
+# Sentry Auth Token
+.sentryclirc
+/volumes/
+schema.prismae
+*.sql

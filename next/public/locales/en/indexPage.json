@@ -1,0 +1,9 @@
+{
+  "BETA": "Beta",
+  "HEADING_DESCRIPTION": "Assemble, configure, and deploy autonomous AI Agents in your browser.",
+  "AGENT_NAME": "Name",
+  "LABEL_AGENT_GOAL": "Goal",
+  "PLACEHOLDER_AGENT_GOAL": "What is the latest AI news?",
+  "BUTTON_DEPLOY_AGENT": "Deploy Agent",
+  "BUTTON_STOP_AGENT": "Stop Agent"
+}

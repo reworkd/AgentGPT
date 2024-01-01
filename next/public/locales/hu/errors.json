@@ -1,0 +1,13 @@
+{
+  "ERROR_ACCESSING_OPENAI_API_KEY": "HIBA a OpenAI API-hoz való csatlakozás közben. Kérjük, ellenőrizze az API-kulcsot, vagy próbálja meg később.",
+  "ERROR_ADDING_ADDITIONAL_TASKS": "HIBA a további feladat(ok) hozzáadása közben. Lehet, hogy a modellünk nem tudja kezelni a választ és az eredményezte ezt. Folytatás...",
+  "RATE_LIMIT_EXCEEDED": "Elérte a maximális lekérdezések számát! Kérjük, lassítson le...😅",
+  "AGENT_MAXED_OUT_LOOPS": "Ez az ügynök elérte a maximális futtatható köreinek a számát. Hogy megmentse a pénztárcáját, ez az ügynök most leáll... Az ügynök futási köreinek a maximális számát az beállításokban lehet konfigurálni.",
+  "DEMO_LOOPS_REACHED": "Sajnáljuk, de mivel ez egy bemutató alkalmazás így nem tudjuk túl hosszú ideig futtatni az ügynökeit. Megjegyzés: ha hosszabb futtatásokat szeretne, kérjük, adjon meg egy saját API-kulcsot a Beállításokban. Leállítás...",
+  "AGENT_MANUALLY_SHUT_DOWN": "Az ügynök manuálisan leállítva.",
+  "ALL_TASKS_COMPLETETD": "Minden feladat befejeződött. Leállítás...",
+  "ERROR_API_KEY_QUOTA": "HIBA az OpenAI API-kulcs használatakor. Túllépte jelenlegi kvótáját, kérjük, ellenőrizze számlázási adatait.",
+  "ERROR_OPENAI_API_KEY_NO_GPT4": "HIBA: Az Ön OpenAI API kulcsa nem rendelkezik GPT-4 hozzáféréssel. Először jelentkeznie kell az OpenAI várólistáján. (Ez eltér a ChatGPT Plus-tól)",
+  "ERROR_RETRIEVE_INITIAL_TASKS": "HIBA az alapfeladatok lekérdezése közben. Próbálja újra, fogalmazza meg az ügynök célját világosabban, vagy módosítsa a oly módon, hogy az megfeleljen a modellünk számára. Leállítás...",
+  "INVALID_OPENAI_API_KEY": "HIBA érvénytelen OpenAI API-kulcs"
+}

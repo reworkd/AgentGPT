@@ -1,0 +1,9 @@
+{
+  "BETA": "Béta",
+  "HEADING_DESCRIPTION": "Skladajte, konfigurujte a inštalujte autonómne agentov AI vo svojom prehliadači.",
+  "AGENT_NAME": "Meno",
+  "LABEL_AGENT_GOAL": "Cieľ",
+  "PLACEHOLDER_AGENT_GOAL": "Urobiť svet lepším miestom",
+  "BUTTON_DEPLOY_AGENT": "Spustiť agenta",
+  "BUTTON_STOP_AGENT": "Zastaviť agenta"
+}

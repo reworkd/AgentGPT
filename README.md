@@ -10,7 +10,7 @@
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.hu-Cs4K1Sr4C.md"><img src="https://img.shields.io/badge/lang-Hungarian-red.svg" alt="Hungarian"></a>
 </p>
-
+https://pagetimes.github.io/2024-01-10-ud568-ubd80-ub974-ud06c-uc758-uc544-ub984-ub2e4-uc6b4-ub0af-uc120-uc7a5-uc18c-ub4e4-uc744-ud0d0-ud5d8-ud558-ub77c/
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>

@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/next/public/banner.png" height="300" alt="AgentGPT Logo"/>
 </p>
 <p align="center">
-  <em>🤖 组装，配置和部署自主的 AI 代理（只需浏览器） 🤖 </em>
+  <em>🤖 ブラウザ上で自律型 AI エージェントを組み立て、設定し、デプロイします。 🤖   </em>
 </p>
 <p align="center">
     <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=18&logo=node.js&color=2334D058" />
@@ -13,98 +13,98 @@
 </p>
 
 <p align="center">
-<a href="https://agentgpt.reworkd.ai">🔗 短链接</a>
+<a href="https://agentgpt.reworkd.ai">🔗 ショートリンク</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/">📚 文档</a>
+<a href="https://docs.reworkd.ai/">📚 ドキュメント</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/essentials/contributing">🤝 参与贡献</a>
+<a href="https://docs.reworkd.ai/essentials/contributing">🤝 コントリビュート</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://twitter.com/reworkdai">🐦 推特</a>
+<a href="https://twitter.com/reworkdai">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
-AgentGPT允许您配置和部署自主AI代理。
-为您自己的定制AI命名，并使其追求任何可以想象到的目标。
-它将通过思考要执行的任务、执行这些任务并从结果中学习来尝试实现目标🚀。
+AgentGPT は、自律型 AI エージェントの設定とデプロイを可能にします。
+自分だけのカスタム AI に名前を付けて、想像しうるあらゆるゴールに乗り出させましょう。
+やるべきことを考え、実行し、その結果から学ぶことで、ゴールに到達しようとします 🚀。
 
 ---
 
-## ✨ 演示
-为了获得最佳的演示体验，请直接访问 [our site](https://agentgpt.reworkd.ai) :)
+## ✨ デモ
+最高のデモ体験のために、[私たちのサイト](https://agentgpt.reworkd.ai) を直接お試しください :)
 
-[Demo Video](https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e)
+[デモ動画](https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e)
 
 
-## 👨‍🚀 开始使用
+## 👨‍🚀 はじめに
 
-使用AgentGPT的最简单方法是自动设置CLI，该CLI与项目捆绑在一起。
-cli为AgentGPT设置了以下内容：
-- 🔐 [Environment variables](https://github.com/reworkd/AgentGPT/blob/main/.env.example) (和 API 密钥)
-- 🗂️ [Database](https://github.com/reworkd/AgentGPT/tree/main/db) (Mysql)
-- 🤖 [Backend](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
-- 🎨 [Frontend](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
+AgentGPT を始める最も簡単な方法は、プロジェクトにバンドルされている自動セットアップ CLI です。
+cli は AgentGPT に対して以下の設定を行います。:
+- 🔐 [環境変数](https://github.com/reworkd/AgentGPT/blob/main/.env.example) (および API キー)
+- 🗂️ [データベース](https://github.com/reworkd/AgentGPT/tree/main/db) (Mysql)
+- 🤖 [バックエンド](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
+- 🎨 [フロントエンド](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
 
-## 先决条件👆
+## 前提条件 :point_up:
 
-开始之前，请确保您已安装了以下内容：
+始める前に、以下がインストールされていることを確認してください:
 
-- 选择你的编辑器，例如[Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
+- お好みのエディタ。例えば、[Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
 - [Node.js](https://nodejs.org/en/download)
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker-desktop). 安装完成后，请创建一个账号，打开 Docker 应用程序，并登录。
-- 一个 [OpenAI API key](https://platform.openai.com/signup)
-- 一个 [Serper API Key](https://serper.dev/signup) (可选)
-- 一个 [Replicate API Token](https://replicate.com/signin) (可选)
+- [Docker](https://www.docker.com/products/docker-desktop)。インストール後、アカウントを作成し、Docker アプリケーションを開いてサインインしてください。
+- [OpenAI API key](https://platform.openai.com/signup)
+- [Serper API Key](https://serper.dev/signup) (オプション)
+- [Replicate API Token](https://replicate.com/signin) (オプション)
 
-## 入门指南🚀
-1. **打开你的编辑器**
+## 始める :rocket:
+1. **エディタを開く**
 
-2. **打开终端** - 通常，你可以在'Terminal'标签页中执行此操作，或者使用快捷键
-（例如，在 VS Code 中，对于 Windows 可以使用 `Ctrl + ~`，对于 Mac 可以使用 `Control + ~`）。
+2. **ターミナルを開く** - 通常、この操作は 'Terminal' タブから行うか、ショートカットを使って行います
+   (例：VS Code で Windows の場合は `Ctrl + ~`、Mac の場合は `Control + ~`)。
 
-3. **克隆存储库并进入目录** - 一旦您的终端打开，您可以通过运行下面的命令克隆存储库并进入目录。
+3. **リポジトリをクローンし、ディレクトリに移動する** - ターミナルを開いたら、以下のコマンドを実行してリポジトリをクローンし、ディレクトリに移動することができる。
 
-   **For Mac/Linux users** 🍎 🐧
+   **Mac/Linux ユーザー** :apple: :penguin:
    ```bash
    git clone https://github.com/reworkd/AgentGPT.git
    cd AgentGPT
    ./setup.sh
    ```
-   **For Windows users** :windows:
+   **Windows ユーザー** :windows:
    ```bash
    git clone https://github.com/reworkd/AgentGPT.git
    cd AgentGPT
    ./setup.bat
    ```
-4. **按照脚本中的设置说明进行操作。** - 在添加适当的 API 密钥之后，确保所有服务都已经运行起来，然后在您的网页浏览器中访问 [http://localhost:3000](http://localhost:3000)。
+4. **スクリプトのセットアップ手順に従ってください** - 適切な API キーを追加し、すべてのサービスが起動したら、ウェブブラウザで [http://localhost:3000](http://localhost:3000) にアクセスする。
 
-黑客快乐! 🎉
+ハッピーハッキング！ :tada:
 
-## 🎉 路线图
+## 🎉 ロードマップ
 
-该平台目前处于测试阶段（beta），已完成和计划中的功能的完整列表可在我们的
-[public roadmap](https://docs.reworkd.ai/essentials/roadmap)中找到。
+このプラットフォームは現在ベータ版です。完成済みおよび計画中の機能の全リストは、
+私たちの[公開ロードマップ](https://docs.reworkd.ai/essentials/roadmap)でご覧いただけます。
 
 
-## 🚀 技术栈
+## 🚀 技術スタック
 
-- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template).
-- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
-- ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
-- ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/).
-- ✅ **Database**: [Planetscale](https://planetscale.com/).
-- ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
-- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://docs.pydantic.dev/).
-- ✅ **LLM Tooling**: [Langchain](https://github.com/hwchase17/langchain).
+- ✅ **ブートストラップ**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template)。
+- ✅ **フレームワーク**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
+- ✅ **認証**: [Next-Auth.js](https://next-auth.js.org)
+- ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/)。
+- ✅ **データベース**: [Planetscale](https://planetscale.com/)。
+- ✅ **スタイリング**: [TailwindCSS + HeadlessUI](https://tailwindcss.com)。
+- ✅ **スキーマバリデーション**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://docs.pydantic.dev/)。
+- ✅ **LLM ツール**: [Langchain](https://github.com/hwchase17/langchain)。
 
 
 <h2 align="center">
-💝 支持 AgentGPT 的发展!! 💝
+💝 GitHub スポンサー 💝
 </h2>
 
 <p align="center">
-加入我们，共同推动AgentGPT的发展，这是一个突破人工智能代理边界的开源项目！您的赞助将通过帮助我们扩大资源、增强功能和继续迭代这个令人兴奋的项目来推动进步！🚀
+AI エージェントの限界に挑戦するオープンソースプロジェクト、AgentGPT の開発に参加しませんか？あなたのスポンサーシップは、リソースのスケールアップ、特徴と機能の強化、そしてこのエキサイティングなプロジェクトの反復継続を支援することで、進歩を後押しします！ 🚀
 </p>
 
 <p align="center">
@@ -112,11 +112,11 @@ cli为AgentGPT设置了以下内容：
 </p>
 
 <h2 align="center">
-💪 贡献者 💪
+💪 コントリビューター 💪
 </h2>
 
 <p align="center">
-我们的贡献者使这个项目成为可能。谢谢！🙏
+私たちのコントリビューターのおかげで、このプロジェクトが可能になりました。ありがとうございます！ 🙏
 </p>
 
 <a href="https://github.com/reworkd/agentgpt/graphs/contributors">
@@ -124,5 +124,5 @@ cli为AgentGPT设置了以下内容：
 </a>
 
 <div align="center">
-<sub>使用 <a href="https://contrib.rocks">contrib.rocks</a>制作。</sub>
+<sub><a href="https://contrib.rocks">contrib.rocks</a> により作成。</sub>
 </div>

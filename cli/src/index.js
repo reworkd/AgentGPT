@@ -33,7 +33,7 @@ const handleNewEnv = () => {
 
 const handleRunOption = (runOption) => {
   if (runOption === "docker-compose") {
-    const dockerComposeUp = spawn("docker-compose", ["up", "--build"], {
+    const dockerComposeUp = spawn("docker", ["compose", "up", "--build"], {
       stdio: "inherit",
     });
   }

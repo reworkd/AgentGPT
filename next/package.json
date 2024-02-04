@@ -24,7 +24,7 @@
     "@react-pdf/renderer": "^3.1.9",
     "@sid-hq/sid": "^3.1.0",
     "@splinetool/react-spline": "^2.2.6",
-    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/forms": "^0.5.7",
     "@tanstack/react-query": "^4.29.14",
     "@trpc/client": "^10.21.1",
     "@trpc/next": "^10.21.1",

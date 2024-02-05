@@ -808,21 +808,22 @@ files = [
 
 [[package]]
 name = "fastapi"
-version = "0.98.0"
+version = "0.109.2"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "fastapi-0.98.0-py3-none-any.whl", hash = "sha256:f4165fb1fe3610c52cb1b8282c1480de9c34bc270f56a965aa93a884c350d605"},
-    {file = "fastapi-0.98.0.tar.gz", hash = "sha256:0d3c18886f652038262b5898fec6b09f4ca92ee23e9d9b1d1d24e429f84bf27b"},
+    {file = "fastapi-0.109.2-py3-none-any.whl", hash = "sha256:2c9bab24667293b501cad8dd388c05240c850b58ec5876ee3283c47d6e1e3a4d"},
+    {file = "fastapi-0.109.2.tar.gz", hash = "sha256:f3817eac96fe4f65a2ebb4baa000f394e55f5fccdaf7f75250804bc58f354f73"},
 ]
 
 [package.dependencies]
-pydantic = ">=1.7.4,<1.8 || >1.8,<1.8.1 || >1.8.1,<2.0.0"
-starlette = ">=0.27.0,<0.28.0"
+pydantic = ">=1.7.4,<1.8 || >1.8,<1.8.1 || >1.8.1,<2.0.0 || >2.0.0,<2.0.1 || >2.0.1,<2.1.0 || >2.1.0,<3.0.0"
+starlette = ">=0.36.3,<0.37.0"
+typing-extensions = ">=4.8.0"
 
 [package.extras]
-all = ["email-validator (>=1.1.1)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "python-multipart (>=0.0.5)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
+all = ["email-validator (>=2.0.0)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "pydantic-extra-types (>=2.0.0)", "pydantic-settings (>=2.0.0)", "python-multipart (>=0.0.7)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
 
 [[package]]
 name = "filelock"
@@ -2762,20 +2763,20 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "starlette"
-version = "0.27.0"
+version = "0.36.3"
 description = "The little ASGI library that shines."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "starlette-0.27.0-py3-none-any.whl", hash = "sha256:918416370e846586541235ccd38a474c08b80443ed31c578a418e2209b3eef91"},
-    {file = "starlette-0.27.0.tar.gz", hash = "sha256:6a6b0d042acb8d469a01eba54e9cda6cbd24ac602c4cd016723117d6a7e73b75"},
+    {file = "starlette-0.36.3-py3-none-any.whl", hash = "sha256:13d429aa93a61dc40bf503e8c801db1f1bca3dc706b10ef2434a36123568f044"},
+    {file = "starlette-0.36.3.tar.gz", hash = "sha256:90a671733cfb35771d8cc605e0b679d23b992f8dcfad48cc60b38cb29aeb7080"},
 ]
 
 [package.dependencies]
 anyio = ">=3.4.0,<5"
 
 [package.extras]
-full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyaml"]
+full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7)", "pyyaml"]
 
 [[package]]
 name = "stevedore"
@@ -3437,4 +3438,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "0c34d806086eaa0410fa3f0bba6e4ccdb22533e34ceb370eab9fc426d46eaca7"
+content-hash = "13f3c424b03c88fa596b3931600494daffed409c4a453d22f6aa92852a2fb5a7"

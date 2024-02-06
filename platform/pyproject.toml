@@ -63,7 +63,7 @@ pytest-mock = "^3.10.0"
 pytest-asyncio = "^0.23.4"
 mypy = "^1.4.1"
 types-requests = "^2.31.0.1"
-types-pytz = "^2023.3.0.0"
+types-pytz = "^2024.1.0.20240203"
 
 [tool.isort]
 profile = "black"

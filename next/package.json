@@ -15,7 +15,7 @@
     "test": "cross-env SKIP_ENV_VALIDATION=1 jest"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.14",
+    "@headlessui/react": "^1.7.18",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-switch": "^1.0.2",

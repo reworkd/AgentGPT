@@ -48,7 +48,7 @@
     "next-auth": "4.24.5",
     "next-i18next": "^13.3.0",
     "nextjs-google-analytics": "^2.3.3",
-    "openai": "^4.26.0",
+    "openai": "^4.26.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.3.1",

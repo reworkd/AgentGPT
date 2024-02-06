@@ -15,7 +15,7 @@
     "test": "cross-env SKIP_ENV_VALIDATION=1 jest"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.14",
+    "@headlessui/react": "^1.7.18",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-switch": "^1.0.2",
@@ -68,7 +68,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^6.4.1",
     "@testing-library/react": "^14.0.0",
-    "@types/node": "^18.11.18",
+    "@types/node": "^20.11.16",
     "@types/prettier": "^2.7.3",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.2.7",
@@ -81,7 +81,7 @@
     "eslint-config-next": "14.1.0",
     "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.3",
-    "jest": "^29.3.1",
+    "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^13.2.1",
     "postcss": "^8.4.34",

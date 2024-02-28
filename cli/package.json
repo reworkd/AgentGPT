@@ -20,13 +20,13 @@
     "clear": "^0.1.0",
     "clui": "^0.3.6",
     "configstore": "^6.0.0",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.1",
     "figlet": "^1.7.0",
-    "inquirer": "^9.2.12",
+    "inquirer": "^9.2.13",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "node-fetch": "^3.3.2",
-    "simple-git": "^3.20.0",
+    "simple-git": "^3.22.0",
     "touch": "^3.1.0"
   }
 }

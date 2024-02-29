@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ValidationInfo
 
 from reworkd_platform.web.api.agent.analysis import Analysis
 
@@ -9,7 +9,13 @@ LLM_Model = Literal[
     "gpt-3.5-turbo",
     "gpt-3.5-turbo-16k",
     "gpt-4",
+    "ERNIE-Bot",
+    "ERNIE-Bot-4",
+    "ChatGLM2-6B-32K",
+    "ERNIE-Bot-turbo"
 ]
+
+
 Loop_Step = Literal[
     "start",
     "analyze",
@@ -22,6 +28,10 @@ LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {
     "gpt-3.5-turbo": 4000,
     "gpt-3.5-turbo-16k": 16000,
     "gpt-4": 8000,
+    "ERNIE-Bot": 8000,
+    "ERNIE-Bot-4": 8000,
+    "ChatGLM2-6B-32K": 8000,
+    "ERNIE-Bot-turbo": 8000,
 }
 
 
@@ -32,9 +42,10 @@ class ModelSettings(BaseModel):
     max_tokens: int = Field(default=500, ge=0)
     language: str = Field(default="English")
 
-    @validator("max_tokens")
-    def validate_max_tokens(cls, v: float, values: Dict[str, Any]) -> float:
-        model = values["model"]
+    @field_validator("max_tokens")
+    @classmethod
+    def validate_max_tokens(cls, v: float, values: ValidationInfo) -> float:
+        model = values.data["model"]
         if v > (max_tokens := LLM_MODEL_MAX_TOKENS[model]):
             raise ValueError(f"Model {model} only supports {max_tokens} tokens")
         return v
@@ -83,5 +94,5 @@ class NewTasksResponse(BaseModel):
 
 class RunCount(BaseModel):
     count: int
-    first_run: Optional[datetime]
-    last_run: Optional[datetime]
+    first_run: Optional[datetime] = None
+    last_run: Optional[datetime] = None

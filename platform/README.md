@@ -10,6 +10,7 @@ tool.
 To run the project use this set of commands:
 
 ```bash
+poetry config virtualenvs.in-project true
 poetry install
 poetry run python -m reworkd_platform
 ```
@@ -149,3 +150,16 @@ poetry run pytest -vv --cov="reworkd_platform" .
 poetry self add poetry-plugin-up
 poetry up --latest
 ```
+
+## proxy
+set environment variable:
+
+```bash
+# used by the setup
+export http_proxy=http://127.0.0.1:8080
+export https_proxy=http://127.0.0.1:8080
+# used by the platform
+export openai_proxy=http://127.0.0.1:8080
+``` 
+Then it will use the proxy to access openai api. Pay attention to the .env file generated,
+There you can see a new variable called `openai_proxy` with the value of `http://127.0.0.1:8080`.

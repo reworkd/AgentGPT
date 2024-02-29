@@ -11,8 +11,8 @@ class OrganizationRole(BaseModel):
 
 class UserBase(BaseModel):
     id: str
-    name: Optional[str]
-    email: Optional[str]
+    name: Optional[str] = None
+    email: Optional[str] = None
     image: Optional[str] = Field(default=None)
     organization: Optional[OrganizationRole] = Field(default=None)
 

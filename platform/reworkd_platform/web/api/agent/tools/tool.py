@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from lanarky.responses import StreamingResponse
 from langchain.chat_models.base import BaseChatModel

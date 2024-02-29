@@ -1,6 +1,6 @@
 from typing import Dict
 
-from pydantic import BaseModel, validator
+from pydantic import field_validator, BaseModel, validator
 
 
 class AnalysisArguments(BaseModel):
@@ -15,7 +15,8 @@ class AnalysisArguments(BaseModel):
 class Analysis(AnalysisArguments):
     action: str
 
-    @validator("action")
+    @field_validator("action")
+    @classmethod
     def action_must_be_valid_tool(cls, v: str) -> str:
         # TODO: Remove circular import
         from reworkd_platform.web.api.agent.tools.tools import get_available_tools_names
@@ -24,6 +25,8 @@ class Analysis(AnalysisArguments):
             raise ValueError(f"Analysis action '{v}' is not a valid tool")
         return v
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator("action")
     def search_action_must_have_arg(cls, v: str, values: Dict[str, str]) -> str:
         from reworkd_platform.web.api.agent.tools.search import Search

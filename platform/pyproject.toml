@@ -15,10 +15,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.98.0"
+fastapi = ">=0.98.0"
 boto3 = "^1.28.51"
 uvicorn = { version = "^0.22.0", extras = ["standard"] }
-pydantic = { version = "<2.0", extras = ["dotenv"] }
+pydantic = { version = ">=2.0", extras = ["dotenv"] }
 ujson = "^5.8.0"
 sqlalchemy = { version = "^2.0.21", extras = ["mypy", "asyncio"] }
 aiomysql = "^0.1.1"
@@ -27,10 +27,10 @@ sentry-sdk = "^1.31.0"
 loguru = "^0.7.2"
 aiokafka = "^0.8.1"
 requests = "^2.31.0"
-langchain = "^0.0.295"
+langchain = "<0.1.0"
 openai = "^0.28.0"
 wikipedia = "^1.4.0"
-replicate = "^0.8.4"
+replicate = "^0.20.0"
 lanarky = "^0.7.15"
 tiktoken = "^0.5.1"
 grpcio = "^1.58.0"
@@ -41,6 +41,7 @@ botocore = "^1.31.51"
 stripe = "^5.5.0"
 cryptography = "^41.0.4"
 httpx = "^0.25.0"
+qianfan = "^0.1.4"
 
 
 [tool.poetry.dev-dependencies]
@@ -64,6 +65,13 @@ pytest-asyncio = "^0.21.0"
 mypy = "^1.4.1"
 types-requests = "^2.31.0.1"
 types-pytz = "^2023.3.0.0"
+
+
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
 
 [tool.isort]
 profile = "black"
@@ -90,6 +98,7 @@ filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore:.*unclosed.*:ResourceWarning",
     "ignore::ImportWarning",
+    "ignore::UserWarning"
 ]
 env = [
     "REWORKD_PLATFORM_DB_BASE=reworkd_platform_test",

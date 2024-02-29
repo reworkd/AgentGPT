@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional, Tuple, Type, Union
 
-from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
+from langchain.chat_models import AzureChatOpenAI, ChatOpenAI, QianfanChatEndpoint
 from pydantic import Field
 
 from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
@@ -9,6 +9,8 @@ from reworkd_platform.settings import Settings
 
 
 class WrappedChatOpenAI(ChatOpenAI):
+    """ChatOpenAI with client field.
+    """
     client: Any = Field(
         default=None,
         description="Meta private value but mypy will complain its missing",
@@ -18,12 +20,25 @@ class WrappedChatOpenAI(ChatOpenAI):
 
 
 class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
+    """AzureChatOpenAI with WrappedChatOpenAI
+    """
     openai_api_base: str
     openai_api_version: str
     deployment_name: str
 
 
-WrappedChat = Union[WrappedAzureChatOpenAI, WrappedChatOpenAI]
+class WrappedQianfanChatEndpoint(QianfanChatEndpoint):
+    """QianfanChatEndpoint with WrappedChatOpenAI
+    """
+    client: Any = Field(
+        default=None,
+        description="Meta private value but mypy will complain its missing",
+    )
+    max_tokens: int
+    model_name: LLM_Model = Field(alias="model")
+
+
+WrappedChat = Union[WrappedAzureChatOpenAI, WrappedChatOpenAI, WrappedQianfanChatEndpoint]
 
 
 def create_model(
@@ -33,8 +48,26 @@ def create_model(
     streaming: bool = False,
     force_model: Optional[LLM_Model] = None,
 ) -> WrappedChat:
+    """
+    创建聊天模型。
+
+    参数：
+    - settings: 设置参数
+    - model_settings: 模型设置参数
+    - user: 用户参数
+    - streaming: 是否开启流式处理，默认为False
+    - force_model: 强制使用的模型，默认为None
+
+    返回：
+    - WrappedChat: 聊天模型对象
+
+    """
+
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
+    )
+    use_qianfan = (
+        "qianfan_ak" in settings.dict() and "qianfan_sk" in settings.dict()
     )
 
     llm_model = force_model or model_settings.model
@@ -49,6 +82,7 @@ def create_model(
         "streaming": streaming,
         "max_retries": 5,
         "model_kwargs": {"user": user.email, "headers": headers},
+        "openai_proxy": settings.openai_proxy,
     }
 
     if use_azure:
@@ -60,17 +94,26 @@ def create_model(
                 "deployment_name": deployment_name,
                 "openai_api_type": "azure",
                 "openai_api_base": base.rstrip("v1"),
-            }
+            },
         )
 
         if use_helicone:
             kwargs["model"] = deployment_name
 
+    if llm_model in ("ERNIE-Bot", "ERNIE-Bot-4", "ChatGLM2-6B-32K", "ERNIE-Bot-turbo"):
+        model = WrappedQianfanChatEndpoint
+        kwargs.update(
+            {
+                "qianfan_ak": settings.qianfan_ak,
+                "qianfan_sk": settings.qianfan_sk,
+            },
+        )
+
     return model(**kwargs)  # type: ignore
 
 
 def get_base_and_headers(
-    settings_: Settings, model_settings: ModelSettings, user: UserBase
+    settings_: Settings, model_settings: ModelSettings, user: UserBase,
 ) -> Tuple[str, Optional[Dict[str, str]], bool]:
     use_helicone = settings_.helicone_enabled and not model_settings.custom_api_key
     base = (

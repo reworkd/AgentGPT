@@ -26,7 +26,7 @@ def create_engine() -> AsyncEngine:
     return create_async_engine(
         str(settings.db_url),
         echo=settings.db_echo,
-        connect_args=connect_args,
+        # connect_args=connect_args, 先不支持ssl加密
     )
 
 

@@ -12,10 +12,11 @@ from reworkd_platform.web.api.agent.agent_service.agent_service import AgentServ
 from reworkd_platform.web.api.agent.agent_service.mock_agent_service import (
     MockAgentService,
 )
-from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import (
-    OpenAIAgentService,
+from reworkd_platform.web.api.agent.agent_service import (
+    OpenAIAgentService, QianfanAgentService,
 )
-from reworkd_platform.web.api.agent.model_factory import create_model
+from reworkd_platform.web.api.agent.model_factory import (create_model,
+                                                          WrappedQianfanChatEndpoint)
 from reworkd_platform.web.api.dependencies import get_current_user
 
 
@@ -41,7 +42,11 @@ def get_agent_service(
             force_model=llm_model,
         )
 
-        return OpenAIAgentService(
+        if isinstance(model, WrappedQianfanChatEndpoint):
+            agent_service = QianfanAgentService
+        else:
+            agent_service = OpenAIAgentService
+        return agent_service(
             model,
             run.model_settings,
             token_service,

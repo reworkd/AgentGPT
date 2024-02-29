@@ -9,7 +9,7 @@ interface LayoutProps {
 }
 
 const DefaultLayout = (props: LayoutProps) => {
-  const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
+  const description = "看到硬币的两面，做出理性的投资！";
 
   return (
     <div
@@ -19,7 +19,7 @@ const DefaultLayout = (props: LayoutProps) => {
       )}
     >
       <Head>
-        <title>AgentGPT</title>
+        <title>小原同学——想法实验</title>
         <meta name="description" content={description} />
         <meta name="twitter:site" content="@AgentGPT" />
         <meta name="twitter:card" content="summary_large_image" />

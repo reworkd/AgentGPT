@@ -23,13 +23,13 @@ import {
 
 export const TEMPLATE_DATA: TemplateModel[] = [
   {
-    name: "ResearchGPT",
+    name: "投资研究",
     icon: <FaBookReader />,
-    category: "Academics and Professional",
+    category: "想法分析研究",
     description: "Generate a thorough report on a specific subject",
     promptTemplate:
       "Compile a comprehensive report on Global Warming, touching on its causes, effects, and mitigation strategies. Include recent research findings and statistics.",
-    placeholder: "Global Warming",
+    placeholder: "投资研究报告",
   },
   {
     name: "BrandGPT",

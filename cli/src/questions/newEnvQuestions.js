@@ -1,6 +1,9 @@
 import { isValidKey, validKeyErrorMessage } from "../helpers.js";
 import { RUN_OPTION_QUESTION } from "./sharedQuestions.js";
 import fetch from "node-fetch";
+import { ProxyAgent  } from 'proxy-agent';
+
+const proxyAgent = new ProxyAgent();
 
 export const newEnvQuestions = [
     RUN_OPTION_QUESTION,
@@ -12,15 +15,12 @@ export const newEnvQuestions = [
         validate: async(apikey) => {
             if(apikey === "") return true;
 
-            if(!isValidKey(apikey, /^sk-[a-zA-Z0-9]{48}$/)) {
-                return validKeyErrorMessage
-            }
-
-            const endpoint = "https://api.openai.com/v1/models"
+            const endpoint = "https://api.openai.com/v1/engines"
             const response = await fetch(endpoint, {
                 headers: {
                     "Authorization": `Bearer ${apikey}`,
                 },
+                agent: proxyAgent,
             });
             if(!response.ok) {
                 return validKeyErrorMessage
@@ -50,7 +50,8 @@ export const newEnvQuestions = [
                 },
                 body: JSON.stringify({
                     "q": "apple inc"
-                }),
+                },),
+                agent: proxyAgent,
             });
             if(!response.ok) {
                 return validKeyErrorMessage
@@ -66,7 +67,7 @@ export const newEnvQuestions = [
             "What is your Replicate API key (https://replicate.com/)? Leave empty to just use DALL-E for image generation.",
         validate: async(apikey) => {
             if(apikey === "") return true;
-            
+
             if(!isValidKey(apikey, /^r8_[a-zA-Z0-9]{37}$/)) {
                 return validKeyErrorMessage
             }
@@ -76,6 +77,7 @@ export const newEnvQuestions = [
                 headers: {
                     "Authorization": `Token ${apikey}`,
                 },
+                agent: proxyAgent,
             });
             if(!response.ok) {
                 return validKeyErrorMessage
@@ -83,5 +85,17 @@ export const newEnvQuestions = [
 
             return true
         },
+    },
+    {
+      type: "input",
+      name: "qianfanAk",
+      message:
+          "Enter your qianfan access key (eg: ak...) or press enter to continue with no key:",
+    },
+    {
+      type: "input",
+      name: "qianfanSk",
+      message:
+          "Enter your qianfan security key (eg: sk...) or press enter to continue with no key:",
     },
 ];

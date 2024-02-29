@@ -3,7 +3,7 @@ from typing import List
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
-from langchain import LLMChain
+from langchain.chains import LLMChain
 from langchain.chat_models.base import BaseChatModel
 
 

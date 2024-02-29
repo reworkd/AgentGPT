@@ -1,2 +1,2 @@
-from .agent import ModelSettings
 from .user import UserBase
+from .agent import ModelSettings

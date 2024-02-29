@@ -53,3 +53,6 @@ yarn-error.log*
 /volumes/
 schema.prismae
 *.sql
+
+.venv/
+nohup.out

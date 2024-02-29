@@ -5,7 +5,7 @@ from lanarky.responses import StreamingResponse
 from langchain.chains import LLMChain
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
+from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate,HumanMessagePromptTemplate
 from langchain.schema import HumanMessage
 from loguru import logger
 from pydantic import ValidationError
@@ -21,7 +21,7 @@ from reworkd_platform.web.api.agent.helpers import (
     openai_error_handler,
     parse_with_handling,
 )
-from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.web.api.agent.model_factory import WrappedQianfanChatEndpoint
 from reworkd_platform.web.api.agent.prompts import (
     analyze_task_prompt,
     chat_prompt,
@@ -40,10 +40,10 @@ from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
 
 
-class OpenAIAgentService(AgentService):
+class QianfanAgentService(AgentService):
     def __init__(
         self,
-        model: WrappedChatOpenAI,
+        model: WrappedQianfanChatEndpoint,
         settings: ModelSettings,
         token_service: TokenService,
         callbacks: Optional[List[AsyncCallbackHandler]],
@@ -59,7 +59,7 @@ class OpenAIAgentService(AgentService):
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         prompt = ChatPromptTemplate.from_messages(
-            [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
+            [HumanMessagePromptTemplate(prompt=start_goal_prompt)]
         )
 
         self.token_service.calculate_max_tokens(
@@ -73,7 +73,7 @@ class OpenAIAgentService(AgentService):
         completion = await call_model_with_handling(
             self.model,
             ChatPromptTemplate.from_messages(
-                [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
+                [HumanMessagePromptTemplate(prompt=start_goal_prompt)]
             ),
             {"goal": goal, "language": self.settings.language},
             settings=self.settings,
@@ -181,7 +181,7 @@ class OpenAIAgentService(AgentService):
         goal: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.model_name = "ERNIE-Bot-turbo"
         self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
 
         snippet_max_tokens = 7000  # Leave room for the rest of the prompt
@@ -202,7 +202,7 @@ class OpenAIAgentService(AgentService):
         message: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.model_name = "ERNIE-Bot-4"
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessagePromptTemplate(prompt=chat_prompt),

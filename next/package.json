@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=18.0.0 <19.0.0"
+    "node": ">=18.0.0 <21.0.0"
   },
   "scripts": {
     "build": "next build --no-lint",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@next-auth/prisma-adapter": "^1.0.5",
-    "@prisma/client": "^4.9.0",
+    "@prisma/client": "^5.6.0",
     "@radix-ui/react-switch": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.4",
     "@radix-ui/react-tooltip": "^1.0.5",
@@ -87,7 +87,7 @@
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "prisma": "^4.9.0",
+    "prisma": "^5.6.0",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.1.3"
   },

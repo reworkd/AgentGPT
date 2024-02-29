@@ -2,11 +2,10 @@ import platform
 from pathlib import Path
 from tempfile import gettempdir
 from typing import List, Literal, Optional, Union
-
-from pydantic import BaseSettings
 from yarl import URL
 
 from reworkd_platform.constants import ENV_PREFIX
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 TEMP_DIR = Path(gettempdir())
 
@@ -53,9 +52,14 @@ class Settings(BaseSettings):
 
     # OpenAI
     openai_api_base: str = "https://api.openai.com/v1"
-    openai_api_key: str = "<Should be updated via env>"
+    openai_api_key: str = "should be replaced by a real key"
     openai_api_version: str = "2023-08-01-preview"
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
+    openai_proxy: Optional[str] = None
+
+    # Qianfan
+    qianfan_ak: Optional[str] = None
+    qianfan_sk: Optional[str] = None
 
     # Helicone
     helicone_api_base: str = "https://oai.hconeai.com/v1"
@@ -137,7 +141,7 @@ class Settings(BaseSettings):
                 self.pusher_key,
                 self.pusher_secret,
                 self.pusher_cluster,
-            ]
+            ],
         )
 
     @property
@@ -147,7 +151,7 @@ class Settings(BaseSettings):
                 self.kafka_bootstrap_servers,
                 self.kafka_username,
                 self.kafka_password,
-            ]
+            ],
         )
 
     @property
@@ -156,7 +160,7 @@ class Settings(BaseSettings):
             [
                 self.helicone_api_base,
                 self.helicone_api_key,
-            ]
+            ],
         )
 
     @property
@@ -166,13 +170,9 @@ class Settings(BaseSettings):
                 self.sid_client_id,
                 self.sid_client_secret,
                 self.sid_redirect_uri,
-            ]
+            ],
         )
-
-    class Config:
-        env_file = ".env"
-        env_prefix = ENV_PREFIX
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file=".env", env_prefix=ENV_PREFIX, env_file_encoding="utf-8")
 
 
 settings = Settings()

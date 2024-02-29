@@ -3,8 +3,7 @@
   "name": "Reworkd",
   "logo": {
     "dark": "/logo/logolight.png",
-    "light": "/logo/logodark.png",
-    "href": ""
+    "light": "/logo/logodark.png"
   },
   "favicon": "/favicon.png",
   "colors": {

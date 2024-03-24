@@ -1,14 +1,9 @@
 from importlib import metadata
 
-import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import UJSONResponse
-from sentry_sdk.integrations.fastapi import FastApiIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
-from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
-import logging
 from reworkd_platform.logging import configure_logging
 from reworkd_platform.settings import settings
 from reworkd_platform.web.api.error_handling import platformatic_exception_handler
@@ -29,23 +24,7 @@ def get_app() -> FastAPI:
     :return: application.
     """
     configure_logging()
-    if settings.sentry_dsn:
-        # Enables sentry integration.
-        sentry_sdk.init(
-            dsn=settings.sentry_dsn,
-            traces_sample_rate=settings.sentry_sample_rate,
-            environment=settings.environment,
-            integrations=[
-                FastApiIntegration(transaction_style="endpoint"),
-                LoggingIntegration(
-                    level=logging.getLevelName(
-                        settings.log_level.value,
-                    ),
-                    event_level=logging.ERROR,
-                ),
-                SqlalchemyIntegration(),
-            ],
-        )
+
     app = FastAPI(
         title="Reworkd Platform API",
         version=metadata.version("reworkd_platform"),
@@ -55,13 +34,10 @@ def get_app() -> FastAPI:
         default_response_class=UJSONResponse,
     )
 
-    origins = [
-        settings.frontend_url,
-    ]
-
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=[settings.frontend_url],
+        allow_origin_regex=settings.allowed_origins_regex,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import React from "react";
+
 import Tooltip from "./Tooltip";
 import type { toolTipProperties } from "../types";
-import clsx from "clsx";
 
 interface LabelProps {
   left?: React.ReactNode;
@@ -19,9 +20,9 @@ const Label = ({ type, left, toolTipProperties }: LabelProps) => {
       child={
         <div
           className={clsx(
-            "center flex min-w-[8em] items-center rounded-xl rounded-r-none",
-            type !== "range" && "border-white/10 md:border-2 md:border-r-0",
-            "py-2 text-sm font-semibold tracking-wider transition-all md:py-3 md:pl-3 md:text-lg",
+            "center flex min-w-[8em] items-center rounded-xl md:border-2",
+            type !== "range" && "md:rounded-r-none md:border-r-0 md:border-slate-7",
+            "py-2 text-sm font-semibold tracking-wider text-slate-10 transition-all md:bg-slate-4 md:py-3 md:pl-3 md:text-lg",
             isTypeTextArea() && "md:h-20"
           )}
         >

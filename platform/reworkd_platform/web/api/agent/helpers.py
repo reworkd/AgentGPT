@@ -1,12 +1,16 @@
-from typing import TypeVar
+from typing import Any, Callable, Dict, TypeVar
 
-from langchain import LLMChain, BasePromptTemplate
-from langchain.schema import OutputParserException, BaseOutputParser
-from openai import InvalidRequestError
-from openai.error import ServiceUnavailableError
+from langchain import BasePromptTemplate, LLMChain
+from langchain.chat_models.base import BaseChatModel
+from langchain.schema import BaseOutputParser, OutputParserException
+from openai.error import (
+    AuthenticationError,
+    InvalidRequestError,
+    RateLimitError,
+    ServiceUnavailableError,
+)
 
-from reworkd_platform.schemas import ModelSettings
-from reworkd_platform.web.api.agent.model_settings import create_model
+from reworkd_platform.schemas.agent import ModelSettings
 from reworkd_platform.web.api.errors import OpenAIError
 
 T = TypeVar("T")
@@ -21,20 +25,52 @@ def parse_with_handling(parser: BaseOutputParser[T], completion: str) -> T:
         )
 
 
-async def call_model_with_handling(
-    model_settings: ModelSettings, prompt: BasePromptTemplate, args: dict[str, str]
-) -> str:
+async def openai_error_handler(
+    func: Callable[..., Any], *args: Any, settings: ModelSettings, **kwargs: Any
+) -> Any:
     try:
-        model = create_model(model_settings)
-        chain = LLMChain(llm=model, prompt=prompt)
-        return await chain.arun(args)
+        return await func(*args, **kwargs)
     except ServiceUnavailableError as e:
         raise OpenAIError(
             e,
             "OpenAI is experiencing issues. Visit "
             "https://status.openai.com/ for more info.",
+            should_log=not settings.custom_api_key,
         )
     except InvalidRequestError as e:
+        if e.user_message.startswith("The model:"):
+            raise OpenAIError(
+                e,
+                f"Your API key does not have access to your current model. Please use a different model.",
+                should_log=not settings.custom_api_key,
+            )
+        raise OpenAIError(e, e.user_message)
+    except AuthenticationError as e:
+        raise OpenAIError(
+            e,
+            "Authentication error: Ensure a valid API key is being used.",
+            should_log=not settings.custom_api_key,
+        )
+    except RateLimitError as e:
+        if e.user_message.startswith("You exceeded your current quota"):
+            raise OpenAIError(
+                e,
+                f"Your API key exceeded your current quota, please check your plan and billing details.",
+                should_log=not settings.custom_api_key,
+            )
         raise OpenAIError(e, e.user_message)
     except Exception as e:
-        raise OpenAIError(e, "There was an issue getting a response from the AI model.")
+        raise OpenAIError(
+            e, "There was an unexpected issue getting a response from the AI model."
+        )
+
+
+async def call_model_with_handling(
+    model: BaseChatModel,
+    prompt: BasePromptTemplate,
+    args: Dict[str, str],
+    settings: ModelSettings,
+    **kwargs: Any,
+) -> str:
+    chain = LLMChain(llm=model, prompt=prompt)
+    return await openai_error_handler(chain.arun, args, settings=settings, **kwargs)

@@ -1,12 +1,18 @@
+import clsx from "clsx";
 import type { ReactNode } from "react";
 import React, { useCallback, useState } from "react";
-import { FaCopy } from "react-icons/fa";
+import { FiClipboard } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 import "highlight.js/styles/default.css";
 
-const MarkdownRenderer = ({ children }) => {
+interface MarkdownRendererProps {
+  children: string;
+  className?: string;
+}
+
+const MarkdownRenderer = ({ children, className }: MarkdownRendererProps) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -14,10 +20,19 @@ const MarkdownRenderer = ({ children }) => {
       components={{
         pre: CustomPre,
         code: CustomCodeBlock,
+        h1: (props) => <h1 className="text-md mb-2 font-black sm:text-xl">{props.children}</h1>,
+        h2: (props) => <h1 className="sm:text-md mb-2 text-sm font-bold">{props.children}</h1>,
         a: (props) => CustomLink({ children: props.children, href: props.href }),
         p: (props) => <p className="mb-4">{props.children}</p>,
-        ul: (props) => <ul className="ml-8 list-disc">{props.children}</ul>,
-        ol: (props) => <ol className="ml-8 list-decimal">{props.children}</ol>,
+        ul: (props) => (
+          <ul className={clsx("mb-4 list-disc marker:text-neutral-400", className)}>
+            {props.children}
+          </ul>
+        ),
+        ol: (props) => (
+          <ol className="mb-4 ml-8 list-decimal marker:text-neutral-400">{props.children}</ol>
+        ),
+        li: (props) => <li className="mb-1 ml-8">{props.children}</li>,
       }}
     >
       {children}
@@ -48,13 +63,13 @@ const CustomPre = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="mb-4 flex flex-col ">
-      <div className="flex w-full items-center justify-between rounded-t-lg bg-zinc-800 p-1 px-4 text-white">
+      <div className="flex w-full items-center justify-between rounded-t-lg bg-slate-10 p-1 px-4 text-white">
         <div>{language.charAt(0).toUpperCase() + language.slice(1)}</div>
         <button
           onClick={handleCopyClick}
-          className="flex items-center gap-2 rounded px-2 py-1 hover:bg-zinc-600 focus:outline-none"
+          className="flex items-center gap-2 rounded px-2 py-1 hover:bg-slate-9 focus:outline-none"
         >
-          <FaCopy />
+          <FiClipboard />
           {isCopied ? "Copied!" : "Copy Code"}
         </button>
       </div>
@@ -72,7 +87,7 @@ interface CustomCodeBlockProps {
 const CustomCodeBlock = ({ inline, className, children }: CustomCodeBlockProps) => {
   // Inline code blocks will be placed directly within a paragraph
   if (inline) {
-    return <code className="rounded bg-gray-200 px-1 py-[1px] text-black">{children}</code>;
+    return <code className="rounded bg-slate-2 px-1 py-[1px] text-black">{children}</code>;
   }
 
   const language = className ? className.replace("language-", "") : "plaintext";
@@ -83,7 +98,10 @@ const CustomCodeBlock = ({ inline, className, children }: CustomCodeBlockProps) 
 const CustomLink = ({ children, href }) => {
   return (
     <a
-      className="link overflow-hidden"
+      className={clsx(
+        "mx-0.5 rounded-full bg-sky-600 px-1.5 py-0.5 align-top text-[0.6rem] text-white",
+        "transition-colors duration-300 hover:bg-sky-500 hover:text-white"
+      )}
       href={href as string}
       target="_blank"
       rel="noopener noreferrer"

@@ -1,3 +1,0 @@
-{
-  "cleanUrls": true
-}

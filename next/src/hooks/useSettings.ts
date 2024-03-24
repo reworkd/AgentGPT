@@ -1,71 +1,50 @@
-import { useState } from "react";
-import type { ModelSettings, SettingModel } from "../utils/types";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { useEffect, useState } from "react";
 
-import {
-  DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-  DEFAULT_MAX_LOOPS_FREE,
-  GPT_35_TURBO,
-} from "../utils/constants";
+import { useModelSettingsStore } from "../stores";
+import type { ModelSettings } from "../types";
+import { getDefaultModelSettings } from "../utils/constants";
+import type { Language } from "../utils/languages";
+import { findLanguage } from "../utils/languages";
 
-const SETTINGS_KEY = "AGENTGPT_SETTINGS";
-const DEFAULT_SETTINGS: ModelSettings = {
-  customModelName: GPT_35_TURBO,
-  customTemperature: 0.9 as const,
-  customMaxLoops: DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
-  maxTokens: 300 as const,
+
+export type SettingsModel = {
+  settings: ModelSettings;
+  updateSettings: <Key extends keyof ModelSettings>(key: Key, value: ModelSettings[Key]) => void;
+  updateLangauge: (language: Language) => Promise<void>;
 };
 
-const loadSettings = () => {
-  const settings = { ...DEFAULT_SETTINGS };
+export function useSettings(): SettingsModel {
+  const [_modelSettings, set_ModelSettings] = useState<ModelSettings>(getDefaultModelSettings());
+  const modelSettings = useModelSettingsStore.use.modelSettings();
+  const updateSettings = useModelSettingsStore.use.updateSettings();
+  const router = useRouter();
+  const { i18n } = useTranslation();
 
-  if (typeof window === "undefined") {
-    return settings;
-  }
+  // The server doesn't have access to local storage so rendering Zustand directly  will lead to a hydration error
+  useEffect(() => {
+    set_ModelSettings(modelSettings);
+  }, [modelSettings]);
 
-  const data = localStorage.getItem(SETTINGS_KEY);
-  if (!data) {
-    return settings;
-  }
+  // We must handle language setting changes uniquely as the router must be the source of truth for the language
+  useEffect(() => {
+    if (router.locale !== modelSettings.language.code) {
+      updateSettings("language", findLanguage(router.locale || "en"));
+    }
+  }, [router, modelSettings.language, updateSettings]);
 
-  try {
-    const obj = JSON.parse(data) as ModelSettings;
-    Object.entries(obj).forEach(([key, value]) => {
-      if (settings.hasOwnProperty(key)) {
-        // @ts-ignore
-        settings[key] = value;
-      }
-    });
-  } catch (error) {}
-
-  if (settings.customMaxLoops === DEFAULT_MAX_LOOPS_FREE) {
-    settings.customMaxLoops = DEFAULT_MAX_LOOPS_CUSTOM_API_KEY;
-  }
-
-  if (settings.customMaxLoops && settings.customMaxLoops > 25) {
-    settings.customMaxLoops = 25;
-  }
-
-  return settings;
-};
-
-export function useSettings(): SettingModel {
-  const [settings, setSettings] = useState<ModelSettings>(loadSettings);
-
-  const saveSettings = (settings: ModelSettings) => {
-    setSettings(settings);
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-  };
-
-  const resetSettings = () => {
-    localStorage.removeItem(SETTINGS_KEY);
-    setSettings((_) => {
-      return { ...DEFAULT_SETTINGS };
+  const updateLangauge = async (language: Language): Promise<void> => {
+    await i18n.changeLanguage(language.code);
+    const { pathname, asPath, query } = router;
+    await router.push({ pathname, query }, asPath, {
+      locale: language.code,
     });
   };
 
   return {
-    settings,
-    saveSettings,
-    resetSettings,
+    settings: _modelSettings,
+    updateSettings: updateSettings,
+    updateLangauge: updateLangauge,
   };
 }

@@ -1,32 +1,40 @@
-import { api } from "../utils/api";
-import type { Message } from "../types/agentTypes";
+import type { Agent as PrismaAgent } from "@prisma/client";
+
 import { useAuth } from "./useAuth";
+import type { CreateAgentProps, SaveAgentProps } from "../server/api/routers/agentRouter";
+import { api } from "../utils/api";
 
-export interface SaveProps {
-  name: string;
-  goal: string;
-  tasks: Message[];
-}
 
-export function useAgent() {
+export type AgentUtils = {
+  createAgent: (data: CreateAgentProps) => Promise<PrismaAgent | undefined>;
+  saveAgent: (data: SaveAgentProps) => void;
+};
+
+export function useAgent(): AgentUtils {
   const { status } = useAuth();
   const utils = api.useContext();
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const voidFunc = () => {};
-  const saveMutation = api.agent.create.useMutation({
-    onSuccess: (data) => {
-      utils.agent.getAll.setData(voidFunc(), (oldData) => [
-        data,
-        ...(oldData ?? []),
-      ]);
+
+  const createMutation = api.agent.create.useMutation({
+    onSuccess: (data: PrismaAgent) => {
+      utils.agent.getAll.setData(void 0, (oldData) => [data, ...(oldData ?? [])]);
+      return data;
     },
   });
+  const createAgent = async (data: CreateAgentProps): Promise<PrismaAgent | undefined> => {
+    if (status === "authenticated") {
+      return await createMutation.mutateAsync(data);
+    } else {
+      return undefined;
+    }
+  };
 
-  const saveAgent = (data: SaveProps) => {
+  const saveMutation = api.agent.save.useMutation();
+  const saveAgent = (data: SaveAgentProps) => {
     if (status === "authenticated") saveMutation.mutate(data);
   };
 
   return {
+    createAgent,
     saveAgent,
   };
 }

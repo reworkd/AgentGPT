@@ -1,5 +1,6 @@
-import MessageService from "../src/services/agent/message-service";
-import type { Message } from "../src/types/agentTypes";
+import "../__mocks__/matchMedia.mock"
+import type { Message } from "../src/types/message";
+import { MessageService } from "../src/services/agent/message-service";
 
 describe("sendErrorMessage", () => {
   let instance: MessageService;
@@ -8,13 +9,12 @@ describe("sendErrorMessage", () => {
   beforeEach(() => {
     renderMessage = jest.fn((message: Message) => ({}));
     instance = new MessageService(renderMessage);
-    instance.setIsRunning(true);
   });
 
   it("should handle Axios errors", () => {
     const axiosError = {
       isAxiosError: true,
-      response: { status: 429 },
+      response: { status: 429, data: { detail: "ERROR_API_KEY_QUOTA" } },
     };
 
     instance.sendErrorMessage(axiosError);
@@ -71,7 +71,7 @@ describe("sendErrorMessage", () => {
     instance.sendErrorMessage({});
     expect(renderMessage).toHaveBeenCalledWith({
       type: "error",
-      value: "ERROR_RETRIEVE_INITIAL_TASKS",
+      value: "An unknown error occurred. Please try again later.",
     });
   });
 });

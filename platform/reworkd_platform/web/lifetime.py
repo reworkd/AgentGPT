@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from reworkd_platform.db.meta import meta
 from reworkd_platform.db.models import load_all_models
 from reworkd_platform.db.utils import create_engine
+from reworkd_platform.services.tokenizer.lifetime import init_tokenizer
 
 
 def _setup_db(app: FastAPI) -> None:  # pragma: no cover
@@ -53,8 +54,8 @@ def register_startup_event(
     @app.on_event("startup")
     async def _startup() -> None:  # noqa: WPS430
         _setup_db(app)
+        init_tokenizer(app)
         # await _create_tables()
-        # await init_kafka(app)
 
     return _startup
 
@@ -72,6 +73,5 @@ def register_shutdown_event(
     @app.on_event("shutdown")
     async def _shutdown() -> None:  # noqa: WPS430
         await app.state.db_engine.dispose()
-        # await shutdown_kafka(app)
 
     return _shutdown

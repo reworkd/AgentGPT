@@ -1,9 +1,7 @@
+import { useRouter } from "next/router";
 import type { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { z } from "zod";
-
-const UUID_KEY = "uuid";
 
 type Provider = "google" | "github" | "discord";
 
@@ -14,23 +12,30 @@ interface Auth {
   session: Session | null;
 }
 
-export function useAuth(): Auth {
+interface UseAuthOptions {
+  protectedRoute?: boolean;
+  isAllowed?: (user: Session) => boolean;
+}
+
+export function useAuth(
+  { protectedRoute, isAllowed }: UseAuthOptions = { protectedRoute: false, isAllowed: () => true }
+): Auth {
   const { data: session, status } = useSession();
+  const { push } = useRouter();
 
   useEffect(() => {
-    if (status != "authenticated" || !session?.user) return;
+    if (protectedRoute && status === "unauthenticated") {
+      handleSignIn().catch(console.error);
+    }
 
-    const user = session.user;
-    z.string()
-      .uuid()
-      .parseAsync(user.email)
-      .then(uuid => window.localStorage.setItem(UUID_KEY, uuid))
-      .catch(() => undefined);
-  }, [session, status]);
+    if (protectedRoute && status === "authenticated" && isAllowed && !isAllowed(session)) {
+      void push("/404").catch(console.error);
+    }
+  }, [protectedRoute, isAllowed, status, session, push]);
 
   const handleSignIn = async () => {
     await signIn();
-  }
+  };
 
   const handleSignOut = async () => {
     await signOut({

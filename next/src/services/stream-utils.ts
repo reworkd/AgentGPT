@@ -1,14 +1,14 @@
 import { env } from "../env/client.mjs";
-import type { RequestBody } from "../utils/interfaces";
 
 type TextStream = ReadableStreamDefaultReader<Uint8Array>;
 
-const fetchData = async (
+const fetchData = async <T>(
   url: string,
-  body: RequestBody,
-  onError: (message: unknown) => void
+  body: T,
+  accessToken: string
 ): Promise<TextStream | undefined> => {
   url = env.NEXT_PUBLIC_BACKEND_URL + url;
+
   const response = await fetch(url, {
     method: "POST",
     cache: "no-cache",
@@ -16,14 +16,14 @@ const fetchData = async (
     headers: {
       "Content-Type": "application/json",
       Accept: "text/event-stream",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(body),
   });
 
   if (response.status === 409) {
-    // TODO: Return the entire object
     const error = (await response.json()) as { error: string; detail: string };
-    onError(error.detail);
+    throw new Error(error.detail);
   }
 
   return response.body?.getReader();
@@ -38,39 +38,34 @@ async function processStream(
   reader: TextStream,
   onStart: () => void,
   onText: (text: string) => void,
-  onError: (error: unknown) => void,
   shouldClose: () => boolean
 ): Promise<void> {
-  try {
-    onStart();
-    while (true) {
-      if (shouldClose()) {
-        await reader.cancel();
-        return;
-      }
-
-      const text = await readStream(reader);
-      if (text === null) break;
-      onText(text);
+  onStart();
+  while (true) {
+    if (shouldClose()) {
+      await reader.cancel();
+      return;
     }
-  } catch (error) {
-    onError(error);
+
+    const text = await readStream(reader);
+    if (text === null) break;
+    onText(text);
   }
 }
 
-export const streamText = async (
+export const streamText = async <T>(
   url: string,
-  body: RequestBody,
+  body: T,
+  accessToken: string,
   onStart: () => void,
   onText: (text: string) => void,
-  onError: (error: unknown) => void,
-  shouldClose: () => boolean
+  shouldClose: () => boolean // Event handler to close connection early
 ) => {
-  const reader = await fetchData(url, body, onError);
+  const reader = await fetchData(url, body, accessToken);
   if (!reader) {
     console.error("Reader is undefined!");
     return;
   }
 
-  await processStream(reader, onStart, onText, onError, shouldClose);
+  await processStream(reader, onStart, onText, shouldClose);
 };

@@ -1,0 +1,87 @@
+---
+title: Setup
+description: Guidelines for setting up a local installation of AgentGPT.
+icon: "gear"
+---
+
+This document aims to guide you through the process of setting up a local installation of AgentGPT. It's important to note that we recommend using Docker for this installation. Docker simplifies the process and ensures that all dependencies are correctly handled, making the installation process more straightforward and less error-prone.
+
+## Prerequisites
+
+Before you get started, please make sure you have the following installed:
+
+1. [Git](https://git-scm.com/downloads)
+2. [Node.js](https://nodejs.org/en/download)
+3. An [OpenAI API key](https://beta.openai.com/signup/)
+4. A code editor of your choice, such as [Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
+
+### Docker Installation (Recommended)
+
+In addition to the prerequisites listed above, Docker is also necessary for this setup. Follow the steps below for Docker installation:
+
+1. Download and install [Docker](https://www.docker.com/products/docker-desktop)
+2. After installation, create a Docker account if you don't have one
+3. Open the Docker Desktop application and sign in
+
+## Installation with Docker
+
+1. **Open your editor**
+
+2. **Open the Terminal** - Typically, you can do this from a 'Terminal' tab or by using a shortcut
+   (e.g., `Ctrl + ~` for Windows or `Control + ~` for Mac in VS Code).
+
+3. **Clone the Repository and Navigate into the Directory** - Once your terminal is open, you can clone the repository and move into the directory by running the commands below.
+
+   **For Mac/Linux users**
+
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   ./setup.sh
+   ```
+
+   **For Windows users**
+
+   ```bash
+   git clone https://github.com/reworkd/AgentGPT.git
+   cd AgentGPT
+   ./setup.bat
+   ```
+
+4. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
+
+## Installation without Docker
+
+Outside of docker, you'll need to just configure your ENV. Additionally, you can use `setup.sh` to walkthrough ENV
+configuration and also update your Prisma configuration to point to a local SQLite
+instance.
+
+After this, you can run the following to set up your Next.js project.
+
+```bash
+// Frontend
+cd ./next
+npm install
+npm run dev
+```
+
+In a different window, you can run the following to start the backend:
+
+```bash
+// Backend. Make sure you are at the root of the project
+cd ./platform
+poetry install
+poetry run python -m reworkd_platform
+```
+
+## Running the site
+
+Congratulations on successfully setting up AgentGPT on your local machine! To see the fruit of your work, open your preferred web browser and visit [http://localhost:3000/](http://localhost:3000/). There, you'll find the AgentGPT user interface ready for you to explore and interact with.
+
+## Issues / Additional help
+
+Despite the detailed instructions, you might still encounter some hiccups along the way. If that happens, don't worry! We've got your back. Consider following this comprehensive legacy guide that walks you through the process: [How to install AgentGPT locally](https://snapdragon-writer-867.notion.site/How-to-Install-AgentGPT-Locally-9b96b2314c9b491397976249fd121023).
+
+If the issues persist, we invite you to submit an [issue on GitHub](https://github.com/reworkd/AgentGPT/issues). By doing so, you'll not only get help, but also assist us in identifying any problematic areas to improve on. Alternatively, you can reach out to our dedicated team on [Discord](https://discord.gg/jdSBAnmdnY). We're a community of learners and enthusiasts, and we're always ready to lend a hand.
+
+Happy hacking and enjoy your journey with AgentGPT!

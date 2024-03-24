@@ -1,0 +1,35 @@
+---
+title: Memory
+description: Understanding how AgentGPT manages memory with the help of vector databases.
+icon: "brain"
+---
+
+# Memory Management in AgentGPT
+
+In the quest to accomplish set goals, AI agents perform a plethora of tasks, considering their execution history. When agents operate for extended periods, memory management becomes challenging since their memory is typically as large as their context length. This stands at approximately 8k tokens for GPT-3.5 and GPT-4.
+
+## AgentGPT's Memory Dilemma
+
+Once your agents have run a few loops, they tend to forget their prior actions. Our solution? Vector Databases. Here, we save the agent memory externally, making it accessible when needed.
+
+## What is a Vector Database?
+
+This external documentation - [Weaviate docs](https://weaviate.io/developers/weaviate), provides a detailed explanation. In a nutshell, vector databases enable us to store task execution history externally. This way, agents can access memory from many loops before via a text similarity search. Essentially, the way humans retrieve memory is comparable to the Vector DB's operation.
+
+## Why Weaviate?
+
+Weaviate is our go-to Vector Database for the following reasons:
+
+1. Weaviate is open-source and conveniently accessible via docker-compose, eliminating the need for an API key for local AgentGPT runs.
+2. Its cloud offering can scale according to our workload, saving us from managing additional infrastructure.
+3. Weaviate integrates seamlessly with tools like LangChain.
+
+However, if you have suggestions for other databases, we encourage you to create a ticket or a pull request.
+
+## Memory in AgentGPT
+
+Using long-term memory is still a work in progress. Here are some of its applications so far:
+
+- Filtering similar tasks utilized in a given run.
+
+We are actively developing more applications. If you have interesting ideas for memory management or wish to contribute to its development, please feel free to reach out.

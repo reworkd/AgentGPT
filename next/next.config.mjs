@@ -19,7 +19,28 @@ const config = {
       poll: 1000,
       aggregateTimeout: 300
     };
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    })
     return config;
+  },
+  rewrites() {
+      return {
+          beforeFiles: [
+              {
+                  source: '/:path*',
+                  has: [
+                      {
+                          type: 'host',
+                          value: 'reworkd.ai',
+                      },
+                  ],
+                  destination: '/landing-page',
+              },
+          ]
+      }
   }
 };
 

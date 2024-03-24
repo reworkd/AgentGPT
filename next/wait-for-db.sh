@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 host="$1"
 port="$2"

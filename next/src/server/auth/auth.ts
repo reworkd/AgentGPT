@@ -1,8 +1,10 @@
+import type { NextAuthOptions } from "next-auth";
+import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import DiscordProvider from "next-auth/providers/discord";
+
 import { serverEnv } from "../../env/schema.mjs";
-import type { NextAuthOptions } from "next-auth";
+
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -22,4 +24,7 @@ export const authOptions: NextAuthOptions = {
       allowDangerousEmailAccountLinking: true,
     }),
   ],
+  pages: {
+    signIn: "/signin",
+  }
 };

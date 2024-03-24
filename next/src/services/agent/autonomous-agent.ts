@@ -1,243 +1,170 @@
-import type { ModelSettings } from "../../utils/types";
-import { DEFAULT_MAX_LOOPS_FREE } from "../../utils/constants";
 import type { Session } from "next-auth";
-import { v1, v4 } from "uuid";
-import type { AgentMode, AgentPlaybackControl, Message, Task } from "../../types/agentTypes";
-import { AGENT_PAUSE, AGENT_PLAY, AUTOMATIC_MODE, PAUSE_MODE } from "../../types/agentTypes";
-import { useMessageStore } from "../../stores";
-import { AgentApi } from "./agent-api";
-import MessageService from "./message-service";
-import { streamText } from "../stream-utils";
 
-const TIMEOUT_LONG = 1000;
-const TIMOUT_SHORT = 800;
+import type { AgentApi } from "./agent-api";
+import type { AgentRunModel } from "./agent-run-model";
+import type AgentWork from "./agent-work/agent-work";
+import AnalyzeTaskWork from "./agent-work/analyze-task-work";
+import ChatWork from "./agent-work/chat-work";
+import StartGoalWork from "./agent-work/start-task-work";
+import SummarizeWork from "./agent-work/summarize-work";
+import type { MessageService } from "./message-service";
+import { useAgentStore } from "../../stores";
+import type { ModelSettings } from "../../types";
+import { isRetryableError } from "../../types/errors";
+import type { Message } from "../../types/message";
+import { withRetries } from "../api-utils";
 
 class AutonomousAgent {
-  name: string;
-  goal: string;
-  completedTasks: string[] = [];
+  model: AgentRunModel;
   modelSettings: ModelSettings;
-  isRunning = false;
-  renderMessage: (message: Message) => void;
-  handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void;
-  shutdown: () => void;
-  numLoops = 0;
   session?: Session;
-  _id: string;
-  mode: AgentMode;
-  playbackControl: AgentPlaybackControl;
   messageService: MessageService;
-  $api: AgentApi;
+  api: AgentApi;
+
+  private readonly workLog: AgentWork[];
+  private lastConclusion?: () => Promise<void>;
 
   constructor(
-    name: string,
-    goal: string,
-    renderMessage: (message: Message) => void,
-    handlePause: (opts: { agentPlaybackControl?: AgentPlaybackControl }) => void,
-    shutdown: () => void,
+    model: AgentRunModel,
+    messageService: MessageService,
     modelSettings: ModelSettings,
-    mode: AgentMode,
-    session?: Session,
-    playbackControl?: AgentPlaybackControl
+    api: AgentApi,
+    session?: Session
   ) {
-    this.name = name;
-    this.goal = goal;
-    this.renderMessage = renderMessage;
-    this.handlePause = handlePause;
-    this.shutdown = shutdown;
+    this.model = model;
+    this.messageService = messageService;
     this.modelSettings = modelSettings;
     this.session = session;
-    this._id = v4();
-    this.mode = mode || AUTOMATIC_MODE;
-    this.playbackControl = playbackControl || this.mode == PAUSE_MODE ? AGENT_PAUSE : AGENT_PLAY;
-
-    this.messageService = new MessageService(renderMessage);
-
-    this.$api = new AgentApi(
-      {
-        goal,
-        modelSettings,
-      },
-      this.onApiError
-    );
+    this.api = api;
+    this.workLog = [new StartGoalWork(this)];
   }
 
   async run() {
-    if (!this.isRunning) {
-      this.updateIsRunning(true);
-      await this.startGoal();
+    this.model.setLifecycle("running");
+
+    // If an agent is paused during execution, we need to play work conclusions
+    if (this.lastConclusion) {
+      await this.lastConclusion();
+      this.lastConclusion = undefined;
     }
 
-    await this.loop();
-    if (this.mode === PAUSE_MODE && !this.isRunning) {
-      this.handlePause({ agentPlaybackControl: this.playbackControl });
-    }
-  }
+    this.addTasksIfWorklogEmpty();
+    while (this.workLog[0]) {
+      // No longer running, dip
+      if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
+      if (this.model.getLifecycle() !== "running") return;
 
-  async startGoal() {
-    this.messageService.sendGoalMessage(this.goal);
-    this.messageService.sendThinkingMessage();
+      // Get and run the next work item
+      const work = this.workLog[0];
+      await this.runWork(work, () => this.model.getLifecycle() === "stopped");
 
-    // Initialize by getting taskValues
-    try {
-      const tasks = await this.$api.getInitialTasks();
-      await this.createTasks(tasks);
-    } catch (e) {
-      console.error(e);
-      this.messageService.sendErrorMessage(e);
-      this.shutdown();
-      return;
-    }
-  }
-
-  async loop() {
-    this.conditionalPause();
-
-    if (!this.isRunning) {
-      return;
-    }
-
-    if (this.getRemainingTasks().length === 0) {
-      this.messageService.sendCompletedMessage();
-      this.shutdown();
-      return;
-    }
-
-    this.numLoops += 1;
-    const maxLoops = this.maxLoops();
-    if (this.numLoops > maxLoops) {
-      this.messageService.sendLoopMessage();
-      this.shutdown();
-      return;
-    }
-
-    // Wait before starting TODO: think about removing this
-    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-
-    // Start with first task
-    const currentTask = this.getRemainingTasks()[0] as Task;
-
-    this.messageService.sendMessage({ ...currentTask, status: "executing" });
-    this.messageService.sendThinkingMessage();
-
-    // Analyze how to execute a task: Reason, web search, other tools...
-    const analysis = await this.$api.analyzeTask(currentTask.value);
-    this.messageService.sendAnalysisMessage(analysis);
-
-    const executionMessage: Message = {
-      ...currentTask,
-      id: v1(),
-      status: "completed",
-      info: "Loading...",
-    };
-    this.messageService.sendMessage({ ...executionMessage, status: "completed" });
-
-    const result = "";
-    await streamText(
-      "/api/agent/execute",
-      {
-        goal: this.goal,
-        task: currentTask.value,
-        analysis: analysis,
-        modelSettings: this.modelSettings,
-      },
-      () => {
-        executionMessage.info = "";
-      },
-      (text) => {
-        executionMessage.info += text;
-        this.messageService.updateMessage(executionMessage);
-      },
-      (error) => {
-        this.messageService.sendErrorMessage(error);
-        this.shutdown();
-      },
-      () => !this.isRunning
-    );
-
-    this.completedTasks.push(currentTask.value || "");
-
-    // Wait before adding tasks TODO: think about removing this
-    await new Promise((r) => setTimeout(r, TIMEOUT_LONG));
-    this.messageService.sendThinkingMessage();
-
-    // Add new tasks
-    try {
-      const newTasks = await this.$api.getAdditionalTasks(
-        {
-          current: currentTask.value,
-          remaining: this.getRemainingTasks().map((task) => task.value),
-          completed: this.completedTasks,
-        },
-        result
-      );
-      await this.createTasks(newTasks);
-      if (newTasks.length == 0) {
-        this.messageService.sendMessage({ ...currentTask, status: "final" });
+      this.workLog.shift();
+      if (this.model.getLifecycle() !== "running") {
+        this.lastConclusion = () => work.conclude();
+      } else {
+        await work.conclude();
       }
-    } catch (e) {
-      console.error(e);
-      this.messageService.sendErrorMessage("ERROR_ADDING_ADDITIONAL_TASKS");
-      this.messageService.sendMessage({ ...currentTask, status: "final" });
+
+      // Add next thing if available
+      const next = work.next();
+      if (next) {
+        this.workLog.push(next);
+      }
+
+      this.addTasksIfWorklogEmpty();
     }
 
-    await this.loop();
+    if (this.model.getLifecycle() === "pausing") this.model.setLifecycle("paused");
+    if (this.model.getLifecycle() !== "running") return;
+
+    // Done with everything in the log and all queued tasks
+    this.stopAgent();
   }
 
-  getRemainingTasks(): Task[] {
-    return useMessageStore.getState().tasks.filter((t: Task) => t.status === "started");
+  /*
+   * Runs a provided work object with error handling and retries
+   */
+  private async runWork(work: AgentWork, shouldStop: () => boolean = () => false) {
+    const RETRY_TIMEOUT = 2000;
+
+    await withRetries(
+      async () => {
+        if (shouldStop()) return;
+        await work.run();
+      },
+      async (e) => {
+        const shouldRetry = work.onError?.(e) || true;
+
+        if (!isRetryableError(e)) {
+          this.stopAgent();
+          return false;
+        }
+
+        if (shouldRetry) {
+          // Wait a bit before retrying
+          useAgentStore.getState().setIsAgentThinking(true);
+          await new Promise((r) => setTimeout(r, RETRY_TIMEOUT));
+        }
+
+        return shouldRetry;
+      }
+    );
+    useAgentStore.getState().setIsAgentThinking(false);
   }
 
-  private conditionalPause() {
-    if (this.mode != PAUSE_MODE) {
-      return;
+  addTasksIfWorklogEmpty = () => {
+    if (this.workLog.length > 0) return;
+
+    // No work items, check if we still have tasks
+    const currentTask = this.model.getCurrentTask();
+    if (currentTask) {
+      this.workLog.push(new AnalyzeTaskWork(this, currentTask));
     }
+  };
 
-    // decide whether to pause agent when pause mode is enabled
-    this.isRunning = !(this.playbackControl === AGENT_PAUSE);
-
-    // reset playbackControl to pause so agent pauses on next set of task(s)
-    if (this.playbackControl === AGENT_PLAY) {
-      this.playbackControl = AGENT_PAUSE;
-    }
-  }
-
-  private maxLoops() {
-    return this.modelSettings.customMaxLoops || DEFAULT_MAX_LOOPS_FREE;
-  }
-
-  updatePlayBackControl(newPlaybackControl: AgentPlaybackControl) {
-    this.playbackControl = newPlaybackControl;
-  }
-
-  updateIsRunning(isRunning: boolean) {
-    this.messageService.setIsRunning(isRunning);
-    this.isRunning = isRunning;
+  pauseAgent() {
+    this.model.setLifecycle("pausing");
   }
 
   stopAgent() {
-    this.messageService.sendManualShutdownMessage();
-    this.updateIsRunning(false);
-    this.shutdown();
+    this.model.setLifecycle("stopped");
     return;
   }
 
-  private onApiError = (e: unknown) => {
-    // TODO: handle retries here
-    this.shutdown();
-    throw e;
-  };
+  async summarize() {
+    this.model.setLifecycle("running");
+    const summarizeWork = new SummarizeWork(this);
+    await this.runWork(summarizeWork);
+    await summarizeWork.conclude();
+    this.model.setLifecycle("stopped");
+  }
 
-  private async createTasks(tasks: string[]) {
-    for (const value of tasks) {
-      await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
-      this.messageService.sendMessage({
-        taskId: v1().toString(),
-        value,
-        status: "started",
-        type: "task",
-      });
+  async chat(message: string) {
+    if (this.model.getLifecycle() == "running") this.pauseAgent();
+    let paused = false;
+    if (this.model.getLifecycle() == "stopped") {
+      paused = true;
+      this.model.setLifecycle("pausing");
     }
+    const chatWork = new ChatWork(this, message);
+    await this.runWork(chatWork);
+    await chatWork.conclude();
+    if (paused) {
+      this.model.setLifecycle("stopped");
+    }
+  }
+
+  async createTaskMessages(tasks: string[]) {
+    const TIMOUT_SHORT = 150;
+    const messages: Message[] = [];
+
+    for (const value of tasks) {
+      messages.push(this.messageService.startTask(value));
+      this.model.addTask(value);
+      await new Promise((r) => setTimeout(r, TIMOUT_SHORT));
+    }
+
+    return messages;
   }
 }
 

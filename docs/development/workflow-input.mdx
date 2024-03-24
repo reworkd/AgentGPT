@@ -1,0 +1,28 @@
+---
+title: "Input Templating"
+description: The workflow automation system within AgentGPT.
+icon: "wave-sine"
+---
+
+Any given workflow node will outfield a set of fields that can be used in the input of descendent nodes.
+Because these outputs are only generated at runtime, we use a templating system to keep track of what values a node
+will receive once these values are actually calculated.
+This document goes over how this process works in both the frontend and backend.
+
+## Model
+All `block` definitions will specify both the inputs it takes in and the output values it provides
+
+
+## Frontend
+The workflow hierarchy follows a graph-like structure.
+For a given node, we calculate what output fields are available to it by doing a BFS on its ascendant nodes.
+Once we have a list of all ascendant nodes, we can generate the available output field values along with its underlying key.
+When placed inside the input of another node, it will take its template form which has the following shape:
+
+```
+{{node_id-value}}
+```
+
+## Backend
+A workflow task in kafka will keep track of the mapping of template key to value pairs as they are generated.
+When a new node is being executed, its input fields will first have actual values replace the string templates before type validation is run.

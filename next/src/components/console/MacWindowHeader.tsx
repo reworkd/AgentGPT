@@ -1,30 +1,29 @@
-import { useTranslation } from "next-i18next";
-import { useAgentStore } from "../../stores";
+import clsx from "clsx";
 import * as htmlToImage from "html-to-image";
-import WindowButton from "../WindowButton";
-import { FaClipboard, FaImage, FaPause, FaPlay, FaSave } from "react-icons/fa";
-import PDFButton from "../pdf/PDFButton";
-import PopIn from "../motions/popin";
-import Expand from "../motions/expand";
-import { Message, PAUSE_MODE } from "../../types/agentTypes";
-import { AnimatePresence } from "framer-motion";
-import Menu from "../Menu";
+import { useTranslation } from "next-i18next";
+import type { PropsWithChildren, ReactNode } from "react";
+import React from "react";
 import { CgExport } from "react-icons/cg";
-import React, { ReactNode } from "react";
+import { FaImage } from "react-icons/fa";
+import { FiClipboard } from "react-icons/fi";
+
+import type { Message } from "../../types/message";
+import Menu from "../Menu";
+import Expand from "../motions/expand";
+import PopIn from "../motions/popin";
+import PDFButton from "../pdf/PDFButton";
+import WindowButton from "../WindowButton";
 
 export const messageListId = "chat-window-message-list";
 
 export interface HeaderProps {
   title?: string | ReactNode;
   messages: Message[];
-  onSave?: (format: string) => void;
 }
 
 export const MacWindowHeader = (props: HeaderProps) => {
   const [t] = useTranslation();
-  const isAgentPaused = useAgentStore.use.isAgentPaused();
-  const agent = useAgentStore.use.agent();
-  const agentMode = useAgentStore.use.agentMode();
+
   const saveElementAsImage = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -85,19 +84,19 @@ export const MacWindowHeader = (props: HeaderProps) => {
       key="Image"
       onClick={(): void => saveElementAsImage(messageListId)}
       icon={<FaImage size={12} />}
-      name={`${t("IMAGE", { ns: "common" })}`}
+      text={t("IMAGE", { ns: "common" })}
     />,
     <WindowButton
       key="Copy"
       onClick={(): void => copyElementText(messageListId)}
-      icon={<FaClipboard size={12} />}
-      name={`${t("COPY", { ns: "common" })}`}
+      icon={<FiClipboard size={12} />}
+      text={t("COPY", { ns: "common" })}
     />,
     <PDFButton key="PDF" name="PDF" messages={props.messages} />,
   ];
 
   return (
-    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-3">
+    <div className="flex items-center gap-1 overflow-visible rounded-t-3xl p-1.5 px-1">
       <PopIn delay={0.4}>
         <div className="h-3 w-3 rounded-full bg-red-500" />
       </PopIn>
@@ -108,46 +107,43 @@ export const MacWindowHeader = (props: HeaderProps) => {
         <div className="h-3 w-3 rounded-full bg-green-500" />
       </PopIn>
       <Expand
-        delay={1}
-        className="invisible flex flex-grow font-mono text-sm font-bold text-gray-500 sm:ml-2 md:visible"
+        delay={0.75}
+        className="flex flex-grow font-mono text-xs font-bold text-gray-500 sm:ml-2 sm:text-sm"
       >
         {props.title}
       </Expand>
-
-      {agentMode === PAUSE_MODE && agent !== null && (
-        <div
-          className={`animation-duration text-gray/50 flex items-center gap-2 px-2 py-1 text-left font-mono text-sm font-bold transition-all sm:py-0.5`}
-        >
-          {isAgentPaused ? (
-            <>
-              <FaPause />
-              <p className="font-mono">{`${t("PAUSED", { ns: "common" })}`}</p>
-            </>
-          ) : (
-            <>
-              <FaPlay />
-              <p className="font-mono">{`${t("RUNNING", { ns: "common" })}`}</p>
-            </>
-          )}
-        </div>
-      )}
-
-      <AnimatePresence>
-        {props.onSave && (
-          <PopIn>
-            <WindowButton
-              ping
-              key="Agent"
-              onClick={() => props.onSave?.("db")}
-              icon={<FaSave size={12} />}
-              name={`${t("SAVE", { ns: "common" })}`}
-              border
-            />
-          </PopIn>
-        )}
-      </AnimatePresence>
-
       <Menu icon={<CgExport size={15} />} items={exportOptions} />
+    </div>
+  );
+};
+
+interface MacWindowInternalProps extends PropsWithChildren {
+  className?: string;
+}
+
+export const MacWindowInternal = (props: MacWindowInternalProps) => {
+  return (
+    <div
+      className={clsx(
+        "ml-2 flex items-baseline gap-1 overflow-visible rounded-t-3xl p-1.5",
+        props.className
+      )}
+    >
+      <PopIn delay={0.4}>
+        <div className="h-2 w-2 rounded-full bg-red-500" />
+      </PopIn>
+      <PopIn delay={0.5}>
+        <div className="h-2 w-2 rounded-full bg-yellow-500" />
+      </PopIn>
+      <PopIn delay={0.6}>
+        <div className="h-2 w-2 rounded-full bg-green-500" />
+      </PopIn>
+      <Expand
+        delay={0.75}
+        className="ml-1 flex flex-grow font-mono text-[8pt] font-bold text-gray-400"
+      >
+        {props.children}
+      </Expand>
     </div>
   );
 };

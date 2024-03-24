@@ -142,3 +142,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+poetry.lock

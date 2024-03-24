@@ -1,54 +1,55 @@
-import { createSelectors } from "./helpers";
 import type { StateCreator } from "zustand";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type AutonomousAgent from "../services/agent/autonomous-agent";
-import type { AgentMode, AgentPlaybackControl } from "../types/agentTypes";
-import { AGENT_PAUSE, AUTOMATIC_MODE } from "../types/agentTypes";
+
+import { createSelectors } from "./helpers";
 import type { ActiveTool } from "../hooks/useTools";
-
-const resetters: (() => void)[] = [];
-
-const initialAgentState = {
-  agent: null,
-  isAgentStopped: true,
-  isAgentPaused: undefined,
-};
+import type { AgentLifecycle } from "../services/agent/agent-run-model";
+import type AutonomousAgent from "../services/agent/autonomous-agent";
 
 interface AgentSlice {
   agent: AutonomousAgent | null;
-  isAgentStopped: boolean;
-  isAgentPaused: boolean | undefined;
-  agentMode: AgentMode;
-  updateAgentMode: (agentMode: AgentMode) => void;
-  updateIsAgentPaused: (agentPlaybackControl: AgentPlaybackControl) => void;
-  updateIsAgentStopped: () => void;
+  lifecycle: AgentLifecycle;
+  setLifecycle: (AgentLifecycle) => void;
+  summarized: boolean;
+  setSummarized: (boolean) => void;
+  isAgentThinking: boolean;
+  setIsAgentThinking: (isThinking: boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;
 }
+
+const initialAgentState = {
+  agent: null,
+  lifecycle: "offline" as const,
+  summarized: false,
+  isAgentThinking: false,
+  isAgentPaused: undefined,
+};
 
 interface ToolsSlice {
   tools: Omit<ActiveTool, "active">[];
   setTools: (tools: ActiveTool[]) => void;
 }
 
+const resetters: (() => void)[] = [];
+
 const createAgentSlice: StateCreator<AgentSlice> = (set, get) => {
   resetters.push(() => set(initialAgentState));
   return {
     ...initialAgentState,
-    agentMode: AUTOMATIC_MODE,
-    updateAgentMode: (agentMode) => {
+    setLifecycle: (lifecycle: AgentLifecycle) => {
       set(() => ({
-        agentMode,
+        lifecycle: lifecycle,
       }));
     },
-    updateIsAgentPaused: (agentPlaybackControl) => {
+    setSummarized: (summarized: boolean) => {
       set(() => ({
-        isAgentPaused: agentPlaybackControl === AGENT_PAUSE,
+        summarized: summarized,
       }));
     },
-    updateIsAgentStopped: () => {
-      set((state) => ({
-        isAgentStopped: !state.agent?.isRunning,
+    setIsAgentThinking: (isThinking: boolean) => {
+      set(() => ({
+        isAgentThinking: isThinking,
       }));
     },
     setAgent: (newAgent) => {
@@ -82,12 +83,14 @@ export const useAgentStore = createSelectors(
         ...createToolsSlice(...a),
       }),
       {
-        name: "agent-storage",
+        name: "agent-storage-v2",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
-          agentMode: state.agentMode,
+          tools: state.tools,
         }),
       }
     )
   )
 );
+
+export const resetAllAgentSlices = () => resetters.forEach((resetter) => resetter());

@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: 0 0 * * *
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,11 +20,11 @@ jobs:
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
         with:
-          token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           branch: "workflow/sponsors"
           title: "🤖 Update Sponsors"
           commit-message: "🤖 Update Sponsors"
           body: "🤖 Automated pull request created by [sponsors action](https://github.com/reworkd/AgentGPT/actions/workflows/sponsors.yml)"
           labels: "documentation"
-

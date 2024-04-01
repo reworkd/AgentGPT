@@ -1,4 +1,5 @@
 name: Generate Sponsors README
+
 on:
   workflow_dispatch:
   schedule:
@@ -15,6 +16,8 @@ jobs:
         uses: JamesIves/github-sponsors-readme-action@v1.4.0
         with:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
+          file: 'README.md'
+          minimum: 1399
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.1

@@ -12,6 +12,13 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
+      - name: Print Git info
+        run: |
+          echo "Git version:"
+          git --version
+          echo "Remote URL:"
+          git remote -v
+
       - name: Generate Sponsors 💖
         uses: JamesIves/github-sponsors-readme-action@v1.4.0
         with:
@@ -27,5 +34,5 @@ jobs:
           branch: "workflow/sponsors"
           title: "🤖 Update Sponsors"
           commit-message: "🤖 Update Sponsors"
-          body: "🤖 Automated pull request created by [sponsors action](https://github.com/reworkd/AgentGPT/actions/workflows/sponsors.yml)"
+          body: "🤖 Automated pull request created by sponsors action"
           labels: "documentation"

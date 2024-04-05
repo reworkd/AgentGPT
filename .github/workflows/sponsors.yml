@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3 # Update the version number here
 
       - name: Print Git info
         run: |
@@ -27,7 +27,7 @@ jobs:
           minimum: 1399
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5.0.1
+        uses: peter-evans/create-pull-request@v6 # Update the version number here
         env:
           GITHUB_TOKEN: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
         with:

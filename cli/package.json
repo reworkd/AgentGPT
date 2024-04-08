@@ -15,7 +15,7 @@
   "author": "reworkd",
   "dependencies": {
     "@octokit/auth-basic": "^1.4.8",
-    "@octokit/rest": "^20.0.2",
+    "@octokit/rest": "^20.1.0",
     "chalk": "^5.3.0",
     "clear": "^0.1.0",
     "clui": "^0.3.6",

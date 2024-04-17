@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "Docker Node.js Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "platform": "node",
+            "node": {
+                "package": "${workspaceFolder}/AgentGPT/next/package.json",
+                "localRoot": "${workspaceFolder}/AgentGPT/next"
+            }
+        }
+    ]
+}

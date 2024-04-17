@@ -1,29 +1,38 @@
 name: Generate Sponsors README
+
 on:
   workflow_dispatch:
   schedule:
     - cron: 0 0 * * *
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3 # Update the version number here
+
+      - name: Print Git info
+        run: |
+          echo "Git version:"
+          git --version
+          echo "Remote URL:"
+          git remote -v
 
       - name: Generate Sponsors 💖
-        uses: JamesIves/github-sponsors-readme-action@v1.2.2
+        uses: JamesIves/github-sponsors-readme-action@v1.4.0
         with:
           token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           file: 'README.md'
           minimum: 1399
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5.0.1
+        uses: peter-evans/create-pull-request@v6 # Update the version number here
+        env:
+          GITHUB_TOKEN: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
         with:
-          token: ${{ secrets.SPONSOR_WORKFLOW_PAT }}
           branch: "workflow/sponsors"
           title: "🤖 Update Sponsors"
           commit-message: "🤖 Update Sponsors"
-          body: "🤖 Automated pull request created by [sponsors action](https://github.com/reworkd/AgentGPT/actions/workflows/sponsors.yml)"
+          body: "🤖 Automated pull request created by sponsors action"
           labels: "documentation"
-

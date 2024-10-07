@@ -51,7 +51,7 @@
     },
     {
       "group": "Essentials",
-      "pages": ["essentials/roadmap", "essentials/FAQ", "essentials/usecases", "essentials/contributing"]
+      "pages": ["essentials/roadmap", "essentials/FAQ", "essentials/usecases", "essentials/contributing","essentials/updatedocs"]
     },
     {
       "group": "Other",

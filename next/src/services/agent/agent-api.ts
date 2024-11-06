@@ -38,6 +38,12 @@ export class AgentApi {
     });
   }
 
+  async deleteAgent(): Promise<void> {
+    if (!this.agentId) return;
+    this.props.agentUtils.deleteAgent(this.agentId);
+    this.agentId = undefined;
+  }
+
   async getInitialTasks(): Promise<string[]> {
     return (await this.post<{ newTasks: string[] }>("/api/agent/start", {})).newTasks;
   }

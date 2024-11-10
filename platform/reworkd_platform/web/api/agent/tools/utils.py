@@ -1,11 +1,9 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, AsyncGenerator
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
-from langchain import LLMChain
-from langchain.chat_models.base import BaseChatModel
-
+from ollama import Client  # Updated import
 
 @dataclass
 class CitedSnippet:
@@ -31,29 +29,32 @@ class Snippet:
         return f"{{text: {self.text}}}"
 
 
-def summarize(
-    model: BaseChatModel,
+async def summarize(
+    client: Client,
     language: str,
     goal: str,
     text: str,
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_prompt
 
-    chain = LLMChain(llm=model, prompt=summarize_prompt)
-
-    return StreamingResponse.from_chain(
-        chain,
-        {
-            "goal": goal,
-            "language": language,
-            "text": text,
-        },
-        media_type="text/event-stream",
+    response = client.chat(
+        model="llama3.2",
+        messages=[
+            {"role": "system", "content": summarize_prompt},
+            {"role": "user", "content": text}
+        ],
+        stream=True,
     )
 
+    async def stream_response():
+        for chunk in response:
+            yield chunk['message']['content']
 
-def summarize_with_sources(
-    model: BaseChatModel,
+    return FastAPIStreamingResponse(stream_response(), media_type="text/event-stream")
+
+
+async def summarize_with_sources(
+    client: Client,
     language: str,
     goal: str,
     query: str,
@@ -61,22 +62,26 @@ def summarize_with_sources(
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_with_sources_prompt
 
-    chain = LLMChain(llm=model, prompt=summarize_with_sources_prompt)
+    combined_snippets = "\n".join([snippet.text for snippet in snippets])
 
-    return StreamingResponse.from_chain(
-        chain,
-        {
-            "goal": goal,
-            "query": query,
-            "language": language,
-            "snippets": snippets,
-        },
-        media_type="text/event-stream",
+    response = client.chat(
+        model="llama3.2",
+        messages=[
+            {"role": "system", "content": summarize_with_sources_prompt},
+            {"role": "user", "content": combined_snippets}
+        ],
+        stream=True,
     )
 
+    async def stream_response():
+        for chunk in response:
+            yield chunk['message']['content']
 
-def summarize_sid(
-    model: BaseChatModel,
+    return FastAPIStreamingResponse(stream_response(), media_type="text/event-stream")
+
+
+async def summarize_sid(
+    client: Client,
     language: str,
     goal: str,
     query: str,
@@ -84,15 +89,19 @@ def summarize_sid(
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_sid_prompt
 
-    chain = LLMChain(llm=model, prompt=summarize_sid_prompt)
+    combined_snippets = "\n".join([snippet.text for snippet in snippets])
 
-    return StreamingResponse.from_chain(
-        chain,
-        {
-            "goal": goal,
-            "query": query,
-            "language": language,
-            "snippets": snippets,
-        },
-        media_type="text/event-stream",
+    response = client.chat(
+        model="llama3.2",
+        messages=[
+            {"role": "system", "content": summarize_sid_prompt},
+            {"role": "user", "content": combined_snippets}
+        ],
+        stream=True,
     )
+
+    async def stream_response():
+        for chunk in response:
+            yield chunk['message']['content']
+
+    return FastAPIStreamingResponse(stream_response(), media_type="text/event-stream")

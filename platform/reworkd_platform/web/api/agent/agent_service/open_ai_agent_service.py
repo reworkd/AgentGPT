@@ -38,6 +38,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
 )
 from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
+from ollama import Client  # Updated import
 
 
 class OpenAIAgentService(AgentService):
@@ -131,7 +132,7 @@ class OpenAIAgentService(AgentService):
         analysis: Analysis,
     ) -> StreamingResponse:
         # TODO: More mature way of calculating max_tokens
-        if self.model.max_tokens > 3000:
+        if self.model.max_tokens and self.model.max_tokens > 3000:
             self.model.max_tokens = max(self.model.max_tokens - 1000, 3000)
 
         tool_class = get_tool_from_name(analysis.action)
@@ -181,7 +182,7 @@ class OpenAIAgentService(AgentService):
         goal: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.model_name = "llama3.2"
         self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
 
         snippet_max_tokens = 7000  # Leave room for the rest of the prompt
@@ -189,8 +190,11 @@ class OpenAIAgentService(AgentService):
         text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
         logger.info(f"Summarizing text: {text}")
 
-        return summarize(
-            model=self.model,
+        # Initialize the Ollama client
+        client = Client(host='http://localhost:11434')  # Specify host if different
+
+        return await summarize(
+            client=client,
             language=self.settings.language,
             goal=goal,
             text=text,
@@ -202,7 +206,7 @@ class OpenAIAgentService(AgentService):
         message: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.model_name = "llama3.2"
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessagePromptTemplate(prompt=chat_prompt),
@@ -218,10 +222,72 @@ class OpenAIAgentService(AgentService):
             ).to_string(),
         )
 
-        chain = LLMChain(llm=self.model, prompt=prompt)
+        # Initialize the Ollama client
+        client = Client(host='http://localhost:11434')  # Specify host if different
 
-        return StreamingResponse.from_chain(
-            chain,
-            {"language": self.settings.language},
+        response = client.chat(
+            model="llama3.2",
+            messages=prompt.to_messages(),
+            stream=True,
+        )
+
+        async def stream_response():
+            for chunk in response:
+                yield chunk['message']['content']
+
+        return StreamingResponse.from_async_generator(
+            stream_response(),
             media_type="text/event-stream",
         )
+
+    # The remaining methods remain unchanged but ensure that any usage of 'Ollama' is replaced accordingly.
+
+    async def pip_start_goal_agent(self, *, goal: str) -> List[str]:
+        return await self.start_goal_agent(goal=goal)
+
+    async def pip_analyze_task_agent(
+        self, *, goal: str, task: str, tool_names: List[str]
+    ) -> Analysis:
+        return await self.analyze_task_agent(goal=goal, task=task, tool_names=tool_names)
+
+    async def pip_execute_task_agent(
+        self,
+        *,
+        goal: str,
+        task: str,
+        analysis: Analysis,
+    ) -> StreamingResponse:
+        return await self.execute_task_agent(goal=goal, task=task, analysis=analysis)
+
+    async def pip_create_tasks_agent(
+        self,
+        *,
+        goal: str,
+        tasks: List[str],
+        last_task: str,
+        result: str,
+        completed_tasks: Optional[List[str]] = None,
+    ) -> List[str]:
+        return await self.create_tasks_agent(
+            goal=goal,
+            tasks=tasks,
+            last_task=last_task,
+            result=result,
+            completed_tasks=completed_tasks,
+        )
+
+    async def pip_summarize_task_agent(
+        self,
+        *,
+        goal: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        return await self.summarize_task_agent(goal=goal, results=results)
+
+    async def pip_chat(
+        self,
+        *,
+        message: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        return await self.chat(message=message, results=results)

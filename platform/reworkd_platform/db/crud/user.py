@@ -6,9 +6,13 @@ from sqlalchemy.orm import selectinload
 from reworkd_platform.db.crud.base import BaseCrud
 from reworkd_platform.db.models.auth import OrganizationUser
 from reworkd_platform.db.models.user import UserSession
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UserCrud(BaseCrud):
+    def __init__(self, session: AsyncSession):
+        super().__init__(session)
+
     async def get_user_session(self, token: str) -> UserSession:
         query = (
             select(UserSession)

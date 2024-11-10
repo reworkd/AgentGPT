@@ -2,11 +2,13 @@ from typing import List, Optional
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
-from langchain import LLMChain
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
-from langchain.schema import HumanMessage
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate
+)
 from loguru import logger
 from pydantic import ValidationError
 
@@ -38,7 +40,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
 )
 from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
-from ollama import Client  # Updated import
+from ollama import AsyncClient  # Updated import
 
 
 class OpenAIAgentService(AgentService):
@@ -57,6 +59,8 @@ class OpenAIAgentService(AgentService):
         self.callbacks = callbacks
         self.user = user
         self.oauth_crud = oauth_crud
+        # Initialize the Async Ollama client once
+        self.client = AsyncClient(host='http://localhost:11434')  # Use environment variables for flexibility
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         prompt = ChatPromptTemplate.from_messages(
@@ -190,11 +194,8 @@ class OpenAIAgentService(AgentService):
         text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
         logger.info(f"Summarizing text: {text}")
 
-        # Initialize the Ollama client
-        client = Client(host='http://localhost:11434')  # Specify host if different
-
         return await summarize(
-            client=client,
+            client=self.client,  # Pass the initialized AsyncClient
             language=self.settings.language,
             goal=goal,
             text=text,
@@ -210,8 +211,8 @@ class OpenAIAgentService(AgentService):
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessagePromptTemplate(prompt=chat_prompt),
-                *[HumanMessage(content=result) for result in results],
-                HumanMessage(content=message),
+                *[HumanMessagePromptTemplate.from_template(result) for result in results],
+                HumanMessagePromptTemplate.from_template(message),
             ]
         )
 
@@ -222,23 +223,33 @@ class OpenAIAgentService(AgentService):
             ).to_string(),
         )
 
-        # Initialize the Ollama client
-        client = Client(host='http://localhost:11434')  # Specify host if different
+        # Format the prompt and extract messages
+        formatted_prompt = prompt.format_prompt()
+        messages = [
+            {'role': getattr(msg, 'role'), 'content': getattr(msg, 'content')}
+            for msg in formatted_prompt.to_messages()
+        ]
 
-        response = client.chat(
-            model="llama3.2",
-            messages=prompt.to_messages(),
-            stream=True,
-        )
+        try:
+            # Make the chat request with streaming
+            response = await self.client.chat(
+                model="llama3.2",
+                messages=messages,
+                stream=True,
+            )
+        except Exception as e:
+            logger.exception("Error during Ollama chat request.")
+            # Handle specific exceptions if necessary
+            raise
 
+        # Define an asynchronous generator to yield streamed responses
         async def stream_response():
-            for chunk in response:
-                yield chunk['message']['content']
+            async for chunk in response:
+                # Ensure 'message' and 'content' keys exist
+                if 'message' in chunk and 'content' in chunk['message']:
+                    yield chunk['message']['content']
 
-        return StreamingResponse.from_async_generator(
-            stream_response(),
-            media_type="text/event-stream",
-        )
+        return FastAPIStreamingResponse(stream_response(), media_type="text/event-stream")
 
     # The remaining methods remain unchanged but ensure that any usage of 'Ollama' is replaced accordingly.
 

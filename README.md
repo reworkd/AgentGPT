@@ -125,3 +125,16 @@ Our contributors have made this project possible. Thank you! 🙏
 <div align="center">
 <sub>Made with <a href="https://contrib.rocks">contrib.rocks</a>.</sub>
 </div>
+
+## Arguments for OpenAIAgentService
+
+The `OpenAIAgentService` class is defined in `platform/reworkd_platform/web/api/agent/agent_service/open_ai_agent_service.py`.
+
+The constructor of `OpenAIAgentService` takes the following arguments:
+
+- `model`: The model to be used.
+- `settings`: The settings for the model.
+- `token_service`: The token service for managing tokens.
+- `callbacks`: Optional list of callback handlers.
+- `user`: The user information.
+- `oauth_crud`: The OAuth CRUD operations.

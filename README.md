@@ -138,3 +138,18 @@ The constructor of `OpenAIAgentService` takes the following arguments:
 - `callbacks`: Optional list of callback handlers.
 - `user`: The user information.
 - `oauth_crud`: The OAuth CRUD operations.
+
+## Recent Code Changes
+
+### Overview
+
+The recent code changes include updates to the `chat` method in the `OpenAIAgentService` class to handle `SystemMessagePromptTemplate` objects correctly. This change ensures that the `role` attribute is checked before accessing it, preventing the `AttributeError`.
+
+### Prerequisites and Setup Instructions
+
+The prerequisites and setup instructions have been updated to reflect the recent changes. Please follow the updated instructions in the "Getting Started" section to set up the project correctly.
+
+### New Features and Improvements
+
+- The `chat` method in the `OpenAIAgentService` class now handles `SystemMessagePromptTemplate` objects correctly.
+- Improved error handling and stability in the `chat` method.

@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional, Tuple, Type, Union
 
 from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
-from pydantic import Field
+from pydantic import Field, ValidationError
 
 from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
 from reworkd_platform.schemas.user import UserBase
@@ -15,6 +15,7 @@ class WrappedChatOpenAI(ChatOpenAI):
     )
     max_tokens: Optional[int] = None
     model_name: LLM_Model = Field(alias="model")
+    ollama_api_key: Optional[str] = None
 
 
 class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
@@ -40,9 +41,9 @@ def create_model(
     llm_model = force_model or model_settings.model
     model: Type[WrappedChat] = WrappedChatOpenAI
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
+
     kwargs = {
         "openai_api_base": base,
-        "openai_api_key": model_settings.custom_api_key or settings.openai_api_key,
         "temperature": model_settings.temperature,
         "model": llm_model,
         "max_tokens": model_settings.max_tokens,
@@ -65,6 +66,9 @@ def create_model(
 
         if use_helicone:
             kwargs["model"] = deployment_name
+
+    if settings.ollama_api_key:
+        kwargs["ollama_api_key"] = settings.ollama_api_key
 
     return model(**kwargs)  # type: ignore
 

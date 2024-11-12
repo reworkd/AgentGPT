@@ -394,3 +394,55 @@ poetry run python -m reworkd_platform
 ```
 
 This will start the server on the configured host using Python 3.10.
+
+## Recent Updates
+
+### Project Structure and Configuration
+
+The project structure and configuration have been updated to improve maintainability and scalability. The following changes have been made:
+
+- Refactored the project structure to follow best practices and improve code organization.
+- Updated the configuration files to support new features and enhancements.
+- Added support for environment-specific configurations.
+
+### Instructions for Running the Project
+
+To run the project with the recent changes, follow these updated instructions:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/reworkd/AgentGPT.git
+cd AgentGPT
+```
+
+2. Create a virtual environment and activate it:
+
+```bash
+python3.10 -m venv venv
+source venv/bin/activate
+```
+
+3. Install the dependencies using Poetry:
+
+```bash
+poetry install
+```
+
+4. Start the server:
+
+```bash
+poetry run python -m reworkd_platform
+```
+
+5. Access the Swagger documentation at `/api/docs`.
+
+### New Features and Improvements
+
+The recent updates include the following new features and improvements:
+
+- Added support for the `ollama` package, allowing integration with the `llama3.2` model.
+- Improved the handling of environment variables and configuration settings.
+- Enhanced the project structure to follow best practices and improve code organization.
+- Updated the Docker configuration to support the installation of `ollama` and other dependencies.
+- Added new functions for interacting with agents, including starting a goal agent, analyzing a task agent, executing a task agent, creating tasks agent, summarizing task agent, and chatting with an agent.

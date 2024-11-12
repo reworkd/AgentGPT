@@ -53,7 +53,6 @@ class Settings(BaseSettings):
 
     # OpenAI
     openai_api_base: str = "https://api.openai.com/v1"
-    openai_api_key: str = "<Should be updated via env>"
     openai_api_version: str = "2023-08-01-preview"
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
 
@@ -63,6 +62,10 @@ class Settings(BaseSettings):
 
     replicate_api_key: Optional[str] = None
     serp_api_key: Optional[str] = None
+
+    # Ollama
+    ollama_api_base: str = "https://api.ollama.com/v1"
+    ollama_api_key: Optional[str] = None
 
     # Frontend URL for CORS
     frontend_url: str = "http://localhost:3000"

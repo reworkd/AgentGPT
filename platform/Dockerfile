@@ -1,4 +1,4 @@
-FROM python:3.11-slim-buster as prod
+FROM python:3.10-slim-buster as prod
 
 RUN apt-get update && apt-get install -y \
   default-libmysqlclient-dev \
@@ -29,6 +29,9 @@ RUN apt-get purge -y \
 # Copying actual application
 COPY . /app/src/
 RUN poetry install --only main
+
+# Install ollama
+RUN pip install ollama
 
 CMD ["/usr/local/bin/python", "-m", "reworkd_platform"]
 

@@ -149,3 +149,354 @@ poetry run pytest -vv --cov="reworkd_platform" .
 poetry self add poetry-plugin-up
 poetry up --latest
 ```
+
+## Installing the package using pip
+
+To install the `reworkd_platform` package using pip, run the following command:
+
+```bash
+pip install reworkd_platform
+```
+
+## Using the package in any code
+
+To use the `reworkd_platform` package in your code, you can import it as follows:
+
+```python
+import reworkd_platform
+
+# Example usage
+reworkd_platform.some_function()
+```
+
+## Using pip functions
+
+The `reworkd_platform` package provides several functions for interacting with agents. Here are some examples:
+
+### Starting a goal agent
+
+```python
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+
+# Initialize the OpenAIAgentService
+model = WrappedChatOpenAI(model_name="gpt-3.5-turbo")
+settings = ModelSettings(language="en")
+token_service = TokenService.create()
+callbacks = None
+user = UserBase(id=1, name="John Doe")
+oauth_crud = OAuthCrud()
+
+agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+# Start a goal agent
+tasks = agent_service.pip_start_goal_agent(goal="Your goal here")
+print(tasks)
+```
+
+### Analyzing a task agent
+
+```python
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+
+# Initialize the OpenAIAgentService
+model = WrappedChatOpenAI(model_name="gpt-3.5-turbo")
+settings = ModelSettings(language="en")
+token_service = TokenService.create()
+callbacks = None
+user = UserBase(id=1, name="John Doe")
+oauth_crud = OAuthCrud()
+
+agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+# Analyze a task agent
+analysis = agent_service.pip_analyze_task_agent(goal="Your goal here", task="Your task here", tool_names=["tool1", "tool2"])
+print(analysis)
+```
+
+### Executing a task agent
+
+```python
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+
+# Initialize the OpenAIAgentService
+model = WrappedChatOpenAI(model_name="gpt-3.5-turbo")
+settings = ModelSettings(language="en")
+token_service = TokenService.create()
+callbacks = None
+user = UserBase(id=1, name="John Doe")
+oauth_crud = OAuthCrud()
+
+agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+# Execute a task agent
+response = agent_service.pip_execute_task_agent(goal="Your goal here", task="Your task here", analysis=analysis)
+print(response)
+```
+
+### Creating tasks agent
+
+```python
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+
+# Initialize the OpenAIAgentService
+model = WrappedChatOpenAI(model_name="gpt-3.5-turbo")
+settings = ModelSettings(language="en")
+token_service = TokenService.create()
+callbacks = None
+user = UserBase(id=1, name="John Doe")
+oauth_crud = OAuthCrud()
+
+agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+# Create tasks agent
+tasks = agent_service.pip_create_tasks_agent(goal="Your goal here", tasks=["task1", "task2"], last_task="Your last task here", result="Your result here")
+print(tasks)
+```
+
+### Summarizing task agent
+
+```python
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+
+# Initialize the OpenAIAgentService
+model = WrappedChatOpenAI(model_name="gpt-3.5-turbo")
+settings = ModelSettings(language="en")
+token_service = TokenService.create()
+callbacks = None
+user = UserBase(id=1, name="John Doe")
+oauth_crud = OAuthCrud()
+
+agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+# Summarize task agent
+response = agent_service.pip_summarize_task_agent(goal="Your goal here", results=["result1", "result2"])
+print(response)
+```
+
+### Chatting with agent
+
+```python
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+
+# Initialize the OpenAIAgentService
+model = WrappedChatOpenAI(model_name="gpt-3.5-turbo")
+settings = ModelSettings(language="en")
+token_service = TokenService.create()
+callbacks = None
+user = UserBase(id=1, name="John Doe")
+oauth_crud = OAuthCrud()
+
+agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+# Chat with agent
+response = agent_service.pip_chat(message="Your message here", results=["result1", "result2"])
+print(response)
+```
+
+## Using ollama
+
+The `reworkd_platform` package also provides support for `ollama`. Here are some examples:
+
+### Adding ollama as a dependency
+
+To add `ollama` as a dependency, include it in your `pyproject.toml` file under `[tool.poetry.dependencies]`:
+
+```toml
+[tool.poetry.dependencies]
+ollama = "^0.1.0"
+```
+
+### Installing ollama in Docker
+
+To install `ollama` in the Docker image, add the following command to your `Dockerfile`:
+
+```dockerfile
+# Install ollama
+RUN pip install ollama
+```
+
+### Using ollama in your code
+
+To use `ollama` in your code, you can import it as follows:
+
+```python
+import ollama
+
+# Example usage
+model = ollama.Ollama(model="llama3.2")
+chain = model.create_chain(prompt="Your prompt here")
+response = chain.run("Your input here")
+print(response)
+```
+
+## Using Python 3.10
+
+The `reworkd_platform` package is compatible with Python 3.10. Here are some examples:
+
+### Specifying Python 3.10 in `pyproject.toml`
+
+To specify Python 3.10 as the required version, include the following in your `pyproject.toml` file:
+
+```toml
+[tool.poetry.dependencies]
+python = "^3.10"
+```
+
+### Using Python 3.10 in Docker
+
+To use Python 3.10 in the Docker image, update the base image in your `Dockerfile`:
+
+```dockerfile
+FROM python:3.10-slim-buster as prod
+```
+
+### Running the project with Python 3.10
+
+To run the project with Python 3.10, make sure you have Python 3.10 installed on your system. You can download and install Python 3.10 from the official Python website: https://www.python.org/downloads/release/python-3100/
+
+Once you have Python 3.10 installed, you can create a virtual environment and install the dependencies using Poetry:
+
+```bash
+python3.10 -m venv venv
+source venv/bin/activate
+poetry install
+poetry run python -m reworkd_platform
+```
+
+This will start the server on the configured host using Python 3.10.
+
+## Recent Updates
+
+### Project Structure and Configuration
+
+The project structure and configuration have been updated to improve maintainability and scalability. The following changes have been made:
+
+- Refactored the project structure to follow best practices and improve code organization.
+- Updated the configuration files to support new features and enhancements.
+- Added support for environment-specific configurations.
+
+### Instructions for Running the Project
+
+To run the project with the recent changes, follow these updated instructions:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/reworkd/AgentGPT.git
+cd AgentGPT
+```
+
+2. Create a virtual environment and activate it:
+
+```bash
+python3.10 -m venv venv
+source venv/bin/activate
+```
+
+3. Install the dependencies using Poetry:
+
+```bash
+poetry install
+```
+
+4. Start the server:
+
+```bash
+poetry run python -m reworkd_platform
+```
+
+5. Access the Swagger documentation at `/api/docs`.
+
+### New Features and Improvements
+
+The recent updates include the following new features and improvements:
+
+- Added support for the `ollama` package, allowing integration with the `llama3.2` model.
+- Improved the handling of environment variables and configuration settings.
+- Enhanced the project structure to follow best practices and improve code organization.
+- Updated the Docker configuration to support the installation of `ollama` and other dependencies.
+- Added new functions for interacting with agents, including starting a goal agent, analyzing a task agent, executing a task agent, creating tasks agent, summarizing task agent, and chatting with an agent.
+
+## Example of Initializing the OpenAIAgentService, Setting Up the Environment, and Running the Main Function
+
+```python
+import asyncio
+import os
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+from fastapi.responses import StreamingResponse
+
+
+async def get_oauth_crud():
+    oauth_crud = await OAuthCrud.inject()
+    return oauth_crud
+
+
+async def main():
+    # Ensure the OPENAI_API_KEY is set
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+    if not openai_api_key:
+        raise ValueError("The environment variable OPENAI_API_KEY is not set.")
+
+    # Initialize the OpenAIAgentService
+    model = WrappedChatOpenAI(model_name="llama3.2", openai_api_key=openai_api_key)
+    settings = ModelSettings(language="en")
+    token_service = TokenService.create()
+    callbacks = None
+    user = UserBase(id=1, name="John Doe")
+    oauth_crud = await get_oauth_crud()
+
+    agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+    # Chat with agent
+    response = await agent_service.pip_chat(message="Your message here", results=["result1", "result2"])
+
+    if isinstance(response, StreamingResponse):
+        response_content = []
+        async for chunk in response.body_iterator:
+            if isinstance(chunk, bytes):
+                response_content.append(chunk.decode('utf-8'))
+            else:
+                response_content.append(chunk)
+        print(''.join(response_content))
+    else:
+        print(response)
+
+
+# Run the main function
+asyncio.run(main())
+```

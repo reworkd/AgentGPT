@@ -41,6 +41,17 @@ def test_calculate_max_tokens_with_small_max_tokens() -> None:
     assert model.max_tokens == initial_max_tokens
 
 
+def test_calculate_max_tokens_with_none_max_tokens() -> None:
+    service = TokenService(encoding)
+    model = Mock(spec=["model_name", "max_tokens"])
+    model.model_name = "gpt-3.5-turbo"
+    model.max_tokens = None
+
+    service.calculate_max_tokens(model, "Hello")
+
+    assert model.max_tokens == LLM_MODEL_MAX_TOKENS.get("gpt-3.5-turbo")
+
+
 def test_calculate_max_tokens_with_high_completion_tokens() -> None:
     service = TokenService(encoding)
     prompt_tokens = service.count(LONG_TEXT)
@@ -68,8 +79,6 @@ def test_calculate_max_tokens_with_negative_result() -> None:
 
 
 LONG_TEXT = """
-This is some long text. This is some long text. This is some long text.
-This is some long text. This is some long text. This is some long text.
 This is some long text. This is some long text. This is some long text.
 This is some long text. This is some long text. This is some long text.
 This is some long text. This is some long text. This is some long text.

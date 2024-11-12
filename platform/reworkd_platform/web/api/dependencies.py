@@ -10,6 +10,7 @@ from reworkd_platform.db.crud.user import UserCrud
 from reworkd_platform.db.dependencies import get_db_session
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.web.api.http_responses import forbidden
+from reworkd_platform.logging import logger
 
 
 def user_crud(
@@ -28,11 +29,14 @@ async def get_current_user(
     try:
         session = await crud.get_user_session(session_token)
     except NoResultFound:
+        logger.error("Invalid session token")
         raise forbidden("Invalid session token")
 
     if session.expires <= datetime.utcnow():
+        logger.error("Session token expired")
         raise forbidden("Session token expired")
 
+    logger.info(f"User {session.user.id} authenticated successfully")
     return UserBase(
         id=session.user.id,
         name=session.user.name,

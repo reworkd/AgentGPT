@@ -20,7 +20,6 @@ from reworkd_platform.web.api.agent.agent_service.agent_service import AgentServ
 from reworkd_platform.web.api.agent.analysis import Analysis, AnalysisArguments
 from reworkd_platform.web.api.agent.helpers import (
     call_model_with_handling,
-    openai_error_handler,
     parse_with_handling,
 )
 from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
@@ -39,11 +38,10 @@ from reworkd_platform.web.api.agent.tools.tools import (
     get_user_tools,
 )
 from reworkd_platform.web.api.agent.tools.utils import summarize
-from reworkd_platform.web.api.errors import OpenAIError
-from ollama import AsyncClient  # Updated import
+from ollama import AsyncClient
 
 
-class OpenAIAgentService(AgentService):
+class OllamaAgentService(AgentService):
     def __init__(
         self,
         model: WrappedChatOpenAI,
@@ -59,12 +57,9 @@ class OpenAIAgentService(AgentService):
         self.callbacks = callbacks
         self.user = user
         self.oauth_crud = oauth_crud
-        # Initialize the Async Ollama client once
-        self.client = AsyncClient(host='http://localhost:11434')  # Use environment variables for flexibility
-        logger.info("OpenAIAgentService initialized with model: {}, settings: {}, user: {}", model, settings, user)
+        self.client = AsyncClient(host='http://localhost:11434')
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
-        logger.info("Starting goal agent with goal: {}", goal)
         prompt = ChatPromptTemplate.from_messages(
             [SystemMessagePromptTemplate(prompt=start_goal_prompt)]
         )
@@ -89,13 +84,12 @@ class OpenAIAgentService(AgentService):
 
         task_output_parser = TaskOutputParser(completed_tasks=[])
         tasks = parse_with_handling(task_output_parser, completion)
-        logger.info("Goal agent completed with tasks: {}", tasks)
+
         return tasks
 
     async def analyze_task_agent(
         self, *, goal: str, task: str, tool_names: List[str]
     ) -> Analysis:
-        logger.info("Analyzing task with goal: {}, task: {}, tool_names: {}", goal, task, tool_names)
         user_tools = await get_user_tools(tool_names, self.user, self.oauth_crud)
         functions = list(map(get_tool_function, user_tools))
         prompt = analyze_task_prompt.format_prompt(
@@ -110,8 +104,8 @@ class OpenAIAgentService(AgentService):
             str(functions),
         )
 
-        message = await openai_error_handler(
-            func=self.model.apredict_messages,
+        message = await self.client.chat(
+            model="llama3.2",
             messages=prompt.to_messages(),
             functions=functions,
             settings=self.settings,
@@ -124,14 +118,11 @@ class OpenAIAgentService(AgentService):
         try:
             pydantic_parser = PydanticOutputParser(pydantic_object=AnalysisArguments)
             analysis_arguments = parse_with_handling(pydantic_parser, completion)
-            analysis = Analysis(
+            return Analysis(
                 action=function_call.get("name", get_tool_name(get_default_tool())),
                 **analysis_arguments.dict(),
             )
-            logger.info("Task analysis completed: {}", analysis)
-            return analysis
-        except (OpenAIError, ValidationError) as e:
-            logger.error("Error during task analysis: {}", e)
+        except (ValidationError):
             return Analysis.get_default_analysis(task)
 
     async def execute_task_agent(
@@ -141,21 +132,17 @@ class OpenAIAgentService(AgentService):
         task: str,
         analysis: Analysis,
     ) -> StreamingResponse:
-        logger.info("Executing task with goal: {}, task: {}, analysis: {}", goal, task, analysis)
-        # TODO: More mature way of calculating max_tokens
         if self.model.max_tokens and self.model.max_tokens > 3000:
             self.model.max_tokens = max(self.model.max_tokens - 1000, 3000)
 
         tool_class = get_tool_from_name(analysis.action)
-        response = await tool_class(self.model, self.settings.language).call(
+        return await tool_class(self.model, self.settings.language).call(
             goal,
             task,
             analysis.arg,
             self.user,
             self.oauth_crud,
         )
-        logger.info("Task execution completed with response: {}", response)
-        return response
 
     async def create_tasks_agent(
         self,
@@ -166,7 +153,6 @@ class OpenAIAgentService(AgentService):
         result: str,
         completed_tasks: Optional[List[str]] = None,
     ) -> List[str]:
-        logger.info("Creating tasks with goal: {}, tasks: {}, last_task: {}, result: {}", goal, tasks, last_task, result)
         prompt = ChatPromptTemplate.from_messages(
             [SystemMessagePromptTemplate(prompt=create_tasks_prompt)]
         )
@@ -188,9 +174,7 @@ class OpenAIAgentService(AgentService):
         )
 
         previous_tasks = (completed_tasks or []) + tasks
-        new_tasks = [completion] if completion not in previous_tasks else []
-        logger.info("Tasks created: {}", new_tasks)
-        return new_tasks
+        return [completion] if completion not in previous_tasks else []
 
     async def summarize_task_agent(
         self,
@@ -198,23 +182,20 @@ class OpenAIAgentService(AgentService):
         goal: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        logger.info("Summarizing task with goal: {}, results: {}", goal, results)
         self.model.model_name = "llama3.2"
-        self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
+        self.model.max_tokens = 8000
 
-        snippet_max_tokens = 7000  # Leave room for the rest of the prompt
+        snippet_max_tokens = 7000
         text_tokens = self.token_service.tokenize("".join(results))
         text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
-        logger.info("Summarizing text: {}", text)
+        logger.info(f"Summarizing text: {text}")
 
-        response = await summarize(
-            client=self.client,  # Pass the initialized AsyncClient
+        return await summarize(
+            client=self.client,
             language=self.settings.language,
             goal=goal,
             text=text,
         )
-        logger.info("Task summary completed with response: {}", response)
-        return response
 
     async def chat(
         self,
@@ -222,7 +203,6 @@ class OpenAIAgentService(AgentService):
         message: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        logger.info("Chatting with message: {}, results: {}", message, results)
         self.model.model_name = "llama3.2"
         prompt = ChatPromptTemplate.from_messages(
             [
@@ -232,9 +212,6 @@ class OpenAIAgentService(AgentService):
             ]
         )
 
-        if self.model.max_tokens is None:
-            self.model.max_tokens = 0
-
         self.token_service.calculate_max_tokens(
             self.model,
             prompt.format_prompt(
@@ -242,7 +219,6 @@ class OpenAIAgentService(AgentService):
             ).to_string(),
         )
 
-        # Format the prompt and extract messages
         formatted_prompt = prompt.format_prompt(language=self.settings.language)
         messages = [
             {'role': getattr(msg, 'role', 'system'), 'content': getattr(msg, 'content')}
@@ -250,28 +226,21 @@ class OpenAIAgentService(AgentService):
         ]
 
         try:
-            # Make the chat request with streaming
             response = await self.client.chat(
                 model="llama3.2",
                 messages=messages,
                 stream=True,
             )
-            logger.info("Chat request successful with response: {}", response)
         except Exception as e:
             logger.exception("Error during Ollama chat request.")
-            # Handle specific exceptions if necessary
             raise
 
-        # Define an asynchronous generator to yield streamed responses
         async def stream_response():
             async for chunk in response:
-                # Ensure 'message' and 'content' keys exist
                 if 'message' in chunk and 'content' in chunk['message']:
                     yield chunk['message']['content']
 
         return FastAPIStreamingResponse(stream_response(), media_type="text/event-stream")
-
-    # The remaining methods remain unchanged but ensure that any usage of 'Ollama' is replaced accordingly.
 
     async def pip_start_goal_agent(self, *, goal: str) -> List[str]:
         return await self.start_goal_agent(goal=goal)

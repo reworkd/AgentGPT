@@ -40,7 +40,6 @@ class PineconeMemory(AgentMemory):
     def __enter__(self) -> AgentMemory:
         self.embeddings: Embeddings = OpenAIEmbeddings(
             client=None,  # Meta private value but mypy will complain its missing
-            openai_api_key=settings.openai_api_key,
         )
 
         return self

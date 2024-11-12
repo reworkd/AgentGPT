@@ -1,11 +1,12 @@
 from typing import Any, Dict, Optional, Tuple, Type, Union
 
 from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
-from pydantic import Field
+from pydantic import Field, ValidationError
 
 from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.settings import Settings
+from reworkd_platform.logging import logger
 
 
 class WrappedChatOpenAI(ChatOpenAI):
@@ -13,8 +14,9 @@ class WrappedChatOpenAI(ChatOpenAI):
         default=None,
         description="Meta private value but mypy will complain its missing",
     )
-    max_tokens: int
+    max_tokens: Optional[int] = None
     model_name: LLM_Model = Field(alias="model")
+    ollama_api_key: Optional[str] = None
 
 
 class WrappedAzureChatOpenAI(AzureChatOpenAI, WrappedChatOpenAI):
@@ -33,6 +35,8 @@ def create_model(
     streaming: bool = False,
     force_model: Optional[LLM_Model] = None,
 ) -> WrappedChat:
+    logger.info("Creating model with settings: %s, model_settings: %s, user: %s, streaming: %s, force_model: %s",
+                settings, model_settings, user, streaming, force_model)
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
     )
@@ -40,9 +44,9 @@ def create_model(
     llm_model = force_model or model_settings.model
     model: Type[WrappedChat] = WrappedChatOpenAI
     base, headers, use_helicone = get_base_and_headers(settings, model_settings, user)
+
     kwargs = {
         "openai_api_base": base,
-        "openai_api_key": model_settings.custom_api_key or settings.openai_api_key,
         "temperature": model_settings.temperature,
         "model": llm_model,
         "max_tokens": model_settings.max_tokens,
@@ -66,6 +70,10 @@ def create_model(
         if use_helicone:
             kwargs["model"] = deployment_name
 
+    if settings.ollama_api_key:
+        kwargs["ollama_api_key"] = settings.ollama_api_key
+
+    logger.info("Model created with kwargs: %s", kwargs)
     return model(**kwargs)  # type: ignore
 
 

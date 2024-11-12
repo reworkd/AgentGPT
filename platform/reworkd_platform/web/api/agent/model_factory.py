@@ -6,6 +6,7 @@ from pydantic import Field, ValidationError
 from reworkd_platform.schemas.agent import LLM_Model, ModelSettings
 from reworkd_platform.schemas.user import UserBase
 from reworkd_platform.settings import Settings
+from reworkd_platform.logging import logger
 
 
 class WrappedChatOpenAI(ChatOpenAI):
@@ -34,6 +35,8 @@ def create_model(
     streaming: bool = False,
     force_model: Optional[LLM_Model] = None,
 ) -> WrappedChat:
+    logger.info("Creating model with settings: %s, model_settings: %s, user: %s, streaming: %s, force_model: %s",
+                settings, model_settings, user, streaming, force_model)
     use_azure = (
         not model_settings.custom_api_key and "azure" in settings.openai_api_base
     )
@@ -70,6 +73,7 @@ def create_model(
     if settings.ollama_api_key:
         kwargs["ollama_api_key"] = settings.ollama_api_key
 
+    logger.info("Model created with kwargs: %s", kwargs)
     return model(**kwargs)  # type: ignore
 
 

@@ -446,3 +446,57 @@ The recent updates include the following new features and improvements:
 - Enhanced the project structure to follow best practices and improve code organization.
 - Updated the Docker configuration to support the installation of `ollama` and other dependencies.
 - Added new functions for interacting with agents, including starting a goal agent, analyzing a task agent, executing a task agent, creating tasks agent, summarizing task agent, and chatting with an agent.
+
+## Example of Initializing the OpenAIAgentService, Setting Up the Environment, and Running the Main Function
+
+```python
+import asyncio
+import os
+from reworkd_platform.web.api.agent.agent_service.open_ai_agent_service import OpenAIAgentService
+from reworkd_platform.web.api.agent.model_factory import WrappedChatOpenAI
+from reworkd_platform.schemas.agent import ModelSettings
+from reworkd_platform.services.tokenizer.token_service import TokenService
+from reworkd_platform.db.crud.oauth import OAuthCrud
+from reworkd_platform.schemas.user import UserBase
+from fastapi.responses import StreamingResponse
+
+
+async def get_oauth_crud():
+    oauth_crud = await OAuthCrud.inject()
+    return oauth_crud
+
+
+async def main():
+    # Ensure the OPENAI_API_KEY is set
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+    if not openai_api_key:
+        raise ValueError("The environment variable OPENAI_API_KEY is not set.")
+
+    # Initialize the OpenAIAgentService
+    model = WrappedChatOpenAI(model_name="llama3.2", openai_api_key=openai_api_key)
+    settings = ModelSettings(language="en")
+    token_service = TokenService.create()
+    callbacks = None
+    user = UserBase(id=1, name="John Doe")
+    oauth_crud = await get_oauth_crud()
+
+    agent_service = OpenAIAgentService(model, settings, token_service, callbacks, user, oauth_crud)
+
+    # Chat with agent
+    response = await agent_service.pip_chat(message="Your message here", results=["result1", "result2"])
+
+    if isinstance(response, StreamingResponse):
+        response_content = []
+        async for chunk in response.body_iterator:
+            if isinstance(chunk, bytes):
+                response_content.append(chunk.decode('utf-8'))
+            else:
+                response_content.append(chunk)
+        print(''.join(response_content))
+    else:
+        print(response)
+
+
+# Run the main function
+asyncio.run(main())
+```

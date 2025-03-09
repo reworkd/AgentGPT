@@ -1,0 +1,90 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Reworkd",
+    "background": {
+    "color": {
+      "light": "#FBFCFD",
+      "dark": "#11181C"
+    }
+  },
+  "colors": {
+    "primary": "#7E868C",
+    "light": "#7E868C",
+    "dark": "#7E868C"
+  },
+
+  "favicon": "/favicon.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/templates"
+            ]
+          },
+          {
+            "group": "Developers",
+            "pages": [
+              "developers/sdk"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "API",
+            "pages": [
+              "features/templates"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Website",
+          "href": "https://www.reworkd.ai/",
+          "icon": "globe"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/reworkd",
+          "icon": "github"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/logodark.png",
+    "dark": "/logo/logolight.png"
+  },
+
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/reworkd"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/reworkd",
+      "twitter": "https://twitter.com/ReworkdAI",
+      "linkedin": "https://www.linkedin.com/company/reworkd/"
+    }
+  }
+}

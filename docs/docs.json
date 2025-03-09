@@ -30,7 +30,6 @@
           {
             "group": "Features",
             "pages": [
-              "features/ai-copilot",
               "features/deduplication",
               "features/templates"
             ]

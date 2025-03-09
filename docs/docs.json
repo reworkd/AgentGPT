@@ -37,6 +37,7 @@
           {
             "group": "Developers",
             "pages": [
+              "developers/api-keys",
               "developers/sdk"
             ]
           }
@@ -71,8 +72,8 @@
     }
   },
   "logo": {
-    "light": "/logo/logo.png",
-    "dark": "/logo/logo-light.png"
+    "light": "/images/logo.png",
+    "dark": "/images/logo-light.png"
   },
 
   "navbar": {

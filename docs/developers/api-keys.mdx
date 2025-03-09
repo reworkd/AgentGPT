@@ -1,0 +1,16 @@
+---
+title: API Keys
+---
+
+Before you can use the Reworkd API, you will need to create an API key for your organization. To do this:
+1. Travel to the organization API key page. You may either visit [https://auth.reworkd.ai/org/api_keys/](https://auth.reworkd.ai/org/api_keys/) directly or click the settings button on the organization menu dropdown
+<Frame>
+  <img src="/images/organization-menu.png" />
+</Frame>
+2. Ensure you are on the `Organization API Keys` page
+3. Click the `New API key` button and create a new API key with a reasonable expiration date
+
+You should now be able to use your new API key to authenticate your requests. To do this, you will need to add the following header to your requests:
+```
+Authorization: Bearer <YOUR-API-KEY>
+```

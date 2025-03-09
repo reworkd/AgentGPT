@@ -86,7 +86,7 @@ def paginate(self, get_next_page_element: Callable[Ellipsis, Awaitable[str | pla
 **Example:**
 ```python
 async def pager():
-return await page.query_selector("div.pagination > .pager.next")
+    return await page.query_selector("div.pagination > .pager.next")
 
 await sdk.paginate(pager)
 ```

@@ -1,0 +1,190 @@
+---
+title: Scraping SDK
+---
+
+As part of code generation, Reworkd generates code in its own custom SDK called [Harambe](https://github.com/reworkd/harambe).
+Harambe is web scraping SDK with a number of useful methods and features for:
+- Saving data and validating that the data follows a specific schema
+- Enqueuing (and automatically formatting) urls
+- De-duplicating saved data, urls, etc
+- Effectively handling classic web scraping problems like pagination, pdfs, downloads, etc
+
+These methods, what they do, how they work, and some examples of how to use them will be highlighted below.
+
+---
+
+## `save_data`
+Save scraped data and validate its type matches the current schema
+
+**Signature:**
+```python
+def save_data(self, data: dict[str, Any]) -> None
+```
+**Params:**
+- `data`: Rows of data (as dictionaries) to save
+
+
+
+
+**Raises:**
+- `SchemaValidationError`: If any of the saved data does not match the provided schema
+
+
+**Example:**
+```python
+await sdk.save_data({ "title": "example", "description": "another_example" })
+```
+---
+
+## `enqueue`
+Enqueue url(s) to be scraped later.
+
+**Signature:**
+```python
+def enqueue(self, urls: str | Awaitable[str], context: dict[str, Any] | None = None, options: dict[str, Any] | None = None) -> None
+```
+**Params:**
+- `urls`: urls to enqueue
+- `context`: additional context to pass to the next run of the next stage/url. Typically just data that is only available on the current page but required in the schema. Only use this when some data is available on this page, but not on the page that is enqueued.
+- `options`: job level options to pass to the next stage/url
+
+
+
+
+
+
+**Example:**
+```python
+await sdk.enqueue("https://www.test.com")
+await sdk.enqueue("/some-path") # This will automatically be converted into an absolute url
+```
+---
+
+## `paginate`
+SDK method to automatically facilitate paginating a list of elements.
+Simply define a function that should return any of:
+- A direct link to the next page
+- An element with hrefs to the next page
+- An element to click on to get to the next page
+And call `sdk.paginate` at the end of your scrape function. The element will automatically be used to paginate the site and run the scraping code against all pages
+Pagination will conclude once all pages are reached no next page element is found.
+This method should ALWAYS be used for pagination instead of manual for loops and if statements.
+
+**Signature:**
+```python
+def paginate(self, get_next_page_element: Callable[Ellipsis, Awaitable[str | playwright.async_api._generated.ElementHandle | None]], timeout: int = 2000) -> None
+```
+**Params:**
+- `get_next_page_element`: the url or ElementHandle of the next page
+- `timeout`: milliseconds to sleep for before continuing. Only use if there is no other wait option
+
+
+
+
+
+
+**Example:**
+```python
+async def pager():
+return await page.query_selector("div.pagination > .pager.next")
+
+await sdk.paginate(pager)
+```
+---
+
+## `capture_url`
+Capture the url of a click event. This will click the element and return the url
+via network request interception. This is useful for capturing urls that are
+generated dynamically (eg: redirects to document downloads).
+
+**Signature:**
+```python
+def capture_url(self, clickable: ElementHandle, resource_type: Literal[document, stylesheet, image, media, font, script, texttrack, xhr, fetch, eventsource, websocket, manifest, other, *] = 'document', timeout: int | None = 10000) -> str | None
+```
+**Params:**
+- `clickable`: the element to click
+- `resource_type`: the type of resource to capture
+- `timeout`: the time to wait for the new page to open (in ms)
+
+
+**Return Value:**
+url: the url of the captured resource or None if no match was found
+
+**Raises:**
+- `ValueError`: if more than page is created by the click event
+
+
+
+---
+
+## `capture_download`
+Capture a download event that gets triggered by clicking an element. This method will:
+- Handle clicking the element
+- Download the resulting file
+- Apply download handling logic and build a download URL
+- Return a download metadata object
+Use this method to manually download dynamic files or files that can only be downloaded in the current browser session.
+
+**Signature:**
+```python
+def capture_download(self, clickable: ElementHandle, override_filename: str | None = None, override_url: str | None = None, timeout: float | None = None) -> DownloadMeta
+```
+
+
+**Return Value:**
+DownloadMeta: A typed dict containing the download metadata such as the `url` and `filename`
+
+
+
+
+---
+
+## `capture_html`
+Capture and download the html content of the document or a specific element.
+The returned HTML will be cleaned of any excluded elements and will be wrapped in a proper HTML document structure.
+
+**Signature:**
+```python
+def capture_html(self, selector: str = 'html', exclude_selectors: list[str] | None = None, soup_transform: Callable[BeautifulSoup, None] | None = None, html_converter_type: Literal[markdown, text] = 'markdown') -> HTMLMetadata
+```
+**Params:**
+- `selector`: CSS selector of element to capture. Defaults to "html" for the document element.
+- `exclude_selectors`: List of CSS selectors for elements to exclude from capture.
+- `soup_transform`: A function to transform the BeautifulSoup html prior to saving. Use this to remove aspects of the returned content
+- `html_converter_type`: Type of HTML converter to use for the inner text. Defaults to "markdown".
+
+
+**Return Value:**
+HTMLMetadata containing the `html` of the element, the formatted `text` of the element, along with the `url` and `filename` of the document
+
+**Raises:**
+- `ValueError`: If the specified selector doesn't match any element.
+
+
+**Example:**
+```python
+meta = await sdk.capture_html(selector="div.content")
+await sdk.save_data({"name": meta["filename"], "text": meta["text"], "download_url": meta["url"]})
+```
+---
+
+## `capture_pdf`
+Capture the current page as a pdf and then apply some download handling logic
+from the observer to transform to a usable URL
+
+**Signature:**
+```python
+def capture_pdf(self) -> DownloadMeta
+```
+
+
+**Return Value:**
+DownloadMeta: A typed dict containing the download metadata such as the `url` and `filename`
+
+
+
+**Example:**
+```python
+meta = await sdk.capture_pdf()
+await sdk.save_data({"file_name": meta["filename"], "download_url": meta["url"]})
+```

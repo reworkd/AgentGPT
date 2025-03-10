@@ -1,0 +1,98 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Reworkd",
+    "background": {
+    "color": {
+      "light": "#FBFCFD",
+      "dark": "#11181C"
+    }
+  },
+  "colors": {
+    "primary": "#7E868C",
+    "light": "#7E868C",
+    "dark": "#7E868C"
+  },
+
+  "favicon": "/favicon.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "key-concepts",
+              "schemas"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/deduplication",
+              {
+                "group": "Exports",
+                "pages": [
+                  "features/exports/overview",
+                  "features/exports/api-exports",
+                  "features/exports/bulk-exports"
+                ]
+              },
+              "features/scheduling",
+              "features/templates",
+              "features/file-downloads"
+            ]
+          },
+          {
+            "group": "Developers",
+            "pages": [
+              "developers/api-keys",
+              "developers/sdk",
+              "developers/file-downloads"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "book-open",
+        "openapi": "https://api.reworkd.dev/api/openapi.json"
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Website",
+          "href": "https://www.reworkd.ai/",
+          "icon": "globe"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/reworkd",
+          "icon": "github"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/images/logo.png",
+    "dark": "/images/logo-light.png"
+  },
+
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/reworkd"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/reworkd",
+      "twitter": "https://twitter.com/ReworkdAI",
+      "linkedin": "https://www.linkedin.com/company/reworkd/"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+---
+title: Scheduling
+description: Re-use scrapers across identical sites
+---
+
+You can schedule groups to be re-run at a specific cadence. To set a schedule, go to the settings tab within a group and select the schedule you want to use.
+
+## Overriding schedules
+Often there may be specific sources within a group that you want to run more or less frequently than the rest of the group.
+To do this, you can override the schedule for the specific source by going into the settings tab of the job.
+
+## How are pages re-visited?
+#### Category/Listing pages
+All higher level stages such as category and listing pages will always be re-run in subsequent runs.
+They will enqueue and run all of their lower level stages (except for detail pages).
+
+#### Detail pages
+Detail page visits are de-duplicated. By we do not revisit detail pages after initially scraping its data by default.
+This is because there is no consistent way to detect detail page changes without actually opening the page and re-running the extraction code. If you require detail page re-visits, please reach out to us!

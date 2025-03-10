@@ -1,0 +1,77 @@
+---
+title: Handling File Downloads
+---
+Different types of file downloads require different code strategies. This page outlines various strategies you may take.
+
+## Regular Download Links
+Regular downloads occur when the file link is directly available within the HTML (typically in the `href` of an `<a>` tag). Clicking these links directly initiates a file download.
+
+To handle these downloads:
+
+1. Save the URL directly from the page.
+2. Reworkd will then asynchronously visit and download the file. We use `curl-cffi` mimicking browser behavior when downloading the file.
+
+```python
+# Select the link element
+link = await sdk.page.query_selector('a.download')
+
+# Get the URL directly
+href = await link.get_attribute("href")
+
+# Save the URL, Lambda will handle the download
+await sdk.save_data({"download_url": href })
+```
+
+## Indirect Download Links
+
+Indirect downloads happen when the direct link isn't immediately visible but becomes available after clicking a button or link.
+
+To handle indirect downloads:
+
+1. Click the button/link to open the URL.
+2. Capture and save the newly loaded URL.
+3. Automatically navigate back.
+
+```python
+# Select element to open page
+element = await sdk.page.query_selector('button.download')
+
+# Capture the URL after clicking
+download_url = await sdk.capture_url(element)
+
+# Save URL for download via Lambda
+await sdk.save_data({"download_url": download_url })
+```
+
+## JavaScript/Dynamic Downloads
+
+Dynamic downloads occur when a file download is triggered by JavaScript events directly in the browser, without a direct URL.
+
+To handle dynamic downloads:
+
+1. Use `capture_download` method to trigger and capture the download directly in the browser.
+2. Retrieve the file metadata (URL and title).
+
+```python
+# Select element triggering download
+element = await sdk.page.query_selector('button.download')
+
+# Capture download event directly
+download_metadata = await sdk.capture_download(element)
+
+# Save file metadata directly
+await sdk.save_data({
+    "attachment": {
+        "download_url": download_metadata["url"],
+        "title": download_metadata["title"],
+    },
+})
+```
+
+## Downloads Requiring Cookies/Session
+
+Some sites require the download to occur within the same browser session that accessed the page, making AWS Lambda unsuitable.
+
+In these cases:
+
+- Follow the same approach as dynamic downloads, handling the download directly in the browser context using `capture_download`.

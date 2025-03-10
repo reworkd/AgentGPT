@@ -1,0 +1,37 @@
+---
+title: Key Concepts
+description: Everything you need to get started with Reworkd
+---
+
+# Groups
+A group is the first thing you create when you use Reworkd.
+Groups are a collection of source urls/jobs that share a common schema and scraping frequency.
+
+For example, if you were looking to scrape multiple online bookstores for book data, you might create a **Bookstore** group
+and add all of the bookstore source URLs within it.
+
+### Schemas
+A schema is a structured definition of the data you want to scrape from a website. Read more about schemas in our [Schemas](/features/schemas) page.
+All jobs within a group will share the same schema.
+
+# Jobs
+A job represents a distinct source URL within a scraping group.
+We break jobs down to various stages as a scraper flows through a website and enqueues additional pages.
+We consider the first job the source job, and any jobs that get enqueued by the source job are considered child jobs.
+
+
+Jobs can be configured with various settings such as proxy types, timeouts, and other parameters to optimize the scraping process for different page requirements.
+
+### Stages
+Every job is associated with a specific type of stage. Suppose you are wanting to scrape an e-commerce website.
+1. The first stage might be the **category** page. This page would list all of the different categories of products available on the site such as shirts, pants, shoes, etc.
+This job would go through and enqueue all of these categories as listing pages.
+2. Each **listing** page would just be all of the products under a specific category. For example, it may be a list of pants.
+Listing jobs would just go through each page of the list and enqueue the associated product detail page.
+3. Finally, the **detail** page would be the final page. This page contains all of the information about a specific product. This job would just save the data of the product and be done.
+
+# Run
+A `Run` is a single execution of a scraping job.
+Job runs are essential for tracking the status and results of each scraping attempt, ensuring data is consistently collected and processed correctly;
+they can also be retried upon failures to enhance data accuracy.
+Additionally, job runs often generate a list of outputs, capturing the extracted data or links to be further processed.

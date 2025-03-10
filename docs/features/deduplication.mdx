@@ -1,0 +1,39 @@
+---
+title: Deduplication
+description: Automatically generate scrapers
+---
+
+Reworkd automatically handles deduplicating data whenever your scrapers re-run.
+
+## How It Works
+
+When saving data, Reworkd uses a **unique key** (or composite key) based on the record's fields to determine if the data is new or if it is a duplicate of data that has already been saved.
+
+
+| Scenario | Action Taken by Reworkd |
+| --- | --- |
+| **New row of data saved** | Inserts data and marks as a `CREATE` change. |
+| **Duplicate row of data saved** | Skips insertion; no duplicate is created. |
+| **Updating data that has been seen before (existing key)** | Updates existing record without duplication and marks as an `UPDATE` change |
+
+## Defining your Deduplication Key
+
+When you are creating your schema, you must also select which of the fields you want to use as part of your **primary/deduplication key**.
+This deduplication key is critical to ensure you avoid duplicated data. It must:
+
+- ✅ **Be unique** for every output row.
+- ✅ **Remain stable** over time (avoid frequently changing fields).
+- ✅ **Be consistent**. Regardless of what website you are on, this key must be the same for the same item.
+
+If there is no one obvious key field, use multiple attributes to create a reliable **composite key**.
+
+
+## Good vs. Poor Key Examples
+#### Good key choices
+- Unique ID like a **SKU** or **UPC**
+- Combination of unique attributes like **Brand + Model + Color**
+
+#### Poor key choices
+- Price (frequently changes)
+- Availability status (frequently fluctuating)
+- Timestamp of last update

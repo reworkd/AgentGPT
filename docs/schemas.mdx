@@ -1,0 +1,32 @@
+---
+title: Schemas
+---
+Schemas are the definition for the exact data format you expect websites within a particular group to use.
+Every row of data Reworkd processes will go through a strict schema validation process to guaranteed your data is consistent with your schema.
+
+## Schema field types
+Schemas support both basic data types like strings and numbers along with a collection of advanced fields that apply transformations to the data:
+
+- **URL**: A string field that transform relative URLs into absolute URLs and fail if an invalid URL is provided. URL fields will also allow you to download files from whatever URL is provided. See the Downloading files page for more information.
+- **Phone Number**: A string field that will case cast values to known phone number types
+- **Currency**
+
+## What makes for a good schema?
+How well you can scrape a page is is heavily impacted by your schema choices. Here are some loose guides on making a good schema:
+1. Simple. The less fields there are, the less room for error there.
+2. Only use fields you need today. Do not build schemas for fields you probably won't need
+3. Ensure schema fields actually appear on the page.
+   - Do not include nice-to-have fields that never actually appear on any website
+   - Do not include fields that are only present in one of your 10s/100s/1000s of websites
+4. **Capture fields as they appear on the page.** If they appear as arbitrary strings but your system requires them to be in domain specific enums, capture them as strings and create your own post processing layer to transform them as necessary
+5. Avoid derived field: fields that are generated from other fields in the schema. Derived fields should be handled in your own application code
+6. Ensure fields are unambiguous
+   - Carefully name fields as they appear on websites
+   - Provide field descriptions and example values where possible to clarify ambiguity. Clarify industry specific naming jargon and describe all of the different aliases that a given field may go by on the site
+7. Use advanced fields if possible. They abstract away some of the complexities of data transformations from LLMs leading to lower failures and higher data consistency
+
+## What if the page is missing fields?
+Often not every website will conform to the unified schema you’ve created.
+Sometimes individual pages may be missing fields while other times the entire website itself may not present a field.
+
+If the field is missing, it will be left as null in the output. If it is an array, it will be left as an empty array.

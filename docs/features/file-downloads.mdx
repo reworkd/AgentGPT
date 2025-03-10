@@ -1,0 +1,72 @@
+---
+title: File Downloads
+---
+
+Reworkd can automatically handle downloading files on your behalf. Files are stored in our infrastructure, and download links to these files are provided in all export formats.
+
+## Setting up downloads
+
+To configure automatic downloads:
+
+1. Create a field in your schema with the **URL** type.
+2. In the field settings, ensure **Download file from URL** is set to `True`.
+3. Create a job that will save the download URL to a file in this field.
+
+Once the job is run, the file linked in that URL will be automatically downloaded.
+<Warning>
+    Note: File downloads happen asynchronously. It may take time for files to appear in your exports.
+</Warning>
+
+## Retrieving files
+
+File download links will be included in the `files` array of your exports.
+
+Example API response for file data:
+```json
+{
+    ...
+    "files": [
+        {
+            "id": "70057eca-d05c-4a33-ae84-4af8dce83ce3",
+            "field": "attachments[0].url",
+            "url_etag_hash": "92359181252f9b52a4da21599fbf8f8d.pdf",
+            "s3_key": "test_key.pdf",
+            "s3_url": "https://files.reworkd.dev/test_url",
+            "source_url": "https://source-website.com/download/49a42973",
+            "create_date": "2024-08-26T18:49:31.575000",
+            "file_url": "s3://deworkd-prod-files/11ee111ee.pdf",
+            "file_type": "pdf",
+            "file_checksum": "7eec76e4bd1fed22f5d7d5fa7efbeaf717a77da771bb5c61e09b0d7ae46bbd",
+            "file_metadata": {
+                "url": "https://source-website.com/download/49a42973",
+                "filename": "Test document.pdf",
+                "dynamic_download": "true"
+            }
+        }
+    ],
+    ...
+}
+```
+
+### Key fields
+
+- `s3_url`: Pre-signed URL to retrieve the file from our S3 bucket.
+- `source_url`: Original URL of the file; points to our S3 bucket if no canonical source URL exists. If so, file_metadata.dynamic_download will be set to true.
+- `field`: Indicates which field in the output data the file relates to.
+
+
+## How are files downloaded?
+#### Regular downloads
+Regular downloads occur when files are directly accessible via a URL (e.g., direct PDF links).
+- The canonical URL of the file is used and saved
+- Files are downloaded asynchronously via AWS Lambda using a dedicated download queue. Delays may occur.
+
+#### Dynamic downloads
+Dynamic downloads occur when there is no canonical URL available, typically triggered via JavaScript or requiring active session information.
+- Files are downloaded directly in the browser worker to guarantee accuracy.
+- Because no canonical link is available, the link to the current page is used as the source URL.
+- For more technical details, see Handling file downloading.
+
+## File storage
+**We can only guarantee that your downloaded files remain stored within our S3 buckets for 90 days.**
+If your use case requires longer retention periods, please let us know!

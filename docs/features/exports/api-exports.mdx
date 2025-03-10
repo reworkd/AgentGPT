@@ -1,0 +1,20 @@
+---
+title: API Exports
+description: Export data via our APIs
+---
+
+The most common way for our customers to ingest our data is via our API endpoints.
+If you haven't already, create an API key by following our [API key documentation](/developers/api-keys) and get started with our API below.
+
+<CardGroup cols={1}>
+  <Card title="Outputs API" icon="chart-mixed" href="/api-reference/public/get-outputs-for-a-scraping-group">
+    Full API documentation for how to export data from your groups
+  </Card>
+</CardGroup>
+
+
+## Getting only new data
+Use the `created_after` query parameter to filter for data created after your last ingestion.
+
+Typically our customers will call our API once a day, keeping track of the exact datetime in which they made the API call.
+Any subsequent API calls they make will set `created_after` to the previously recorded datetime.

@@ -136,3 +136,28 @@ def test_custom_model_settings(model_settings: ModelSettings, streaming: bool):
     assert model.model_name.startswith(model_settings.model)
     assert model.max_tokens == model_settings.max_tokens
     assert model.streaming == streaming
+
+
+def test_create_model_without_max_tokens():
+    user = UserBase(id="user_id")
+    settings = Settings()
+    model_settings = ModelSettings(
+        temperature=0.7,
+        model="gpt-3.5-turbo",
+    )
+
+    settings.openai_api_base = "https://api.openai.com"
+    settings.openai_api_key = "key"
+    settings.openai_api_version = "version"
+
+    result = create_model(settings, model_settings, user, streaming=False)
+    assert issubclass(result.__class__, WrappedChatOpenAI)
+    assert issubclass(result.__class__, ChatOpenAI)
+
+    # Check if the required keys are set properly
+    assert result.openai_api_base == settings.openai_api_base
+    assert result.openai_api_key == settings.openai_api_key
+    assert result.temperature == model_settings.temperature
+    assert result.max_tokens is None
+    assert result.streaming is False
+    assert result.max_retries == 5

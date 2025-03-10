@@ -9,6 +9,7 @@ LLM_Model = Literal[
     "gpt-3.5-turbo",
     "gpt-3.5-turbo-16k",
     "gpt-4",
+    "llama3.2",
 ]
 Loop_Step = Literal[
     "start",
@@ -22,6 +23,7 @@ LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {
     "gpt-3.5-turbo": 4000,
     "gpt-3.5-turbo-16k": 16000,
     "gpt-4": 8000,
+    "llama3.2": 4000,
 }
 
 

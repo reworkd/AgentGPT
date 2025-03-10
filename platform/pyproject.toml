@@ -14,7 +14,7 @@ maintainers = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 fastapi = "^0.98.0"
 boto3 = "^1.28.51"
 uvicorn = { version = "^0.22.0", extras = ["standard"] }
@@ -41,6 +41,7 @@ botocore = "^1.31.51"
 stripe = "^5.5.0"
 cryptography = "^41.0.4"
 httpx = "^0.25.0"
+ollama = "^0.1.0"
 
 
 [tool.poetry.dev-dependencies]
@@ -96,5 +97,5 @@ env = [
 ]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

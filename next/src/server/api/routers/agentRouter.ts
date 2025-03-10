@@ -42,7 +42,7 @@ async function generateAgentName(goal: string) {
            `,
         },
       ],
-      model: "gpt-3.5-turbo",
+      model: "llama3.2",
     });
 
     // @ts-ignore

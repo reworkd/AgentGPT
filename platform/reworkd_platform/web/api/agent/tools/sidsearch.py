@@ -2,9 +2,9 @@ import json
 from datetime import datetime, timedelta
 from typing import Any, List, Optional
 
-import aiohttp
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from loguru import logger
+from ollama import Client  # Updated import
 
 from reworkd_platform.db.crud.oauth import OAuthCrud
 from reworkd_platform.db.models.auth import OauthCredentials
@@ -24,15 +24,29 @@ async def _sid_search_results(
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
     data = {"query": search_term, "limit": limit}
 
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
-            "https://api.sid.ai/v1/users/me/query",
-            headers=headers,
-            data=json.dumps(data),
-        ) as response:
-            response.raise_for_status()
-            search_results = await response.json()
-            return search_results
+    client = Client(host='http://localhost:11434')  # Specify host if different
+    response = client.chat(
+        model="llama3.2",
+        messages=[
+            {"role": "system", "content": "Search through personal data sources."},
+            {"role": "user", "content": search_term}
+        ],
+        stream=True,
+    )
+
+    search_results = {}
+    async def process_response():
+        nonlocal search_results
+        for chunk in response:
+            message_content = chunk['message']['content']
+            try:
+                data = json.loads(message_content)
+                search_results.update(data)
+            except json.JSONDecodeError:
+                continue  # Handle or log the error as needed
+
+    await process_response()
+    return search_results
 
 
 async def token_exchange(refresh_token: str) -> tuple[str, datetime]:
@@ -43,14 +57,31 @@ async def token_exchange(refresh_token: str) -> tuple[str, datetime]:
         "redirect_uri": settings.sid_redirect_uri,
         "refresh_token": refresh_token,
     }
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
-            "https://auth.sid.ai/oauth/token", data=data
-        ) as response:
-            response.raise_for_status()
-            response_data = await response.json()
-            access_token = response_data["access_token"]
-            expires_in = response_data["expires_in"]
+    client = Client(host='http://localhost:11434')  # Specify host if different
+    response = client.chat(
+        model="llama3.2",
+        messages=[
+            {"role": "system", "content": "Exchange refresh token for access token."},
+            {"role": "user", "content": json.dumps(data)}
+        ],
+        stream=True,
+    )
+
+    response_data = {}
+    async def process_response():
+        nonlocal response_data
+        for chunk in response:
+            message_content = chunk['message']['content']
+            try:
+                data = json.loads(message_content)
+                response_data.update(data)
+            except json.JSONDecodeError:
+                continue  # Handle or log the error as needed
+
+    await process_response()
+
+    access_token = response_data.get("access_token")
+    expires_in = response_data.get("expires_in")
     return access_token, datetime.now() + timedelta(seconds=expires_in)
 
 
@@ -126,7 +157,6 @@ class SID(Tool):
 
         return summarize_sid(self.model, self.language, goal, task, snippets)
 
-
     async def call(
         self,
         goal: str,
@@ -137,7 +167,7 @@ class SID(Tool):
         *args: Any,
         **kwargs: Any,
     ) -> FastAPIStreamingResponse:
-         # fall back to search if no results are found
+        # fall back to search if no results are found
         return await self._run_sid(goal, task, input_str, user, oauth_crud) or await Search(self.model, self.language).call(
-        goal, task, input_str, user, oauth_crud
-    )
+            goal, task, input_str, user, oauth_crud
+        )

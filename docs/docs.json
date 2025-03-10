@@ -24,7 +24,8 @@
           {
             "group": "Get Started",
             "pages": [
-              "introduction"
+              "introduction",
+              "key-concepts"
             ]
           },
           {
@@ -54,14 +55,7 @@
       {
         "tab": "API Reference",
         "icon": "book-open",
-        "groups": [
-          {
-            "group": "API",
-            "pages": [
-              "features/templates"
-            ]
-          }
-        ]
+        "openapi": "https://api.reworkd.dev/api/openapi.json"
       }
     ],
     "global": {

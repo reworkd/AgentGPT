@@ -14,9 +14,7 @@
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/">📚 Docs</a>
-<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/essentials/contributing">🤝 Contribute</a>
+<a href="https://reworkd.ai/docs">📚 Docs</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/reworkdai">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -79,11 +77,6 @@ Before you get started, please make sure you have the following installed:
 4. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
 
 Happy hacking! :tada:
-
-## 🎉 Roadmap
-
-This platform is currently in beta, a full list of completed and planed features can be found on
-our [public roadmap](https://docs.reworkd.ai/essentials/roadmap).
 
 
 ## 🚀 Tech Stack

@@ -43,7 +43,7 @@ Internal changes:
 
 - [ ] My code follows the code style of this project and passes `npm run lint`.
 - [ ] My change requires a change to the documentation.
-- [ ] I have [updated the documentation](https://docs.reworkd.ai) accordingly.  #   {DOCUMENTATION}     <------- this should lead to the doc that could be changed/ didnt find it
+- [ ] I have [updated the documentation](https://reworkd.ai/docs) accordingly.  #   {DOCUMENTATION}     <------- this should lead to the doc that could be changed/ didnt find it
 - [ ] My change has adequate [Unit Test coverage]({PLACEHOLDER}).
 
 ## Terms

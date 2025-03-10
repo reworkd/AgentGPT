@@ -14,9 +14,7 @@
 <p align="center">
 <a href="https://agentgpt.reworkd.ai">🔗 短链接</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/">📚 文档</a>
-<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://docs.reworkd.ai/essentials/contributing">🤝 参与贡献</a>
+<a href="https://reworkd.ai/docs">📚 文档</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/reworkdai">🐦 推特</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -79,11 +77,6 @@ cli为AgentGPT设置了以下内容：
 4. **按照脚本中的设置说明进行操作。** - 在添加适当的 API 密钥之后，确保所有服务都已经运行起来，然后在您的网页浏览器中访问 [http://localhost:3000](http://localhost:3000)。
 
 黑客快乐! 🎉
-
-## 🎉 路线图
-
-该平台目前处于测试阶段（beta），已完成和计划中的功能的完整列表可在我们的
-[public roadmap](https://docs.reworkd.ai/essentials/roadmap)中找到。
 
 
 ## 🚀 技术栈

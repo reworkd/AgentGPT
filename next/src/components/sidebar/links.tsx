@@ -25,7 +25,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
   },
   {
     name: "Help",
-    href: "https://docs.reworkd.ai/",
+    href: "https://reworkd.ai/docs",
     icon: FaQuestion,
     className: "group-hover:text-red-500",
   },

@@ -9,7 +9,7 @@ Regular downloads occur when the file link is directly available within the HTML
 To handle these downloads:
 
 1. Save the URL directly from the page.
-2. Use AWS Lambda to asynchronously visit and download the file with `curl-cffi`.
+2. Reworkd will then asynchronously visit and download the file. We use `curl-cffi` mimicking browser behavior when downloading the file.
 
 ```python
 # Select the link element

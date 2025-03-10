@@ -39,7 +39,7 @@ python-multipart = "^0.0.6"
 aws-secretsmanager-caching = "^1.1.1.5"
 botocore = "^1.31.51"
 stripe = "^5.5.0"
-cryptography = "^41.0.4"
+cryptography = "^43.0.0"
 httpx = "^0.25.0"
 
 

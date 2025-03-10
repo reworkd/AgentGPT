@@ -25,7 +25,8 @@
             "group": "Get Started",
             "pages": [
               "introduction",
-              "key-concepts"
+              "key-concepts",
+              "schemas"
             ]
           },
           {
@@ -40,14 +41,17 @@
                   "features/exports/bulk-exports"
                 ]
               },
-              "features/templates"
+              "features/scheduling",
+              "features/templates",
+              "features/file-downloads"
             ]
           },
           {
             "group": "Developers",
             "pages": [
               "developers/api-keys",
-              "developers/sdk"
+              "developers/sdk",
+              "developers/file-downloads"
             ]
           }
         ]

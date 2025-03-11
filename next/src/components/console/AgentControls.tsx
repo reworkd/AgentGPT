@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import React from "react";
-import { FaPause, FaPlay, FaStop, FaUndo } from "react-icons/fa";
+import { FaPause, FaPlay, FaStop, FaUndo, FaTrash } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im";
 
 import type { AgentLifecycle } from "../../services/agent/agent-run-model";
 import Button from "../Button";
+import { AgentApi } from "../../services/agent/agent-api";
 
 type AgentControlsProps = {
   disablePlay: boolean;
@@ -12,14 +13,21 @@ type AgentControlsProps = {
   handlePlay: () => void;
   handlePause: () => void;
   handleStop: () => void;
+  agentApi: AgentApi;
 };
+
 const AgentControls = ({
   lifecycle,
   disablePlay,
   handlePlay,
   handlePause,
   handleStop,
+  agentApi,
 }: AgentControlsProps) => {
+  const handleDelete = async () => {
+    await agentApi.deleteAgent();
+  };
+
   return (
     <div className="flex gap-2">
       <Button ping={!disablePlay} disabled={disablePlay} onClick={handlePlay}>
@@ -40,6 +48,13 @@ const AgentControls = ({
         enabledClassName={clsx("bg-red-600 hover:bg-red-400")}
       >
         <FaStop />
+      </Button>
+      <Button
+        disabled={lifecycle === "offline" || lifecycle == "stopped"}
+        onClick={handleDelete}
+        enabledClassName={clsx("bg-red-600 hover:bg-red-400")}
+      >
+        <FaTrash />
       </Button>
     </div>
   );

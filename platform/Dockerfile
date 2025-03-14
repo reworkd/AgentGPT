@@ -18,6 +18,7 @@ COPY pyproject.toml /app/src/
 WORKDIR /app/src
 
 # Installing requirements
+RUN pip wheel --use-pep517 "mysqlclient (==2.2.0)"
 RUN poetry install --only main
 # Removing gcc
 RUN apt-get purge -y \

@@ -9,6 +9,7 @@
       <a href="https://github.com/reworkd/AgentGPT/blob/master/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg" alt="English"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.zh-HANS.md"><img src="https://img.shields.io/badge/lang-简体中文-red.svg" alt="简体中文"></a>
   <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.hu-Cs4K1Sr4C.md"><img src="https://img.shields.io/badge/lang-Hungarian-red.svg" alt="Hungarian"></a>
+  <a href="https://github.com/reworkd/AgentGPT/blob/master/docs/README.ja-JP.md"><img src="https://img.shields.io/badge/lang-日本語-red.svg" alt="Japanese"></a>
 </p>
 
 <p align="center">

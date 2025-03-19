@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/reworkd/AgentGPT/main/next/public/banner.png" height="300" alt="AgentGPT Logo"/>
 </p>
 <p align="center">
-  <em>🤖 Assemble, configure, and deploy autonomous AI Agent(s) in your browser. 🤖   </em>
+  <em>🤖 ブラウザ上で自律型 AI エージェントを組み立て、設定し、デプロイします。 🤖   </em>
 </p>
 <p align="center">
     <img alt="Node version" src="https://img.shields.io/static/v1?label=node&message=%20%3E=18&logo=node.js&color=2334D058" />
@@ -13,91 +13,98 @@
 </p>
 
 <p align="center">
-<a href="https://agentgpt.reworkd.ai">🔗 Short link</a>
+<a href="https://agentgpt.reworkd.ai">🔗 ショートリンク</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="https://reworkd.ai/docs">📚 Docs</a>
+<a href="https://docs.reworkd.ai/">📚 ドキュメント</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://docs.reworkd.ai/essentials/contributing">🤝 コントリビュート</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://twitter.com/reworkdai">🐦 Twitter</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
 <a href="https://discord.gg/gcmNyAAFfV">📢 Discord</a>
 </p>
 
-AgentGPT allows you to configure and deploy Autonomous AI agents.
-Name your own custom AI and have it embark on any goal imaginable.
-It will attempt to reach the goal by thinking of tasks to do, executing them, and learning from the results 🚀.
+AgentGPT は、自律型 AI エージェントの設定とデプロイを可能にします。
+自分だけのカスタム AI に名前を付けて、想像しうるあらゆるゴールに乗り出させましょう。
+やるべきことを考え、実行し、その結果から学ぶことで、ゴールに到達しようとします 🚀。
 
 ---
 
-## ✨ Demo
-For the best demo experience, try [our site](https://agentgpt.reworkd.ai) directly :)
+## ✨ デモ
+最高のデモ体験のために、[私たちのサイト](https://agentgpt.reworkd.ai) を直接お試しください :)
 
-[Demo Video](https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e)
+[デモ動画](https://github.com/reworkd/AgentGPT/assets/50181239/5348e44a-29a5-4280-a06b-fe1429a8d99e)
 
 
-## 👨‍🚀 Getting Started
+## 👨‍🚀 はじめに
 
-The easiest way to get started with AgentGPT is automatic setup CLI bundled with the project.
-The cli sets up the following for AgentGPT:
-- 🔐 [Environment variables](https://github.com/reworkd/AgentGPT/blob/main/.env.example) (and API Keys)
-- 🗂️ [Database](https://github.com/reworkd/AgentGPT/tree/main/db) (Mysql)
-- 🤖 [Backend](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
-- 🎨 [Frontend](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
+AgentGPT を始める最も簡単な方法は、プロジェクトにバンドルされている自動セットアップ CLI です。
+cli は AgentGPT に対して以下の設定を行います。:
+- 🔐 [環境変数](https://github.com/reworkd/AgentGPT/blob/main/.env.example) (および API キー)
+- 🗂️ [データベース](https://github.com/reworkd/AgentGPT/tree/main/db) (Mysql)
+- 🤖 [バックエンド](https://github.com/reworkd/AgentGPT/tree/main/platform) (FastAPI)
+- 🎨 [フロントエンド](https://github.com/reworkd/AgentGPT/tree/main/next) (Nextjs)
 
-## Prerequisites :point_up:
+## 前提条件 :point_up:
 
-Before you get started, please make sure you have the following installed:
+始める前に、以下がインストールされていることを確認してください:
 
-- An editor of your choice. For example, [Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
+- お好みのエディタ。例えば、[Visual Studio Code (VS Code)](https://code.visualstudio.com/download)
 - [Node.js](https://nodejs.org/en/download)
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
-- An [OpenAI API key](https://platform.openai.com/signup)
-- A [Serper API Key](https://serper.dev/signup) (optional)
-- A [Replicate API Token](https://replicate.com/signin) (optional)
+- [Docker](https://www.docker.com/products/docker-desktop)。インストール後、アカウントを作成し、Docker アプリケーションを開いてサインインしてください。
+- [OpenAI API key](https://platform.openai.com/signup)
+- [Serper API Key](https://serper.dev/signup) (オプション)
+- [Replicate API Token](https://replicate.com/signin) (オプション)
 
-## Getting Started :rocket:
-1. **Open your editor**
+## 始める :rocket:
+1. **エディタを開く**
 
-2. **Open the Terminal** - Typically, you can do this from a 'Terminal' tab or by using a shortcut
-   (e.g., `Ctrl + ~` for Windows or `Control + ~` for Mac in VS Code).
+2. **ターミナルを開く** - 通常、この操作は 'Terminal' タブから行うか、ショートカットを使って行います
+   (例：VS Code で Windows の場合は `Ctrl + ~`、Mac の場合は `Control + ~`)。
 
-3. **Clone the Repository and Navigate into the Directory** - Once your terminal is open, you can clone the repository and move into the directory by running the commands below.
+3. **リポジトリをクローンし、ディレクトリに移動する** - ターミナルを開いたら、以下のコマンドを実行してリポジトリをクローンし、ディレクトリに移動することができる。
 
-   **For Mac/Linux users** :apple: :penguin:
+   **Mac/Linux ユーザー** :apple: :penguin:
    ```bash
    git clone https://github.com/reworkd/AgentGPT.git
    cd AgentGPT
    ./setup.sh
    ```
-   **For Windows users** :windows:
+   **Windows ユーザー** :windows:
    ```bash
    git clone https://github.com/reworkd/AgentGPT.git
    cd AgentGPT
    ./setup.bat
    ```
-4. **Follow the setup instructions from the script** - add the appropriate API keys, and once all of the services are running, travel to [http://localhost:3000](http://localhost:3000) on your web-browser.
+4. **スクリプトのセットアップ手順に従ってください** - 適切な API キーを追加し、すべてのサービスが起動したら、ウェブブラウザで [http://localhost:3000](http://localhost:3000) にアクセスする。
 
-Happy hacking! :tada:
+ハッピーハッキング！ :tada:
+
+## 🎉 ロードマップ
+
+このプラットフォームは現在ベータ版です。完成済みおよび計画中の機能の全リストは、
+私たちの[公開ロードマップ](https://docs.reworkd.ai/essentials/roadmap)でご覧いただけます。
 
 
-## 🚀 Tech Stack
+## 🚀 技術スタック
 
-- ✅ **Bootstrapping**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template).
-- ✅ **Framework**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
-- ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
-- ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/).
-- ✅ **Database**: [Planetscale](https://planetscale.com/).
-- ✅ **Styling**: [TailwindCSS + HeadlessUI](https://tailwindcss.com).
-- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://docs.pydantic.dev/).
-- ✅ **LLM Tooling**: [Langchain](https://github.com/hwchase17/langchain).
+- ✅ **ブートストラップ**: [create-t3-app](https://create.t3.gg) + [FastAPI-template](https://github.com/s3rius/FastAPI-template)。
+- ✅ **フレームワーク**: [Nextjs 13 + Typescript](https://nextjs.org/) + [FastAPI](https://fastapi.tiangolo.com/)
+- ✅ **認証**: [Next-Auth.js](https://next-auth.js.org)
+- ✅ **ORM**: [Prisma](https://prisma.io) & [SQLModel](https://sqlmodel.tiangolo.com/)。
+- ✅ **データベース**: [Planetscale](https://planetscale.com/)。
+- ✅ **スタイリング**: [TailwindCSS + HeadlessUI](https://tailwindcss.com)。
+- ✅ **スキーマバリデーション**: [Zod](https://github.com/colinhacks/zod) + [Pydantic](https://docs.pydantic.dev/)。
+- ✅ **LLM ツール**: [Langchain](https://github.com/hwchase17/langchain)。
 
 
 <h2 align="center">
-💝 Our GitHub sponsors 💝
+💝 GitHub スポンサー 💝
 </h2>
 
 <p align="center">
-Join us in fueling the development of AgentGPT, an open-source project pushing the boundaries of AI agents! Your sponsorship would drive progress by helping us scale up resources, enhance features and functionality, and continue to iterate on this exciting project! 🚀
+AI エージェントの限界に挑戦するオープンソースプロジェクト、AgentGPT の開発に参加しませんか？あなたのスポンサーシップは、リソースのスケールアップ、特徴と機能の強化、そしてこのエキサイティングなプロジェクトの反復継続を支援することで、進歩を後押しします！ 🚀
 </p>
 
 <p align="center">
@@ -105,11 +112,11 @@ Join us in fueling the development of AgentGPT, an open-source project pushing t
 </p>
 
 <h2 align="center">
-💪 Contributors 💪
+💪 コントリビューター 💪
 </h2>
 
 <p align="center">
-Our contributors have made this project possible. Thank you! 🙏
+私たちのコントリビューターのおかげで、このプロジェクトが可能になりました。ありがとうございます！ 🙏
 </p>
 
 <a href="https://github.com/reworkd/agentgpt/graphs/contributors">
@@ -117,5 +124,5 @@ Our contributors have made this project possible. Thank you! 🙏
 </a>
 
 <div align="center">
-<sub>Made with <a href="https://contrib.rocks">contrib.rocks</a>.</sub>
+<sub><a href="https://contrib.rocks">contrib.rocks</a> により作成。</sub>
 </div>

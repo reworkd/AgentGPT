@@ -13,6 +13,11 @@ services:
       - ./next/:/next/
       - /next/node_modules
       - /next/.next
+    networks:
+      mynetwork:
+        ipv4_address: 172.16.0.2
+    extra_hosts:
+      - "db:172.16.0.4"
 
   platform:
     container_name: platform
@@ -35,6 +40,9 @@ services:
       REWORKD_PLATFORM_DB_BASE: "reworkd_platform"
     depends_on:
       - agentgpt_db
+    networks:
+      mynetwork:
+        ipv4_address: 172.16.0.3
 
   agentgpt_db:
     image: mysql:8.0
@@ -53,6 +61,16 @@ services:
     volumes:
       - agentgpt_db:/var/lib/mysql
     command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+    networks:
+      mynetwork:
+        ipv4_address: 172.16.0.4
 
 volumes:
   agentgpt_db:
+
+networks:
+  mynetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24

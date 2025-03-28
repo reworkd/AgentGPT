@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  platform:
+    build:
+      context: ./platform
+      dockerfile: Dockerfile
+    environment:
+      - LANGCHAIN_VERSION=0.0.267
+    command: >
+      sh -c "pip install langchain==0.0.267 lanarky==0.7.8 && 
+             python -m reworkd_platform"

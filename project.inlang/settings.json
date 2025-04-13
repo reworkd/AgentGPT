@@ -1,0 +1,27 @@
+{
+    "$schema": "https://inlang.com/schema/project-settings",
+    "sourceLanguageTag": "en",
+    "languageTags": [
+      "en", "de", "es", "fr", "hr", "hu", "it", "ja", "ko", "lt", "nl", "pl", "pt", "ro", "ru", "sk", "tr", "uk", "zh"
+    ],
+    "modules": [
+      "https://cdn.jsdelivr.net/npm/@inlang/plugin-i18next@4/dist/index.js",
+      "https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-empty-pattern@latest/dist/index.js",
+      "https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-identical-pattern@latest/dist/index.js",
+      "https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-missing-translation@latest/dist/index.js",
+      "https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-without-source@latest/dist/index.js"
+    ],
+    "plugin.inlang.i18next": {
+      "pathPattern": {
+        "chat": "./next/public/locales/{languageTag}/chat.json",
+        "common": "./next/public/locales/{languageTag}/common.json",
+        "drawer": "./next/public/locales/{languageTag}/drawer.json",
+        "error": "./next/public/locales/{languageTag}/error.json",
+        "help": "./next/public/locales/{languageTag}/help.json",
+        "indexPage": "./next/public/locales/{languageTag}/indexPage.json",
+        "languages": "./next/public/locales/{languageTag}/languages.json",
+        "settings": "./next/public/locales/{languageTag}/settings.json"
+      }
+    }
+}
+

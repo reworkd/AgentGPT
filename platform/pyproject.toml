@@ -23,7 +23,7 @@ ujson = "^5.8.0"
 sqlalchemy = { version = "^2.0.21", extras = ["mypy", "asyncio"] }
 aiomysql = "^0.1.1"
 mysqlclient = "^2.2.0"
-sentry-sdk = "^1.31.0"
+sentry-sdk = "^2.15.0"
 loguru = "^0.7.2"
 aiokafka = "^0.8.1"
 requests = "^2.31.0"

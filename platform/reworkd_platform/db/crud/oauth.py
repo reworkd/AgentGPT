@@ -12,6 +12,9 @@ from reworkd_platform.schemas import UserBase
 
 
 class OAuthCrud(BaseCrud):
+    def __init__(self, session: AsyncSession):
+        super().__init__(session)
+
     @classmethod
     async def inject(
         cls,

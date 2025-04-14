@@ -8,6 +8,7 @@ import { api } from "../utils/api";
 export type AgentUtils = {
   createAgent: (data: CreateAgentProps) => Promise<PrismaAgent | undefined>;
   saveAgent: (data: SaveAgentProps) => void;
+  deleteAgent: (id: string) => void;
 };
 
 export function useAgent(): AgentUtils {
@@ -33,8 +34,18 @@ export function useAgent(): AgentUtils {
     if (status === "authenticated") saveMutation.mutate(data);
   };
 
+  const deleteMutation = api.agent.deleteById.useMutation({
+    onSuccess: (id: string) => {
+      utils.agent.getAll.setData(void 0, (oldData) => oldData?.filter(agent => agent.id !== id));
+    },
+  });
+  const deleteAgent = (id: string) => {
+    if (status === "authenticated") deleteMutation.mutate(id);
+  };
+
   return {
     createAgent,
     saveAgent,
+    deleteAgent,
   };
 }

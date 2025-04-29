@@ -11,6 +11,7 @@ Harambe is web scraping SDK with a number of useful methods and features for:
 
 These methods, what they do, how they work, and some examples of how to use them will be highlighted below.
 
+
 ---
 
 ## `save_data`
@@ -18,10 +19,11 @@ Save scraped data and validate its type matches the current schema
 
 **Signature:**
 ```python
-def save_data(self, data: dict[str, Any]) -> None
+def save_data(self, data: dict[str, Any], source_url: str | None = None) -> None
 ```
 **Params:**
 - `data`: Rows of data (as dictionaries) to save
+- `source_url`: Optional URL to associate with the data, defaults to current page URL. Only use this if the source of the data is different than the current page when the data is saved
 
 
 
@@ -33,6 +35,7 @@ def save_data(self, data: dict[str, Any]) -> None
 **Example:**
 ```python
 await sdk.save_data({ "title": "example", "description": "another_example" })
+await sdk.save_data({ "title": "example", "description": "another_example" }, source_url="https://www.example.com/product/example_id")
 ```
 ---
 
@@ -111,7 +114,7 @@ def capture_url(self, clickable: ElementHandle, resource_type: Literal[document,
 url: the url of the captured resource or None if no match was found
 
 **Raises:**
-- `ValueError`: if more than page is created by the click event
+- `ValueError`: if more than one page is created by the click event
 
 
 
@@ -188,3 +191,16 @@ DownloadMeta: A typed dict containing the download metadata such as the `url` an
 meta = await sdk.capture_pdf()
 await sdk.save_data({"file_name": meta["filename"], "download_url": meta["url"]})
 ```
+---
+
+## `log`
+Log a message via both `print` and `console.log` if a browser is running
+Concatenates all arguments with spaces.
+Args:
+*args: Values to log (will be concatenated)
+
+**Signature:**
+```python
+def log(self, args) -> None
+```
+

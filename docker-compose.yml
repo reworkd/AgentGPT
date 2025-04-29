@@ -13,6 +13,10 @@ services:
       - ./next/:/next/
       - /next/node_modules
       - /next/.next
+    environment:
+      DATABASE_URL: mysql://reworkd_platform:reworkd_platform@agentgpt_db:3307/reworkd_platform
+    depends_on:
+      - agentgpt_db
 
   platform:
     container_name: platform

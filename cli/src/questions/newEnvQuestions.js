@@ -12,7 +12,7 @@ export const newEnvQuestions = [
         validate: async(apikey) => {
             if(apikey === "") return true;
 
-            if(!isValidKey(apikey, /^sk-[a-zA-Z0-9]{48}$/)) {
+            if(!isValidKey(apikey, /^(?=(sk-(proj-)?[a-zA-Z0-9\-\_]*)$)(?:.{51}|.{95}|.{164})$/)) {
                 return validKeyErrorMessage
             }
 

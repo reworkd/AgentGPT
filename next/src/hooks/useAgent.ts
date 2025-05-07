@@ -22,19 +22,23 @@ export function useAgent(): AgentUtils {
   });
   const createAgent = async (data: CreateAgentProps): Promise<PrismaAgent | undefined> => {
     if (status === "authenticated") {
-      return await createMutation.mutateAsync(data);
-    } else {
-      return undefined;
+      try {
+        return await createMutation.mutateAsync(data);
+      } catch (error) {
+        console.error("Failed to create agent:", error);
+        // Optionally, you could return an error object or notify the user
+      }
+    }
+    return undefined;
+  };
+  
+  const saveAgent = (data: SaveAgentProps) => {
+    if (status === "authenticated") {
+      saveMutation.mutate(data, {
+        onError: (error) => {
+          console.error("Failed to save agent:", error);
+        },
+      });
     }
   };
-
-  const saveMutation = api.agent.save.useMutation();
-  const saveAgent = (data: SaveAgentProps) => {
-    if (status === "authenticated") saveMutation.mutate(data);
-  };
-
-  return {
-    createAgent,
-    saveAgent,
-  };
-}
+  

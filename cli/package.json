@@ -20,7 +20,7 @@
     "clear": "^0.1.0",
     "clui": "^0.3.6",
     "configstore": "^6.0.0",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.5",
     "figlet": "^1.7.0",
     "inquirer": "^9.2.12",
     "lodash": "^4.17.21",

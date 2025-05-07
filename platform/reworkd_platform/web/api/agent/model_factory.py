@@ -13,7 +13,7 @@ class WrappedChatOpenAI(ChatOpenAI):
         default=None,
         description="Meta private value but mypy will complain its missing",
     )
-    max_tokens: int
+    max_tokens: Optional[int] = None
     model_name: LLM_Model = Field(alias="model")
 
 

@@ -2,11 +2,13 @@ from typing import List, Optional
 
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 from lanarky.responses import StreamingResponse
-from langchain import LLMChain
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
-from langchain.schema import HumanMessage
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate
+)
 from loguru import logger
 from pydantic import ValidationError
 
@@ -38,6 +40,7 @@ from reworkd_platform.web.api.agent.tools.tools import (
 )
 from reworkd_platform.web.api.agent.tools.utils import summarize
 from reworkd_platform.web.api.errors import OpenAIError
+from ollama import AsyncClient  # Updated import
 
 
 class OpenAIAgentService(AgentService):
@@ -56,6 +59,8 @@ class OpenAIAgentService(AgentService):
         self.callbacks = callbacks
         self.user = user
         self.oauth_crud = oauth_crud
+        # Initialize the Async Ollama client once
+        self.client = AsyncClient(host='http://localhost:11434')  # Use environment variables for flexibility
 
     async def start_goal_agent(self, *, goal: str) -> List[str]:
         prompt = ChatPromptTemplate.from_messages(
@@ -131,7 +136,7 @@ class OpenAIAgentService(AgentService):
         analysis: Analysis,
     ) -> StreamingResponse:
         # TODO: More mature way of calculating max_tokens
-        if self.model.max_tokens > 3000:
+        if self.model.max_tokens and self.model.max_tokens > 3000:
             self.model.max_tokens = max(self.model.max_tokens - 1000, 3000)
 
         tool_class = get_tool_from_name(analysis.action)
@@ -181,7 +186,7 @@ class OpenAIAgentService(AgentService):
         goal: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.model_name = "llama3.2"
         self.model.max_tokens = 8000  # Total tokens = prompt tokens + completion tokens
 
         snippet_max_tokens = 7000  # Leave room for the rest of the prompt
@@ -189,8 +194,8 @@ class OpenAIAgentService(AgentService):
         text = self.token_service.detokenize(text_tokens[0:snippet_max_tokens])
         logger.info(f"Summarizing text: {text}")
 
-        return summarize(
-            model=self.model,
+        return await summarize(
+            client=self.client,  # Pass the initialized AsyncClient
             language=self.settings.language,
             goal=goal,
             text=text,
@@ -202,12 +207,12 @@ class OpenAIAgentService(AgentService):
         message: str,
         results: List[str],
     ) -> FastAPIStreamingResponse:
-        self.model.model_name = "gpt-3.5-turbo-16k"
+        self.model.model_name = "llama3.2"
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessagePromptTemplate(prompt=chat_prompt),
-                *[HumanMessage(content=result) for result in results],
-                HumanMessage(content=message),
+                *[HumanMessagePromptTemplate.from_template(result) for result in results],
+                HumanMessagePromptTemplate.from_template(message),
             ]
         )
 
@@ -218,10 +223,82 @@ class OpenAIAgentService(AgentService):
             ).to_string(),
         )
 
-        chain = LLMChain(llm=self.model, prompt=prompt)
+        # Format the prompt and extract messages
+        formatted_prompt = prompt.format_prompt()
+        messages = [
+            {'role': getattr(msg, 'role'), 'content': getattr(msg, 'content')}
+            for msg in formatted_prompt.to_messages()
+        ]
 
-        return StreamingResponse.from_chain(
-            chain,
-            {"language": self.settings.language},
-            media_type="text/event-stream",
+        try:
+            # Make the chat request with streaming
+            response = await self.client.chat(
+                model="llama3.2",
+                messages=messages,
+                stream=True,
+            )
+        except Exception as e:
+            logger.exception("Error during Ollama chat request.")
+            # Handle specific exceptions if necessary
+            raise
+
+        # Define an asynchronous generator to yield streamed responses
+        async def stream_response():
+            async for chunk in response:
+                # Ensure 'message' and 'content' keys exist
+                if 'message' in chunk and 'content' in chunk['message']:
+                    yield chunk['message']['content']
+
+        return FastAPIStreamingResponse(stream_response(), media_type="text/event-stream")
+
+    # The remaining methods remain unchanged but ensure that any usage of 'Ollama' is replaced accordingly.
+
+    async def pip_start_goal_agent(self, *, goal: str) -> List[str]:
+        return await self.start_goal_agent(goal=goal)
+
+    async def pip_analyze_task_agent(
+        self, *, goal: str, task: str, tool_names: List[str]
+    ) -> Analysis:
+        return await self.analyze_task_agent(goal=goal, task=task, tool_names=tool_names)
+
+    async def pip_execute_task_agent(
+        self,
+        *,
+        goal: str,
+        task: str,
+        analysis: Analysis,
+    ) -> StreamingResponse:
+        return await self.execute_task_agent(goal=goal, task=task, analysis=analysis)
+
+    async def pip_create_tasks_agent(
+        self,
+        *,
+        goal: str,
+        tasks: List[str],
+        last_task: str,
+        result: str,
+        completed_tasks: Optional[List[str]] = None,
+    ) -> List[str]:
+        return await self.create_tasks_agent(
+            goal=goal,
+            tasks=tasks,
+            last_task=last_task,
+            result=result,
+            completed_tasks=completed_tasks,
         )
+
+    async def pip_summarize_task_agent(
+        self,
+        *,
+        goal: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        return await self.summarize_task_agent(goal=goal, results=results)
+
+    async def pip_chat(
+        self,
+        *,
+        message: str,
+        results: List[str],
+    ) -> FastAPIStreamingResponse:
+        return await self.chat(message=message, results=results)

@@ -54,7 +54,7 @@ wemake-python-styleguide = "^0.18.0"
 black = "^23.9.1"
 autoflake = "^2.2.1"
 pytest-cov = "^4.1.0"
-anyio = "^3.7.1"
+anyio = "^4.6.0"
 pytest-env = "^0.8.2"
 
 [tool.poetry.group.dev.dependencies]

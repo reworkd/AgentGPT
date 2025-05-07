@@ -45,7 +45,7 @@
     "i18next": "^22.4.15",
     "lodash": "^4.17.21",
     "next": "^13.5.6",
-    "next-auth": "4.20.1",
+    "next-auth": "4.24.5",
     "next-i18next": "^13.2.2",
     "nextjs-google-analytics": "^2.3.3",
     "openai": "^4.14.2",

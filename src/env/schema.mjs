@@ -10,7 +10,7 @@ const requiredForProduction = () => process.env.NODE_ENV === "production"
  * This way you can ensure the app isn't built with invalid env vars.
  */
 export const serverSchema = z.object({
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: process.env.SKIP_ENV_VALIDATION ? z.string().url().optional() : z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET: requiredForProduction(),
   NEXTAUTH_URL: z.preprocess(
@@ -20,7 +20,7 @@ export const serverSchema = z.object({
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
     process.env.VERCEL ? z.string() : z.string().url(),
   ),
-  OPENAI_API_KEY: z.string()
+  OPENAI_API_KEY: process.env.SKIP_ENV_VALIDATION ? z.string().optional() : z.string().min(1).trim()
 });
 
 /**

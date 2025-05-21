@@ -48,6 +48,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    agents        Agent[]    // User can have multiple agents
 }
 
 model VerificationToken {
@@ -56,4 +57,34 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// AgentGPT Core Models
+model Agent {
+    id          String   @id @default(cuid())
+    userId      String   // Foreign key to User
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name        String   // Custom name for the agent
+    goal        String   // The main objective for the agent
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    tasks       Task[]   // An agent can have multiple tasks
+}
+
+model Task {
+    id          String   @id @default(cuid())
+    agentId     String   // Foreign key to Agent
+    agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+    description String   // The task description (what to do)
+    status      TaskStatus @default(PENDING) // e.g., PENDING, IN_PROGRESS, COMPLETED, FAILED
+    result      String?  // The outcome or result of the task
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+enum TaskStatus {
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    FAILED
 }

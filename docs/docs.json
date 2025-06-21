@@ -43,7 +43,8 @@
               },
               "features/scheduling",
               "features/templates",
-              "features/file-downloads"
+              "features/file-downloads",
+              "features/ollama"
             ]
           },
           {

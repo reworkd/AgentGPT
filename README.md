@@ -50,9 +50,10 @@ Before you get started, please make sure you have the following installed:
 - [Node.js](https://nodejs.org/en/download)
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker-desktop). After installation, please create an account, open up the Docker application, and sign in.
-- An [OpenAI API key](https://platform.openai.com/signup)
-- A [Serper API Key](https://serper.dev/signup) (optional)
-- A [Replicate API Token](https://replicate.com/signin) (optional)
+- An [OpenAI API key](https://platform.openai.com/signup) (optional, if using OpenAI models)
+- **Ollama**: If you prefer to run models locally, ensure [Ollama is installed and running](https://ollama.ai/). You can pull models like `llama2`, `mistral`, or `codellama`. AgentGPT can be configured to use your local Ollama instance.
+- A [Serper API Key](https://serper.dev/signup) (optional, for web searches)
+- A [Replicate API Token](https://replicate.com/signin) (optional, for image generation via Replicate)
 
 ## Getting Started :rocket:
 1. **Open your editor**

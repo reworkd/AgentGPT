@@ -9,6 +9,9 @@ LLM_Model = Literal[
     "gpt-3.5-turbo",
     "gpt-3.5-turbo-16k",
     "gpt-4",
+    "ollama/llama2",
+    "ollama/mistral",
+    "ollama/codellama",
 ]
 Loop_Step = Literal[
     "start",
@@ -21,12 +24,15 @@ Loop_Step = Literal[
 LLM_MODEL_MAX_TOKENS: Dict[LLM_Model, int] = {
     "gpt-3.5-turbo": 4000,
     "gpt-3.5-turbo-16k": 16000,
-    "gpt-4": 8000,
+    "gpt-4": 8000,  # General default, specific versions might differ
+    "ollama/llama2": 4096,
+    "ollama/mistral": 8192,
+    "ollama/codellama": 16000,
 }
 
 
 class ModelSettings(BaseModel):
-    model: LLM_Model = Field(default="gpt-3.5-turbo")
+    model: LLM_Model = Field(default="gpt-3.5-turbo") # Default will be dynamically determined by frontend/settings
     custom_api_key: Optional[str] = Field(default=None)
     temperature: float = Field(default=0.9, ge=0.0, le=1.0)
     max_tokens: int = Field(default=500, ge=0)

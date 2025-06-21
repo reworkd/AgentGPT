@@ -1,0 +1,73 @@
+---
+title: Using Local Models with Ollama
+description: How to configure AgentGPT to use local large language models via Ollama.
+---
+
+import { Callout } from "nextra/components";
+
+# Using Local Models with Ollama
+
+AgentGPT supports running large language models (LLMs) locally using [Ollama](https://ollama.ai/). This allows you to leverage powerful open-source models without needing API keys for cloud providers, offering greater privacy and control.
+
+## Prerequisites
+
+1.  **Install Ollama:** Download and install Ollama from [ollama.ai](https://ollama.ai/) for your operating system.
+2.  **Pull Models:** After installing Ollama, pull the models you intend to use. For example:
+    ```bash
+    ollama pull llama2
+    ollama pull mistral
+    ollama pull codellama
+    ```
+    You can find a list of available models on the [Ollama library page](https://ollama.ai/library).
+
+## Configuration
+
+When you run the AgentGPT setup script (`./setup.sh` or `setup.bat`), you will be prompted to configure Ollama:
+
+```
+? Do you want to configure Ollama for local models? (y/N) › true
+? Enter your Ollama API base URL (e.g., http://localhost:11434): › http://localhost:11434
+```
+
+-   **Do you want to configure Ollama for local models?**: Answer `y` (yes).
+-   **Enter your Ollama API base URL**: Provide the URL where your Ollama instance is accessible. The default is usually `http://localhost:11434`.
+
+The setup script will then add the `REWORKD_PLATFORM_OLLAMA_API_BASE` variable to your `.env` file.
+
+<Callout type="info">
+    If you've already set up AgentGPT, you can manually add or update the `REWORKD_PLATFORM_OLLAMA_API_BASE` variable in your `platform/.env` and `next/.env` files. For example:
+    ```env
+    REWORKD_PLATFORM_OLLAMA_API_BASE="http://localhost:11434"
+    ```
+    You might also need to ensure `NEXT_PUBLIC_OLLAMA_ENABLED="true"` is set in `next/.env` for optimal frontend behavior, although the backend primarily relies on `REWORKD_PLATFORM_OLLAMA_API_BASE`.
+</Callout>
+
+## Selecting Ollama Models in AgentGPT
+
+Once configured, AgentGPT will list available Ollama models (e.g., `ollama/llama2`, `ollama/mistral`) in the model selection dropdown within the application's settings. You can then choose these models for your agents.
+
+<Callout type="warning">
+    Ensure your Ollama application is running and the selected models have been pulled before starting AgentGPT and attempting to use them. If Ollama is not accessible at the configured URL, you will encounter errors.
+</Callout>
+
+## Benefits of Using Ollama
+
+-   **Privacy:** Your data and prompts are processed locally, not sent to third-party cloud services.
+-   **Cost:** No API costs for model usage (though you bear the hardware and electricity costs).
+-   **Customization:** Access to a wide range of open-source models, with potential for fine-tuning (though AgentGPT uses them as-is).
+-   **Offline Capability:** Once models are downloaded, you can run agents without an internet connection (assuming no tools requiring internet access are used).
+
+## Troubleshooting
+
+-   **"Could not connect to Ollama" error during setup:**
+    -   Verify Ollama is running.
+    -   Check if the URL is correct (e.g., no typos, correct port).
+    -   Ensure no firewall is blocking access to Ollama.
+-   **Ollama models not appearing in AgentGPT:**
+    -   Confirm `REWORKD_PLATFORM_OLLAMA_API_BASE` is correctly set in your `.env` files and AgentGPT has been restarted.
+    -   Check the AgentGPT backend logs for any errors related to Ollama or model loading.
+-   **Agent errors with Ollama models:**
+    -   Make sure the specific model (e.g., `llama2`) is actually pulled in your Ollama instance (`ollama list`).
+    -   Some models might require more resources (RAM, VRAM) than your system can provide. Check Ollama's documentation for model-specific requirements.
+
+By following these steps, you can effectively use local LLMs with AgentGPT through Ollama, enhancing your autonomy and control over your AI agent workflows.

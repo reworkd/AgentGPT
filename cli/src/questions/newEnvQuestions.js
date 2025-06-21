@@ -84,4 +84,35 @@ export const newEnvQuestions = [
             return true
         },
     },
+    {
+        type: "confirm",
+        name: "useOllama",
+        message: "Do you want to configure Ollama for local models?",
+        default: false,
+    },
+    {
+        type: "input",
+        name: "ollamaApiBase",
+        message: "Enter your Ollama API base URL (e.g., http://localhost:11434):",
+        default: "http://localhost:11434",
+        when: (answers) => answers.useOllama,
+        validate: async (url) => {
+            if (url === "") return "Ollama API base URL cannot be empty.";
+            try {
+                const response = await fetch(url); // Simple check to see if endpoint is reachable
+                if (!response.ok && response.status !== 404 && response.status !== 200) {
+                    // Ollama base path might return 404 or specific message, not necessarily an error for this check.
+                    // A 200 is also fine if it serves something at base.
+                    // We are mostly checking for network errors or complete unavailability.
+                    // A more specific check would be to hit /api/tags if ollama API guarantees it
+                    const text = await response.text();
+                    if (text.toLowerCase().includes("ollama is running")) return true;
+                    return `Could not connect to Ollama at ${url}. Status: ${response.status}`;
+                }
+                return true;
+            } catch (error) {
+                return `Error connecting to Ollama: ${error.message}. Please ensure Ollama is running and the URL is correct.`;
+            }
+        },
+    },
 ];

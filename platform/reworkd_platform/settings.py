@@ -52,10 +52,13 @@ class Settings(BaseSettings):
     secret_signing_key: str = "JF52S66x6WMoifP5gZreiguYs9LYMn0lkXqgPYoNMD0="
 
     # OpenAI
-    openai_api_base: str = "https://api.openai.com/v1"
+    openai_api_base: Optional[str] = None
     openai_api_key: str = "<Should be updated via env>"
     openai_api_version: str = "2023-08-01-preview"
     azure_openai_deployment_name: str = "<Should be updated via env if using azure>"
+
+    # Ollama
+    ollama_api_base: Optional[str] = None
 
     # Helicone
     helicone_api_base: str = "https://oai.hconeai.com/v1"
@@ -139,6 +142,10 @@ class Settings(BaseSettings):
                 self.pusher_cluster,
             ]
         )
+
+    @property
+    def ollama_enabled(self) -> bool:
+        return bool(self.ollama_api_base)
 
     @property
     def kafka_enabled(self) -> bool:

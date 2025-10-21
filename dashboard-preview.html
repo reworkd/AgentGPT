@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能体仪表板 - AgentGPT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #2B2B2B, #1F1F1F);
+            min-height: 100vh;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        .card {
+            background-color: rgb(24, 24, 27);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="text-white p-4 sm:p-6 md:p-8">
+
+    <!-- 页面标题 -->
+    <div class="mb-6">
+        <h1 class="text-3xl sm:text-4xl font-bold text-white">智能体仪表板</h1>
+        <p class="mt-2 text-sm text-white/60">实时监控智能体运行状况与配置信息</p>
+    </div>
+
+    <!-- 主智能体状态 -->
+    <div class="mb-6">
+        <div class="card p-6 shadow-lg">
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="rounded-lg bg-blue-500/20 p-3">
+                        <i class="fas fa-robot text-2xl text-blue-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">主智能体</h3>
+                        <p class="text-sm text-white/60">ID: main-001</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 rounded-full border px-3 py-1 text-sm bg-green-500/20 text-green-400 border-green-500/30">
+                    <i class="fas fa-spinner animate-spin"></i>
+                    <span>运行中</span>
+                </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="rounded-md bg-zinc-800/50 p-3">
+                    <p class="text-xs text-white/60">运行时间</p>
+                    <p class="mt-1 font-mono text-sm font-semibold text-white">2h 34m</p>
+                </div>
+                <div class="rounded-md bg-zinc-800/50 p-3">
+                    <p class="text-xs text-white/60">完成任务</p>
+                    <p class="mt-1 font-mono text-sm font-semibold text-white">47</p>
+                </div>
+                <div class="rounded-md bg-zinc-800/50 p-3">
+                    <p class="text-xs text-white/60">当前任务</p>
+                    <p class="mt-1 font-mono text-sm font-semibold text-white">数据分析与报告生成</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 子智能体网格 -->
+    <div class="mb-6">
+        <h2 class="mb-4 text-xl font-semibold text-white">子智能体状态</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            <!-- 子智能体 1 -->
+            <div class="card p-4 shadow">
+                <div class="mb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-microchip text-lg text-purple-400"></i>
+                        <h4 class="font-semibold text-white">数据收集智能体</h4>
+                    </div>
+                    <div class="flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs bg-green-500/20 text-green-400 border-green-500/30">
+                        <i class="fas fa-spinner animate-spin"></i>
+                    </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-white/60">
+                        <span>已完成:</span>
+                        <span class="font-mono text-white">23</span>
+                    </div>
+                    <div class="text-white/60">
+                        <span class="block">当前:</span>
+                        <span class="mt-1 block text-xs text-white/80">实时数据采集</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子智能体 2 -->
+            <div class="card p-4 shadow">
+                <div class="mb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-microchip text-lg text-purple-400"></i>
+                        <h4 class="font-semibold text-white">分析智能体</h4>
+                    </div>
+                    <div class="flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs bg-gray-500/20 text-gray-400 border-gray-500/30">
+                        <i class="fas fa-pause"></i>
+                    </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-white/60">
+                        <span>已完成:</span>
+                        <span class="font-mono text-white">15</span>
+                    </div>
+                    <div class="text-white/60">
+                        <span class="block">当前:</span>
+                        <span class="mt-1 block text-xs text-white/80">待命中</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子智能体 3 -->
+            <div class="card p-4 shadow">
+                <div class="mb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-microchip text-lg text-purple-400"></i>
+                        <h4 class="font-semibold text-white">报告生成智能体</h4>
+                    </div>
+                    <div class="flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs bg-green-500/20 text-green-400 border-green-500/30">
+                        <i class="fas fa-spinner animate-spin"></i>
+                    </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-white/60">
+                        <span>已完成:</span>
+                        <span class="font-mono text-white">9</span>
+                    </div>
+                    <div class="text-white/60">
+                        <span class="block">当前:</span>
+                        <span class="mt-1 block text-xs text-white/80">生成月度报告</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 子智能体 4 -->
+            <div class="card p-4 shadow">
+                <div class="mb-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-microchip text-lg text-purple-400"></i>
+                        <h4 class="font-semibold text-white">质量检查智能体</h4>
+                    </div>
+                    <div class="flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-white/60">
+                        <span>已完成:</span>
+                        <span class="font-mono text-white">0</span>
+                    </div>
+                    <div class="text-white/60">
+                        <span class="block">当前:</span>
+                        <span class="mt-1 block text-xs text-white/80">检测到异常数据</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 配置信息 -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- 工具列表 -->
+        <div class="card p-4 shadow">
+            <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-tools text-lg text-blue-400"></i>
+                <h3 class="text-lg font-semibold text-white">工具</h3>
+            </div>
+            <div class="space-y-2">
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">Web Scraper</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">使用次数: 156</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">Data Analyzer</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">使用次数: 89</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">Report Generator</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">使用次数: 34</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">Email Sender</span>
+                        <span class="status-dot bg-gray-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">使用次数: 0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工作流列表 -->
+        <div class="card p-4 shadow">
+            <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-project-diagram text-lg text-blue-400"></i>
+                <h3 class="text-lg font-semibold text-white">工作流</h3>
+            </div>
+            <div class="space-y-2">
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">数据处理流程</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">5 个步骤</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">报告生成流程</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">3 个步骤</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">异常处理流程</span>
+                        <span class="status-dot bg-gray-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">4 个步骤</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 知识库列表 -->
+        <div class="card p-4 shadow">
+            <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-database text-lg text-blue-400"></i>
+                <h3 class="text-lg font-semibold text-white">知识库</h3>
+            </div>
+            <div class="space-y-2">
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">产品文档库</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">1234 条记录 · 2小时前</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">用户数据库</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">5678 条记录 · 30分钟前</p>
+                </div>
+                <div class="rounded-md border border-white/10 bg-zinc-800/50 p-3 transition-colors hover:bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-white">历史分析库</span>
+                        <span class="status-dot bg-green-500"></span>
+                    </div>
+                    <p class="mt-1 text-xs text-white/60">890 条记录 · 1天前</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 页脚说明 -->
+    <div class="mt-8 text-center text-xs text-white/40">
+        <p>AgentGPT 智能体仪表板 - 预览版本</p>
+        <p class="mt-1">使用 Tailwind CSS 构建 | 响应式设计</p>
+    </div>
+
+</body>
+</html>

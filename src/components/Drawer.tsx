@@ -11,6 +11,7 @@ import {
   FaSignOutAlt,
   FaTwitter,
   FaUser,
+  FaChartLine,
 } from "react-icons/fa";
 import clsx from "clsx";
 import { useAuth } from "../hooks/useAuth";
@@ -110,6 +111,11 @@ const Drawer = ({
 
         <div className="flex flex-col gap-1">
           <hr className="my-2 border-gray-600/10" />
+          <DrawerItem
+            icon={<FaChartLine />}
+            text="Dashboard"
+            onClick={() => void router.push("/dashboard")}
+          />
           {env.NEXT_PUBLIC_FF_SUB_ENABLED ||
             (router.query.pro && (
               <ProItem

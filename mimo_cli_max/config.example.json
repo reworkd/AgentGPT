@@ -1,0 +1,50 @@
+{
+  "llm_provider": "anthropic",
+  "llm": {
+    "model": "claude-3-opus-20240229",
+    "temperature": 0.7,
+    "max_tokens": 4096
+  },
+  "agents": {
+    "leader": {
+      "enabled": true,
+      "priority": 1
+    },
+    "core_executor": {
+      "enabled": true,
+      "max_lines_per_file": 1500,
+      "productivity_multiplier": 10
+    },
+    "reviewer": {
+      "enabled": true,
+      "quality_standards": {
+        "min_score": 7.0,
+        "require_tests": true,
+        "require_docs": true
+      }
+    },
+    "specialist": {
+      "enabled": true,
+      "platforms": ["docker", "nginx", "postgresql"]
+    },
+    "business_planner": {
+      "enabled": true,
+      "tools": ["lavabull", "v0", "replica-ai"]
+    },
+    "mentor": {
+      "enabled": true,
+      "wisdom_storage": "./wisdom.db"
+    }
+  },
+  "workflows": {
+    "require_review": true,
+    "require_mentor_approval": true,
+    "auto_refactor": true,
+    "security_scanning": true
+  },
+  "deployment": {
+    "strategy": "blue-green",
+    "auto_rollback": true,
+    "health_checks": true
+  }
+}

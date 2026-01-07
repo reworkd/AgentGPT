@@ -1,0 +1,192 @@
+---
+title: Contributing to Documentation
+description: Learn how to update and maintain the Reworkd documentation site
+---
+
+## What is Mintlify?
+
+This documentation site is built with [Mintlify](https://mintlify.com), a modern documentation platform that makes it easy to create beautiful, user-friendly documentation. Mintlify uses MDX (Markdown with React components) to allow you to write content with simple Markdown syntax while also embedding interactive components when needed.
+
+Key features of Mintlify:
+- **MDX Support**: Write in Markdown with the ability to use React components
+- **Auto-generated Navigation**: Configured through `docs.json`
+- **Built-in Components**: Cards, frames, tabs, code blocks, and more
+- **API Reference**: Automatically generated from OpenAPI specs
+- **Dark Mode**: Built-in theme support
+
+Learn more at [mintlify.com/docs](https://mintlify.com/docs).
+
+## Running the Docs Site Locally
+
+To run the documentation site on your local machine:
+
+1. **Install Mintlify CLI**:
+   ```bash
+   npm i -g mintlify
+   ```
+
+2. **Navigate to the docs directory**:
+   ```bash
+   cd docs
+   ```
+
+3. **Start the development server**:
+   ```bash
+   mintlify dev
+   ```
+
+4. **Open your browser** to `http://localhost:3000` to view the documentation site.
+
+The development server will automatically reload when you make changes to any documentation files.
+
+## Updating or Creating Pages
+
+### Updating an Existing Page
+
+1. Navigate to the `docs/` directory
+2. Find the `.mdx` file you want to edit (e.g., `developers/api-keys.mdx`)
+3. Edit the file using Markdown syntax
+4. Save the file and the changes will automatically appear in your local development server
+
+### Creating a New Page
+
+1. **Create a new `.mdx` file** in the appropriate directory:
+   - For developer documentation: `docs/developers/`
+   - For feature documentation: `docs/features/`
+   - For general documentation: `docs/`
+
+2. **Add frontmatter** at the top of the file:
+   ```mdx
+   ---
+   title: Your Page Title
+   description: A brief description of the page
+   ---
+   ```
+
+3. **Write your content** using Markdown and Mintlify components
+
+4. **Add the page to navigation** by editing `docs/docs.json`:
+   ```json
+   {
+     "group": "Developers",
+     "pages": [
+       "developers/api-keys",
+       "developers/sdk",
+       "developers/your-new-page"  // Add your page here
+     ]
+   }
+   ```
+
+### Using Mintlify Components
+
+Mintlify provides several built-in components you can use:
+
+**Info/Warning/Tip Callouts**:
+```mdx
+<Info>
+  This is an informational callout
+</Info>
+
+<Warning>
+  This is a warning callout
+</Warning>
+
+<Tip>
+  This is a helpful tip
+</Tip>
+```
+
+**Cards**:
+```mdx
+<CardGroup cols={2}>
+  <Card title="Card Title" icon="lightbulb" href="/link">
+    Card description
+  </Card>
+</CardGroup>
+```
+
+**Code Blocks**:
+````mdx
+```python
+def hello_world():
+    print("Hello, World!")
+```
+````
+
+**Images**:
+```mdx
+<Frame>
+  <img src="/images/your-image.png" />
+</Frame>
+```
+
+## What Should Be Documented?
+
+We aim to document the following areas comprehensively:
+
+### 1. **Getting Started**
+- Introduction to Reworkd and its core features
+- Key concepts and terminology
+- Quick start guides and tutorials
+
+### 2. **Features**
+- Detailed explanations of each major feature
+- Use cases and best practices
+- Configuration options and settings
+
+### 3. **Developer Resources**
+- API authentication and keys
+- SDK usage and examples
+- Integration guides
+- Code samples and snippets
+
+### 4. **API Reference**
+- Endpoint documentation (auto-generated from OpenAPI spec)
+- Request/response examples
+- Error codes and troubleshooting
+
+### Documentation Standards
+
+When writing documentation, please follow these guidelines:
+
+- **Be Clear and Concise**: Use simple language and short sentences
+- **Use Examples**: Include code examples and real-world use cases
+- **Add Screenshots**: Visual aids help users understand complex concepts
+- **Keep It Updated**: Update docs when features change
+- **Test Your Code**: Ensure all code examples actually work
+- **Use Proper Formatting**: Follow Markdown best practices
+- **Link Related Pages**: Help users navigate to related content
+
+## Requesting Documentation
+
+If you notice missing or outdated documentation, we encourage you to contribute! Here's how:
+
+### Option 1: Create a GitHub Issue
+
+1. Go to the [AgentGPT GitHub repository](https://github.com/reworkd/AgentGPT)
+2. Click on the **Issues** tab
+3. Click **New Issue**
+4. Use the title format: `[Docs] Your documentation request`
+5. Describe what documentation is needed or what needs to be updated
+6. Include relevant links, screenshots, or examples if applicable
+
+### Option 2: Submit a Pull Request
+
+If you'd like to contribute documentation directly:
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b docs/your-feature-name`
+3. Make your changes to the documentation files in the `docs/` directory
+4. Test your changes locally using `mintlify dev`
+5. Commit your changes: `git commit -m "docs: add documentation for X"`
+6. Push to your fork: `git push origin docs/your-feature-name`
+7. Open a Pull Request on GitHub
+
+We appreciate all contributions to improving our documentation!
+
+## Additional Resources
+
+- [Mintlify Documentation](https://mintlify.com/docs)
+- [MDX Documentation](https://mdxjs.com/)
+- [Reworkd GitHub](https://github.com/reworkd/AgentGPT)
+- [Reworkd Website](https://www.reworkd.ai/)

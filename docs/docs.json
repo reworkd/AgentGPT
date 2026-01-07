@@ -51,7 +51,8 @@
             "pages": [
               "developers/api-keys",
               "developers/sdk",
-              "developers/file-downloads"
+              "developers/file-downloads",
+              "developers/contributing-to-docs"
             ]
           }
         ]

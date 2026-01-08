@@ -1,10 +1,10 @@
-FROM python:3.11-slim-buster as prod
+FROM python:3.11-slim-bookworm  as prod
 
 RUN apt-get update && apt-get install -y \
   default-libmysqlclient-dev \
   gcc \
   pkg-config \
-  openjdk-11-jdk \
+  openjdk-17-jdk \
   build-essential \
   && rm -rf /var/lib/apt/lists/*
 
